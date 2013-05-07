@@ -15,13 +15,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CLITest.Common;
+using Management.Storage.ScenarioTest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
     /// <summary>
     /// functional test for Remove-AzureStorageBlob
@@ -264,6 +264,36 @@ namespace CLITest.Functional.Blob
             finally
             {
                 blobUtil.RemoveContainer(containerName);
+            }
+        }
+
+        /// <summary>
+        /// Remove an existing blob that has snapthots without DeleteSnap = No
+        /// 8.13 Remove-AzureStorageBlob Negative Functional Cases
+        ///     3.	Remove an existing blob that has snapthots without DeleteSnap = No
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.RemoveBlob)]
+        public void RemoveBlobWithSnapshotNeedComfirmation()
+        {
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            string blobName = Utility.GenNameString("blob");
+            ICloudBlob blob = blobUtil.CreateRandomBlob(container, blobName);
+            ICloudBlob snapshot = blobUtil.SnapShot(blob);
+
+            try
+            {
+                Test.Assert(!agent.RemoveAzureStorageBlob(blobName, container.Name, false, false), "remove an blob with snapshout should throw an confirmation exception");
+                ExpectedContainErrorMessage(ConfirmExceptionMessage);
+                Test.Assert(blob.Exists(), string.Format("the specified blob '{0}' should exist", blob.Name));
+                Test.Assert(snapshot.Exists(), "the snapshot should exist");
+                Test.Assert(snapshot.SnapshotTime != null, "the snapshout time should be not null");
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container.Name);
             }
         }
     }

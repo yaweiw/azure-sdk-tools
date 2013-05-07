@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 }
                 else
                 {
-                    WriteVerbose(String.Format(Resources.StartCopySourceContextMismatch, srcUri, context.BlobEndPoint));
+                    WriteWarning(String.Format(Resources.StartCopySourceContextMismatch, srcUri, context.BlobEndPoint));
                 }
             }
 

@@ -20,11 +20,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Azure storage table object
+    /// </summary>
     public class AzureStorageTable : AzureStorageBase
     {
+        /// <summary>
+        /// Cloud table object
+        /// </summary>
         public CloudTable CloudTable { get; private set; }
+
+        /// <summary>
+        /// Table uri
+        /// </summary>
         public Uri Uri { get; private set; }
 
+        /// <summary>
+        /// Azure storage table constructor
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
         public AzureStorageTable(CloudTable table)
         {
             Name = table.Name;

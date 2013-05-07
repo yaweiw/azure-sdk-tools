@@ -12,10 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System.Collections.ObjectModel;
+    using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Xml.Serialization;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class PersistentVM : IPersistentVM
@@ -65,6 +67,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
         public string RoleType
         {
             get;
+            set;
+        }
+
+        [XmlIgnore]
+        public X509Certificate2 WinRMCertificate
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public List<X509Certificate2> X509Certificates
+        {
+            get;
+            set;
+        }
+
+        public bool NoExportPrivateKey
+        {
+            get; 
+            set;
+        }
+
+        public string DefaultWinRmCertificateThumbprint
+        {
+            get; 
             set;
         }
 

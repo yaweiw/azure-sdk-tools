@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -118,6 +119,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
         private string _affinityGroup = null;
+
+        public static string DefaultLocation { get; set; }
         
         public ServiceSettings()
         {
@@ -310,10 +313,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                 return localLocation.ToLower();
             }
 
-            // If none of previous succeed, get random location from "North Central US" or "South Central US"
+            // If none of previous succeed, get the default environment location.
             //
-            int randomLocation = General.GetRandomFromTwo((int)LocationName.WestUS, (int)LocationName.EastUS);
-            return ArgumentConstants.Locations[(LocationName)randomLocation];
+            return DefaultLocation;
         }
 
         private static string GetDefaultSlot(string localSlot, string globalSlot, string slot)

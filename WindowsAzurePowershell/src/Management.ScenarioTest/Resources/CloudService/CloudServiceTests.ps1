@@ -254,7 +254,7 @@ function Test-AzureNameWithExistingHostedService
 
 <#
 .SYNOPSIS
-Tests Test-AzureName with invalid hosted service name and expects $false
+Tests Test-AzureName with invalid hosted service name and expects $true
 #>
 function Test-AzureNameWithInvalidHostedService
 {
@@ -262,7 +262,7 @@ function Test-AzureNameWithInvalidHostedService
 	$actual = Test-AzureName -Service "Invalid Name"
 
 	# Assert
-	Assert-False { $actual }
+	Assert-True { $actual }
 }
 
 <#
@@ -323,7 +323,7 @@ function Test-AzureNameWithNotExistingServiceBusNamespace
 
 <#
 .SYNOPSIS
-Tests Test-AzureName with existing service bus namespace and expects $true.
+Tests Test-AzureName with existing service bus namespace and expects $false.
 #>
 function Test-AzureNameWithExistingServiceBusNamespace
 {
@@ -335,7 +335,7 @@ function Test-AzureNameWithExistingServiceBusNamespace
 	$actual = Test-AzureName -ServiceBusNamespace $name
 
 	# Assert
-	Assert-True { $actual }
+	Assert-False { $actual }
 }
 
 <#

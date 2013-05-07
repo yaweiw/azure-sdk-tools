@@ -231,6 +231,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService
                 _azureService.ChangeServiceName(ServiceName, _azureService.Paths);
             }
 
+            ServiceSettings.DefaultLocation = Channel.ListLocations(CurrentSubscription.SubscriptionId).First().Name;
             ServiceSettings defaultSettings = ServiceSettings.LoadDefault(
                 _azureService.Paths.Settings,
                 Slot,
@@ -316,11 +317,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService
         internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings, string manifest = null)
         {
             CloudRuntimeCollection availableRuntimePackages;
-            LocationName deploymentLocation = GetSettingsLocation(settings);
             if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(out availableRuntimePackages, manifestFile: manifest))
             {
                 throw new ArgumentException(string.Format(Resources.ErrorRetrievingRuntimesForLocation,
-                    deploymentLocation));
+                    settings.Location));
             }
 
             ServiceDefinition definition = service.Components.Definition;
@@ -389,17 +389,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService
             }
 
             return false;
-        }
-
-        private LocationName GetSettingsLocation(ServiceSettings settings)
-        {
-            if (ArgumentConstants.ReverseLocations.ContainsKey(settings.Location.ToLower()))
-            {
-                return ArgumentConstants.ReverseLocations[settings.Location.ToLower()];
-            }
-
-            throw new ArgumentException(string.Format(Resources.RuntimeDeploymentLocationError,
-                settings.Location));
         }
 
         /// <summary>

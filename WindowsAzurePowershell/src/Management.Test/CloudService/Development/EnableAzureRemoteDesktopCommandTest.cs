@@ -254,5 +254,55 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
             }
         }
+
+        /// <summary>
+        /// Enable remote desktop for a simple web role.
+        /// </summary>
+        [TestMethod]
+        public void EnableRemoteDesktopUnicode()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand()
+                {
+                    RootPath = rootPath,
+                    CommandRuntime = mockCommandRuntime,
+                    Name = "WebRole",
+                    Instances = 1
+                };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                EnableRemoteDesktop("㯑䲘䄂㮉", "㯑䲘䄂㮉㮉㮉㮉L");
+
+                // Verify the role has been setup with forwarding, access,
+                // and certs
+                AzureService service = new AzureService(rootPath, null);
+                VerifyWebRole(service.Components.Definition.WebRole[0], true);
+                VerifyRoleSettings(service);
+            }
+        }
+
+        /// <summary>
+        /// Enable remote desktop using short unicode password.
+        /// </summary>
+        [TestMethod]
+        public void EnableRemoteDesktopUnicodeAndShortPasswordFails()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand()
+                {
+                    RootPath = rootPath,
+                    CommandRuntime = mockCommandRuntime,
+                    Name = "WebRole",
+                    Instances = 1
+                };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                Testing.AssertThrows<ArgumentException>(() => EnableRemoteDesktop("㯑䲘䄂㮉", "㯑䲘"));
+            }
+        }
     }
 }

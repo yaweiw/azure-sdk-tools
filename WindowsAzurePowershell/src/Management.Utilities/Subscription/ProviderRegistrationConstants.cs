@@ -11,14 +11,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
+namespace Microsoft.WindowsAzure.Management.Utilities.Subscription
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    internal static class ProviderRegistrationConstants
+    public static class ProviderRegistrationConstants
     {
         public const string Register = "register";
         public const string Unregister = "unregister";
+        public const string Registered = "Registered";
+        public const string Unregistered = "Unregistered";
 
         internal static string ListResourcesPath(string subscriptionId, IEnumerable<string> knownResourceTypes)
         {
@@ -28,8 +32,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
 
         internal static string ActionPath(string subscriptionId, string resourceType, string action)
         {
-            return string.Format("/{0}/services?{1}&action={2}",
+            return string.Format("/{0}/services?service={1}&action={2}",
                 subscriptionId, resourceType, action);
+        }
+
+        public static IEnumerable<string> GetKnownResourceTypes()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => a.GetCustomAttributes(typeof (AzureResourceTypeNameAttribute), false))
+                .SelectMany(asmAttrs => asmAttrs.Select(a => ((AzureResourceTypeNameAttribute) a).ResourceTypeName));
         }
     }
 }

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTPS
+namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
     /// <summary>
     /// bvt tests using Azure subscription

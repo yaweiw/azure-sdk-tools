@@ -1,5 +1,4 @@
-// ----------------------------------------------------------------------------------
-//
+﻿// ----------------------------------------------------------------------------------
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +11,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
+namespace Microsoft.WindowsAzure.Management.Utilities.Subscription.Contract
 {
-    public static class RecommendedVMSizeType
+    public class ProviderResource
     {
-        public const string Small = "Small";
-        public const string Medium = "Medium";
-        public const string Large = "Large";
-        public const string ExtraLarge = "ExtraLarge";
+        public string Type { get; set; }
+        public string State { get; set; }
     }
 }

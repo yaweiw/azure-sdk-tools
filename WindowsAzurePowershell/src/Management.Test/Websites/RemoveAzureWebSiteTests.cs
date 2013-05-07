@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1",
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             // Delete existing website

@@ -90,7 +90,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         [TestMethod]
         public void SetAzureServiceProjectTestsLocationValid()
         {
-            foreach (KeyValuePair<LocationName, string> item in ArgumentConstants.Locations)
+            string[] locations = { "West US", "East US", "East Asia", "North Europe" };
+            foreach (string item in locations)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {
@@ -102,13 +103,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
                     setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
                     settings.Save(paths.Settings);
 
-                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(item.Value, null, null, null, paths.Settings);
+                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(item, null, null, null, paths.Settings);
 
                     // Assert location is changed
                     //
-                    Assert.AreEqual<string>(item.Value, settings.Location);
+                    Assert.AreEqual<string>(item, settings.Location);
                     ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
-                    Assert.AreEqual<string>(item.Value, settings.Location);
+                    Assert.AreEqual<string>(item, settings.Location);
                 }
             }
         }

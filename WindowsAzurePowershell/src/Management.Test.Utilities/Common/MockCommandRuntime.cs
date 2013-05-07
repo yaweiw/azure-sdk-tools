@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
 
     public class MockCommandRuntime : ICommandRuntime
@@ -30,11 +31,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             return "MockCommand";
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", 
+            Justification = "Tests should not access this property")]
         public PSTransactionContext CurrentPSTransaction
         {
             get { throw new System.NotImplementedException(); }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations",
+            Justification = "Tests should not access this property")]
         public System.Management.Automation.Host.PSHost Host
         {
             get { throw new System.NotImplementedException(); }

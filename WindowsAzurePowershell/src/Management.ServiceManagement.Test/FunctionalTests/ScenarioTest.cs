@@ -130,8 +130,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             
             vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, VMSizeInfo.ExtraSmall, imageName);
-            AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, VMSizeInfo.ExtraSmall, imageName);
+            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall, imageName);
+            AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
             AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
             AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
             AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
@@ -297,7 +297,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // starting the test.
 
-            AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, VMSizeInfo.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)            
+            AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)            
             AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)            
             PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
             PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo); // New-AzureVMConfig & Add-AzureProvisioningConfig
@@ -452,7 +452,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
 
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);            
-            perfFile = @".\deployment2.csv";
+            perfFile = @"..\deploymentUpgradeResult.csv";
 
 
             // Choose the package and config files from local machine
@@ -465,11 +465,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
 
-            var packagePath1 = new FileInfo(@path + packageName);            
-            var packagePath2 = new FileInfo(@path + upgradePackageName);
-            var configPath1 = new FileInfo(@path + configName); // config with 1 instances
-            var configPath2 = new FileInfo(@path + upgradeConfigName); // config with 2 instances
-            var configPath3 = new FileInfo(@path + upgradeConfigName2); // config with 4 instances
+            var packagePath1 = new FileInfo(@path + packageName); // package with two roles     
+            var packagePath2 = new FileInfo(@path + upgradePackageName); // package with one role
+            var configPath1 = new FileInfo(@path + configName); // config with 2 roles, 4 instances each
+            var configPath2 = new FileInfo(@path + upgradeConfigName); // config with 1 role, 2 instances
+            var configPath3 = new FileInfo(@path + upgradeConfigName2); // config with 1 role, 4 instances
 
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
@@ -493,13 +493,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 TimeSpan duration = DateTime.Now - start;
 
-                Uri site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 1, 600);
+                Uri site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 1000);
 
                 System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Deployment, {0}, {1}", duration, DateTime.Now - start) });
 
 
                 Console.WriteLine("site: {0}", site.ToString());
                 Console.WriteLine("Time for all instances to become in ready state: {0}", DateTime.Now - start);
+
+
+                // Auto-Upgrade the deployment
+                start = DateTime.Now;
+                vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Auto, packagePath1.FullName, configPath1.FullName);
+                duration = DateTime.Now - start;
+                Console.WriteLine("Auto upgrade took {0}.", duration);
+                
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
+                Console.WriteLine("successfully updated the deployment");
+
+                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Auto Upgrade, {0}, {1}", duration, DateTime.Now - start) });
+
                 
                 // Manual-Upgrade the deployment
                 start = DateTime.Now;
@@ -509,7 +524,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 2);
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 3);
                 vmPowershellCmdlets.SetAzureWalkUpgradeDomain(serviceName, DeploymentSlotType.Production, 4);
-
                 duration = DateTime.Now - start;
                 Console.WriteLine("Manual upgrade took {0}.", duration);
 
@@ -517,12 +531,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
                 Console.WriteLine("successfully updated the deployment");
 
-                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 1, 600);
-
+                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
                 System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Manual Upgrade, {0}, {1}", duration, DateTime.Now - start) });
 
+
+                // Simulatenous-Upgrade the deployment
+                start = DateTime.Now;
+                vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Simultaneous, packagePath1.FullName, configPath1.FullName);
+                duration = DateTime.Now - start;
+                Console.WriteLine("Simulatenous upgrade took {0}.", duration);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
+                Console.WriteLine("successfully updated the deployment");
+
+                site = Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Simulatenous Upgrade, {0}, {1}", duration, DateTime.Now - start) });
+
+
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
-                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName);                                
+                pass = Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName);                                
             }
             catch (Exception e)
             {

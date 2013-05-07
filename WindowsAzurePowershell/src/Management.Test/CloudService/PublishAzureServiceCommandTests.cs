@@ -110,6 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 string rootPath = files.CreateNewService(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Get the publishing process started by creating the package
                 
@@ -173,6 +174,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 string rootPath = files.CreateNewService(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = storageName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = storageKey } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Add caching worker role
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
@@ -220,6 +222,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Get the publishing process started by creating the package
                 
@@ -277,6 +280,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 string rootPath = files.CreateNewService(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Add web and worker roles
                 
@@ -372,6 +376,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
                 channel.ListCertificatesThunk = ar => new CertificateList();
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
@@ -437,6 +442,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
                 channel.ListCertificatesThunk = ar => new CertificateList();
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
@@ -521,7 +527,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                
+
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,
@@ -581,7 +588,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
                 bool upgradedDeployment = false;
-                
+
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => new HostedService { Deployments = new DeploymentList() { new Deployment { DeploymentSlot = "Production" } } };
@@ -634,7 +642,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                
+
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
@@ -690,7 +699,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                
+
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => { };
                 channel.GetHostedServiceWithDetailsThunk = ar => null;
@@ -754,6 +764,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 string rootPath = files.CreateNewService(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 // Add a web role
                 
@@ -860,6 +871,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 service = new AzureService(rootPath, null);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 publishServiceCmdlet.InitializeSettingsAndCreatePackage(rootPath, RuntimePackageHelper.GetTestManifest(files));
 
@@ -896,6 +908,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 service = new AzureService(rootPath, null);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
 
                 publishServiceCmdlet.InitializeSettingsAndCreatePackage(rootPath, RuntimePackageHelper.GetTestManifest(files));
 
@@ -943,6 +956,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
 
+                channel.ListLocationsThunk = ll => new LocationList() { new Location() { Name = "West US" } };
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,

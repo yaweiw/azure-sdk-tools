@@ -26,5 +26,6 @@ del %output%\Newtonsoft.Json.xml
 del %output%\System.Net.Http.Formatting.xml
 del %output%\System.Net.Http.xml
 del %output%\System.Spatial.xml
+del %output%\System.Net.Http.WebRequest.xml
 
 heat dir %output% -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o azurecmdfiles.wxi
