@@ -33,8 +33,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTPS
     class NameKeyContextBVT : CLICommonBVT
     {
         protected static bool useHttps;
-        private static string StorageAccountName;
-        private static string StorageAccountKey;
+        protected static string StorageAccountName;
 
         [ClassInitialize()]
         public static void NameKeyContextBVTClassInitialize(TestContext testContext)
@@ -43,13 +42,14 @@ namespace Management.Storage.ScenarioTest.BVT.HTTPS
             //second init common bvt
             //third set storage context in powershell
             StorageAccountName = Test.Data.Get("StorageAccountName");
-            StorageAccountKey = Test.Data.Get("StorageAccountKey");
+            string StorageAccountKey = Test.Data.Get("StorageAccountKey");
+            string StorageEndPoint = Test.Data.Get("StorageEndPoint");
             StorageCredentials credential = new StorageCredentials(StorageAccountName, StorageAccountKey);
             useHttps = true;
-            SetUpStorageAccount = new CloudStorageAccount(credential, useHttps);
+            SetUpStorageAccount = Utility.GetStorageAccountWithEndPoint(credential, useHttps, StorageEndPoint);
 
             CLICommonBVT.CLICommonBVTInitialize(testContext);
-            PowerShellAgent.SetStorageContext(StorageAccountName, StorageAccountKey, useHttps);
+            PowerShellAgent.SetStorageContext(StorageAccountName, StorageAccountKey, useHttps, StorageEndPoint);
         }
 
         [ClassCleanup()]
