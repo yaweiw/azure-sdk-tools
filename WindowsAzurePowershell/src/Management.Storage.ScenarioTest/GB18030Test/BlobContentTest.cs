@@ -20,18 +20,18 @@ using StorageTestLib;
 using Management.Storage.ScenarioTest;
 using Management.Storage.ScenarioTest.Common;
 using Management.Storage.ScenarioTest.Util;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.GB18030Test.Blob
+namespace Management.Storage.ScenarioTest.GB18030Test.Blob
 {
     /// <summary>
-    /// functional tests for Set-ContainerAcl
+    /// Functional tests for blob content with GB18030 encoding
     /// </summary>
     [TestClass]
     class BlobContentTest : TestBase
     {
         private static string GB18030String = "啊齄丂狛狜隣郎隣兀﨩ˊ▇█〞〡￤℡㈱‐ー﹡﹢﹫、〓ⅰⅹ⒈€㈠㈩ⅠⅫ！￣ぁんァヶΑ︴АЯаяāɡㄅㄩ─╋︵﹄︻︱︳︴ⅰⅹɑɡ〇〾⿻⺁䜣€㐀㒣㕴㕵㙉㙊䵯䵰䶴䶵啊齄丂狛狜隣郎隣兀﨩ˊ▇█〞〡￤℡㈱‐ー﹡﹢﹫、〓ⅰⅹ⒈€㈠㈩ⅠⅫ！￣ぁんァヶΑ︴АЯаяāɡㄅㄩ─╋︵﹄︻︱︳︴ⅰⅹɑɡ〇〾⿻⺁䜣€㐀㒣㕴㕵㙉㙊䵯䵰䶴䶵㒣㕴㕵㙉㙊䵯䵰䶴䶵㒣㕴㕵㙉㙊䵯䵰abcd";
-        private static Storage.BlobType[] blobTypes = { Storage.BlobType.BlockBlob, Storage.BlobType.PageBlob };
+        private static StorageBlob.BlobType[] blobTypes = { StorageBlob.BlobType.BlockBlob, StorageBlob.BlobType.PageBlob };
 
         [ClassInitialize()]
         public static void ClassInit(TestContext testContext)
@@ -87,7 +87,7 @@ namespace CLITest.GB18030Test.Blob
             }
         }
 
-        internal void UploadBlobTestGB(Agent agent, Storage.BlobType blobType)
+        internal void UploadBlobTestGB(Agent agent, StorageBlob.BlobType blobType)
         {
             string uploadFilePath = @".\" + Utility.GenNameString("gbupload");
             string containerName = Utility.GenNameString("gbupload-");
@@ -122,7 +122,7 @@ namespace CLITest.GB18030Test.Blob
             }
         }
 
-        internal void DownloadBlobTestGB(Agent agent, Storage.BlobType blobType)
+        internal void DownloadBlobTestGB(Agent agent, StorageBlob.BlobType blobType)
         {
             string uploadFilePath = @".\" + Utility.GenNameString("gbupload");
             string downloadFilePath = @".\" + Utility.GenNameString("gbdownload");
@@ -164,7 +164,7 @@ namespace CLITest.GB18030Test.Blob
             }
         }
 
-        internal void CopyBlobTestGB(Agent agent, Storage.BlobType blobType)
+        internal void CopyBlobTestGB(Agent agent, StorageBlob.BlobType blobType)
         {
             string uploadFilePath = @".\" + Utility.GenNameString("gbupload");
             string srcContainerName = Utility.GenNameString("gbupload-", 15);

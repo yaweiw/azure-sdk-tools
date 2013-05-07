@@ -14,7 +14,12 @@
   <SubscriptionStorageAccountName><!--Default storage account name on the specified azure subscription file--></SubscriptionStorageAccountName>
   <StorageAccountName><!--Storage Account name--></StorageAccountName>
   <StorageAccountKey><!--Storage Account Key--></StorageAccountKey>
-  <BigFileUri><!--A big file uri on the public web which could make azure take serveral(at least 3) minutes to copy.--></BigFileUri>
+  <StorageEndPoint>
+      <!--Storage End Point-->
+      windows.net
+  </StorageEndPoint>
+  <BigFileUri><!--A big file uri on the public web which could make azure take serveral(at least 3) minutes to copy.-->
+  </BigFileUri>
   <HttpsCopyHosts>
     <!--Azure will use https to copy blob no matter what you set, please split your host using space.-->
     windows.net windowsazure.com
