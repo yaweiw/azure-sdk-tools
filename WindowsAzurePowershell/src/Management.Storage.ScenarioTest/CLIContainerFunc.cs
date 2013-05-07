@@ -329,7 +329,7 @@ namespace Management.Storage.ScenarioTest
 
                 if (!created && retryCount == maxRetryCount)
                 { 
-                    Test.AssertFail(string.Format("Can not create $root container after {} times retry", retryCount));
+                    Test.AssertFail(string.Format("Can not create $root container after {0} times retry", retryCount));
                 }
 
                 container.FetchAttributes();
