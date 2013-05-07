@@ -16,16 +16,16 @@ using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Text;
-using CLITest.BVT;
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.BVT;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest.Functional
+namespace Management.Storage.ScenarioTest.Functional
 {
     /// <summary>
     /// function test for storage context

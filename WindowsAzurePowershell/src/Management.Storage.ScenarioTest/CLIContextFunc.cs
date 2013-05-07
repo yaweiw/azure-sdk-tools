@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     /// <summary>
     /// this class contains all the account related functional test cases for PowerShell cmdlets
@@ -137,8 +137,8 @@ namespace CLITest
             string BlockFilePath = Test.Data.Get("BlockFilePath");
             string PageFilePath = Test.Data.Get("PageFilePath");
 
-            StorageBlobTest(agent, BlockFilePath, Storage.BlobType.BlockBlob);
-            StorageBlobTest(agent, PageFilePath, Storage.BlobType.PageBlob);
+            StorageBlobTest(agent, BlockFilePath, StorageBlob.BlobType.BlockBlob);
+            StorageBlobTest(agent, PageFilePath, StorageBlob.BlobType.PageBlob);
         }
 
         internal void StorageContextTest(Agent agent)
@@ -182,7 +182,7 @@ namespace CLITest
             CheckErrorOutput(agent);
         }
 
-        internal void StorageBlobTest(Agent agent, string FilePath, Storage.BlobType Type)
+        internal void StorageBlobTest(Agent agent, string FilePath, StorageBlob.BlobType Type)
         {
             string NEW_CONTAINER_NAME = Utility.GenNameString("upload-");
             string BlobName = Path.GetFileName(FilePath);

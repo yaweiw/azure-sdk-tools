@@ -135,32 +135,68 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-GetAzureWebsite");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteWithStoppedSite()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteWithStoppedSite");
+        }
+
         #endregion
 
-        #region Set-AzureWebsite Scenario Tests
+        #region Start-AzureWebsite Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteDiagnosticSettings()
+        public void TestStartAzureWebsite()
         {
-            RunPowerShellTest("Test-SetAzureWebsiteDiagnosticSettings");
+            RunPowerShellTest("Test-StartAzureWebsite");
+        }
+
+        #endregion
+
+        #region Stop-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStopAzureWebsite()
+        {
+            RunPowerShellTest("Test-StopAzureWebsite");
+        }
+
+        #endregion
+
+        #region Restart-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestRestartAzureWebsite()
+        {
+            RunPowerShellTest("Test-RestartAzureWebsite");
+        }
+
+        #endregion
+
+        #region Enable-AzureWebsiteDiagnostic Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestEnableApplicationDiagnosticOnTableStorage()
+        {
+            RunPowerShellTest("Test-EnableApplicationDiagnosticOnTableStorage");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteMultipleDiagnosticSettings()
+        public void TestEnableApplicationDiagnosticOnFileSystem()
         {
-            RunPowerShellTest("Test-SetAzureWebsiteMultipleDiagnosticSettings");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteWithInvalidValues()
-        {
-            RunPowerShellTest("Test-SetAzureWebsiteWithInvalidValues");
+            RunPowerShellTest("Test-EnableApplicationDiagnosticOnFileSystem");
         }
 
         #endregion

@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -90,7 +91,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         [TestMethod]
         public void SetAzureServiceProjectTestsLocationValid()
         {
-            foreach (KeyValuePair<LocationName, string> item in ArgumentConstants.Locations)
+            string[] locations = { "West US", "East US", "East Asia", "North Europe" };
+            foreach (string item in locations)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {
@@ -102,13 +104,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
                     setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
                     settings.Save(paths.Settings);
 
-                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(item.Value, null, null, null, paths.Settings);
+                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(item, null, null, null, paths.Settings);
 
                     // Assert location is changed
                     //
-                    Assert.AreEqual<string>(item.Value, settings.Location);
+                    Assert.AreEqual<string>(item, settings.Location);
                     ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
-                    Assert.AreEqual<string>(item.Value, settings.Location);
+                    Assert.AreEqual<string>(item, settings.Location);
                 }
             }
         }
@@ -167,9 +169,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
                 // Assert storageAccountName is changed
                 //
-                Assert.AreEqual<string>("companystore", settings.StorageAccountName);
+                Assert.AreEqual<string>("companystore", settings.StorageServiceName);
                 ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
-                Assert.AreEqual<string>("companystore", settings.StorageAccountName);
+                Assert.AreEqual<string>("companystore", settings.StorageServiceName);
             }
         }
 
@@ -191,7 +193,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         [TestMethod]
         public void SetAzureServiceProjectTestsSlotTests()
         {
-            foreach (KeyValuePair<SlotType, string> item in ArgumentConstants.Slots)
+            string[] slots = { DeploymentSlotType.Production, DeploymentSlotType.Staging };
+            foreach (string item in slots)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {
@@ -201,12 +204,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
                     ServiceSettings settings = new ServiceSettings();
                     settings.Save(paths.Settings);
 
-                    setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, item.Value, null, null, paths.Settings);
+                    setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, item, null, null, paths.Settings);
 
                     // Assert slot is changed
                     //
                     settings = ServiceSettings.Load(paths.Settings);
-                    Assert.AreEqual<string>(item.Value, settings.Slot);
+                    Assert.AreEqual<string>(item, settings.Slot);
                 }
             }
         }

@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.ServiceModel.Web;
     using Github;
     using Github.Entities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Properties;
     using WebEntities;
@@ -55,20 +56,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     public class GithubClient : LinkedRevisionControl
     {
         private static Dictionary<string, WebChannelFactory<IGithubServiceManagement>> _factories =
-            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>(); 
+            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
+
+        public const string GithubEndpoint = "https://api.github.com";
 
         protected GithubRepository LinkedRepository;
         protected PSCredential Credentials;
         protected string RepositoryFullName;
-        protected IGithubCmdlet Pscmdlet;
+        protected IGithubCmdlet PSCmdlet;
 
-        public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
+        public GithubClient(
+            IGithubCmdlet pscmdlet,
+            PSCredential credentials,
+            string githubRepository)
         {
             _factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
-            Pscmdlet = pscmdlet;
-            if (Pscmdlet.MyInvocation != null)
+            PSCmdlet = pscmdlet;
+            if (PSCmdlet.MyInvocation != null)
             {
-                InvocationPath = Pscmdlet.MyInvocation.MyCommand.Module.Path;
+                InvocationPath = PSCmdlet.MyInvocation.MyCommand.Module.Path;
             }
 
             Credentials = credentials;
@@ -79,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             EnsureCredentials();
 
-            Pscmdlet.GithubChannel = CreateGithubChannel();
+            PSCmdlet.GithubChannel = CreateGithubChannel();
         }
 
         private void EnsureCredentials()
@@ -87,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             // Ensure credentials
             if (Credentials == null)
             {
-                Credentials = Pscmdlet.Host.UI.PromptForCredential("Enter username/password",
+                Credentials = PSCmdlet.Host.UI.PromptForCredential("Enter username/password",
                                                      "", "", "");
                 if (Credentials == null || string.IsNullOrEmpty(Credentials.UserName) || Credentials.Password == null)
                 {
@@ -99,16 +105,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         protected IList<GithubRepository> GetRepositories()
         {
             List<GithubRepository> repositories = null;
-            InvokeInGithubOperationContext(() => { repositories = Pscmdlet.GithubChannel.GetRepositories(); });
+            InvokeInGithubOperationContext(() => { repositories = PSCmdlet.GithubChannel.GetRepositories(); });
 
             List<GithubOrganization> organizations = null;
-            InvokeInGithubOperationContext(() => { organizations = Pscmdlet.GithubChannel.GetOrganizations(); });
+            InvokeInGithubOperationContext(() => { organizations = PSCmdlet.GithubChannel.GetOrganizations(); });
 
             List<GithubRepository> orgRepositories = new List<GithubRepository>();
             foreach (var organization in organizations)
             {
                 List<GithubRepository> currentOrgRepositories = null;
-                InvokeInGithubOperationContext(() => { currentOrgRepositories = Pscmdlet.GithubChannel.GetRepositoriesFromOrg(organization.Login); });
+                InvokeInGithubOperationContext(() => { currentOrgRepositories = PSCmdlet.GithubChannel.GetRepositoriesFromOrg(organization.Login); });
                 orgRepositories.AddRange(currentOrgRepositories);
             }
 
@@ -131,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             string deployUri = newUri.ToString();
 
             List<GithubRepositoryHook> repositoryHooks = new List<GithubRepositoryHook>();
-            InvokeInGithubOperationContext(() => { repositoryHooks = Pscmdlet.GithubChannel.GetRepositoryHooks(owner, repository); });
+            InvokeInGithubOperationContext(() => { repositoryHooks = PSCmdlet.GithubChannel.GetRepositoryHooks(owner, repository); });
 
             var existingHook = repositoryHooks.FirstOrDefault(h => h.Name.Equals("web") && new Uri(h.Config.Url).Host.Equals(new Uri(deployUri).Host));
             if (existingHook != null)
@@ -139,8 +145,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                 if (!existingHook.Config.Url.Equals(newUri.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     existingHook.Config.Url = deployUri;
-                    InvokeInGithubOperationContext(() => Pscmdlet.GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook));
-                    InvokeInGithubOperationContext(() => Pscmdlet.GithubChannel.TestRepositoryHook(owner, repository, existingHook.Id));
+                    InvokeInGithubOperationContext(() => PSCmdlet.GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook));
+                    InvokeInGithubOperationContext(() => PSCmdlet.GithubChannel.TestRepositoryHook(owner, repository, existingHook.Id));
                 }
                 else
                 {
@@ -162,8 +168,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                     }
                 };
 
-                InvokeInGithubOperationContext(() => { githubRepositoryHook = Pscmdlet.GithubChannel.CreateRepositoryHook(owner, repository, githubRepositoryHook); });
-                InvokeInGithubOperationContext(() => Pscmdlet.GithubChannel.TestRepositoryHook(owner, repository, githubRepositoryHook.Id));
+                InvokeInGithubOperationContext(() => { githubRepositoryHook = PSCmdlet.GithubChannel.CreateRepositoryHook(owner, repository, githubRepositoryHook); });
+                InvokeInGithubOperationContext(() => PSCmdlet.GithubChannel.TestRepositoryHook(owner, repository, githubRepositoryHook.Id));
             }  
         }
 
@@ -219,7 +225,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             if (LinkedRepository == null)
             {
                 Collection<ChoiceDescription> choices = new Collection<ChoiceDescription>(repositories.Select(item => new ChoiceDescription(item.FullName)).ToList<ChoiceDescription>());
-                var choice = ((PSCmdlet)Pscmdlet).Host.UI.PromptForChoice(
+                var choice = ((PSCmdlet)PSCmdlet).Host.UI.PromptForChoice(
                     "Choose a repository",
                     "",
                     choices,
@@ -240,15 +246,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             // If ShareChannel is set by a unit test, use the same channel that
             // was passed into out constructor.  This allows the test to submit
             // a mock that we use for all network calls.
-            if (Pscmdlet.ShareChannel)
+            if (PSCmdlet.ShareChannel)
             {
-                return Pscmdlet.GithubChannel;
+                return PSCmdlet.GithubChannel;
             }
 
-            return CreateServiceManagementChannel(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
+            return CreateServiceManagementChannel(
+                new Uri(GithubEndpoint),
+                Credentials.UserName,
+                Credentials.Password.ConvertToUnsecureString(),
+                PSCmdlet.GetLogger());
         }
 
-        public static IGithubServiceManagement CreateServiceManagementChannel(Uri remoteUri, string username, string password)
+        public static IGithubServiceManagement CreateServiceManagementChannel(
+            Uri remoteUri,
+            string username,
+            string password,
+            Action<string> logger)
         {
             WebChannelFactory<IGithubServiceManagement> factory;
             if (_factories.ContainsKey(remoteUri.ToString()))
@@ -259,6 +273,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             {
                 factory = new WebChannelFactory<IGithubServiceManagement>(remoteUri);
                 factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter {Username = username, Password = password});
+                factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
+                factory.Endpoint.Behaviors.Add(new HttpRestMessageInspector(logger));
 
                 WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
                 wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
@@ -287,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         /// <param name="action">The action to invoke.</param>
         protected void InvokeInGithubOperationContext(Action action)
         {
-            IContextChannel contextChannel = Pscmdlet.GithubChannel as IContextChannel;
+            IContextChannel contextChannel = PSCmdlet.GithubChannel as IContextChannel;
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))

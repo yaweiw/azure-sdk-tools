@@ -13,12 +13,13 @@
 // ----------------------------------------------------------------------------------
 
 using System.IO;
-using CLITest.Common;
-using CLITest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using Management.Storage.ScenarioTest;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CLITest.GB18030Test.Blob

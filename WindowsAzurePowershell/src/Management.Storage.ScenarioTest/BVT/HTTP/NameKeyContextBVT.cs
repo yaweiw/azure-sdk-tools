@@ -23,13 +23,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTP
+namespace Management.Storage.ScenarioTest.BVT.HTTP
 {
     /// <summary>
     /// Bvt test using name and key context in http mode
     /// </summary>
     [TestClass]
-    class NameKeyContextBVT : CLITest.BVT.HTTPS.NameKeyContextBVT
+    class NameKeyContextBVT : Management.Storage.ScenarioTest.BVT.HTTPS.NameKeyContextBVT
     {
         [ClassInitialize()]
         public static void NameKeyContextHTTPBVTClassInitialize(TestContext testContext)

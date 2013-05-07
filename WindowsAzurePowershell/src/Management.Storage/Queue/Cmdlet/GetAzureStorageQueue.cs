@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
 
                 CloudQueue queue = Channel.GetQueueReference(name);
 
-                if (Channel.IsQueueExists(queue, requestOptions, OperationContext))
+                if (Channel.DoesQueueExist(queue, requestOptions, OperationContext))
                 {
                     yield return queue;
                 }

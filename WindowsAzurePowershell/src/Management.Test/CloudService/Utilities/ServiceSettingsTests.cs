@@ -77,30 +77,10 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
                 string serviceName = null;
                 ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
-                Assert.AreEqual("myx2dcustomx2dservicex21", settings.StorageAccountName);
+                Assert.AreEqual("myx2dcustomx2dservicex21", settings.StorageServiceName);
 
                 settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "MyCustomServiceIsWayTooooooooooooooooooooooooLong", null, out serviceName);
-                Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageAccountName);
-            }
-        }
-
-        /// <summary>
-        /// Verify if the location of the storage account is West US or East US in case that no user provided locations.
-        /// </summary>
-        [TestMethod]
-        public void GetDefaultLocationWithWithRandomLocation()
-        {
-            // Create a temp directory that we'll use to "publish" our service
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-            {
-                // Import our default publish settings
-                files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                string serviceName = null;
-
-                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
-                Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[LocationName.WestUS]) || 
-                    settings.Location.Equals(ArgumentConstants.Locations[LocationName.EastUS]));
-                
+                Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageServiceName);
             }
         }
 

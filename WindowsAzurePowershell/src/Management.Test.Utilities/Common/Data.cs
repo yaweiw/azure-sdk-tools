@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             myStore.StorageServiceKeys.Primary = "=132321982cddsdsa";
             myStore.StorageServiceKeys.Secondary = "=w8uidjew4378891289";
             myStore.StorageServiceProperties = new StorageServiceProperties();
-            myStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.NorthCentralUS];
+            myStore.StorageServiceProperties.Location = "North Central US";
             myStore.StorageServiceProperties.Status = StorageServiceStatus.Created;
             ValidStorageService.Add(myStore);
 
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             testStore.StorageServiceKeys.Primary = "=/se23ew2343221";
             testStore.StorageServiceKeys.Secondary = "==0--3210-//121313233290sd";
             testStore.StorageServiceProperties = new StorageServiceProperties();
-            testStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.EastAsia];
+            testStore.StorageServiceProperties.Location = "East Asia";
             testStore.StorageServiceProperties.Status = StorageServiceStatus.Creating;
             ValidStorageService.Add(testStore);
 
@@ -163,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             MyCompanyStore.StorageServiceKeys.Primary = "121/21dssdsds=";
             MyCompanyStore.StorageServiceKeys.Secondary = "023432dfelfema1=";
             MyCompanyStore.StorageServiceProperties = new StorageServiceProperties();
-            MyCompanyStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.NorthEurope];
+            MyCompanyStore.StorageServiceProperties.Location = "North Europe";
             MyCompanyStore.StorageServiceProperties.Status = StorageServiceStatus.ResolvingDns;
             ValidStorageService.Add(MyCompanyStore);
         }

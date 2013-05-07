@@ -22,11 +22,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Mocked table management
+    /// </summary>
     public class MockStorageTableManagement : IStorageTableManagement
     {
+        /// <summary>
+        /// Exists table lists
+        /// </summary>
         public List<CloudTable> tableList = new List<CloudTable>();
+
+        /// <summary>
+        /// Table end point
+        /// </summary>
         private string TableEndPoint = "http://127.0.0.1/account/";
 
+        /// <summary>
+        /// List azure storage tables
+        /// </summary>
+        /// <param name="prefix">Table name prefix</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of tables that begin with the specified prefix</returns>
         public IEnumerable<CloudTable> ListTables(string prefix, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             if (String.IsNullOrEmpty(prefix))
@@ -36,18 +53,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             else
             {
                 List<CloudTable> prefixTables = new List<CloudTable>();
+
                 foreach (CloudTable table in tableList)
                 {
-                    //FIXME make sure azure and startswith are the same case sensity
-                    if (table.Name.StartsWith(prefix))
+                    if (table.Name.ToLower().StartsWith(prefix.ToLower()))
                     {
                         prefixTables.Add(table);
                     }
                 }
+
                 return prefixTables;
             }
         }
 
+        /// <summary>
+        /// Get table reference from azure server
+        /// </summary>
+        /// <param name="name">Table name</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>A CloudTable object if the specified table exists, otherwise null.</returns>
         public CloudTable GetTableReferenceFromServer(string name, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             foreach (CloudTable table in tableList)
@@ -60,7 +85,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             return null;
         }
 
-
+        /// <summary>
+        /// Get a table reference
+        /// </summary>
+        /// <param name="name">Table name</param>
+        /// <returns>Cloud table object</returns>
         public CloudTable GetTableReference(string name)
         {
             Uri tableUri = new Uri(String.Format("{0}{1}", TableEndPoint, name));
@@ -68,9 +97,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             return new CloudTable(tableUri, tableClient);
         }
 
+        /// <summary>
+        /// Cloud a azure storage table if not exists.
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if table was created; otherwise, false.</returns>
         public bool CreateTableIfNotExists(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             CloudTable tableRef = GetTableReferenceFromServer(table.Name, requestOptions, operationContext);
+
             if (tableRef != null)
             {
                 return false;
@@ -83,7 +120,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
-
+        /// <summary>
+        /// Delete the specified azure storage table
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
         public void Delete(CloudTable table, TableRequestOptions requestOptions = null, OperationContext operationContext = null)
         {
             foreach (CloudTable tableRef in tableList)
@@ -96,8 +138,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
-
-        public bool IsTableExists(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
+        /// <summary>
+        /// Checks whether the table exists.
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if table exists; otherwise, false.</returns>
+        public bool DoesTableExist(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             foreach (CloudTable tableRef in tableList)
             {
@@ -106,6 +154,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
                     return true;
                 }
             }
+
             return false;
         }
     }

@@ -12,24 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Management.Automation;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.BVT
+namespace Management.Storage.ScenarioTest.BVT
 {
     /// <summary>
     /// this class contain all the bvt cases for the full functional storage context such as local/connectionstring/namekey, anonymous and sas token are excluded.
@@ -404,7 +404,7 @@ namespace CLITest.BVT
 
             Test.Info("Copy Blob using storage client");
 
-            if (blobUtil.Blob.BlobType == Storage.BlobType.BlockBlob)
+            if (blobUtil.Blob.BlobType == StorageBlob.BlobType.BlockBlob)
             {
                 CloudBlockBlob blockBlob = blobUtil.Container.GetBlockBlobReference(destBlobName);
                 blockBlob.StartCopyFromBlob((CloudBlockBlob)blobUtil.Blob);
