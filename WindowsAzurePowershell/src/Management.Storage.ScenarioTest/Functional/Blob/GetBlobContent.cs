@@ -15,14 +15,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
     /// <summary>
     /// functional tests for Set-ContainerAcl
@@ -31,7 +31,6 @@ namespace CLITest.Functional.Blob
     class GetBlobContent: TestBase
     {
         //TODO add invalid md5sum for page blob
-        //TODO remove to TestData.xml
         private static string downloadDirRoot;
 
         private string ContainerName = string.Empty;
@@ -76,7 +75,6 @@ namespace CLITest.Functional.Blob
         /// </summary>
         private void SetupTestContainerAndBlob()
         {
-            //TODO use BlobUtil to create block blob
             string fileName = Utility.GenNameString("download");
             string filePath = Path.Combine(downloadDirRoot, fileName);
             int minFileSize = 1;

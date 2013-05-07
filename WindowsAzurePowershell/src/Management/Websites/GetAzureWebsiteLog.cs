@@ -32,9 +32,11 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
         private const string ListPathParameterSet = "ListPath";
 
-        public WebsitesClient WebsiteClient;
+        public IWebsitesClient WebsiteClient;
 
         public Predicate<string> StopCondition;
+
+        public const int WaitInterval = 10000;
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = TailParameterSet, HelpMessage = "The log path.")]
@@ -87,7 +89,12 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
             if (Tail.IsPresent)
             {
-                foreach (string logLine in WebsiteClient.StartLogStreaming(Name, Path, Message, StopCondition))
+                foreach (string logLine in WebsiteClient.StartLogStreaming(
+                    Name,
+                    Path,
+                    Message,
+                    StopCondition,
+                    WaitInterval))
                 {
                     WriteObject(logLine);
                 }

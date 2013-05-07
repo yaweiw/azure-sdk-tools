@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -22,12 +22,10 @@ using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
     /// <summary>
     /// functional tests for Get-CopyState
@@ -101,12 +99,10 @@ namespace CLITest.Functional.Blob
             string invalidBlobName = new string('a', maxBlobNameLength + 1);
             string invalidContainerErrorMessage = String.Format("Container name '{0}' is invalid.", invalidContainerName);
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
-            string errorMessage = invalidContainerErrorMessage;
             Test.Assert(!agent.GetAzureStorageBlobCopyState(invalidContainerName, Utility.GenNameString("blob"), false), "get copy state should failed with invalid container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            errorMessage = invalidBlobErrorMessage;
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.GetAzureStorageBlobCopyState(Utility.GenNameString("container"), invalidBlobName, false), "get copy state should failed with invalid blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
         }
 
         /// <summary>
@@ -157,7 +153,7 @@ namespace CLITest.Functional.Blob
             ICloudBlob srcBlob = blobUtil.CreateRandomBlob(rootContainer, srcBlobName);
             ICloudBlob destBlob = blobUtil.CreateBlob(rootContainer, Utility.GenNameString("dest"), srcBlob.BlobType);
 
-            if (destBlob.BlobType == Storage.BlobType.BlockBlob)
+            if (destBlob.BlobType == StorageBlob.BlobType.BlockBlob)
             {
                 ((CloudBlockBlob)destBlob).StartCopyFromBlob((CloudBlockBlob)srcBlob);
             }
@@ -250,7 +246,6 @@ namespace CLITest.Functional.Blob
         [TestCategory(Tag.Function)]
         [TestCategory(PsTag.Blob)]
         [TestCategory(PsTag.GetBlobCopyState)]
-        //TODO use safe way to do this test
         public void GetCopyStateWhenCopyingTest()
         {
             CloudBlobContainer Container = blobUtil.CreateContainer();

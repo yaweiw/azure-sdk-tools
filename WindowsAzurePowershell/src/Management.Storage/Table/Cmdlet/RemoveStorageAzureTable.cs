@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
     /// remove an azure table
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Table, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
-        OutputType(typeof(string))]
+        OutputType(typeof(Boolean))]
     public class RemoveAzureStorageTableCommand : StorageCloudTableCmdletBase
     {
         [Alias("N", "Table")]
@@ -34,13 +34,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
-        [Parameter(HelpMessage = "Force to remove the table without confirm")]
+        [Parameter(HelpMessage = "Force to remove the table without confirmation")]
         public SwitchParameter Force
         {
             get { return force; }
             set { force = value; }
         }
         private bool force;
+
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified table is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageTableCommand class.
@@ -86,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             TableRequestOptions requestOptions = null;
             CloudTable table = Channel.GetTableReference(name);
 
-            if (!Channel.IsTableExists(table, requestOptions, OperationContext))
+            if (!Channel.DoesTableExist(table, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.TableNotFound, name));
             }
@@ -109,9 +112,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public override void ExecuteCmdlet()
         {
             string result = string.Empty;
-            bool removed = RemoveAzureTable(Name);
+            bool success = RemoveAzureTable(Name);
 
-            if (removed)
+            if (success)
             {
                 result = String.Format(Resources.RemoveTableSuccessfully, Name);
             }
@@ -120,7 +123,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
                 result = String.Format(Resources.RemoveTableCancelled, Name);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(success);
+            }
         }
     }
 }

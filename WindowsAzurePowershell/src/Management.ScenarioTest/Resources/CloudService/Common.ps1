@@ -136,6 +136,8 @@ function New-CacheCloudServiceProject
     cd ..
     Add-AzureCacheWorkerRole CacheRole
     Enable-AzureMemcacheRole ClientRole CacheRole
+	$password = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+	Enable-AzureServiceProjectRemoteDesktop "gooduser" -Password $password
 }
 
 <#

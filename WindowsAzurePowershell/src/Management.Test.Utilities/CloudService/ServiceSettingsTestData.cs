@@ -43,14 +43,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
             Data.Add(ServiceSettingsState.Default, new ServiceSettings());
             
             settings = new ServiceSettings();
-            settings.Location = ArgumentConstants.Locations[LocationName.SouthCentralUS];
+            settings.Location = "South Central US";
             settings.Slot = ArgumentConstants.Slots[SlotType.Production];
             settings.StorageAccountName = "mystore";
             settings.Subscription = "TestSubscription2";
             Data.Add(ServiceSettingsState.Sample1, settings);
 
             settings = new ServiceSettings();
-            settings.Location = ArgumentConstants.Locations[LocationName.SouthCentralUS];
+            settings.Location = "South Central US";
             settings.Slot = ArgumentConstants.Slots[SlotType.Production];
             settings.StorageAccountName = "mystore";
             settings.Subscription = "Does not exist subscription";

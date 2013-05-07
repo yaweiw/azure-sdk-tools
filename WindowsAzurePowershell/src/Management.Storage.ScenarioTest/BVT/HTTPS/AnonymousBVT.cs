@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.BVT.HTTPS
+namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
     /// <summary>
     /// bvt cases for anonymous storage account
@@ -74,7 +74,6 @@ namespace CLITest.BVT.HTTPS
         [TestCategory(Tag.BVT)]
         public void ListContainerWithContianerPermission()
         {
-            //TODO add "ft" or "bvt" to name as the prefix
             string containerName = Utility.GenNameString(ContainerPrefix);
             CloudBlobContainer container = blobUtil.CreateContainer(containerName, BlobContainerPublicAccessType.Container);
 
@@ -188,8 +187,8 @@ namespace CLITest.BVT.HTTPS
         /// <param name="container">CloudBlobContainer object</param>
         private void DownloadBlobFromContainerTest(CloudBlobContainer container)
         {
-            DownloadBlobFromContainer(container, Storage.BlobType.BlockBlob);
-            DownloadBlobFromContainer(container, Storage.BlobType.PageBlob);
+            DownloadBlobFromContainer(container, StorageBlob.BlobType.BlockBlob);
+            DownloadBlobFromContainer(container, StorageBlob.BlobType.PageBlob);
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace CLITest.BVT.HTTPS
         /// </summary>
         /// <param name="container"></param>
         /// <param name="blob"></param>
-        private void DownloadBlobFromContainer(CloudBlobContainer container, Storage.BlobType type)
+        private void DownloadBlobFromContainer(CloudBlobContainer container, StorageBlob.BlobType type)
         {
             string blobName = Utility.GenNameString("blob");
             ICloudBlob blob = blobUtil.CreateBlob(container, blobName, type);

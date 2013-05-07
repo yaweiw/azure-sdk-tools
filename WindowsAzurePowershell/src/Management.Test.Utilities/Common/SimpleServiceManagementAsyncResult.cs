@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
     /// <summary>
@@ -52,6 +53,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// Gets an AsyncWaitHandle.  This is not implemented and will always
         /// throw.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations",
+            Justification = "Tests should not access this property")]
         public WaitHandle AsyncWaitHandle
         {
             get { throw new NotImplementedException(); }

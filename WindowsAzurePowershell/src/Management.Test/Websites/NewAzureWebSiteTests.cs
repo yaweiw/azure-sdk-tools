@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 CommandRuntime = mockRuntime,
                 Name = websiteName,
                 Location = webspaceName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             newAzureWebsiteCommand.ExecuteCmdlet();

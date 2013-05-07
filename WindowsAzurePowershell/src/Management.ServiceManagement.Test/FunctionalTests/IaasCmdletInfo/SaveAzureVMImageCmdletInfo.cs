@@ -17,8 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
     public class SaveAzureVMImageCmdletInfo : CmdletsInfo
-    {
-        //public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel, string postAction)
+    {        
         public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel)
         {
             cmdletName = Utilities.SaveAzureVMImageCmdletName;
@@ -28,8 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (!System.String.IsNullOrWhiteSpace(newLabel))
             {
                 this.cmdletParams.Add(new CmdletParam("NewImageLabel", newLabel));
-            }            
-            //this.cmdletParams.Add(new CmdletParam("PostCaptureAction", postAction));
+            }                        
         }
     }
 }

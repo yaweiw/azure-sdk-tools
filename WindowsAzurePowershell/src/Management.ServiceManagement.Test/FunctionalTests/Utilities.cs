@@ -42,6 +42,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string SetAzureAffinityGroupCmdletName = "Set-AzureAffinityGroup";
         public const string RemoveAzureAffinityGroupCmdletName = "Remove-AzureAffinityGroup";
 
+        // AzureAvailablitySet
+        public const string SetAzureAvailabilitySetCmdletName = "Set-AzureAvailabilitySet";
+
         // AzureCertificate & AzureCertificateSetting
         public const string AddAzureCertificateCmdletName = "Add-AzureCertificate";
         public const string GetAzureCertificateCmdletName = "Get-AzureCertificate";
@@ -117,6 +120,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureServiceCmdletName = "Get-AzureService";
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
+        // AzureServiceDesktopExtension
+        public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
         
         // AzureSSHKey
         public const string NewAzureSSHKeyCmdletName = "New-AzureSSHKey";
@@ -277,8 +282,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
                 else // all roles are ready
                 {
-                    Console.WriteLine("Result of the deployment: {0}", result.Status);
-                    Assert.IsTrue(result.Status.Equals("Running"));                                       
+                    Console.WriteLine("Result of the deployment: {0}", result.Status);                    
                     return result.Url;
                 }
             }

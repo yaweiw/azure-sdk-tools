@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
     /// <summary>
     /// functional tests for Start-CopyBlob
@@ -248,16 +248,14 @@ namespace CLITest.Functional.Blob
             string invalidBlobName = new string('a', maxBlobNameLength + 1);
             string invalidContainerErrorMessage = String.Format("Container name '{0}' is invalid.", invalidContainerName);
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
-            string errorMessage = invalidContainerErrorMessage;
             Test.Assert(!agent.StartAzureStorageBlobCopy(invalidContainerName, Utility.GenNameString("blob"), Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), invalidContainerName, Utility.GenNameString("blob")), "Start copy should failed with invalid dest container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            errorMessage = invalidBlobErrorMessage;
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), invalidBlobName, Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), Utility.GenNameString("container"), invalidBlobName), "Start copy should failed with invalid dest blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
         }
 
         /// <summary>
@@ -320,6 +318,37 @@ namespace CLITest.Functional.Blob
             finally
             {
                 blobUtil.RemoveContainer(container.Name);
+            }
+        }
+
+        /// <summary>
+        /// Copy to an existing blob without force parameter
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.StartCopyBlob)]
+        public void StartCopyToExistsBlobWithoutForce()
+        {
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            string srcBlobName = Utility.GenNameString("src");
+            ICloudBlob srcBlob = blobUtil.CreateRandomBlob(container, srcBlobName);
+            string destBlobName = Utility.GenNameString("dest");
+            ICloudBlob destBlob = blobUtil.CreateRandomBlob(container, destBlobName);
+            string filePath = GenerateOneTempTestFile();
+
+            try
+            {
+                Test.Assert(!agent.StartAzureStorageBlobCopy(srcBlob, container.Name, destBlob.Name, null, false), "copy to existing blob without force parameter should fail");
+                ExpectedContainErrorMessage(ConfirmExceptionMessage);
+                srcBlob.FetchAttributes();
+                destBlob.FetchAttributes();
+                ExpectNotEqual(srcBlob.Properties.ContentMD5, destBlob.Properties.ContentMD5, "content md5");
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container);
+                FileUtil.RemoveFile(filePath);
             }
         }
 

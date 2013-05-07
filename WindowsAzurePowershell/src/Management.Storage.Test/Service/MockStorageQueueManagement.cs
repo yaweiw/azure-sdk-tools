@@ -23,11 +23,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Mocked queue management
+    /// </summary>
     public class MockStorageQueueManagement : IStorageQueueManagement
     {
+        /// <summary>
+        /// Exists queue lists
+        /// </summary>
         public List<CloudQueue> queueList = new List<CloudQueue>();
+
+        /// <summary>
+        /// Queue end point
+        /// </summary>
         private string QueueEndPoint = "http://127.0.0.1/account/";
 
+        /// <summary>
+        /// List storage queues
+        /// </summary>
+        /// <param name="prefix">Queue name prefix</param>
+        /// <param name="queueListingDetails">Queue listing details</param>
+        /// <param name="options">Queue request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of the queues in the storage account.</returns>
         public IEnumerable<CloudQueue> ListQueues(string prefix, QueueListingDetails queueListingDetails, QueueRequestOptions options, OperationContext operationContext)
         {
             if(string.IsNullOrEmpty(prefix))
@@ -48,22 +66,39 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
+        /// <summary>
+        /// Fetch queue attributes
+        /// </summary>
+        /// <param name="queue">Cloud queue object</param>
+        /// <param name="options">Queue request options</param>
+        /// <param name="operationContext">Operation context</param>
         public void FetchAttributes(CloudQueue queue, QueueRequestOptions options, OperationContext operationContext)
         {
             return;
         }
 
-
+        /// <summary>
+        /// Get queue reference
+        /// </summary>
+        /// <param name="name">Queue name</param>
+        /// <returns>Cloud Queue object</returns>
         public CloudQueue GetQueueReference(string name)
         {
             Uri queueUri = new Uri(String.Format("{0}{1}", QueueEndPoint, name));
             return new CloudQueue(queueUri);
         }
 
+        /// <summary>
+        /// Create an cloud queue on azure if not exists.
+        /// </summary>
+        /// <param name="queue">Cloud queue object.</param>
+        /// <param name="options">Queue request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if the queue did not already exist and was created; otherwise false.</returns>
         public bool CreateQueueIfNotExists(CloudQueue queue, QueueRequestOptions options, OperationContext operationContext)
         {
             CloudQueue queueRef = GetQueueReference(queue.Name);
-            if (IsQueueExists(queueRef, options, operationContext))
+            if (DoesQueueExist(queueRef, options, operationContext))
             {
                 return false;
             }
@@ -75,7 +110,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
-
+        /// <summary>
+        /// Delete the specified storage queue.
+        /// </summary>
+        /// <param name="queue">Cloud queue object</param>
+        /// <param name="options">Queue request options</param>
+        /// <param name="operationContext">Operation context</param>
         public void DeleteQueue(CloudQueue queue, QueueRequestOptions options, OperationContext operationContext)
         {
             foreach (CloudQueue queueRef in queueList)
@@ -88,8 +128,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
-
-        public bool IsQueueExists(CloudQueue queue, QueueRequestOptions requestOptions, OperationContext operationContext)
+        /// <summary>
+        /// Checks existence of the queue.
+        /// </summary>
+        /// <param name="queue">Cloud queue object</param>
+        /// <param name="requestOptions">Queue request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if the queue exists, otherwise false</returns>
+        public bool DoesQueueExist(CloudQueue queue, QueueRequestOptions requestOptions, OperationContext operationContext)
         {
             foreach (CloudQueue queueRef in queueList)
             {
