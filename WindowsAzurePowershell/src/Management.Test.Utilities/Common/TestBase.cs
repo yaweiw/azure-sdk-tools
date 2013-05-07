@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
+    using System;
     using System.Diagnostics;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -37,6 +38,21 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         {
             Debug.Assert(TestContext != null);
             TestContext.WriteLine(format, args);
+        }
+
+        protected static int AnyIpPort()
+        {
+            return new Random().Next(ushort.MaxValue);
+        }
+
+        public static Uri AnyUrl()
+        {
+            return new Uri("http://www.microsoft.com");
+        }
+
+        public static string AnyString()
+        {
+            return "RandomStringForTestPurposes";
         }
     }
 }

@@ -31,13 +31,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             files = new FileSystemHelper(this);
-            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+            //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
         [TestCleanup]
         public void CleanupTest()
         {
-            files.Dispose();
+            //files.Dispose();
         }
 
         [TestMethod]

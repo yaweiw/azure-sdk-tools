@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Properties
-{
-
-
+namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -1689,21 +1689,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please use the Windows Azure Portal to create your first website.
-        ///You can do this by following these steps:
-        ///1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create
-        ///2. Type a valid name in the URL field
-        ///3. Click on &quot;Create Web Site&quot;
-        ///4. Once the site has been created, click on the site name
-        ///5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you create.
-        /// </summary>
-        internal static string ListLocationExceptionWorkaround {
-            get {
-                return ResourceManager.GetString("ListLocationExceptionWorkaround", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to local_package.csx.
         /// </summary>
         internal static string LocalPackageFileName {
@@ -2675,7 +2660,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove service &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to remove cloud service?.
         /// </summary>
         internal static string RemoveServiceWarning {
             get {

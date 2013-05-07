@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
-        private Mock<WebsitesClient> websitesClientMock;
+        private Mock<IWebsitesClient> websitesClientMock;
 
         private GetAzureWebsiteLogCommand getAzureWebsiteLogCmdlet;
 
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             base.SetupTest();
             websiteChannelMock = new Mock<IWebsitesServiceManagement>();
-            websitesClientMock = new Mock<WebsitesClient>();
+            websitesClientMock = new Mock<IWebsitesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
             stopCondition = (string line) => line != null;
             websitesClientMock.Setup(f => f.StartLogStreaming(

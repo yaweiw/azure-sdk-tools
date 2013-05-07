@@ -18,14 +18,14 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     /// <summary>
     /// this class contains all the functional test cases for PowerShell container cmdlets
@@ -329,7 +329,7 @@ namespace CLITest
 
                 if (!created && retryCount == maxRetryCount)
                 { 
-                    Test.AssertFail(string.Format("Can not create $root container after {} times retry", retryCount));
+                    Test.AssertFail(string.Format("Can not create $root container after {0} times retry", retryCount));
                 }
 
                 container.FetchAttributes();
@@ -398,13 +398,13 @@ namespace CLITest
         /// </summary>
         internal void CreateInvalidContainer(Agent agent)
         {
-            string CONTAINER_NAME = Utility.GenNameString("abc_");
+            string containerName = Utility.GenNameString("abc_");
 
             //--------------New operation--------------
-            Test.Assert(!agent.NewAzureStorageContainer(CONTAINER_NAME), Utility.GenComparisonData("NewAzureStorageContainer", false));
+            Test.Assert(!agent.NewAzureStorageContainer(containerName), Utility.GenComparisonData("NewAzureStorageContainer", false));
             // Verification for returned values
             Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Container name '{0}' is invalid.", CONTAINER_NAME)), agent.ErrorMessages[0]);
+            Test.Assert(agent.ErrorMessages[0].StartsWith(String.Format("Container name '{0}' is invalid.", containerName)), agent.ErrorMessages[0]);
         }
 
 

@@ -14,7 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
+    using System;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     public class UpdateAzureVMImageCmdletInfo : CmdletsInfo
     {
@@ -24,6 +26,48 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
             cmdletParams.Add(new CmdletParam("Label", label));            
+        }
+
+        public UpdateAzureVMImageCmdletInfo(string imageName, string label, InstanceSize? recommendedSize)
+            : this(imageName, label)
+        {
+            if (recommendedSize.HasValue)
+            {
+                cmdletParams.Add(new CmdletParam("RecommendedVMSize", recommendedSize));
+            }
+        }
+
+        public UpdateAzureVMImageCmdletInfo(
+            string imageName,
+            string label,
+            InstanceSize? recommendedSize,
+            string description,
+            string eula,
+            string imageFamily,
+            Uri privacyUri,
+            DateTime publishedDate)
+            : this(imageName, label, recommendedSize)
+        {
+            if (!string.IsNullOrEmpty(description))
+            {
+                cmdletParams.Add(new CmdletParam("Description", description));
+            }
+            if (!string.IsNullOrEmpty(eula))
+            {
+                cmdletParams.Add(new CmdletParam("Eula", eula));
+            }
+            if (!string.IsNullOrEmpty(imageFamily))
+            {
+                cmdletParams.Add(new CmdletParam("ImageFamily", imageFamily));
+            }
+            if (privacyUri != null)
+            {
+                cmdletParams.Add(new CmdletParam("PrivacyUri", privacyUri.ToString()));
+            }
+            if (publishedDate != null)
+            {
+                cmdletParams.Add(new CmdletParam("PublishedDate", publishedDate.ToString()));
+            }
         }
     }
 }

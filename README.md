@@ -41,6 +41,7 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Manage VM endpoint, such as CRUD.
   * Get/Set VM sub net.
   * Manage certificate and SSH key.
+  * PowerShell remoting
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.

@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
     using System.Security.Permissions;
 
     [Cmdlet(VerbsCommon.Remove, "AzureStorageQueue", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
-        OutputType(typeof(String))]
+        OutputType(typeof(Boolean))]
     public class RemoveAzureStorageQueueCommand : StorageQueueBaseCmdlet
     {
         [Alias("N", "Queue")]
@@ -38,6 +38,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
             set { force = value; }
         }
         private bool force;
+
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified queue is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageQueueCommand class.
@@ -84,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
             QueueRequestOptions requestOptions = null;
             CloudQueue queue = Channel.GetQueueReference(name);
 
-            if (!Channel.IsQueueExists(queue, requestOptions, OperationContext))
+            if (!Channel.DoesQueueExist(queue, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.QueueNotFound, name));
             }
@@ -108,9 +111,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
         {
             String result = string.Empty;
 
-            bool removed = RemoveAzureQueue(Name);
+            bool success = RemoveAzureQueue(Name);
 
-            if (removed)
+            if (success)
             {
                 result = String.Format(Resources.RemoveQueueSuccessfully, Name);
             }
@@ -119,7 +122,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
                 result = String.Format(Resources.RemoveQueueCancelled, Name);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(success);
+            }
         }
     }
 }

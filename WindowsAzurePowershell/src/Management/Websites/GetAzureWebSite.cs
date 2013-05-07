@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
     public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
     {
-        public WebsitesClient WebsitesClient { get; set; }
+        public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -90,8 +90,12 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 // Add to cache
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
-                WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-                DiagnosticsSettings diagnosticsSettings = WebsitesClient.GetDiagnosticsSettings(Name);
+                DiagnosticsSettings diagnosticsSettings = null;
+                if (websiteObject.State == "Running")
+                {
+                    WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+                    diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                }
 
                 // Output results
                 WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration, diagnosticsSettings), false);

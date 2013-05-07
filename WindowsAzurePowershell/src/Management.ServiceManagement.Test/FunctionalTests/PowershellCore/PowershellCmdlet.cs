@@ -54,7 +54,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         public override Collection<PSObject> Run()
-        {            
+        {
+            
             Collection<PSObject> result;
             runspace.Open();
             using (var powershell = PowerShell.Create())

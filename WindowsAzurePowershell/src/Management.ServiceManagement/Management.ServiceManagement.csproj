@@ -153,7 +153,10 @@
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
+    <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
+    <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Helpers\CertUtils.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
@@ -170,13 +173,13 @@
     <Compile Include="HostedServices\SetAzureRole.cs" />
     <Compile Include="HostedServices\SetAzureService.cs" />
     <Compile Include="HostedServices\SetAzureWalkUpgradeDomain.cs" />
+    <Compile Include="IaaS\AvailabilitySets\SetAzureAvailabilitySet.cs" />
     <Compile Include="IaaS\CertProvisioning\NewAzureCertificateSetting.cs" />
     <Compile Include="IaaS\CertProvisioning\NewAzureSSHKey.cs" />
     <Compile Include="IaaS\DiskRepository\AddAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\AddAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureVMImage.cs" />
-    <Compile Include="IaaS\DiskRepository\RecommendedVMSizeType.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\UpdateAzureDisk.cs" />
@@ -211,6 +214,7 @@
     <Compile Include="IaaS\PersistentVMs\GetAzureOSDisk.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureRemoteDesktopFile.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureVM.cs" />
+    <Compile Include="IaaS\PersistentVMs\GetAzureWinRMUri.cs" />
     <Compile Include="IaaS\PersistentVMs\ImportAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureQuickVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVM.cs" />
@@ -222,6 +226,8 @@
     <Compile Include="IaaS\PersistentVMs\StartAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\StopAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\UpdateAzureVM.cs" />
+    <Compile Include="Helpers\WinRmConfigurationBuilder.cs" />
+    <Compile Include="IaaS\PersistentVMs\WinRMConstants.cs" />
     <Compile Include="IaaS\ProvisioningConfigurationCmdletBase.cs" />
     <Compile Include="IaaS\VirtualMachineConfigurationCmdletBase.cs" />
     <Compile Include="Model\AffinityGroupContext.cs" />
@@ -278,6 +284,7 @@
     <Compile Include="StorageServices\SaveAzureVhdCommand.cs" />
     <Compile Include="StorageServices\SetAzureStorageAccount.cs" />
     <Compile Include="Model\VhdUploaderModel.cs" />
+    <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />

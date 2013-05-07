@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     {
         public string vmName;
         public string imageName;
-        public VMSizeInfo vmSize;
+        public InstanceSize vmSize;
 
-        public AzureVMConfigInfo(string vmName, VMSizeInfo vmSize, string imageName)
+        public AzureVMConfigInfo(string vmName, InstanceSize vmSize, string imageName)
         {
             this.vmName = vmName;
             this.vmSize = vmSize;
