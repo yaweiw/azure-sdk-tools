@@ -25,9 +25,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class GetAzureSqlDatabaseTests : TestBase
     {
+        [TestInitialize]
+        public void InitializeTest()
+        {
+            // Create 2 test databases
+            NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth();
+        }
+
         [TestCleanup]
         public void CleanupTest()
         {
+            // Remove the test databases
+            NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
+
+            // Save the mock session results
             DatabaseTestHelper.SaveDefaultSessionCollection();
         }
 
@@ -39,11 +50,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             {
                 // Create a context
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
-                    powershell,
-                    "$context");
-
-                // Create 2 test databases
-                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
                     "$context");
 
@@ -59,10 +65,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                         switch (expected.Index)
                         {
-                            // Request 0-2: Get database requests
+                            // Request 0-3: Get all databases + ServiceObjective lookup for each database
                             case 0:
                             case 1:
                             case 2:
+                            case 3:
+                            // Request 4-7: Get database requests, 2 requests per get
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
                                 DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);
@@ -135,14 +147,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell,
                     "$context");
 
-                // Create 2 test databases
-                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
-                    powershell,
-                    "$context");
-
                 // Query the created test databases
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
-                    "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
+                    "UnitTests.GetAzureSqlDatabaseWithSqlAuthByPipe");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
@@ -150,19 +157,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
+                        if (expected.Index < 12)
                         {
-                            // Request 0-2: Get database requests
-                            case 0:
-                            case 1:
-                            case 2:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
+                            // Request 0-3: Get all databases + ServiceObjectives requests
+                            // Request 4-11: 4 Get databases, 2 requests per get call
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
+                        }
+                        else
+                        {
+                            Assert.Fail("No more requests expected.");
                         }
                     });
 
@@ -177,6 +182,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         databases = powershell.InvokeBatchScript(
                             @"Get-AzureSqlDatabase " +
                             @"-Context $context");
+                        powershell.InvokeBatchScript(
+                            @"$testdb1 = Get-AzureSqlDatabase $context testdb1");
+                        powershell.InvokeBatchScript(
+                            @"$testdb2 = Get-AzureSqlDatabase $context testdb2");
                         database1 = powershell.InvokeBatchScript(
                             @"$testdb1 | Get-AzureSqlDatabase");
                         database2 = powershell.InvokeBatchScript(
@@ -238,8 +247,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         {
                             // Request 0-2: Get database requests
                             case 0:
-                            case 1:
-                            case 2:
                                 DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);

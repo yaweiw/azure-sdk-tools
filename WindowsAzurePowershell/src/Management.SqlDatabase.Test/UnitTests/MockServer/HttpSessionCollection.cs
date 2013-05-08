@@ -106,6 +106,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 this.Add(foundSession);
             }
 
+            // Create a the new session properties dictionary
+            foundSession.SessionProperties = new Dictionary<string, string>();
+
             // Reset the messages to start at the begining
             foundSession.Messages.Reset();
 
