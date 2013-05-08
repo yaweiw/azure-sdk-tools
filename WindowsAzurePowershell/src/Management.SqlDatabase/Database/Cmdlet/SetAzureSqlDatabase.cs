@@ -74,6 +74,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public int MaxSizeGB { get; set; }
 
         /// <summary>
+        /// Gets or sets the new ServiceObjective for this database.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new ServiceObjective for the database.")]
+        [ValidateNotNull]
+        public ServiceObjective ServiceObjective { get; set; }
+
+        /// <summary>
         /// Gets or sets the switch to output the target object to the pipeline.
         /// </summary>
         [Parameter(HelpMessage = "Pass through the input object to the output pipeline")]
@@ -136,7 +143,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     databaseName,
                     this.NewName,
                     maxSizeGb,
-                    edition);
+                    edition,
+                    this.ServiceObjective);
 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)

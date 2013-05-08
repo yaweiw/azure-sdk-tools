@@ -399,12 +399,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="databaseEdition">
         /// The new database edition, or <c>null</c> to not update.
         /// </param>
+        /// <param name="serviceObjective">
+        /// The new service objective, or <c>null</c> to not update.
+        /// </param>
         /// <returns>The updated database object.</returns>
         public Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSize,
-            DatabaseEdition? databaseEdition)
+            DatabaseEdition? databaseEdition,
+            ServiceObjective serviceObjective)
         {
             // Find the database by name
             Database database = GetDatabase(databaseName);
@@ -420,6 +424,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             database.Edition = databaseEdition == null ? null : databaseEdition.ToString();
 
             database.IsRecursiveTriggersOn = null;
+
+            // Update the service objective property if specified
+            if (serviceObjective != null)
+            {
+                // We update both the scalar Guid and the link to the same thing
+                database.ServiceObjectiveId = serviceObjective.Id;
+                this.SetLink(database, "ServiceObjective", serviceObjective);
+                database.ServiceObjective = serviceObjective;
+            }
 
             // Mark the database object for update and submit the changes
             this.UpdateObject(database);
