@@ -83,12 +83,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="databaseEdition">
         /// The new database edition, or <c>null</c> to not update.
         /// </param>
+        /// <param name="serviceObjective">
+        /// The new service objective, or <c>null</c> to not update.
+        /// </param>
         /// <returns>The updated database object.</returns>
         Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSize,
-            DatabaseEdition? databaseEdition);
+            DatabaseEdition? databaseEdition,
+            ServiceObjective serviceObjective);
 
         /// <summary>
         /// Removes the database with the name <paramref name="databaseName"/>.
