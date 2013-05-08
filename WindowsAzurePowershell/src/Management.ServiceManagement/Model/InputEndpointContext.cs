@@ -38,5 +38,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
         public int? ProbeIntervalInSeconds { get; set; }
 
         public int? ProbeTimeoutInSeconds { get; set; }
+
+        public NetworkAclObject Acl { get; set; }
     }
 }

@@ -72,6 +72,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "ACL config.")]
+        public NetworkAclObject ACL 
+        { 
+            get;
+            set; 
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
         [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
         [Alias("LoadBalancedEndpointSetName")]
@@ -150,6 +157,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 Port = PublicPort.HasValue ? PublicPort : null,
                 LocalPort = LocalPort,
                 Protocol = Protocol,
+                EndpointAccessControlList = this.ACL
             };
 
             if (ParameterSetName == LoadBalancedProbeParameterSet)
