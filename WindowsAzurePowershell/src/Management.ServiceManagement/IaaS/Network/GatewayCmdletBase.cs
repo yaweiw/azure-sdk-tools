@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
+    using System.Diagnostics.CodeAnalysis;
     using System;
     using System.Globalization;
     using System.Management.Automation;
@@ -175,6 +176,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
     public static class GatewayManagementHelper
     {
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
         public static IGatewayServiceManagement CreateGatewayManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
         {
             WebChannelFactory<IGatewayServiceManagement> factory = new WebChannelFactory<IGatewayServiceManagement>(binding, remoteUri);
