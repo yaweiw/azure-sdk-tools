@@ -278,6 +278,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service objective &apos;{1}&apos; was not found on server &apos;{0}&apos;..
+        /// </summary>
+        internal static string ServiceObjectiveNotFound {
+            get {
+                return ResourceManager.GetString("ServiceObjectiveNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updating database &quot;{1}&quot; for Windows Azure Sql Database server &quot;{0}&quot;..
         /// </summary>
         internal static string SetAzureSqlDatabaseDescription {

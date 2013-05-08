@@ -35,6 +35,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         string ServerName { get; }
 
         /// <summary>
+        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// </summary>
+        /// <param name="obj">The object that contains the property to load.</param>
+        /// <param name="propertyName">The name of the property to load.</param>
+        void LoadProperty(object obj, string propertyName);
+
+        #region Database Operations
+
+        /// <summary>
         /// Retrieves the list of all databases on the server.
         /// </summary>
         /// <returns>An array of all databases on the server.</returns>
@@ -86,5 +95,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="databaseName">The database to remove.</param>
         void RemoveDatabase(string databaseName);
+
+        #endregion
+
+        #region Service Objective Operations
+
+        /// <summary>
+        /// Retrieves the list of all service objectives on the server.
+        /// </summary>
+        /// <returns>An array of all service objectives on the server.</returns>
+        ServiceObjective[] GetServiceObjectives();
+
+        /// <summary>
+        /// Retrieve information on service objective with the name
+        /// <paramref name="serviceObjectivesName"/>.
+        /// </summary>
+        /// <param name="serviceObjectiveName">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        ServiceObjective GetServiceObjective(string serviceObjectiveName);
+
+        #endregion
     }
 }

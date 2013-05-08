@@ -249,6 +249,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         #region IServerDataServiceContext Members
 
         /// <summary>
+        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// </summary>
+        /// <param name="obj">The object that contains the property to load.</param>
+        /// <param name="propertyName">The name of the property to load.</param>
+        new public void LoadProperty(object obj, string propertyName)
+        {
+            base.LoadProperty(obj, propertyName);
+        }
+
+        #region Database Operations
+
+        /// <summary>
         /// Creates a new Sql Database.
         /// </summary>
         /// <param name="databaseName">The name for the new database.</param>
@@ -445,6 +457,81 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 throw;
             }
         }
+
+        #endregion
+
+        #region ServiceObjective Operations
+
+        /// <summary>
+        /// Retrieves the list of all service objectives on the server.
+        /// </summary>
+        /// <returns>An array of all service objectives on the server.</returns>
+        public ServiceObjective[] GetServiceObjectives()
+        {
+            ServiceObjective[] allObjectives = null;
+
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+            try
+            {
+                allObjectives = this.ServiceObjectives.ToArray();
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
+            }
+
+            // Load the extra properties for all objects.
+            foreach (ServiceObjective objective in allObjectives)
+            {
+                objective.LoadExtraProperties(this);
+            }
+
+            return allObjectives;
+        }
+
+        /// <summary>
+        /// Retrieve information on service objective with the name
+        /// <paramref name="serviceObjectiveName"/>.
+        /// </summary>
+        /// <param name="serviceObjectiveName">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        public ServiceObjective GetServiceObjective(string serviceObjectiveName)
+        {
+            ServiceObjective objective;
+
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+            try
+            {
+                // Find the service objective by name
+                objective = this.ServiceObjectives
+                    .Where(db => db.Name == serviceObjectiveName)
+                    .SingleOrDefault();
+                if (objective == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.ServiceObjectiveNotFound,
+                            this.ServerName,
+                            serviceObjectiveName));
+                }
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
+            }
+
+            // Load the extra properties for this object.
+            objective.LoadExtraProperties(this);
+
+            return objective;
+        }
+
+        #endregion
 
         #endregion
 
