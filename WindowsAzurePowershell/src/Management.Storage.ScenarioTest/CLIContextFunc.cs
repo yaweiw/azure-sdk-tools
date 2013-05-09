@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
@@ -68,8 +69,10 @@ namespace Management.Storage.ScenarioTest
             if (moduleFilePath.Length > 0)
                 PowerShellAgent.ImportModule(moduleFilePath);
 
-            BlockFilePath = Test.Data.Get("BlockFilePath");
-            PageFilePath = Test.Data.Get("PageFilePath");
+            BlockFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            PageFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(BlockFilePath));
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(PageFilePath));
 
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(BlockFilePath, 1);
@@ -134,8 +137,13 @@ namespace Management.Storage.ScenarioTest
             StorageQueueTest(agent);
             StorageTableTest(agent);
 
-            string BlockFilePath = Test.Data.Get("BlockFilePath");
-            string PageFilePath = Test.Data.Get("PageFilePath");
+            string BlockFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            string PageFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(BlockFilePath));
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(PageFilePath));
+            // Generate block file and page file which are used for uploading
+            Helper.GenerateMediumFile(BlockFilePath, 1);
+            Helper.GenerateMediumFile(PageFilePath, 1);
 
             StorageBlobTest(agent, BlockFilePath, StorageBlob.BlobType.BlockBlob);
             StorageBlobTest(agent, PageFilePath, StorageBlob.BlobType.PageBlob);
