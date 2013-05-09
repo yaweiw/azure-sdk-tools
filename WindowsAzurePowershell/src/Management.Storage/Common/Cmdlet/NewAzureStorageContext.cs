@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private string protocolType = StorageNouns.HTTPS;
 
-        private  const string EndPointHelpMessage = "Azure Storage endpoint postfix(such as windows.net)";
+        private  const string EndPointHelpMessage = "Azure storage endpoint";
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AnonymousParameterSet)]
         public string EndPoint
@@ -186,33 +186,93 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             string blobEndPoint = string.Empty;
             string tableEndPoint = string.Empty;
             string queueEndPoint = string.Empty;
+            string domain = string.Empty;
 
             if (string.IsNullOrEmpty(endPoint))
             {
-                endPoint = GetDefaultEndPoint();
-            }
-
-            endPoint = endPoint.Trim();
-            
-            if (useHttps)
-            {
-                blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, endPoint);
-                tableEndPoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, endPoint);
-                queueEndPoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, endPoint);
+                domain = GetDefaultEndPointDomain();
             }
             else
             {
-                blobEndPoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, endPoint);
-                tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, endPoint);
-                queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, endPoint);
+                domain = GetStorageDomainFromEndPoint(endPoint);
+            }
+            
+            if (useHttps)
+            {
+                blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
+                tableEndPoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, domain);
+                queueEndPoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, domain);
+            }
+            else
+            {
+                blobEndPoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, domain);
+                tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, domain);
+                queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, domain);
             }
 
             return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(queueEndPoint), new Uri(tableEndPoint));
         }
 
-        internal string GetDefaultEndPoint()
+        /// <summary>
+        /// Get default end point domain
+        /// </summary>
+        /// <returns></returns>
+        internal string GetDefaultEndPointDomain()
         {
-            return Resources.DefaultStorageEndPoint;
+            return Resources.DefaultStorageEndPointDomain;
+        }
+
+        /// <summary>
+        /// Get endpoint domain from endpoint
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <returns></returns>
+        internal string GetStorageDomainFromEndPoint(string endpoint)
+        {
+            string domain = string.Empty;
+            Uri uri = SafeGetUri(endpoint);
+
+            string endPointSignature = "core."; //blob.core.windows.net
+            int index = uri.Authority.ToLower().IndexOf(endPointSignature);
+
+            if (index != -1)
+            {
+                domain = uri.Authority.Substring(index + endPointSignature.Length).ToLower();
+            }
+
+            if(string.IsNullOrEmpty(domain) || uri.IsFile)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
+            }
+
+            return domain;
+        }
+
+        /// <summary>
+        /// safely get uri object from end point
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <returns>Uri object</returns>
+        private Uri SafeGetUri(string endpoint)
+        {
+            Uri uri = null;
+
+            try
+            {
+                endpoint = endpoint.Trim();
+                bool created = Uri.TryCreate(endpoint, UriKind.Absolute, out uri);
+
+                if (!created || uri.HostNameType == UriHostNameType.Unknown)
+                {
+                    uri = new Uri(Resources.HTTPPrefix + endpoint);
+                }
+            }
+            catch
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
+            }
+
+            return uri;
         }
 
         /// <summary>
