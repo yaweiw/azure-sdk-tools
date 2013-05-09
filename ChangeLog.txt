@@ -8,7 +8,6 @@
   * New-AzureStorageQueue
   * Remove-AzureStorageQueue
 * Fix an issue in Publish-AzureServiceProject when swapping between staging and production slot
-* 
 
 2013.04.23 Version 0.6.13.1
 * Hotfix to make Set-AzureStorageAccount behave correctly with the -GeoReplicationEnabled parameter
