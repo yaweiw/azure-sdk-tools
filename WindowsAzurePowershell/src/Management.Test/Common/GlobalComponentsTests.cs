@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Test.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Subscription;
@@ -319,6 +320,20 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                     Assert.AreEqual<string>(ex.Message, Resources.GlobalComponents_Load_PublishSettingsNotFound);
                     Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
                 });
+        }
+
+        [TestMethod]
+        public void GetsTheAvailableEnvironments()
+        {
+            // Test
+            Dictionary<string, WindowsAzureEnvironment> actual = GlobalComponents.Instance.Environments;
+
+            // Assert
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(EnvironmentName.Azure, actual[EnvironmentName.Azure].Name);
+            Assert.AreEqual(EnvironmentName.China, actual[EnvironmentName.China].Name);
+            Assert.AreEqual(EnvironmentPortalEndpoint.Azure, actual[EnvironmentName.Azure].PortalEndpoint);
+            Assert.AreEqual(EnvironmentPortalEndpoint.China, actual[EnvironmentName.China].PortalEndpoint);
         }
     }
 }
