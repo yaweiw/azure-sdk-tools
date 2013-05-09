@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Subscription
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -23,39 +22,31 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     /// Get publish profile
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzurePublishSettingsFile")]
-    public class GetAzurePublishSettingsCommand : PSCmdlet
+    public class GetAzurePublishSettingsFileCommand : CmdletBase
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Realm of the account.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The targeted Windows Azure environment.")]
+        [ValidateNotNullOrEmpty]
+        public string Environment { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "Realm of the account.")]
         [ValidateNotNullOrEmpty]
         public string Realm { get; set; }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void GetAzurePublishSettingsProcess(string url)
-        {
-            Validate.ValidateStringIsNullOrEmpty(url, "publish settings url");
-            Validate.ValidateInternetConnection();
-
-            General.LaunchWebPage(url);
-        }
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "Returns true in success.")]
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
+            string url = GlobalComponents.Instance.GetPublishSettingsFile(Environment, Realm);
+            General.LaunchWebPage(url);
+
+            if (PassThru)
             {
-                base.ProcessRecord();
-                if (string.IsNullOrEmpty(Realm))
-                {
-                    GetAzurePublishSettingsProcess(General.PublishSettingsUrl);
-                }
-                else
-                {
-                    GetAzurePublishSettingsProcess(General.PublishSettingsUrlWithRealm(Realm)); 
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteObject(true);
             }
         }
     }

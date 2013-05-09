@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -334,6 +335,70 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             Assert.AreEqual(EnvironmentName.China, actual[EnvironmentName.China].Name);
             Assert.AreEqual(EnvironmentPortalEndpoint.Azure, actual[EnvironmentName.Azure].PortalEndpoint);
             Assert.AreEqual(EnvironmentPortalEndpoint.China, actual[EnvironmentName.China].PortalEndpoint);
+        }
+
+        [TestMethod]
+        public void GetPublishSettingsFileUrlUsingDefaultEnvironment()
+        {
+            // Setup
+            string expected = EnvironmentPortalEndpoint.Azure;
+
+            // Test
+            string actual = GlobalComponents.Instance.GetPublishSettingsFile();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetPublishSettingsFileUrlUsingRealm()
+        {
+            // Setup
+            string realmValue = "microsoft.com";
+            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.Azure);
+            expected.AppendFormat(Resources.RealmFormat, realmValue);
+            
+            // Test
+            string actual = GlobalComponents.Instance.GetPublishSettingsFile(realm: realmValue);
+
+            // Assert
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [TestMethod]
+        public void GetPublishSettingsFileUrlUsingNonExistingEnvironmentFail()
+        {
+            Testing.AssertThrows<KeyNotFoundException>(() => GlobalComponents.Instance.GetPublishSettingsFile("no"));
+        }
+
+        [TestMethod]
+        public void GetPublishSettingsFileUrlUsingSpecifiedEnvironmentAndRealm()
+        {
+            // Setup
+            string realmValue = "microsoft.com";
+            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.China);
+            expected.AppendFormat(Resources.RealmFormat, realmValue);
+
+            // Test
+            string actual = GlobalComponents.Instance.GetPublishSettingsFile(EnvironmentName.China, realmValue);
+
+            // Assert
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [TestMethod]
+        public void GetPublishSettingsFileUrlIgnoreCase()
+        {
+            // Setup
+            string realmValue = "microsoft.com";
+            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.China);
+            expected.AppendFormat(Resources.RealmFormat, realmValue);
+
+            // Test
+            string actual = GlobalComponents.Instance.GetPublishSettingsFile("cHiNa", realmValue);
+
+            // Assert
+            Assert.AreEqual(expected.ToString(), actual);
         }
     }
 }
