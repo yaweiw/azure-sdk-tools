@@ -24,6 +24,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System.Collections.ObjectModel;
 
+    using System.Diagnostics;
+    using System.Collections.Specialized;
+
     [TestClass]
     public class ServiceManagementTest
     {
@@ -34,9 +37,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string username = "pstestuser";
         protected const string defaultStorage = "hyleedefaultrtstore";
         protected static string localFile = Resource.Vhd;
-        protected const bool deleteDefaultStorageAccount = true;
         protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
-       
+        protected const string vhdContainerName = "vhdstore";
+
+        // Test cleanup settings
+        protected const bool deleteDefaultStorageAccount = false; // Temporarily set to false
+        protected bool cleanupIfPassed = true;
+        protected bool cleanupIfFailed = true;
+        protected bool serviceCreated = false;
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         protected static SubscriptionData defaultAzureSubscription;
@@ -49,10 +57,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected bool pass;
         protected string testName;
         protected DateTime testStartTime;
-        protected bool cleanupIfPassed = true;
-        protected bool cleanupIfFailed = true;
-        protected bool serviceCreated = false;
-        
 
         private TestContext testContextInstance;
         /// <summary>
@@ -153,8 +157,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Image Name: {0}", imageName);
 
         }
-        
-
 
         protected void StartTest(string testname, DateTime testStartTime)
         {            
@@ -167,9 +169,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             if (defaultAzureSubscription != null)
             {
-                Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
                 if (deleteDefaultStorageAccount)
                 {
+                    Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
                     vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
                 }
             }
@@ -212,6 +214,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
             vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultAzureSubscription.CurrentStorageAccount);
+        }
+
+        protected static void CopyTestData(string srcContainer, string srcBlob, string destContainer, string destBlob)
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
+
+            string storageAccount = environment[CredentialHelper.StorageAccountVariable];
+            string storageAccountKey = environment[CredentialHelper.StorageAccountKeyVariable];
+
+            // Create a container
+            try
+            {
+                vmPowershellCmdlets.RunPSScript("Get-AzureStorageContainer -Name " + destContainer);
+            }
+            catch
+            {
+                // Create a container.
+                vmPowershellCmdlets.RunPSScript("New-AzureStorageContainer -Name " + destContainer);
+            }
+
+            // Make SAS Uri for the source blob.
+            string srcSasUri = Utilities.GenerateSasUri(CredentialHelper.CredentialBlobUriFormat, storageAccount, storageAccountKey, srcContainer, srcBlob);
+
+            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
+            vmPowershellCmdlets.RunPSScript(string.Format("Get-AzureStorageBlobCopyState -Container {0} -Blob {1}", destContainer, destBlob));
         }
     }
 }
