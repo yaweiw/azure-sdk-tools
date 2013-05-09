@@ -327,7 +327,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
         [TestCategory(PsTag.SetBlobContent)]
         public void SetBlobContentForEixstsBlobWithoutForce()
         {
-            string filePath = GenerateOneTempTestFile();
+            string filePath = FileUtil.GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             string blobName = Utility.GenNameString("blob");
             ICloudBlob blob = blobUtil.CreateRandomBlob(container, blobName);
@@ -349,7 +349,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
 
         public void SetBlobContentWithProperties(StorageBlob.BlobType blobType)
         {
-            string filePath = GenerateOneTempTestFile();
+            string filePath = FileUtil.GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             Hashtable properties = new Hashtable();
             properties.Add("CacheControl", Utility.GenNameString(string.Empty));
@@ -378,7 +378,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
 
         public void SetBlobContentWithMetadata(StorageBlob.BlobType blobType)
         {
-            string filePath = GenerateOneTempTestFile();
+            string filePath = FileUtil.GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             Hashtable metadata = new Hashtable();
             int metaCount = GetRandomTestCount();

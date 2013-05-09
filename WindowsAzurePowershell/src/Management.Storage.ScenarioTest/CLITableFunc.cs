@@ -22,6 +22,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using Management.Storage.ScenarioTest.Common;
 
 namespace Management.Storage.ScenarioTest
 {
@@ -61,8 +62,7 @@ namespace Management.Storage.ScenarioTest
             Trace.WriteLine("ClassInit");
             Test.FullClassName = testContext.FullyQualifiedTestClassName;
 
-            string ConnectionString = Test.Data.Get("StorageConnectionString");
-            _StorageAccount = CloudStorageAccount.Parse(ConnectionString);
+            _StorageAccount = TestBase.GetCloudStorageAccountFromConfig();
 
             // import module
             string moduleFilePath = Test.Data.Get("ModuleFilePath");
@@ -70,7 +70,7 @@ namespace Management.Storage.ScenarioTest
                 PowerShellAgent.ImportModule(moduleFilePath);
 
             // $context = New-AzureStorageContext -ConnectionString ...
-            PowerShellAgent.SetStorageContext(ConnectionString);
+            PowerShellAgent.SetStorageContext(_StorageAccount.ToString(true));
         }
 
         //

@@ -24,6 +24,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using Management.Storage.ScenarioTest.Common;
 
 namespace Management.Storage.ScenarioTest
 {
@@ -64,8 +65,7 @@ namespace Management.Storage.ScenarioTest
             Trace.WriteLine("ClassInit");
             Test.FullClassName = testContext.FullyQualifiedTestClassName;
 
-            string ConnectionString = Test.Data.Get("StorageConnectionString");
-            StorageAccount = CloudStorageAccount.Parse(ConnectionString);
+            StorageAccount = TestBase.GetCloudStorageAccountFromConfig();
 
             //init the blob helper for blob related operations
             BlobHelper = new CloudBlobHelper(StorageAccount);
@@ -76,7 +76,7 @@ namespace Management.Storage.ScenarioTest
                 PowerShellAgent.ImportModule(moduleFilePath);
 
             // $context = New-AzureStorageContext -ConnectionString ...
-            PowerShellAgent.SetStorageContext(ConnectionString);
+            PowerShellAgent.SetStorageContext(StorageAccount.ToString(true));
         }
 
         //

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Management.Storage.ScenarioTest.Common;
 
 namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
@@ -34,6 +35,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTPS
     {
         protected static bool useHttps;
         protected static string StorageAccountName;
+        protected static bool isSecondary;
 
         [ClassInitialize()]
         public static void NameKeyContextBVTClassInitialize(TestContext testContext)
@@ -46,6 +48,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTPS
             string StorageEndPoint = Test.Data.Get("StorageEndPoint");
             StorageCredentials credential = new StorageCredentials(StorageAccountName, StorageAccountKey);
             useHttps = true;
+            isSecondary = false;
             SetUpStorageAccount = Utility.GetStorageAccountWithEndPoint(credential, useHttps, StorageEndPoint);
 
             CLICommonBVT.CLICommonBVTInitialize(testContext);
@@ -81,6 +84,40 @@ namespace Management.Storage.ScenarioTest.BVT.HTTPS
             }
 
             Test.Assert(uri.ToString().StartsWith(uriPrefix), string.Format("The prefix of container uri should be {0}, actually it's {1}", uriPrefix, uri));
+        }
+
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void MakeSureUsingCorrectEndPoint()
+        {
+            EndPointTest(isSecondary);
+        }
+
+        protected void EndPointTest(bool isSecondary)
+        {
+            string configKey = string.Empty;
+
+            if (isSecondary)
+            {
+                configKey = "Secondary";
+            }
+
+            string endpointdomain = Test.Data.Get(string.Format("{0}StorageEndPoint", configKey));
+            string [] endpoints = Utility.GetStorageEndPoints(SetUpStorageAccount.Credentials.AccountName, useHttps, endpointdomain);
+            ExpectEqual(endpoints[0], SetUpStorageAccount.BlobEndpoint.ToString(), "blob endpoint");
+            ExpectEqual(endpoints[1], SetUpStorageAccount.QueueEndpoint.ToString(), "queue endpoint");
+            ExpectEqual(endpoints[2], SetUpStorageAccount.TableEndpoint.ToString(), "table endpoint");
+        }
+
+        /// <summary>
+        /// Expect two string are equal
+        /// </summary>
+        /// <param name="expect">expect string</param>
+        /// <param name="actually">returned string</param>
+        /// <param name="name">Compare name</param>
+        public void ExpectEqual(string expect, string actually, string name)
+        {
+            Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
         }
     }
 }

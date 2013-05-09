@@ -57,11 +57,12 @@ namespace Management.Storage.ScenarioTest.Functional
         [TestCategory(PsTag.StorageContext)]
         public void GetContainerFromMultipleStorageContext()
         {
-            string connectionString1 = Test.Data.Get("StorageConnectionString1");
-            string connectionString2 = Test.Data.Get("StorageConnectionString2");
+            CloudStorageAccount account1 = TestBase.GetCloudStorageAccountFromConfig();
+            CloudStorageAccount account2 = TestBase.GetCloudStorageAccountFromConfig("Secondary");
+            string connectionString1 = account1.ToString(true);
+            string connectionString2 = account2.ToString(true);
             Test.Assert(connectionString1 != connectionString2, "Use two different connection string {0} != {1}", connectionString1, connectionString2);
-            CloudStorageAccount account1 = CloudStorageAccount.Parse(connectionString1);
-            CloudStorageAccount account2 = CloudStorageAccount.Parse(connectionString2);
+            
             CloudBlobUtil blobUtil1 = new CloudBlobUtil(account1);
             CloudBlobUtil blobUtil2 = new CloudBlobUtil(account2);
             string containerName = Utility.GenNameString("container");
@@ -99,11 +100,11 @@ namespace Management.Storage.ScenarioTest.Functional
         [TestCategory(PsTag.StorageContext)]
         public void GetContainerFromValidAndInvalidStorageContext()
         {
-            string connectionString1 = Test.Data.Get("StorageConnectionString");
+            CloudStorageAccount account1 = TestBase.GetCloudStorageAccountFromConfig();
+            string connectionString1 = account1.ToString(true);
             string randomAccountName = Utility.GenNameString("account");
             string randomAccountKey = Utility.GenNameString("key");
             randomAccountKey = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(randomAccountKey));
-            CloudStorageAccount account1 = CloudStorageAccount.Parse(connectionString1);
 
             string containerName = Utility.GenNameString("container");
 

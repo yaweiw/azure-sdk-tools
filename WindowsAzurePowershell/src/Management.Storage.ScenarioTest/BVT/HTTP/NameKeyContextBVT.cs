@@ -42,6 +42,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
             string StorageEndPoint = Test.Data.Get("StorageEndPoint");
             StorageCredentials credential = new StorageCredentials(StorageAccountName, StorageAccountKey);
             useHttps = false;
+            isSecondary = false;
             SetUpStorageAccount = Utility.GetStorageAccountWithEndPoint(credential, useHttps, StorageEndPoint);
             SetUpStorageAccount = new CloudStorageAccount(credential, useHttps);
 
