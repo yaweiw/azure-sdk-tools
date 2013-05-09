@@ -1,6 +1,6 @@
 # Windows Azure PowerShell
 
-This repo contains a set of PowerShell cmddlets for developers and administrators to develop, deploy and manage 
+This repository contains a set of PowerShell cmdlets for developers and administrators to develop, deploy and manage 
 Windows Azure applications.
 
 For documentation on how to build and deploy applications to Windows Azure please see the [Windows Azure Developer Center](http://www.windowsazure.com/en-us/develop). For comprehensive documentation on the developer cmdlets see [How to use Windows Azure PowerShell](http://www.windowsazure.com/en-us/develop/nodejs/how-to-guides/powershell-cmdlets/). For comprehensive documentation on the full set of Windows Azure cmdlets see [Windows Azure Management Center](http://go.microsoft.com/fwlink/?linkID=254459&clcid=0x409).
