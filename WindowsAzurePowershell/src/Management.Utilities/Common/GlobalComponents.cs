@@ -16,9 +16,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
@@ -42,6 +44,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         public Dictionary<string, WindowsAzureEnvironment> Environments;
+
+        public string CurrentEnvironment { get; set; }
+
+        protected GlobalComponents(string azurePath)
+            : this(azurePath, null)
+        {
+        }
+
+        protected GlobalComponents(string azurePath, string subscriptionsDataFile)
+        {
+            GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
+            Environments = new Dictionary<string, WindowsAzureEnvironment>(
+                WindowsAzureEnvironment.PublicEnvironments,
+                StringComparer.OrdinalIgnoreCase);
+            CurrentEnvironment = EnvironmentName.Azure;
+        }
 
         public static GlobalComponents CreateFromPublishSettings(
             string azurePath,
@@ -90,17 +108,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             globalComponents.LoadCurrent();
 
             return globalComponents;
-        }
-
-        protected GlobalComponents(string azurePath)
-            : this(azurePath, null)
-        {
-        }
-
-        protected GlobalComponents(string azurePath, string subscriptionsDataFile)
-        {
-            GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
-            Environments = new Dictionary<string, WindowsAzureEnvironment>(WindowsAzureEnvironment.PublicEnvironments);
         }
 
         private void NewFromPublishSettings(string subscriptionsDataFile, string publishSettingsPath)
@@ -262,5 +269,33 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// Gets the current instance of GlobalComponents using GlobalPathInfo.AzureAppDir.
         /// </summary>
         public static GlobalComponents Instance { get { return Load(GlobalPathInfo.AzureAppDir); } }
+
+        /// <summary>
+        /// Gets url for downloading publish settings file.
+        /// </summary>
+        /// <param name="environment">The environment name</param>
+        /// <param name="realm">The optional realm phrase</param>
+        /// <returns>The publish settings file url</returns>
+        public string GetPublishSettingsFile(string environment = null, string realm = null)
+        {
+            // If no environment provided assume using the current environment.
+            environment = string.IsNullOrEmpty(environment) ? CurrentEnvironment : environment;
+
+            if (!Environments.ContainsKey(environment))
+            {
+                throw new KeyNotFoundException(environment);
+            }
+
+            Debug.Assert(!string.IsNullOrEmpty(Environments[environment].PortalEndpoint));
+
+            StringBuilder publishSettingsUrl = new StringBuilder(Environments[environment].PortalEndpoint);
+
+            if (!string.IsNullOrEmpty(realm))
+            {
+                publishSettingsUrl.AppendFormat(Resources.RealmFormat, realm);
+            }
+
+            return publishSettingsUrl.ToString();
+        }
     }
 }
