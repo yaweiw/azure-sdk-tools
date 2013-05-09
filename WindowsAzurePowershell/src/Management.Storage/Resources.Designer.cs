@@ -369,9 +369,9 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         /// <summary>
         ///   Looks up a localized string similar to windows.net.
         /// </summary>
-        internal static string DefaultStorageEndPoint {
+        internal static string DefaultStorageEndPointDomain {
             get {
-                return ResourceManager.GetString("DefaultStorageEndPoint", resourceCulture);
+                return ResourceManager.GetString("DefaultStorageEndPointDomain", resourceCulture);
             }
         }
         
@@ -777,6 +777,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string InvalidStartTime {
             get {
                 return ResourceManager.GetString("InvalidStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid storage end point &apos;{0}&apos;..
+        /// </summary>
+        internal static string InvalidStorageEndPoint {
+            get {
+                return ResourceManager.GetString("InvalidStorageEndPoint", resourceCulture);
             }
         }
         
