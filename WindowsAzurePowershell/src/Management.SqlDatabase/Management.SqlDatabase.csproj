@@ -132,6 +132,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\ConfigurationConstants.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
