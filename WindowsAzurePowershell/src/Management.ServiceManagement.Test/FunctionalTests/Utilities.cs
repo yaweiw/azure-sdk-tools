@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Sync.Download;
 
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
@@ -233,9 +234,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
         
 
-        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
+        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = true)
         {
-            return string.Format("{0}{1}{2}", prefix, Guid.NewGuid().ToString("N").Substring(0, length), suffix);
+            string dateSuffix = "";
+            if (includeDate)
+            {
+                dateSuffix = string.Format("-{0}{1}", DateTime.Now.Year, DateTime.Now.DayOfYear);
+            }
+            return string.Format("{0}{1}{2}{3}", prefix, Guid.NewGuid().ToString("N").Substring(0, length), suffix, dateSuffix);
         }
 
         public static int MatchKeywords(string input, string[] keywords, bool exactMatch = true)
@@ -590,6 +596,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 return false;
             }
+        }
+
+        static public string GenerateSasUri(string blobStorageEndpointFormat, string storageAccount, string storageAccountKey,
+            string blobContainer, string vhdName, int hours = 10, bool read = true, bool write = true, bool delete = true, bool list = true)
+        {
+            string destinationSasUri = string.Format(@blobStorageEndpointFormat, storageAccount) + string.Format("/{0}/{1}", blobContainer, vhdName);
+            var destinationBlob = new CloudPageBlob(new Uri(destinationSasUri), new StorageCredentials(storageAccount, storageAccountKey));
+            SharedAccessBlobPermissions permission = 0;
+            permission |= (read) ? SharedAccessBlobPermissions.Read : 0;
+            permission |= (write) ? SharedAccessBlobPermissions.Write : 0;
+            permission |= (delete) ? SharedAccessBlobPermissions.Delete : 0;
+            permission |= (list) ? SharedAccessBlobPermissions.List : 0;
+
+            var policy = new SharedAccessBlobPolicy()
+            {
+                Permissions = permission,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromHours(hours)
+            };
+
+            string destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
+            return (destinationSasUri + destinationBlobToken);
         }
     }
 }
