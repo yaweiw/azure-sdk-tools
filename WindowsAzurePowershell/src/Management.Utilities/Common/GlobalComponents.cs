@@ -22,13 +22,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Subscription;
 
     public class GlobalComponents
     {
         public GlobalPathInfo GlobalPaths { get; private set; }
+
         public PublishData PublishSettings { get; private set; }
+
         public X509Certificate2 Certificate { get; private set; }
+
         public SubscriptionsManager SubscriptionManager { get; private set; }
+
         public CloudServiceProjectConfiguration ServiceConfiguration { get; private set; }
 
         public IDictionary<string, SubscriptionData> Subscriptions
@@ -36,18 +41,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             get { return SubscriptionManager.Subscriptions; }
         }
 
-        public static GlobalComponents CreateFromPublishSettings(string azurePath, string subscriptionsDataFile, string publishSettingsFile)
+        public Dictionary<string, WindowsAzureEnvironment> Environments;
+
+        public static GlobalComponents CreateFromPublishSettings(
+            string azurePath,
+            string subscriptionsDataFile,
+            string publishSettingsFile)
         {
             Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
 
             var globalComponents = new GlobalComponents(azurePath, subscriptionsDataFile);
-            globalComponents.NewFromPublishSettings(globalComponents.GlobalPaths.SubscriptionsDataFile, publishSettingsFile);
+            globalComponents.NewFromPublishSettings(
+                globalComponents.GlobalPaths.SubscriptionsDataFile,
+                publishSettingsFile);
             globalComponents.Save();
 
             return globalComponents;
         }
 
-        public static GlobalComponents Create(string azurePath, string subscriptionsDataFile, X509Certificate2 certificate, string serviceEndpoint)
+        public static GlobalComponents Create(
+            string azurePath,
+            string subscriptionsDataFile,
+            X509Certificate2 certificate,
+            string serviceEndpoint)
         {
             Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
             Validate.ValidateNullArgument(certificate, string.Format(Resources.InvalidCertificateSingle, "certificate"));
@@ -84,6 +100,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         protected GlobalComponents(string azurePath, string subscriptionsDataFile)
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
+            Environments = new Dictionary<string, WindowsAzureEnvironment>(WindowsAzureEnvironment.PublicEnvironments);
         }
 
         private void NewFromPublishSettings(string subscriptionsDataFile, string publishSettingsPath)
@@ -240,5 +257,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             File.Delete(GlobalPaths.ServiceConfigurationFile);
             Directory.Delete(GlobalPaths.AzureDirectory, true);
         }
+
+        /// <summary>
+        /// Gets the current instance of GlobalComponents using GlobalPathInfo.AzureAppDir.
+        /// </summary>
+        public static GlobalComponents Instance { get { return Load(GlobalPathInfo.AzureAppDir); } }
     }
 }
