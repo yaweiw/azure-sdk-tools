@@ -29,7 +29,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// </summary>
         public string PortalEndpoint { get; set; }
 
-        public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments = 
+        public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
+        {
+            get { return environments; }
+            private set;
+        }
+
+        private static Dictionary<string, WindowsAzureEnvironment> environments = 
             new Dictionary<string, WindowsAzureEnvironment>()
         {
             {
