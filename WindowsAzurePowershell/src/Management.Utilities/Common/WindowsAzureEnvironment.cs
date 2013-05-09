@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {
             get { return environments; }
-            private set;
+            private set { environments = value; }
         }
 
         private static Dictionary<string, WindowsAzureEnvironment> environments = 
