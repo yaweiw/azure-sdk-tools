@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,20 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+
     /// <summary>
-    /// The <see cref="Database"/> extensions
+    /// The <see cref="ServiceObjective"/> extensions
     /// </summary>
-    public partial class Database
+    public partial class ServiceObjective
     {
         /// <summary>
         /// Gets or sets the context from which this object was constructed.
         /// </summary>
         public IServerDataServiceContext Context;
-
-        /// <summary>
-        /// Gets the name of the service objective for this Database.
-        /// </summary>
-        public string ServiceObjectiveName;
 
         internal void LoadExtraProperties(IServerDataServiceContext context)
         {
@@ -36,10 +35,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 // Fill in the context property
                 this.Context = context;
 
-                // Fill in the service objective properties
-                this.Context.LoadProperty(this, "ServiceObjective");
-                this.ServiceObjectiveName =
-                    this.ServiceObjective == null ? null : this.ServiceObjective.Name;
+                // Fill in the service objective Dimension Settings
+                this.Context.LoadProperty(this, "DimensionSettings");
             }
             catch
             {

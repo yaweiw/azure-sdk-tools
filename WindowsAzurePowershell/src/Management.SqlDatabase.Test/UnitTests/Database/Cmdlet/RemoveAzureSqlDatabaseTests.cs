@@ -54,22 +54,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         {
                             Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                             Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                            switch (expected.Index)
+                            if (expected.Index < 8)
                             {
-                                // Request 0-3: Remove database requests
-                                case 0:
-                                case 1:
-                                case 2:
-                                case 3:
-                                // Request 4: Get all database request
-                                case 4:
-                                    DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                        expected.RequestInfo,
-                                        actual);
-                                    break;
-                                default:
-                                    Assert.Fail("No more requests expected.");
-                                    break;
+                                // Request 0-5: Remove database requests
+                                // Request 6-7: Get all database request
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                            }
+                            else
+                            {
+                                Assert.Fail("No more requests expected.");
                             }
                         });
 
