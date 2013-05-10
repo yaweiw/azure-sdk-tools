@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage
-{
-
-
+namespace Microsoft.WindowsAzure.Management.Storage {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -682,7 +682,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blob name &apos;{0}&apos; is invalid..
+        ///   Looks up a localized string similar to Blob name &apos;{0}&apos; is invalid. Valid names should be 1 through 1024 characters long and should not end with a . or /..
         /// </summary>
         internal static string InvalidBlobName {
             get {
@@ -718,7 +718,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Container name &apos;{0}&apos; is invalid..
+        ///   Looks up a localized string similar to Container name &apos;{0}&apos; is invalid. Valid names start and end with a lower case letter or a number and has in between a lower case letter, number or dash with no consecutive dashes and is 3 through 63 characters long..
         /// </summary>
         internal static string InvalidContainerName {
             get {
@@ -754,7 +754,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Queue name &apos;{0}&apos; is invalid..
+        ///   Looks up a localized string similar to Queue name &apos;{0}&apos; is invalid. Valid names start and end with a lower case letter or a number and has in between a lower case letter, number or dash with no consecutive dashes and is 3 through 63 characters long..
         /// </summary>
         internal static string InvalidQueueName {
             get {
@@ -772,7 +772,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Table name &apos;{0}&apos; is invalid..
+        ///   Looks up a localized string similar to Table name &apos;{0}&apos; is invalid. Valid names are case insensitive, start with a letter and is followed by letters or numbers and is 3 through 63 characters long..
         /// </summary>
         internal static string InvalidTableName {
             get {

@@ -105,9 +105,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             T item = default(T);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (Stream s = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (TextReader reader = new StreamReader(fileName, true))
             {
-                try { item = (T)xmlSerializer.Deserialize(s); }
+                try { item = (T)xmlSerializer.Deserialize(reader); }
                 catch
                 {
                     if (!string.IsNullOrEmpty(exceptionMessage))
@@ -130,9 +130,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             Validate.ValidateStringIsNullOrEmpty(fileName, string.Empty);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (Stream stream = new FileStream(fileName, FileMode.Create))
+            Encoding encoding = GetFileEncoding(fileName);
+            using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
             {
-                xmlSerializer.Serialize(stream, obj);
+                xmlSerializer.Serialize(writer, obj);
             }
         }
 
@@ -257,41 +258,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             store.Open(OpenFlags.ReadWrite);
             store.Remove(certificate);
             store.Close();
-        }
-
-        public static string BuildConnectionString(
-            string defaultEndpointsProtocol,
-            string accountName,
-            string accountKey,
-            string blobEndpoint,
-            string tableEndpoint,
-            string queueEndpoint)
-        {
-            var connectionString = new StringBuilder();
-
-            connectionString.AppendFormat(
-                CultureInfo.InvariantCulture,
-                "DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2}",
-                defaultEndpointsProtocol ?? "http",
-                accountName,
-                accountKey);
-
-            if (!string.IsNullOrEmpty(blobEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";BlobEndpoint={0}", blobEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(tableEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";TableEndpoint={0}", tableEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(queueEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";QueueEndpoint={0}", queueEndpoint);
-            }
-
-            return connectionString.ToString();
         }
 
         /// <summary>
@@ -895,6 +861,41 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 // can't parse JSON, return the original string
                 return str;
             }
+        }
+
+        public static Encoding GetFileEncoding(string path)
+        {
+            Encoding encoding;
+
+
+            if (File.Exists(path))
+            {
+                using (StreamReader r = new StreamReader(path, true))
+                {
+                    encoding = r.CurrentEncoding;
+                }
+            }
+            else
+            {
+                encoding = Encoding.Default;
+            }
+
+            return encoding;
+        }
+
+        /// <summary>
+        /// Creates https endpoint from the given endpoint.
+        /// </summary>
+        /// <param name="endpointUri">The endpoint uri.</param>
+        /// <returns>The https endpoint uri.</returns>
+        public static Uri CreateHttpsEndpoint(string endpointUri)
+        {
+            UriBuilder builder = new UriBuilder(endpointUri) { Scheme = "https" };
+            string endpoint = builder.Uri.GetComponents(
+                UriComponents.AbsoluteUri & ~UriComponents.Port,
+                UriFormat.UriEscaped);
+            
+            return new Uri(endpoint);
         }
     }
 }

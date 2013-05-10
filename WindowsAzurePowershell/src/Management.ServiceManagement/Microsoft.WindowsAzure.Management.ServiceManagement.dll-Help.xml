@@ -13325,14 +13325,14 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
-            <maml:para>Specifies the  name of the storage account to be updated.</maml:para>
+            <maml:para>Specifies the name of the storage account to be updated.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Description</maml:name>
           <maml:description>
-            <maml:para>Specifies a description for the storage account. The description may be up to 1024 characters in length. You must specify either a label or a description, or both.</maml:para>
+            <maml:para>Specifies a description for the storage account. The description may be up to 1024 characters in length.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13346,7 +13346,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Label</maml:name>
           <maml:description>
-            <maml:para>Specifies a label for the storage account. The label may be up to 100 characters in length. You must specify either a label or a description, or both.</maml:para>
+            <maml:para>Specifies a label for the storage account. The label may be up to 100 characters in length.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13357,7 +13357,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Description</maml:name>
         <maml:description>
-          <maml:para>Specifies a description for the storage account. The description may be up to 1024 characters in length. You must specify either a label or a description, or both.</maml:para>
+          <maml:para>Specifies a description for the storage account. The description may be up to 1024 characters in length.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -13383,7 +13383,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Label</maml:name>
         <maml:description>
-          <maml:para>Specifies a label for the storage account. The label may be up to 100 characters in length. You must specify either a label or a description, or both.</maml:para>
+          <maml:para>Specifies a label for the storage account. The label may be up to 100 characters in length.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -13396,7 +13396,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>StorageAccountName</maml:name>
         <maml:description>
-          <maml:para>Specifies the  name of the storage account to be updated.</maml:para>
+          <maml:para>Specifies the name of the storage account to be updated.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>

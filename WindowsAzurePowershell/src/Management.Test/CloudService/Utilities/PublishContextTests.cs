@@ -30,21 +30,23 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class DeploymentSettingsTests : TestBase
+    public class PublishContextTests : TestBase
     {
-        static AzureServiceWrapper service;
+        private static AzureServiceWrapper service;
 
-        static string packagePath;
+        private static string packagePath;
 
-        static string configPath;
+        private static string configPath;
 
-        static ServiceSettings settings;
+        private static ServiceSettings settings;
 
-        string serviceName;
+        private string serviceName;
 
-        MockCommandRuntime mockCommandRuntime;
+        private string rootPath = "serviceRootPath";
 
-        ImportAzurePublishSettingsCommand importCmdlet;
+        private MockCommandRuntime mockCommandRuntime;
+
+        private ImportAzurePublishSettingsCommand importCmdlet;
 
         /// <summary>
         /// When running this test double check that the certificate used in Azure.PublishSettings has not expired.
@@ -85,9 +87,15 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             string label = "MyLabel";
             string deploymentName = service.ServiceName;
             settings.Subscription = "TestSubscription2";
-            DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, configPath, label, deploymentName);
+            PublishContext deploySettings = new PublishContext(
+                settings,
+                packagePath,
+                configPath,
+                label,
+                deploymentName,
+                rootPath);
 
-            AzureAssert.AreEqualDeploymentSettings(settings, configPath, deploymentName, label, packagePath, "f62b1e05-af8f-4205-8f98-325079adc155", deploySettings);
+            AzureAssert.AreEqualPublishContext(settings, configPath, deploymentName, label, packagePath, "f62b1e05-af8f-4205-8f98-325079adc155", deploySettings);
         }
 
         [TestMethod]
@@ -96,9 +104,22 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             string label = "MyLabel";
             string deploymentName = service.ServiceName;
             ServiceSettings fullSettings = ServiceSettingsTestData.Instance.Data[ServiceSettingsState.Sample1];
-            DeploymentSettings deploySettings = new DeploymentSettings(fullSettings, packagePath, configPath, label, deploymentName);
+            PublishContext deploySettings = new PublishContext(
+                fullSettings,
+                packagePath,
+                configPath,
+                label,
+                deploymentName,
+                rootPath);
 
-            AzureAssert.AreEqualDeploymentSettings(fullSettings, configPath, deploymentName, label, packagePath, "f62b1e05-af8f-4205-8f98-325079adc155", deploySettings);
+            AzureAssert.AreEqualPublishContext(
+                fullSettings,
+                configPath,
+                deploymentName,
+                label,
+                packagePath,
+                "f62b1e05-af8f-4205-8f98-325079adc155",
+                deploySettings);
         }
 
         [TestMethod]
@@ -109,7 +130,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             try
             {
-                DeploymentSettings deploySettings = new DeploymentSettings(null, packagePath, configPath, label, deploymentName);
+                PublishContext deploySettings = new PublishContext(
+                    null,
+                    packagePath,
+                    configPath,
+                    label,
+                    deploymentName,
+                    rootPath);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
@@ -128,9 +155,15 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             string label = "MyLabel";
             string deploymentName = service.ServiceName;
-            string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, "package");
+            string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, "packagePath");
 
-            Testing.AssertThrows<ArgumentException>(() => new DeploymentSettings(settings, string.Empty, configPath, label, deploymentName), expectedMessage);
+            Testing.AssertThrows<ArgumentException>(() => new PublishContext(
+                settings,
+                string.Empty,
+                configPath,
+                label,
+                deploymentName,
+                rootPath), expectedMessage);
         }
 
         [TestMethod]
@@ -138,20 +171,15 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             string label = "MyLabel";
             string deploymentName = service.ServiceName;
-            string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, "package");
+            string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, "packagePath");
 
-            Testing.AssertThrows<ArgumentException>(() => new DeploymentSettings(settings, null, configPath, label, deploymentName), expectedMessage);
-        }
-
-        [TestMethod]
-        public void TestDeploymentSettingsTestDoesNotPackagePathFail()
-        {
-            string label = "MyLabel";
-            string deploymentName = service.ServiceName;
-            string doesNotExistDir = Path.Combine(Directory.GetCurrentDirectory(), "qewindw443298.txt");
-            string expectedMessage = string.Format(Resources.PathDoesNotExistForElement, Resources.Package, doesNotExistDir);
-
-            Testing.AssertThrows<FileNotFoundException>(() => new DeploymentSettings(settings, doesNotExistDir, configPath, label, deploymentName), expectedMessage);
+            Testing.AssertThrows<ArgumentException>(() => new PublishContext(
+                settings,
+                null,
+                configPath,
+                label,
+                deploymentName,
+                rootPath), expectedMessage);
         }
 
         #endregion
@@ -165,7 +193,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             string deploymentName = service.ServiceName;
             string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.ServiceConfiguration);
 
-            Testing.AssertThrows<ArgumentException>(() => new DeploymentSettings(settings, packagePath, string.Empty, label, deploymentName), expectedMessage);
+            Testing.AssertThrows<ArgumentException>(() => new PublishContext(
+                settings,
+                packagePath,
+                string.Empty,
+                label,
+                deploymentName,
+                rootPath), expectedMessage);
         }
 
         [TestMethod]
@@ -175,7 +209,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             string deploymentName = service.ServiceName;
             string expectedMessage = string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.ServiceConfiguration);
 
-            Testing.AssertThrows<ArgumentException>(() => new DeploymentSettings(settings, packagePath, null, label, deploymentName), expectedMessage);
+            Testing.AssertThrows<ArgumentException>(() => new PublishContext(
+                settings,
+                packagePath,
+                null,
+                label,
+                deploymentName,
+                rootPath), expectedMessage);
         }
 
         [TestMethod]
@@ -187,7 +227,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             try
             {
-                DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, doesNotExistDir, label, deploymentName);
+                PublishContext deploySettings = new PublishContext(
+                    settings,
+                    packagePath,
+                    doesNotExistDir,
+                    label,
+                    deploymentName,
+                    rootPath);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
@@ -202,72 +248,27 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         #region label
 
         [TestMethod]
-        public void TestDeploymentSettingsTestEmptyLabelFail()
-        {
-            string deploymentName = service.ServiceName;
-
-            try
-            {
-                DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, configPath, string.Empty, deploymentName);
-                Assert.Fail("No exception was thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
-                Assert.IsTrue(string.Compare(string.Format(Resources.InvalidOrEmptyArgumentMessage, "Label"), ex.Message, true) == 0);
-            }
-        }
-
-        [TestMethod]
         public void TestDeploymentSettingsTestNullLabelFail()
         {
             string deploymentName = service.ServiceName;
 
             try
             {
-                DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, configPath, null, deploymentName);
+                PublishContext deploySettings = new PublishContext(
+                    settings,
+                    packagePath,
+                    configPath,
+                    null,
+                    deploymentName,
+                    rootPath);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
             {
                 Assert.IsInstanceOfType(ex, typeof(ArgumentException));
-                Assert.IsTrue(string.Compare(string.Format(Resources.InvalidOrEmptyArgumentMessage, "Label"), ex.Message, true) == 0);
-            }
-        }
-
-        #endregion
-
-        #region deploymentName
-
-        [TestMethod]
-        public void TestDeploymentSettingsTestEmptyDeploymentNameFail()
-        {
-            try
-            {
-                DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, configPath, service.ServiceName, string.Empty);
-                Assert.Fail("No exception was thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
-                Assert.IsTrue(string.Compare(string.Format(Resources.InvalidOrEmptyArgumentMessage, "Deployment name"), ex.Message, true) == 0);
-            }
-        }
-
-        [TestMethod]
-        public void TestDeploymentSettingsTestNullDeploymentFail()
-        {
-            string deploymentName = service.ServiceName;
-
-            try
-            {
-                DeploymentSettings deploySettings = new DeploymentSettings(settings, packagePath, configPath, service.ServiceName, null);
-                Assert.Fail("No exception was thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
-                Assert.IsTrue(string.Compare(string.Format(Resources.InvalidOrEmptyArgumentMessage, "Deployment name"), ex.Message, true) == 0);
+                Assert.IsTrue(string.Compare(
+                    string.Format(Resources.InvalidOrEmptyArgumentMessage,
+                    "serviceName"), ex.Message, true) == 0);
             }
         }
 

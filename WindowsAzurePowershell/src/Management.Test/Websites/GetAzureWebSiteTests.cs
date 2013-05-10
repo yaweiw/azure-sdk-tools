@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = "website1",
                 WebsitesClient = new Mock<IWebsitesClient>().Object
             };
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                    return new Site { Name = "website1", WebSpace = "webspace1", State = "Running" };
                 }
 
                 return new Site { Name = "website2", WebSpace = "webspace2" };
@@ -216,10 +216,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", State = "Running" } });
                 }
 
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2", State = "Running" } });
             };
 
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
@@ -227,7 +227,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = "website1",
                 WebsitesClient = websitesClientMock.Object
             };
@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
 
             // Assert
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
-            websitesClientMock.Verify(f => f.GetDiagnosticsSettings("website1"), Times.Once());
+            websitesClientMock.Verify(f => f.GetApplicationDiagnosticsSettings("website1"), Times.Once());
         }
     }
 }
