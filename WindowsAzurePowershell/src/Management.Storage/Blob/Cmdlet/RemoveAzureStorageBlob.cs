@@ -24,8 +24,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
 
-    [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet),
-        OutputType(typeof(AzureStorageBlob))]
+    [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
+        OutputType(typeof(Boolean))]
     public class RemoveStorageAzureBlobCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private bool force = false;
 
-        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified blob is successfully removed")]
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>

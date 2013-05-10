@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
 {
+    using System;
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using Services.Github;
@@ -21,8 +22,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
     public interface IGithubCmdlet
     {
         IGithubServiceManagement GithubChannel { get; set; }
+        
         bool ShareChannel { get; set; }
+        
         InvocationInfo MyInvocation { get; }
+        
         PSHost Host { get; }
+
+        Action<string> GetLogger();
     }
 }

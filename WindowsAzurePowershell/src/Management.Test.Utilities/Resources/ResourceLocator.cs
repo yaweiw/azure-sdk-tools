@@ -1,5 +1,4 @@
 ﻿// ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +11,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Resources
 {
-    using ServiceManagement;
-
-    internal interface IPublishListener
+    /// <summary>
+    /// A dummy class used to located the resources in this folder/namespace.
+    /// </summary>
+    public class ResourceLocator
     {
-        void OnPublish(IServiceManagement channel, AzureService service, ServiceSettings publishSettings, string subscriptionId);
     }
 }
