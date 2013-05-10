@@ -233,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             Uri uri = SafeGetUri(endpoint);
 
             string endPointSignature = "core."; //blob.core.windows.net
-            int index = uri.Authority.ToLower().IndexOf(endPointSignature);
+            int index = uri.Authority.ToLower().LastIndexOf(endPointSignature);
 
             if (index != -1)
             {
