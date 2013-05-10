@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
         
 
-        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = true)
+        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
             string dateSuffix = "";
             if (includeDate)
