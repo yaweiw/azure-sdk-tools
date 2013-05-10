@@ -1136,18 +1136,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound1 {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound1 {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound1", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound1", resourceCulture);
             }
         }
         

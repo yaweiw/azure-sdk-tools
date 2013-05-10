@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             Resources.AzureDirectoryName);
 
         /// <summary>
-        /// Path to the global settings directory used by GlobalComponents.
+        /// Path to the global settings directory used by GlobalSettingsManager.
         /// </summary>
         private static string _globalSettingsDirectory;
 

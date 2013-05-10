@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GlobalComponentsTests
+    public class GlobalSettingsManagerTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadExisting()
+        public void GlobalSettingsManagerLoadExisting()
         {
             for (var i = 0; i < Data.ValidPublishSettings.Count; i++)
             {
@@ -51,20 +51,20 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
 
                 // Prepare
                 new ImportAzurePublishSettingsCommand().ImportSubscriptionFile(publishSettingsFile, null);
-                GlobalComponents globalComponents = GlobalComponents.Load(Data.AzureAppDir);
+                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(Data.AzureAppDir);
                 PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(Data.AzureAppDir, Resources.PublishSettingsFileName));
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsFile);
 
                 // Assert
-                AzureAssert.AreEqualGlobalComponents(new GlobalPathInfo(Data.AzureAppDir), expectedPublishSettings, globalComponents);
+                AzureAssert.AreEqualGlobalSettingsManager(new GlobalPathInfo(Data.AzureAppDir), expectedPublishSettings, globalSettingsManager);
                 
                 // Clean
-                globalComponents.DeleteGlobalComponents();
+                globalSettingsManager.DeleteGlobalSettingsManager();
             }
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadIgnoresPublishExisting()
+        public void GlobalSettingsManagerLoadIgnoresPublishExisting()
         {
             var publishSettingsFile = Data.ValidPublishSettings.First();
             var subscriptionDataFile = Data.ValidSubscriptionsData.First();
@@ -72,46 +72,46 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             File.Copy(subscriptionDataFile, outputSubscriptionDataFile);
 
             // Create with both an existing ouput subscription data file and the publish settings file
-            GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, outputSubscriptionDataFile, publishSettingsFile);
-            Assert.AreEqual(6, globalComponents.Subscriptions.Count);
+            GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, outputSubscriptionDataFile, publishSettingsFile);
+            Assert.AreEqual(6, globalSettingsManager.Subscriptions.Count);
 
             // Remove one of the subscriptions from the publish settings file
-            globalComponents.Subscriptions.Remove("TestSubscription1");
-            globalComponents.SaveSubscriptions();
+            globalSettingsManager.Subscriptions.Remove("TestSubscription1");
+            globalSettingsManager.SaveSubscriptions();
 
             // Load and make sure the subscription is still gone although it still is in the publish settings file
-            globalComponents = GlobalComponents.Load(Data.AzureAppDir, outputSubscriptionDataFile);
-            Assert.AreEqual(5, globalComponents.Subscriptions.Count);
+            globalSettingsManager = GlobalSettingsManager.Load(Data.AzureAppDir, outputSubscriptionDataFile);
+            Assert.AreEqual(5, globalSettingsManager.Subscriptions.Count);
 
             // Clean
-            globalComponents.DeleteGlobalComponents();
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNew()
+        public void GlobalSettingsManagerCreateNew()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
                 // Prepare
-                GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, null, fileName);
+                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, null, fileName);
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(fileName);
 
                 // Assert
-                AzureAssert.AreEqualGlobalComponents(new GlobalPathInfo(Data.AzureAppDir), expectedPublishSettings, globalComponents);
+                AzureAssert.AreEqualGlobalSettingsManager(new GlobalPathInfo(Data.AzureAppDir), expectedPublishSettings, globalSettingsManager);
 
                 // Clean
-                globalComponents.DeleteGlobalComponents();
+                globalSettingsManager.DeleteGlobalSettingsManager();
             }
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewEmptyAzureDirectoryFail()
+        public void GlobalSettingsManagerCreateNewEmptyAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidSubscriptionsData)
             {
                 try
                 {
-                    GlobalComponents.Load(string.Empty, fileName);
+                    GlobalSettingsManager.Load(string.Empty, fileName);
                     Assert.Fail("No exception thrown");
                 }
                 catch (Exception ex)
@@ -124,13 +124,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewNullAzureDirectoryFail()
+        public void GlobalSettingsManagerCreateNewNullAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidSubscriptionsData)
             {
                 try
                 {
-                    GlobalComponents.Load(null, fileName);
+                    GlobalSettingsManager.Load(null, fileName);
                     Assert.Fail("No exception thrown");
                 }
                 catch (Exception ex)
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewInvalidAzureDirectoryFail()
+        public void GlobalSettingsManagerCreateNewInvalidAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                 {
                     try
                     {
-                        GlobalComponents.Load(invalidDirectoryName, fileName);
+                        GlobalSettingsManager.Load(invalidDirectoryName, fileName);
                         Assert.Fail("No exception thrown");
                     }
                     catch (Exception ex)
@@ -164,13 +164,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewInvalidPublishSettingsSchemaFail()
+        public void GlobalSettingsManagerCreateNewInvalidPublishSettingsSchemaFail()
         {
             foreach (string fileName in Data.InvalidPublishSettings)
             {
                 try
                 {
-                    GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, null, fileName);
+                    GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, null, fileName);
                     Assert.Fail("No exception thrown");
                 }
                 catch (Exception ex)
@@ -183,32 +183,32 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadExistingEmptyAzureDirectoryFail()
+        public void GlobalSettingsManagerLoadExistingEmptyAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
                 try
                 {
-                    GlobalComponents.Load("fake");
+                    GlobalSettingsManager.Load("fake");
                     Assert.Fail("No exception thrown");
                 }
                 catch (Exception ex)
                 {
                     Assert.IsTrue(ex is FileNotFoundException);
-                    Assert.AreEqual<string>(ex.Message, Resources.GlobalComponents_Load_PublishSettingsNotFound);
+                    Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
                     Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
                 }
             }
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadExistingNullAzureDirectoryFail()
+        public void GlobalSettingsManagerLoadExistingNullAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
                 try
                 {
-                    GlobalComponents.Load(null);
+                    GlobalSettingsManager.Load(null);
                     Assert.Fail("No exception thrown");
                 }
                 catch (Exception ex)
@@ -221,7 +221,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadExistingInvalidDirectoryNameAzureDirectoryFail()
+        public void GlobalSettingsManagerLoadExistingInvalidDirectoryNameAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                 {
                     try
                     {
-                        GlobalComponents.Load(invalidDirectoryName);
+                        GlobalSettingsManager.Load(invalidDirectoryName);
                         Assert.Fail("No exception thrown");
                     }
                     catch (Exception ex)
@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadDoesNotExistAzureDirectoryFail()
+        public void GlobalSettingsManagerLoadDoesNotExistAzureDirectoryFail()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
@@ -251,13 +251,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                 {
                     try
                     {
-                        GlobalComponents.Load("DoesNotExistDirectory");
+                        GlobalSettingsManager.Load("DoesNotExistDirectory");
                         Assert.Fail("No exception thrown");
                     }
                     catch (Exception ex)
                     {
                         Assert.IsTrue(ex is FileNotFoundException);
-                        Assert.AreEqual<string>(ex.Message, Resources.GlobalComponents_Load_PublishSettingsNotFound);
+                        Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
                         Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
                     }
                 }
@@ -265,11 +265,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewEmptyPublishSettingsFileFail()
+        public void GlobalSettingsManagerCreateNewEmptyPublishSettingsFileFail()
         {
             try
             {
-                GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, null, string.Empty);
+                GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, null, string.Empty);
                 Assert.Fail("No exception thrown");
             }
             catch (Exception ex)
@@ -281,11 +281,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewNullPublishSettingsFileFail()
+        public void GlobalSettingsManagerCreateNewNullPublishSettingsFileFail()
         {
             try
             {
-                GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, null, null);
+                GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, null, null);
                 Assert.Fail("No exception thrown");
             }
             catch (Exception ex)
@@ -297,7 +297,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalComponentsCreateNewInvalidPublishSettingsFileFail()
+        public void GlobalSettingsManagerCreateNewInvalidPublishSettingsFileFail()
         {
             foreach (string invalidFileName in Data.InvalidFileName)
             {
@@ -307,18 +307,18 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                     Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
                 };
 
-                Testing.AssertThrows<ArgumentException>(() => GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, null, invalidFileName), verification);
+                Testing.AssertThrows<ArgumentException>(() => GlobalSettingsManager.CreateFromPublishSettings(Data.AzureAppDir, null, invalidFileName), verification);
             }
         }
 
         [TestMethod]
-        public void GlobalComponentsLoadInvalidPublishSettingsSchemaFail()
+        public void GlobalSettingsManagerLoadInvalidPublishSettingsSchemaFail()
         {
             Testing.AssertThrows<FileNotFoundException>(
-                () => GlobalComponents.Load("DoesNotExistDirectory"),
+                () => GlobalSettingsManager.Load("DoesNotExistDirectory"),
                 ex =>
                 {
-                    Assert.AreEqual<string>(ex.Message, Resources.GlobalComponents_Load_PublishSettingsNotFound);
+                    Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
                     Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
                 });
         }
@@ -327,7 +327,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         public void GetsTheAvailableEnvironments()
         {
             // Test
-            Dictionary<string, WindowsAzureEnvironment> actual = GlobalComponents.Instance.Environments;
+            Dictionary<string, WindowsAzureEnvironment> actual = GlobalSettingsManager.Instance.Environments;
 
             // Assert
             Assert.AreEqual(2, actual.Count);
@@ -344,7 +344,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             string expected = EnvironmentPortalEndpoint.Azure;
 
             // Test
-            string actual = GlobalComponents.Instance.GetPublishSettingsFile();
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile();
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -359,7 +359,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
             
             // Test
-            string actual = GlobalComponents.Instance.GetPublishSettingsFile(realm: realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(realm: realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);
@@ -368,7 +368,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         [TestMethod]
         public void GetPublishSettingsFileUrlUsingNonExistingEnvironmentFail()
         {
-            Testing.AssertThrows<KeyNotFoundException>(() => GlobalComponents.Instance.GetPublishSettingsFile("no"));
+            Testing.AssertThrows<KeyNotFoundException>(() => GlobalSettingsManager.Instance.GetPublishSettingsFile("no"));
         }
 
         [TestMethod]
@@ -380,7 +380,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
-            string actual = GlobalComponents.Instance.GetPublishSettingsFile(EnvironmentName.China, realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(EnvironmentName.China, realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);
@@ -395,7 +395,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
-            string actual = GlobalComponents.Instance.GetPublishSettingsFile("cHiNa", realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile("cHiNa", realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);

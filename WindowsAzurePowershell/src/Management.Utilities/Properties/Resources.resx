@@ -468,10 +468,10 @@
   <data name="GetStorageKeysHeader" xml:space="preserve">
     <value>Name{0}Primary Key{0}Seconday Key</value>
   </data>
-  <data name="GlobalComponents_Load_PublishSettingsNotFound" xml:space="preserve">
+  <data name="GlobalSettingsManager_Load_PublishSettingsNotFound" xml:space="preserve">
     <value>Could not find publish settings. Please run Import-AzurePublishSettingsFile.</value>
   </data>
-  <data name="GlobalComponents_Load_PublishSettingsNotFound1" xml:space="preserve">
+  <data name="GlobalSettingsManager_Load_PublishSettingsNotFound1" xml:space="preserve">
     <value>Could not find publish settings. Please run Import-AzurePublishSettingsFile.</value>
   </data>
   <data name="IISNodeDll" xml:space="preserve">

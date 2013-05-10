@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            WriteObject(GlobalComponents.Instance.Environments.Values, true);
+            WriteObject(GlobalSettingsManager.Instance.Environments.Values, true);
         }
     }
 }
