@@ -12,22 +12,35 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Subscription
+namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
     using System.Management.Automation;
-    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Moq;
+    using VisualStudio.TestTools.UnitTesting;
 
-    /// <summary>
-    /// Gets the available Windows Azure environments.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureEnvironment")]
-    public class GetAzureEnvironmentCommand : CmdletBase
+    [TestClass]
+    public class GetAzurePublishSettingsFileTests
     {
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public override void ExecuteCmdlet()
+        [TestMethod]
+        public void GetsPublishSettingsFileUrl()
         {
-            WriteObject(GlobalSettingsManager.Instance.Environments.Values, true);
+            // Setup
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            GetAzurePublishSettingsFileCommand cmdlet = new GetAzurePublishSettingsFileCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                PassThru = true,
+                Environment = EnvironmentName.Azure,
+                Realm = "microsoft.com"
+            };
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
     }
 }

@@ -204,7 +204,7 @@
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\SubscriptionData.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
-    <Compile Include="Common\GlobalComponents.cs" />
+    <Compile Include="Common\GlobalSettingsManager.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
     <Compile Include="Common\ISessionManager.cs" />
     <Compile Include="Common\ISubscriptionsManager.cs" />
