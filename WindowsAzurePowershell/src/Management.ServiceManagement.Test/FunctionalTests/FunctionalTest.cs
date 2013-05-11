@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 try
                 {
-                    CopyTestData("testdata", "oneGBFixedWS2008R2.vhd", vhdContainerName, vhdName);
+                    CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdName);
                 }
                 catch (Exception e)
                 {
