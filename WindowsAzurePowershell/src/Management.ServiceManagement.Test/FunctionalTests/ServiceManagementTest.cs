@@ -36,6 +36,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string username = "pstestuser";
         protected static string localFile = Resource.Vhd;
         protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
+        protected const string testDataContainer = "testdata";
+        protected const string osVhdName = "oneGBFixedWS2008R2.vhd";
 
         // Test cleanup settings
         protected const bool deleteDefaultStorageAccount = false; // Temporarily set to false
