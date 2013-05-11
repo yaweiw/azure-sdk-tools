@@ -43,9 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             get { return SubscriptionManager.Subscriptions; }
         }
 
-        public Dictionary<string, WindowsAzureEnvironment> Environments;
-
-        public string CurrentEnvironment { get; set; }
+        public WindowsAzureEnvironment DefaultEnvironment { get; set; }
 
         protected GlobalSettingsManager(string azurePath)
             : this(azurePath, null)
@@ -55,10 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         protected GlobalSettingsManager(string azurePath, string subscriptionsDataFile)
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
-            Environments = new Dictionary<string, WindowsAzureEnvironment>(
-                WindowsAzureEnvironment.PublicEnvironments,
-                StringComparer.OrdinalIgnoreCase);
-            CurrentEnvironment = EnvironmentName.Azure;
+            DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
         }
 
         public static GlobalSettingsManager CreateFromPublishSettings(
@@ -279,16 +274,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public string GetPublishSettingsFile(string environment = null, string realm = null)
         {
             // If no environment provided assume using the current environment.
-            environment = string.IsNullOrEmpty(environment) ? CurrentEnvironment : environment;
+            environment = string.IsNullOrEmpty(environment) ? DefaultEnvironment.Name : environment;
+            WindowsAzureEnvironment environmentObject = GetEnvironment(environment);
+            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PortalEndpoint));
 
-            if (!Environments.ContainsKey(environment))
-            {
-                throw new KeyNotFoundException(environment);
-            }
-
-            Debug.Assert(!string.IsNullOrEmpty(Environments[environment].PortalEndpoint));
-
-            StringBuilder publishSettingsUrl = new StringBuilder(Environments[environment].PortalEndpoint);
+            StringBuilder publishSettingsUrl = new StringBuilder(environmentObject.PortalEndpoint);
 
             if (!string.IsNullOrEmpty(realm))
             {
@@ -296,6 +286,31 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
 
             return publishSettingsUrl.ToString();
+        }
+
+        /// <summary>
+        /// Gets the environment instance by name.
+        /// </summary>
+        /// <param name="environmentName">The environment name</param>
+        /// <returns>The environment instance</returns>
+        public WindowsAzureEnvironment GetEnvironment(string environmentName)
+        {
+            WindowsAzureEnvironment environment;
+            if (!WindowsAzureEnvironment.PublicEnvironments.TryGetValue(environmentName, out environment))
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, environmentName));
+            }
+
+            return environment;
+        }
+
+        /// <summary>
+        /// Gets list if all available Windows Azure environments.
+        /// </summary>
+        /// <returns>The windows azure environments list</returns>
+        public List<WindowsAzureEnvironment> GetEnvironments()
+        {
+            return WindowsAzureEnvironment.PublicEnvironments.Values.ToList();
         }
     }
 }

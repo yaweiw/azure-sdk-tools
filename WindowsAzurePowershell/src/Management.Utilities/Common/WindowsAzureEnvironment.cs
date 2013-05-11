@@ -29,6 +29,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// </summary>
         public string PortalEndpoint { get; set; }
 
+        public string ServiceEndpoint { get; set; }
+
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {
             get { return environments; }
@@ -36,14 +38,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         private static Dictionary<string, WindowsAzureEnvironment> environments = 
-            new Dictionary<string, WindowsAzureEnvironment>()
+            new Dictionary<string, WindowsAzureEnvironment>(StringComparer.InvariantCultureIgnoreCase)
         {
             {
                 EnvironmentName.Azure,
                 new WindowsAzureEnvironment()
                 {
                     Name = EnvironmentName.Azure,
-                    PortalEndpoint = EnvironmentPortalEndpoint.Azure
+                    PortalEndpoint = WindowsAzureEnvironmentConstants.AzurePortalUrl,
+                    ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint
                 }
             },
             {
@@ -51,23 +54,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 new WindowsAzureEnvironment()
                 {
                     Name = EnvironmentName.China,
-                    PortalEndpoint = EnvironmentPortalEndpoint.China
+                    PortalEndpoint = WindowsAzureEnvironmentConstants.ChinaPortalUrl,
+                    ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint
                 }
             }
         };
-    }
-
-    class EnvironmentName
-    {
-        public const string Azure = "Azure";
-
-        public const string China = "China";
-    }
-
-    class EnvironmentPortalEndpoint
-    {
-        public const string Azure = "https://manage.windowsazure.com/publishsettings/index/";
-
-        public const string China = "https://manage.windowsazure.cn/publishsettings/index/";
     }
 }

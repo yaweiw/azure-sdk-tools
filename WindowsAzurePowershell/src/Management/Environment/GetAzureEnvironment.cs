@@ -14,20 +14,21 @@
 
 namespace Microsoft.WindowsAzure.Management.Subscription
 {
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using System.Collections.Generic;
+using System.Management.Automation;
+using System.Security.Permissions;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets the available Windows Azure environments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureEnvironment")]
+    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>))]
     public class GetAzureEnvironmentCommand : CmdletBase
     {
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            WriteObject(GlobalSettingsManager.Instance.Environments.Values, true);
+            WriteObject(GlobalSettingsManager.Instance.GetEnvironments(), true);
         }
     }
 }

@@ -93,4 +93,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public static readonly MediaTypeWithQualityHeaderValue XmlMediaType =
             MediaTypeWithQualityHeaderValue.Parse("application/xml");
     }
+
+    public static class EnvironmentName
+    {
+        public const string Azure = "Azure";
+
+        public const string China = "China";
+    }
+
+    public static class WindowsAzureEnvironmentConstants
+    {
+        public const string AzureServiceEndpoint = "https://management.core.windows.net/";
+
+        public const string ChinaServiceEndpoint = "https://management.core.chinacloudapi.cn/";
+
+        public const string AzurePortalUrl = "https://manage.windowsazure.com/publishsettings/index/";
+
+        public const string ChinaPortalUrl = "https://manage.windowsazure.cn/publishsettings/index/";
+    }
 }
