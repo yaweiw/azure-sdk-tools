@@ -28,6 +28,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public class GlobalSettingsManager
     {
+        private Dictionary<string, WindowsAzureEnvironment> environments;
+
         public GlobalPathInfo GlobalPaths { get; private set; }
 
         public PublishData PublishSettings { get; private set; }
@@ -54,6 +56,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
             DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
+            environments = new Dictionary<string, WindowsAzureEnvironment>(
+                WindowsAzureEnvironment.PublicEnvironments,
+                StringComparer.InvariantCultureIgnoreCase);
         }
 
         public static GlobalSettingsManager CreateFromPublishSettings(
@@ -296,7 +301,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public WindowsAzureEnvironment GetEnvironment(string environmentName)
         {
             WindowsAzureEnvironment environment;
-            if (!WindowsAzureEnvironment.PublicEnvironments.TryGetValue(environmentName, out environment))
+            if (!environments.TryGetValue(environmentName, out environment))
             {
                 throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, environmentName));
             }
@@ -310,7 +315,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The windows azure environments list</returns>
         public List<WindowsAzureEnvironment> GetEnvironments()
         {
-            return WindowsAzureEnvironment.PublicEnvironments.Values.ToList();
+            return environments.Values.ToList();
         }
     }
 }
