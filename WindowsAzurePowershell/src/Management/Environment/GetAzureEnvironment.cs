@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System.Collections.Generic;
-using System.Management.Automation;
-using System.Security.Permissions;
-using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using System.Management.Automation;
+    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets the available Windows Azure environments.
