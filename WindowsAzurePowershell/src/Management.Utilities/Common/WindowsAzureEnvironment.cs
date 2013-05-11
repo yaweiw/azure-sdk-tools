@@ -29,8 +29,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// </summary>
         public string PortalEndpoint { get; set; }
 
+        /// <summary>
+        /// The service management RDFE endpoint.
+        /// </summary>
         public string ServiceEndpoint { get; set; }
 
+        /// <summary>
+        /// Predefined Windows Azure environments
+        /// </summary>
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {
             get { return environments; }
