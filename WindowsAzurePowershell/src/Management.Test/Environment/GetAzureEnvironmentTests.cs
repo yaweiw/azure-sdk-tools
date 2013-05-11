@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(
-                f => f.WriteObject(GlobalComponents.Instance.Environments.Values, true),
+                f => f.WriteObject(GlobalSettingsManager.Instance.Environments.Values, true),
                 Times.Once());
         }
     }
