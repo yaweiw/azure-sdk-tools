@@ -1284,4 +1284,7 @@ Please follow these steps in the portal:
   <data name="RealmFormat" xml:space="preserve">
     <value>?whr={0}</value>
   </data>
+  <data name="EnvironmentNotFound" xml:space="preserve">
+    <value>The environment name '{0}' is not found.</value>
+  </data>
 </root>

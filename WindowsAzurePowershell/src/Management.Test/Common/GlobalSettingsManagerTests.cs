@@ -327,21 +327,23 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         public void GetsTheAvailableEnvironments()
         {
             // Test
-            Dictionary<string, WindowsAzureEnvironment> actual = GlobalSettingsManager.Instance.Environments;
+            List<WindowsAzureEnvironment> actual = GlobalSettingsManager.Instance.GetEnvironments();
 
             // Assert
             Assert.AreEqual(2, actual.Count);
-            Assert.AreEqual(EnvironmentName.Azure, actual[EnvironmentName.Azure].Name);
-            Assert.AreEqual(EnvironmentName.China, actual[EnvironmentName.China].Name);
-            Assert.AreEqual(EnvironmentPortalEndpoint.Azure, actual[EnvironmentName.Azure].PortalEndpoint);
-            Assert.AreEqual(EnvironmentPortalEndpoint.China, actual[EnvironmentName.China].PortalEndpoint);
+            Assert.AreEqual(EnvironmentName.Azure, actual[0].Name);
+            Assert.AreEqual(EnvironmentName.China, actual[1].Name);
+            Assert.AreEqual(WindowsAzureEnvironmentConstants.AzurePortalUrl, actual[0].PortalEndpoint);
+            Assert.AreEqual(WindowsAzureEnvironmentConstants.ChinaPortalUrl, actual[1].PortalEndpoint);
+            Assert.AreEqual(WindowsAzureEnvironmentConstants.AzureServiceEndpoint, actual[0].ServiceEndpoint);
+            Assert.AreEqual(WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, actual[1].ServiceEndpoint);
         }
 
         [TestMethod]
         public void GetPublishSettingsFileUrlUsingDefaultEnvironment()
         {
             // Setup
-            string expected = EnvironmentPortalEndpoint.Azure;
+            string expected = WindowsAzureEnvironmentConstants.AzurePortalUrl;
 
             // Test
             string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile();
@@ -355,7 +357,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             // Setup
             string realmValue = "microsoft.com";
-            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.Azure);
+            StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.AzurePortalUrl);
             expected.AppendFormat(Resources.RealmFormat, realmValue);
             
             // Test
@@ -376,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             // Setup
             string realmValue = "microsoft.com";
-            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.China);
+            StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.ChinaPortalUrl);
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
@@ -391,7 +393,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             // Setup
             string realmValue = "microsoft.com";
-            StringBuilder expected = new StringBuilder(EnvironmentPortalEndpoint.China);
+            StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.ChinaPortalUrl);
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
