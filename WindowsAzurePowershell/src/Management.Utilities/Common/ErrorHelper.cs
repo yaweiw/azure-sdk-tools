@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             if (exception.Message == "Internal Server Error")
             {
                 httpStatusCode = HttpStatusCode.InternalServerError;
-                return true;
+                return false;
             }
 
             WebException wex = exception.InnerException as WebException;

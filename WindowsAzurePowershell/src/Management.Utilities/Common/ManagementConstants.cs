@@ -17,29 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Collections.Generic;
     using System.Net.Http.Headers;
 
-    public class ArgumentConstants
-    {
-        public static Dictionary<SlotType, string> Slots { get; private set; }
-
-        static ArgumentConstants()
-        {
-            Slots = new Dictionary<SlotType, string>()
-            {
-                { SlotType.Production, "production" },
-                { SlotType.Staging, "staging" }
-            };
-        }
-    }
-
     public class SDKVersion
     {
         public const string Version180 = "1.8.0";
-    }
-
-    public enum SlotType
-    {
-        Production,
-        Staging
     }
 
     public enum DevEnv
@@ -99,10 +79,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public const string CustomDomainsEnabledSettingsName = "CustomDomainsEnabled";
         public const string SslSupportSettingsName = "SslSupport";
 
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.13.1";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.14";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.6.13.1");
+            "v0.6.14");
     }
 
     public static class HttpConstants
@@ -112,5 +92,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static readonly MediaTypeWithQualityHeaderValue XmlMediaType =
             MediaTypeWithQualityHeaderValue.Parse("application/xml");
+    }
+
+    public static class EnvironmentName
+    {
+        public const string Azure = "Azure";
+
+        public const string China = "China";
+    }
+
+    public static class WindowsAzureEnvironmentConstants
+    {
+        public const string AzureServiceEndpoint = "https://management.core.windows.net/";
+
+        public const string ChinaServiceEndpoint = "https://management.core.chinacloudapi.cn/";
+
+        public const string AzurePortalUrl = "https://manage.windowsazure.com/publishsettings/index/";
+
+        public const string ChinaPortalUrl = "https://manage.windowsazure.cn/publishsettings/index/";
     }
 }
