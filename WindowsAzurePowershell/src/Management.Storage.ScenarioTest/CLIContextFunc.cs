@@ -145,13 +145,16 @@ namespace Management.Storage.ScenarioTest
         {
             string StorageAccountName = Test.Data.Get("StorageAccountName");
             string StorageAccountKey = Test.Data.Get("StorageAccountKey");
+            string StorageEndPoint = Test.Data.Get("StorageEndPoint");
 
             Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
+            bool useHttps = true; //default protocol is https
+            string[] endPoints = Utility.GetStorageEndPoints(StorageAccountName, useHttps, StorageEndPoint);
             comp.Add(new Dictionary<string, object>{
                 {"StorageAccountName", StorageAccountName},
-                {"BlobEndPoint", String.Format("https://{0}.blob.core.windows.net/", StorageAccountName)},
-                {"TableEndPoint", String.Format("https://{0}.table.core.windows.net/", StorageAccountName)},
-                {"QueueEndPoint", String.Format("https://{0}.queue.core.windows.net/", StorageAccountName)}
+                {"BlobEndPoint", endPoints[0]},
+                {"QueueEndPoint", endPoints[1]},
+                {"TableEndPoint", endPoints[2]}
             });
 
             //--------------New operation--------------
