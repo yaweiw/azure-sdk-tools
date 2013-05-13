@@ -24,6 +24,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using System.Collections.ObjectModel;
 
 namespace Management.Storage.ScenarioTest.Functional
 {
@@ -175,6 +176,82 @@ namespace Management.Storage.ScenarioTest.Functional
             }
 
             CLICommonBVT.RestoreSubScriptionAndEnvConnectionString();
+        }
+
+        /// <summary>
+        /// Get storage context with specified storage account name/key/endpoint
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetStorageContextWithNameKeyEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = Utility.GenBase64String("key");
+            string endPoint = Utility.GenNameString("abc.");
+
+            Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
+            // Verification for returned values
+            Collection<Dictionary<string, object>> comp = GetContextCompareData(accountName, endPoint);
+            agent.OutputValidation(comp);
+        }
+
+        /// <summary>
+        /// Create anonymous storage context with specified end point
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetAnonymousStorageContextEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = string.Empty;
+            string endPoint = Utility.GenNameString("abc.");
+
+            Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
+            // Verification for returned values
+            Collection<Dictionary<string, object>> comp = GetContextCompareData(accountName, endPoint);
+            comp[0]["StorageAccountName"] = "[Anonymous]";
+            agent.OutputValidation(comp);
+        }
+
+        /// <summary>
+        /// Get Container with invalid endpoint
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetContainerWithInvalidEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = Utility.GenBase64String("key");
+            string endPoint = Utility.GenNameString("abc.");
+
+            string cmd = String.Format("new-azurestoragecontext -StorageAccountName {0} " +
+                "-StorageAccountKey {1} -EndPoint {2}", accountName, accountKey, endPoint);
+            ((PowerShellAgent)agent).AddPipelineScript(cmd);
+            agent.UseContextParam = false;
+            Test.Assert(!agent.GetAzureStorageContainer(string.Empty),
+                "Get containers with invalid endpoint should fail");
+            ExpectedContainErrorMessage("The host was not found.");
+        }
+
+        /// <summary>
+        /// Generate storage context compare data
+        /// </summary>
+        /// <param name="StorageAccountName">Storage Account Name</param>
+        /// <param name="endPoint">end point</param>
+        /// <returns>storage context compare data</returns>
+        private Collection<Dictionary<string, object>> GetContextCompareData(string StorageAccountName, string endPoint)
+        {
+            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
+            comp.Add(new Dictionary<string, object>{
+                {"StorageAccountName", StorageAccountName},
+                {"BlobEndPoint", String.Format("https://{0}.blob.core.{1}/", StorageAccountName, endPoint)},
+                {"TableEndPoint", String.Format("https://{0}.table.core.{1}/", StorageAccountName, endPoint)},
+                {"QueueEndPoint", String.Format("https://{0}.queue.core.{1}/", StorageAccountName, endPoint)}
+            });
+            return comp;
         }
     }
 }
