@@ -260,52 +260,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             store.Close();
         }
 
-        public static string BuildConnectionString(
-            string defaultEndpointsProtocol,
-            string accountName,
-            string accountKey,
-            string blobEndpoint,
-            string tableEndpoint,
-            string queueEndpoint)
-        {
-            var connectionString = new StringBuilder();
-
-            connectionString.AppendFormat(
-                CultureInfo.InvariantCulture,
-                "DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2}",
-                defaultEndpointsProtocol ?? "http",
-                accountName,
-                accountKey);
-
-            if (!string.IsNullOrEmpty(blobEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";BlobEndpoint={0}", blobEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(tableEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";TableEndpoint={0}", tableEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(queueEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";QueueEndpoint={0}", queueEndpoint);
-            }
-
-            return connectionString.ToString();
-        }
-
-        /// <summary>
-        /// Gets the value of publish settings url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string PublishSettingsUrl
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.PublishSettingsUrlEnv, Resources.PublishSettingsUrl);
-            }
-        }
-
         /// <summary>
         /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
         /// </summary>
@@ -326,16 +280,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             {
                 return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
             }
-        }
-
-        /// <summary>
-        /// Gets the value of publish settings url with realm from environment if set, otherwise returns the default value.
-        /// </summary>
-        /// <param name="realm">Realm phrase</param>
-        /// <returns>The publish settings url with realm phrase</returns>
-        public static string PublishSettingsUrlWithRealm(string realm)
-        {
-            return PublishSettingsUrl + "&whr=" + realm;
         }
 
         /// <summary>
@@ -916,6 +860,21 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
 
             return encoding;
+        }
+
+        /// <summary>
+        /// Creates https endpoint from the given endpoint.
+        /// </summary>
+        /// <param name="endpointUri">The endpoint uri.</param>
+        /// <returns>The https endpoint uri.</returns>
+        public static Uri CreateHttpsEndpoint(string endpointUri)
+        {
+            UriBuilder builder = new UriBuilder(endpointUri) { Scheme = "https" };
+            string endpoint = builder.Uri.GetComponents(
+                UriComponents.AbsoluteUri & ~UriComponents.Port,
+                UriFormat.UriEscaped);
+            
+            return new Uri(endpoint);
         }
     }
 }

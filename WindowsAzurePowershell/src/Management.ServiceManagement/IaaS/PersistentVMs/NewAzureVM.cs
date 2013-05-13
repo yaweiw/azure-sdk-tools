@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             CloudStorageAccount currentStorage = null;
             try
             {
-                currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
+                currentStorage = currentSubscription.GetCurrentStorageAccount();
             }
             catch (ServiceManagementClientException) // couldn't access
             {

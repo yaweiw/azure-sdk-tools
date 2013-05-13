@@ -12,12 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
-    using ServiceManagement;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
-    internal interface IPublishListener
+    /// <summary>
+    /// Gets the available Windows Azure environments.
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>))]
+    public class GetAzureEnvironmentCommand : CmdletBase
     {
-        void OnPublish(IServiceManagement channel, AzureService service, ServiceSettings publishSettings, string subscriptionId);
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            WriteObject(GlobalSettingsManager.Instance.GetEnvironments(), true);
+        }
     }
 }
