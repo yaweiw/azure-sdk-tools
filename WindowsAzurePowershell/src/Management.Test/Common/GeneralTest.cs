@@ -42,15 +42,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void TestPublishSettingsUrl()
-        {
-            string expected = _publishSettingsUrl;
-            string actual = General.PublishSettingsUrl;
-
-            Assert.AreEqual<string>(expected, actual);
-        }
-
-        [TestMethod]
         public void TestAzurePortalUrl()
         {
             string expected = Resources.AzurePortalUrl;
@@ -64,16 +55,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             string expected = _azureHostNameSuffix;
             string actual = General.AzureWebsiteHostNameSuffix;
-
-            Assert.AreEqual<string>(expected, actual);
-        }
-
-        [TestMethod]
-        public void TestPublishSettingsUrlWithRealm()
-        {
-            string realm = "a realm";
-            string expected = _publishSettingsUrl + "&whr=" + realm;
-            string actual = General.PublishSettingsUrlWithRealm(realm);
 
             Assert.AreEqual<string>(expected, actual);
         }
