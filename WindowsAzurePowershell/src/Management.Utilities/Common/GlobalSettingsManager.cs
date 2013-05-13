@@ -16,19 +16,26 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Subscription;
 
-    public class GlobalComponents
+    public class GlobalSettingsManager
     {
         public GlobalPathInfo GlobalPaths { get; private set; }
+
         public PublishData PublishSettings { get; private set; }
+
         public X509Certificate2 Certificate { get; private set; }
+
         public SubscriptionsManager SubscriptionManager { get; private set; }
+
         public CloudServiceProjectConfiguration ServiceConfiguration { get; private set; }
 
         public IDictionary<string, SubscriptionData> Subscriptions
@@ -36,54 +43,71 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             get { return SubscriptionManager.Subscriptions; }
         }
 
-        public static GlobalComponents CreateFromPublishSettings(string azurePath, string subscriptionsDataFile, string publishSettingsFile)
+        public Dictionary<string, WindowsAzureEnvironment> Environments;
+
+        public string CurrentEnvironment { get; set; }
+
+        protected GlobalSettingsManager(string azurePath)
+            : this(azurePath, null)
+        {
+        }
+
+        protected GlobalSettingsManager(string azurePath, string subscriptionsDataFile)
+        {
+            GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
+            Environments = new Dictionary<string, WindowsAzureEnvironment>(
+                WindowsAzureEnvironment.PublicEnvironments,
+                StringComparer.OrdinalIgnoreCase);
+            CurrentEnvironment = EnvironmentName.Azure;
+        }
+
+        public static GlobalSettingsManager CreateFromPublishSettings(
+            string azurePath,
+            string subscriptionsDataFile,
+            string publishSettingsFile)
         {
             Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
 
-            var globalComponents = new GlobalComponents(azurePath, subscriptionsDataFile);
-            globalComponents.NewFromPublishSettings(globalComponents.GlobalPaths.SubscriptionsDataFile, publishSettingsFile);
-            globalComponents.Save();
+            var globalSettingsManager = new GlobalSettingsManager(azurePath, subscriptionsDataFile);
+            globalSettingsManager.NewFromPublishSettings(
+                globalSettingsManager.GlobalPaths.SubscriptionsDataFile,
+                publishSettingsFile);
+            globalSettingsManager.Save();
 
-            return globalComponents;
+            return globalSettingsManager;
         }
 
-        public static GlobalComponents Create(string azurePath, string subscriptionsDataFile, X509Certificate2 certificate, string serviceEndpoint)
+        public static GlobalSettingsManager Create(
+            string azurePath,
+            string subscriptionsDataFile,
+            X509Certificate2 certificate,
+            string serviceEndpoint)
         {
             Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
             Validate.ValidateNullArgument(certificate, string.Format(Resources.InvalidCertificateSingle, "certificate"));
             Validate.ValidateNullArgument(serviceEndpoint, string.Format(Resources.InvalidEndpoint, "serviceEndpoint"));
 
-            var globalComponents = new GlobalComponents(azurePath, subscriptionsDataFile);
-            globalComponents.New(globalComponents.GlobalPaths.SubscriptionsDataFile, certificate, serviceEndpoint);
-            globalComponents.Save();
+            var globalSettingsManager = new GlobalSettingsManager(azurePath, subscriptionsDataFile);
+            globalSettingsManager.New(globalSettingsManager.GlobalPaths.SubscriptionsDataFile, certificate, serviceEndpoint);
+            globalSettingsManager.Save();
 
-            return globalComponents;
+            return globalSettingsManager;
         }
 
-        public static GlobalComponents Load(string azurePath)
+        public static GlobalSettingsManager Load(string azurePath)
         {
             return Load(azurePath, null);
         }
 
-        public static GlobalComponents Load(string azurePath, string subscriptionsDataFile)
+        public static GlobalSettingsManager Load(string azurePath, string subscriptionsDataFile)
         {
             Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
             Validate.ValidateStringIsNullOrEmpty(azurePath, Resources.AzureDirectoryName);
 
-            var globalComponents = new GlobalComponents(azurePath, subscriptionsDataFile);
-            globalComponents.LoadCurrent();
+            var globalSettingsManager = new GlobalSettingsManager(azurePath, subscriptionsDataFile);
+            globalSettingsManager.LoadCurrent();
 
-            return globalComponents;
-        }
-
-        protected GlobalComponents(string azurePath)
-            : this(azurePath, null)
-        {
-        }
-
-        protected GlobalComponents(string azurePath, string subscriptionsDataFile)
-        {
-            GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
+            return globalSettingsManager;
         }
 
         private void NewFromPublishSettings(string subscriptionsDataFile, string publishSettingsPath)
@@ -148,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         internal void LoadCurrent()
         {
-            Validate.ValidateDirectoryExists(GlobalPaths.AzureDirectory, Resources.GlobalComponents_Load_PublishSettingsNotFound);
+            Validate.ValidateDirectoryExists(GlobalPaths.AzureDirectory, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
             Validate.ValidateFileExists(GlobalPaths.PublishSettingsFile, string.Format(Resources.PathDoesNotExistForElement, Resources.PublishSettingsFileName, GlobalPaths.PublishSettingsFile));
 
             PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
@@ -232,13 +256,46 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             throw new ArgumentException(string.Format(Resources.SubscriptionIdNotFoundMessage, subscriptionName, GlobalPaths.PublishSettingsFile));
         }
 
-        internal void DeleteGlobalComponents()
+        internal void DeleteGlobalSettingsManager()
         {
             General.RemoveCertificateFromStore(Certificate);
             File.Delete(GlobalPaths.PublishSettingsFile);
             File.Delete(GlobalPaths.SubscriptionsDataFile);
             File.Delete(GlobalPaths.ServiceConfigurationFile);
             Directory.Delete(GlobalPaths.AzureDirectory, true);
+        }
+
+        /// <summary>
+        /// Gets the current instance of GlobalSettingsManager using GlobalPathInfo.AzureAppDir.
+        /// </summary>
+        public static GlobalSettingsManager Instance { get { return Load(GlobalPathInfo.AzureAppDir); } }
+
+        /// <summary>
+        /// Gets url for downloading publish settings file.
+        /// </summary>
+        /// <param name="environment">The environment name</param>
+        /// <param name="realm">The optional realm phrase</param>
+        /// <returns>The publish settings file url</returns>
+        public string GetPublishSettingsFile(string environment = null, string realm = null)
+        {
+            // If no environment provided assume using the current environment.
+            environment = string.IsNullOrEmpty(environment) ? CurrentEnvironment : environment;
+
+            if (!Environments.ContainsKey(environment))
+            {
+                throw new KeyNotFoundException(environment);
+            }
+
+            Debug.Assert(!string.IsNullOrEmpty(Environments[environment].PortalEndpoint));
+
+            StringBuilder publishSettingsUrl = new StringBuilder(Environments[environment].PortalEndpoint);
+
+            if (!string.IsNullOrEmpty(realm))
+            {
+                publishSettingsUrl.AppendFormat(Resources.RealmFormat, realm);
+            }
+
+            return publishSettingsUrl.ToString();
         }
     }
 }
