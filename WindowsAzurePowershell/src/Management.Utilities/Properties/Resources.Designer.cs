@@ -1071,6 +1071,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string EnvironmentNotFound {
+            get {
+                return ResourceManager.GetString("EnvironmentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         internal static string ErrorRetrievingRuntimesForLocation {
