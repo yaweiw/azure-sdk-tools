@@ -16,7 +16,7 @@
   <StorageAccountKey><!--Storage Account Key--></StorageAccountKey>
   <StorageEndPoint>
       <!--Storage End Point-->
-      windows.net
+      core.windows.net
   </StorageEndPoint>
   <BigFileUri><!--A big file uri on the public web which could make azure take serveral(at least 3) minutes to copy.-->
   </BigFileUri>
