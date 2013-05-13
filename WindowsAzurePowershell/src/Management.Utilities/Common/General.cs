@@ -261,17 +261,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
-        /// Gets the value of publish settings url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string PublishSettingsUrl
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.PublishSettingsUrlEnv, Resources.PublishSettingsUrl);
-            }
-        }
-
-        /// <summary>
         /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
         /// </summary>
         public static string AzurePortalUrl
@@ -291,16 +280,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             {
                 return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
             }
-        }
-
-        /// <summary>
-        /// Gets the value of publish settings url with realm from environment if set, otherwise returns the default value.
-        /// </summary>
-        /// <param name="realm">Realm phrase</param>
-        /// <returns>The publish settings url with realm phrase</returns>
-        public static string PublishSettingsUrlWithRealm(string realm)
-        {
-            return PublishSettingsUrl + "&whr=" + realm;
         }
 
         /// <summary>
