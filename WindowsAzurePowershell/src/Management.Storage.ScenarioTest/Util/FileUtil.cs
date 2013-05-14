@@ -86,10 +86,7 @@ namespace Management.Storage.ScenarioTest.Util
         /// <param name="dirPath"></param>
         public static void CreateDirIfNotExits(string dirPath)
         {
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
+            Directory.CreateDirectory(dirPath);
         }
 
         /// <summary>
@@ -149,7 +146,7 @@ namespace Management.Storage.ScenarioTest.Util
             string uploadDirRoot = Test.Data.Get("UploadDir");
             string filePath = Path.Combine(uploadDirRoot, fileName);
             int minFileSize = 1; //KB
-            int maxFileSize = 10; //KB
+            int maxFileSize = 10 * 1024; //KB
             int fileSize = random.Next(minFileSize, maxFileSize);
             Helper.GenerateRandomTestFile(filePath, fileSize);
             return filePath;
