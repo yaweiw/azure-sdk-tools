@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
                 {
-                    CloudStorageAccount currentStorage = currentSubscription.GetCurrentStorageAccount(Channel);
+                    CloudStorageAccount currentStorage = currentSubscription.GetCurrentStorageAccount();
                     if (currentStorage == null)
                     {
                         throw new ArgumentException(Resources.CurrentStorageAccountIsNotAccessible);
