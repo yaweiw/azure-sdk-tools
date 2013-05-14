@@ -243,7 +243,7 @@ namespace Management.Storage.ScenarioTest.Common
         /// <param name="expect">expect string</param>
         /// <param name="actually">returned string</param>
         /// <param name="name">Compare name</param>
-        public void ExpectEqual(string expect, string actually, string name)
+        public static void ExpectEqual(string expect, string actually, string name)
         {
             Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
         }
@@ -254,7 +254,7 @@ namespace Management.Storage.ScenarioTest.Common
         /// <param name="expect">expect double</param>
         /// <param name="actually">returned double</param>
         /// <param name="name">Compare name</param>
-        public void ExpectEqual(double expect, double actually, string name)
+        public static void ExpectEqual(double expect, double actually, string name)
         {
             Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
         }
@@ -265,7 +265,7 @@ namespace Management.Storage.ScenarioTest.Common
         /// <param name="expect">expect string</param>
         /// <param name="actually">returned string</param>
         /// <param name="name">Compare name</param>
-        public void ExpectNotEqual(string expect, string actually, string name)
+        public static void ExpectNotEqual(string expect, string actually, string name)
         {
             Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
         }
@@ -276,7 +276,7 @@ namespace Management.Storage.ScenarioTest.Common
         /// <param name="expect">expect double</param>
         /// <param name="actually">returned double</param>
         /// <param name="name">Compare name</param>
-        public void ExpectNotEqual(double expect, double actually, string name)
+        public static void ExpectNotEqual(double expect, double actually, string name)
         {
             Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
         }
