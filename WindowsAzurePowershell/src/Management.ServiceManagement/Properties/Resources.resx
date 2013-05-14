@@ -522,4 +522,25 @@
   <data name="ServiceExtensionUploadingCertificate" xml:space="preserve">
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
+  <data name="ServiceExtensionCannotFindServiceClient" xml:space="preserve">
+    <value>Cannot find service client for the subscription: {0}</value>
+  </data>
+  <data name="ServiceExtensionCannotFindStorageAccount" xml:space="preserve">
+    <value>Cannot find storage account for the account name: {0}.</value>
+  </data>
+  <data name="ServiceExtensionSettingForSpecificRole" xml:space="preserve">
+    <value>Setting {0} configuration for {1}.</value>
+  </data>
+  <data name="ServiceExtensionSettingForDefaultRole" xml:space="preserve">
+    <value>Setting default {0} configuration for all roles.</value>
+  </data>
+  <data name="ServiceExtensionRemovingFromAllRoles" xml:space="preserve">
+    <value>Removing default {0} configuration for all roles from Cloud Service {1}.</value>
+  </data>
+  <data name="ServiceExtensionRemovingSpecificAndApplyingDefault" xml:space="preserve">
+    <value>Default {0} configuration exists applying default configuration to {1}.</value>
+  </data>
+  <data name="ServiceExtensionRemovingFromSpecificRoles" xml:space="preserve">
+    <value>Removing {0} configuration for {1} from Cloud Service {2}.</value>
+  </data>
 </root>

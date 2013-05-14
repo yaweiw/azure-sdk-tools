@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
 
     public class ExtensionConfigurationInput
@@ -25,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfiguration { get; set; }
         public string PrivateConfiguration { get; set; }
-        public List<ExtensionRole> Roles { get; set; }
+        public ExtensionRoleList Roles { get; set; }
         public X509Certificate2 X509Certificate { get; set; }
     }
 }
