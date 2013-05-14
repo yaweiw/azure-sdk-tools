@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -27,12 +28,60 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <summary>
         /// The management portal endpoint.
         /// </summary>
-        public string PortalEndpoint { get; set; }
+        public string PublishSettingsFileUrl { get; set; }
 
         /// <summary>
         /// The service management RDFE endpoint.
         /// </summary>
         public string ServiceEndpoint { get; set; }
+
+        /// <summary>
+        /// The storage service blob endpoint format.
+        /// </summary>
+        public string StorageBlobEndpointFormat { get; set; }
+
+        /// <summary>
+        /// The storage service queue endpoint format.
+        /// </summary>
+        public string StorageQueueEndpointFormat { get; set; }
+
+        /// <summary>
+        /// The storage service table endpoint format.
+        /// </summary>
+        public string StorageTableEndpointFormat { get; set; }
+
+        /// <summary>
+        /// Gets the endpoint for storage blob.
+        /// </summary>
+        /// <param name="accountName">The account name</param>
+        /// <returns>The fully qualified uri to the blob service</returns>
+        public Uri GetStorageBlobEndpoint(string accountName, bool useHttps = true)
+        {
+            string endpoint = string.Format(StorageBlobEndpointFormat, accountName);
+            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+        }
+
+        /// <summary>
+        /// Gets the endpoint for storage queue.
+        /// </summary>
+        /// <param name="accountName">The account name</param>
+        /// <returns>The fully qualified uri to the queue service</returns>
+        public Uri GetStorageQueueEndpoint(string accountName, bool useHttps = true)
+        {
+            string endpoint = string.Format(StorageQueueEndpointFormat, accountName);
+            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+        }
+
+        /// <summary>
+        /// Gets the endpoint for storage table.
+        /// </summary>
+        /// <param name="accountName">The account name</param>
+        /// <returns>The fully qualified uri to the table service</returns>
+        public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
+        {
+            string endpoint = string.Format(StorageTableEndpointFormat, accountName);
+            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+        }
 
         /// <summary>
         /// Predefined Windows Azure environments
@@ -51,8 +100,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 new WindowsAzureEnvironment()
                 {
                     Name = EnvironmentName.Azure,
-                    PortalEndpoint = WindowsAzureEnvironmentConstants.AzurePortalUrl,
-                    ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint
+                    PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
+                    ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
+                    StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
+                    StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageQueueEndpointFormat,
+                    StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat
                 }
             },
             {
@@ -60,8 +112,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 new WindowsAzureEnvironment()
                 {
                     Name = EnvironmentName.China,
-                    PortalEndpoint = WindowsAzureEnvironmentConstants.ChinaPortalUrl,
-                    ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint
+                    PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
+                    ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
+                    StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageBlobEndpointFormat,
+                    StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageQueueEndpointFormat,
+                    StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageTableEndpointFormat
                 }
             }
         };

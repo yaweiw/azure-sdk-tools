@@ -351,7 +351,7 @@
     <Content Include="Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
+    <Content Include="Microsoft.WindowsAzure.Management.Environment.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.WindowsAzure.Management.WebSites.format.ps1xml">
@@ -458,6 +458,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.WindowsAzure.Management.CloudService.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="PostBuildCleanup.bat" />

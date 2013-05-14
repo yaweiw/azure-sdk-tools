@@ -1282,7 +1282,7 @@ Please follow these steps in the portal:
     <value>The remote server returned an error: (401) Unauthorized.</value>
   </data>
   <data name="RealmFormat" xml:space="preserve">
-    <value>?whr={0}</value>
+    <value>&amp;whr={0}</value>
   </data>
   <data name="EnvironmentNotFound" xml:space="preserve">
     <value>The environment name '{0}' is not found.</value>

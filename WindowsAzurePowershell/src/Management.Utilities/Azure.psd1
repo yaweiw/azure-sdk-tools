@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Management.dll'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '0.6.14'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
@@ -68,7 +68,8 @@ FormatsToProcess = @(
 	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.Storage.format.ps1xml',
-	'Microsoft.WindowsAzure.Management.Store.format.ps1xml'
+	'Microsoft.WindowsAzure.Management.Store.format.ps1xml',
+	'Microsoft.WindowsAzure.Management.Environment.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess

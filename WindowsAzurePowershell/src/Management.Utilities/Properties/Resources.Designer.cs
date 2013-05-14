@@ -2534,7 +2534,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ?whr={0}.
+        ///   Looks up a localized string similar to &amp;whr={0}.
         /// </summary>
         internal static string RealmFormat {
             get {
