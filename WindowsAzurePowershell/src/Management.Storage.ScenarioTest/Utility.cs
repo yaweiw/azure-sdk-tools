@@ -69,7 +69,7 @@ namespace Management.Storage.ScenarioTest
                 string configEndPoint = Test.Data.Get("StorageEndPoint");
                 if (string.IsNullOrEmpty(configEndPoint))
                 {
-                    endPoint = "windows.net";
+                    endPoint = "core.windows.net";
                 }
                 else
                 {
@@ -81,9 +81,9 @@ namespace Management.Storage.ScenarioTest
 
             string[] storageEndPoints = new string[3]
                 {
-                    string.Format("{0}://{1}.blob.core.{2}/", protocol, storageAccountName, endPoint),
-                    string.Format("{0}://{1}.queue.core.{2}/", protocol, storageAccountName, endPoint),
-                    string.Format("{0}://{1}.table.core.{2}/", protocol, storageAccountName, endPoint)
+                    string.Format("{0}://{1}.blob.{2}/", protocol, storageAccountName, endPoint),
+                    string.Format("{0}://{1}.queue.{2}/", protocol, storageAccountName, endPoint),
+                    string.Format("{0}://{1}.table.{2}/", protocol, storageAccountName, endPoint)
                 };
             return storageEndPoints;
         }
