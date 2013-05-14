@@ -1071,6 +1071,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string EnvironmentNotFound {
+            get {
+                return ResourceManager.GetString("EnvironmentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         internal static string ErrorRetrievingRuntimesForLocation {
@@ -1136,18 +1145,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound1 {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound1 {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound1", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound1", resourceCulture);
             }
         }
         
@@ -2435,15 +2444,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to publish settings.
-        /// </summary>
-        internal static string PublishSettings1 {
-            get {
-                return ResourceManager.GetString("PublishSettings1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Azure.
         /// </summary>
         internal static string PublishSettingsElementName {
@@ -2462,15 +2462,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .PublishSettings.
-        /// </summary>
-        internal static string PublishSettingsFileExtention1 {
-            get {
-                return ResourceManager.GetString("PublishSettingsFileExtention1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to publishSettings.xml.
         /// </summary>
         internal static string PublishSettingsFileName {
@@ -2480,38 +2471,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure.PublishSettings.
-        /// </summary>
-        internal static string PublishSettingsFileName1 {
-            get {
-                return ResourceManager.GetString("PublishSettingsFileName1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Publish settings imported.
         /// </summary>
         internal static string PublishSettingsSetSuccessfully {
             get {
                 return ResourceManager.GetString("PublishSettingsSetSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en.
-        /// </summary>
-        internal static string PublishSettingsUrl {
-            get {
-                return ResourceManager.GetString("PublishSettingsUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en.
-        /// </summary>
-        internal static string PublishSettingsUrl1 {
-            get {
-                return ResourceManager.GetString("PublishSettingsUrl1", resourceCulture);
             }
         }
         
@@ -2566,6 +2530,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string PythonScaffolding {
             get {
                 return ResourceManager.GetString("PythonScaffolding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ?whr={0}.
+        /// </summary>
+        internal static string RealmFormat {
+            get {
+                return ResourceManager.GetString("RealmFormat", resourceCulture);
             }
         }
         
