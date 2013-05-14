@@ -1069,15 +1069,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find service client for the subscription: {0}.
-        /// </summary>
-        internal static string ServiceExtensionCannotFindServiceClient {
-            get {
-                return ResourceManager.GetString("ServiceExtensionCannotFindServiceClient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot find cloud servcie: {0}..
         /// </summary>
         internal static string ServiceExtensionCannotFindServiceName {

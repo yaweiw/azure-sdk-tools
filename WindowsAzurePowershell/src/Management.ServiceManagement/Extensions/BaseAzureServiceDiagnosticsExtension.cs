@@ -82,49 +82,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected void ValidateStorageAccount()
         {
-            var cloudServiceClient = new CloudServiceClient(
-                CurrentSubscription,
-                SessionState.Path.CurrentLocation.Path,
-                WriteDebug,
-                WriteVerbose,
-                WriteWarning
-                );
-            if (cloudServiceClient == null)
-            {
-                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceClient, CurrentSubscription.SubscriptionId));
-            }
-
-            var storageService = cloudServiceClient.GetStorageService(StorageAccountName);
+            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageService == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
             }
 
-            if (storageService.StorageServiceKeys == null)
+            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
+            if (storageKeys == null || storageKeys.StorageServiceKeys == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
             }
-            StorageKey = storageService.StorageServiceKeys.Primary;
-
-            StorageCredentials credentials = new StorageCredentials(
-                storageService.ServiceName,
-                storageService.StorageServiceKeys.Primary);
-
-            CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
-                credentials,
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2])
-                );
-            if (cloudStorageAccount == null)
-            {
-                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccount, StorageAccountName));
-            }
+            StorageKey = storageKeys.StorageServiceKeys.Primary;
 
             StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0};", cloudStorageAccount.BlobEndpoint.ToString());
-            endpointStr.AppendFormat("QueueEndpoint={0};", cloudStorageAccount.QueueEndpoint.ToString());
-            endpointStr.AppendFormat("TableEndpoint={0}", cloudStorageAccount.TableEndpoint.ToString());
+            endpointStr.AppendFormat("BlobEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]));
+            endpointStr.AppendFormat("QueueEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]));
+            endpointStr.AppendFormat("TableEndpoint={0}", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2]));
             ConnectionQualifiers = endpointStr.ToString();
             DefaultEndpointsProtocol = "https";
         }
