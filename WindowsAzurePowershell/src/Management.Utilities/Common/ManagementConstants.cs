@@ -107,8 +107,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public const string ChinaServiceEndpoint = "https://management.core.chinacloudapi.cn/";
 
-        public const string AzurePortalUrl = "https://manage.windowsazure.com/publishsettings/index/";
+        public const string AzurePublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301775";
 
-        public const string ChinaPortalUrl = "https://manage.windowsazure.cn/publishsettings/index/";
+        public const string ChinaPublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301776";
+
+        public const string AzureStorageBlobEndpointFormat = "http://{0}.blob.core.windows.net/";
+
+        public const string AzureStorageQueueEndpointFormat = "http://{0}.queue.core.windows.net/";
+
+        public const string AzureStorageTableEndpointFormat = "http://{0}.table.core.windows.net/";
+
+        public const string ChinaStorageBlobEndpointFormat = "http://{0}.blob.core.chinacloudapi.cn/";
+
+        public const string ChinaStorageQueueEndpointFormat = "http://{0}.queue.core.chinacloudapi.cn/";
+
+        public const string ChinaStorageTableEndpointFormat = "http://{0}.table.core.chinacloudapi.cn/";
     }
 }
