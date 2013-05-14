@@ -189,7 +189,7 @@ namespace Management.Storage.ScenarioTest.Functional
         {
             string accountName = Utility.GenNameString("account");
             string accountKey = Utility.GenBase64String("key");
-            string endPoint = Utility.GenNameString("abc.");
+            string endPoint = Utility.GenNameString("core.abc.def");
 
             Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
             // Verification for returned values
@@ -207,7 +207,7 @@ namespace Management.Storage.ScenarioTest.Functional
         {
             string accountName = Utility.GenNameString("account");
             string accountKey = string.Empty;
-            string endPoint = Utility.GenNameString("abc.");
+            string endPoint = Utility.GenNameString("core.abc.def");
 
             Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
             // Verification for returned values
@@ -226,7 +226,7 @@ namespace Management.Storage.ScenarioTest.Functional
         {
             string accountName = Utility.GenNameString("account");
             string accountKey = Utility.GenBase64String("key");
-            string endPoint = Utility.GenNameString("abc.");
+            string endPoint = Utility.GenNameString("core.abc.def");
 
             string cmd = String.Format("new-azurestoragecontext -StorageAccountName {0} " +
                 "-StorageAccountKey {1} -EndPoint {2}", accountName, accountKey, endPoint);
@@ -246,11 +246,12 @@ namespace Management.Storage.ScenarioTest.Functional
         private Collection<Dictionary<string, object>> GetContextCompareData(string StorageAccountName, string endPoint)
         {
             Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
+            string[] endPoints = Utility.GetStorageEndPoints(StorageAccountName, true, endPoint);
             comp.Add(new Dictionary<string, object>{
                 {"StorageAccountName", StorageAccountName},
-                {"BlobEndPoint", String.Format("https://{0}.blob.core.{1}/", StorageAccountName, endPoint)},
-                {"TableEndPoint", String.Format("https://{0}.table.core.{1}/", StorageAccountName, endPoint)},
-                {"QueueEndPoint", String.Format("https://{0}.queue.core.{1}/", StorageAccountName, endPoint)}
+                {"BlobEndPoint", endPoints[0]},
+                {"QueueEndPoint", endPoints[1]},
+                {"TableEndPoint", endPoints[2]}
             });
             return comp;
         }

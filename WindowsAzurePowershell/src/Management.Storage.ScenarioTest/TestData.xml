@@ -24,7 +24,7 @@
   </StorageAccountKey>
   <StorageEndPoint>
       <!--Storage End Point-->
-      windows.net
+      core.windows.net
   </StorageEndPoint>
   <SecondaryStorageAccountName>
       <!--Storage Account name-->
