@@ -34,7 +34,7 @@
   </SecondaryStorageAccountKey>
   <SecondaryStorageEndPoint>
       <!--Storage End Point-->
-      windows.net
+      core.windows.net
   </SecondaryStorageEndPoint>
   <BigFileUri>
       <!--A big file uri on the public web which could make azure take serveral(at least 3) minutes to copy.-->
