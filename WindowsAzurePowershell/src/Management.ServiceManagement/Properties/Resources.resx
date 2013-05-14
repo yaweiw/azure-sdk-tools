@@ -522,9 +522,6 @@
   <data name="ServiceExtensionUploadingCertificate" xml:space="preserve">
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
-  <data name="ServiceExtensionCannotFindServiceClient" xml:space="preserve">
-    <value>Cannot find service client for the subscription: {0}</value>
-  </data>
   <data name="ServiceExtensionCannotFindStorageAccount" xml:space="preserve">
     <value>Cannot find storage account for the account name: {0}.</value>
   </data>
