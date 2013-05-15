@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         protected GlobalSettingsManager(string azurePath, string subscriptionsDataFile)
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
-            DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
+            DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
             environments = new Dictionary<string, WindowsAzureEnvironment>(
                 WindowsAzureEnvironment.PublicEnvironments,
                 StringComparer.InvariantCultureIgnoreCase);
