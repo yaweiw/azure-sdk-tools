@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,37 +12,39 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage;
-using MS.Test.Common.MsTestLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Management.Storage.ScenarioTest.BVT.HTTP
 {
+    using Management.Storage.ScenarioTest.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MS.Test.Common.MsTestLib;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
-    /// bvt tests using  environment variable "AZURE_STORAGE_CONNECTION_STRING"
+    /// BVT test case for secondary end point with http protocol
     /// </summary>
     [TestClass]
-    class EnvConnectionStringBVT : Management.Storage.ScenarioTest.BVT.HTTPS.EnvConnectionStringBVT
+    class SecondaryEndPointBVT : Management.Storage.ScenarioTest.BVT.HTTPS.SecondaryEndPointBVT
     {
         [ClassInitialize()]
-        public static void EnvConnectionStringHTTPBVTClassInitialize(TestContext testContext)
+        public static void SecondaryEndPointHTTPBVTClassInitialize(TestContext testContext)
         {
             //first set the storage account
             //second init common bvt
             //third set storage context in powershell
             useHttps = false;
-            SetUpStorageAccount = TestBase.GetCloudStorageAccountFromConfig(string.Empty, useHttps);
+            isSecondary = true;
+            SetUpStorageAccount = TestBase.GetCloudStorageAccountFromConfig("Secondary", useHttps);
+            StorageAccountName = SetUpStorageAccount.Credentials.AccountName;
+            string StorageEndPoint = Test.Data.Get("SecondaryStorageEndPoint");
             CLICommonBVT.CLICommonBVTInitialize(testContext);
-            System.Environment.SetEnvironmentVariable(EnvKey, SetUpStorageAccount.ToString(true));
+            PowerShellAgent.SetStorageContext(SetUpStorageAccount.ToString(true));
         }
 
         [ClassCleanup()]
-        public static void EnvConnectionStringHTTPBVTCleanUp()
+        public static void SecondaryEndPointHTTPBVTCleanup()
         {
             CLICommonBVT.CLICommonBVTCleanup();
         }
