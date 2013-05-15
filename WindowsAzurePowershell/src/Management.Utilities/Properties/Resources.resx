@@ -1284,4 +1284,20 @@ Please follow these steps in the portal:
   <data name="RealmFormat" xml:space="preserve">
     <value>?whr={0}</value>
   </data>
+  <data name="EnvironmentNotFound" xml:space="preserve">
+    <value>The environment name '{0}' is not found.</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionBeginOperation">
+    <value xml:space="preserve">Begin Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionCompletedOperation">
+    <value xml:space="preserve">Completed Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionInOCSBeginOperation">
+    <value xml:space="preserve">Begin Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionInOCSCompletedOperation">
+    <value xml:space="preserve">Completed Operation: {0}</value>
+  </data>
+
 </root>
