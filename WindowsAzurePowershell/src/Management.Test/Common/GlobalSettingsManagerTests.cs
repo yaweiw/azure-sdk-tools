@@ -397,7 +397,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
-            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile("cHiNa", realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(
+                EnvironmentName.AzureChinaCloud.ToLower(),
+                realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);
