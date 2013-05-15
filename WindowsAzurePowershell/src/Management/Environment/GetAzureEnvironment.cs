@@ -26,8 +26,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>), typeof(WindowsAzureEnvironment))]
     public class GetAzureEnvironmentCommand : CmdletBase
     {
-        private const string ShortName = "Microsoft.WindowsAzure.Management.Utilities.Common.WindowsAzureEnvironment.Short";
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             HelpMessage = "The environment name")]
         public string Name { get; set; }
@@ -41,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 GlobalSettingsManager.Instance.GetEnvironments().ForEach(e =>
                 {
                     output.Add(base.ConstructPSObject(
-                        ShortName,
+                        null,
                         Parameters.EnvironmentName, e.Name,
                         Parameters.ServiceEndpoint, e.ServiceEndpoint,
                         Parameters.PublishSettingsFileUrl, e.PublishSettingsFileUrl));

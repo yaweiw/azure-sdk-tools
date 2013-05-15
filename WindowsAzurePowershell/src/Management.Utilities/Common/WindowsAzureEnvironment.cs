@@ -57,8 +57,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The fully qualified uri to the blob service</returns>
         public Uri GetStorageBlobEndpoint(string accountName, bool useHttps = true)
         {
-            string endpoint = string.Format(StorageBlobEndpointFormat, accountName);
-            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+            return new Uri(string.Format(StorageBlobEndpointFormat, useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
@@ -68,8 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The fully qualified uri to the queue service</returns>
         public Uri GetStorageQueueEndpoint(string accountName, bool useHttps = true)
         {
-            string endpoint = string.Format(StorageQueueEndpointFormat, accountName);
-            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+            return new Uri(string.Format(StorageQueueEndpointFormat, useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
@@ -79,8 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The fully qualified uri to the table service</returns>
         public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
         {
-            string endpoint = string.Format(StorageTableEndpointFormat, accountName);
-            return useHttps ? General.CreateHttpsEndpoint(endpoint) : new Uri(endpoint);
+            return new Uri(string.Format(StorageTableEndpointFormat, useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>
