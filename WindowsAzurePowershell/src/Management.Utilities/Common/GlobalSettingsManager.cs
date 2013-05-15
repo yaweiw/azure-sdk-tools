@@ -281,9 +281,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             // If no environment provided assume using the current environment.
             environment = string.IsNullOrEmpty(environment) ? DefaultEnvironment.Name : environment;
             WindowsAzureEnvironment environmentObject = GetEnvironment(environment);
-            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PortalEndpoint));
+            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PublishSettingsFileUrl));
 
-            StringBuilder publishSettingsUrl = new StringBuilder(environmentObject.PortalEndpoint);
+            StringBuilder publishSettingsUrl = new StringBuilder(environmentObject.PublishSettingsFileUrl);
 
             if (!string.IsNullOrEmpty(realm))
             {
