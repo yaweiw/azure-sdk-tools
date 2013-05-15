@@ -111,16 +111,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public const string ChinaPublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301776";
 
-        public const string AzureStorageBlobEndpointFormat = "http://{0}.blob.core.windows.net/";
+        public const string AzureStorageBlobEndpointFormat = "{0}://{1}.blob.core.windows.net/";
 
-        public const string AzureStorageQueueEndpointFormat = "http://{0}.queue.core.windows.net/";
+        public const string AzureStorageQueueEndpointFormat = "{0}://{1}.queue.core.windows.net/";
 
-        public const string AzureStorageTableEndpointFormat = "http://{0}.table.core.windows.net/";
+        public const string AzureStorageTableEndpointFormat = "{0}://{1}.table.core.windows.net/";
 
-        public const string ChinaStorageBlobEndpointFormat = "http://{0}.blob.core.chinacloudapi.cn/";
+        public const string ChinaStorageBlobEndpointFormat = "{0}://{1}.blob.core.chinacloudapi.cn/";
 
-        public const string ChinaStorageQueueEndpointFormat = "http://{0}.queue.core.chinacloudapi.cn/";
+        public const string ChinaStorageQueueEndpointFormat = "{0}://{1}.queue.core.chinacloudapi.cn/";
 
-        public const string ChinaStorageTableEndpointFormat = "http://{0}.table.core.chinacloudapi.cn/";
+        public const string ChinaStorageTableEndpointFormat = "{0}://{1}.table.core.chinacloudapi.cn/";
     }
 }
