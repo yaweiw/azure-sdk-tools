@@ -26,16 +26,17 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             // Setup
             string accountName = "myaccount";
-            Uri expected = General.CreateHttpsEndpoint(string.Format(
+            string expected = string.Format(
                 WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
-                accountName));
-            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
+                "https",
+                accountName);
+            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
 
             // Test
             Uri actual = environment.GetStorageBlobEndpoint(accountName);
 
             // Assert
-            Assert.AreEqual(expected.ToString(), actual.ToString());
+            Assert.AreEqual(expected, actual.ToString());
         }
 
         [TestMethod]
@@ -43,8 +44,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             // Setup
             string accountName = "myaccount";
-            string expected = string.Format(WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat, accountName);
-            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
+            string expected = string.Format(
+                WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
+                "http",
+                accountName);
+            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
 
             // Test
             Uri actual = environment.GetStorageBlobEndpoint(accountName, false);

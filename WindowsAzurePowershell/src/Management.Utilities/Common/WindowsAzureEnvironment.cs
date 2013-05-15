@@ -93,10 +93,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             new Dictionary<string, WindowsAzureEnvironment>(StringComparer.InvariantCultureIgnoreCase)
         {
             {
-                EnvironmentName.Azure,
+                EnvironmentName.AzureCloud,
                 new WindowsAzureEnvironment()
                 {
-                    Name = EnvironmentName.Azure,
+                    Name = EnvironmentName.AzureCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
@@ -105,10 +105,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 }
             },
             {
-                EnvironmentName.China,
+                EnvironmentName.AzureChinaCloud,
                 new WindowsAzureEnvironment()
                 {
-                    Name = EnvironmentName.China,
+                    Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
                     StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageBlobEndpointFormat,
