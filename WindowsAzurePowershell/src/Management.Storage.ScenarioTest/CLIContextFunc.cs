@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
@@ -68,8 +69,10 @@ namespace Management.Storage.ScenarioTest
             if (moduleFilePath.Length > 0)
                 PowerShellAgent.ImportModule(moduleFilePath);
 
-            BlockFilePath = Test.Data.Get("BlockFilePath");
-            PageFilePath = Test.Data.Get("PageFilePath");
+            BlockFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            PageFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(BlockFilePath));
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(PageFilePath));
 
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(BlockFilePath, 1);
@@ -134,8 +137,13 @@ namespace Management.Storage.ScenarioTest
             StorageQueueTest(agent);
             StorageTableTest(agent);
 
-            string BlockFilePath = Test.Data.Get("BlockFilePath");
-            string PageFilePath = Test.Data.Get("PageFilePath");
+            string BlockFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            string PageFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(BlockFilePath));
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(PageFilePath));
+            // Generate block file and page file which are used for uploading
+            Helper.GenerateMediumFile(BlockFilePath, 1);
+            Helper.GenerateMediumFile(PageFilePath, 1);
 
             StorageBlobTest(agent, BlockFilePath, StorageBlob.BlobType.BlockBlob);
             StorageBlobTest(agent, PageFilePath, StorageBlob.BlobType.PageBlob);
@@ -145,13 +153,16 @@ namespace Management.Storage.ScenarioTest
         {
             string StorageAccountName = Test.Data.Get("StorageAccountName");
             string StorageAccountKey = Test.Data.Get("StorageAccountKey");
+            string StorageEndPoint = Test.Data.Get("StorageEndPoint");
 
             Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
+            bool useHttps = true; //default protocol is https
+            string[] endPoints = Utility.GetStorageEndPoints(StorageAccountName, useHttps, StorageEndPoint);
             comp.Add(new Dictionary<string, object>{
                 {"StorageAccountName", StorageAccountName},
-                {"BlobEndPoint", String.Format("https://{0}.blob.core.windows.net/", StorageAccountName)},
-                {"TableEndPoint", String.Format("https://{0}.table.core.windows.net/", StorageAccountName)},
-                {"QueueEndPoint", String.Format("https://{0}.queue.core.windows.net/", StorageAccountName)}
+                {"BlobEndPoint", endPoints[0]},
+                {"QueueEndPoint", endPoints[1]},
+                {"TableEndPoint", endPoints[2]}
             });
 
             //--------------New operation--------------

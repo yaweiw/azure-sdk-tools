@@ -24,6 +24,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using System.Collections.ObjectModel;
 
 namespace Management.Storage.ScenarioTest.Functional
 {
@@ -56,11 +57,12 @@ namespace Management.Storage.ScenarioTest.Functional
         [TestCategory(PsTag.StorageContext)]
         public void GetContainerFromMultipleStorageContext()
         {
-            string connectionString1 = Test.Data.Get("StorageConnectionString1");
-            string connectionString2 = Test.Data.Get("StorageConnectionString2");
+            CloudStorageAccount account1 = TestBase.GetCloudStorageAccountFromConfig();
+            CloudStorageAccount account2 = TestBase.GetCloudStorageAccountFromConfig("Secondary");
+            string connectionString1 = account1.ToString(true);
+            string connectionString2 = account2.ToString(true);
             Test.Assert(connectionString1 != connectionString2, "Use two different connection string {0} != {1}", connectionString1, connectionString2);
-            CloudStorageAccount account1 = CloudStorageAccount.Parse(connectionString1);
-            CloudStorageAccount account2 = CloudStorageAccount.Parse(connectionString2);
+            
             CloudBlobUtil blobUtil1 = new CloudBlobUtil(account1);
             CloudBlobUtil blobUtil2 = new CloudBlobUtil(account2);
             string containerName = Utility.GenNameString("container");
@@ -98,11 +100,11 @@ namespace Management.Storage.ScenarioTest.Functional
         [TestCategory(PsTag.StorageContext)]
         public void GetContainerFromValidAndInvalidStorageContext()
         {
-            string connectionString1 = Test.Data.Get("StorageConnectionString");
+            CloudStorageAccount account1 = TestBase.GetCloudStorageAccountFromConfig();
+            string connectionString1 = account1.ToString(true);
             string randomAccountName = Utility.GenNameString("account");
             string randomAccountKey = Utility.GenNameString("key");
             randomAccountKey = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(randomAccountKey));
-            CloudStorageAccount account1 = CloudStorageAccount.Parse(connectionString1);
 
             string containerName = Utility.GenNameString("container");
 
@@ -175,6 +177,83 @@ namespace Management.Storage.ScenarioTest.Functional
             }
 
             CLICommonBVT.RestoreSubScriptionAndEnvConnectionString();
+        }
+
+        /// <summary>
+        /// Get storage context with specified storage account name/key/endpoint
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetStorageContextWithNameKeyEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = Utility.GenBase64String("key");
+            string endPoint = Utility.GenNameString("core.abc.def");
+
+            Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
+            // Verification for returned values
+            Collection<Dictionary<string, object>> comp = GetContextCompareData(accountName, endPoint);
+            agent.OutputValidation(comp);
+        }
+
+        /// <summary>
+        /// Create anonymous storage context with specified end point
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetAnonymousStorageContextEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = string.Empty;
+            string endPoint = Utility.GenNameString("core.abc.def");
+
+            Test.Assert(agent.NewAzureStorageContext(accountName, accountKey, endPoint), "New storage context with specified name/key/endpoint should succeed");
+            // Verification for returned values
+            Collection<Dictionary<string, object>> comp = GetContextCompareData(accountName, endPoint);
+            comp[0]["StorageAccountName"] = "[Anonymous]";
+            agent.OutputValidation(comp);
+        }
+
+        /// <summary>
+        /// Get Container with invalid endpoint
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.StorageContext)]
+        public void GetContainerWithInvalidEndPoint()
+        {
+            string accountName = Utility.GenNameString("account");
+            string accountKey = Utility.GenBase64String("key");
+            string endPoint = Utility.GenNameString("core.abc.def");
+
+            string cmd = String.Format("new-azurestoragecontext -StorageAccountName {0} " +
+                "-StorageAccountKey {1} -EndPoint {2}", accountName, accountKey, endPoint);
+            ((PowerShellAgent)agent).AddPipelineScript(cmd);
+            agent.UseContextParam = false;
+            Test.Assert(!agent.GetAzureStorageContainer(string.Empty),
+                "Get containers with invalid endpoint should fail");
+            ExpectedContainErrorMessage("The host was not found.");
+        }
+
+        /// <summary>
+        /// Generate storage context compare data
+        /// </summary>
+        /// <param name="StorageAccountName">Storage Account Name</param>
+        /// <param name="endPoint">end point</param>
+        /// <returns>storage context compare data</returns>
+        private Collection<Dictionary<string, object>> GetContextCompareData(string StorageAccountName, string endPoint)
+        {
+            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
+            string[] endPoints = Utility.GetStorageEndPoints(StorageAccountName, true, endPoint);
+            comp.Add(new Dictionary<string, object>{
+                {"StorageAccountName", StorageAccountName},
+                {"BlobEndPoint", endPoints[0]},
+                {"QueueEndPoint", endPoints[1]},
+                {"TableEndPoint", endPoints[2]}
+            });
+            return comp;
         }
     }
 }
