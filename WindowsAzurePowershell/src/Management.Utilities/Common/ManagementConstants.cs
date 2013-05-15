@@ -96,9 +96,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public static class EnvironmentName
     {
-        public const string Azure = "Azure";
+        public const string AzureCloud = "AzureCloud";
 
-        public const string China = "China";
+        public const string AzureChinaCloud = "AzureChinaCloud";
     }
 
     public static class WindowsAzureEnvironmentConstants

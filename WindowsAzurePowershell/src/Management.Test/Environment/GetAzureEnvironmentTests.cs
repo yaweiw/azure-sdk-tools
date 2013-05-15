@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
             GetAzureEnvironmentCommand cmdlet = new GetAzureEnvironmentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                Name = EnvironmentName.China
+                Name = EnvironmentName.AzureChinaCloud
             };
 
             cmdlet.ExecuteCmdlet();

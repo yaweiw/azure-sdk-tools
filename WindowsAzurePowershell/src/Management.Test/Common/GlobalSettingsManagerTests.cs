@@ -331,8 +331,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
 
             // Assert
             Assert.AreEqual(2, actual.Count);
-            Assert.AreEqual(EnvironmentName.Azure, actual[0].Name);
-            Assert.AreEqual(EnvironmentName.China, actual[1].Name);
+            Assert.AreEqual(EnvironmentName.AzureCloud, actual[0].Name);
+            Assert.AreEqual(EnvironmentName.AzureChinaCloud, actual[1].Name);
             Assert.AreEqual(WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl, actual[0].PublishSettingsFileUrl);
             Assert.AreEqual(WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl, actual[1].PublishSettingsFileUrl);
             Assert.AreEqual(WindowsAzureEnvironmentConstants.AzureServiceEndpoint, actual[0].ServiceEndpoint);
@@ -382,7 +382,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
-            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(EnvironmentName.China, realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(EnvironmentName.AzureChinaCloud, realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);
@@ -397,7 +397,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             expected.AppendFormat(Resources.RealmFormat, realmValue);
 
             // Test
-            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile("cHiNa", realmValue);
+            string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(
+                EnvironmentName.AzureChinaCloud.ToLower(),
+                realmValue);
 
             // Assert
             Assert.AreEqual(expected.ToString(), actual);
