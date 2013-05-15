@@ -59,9 +59,9 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
 
             try
             {
-                string secondConnectionString = Test.Data.Get("StorageConnectionString2");
-                object destContext = PowerShellAgent.GetStorageContext(secondConnectionString);
-                CloudBlobUtil destBlobUtil = new CloudBlobUtil(CloudStorageAccount.Parse(secondConnectionString));
+                CloudStorageAccount secondaryAccount = TestBase.GetCloudStorageAccountFromConfig("Secondary");
+                object destContext = PowerShellAgent.GetStorageContext(secondaryAccount.ToString(true));
+                CloudBlobUtil destBlobUtil = new CloudBlobUtil(secondaryAccount);
                 string destContainerName = Utility.GenNameString("secondary");
                 CloudBlobContainer destContainer = destBlobUtil.CreateContainer(destContainerName);
                 AssertCopyBlobCrossContainer(blobUtil.Blob, destContainer, string.Empty, destContext);
@@ -335,7 +335,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
             ICloudBlob srcBlob = blobUtil.CreateRandomBlob(container, srcBlobName);
             string destBlobName = Utility.GenNameString("dest");
             ICloudBlob destBlob = blobUtil.CreateRandomBlob(container, destBlobName);
-            string filePath = GenerateOneTempTestFile();
+            string filePath = FileUtil.GenerateOneTempTestFile();
 
             try
             {

@@ -468,10 +468,10 @@
   <data name="GetStorageKeysHeader" xml:space="preserve">
     <value>Name{0}Primary Key{0}Seconday Key</value>
   </data>
-  <data name="GlobalComponents_Load_PublishSettingsNotFound" xml:space="preserve">
+  <data name="GlobalSettingsManager_Load_PublishSettingsNotFound" xml:space="preserve">
     <value>Could not find publish settings. Please run Import-AzurePublishSettingsFile.</value>
   </data>
-  <data name="GlobalComponents_Load_PublishSettingsNotFound1" xml:space="preserve">
+  <data name="GlobalSettingsManager_Load_PublishSettingsNotFound1" xml:space="preserve">
     <value>Could not find publish settings. Please run Import-AzurePublishSettingsFile.</value>
   </data>
   <data name="IISNodeDll" xml:space="preserve">
@@ -878,32 +878,17 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="PublishSettings" xml:space="preserve">
     <value>publish settings</value>
   </data>
-  <data name="PublishSettings1" xml:space="preserve">
-    <value>publish settings</value>
-  </data>
   <data name="PublishSettingsElementName" xml:space="preserve">
     <value>Azure</value>
   </data>
   <data name="PublishSettingsFileExtention" xml:space="preserve">
     <value>.PublishSettings</value>
   </data>
-  <data name="PublishSettingsFileExtention1" xml:space="preserve">
-    <value>.PublishSettings</value>
-  </data>
   <data name="PublishSettingsFileName" xml:space="preserve">
     <value>publishSettings.xml</value>
   </data>
-  <data name="PublishSettingsFileName1" xml:space="preserve">
-    <value>Azure.PublishSettings</value>
-  </data>
   <data name="PublishSettingsSetSuccessfully" xml:space="preserve">
     <value>Publish settings imported</value>
-  </data>
-  <data name="PublishSettingsUrl" xml:space="preserve">
-    <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en</value>
-  </data>
-  <data name="PublishSettingsUrl1" xml:space="preserve">
-    <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en</value>
   </data>
   <data name="PublishSettingsUrlEnv" xml:space="preserve">
     <value>AZURE_PUBLISHINGPROFILE_URL</value>
@@ -1295,5 +1280,8 @@ Please follow these steps in the portal:
   </data>
   <data name="AccessDeniedExceptionMessage" xml:space="preserve">
     <value>The remote server returned an error: (401) Unauthorized.</value>
+  </data>
+  <data name="RealmFormat" xml:space="preserve">
+    <value>?whr={0}</value>
   </data>
 </root>

@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Management.Storage.ScenarioTest.Common;
 using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
@@ -65,8 +66,7 @@ namespace Management.Storage.ScenarioTest
             Trace.WriteLine("ClassInit");
             Test.FullClassName = testContext.FullyQualifiedTestClassName;
 
-            string ConnectionString = Test.Data.Get("StorageConnectionString");
-            StorageAccount = CloudStorageAccount.Parse(ConnectionString);
+            StorageAccount = TestBase.GetCloudStorageAccountFromConfig();
 
             //init the blob helper for blob related operations
             BlobHelper = new CloudBlobHelper(StorageAccount);
@@ -77,10 +77,12 @@ namespace Management.Storage.ScenarioTest
                 PowerShellAgent.ImportModule(moduleFilePath);
 
             // $context = New-AzureStorageContext -ConnectionString ...
-            PowerShellAgent.SetStorageContext(ConnectionString);
+            PowerShellAgent.SetStorageContext(StorageAccount.ToString(true));
 
-            BlockFilePath = Test.Data.Get("BlockFilePath");
-            PageFilePath = Test.Data.Get("PageFilePath");
+            BlockFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            PageFilePath = Path.Combine(Test.Data.Get("TempDir"), FileUtil.GetSpecialFileName());
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(BlockFilePath));
+            FileUtil.CreateDirIfNotExits(Path.GetDirectoryName(PageFilePath));
 
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(BlockFilePath, 1);
@@ -119,7 +121,7 @@ namespace Management.Storage.ScenarioTest
         [TestCategory(Tag.Function)]
         public void RootBlobOperations()
         {
-            string DownloadDirPath = Test.Data.Get("DownloadDirPath");
+            string DownloadDirPath = Test.Data.Get("DownloadDir");
 
             RootBlobOperations(new PowerShellAgent(), BlockFilePath, DownloadDirPath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
             RootBlobOperations(new PowerShellAgent(), PageFilePath, DownloadDirPath, Microsoft.WindowsAzure.Storage.Blob.BlobType.PageBlob);

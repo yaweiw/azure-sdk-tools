@@ -178,9 +178,9 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
         [TestCategory(PsTag.GetBlobCopyState)]
         public void GetCopyStateFromCrossAccountCopyTest()
         {
-            string secondConnectionString = Test.Data.Get("StorageConnectionString2");
-            object destContext = PowerShellAgent.GetStorageContext(secondConnectionString);
-            CloudBlobUtil destBlobUtil = new CloudBlobUtil(CloudStorageAccount.Parse(secondConnectionString));
+            CloudStorageAccount secondaryAccount = TestBase.GetCloudStorageAccountFromConfig("Secondary");
+            object destContext = PowerShellAgent.GetStorageContext(secondaryAccount.ToString(true));
+            CloudBlobUtil destBlobUtil = new CloudBlobUtil(secondaryAccount);
             string destContainerName = Utility.GenNameString("secondary");
             CloudBlobContainer destContainer = destBlobUtil.CreateContainer(destContainerName);
             blobUtil.SetupTestContainerAndBlob();
