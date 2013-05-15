@@ -131,6 +131,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
+            // If service objective is specified, ask the user to confirm the change
+            if (!this.Force.IsPresent &&
+                this.ServiceObjective != null)
+            {
+                string serviceObjectiveWarning = string.Format(
+                    CultureInfo.InvariantCulture,
+                    Resources.SetAzureSqlDatabaseServiceObjectiveWarning,
+                    this.Context.ServerName,
+                    databaseName);
+                if (!this.ShouldContinue(
+                    serviceObjectiveWarning,
+                    Resources.ShouldProcessCaption))
+                {
+                    return;
+                }
+            }
+
             try
             {
                 int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
