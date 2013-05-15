@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     /// <summary>
     /// Get publish profile
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzurePublishSettingsFile")]
+    [Cmdlet(VerbsCommon.Get, "AzurePublishSettingsFile"), OutputType(typeof(bool))]
     public class GetAzurePublishSettingsFileCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,

@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
-    using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -37,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(
-                f => f.WriteObject(GlobalSettingsManager.Instance.Environments.Values, true),
+                f => f.WriteObject(It.IsAny<List<WindowsAzureEnvironment>>(), true),
                 Times.Once());
         }
     }
