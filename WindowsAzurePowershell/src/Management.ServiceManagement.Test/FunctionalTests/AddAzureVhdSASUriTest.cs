@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     [TestClass]
     public class AddAzureVhdSASUriTest : AzureVhdTest
     {
-        string containerName = "vhdstore";
 
         [TestInitialize]
         public void Initialize()
@@ -41,19 +40,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            ReImportSubscription();
             pass = false;
             testStartTime = DateTime.Now;            
             storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
 
             try
             {
-                vmPowershellCmdlets.RunPSScript("Get-AzureStorageContainer -Name " + containerName);
+                vmPowershellCmdlets.RunPSScript("Get-AzureStorageContainer -Name " + vhdContainerName);
             }
             catch
             {
                 // Create a container.
-                vmPowershellCmdlets.RunPSScript("New-AzureStorageContainer -Name " + containerName);
+                vmPowershellCmdlets.RunPSScript("New-AzureStorageContainer -Name " + vhdContainerName);
             }
         }
 
@@ -124,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string CreateSasUriWithPermission(string vhdName, int p)
         {
             // Set the destination
-            string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
+            string vhdBlobName = string.Format("{0}/{1}.vhd", vhdContainerName, Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
             string httpsBlobUrlRoot = string.Format("https:{0}", blobUrlRoot.Substring(blobUrlRoot.IndexOf('/')));
             string vhdDestUri = httpsBlobUrlRoot + vhdBlobName;
 
@@ -544,7 +542,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
 
             // Set the destination
-            string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(baseVhdName)));
+            string vhdBlobName = string.Format("{0}/{1}.vhd", vhdContainerName, Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(baseVhdName)));
             string vhdDestUri = blobUrlRoot + vhdBlobName;
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -621,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 string destinationSasUriParent = CreateSasUriWithPermission(baseVhdName, i); // the destination of the parent vhd is a Sas Uri
 
                 // Set the destination of child vhd
-                string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(childVhdName)));
+                string vhdBlobName = string.Format("{0}/{1}.vhd", vhdContainerName, Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(childVhdName)));
                 string vhdDestUri = blobUrlRoot + vhdBlobName;
 
                 try

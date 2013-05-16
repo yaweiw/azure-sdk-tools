@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Sync.Download;
 
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
@@ -43,7 +44,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
-                
+
+        private const string tclientPath = "tclient.dll";
+        private const string clxtsharPath = "clxtshar.dll";
+        private const string RDPTestPath = "RDPTest.exe";
+
         // AzureAffinityGroup
         public const string NewAzureAffinityGroupCmdletName = "New-AzureAffinityGroup";
         public const string GetAzureAffinityGroupCmdletName = "Get-AzureAffinityGroup";
@@ -229,9 +234,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
         
 
-        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
+        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
-            return string.Format("{0}{1}{2}", prefix, Guid.NewGuid().ToString("N").Substring(0, length), suffix);
+            string dateSuffix = "";
+            if (includeDate)
+            {
+                dateSuffix = string.Format("-{0}{1}", DateTime.Now.Year, DateTime.Now.DayOfYear);
+            }
+            return string.Format("{0}{1}{2}{3}", prefix, Guid.NewGuid().ToString("N").Substring(0, length), suffix, dateSuffix);
         }
 
         public static int MatchKeywords(string input, string[] keywords, bool exactMatch = true)
@@ -476,16 +486,50 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return secureStr;
         }
 
+        private static void RegisterDllsForRDP()
+        {
+            Assert.IsTrue(File.Exists(tclientPath), "{0} does not exist!", tclientPath);
+            Assert.IsTrue(File.Exists(clxtsharPath), "{0} does not exist!", clxtsharPath);
+            Assert.IsTrue(File.Exists(RDPTestPath), "{0}, does not exist!", RDPTestPath);
+
+            ExecuteSimpleProcess("regsvr32", "/s " + tclientPath);
+            ExecuteSimpleProcess("regsvr32", "/s " + clxtsharPath);
+        }
+
         public static bool RDPtestPaaS(string dns, string roleName, int instance, string user, string psswrd, bool shouldSucceed)
         {
-             return (ExecuteSimpleProcess("RDPTest.exe",
-                 String.Format("PaaS {0} {1} {2} {3} {4} {5}", dns, roleName, instance.ToString(), user, psswrd, shouldSucceed.ToString())) == 0);
+            RegisterDllsForRDP();
+
+            int returnCode = ExecuteSimpleProcess(RDPTestPath,
+                 String.Format("PaaS {0} {1} {2} {3} {4} {5}", dns, roleName, instance.ToString(), user, psswrd, shouldSucceed.ToString()));
+            if (returnCode == 0)
+            {
+                Console.WriteLine("RDP access succeeded.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("RDP Failed!!");
+                return false;
+            }
         }
 
         public static bool RDPtestIaaS(string dns, int? port, string user, string psswrd, bool shouldSucceed)
         {
-            return (ExecuteSimpleProcess("RDPTest.exe",
-                String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString())) == 0);
+            RegisterDllsForRDP();
+
+            int returnCode = ExecuteSimpleProcess(RDPTestPath,
+                 String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString()));
+            if (returnCode == 0)
+            {
+                Console.WriteLine("RDP access succeeded.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("RDP Failed!!");
+                return false;
+            }
         }
 
         public static int ExecuteSimpleProcess(string fileName, string arguments)
@@ -552,6 +596,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 return false;
             }
+        }
+
+        static public string GenerateSasUri(string blobStorageEndpointFormat, string storageAccount, string storageAccountKey,
+            string blobContainer, string vhdName, int hours = 10, bool read = true, bool write = true, bool delete = true, bool list = true)
+        {
+            string destinationSasUri = string.Format(@blobStorageEndpointFormat, storageAccount) + string.Format("/{0}/{1}", blobContainer, vhdName);
+            var destinationBlob = new CloudPageBlob(new Uri(destinationSasUri), new StorageCredentials(storageAccount, storageAccountKey));
+            SharedAccessBlobPermissions permission = 0;
+            permission |= (read) ? SharedAccessBlobPermissions.Read : 0;
+            permission |= (write) ? SharedAccessBlobPermissions.Write : 0;
+            permission |= (delete) ? SharedAccessBlobPermissions.Delete : 0;
+            permission |= (list) ? SharedAccessBlobPermissions.List : 0;
+
+            var policy = new SharedAccessBlobPolicy()
+            {
+                Permissions = permission,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromHours(hours)
+            };
+
+            string destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
+            return (destinationSasUri + destinationBlobToken);
         }
     }
 }
