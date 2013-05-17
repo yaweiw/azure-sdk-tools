@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Linq;
     using System.Text;
     using System.Web;
     using System.Xml.Linq;
@@ -441,6 +442,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             List<string> locations = new List<string>();
             WebSpaces webspaces = WebsiteChannel.GetWebSpaces(subscriptionId);
+            List<string> webspacesGeoRegions = new List<string>();
+            webspaces.ForEach(w => webspacesGeoRegions.Add(w.GeoRegion));
             GeoRegions regions = new GeoRegions();
 
             using (HttpClient client = CreateWebsitesHttpClient())
@@ -448,8 +451,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
             }
 
-            webspaces.ForEach(w => locations.Add(w.Name));
             regions.ForEach(r => locations.Add(r.Name));
+            locations = locations.Union(webspacesGeoRegions).ToList();
 
             return locations;
         }
