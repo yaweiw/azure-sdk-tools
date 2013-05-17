@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
+    using System.Net.Security;
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Utilities.Common;
@@ -137,21 +139,25 @@ namespace Microsoft.WindowsAzure.Management.Subscription
 
         private void RegisterResourceProviders(GlobalSettingsManager globalSettingsManager, string subscriptionName)
         {
-            SubscriptionData subscription = globalSettingsManager.SubscriptionManager.Subscriptions[subscriptionName];
-            ISubscriptionClient client = GetSubscriptionClient(subscription);
             var knownProviders = new List<string>(ProviderRegistrationConstants.GetKnownResourceTypes());
-            var providers = new List<ProviderResource>(client.ListResources(knownProviders));
-            var providersToRegister = providers
-                .Where(p => p.State == ProviderRegistrationConstants.Unregistered)
-                .Select(p => p.Type).ToList();
+            if (knownProviders.Count > 0)
+            {
+                SubscriptionData subscription =
+                    globalSettingsManager.SubscriptionManager.Subscriptions[subscriptionName];
+                ISubscriptionClient client = GetSubscriptionClient(subscription);
+                try
+                {
+                    var providers = new List<ProviderResource>(client.ListResources(knownProviders));
+                    var providersToRegister = providers
+                        .Where(p => p.State == ProviderRegistrationConstants.Unregistered)
+                        .Select(p => p.Type).ToList();
 
-            try
-            {
-                Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
-            }
-            catch (AggregateException)
-            {
-                // It's ok for registration to fail.
+                    Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
+                }
+                catch (AggregateException)
+                {
+                    // It's ok for registration to fail.
+                }
             }
         }
 
