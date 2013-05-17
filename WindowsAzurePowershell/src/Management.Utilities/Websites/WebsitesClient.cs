@@ -18,11 +18,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Linq;
+    using System.Text;
     using System.Web;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage;
@@ -31,21 +34,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
     public class WebsitesClient : IWebsitesClient
     {
+        private string subscriptionId;
+
+        public const string WebsitesServiceVersion = "2012-12-01";
+
         public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
 
         public IServiceManagement ServiceManagementChannel { get; internal set; }
 
-        public string SubscriptionId { get; set; }
+        public SubscriptionData Subscription { get; set; }
 
         public Action<string> Logger { get; set; }
-
-        /// <summary>
-        /// Parameterless constructor for mocking.
-        /// </summary>
-        public WebsitesClient()
-        {
-
-        }
 
         /// <summary>
         /// Creates new WebsitesClient.
@@ -54,7 +53,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="logger">The logger action</param>
         public WebsitesClient(SubscriptionData subscription, Action<string> logger)
         {
-            SubscriptionId = subscription.SubscriptionId;
+            subscriptionId = subscription.SubscriptionId;
+            Subscription = subscription;
             Logger = logger;
             WebsiteChannel = ServiceManagementHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         private Repository GetRepository(string websiteName)
         {
             Site site = WebsiteChannel.GetSite(
-                SubscriptionId,
+                subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
             if (site != null)
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         private Repository TryGetRepository(string websiteName)
         {
             Site site = WebsiteChannel.GetSite(
-                SubscriptionId,
+                subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
             if (site != null)
@@ -106,12 +106,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return null;
         }
 
-        private HttpClient CreateHttpClient(string websiteName)
+        private HttpClient CreateDeploymentHttpClient(string websiteName)
         {
             Repository repository;
             ICredentials credentials;
             websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
             return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
+        }
+
+        private HttpClient CreateWebsitesHttpClient()
+        {
+            WebRequestHandler requestHandler = new WebRequestHandler();
+            requestHandler.ClientCertificates.Add(Subscription.Certificate);
+            StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
+            endpoint.Append(subscriptionId);
+            endpoint.Append("/services/");
+            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
+            client.DefaultRequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
+
+            return client;
         }
 
         private string GetWebsiteDeploymentHttpConfiguration(
@@ -135,7 +148,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         private void ChangeWebsiteState(string name, string webspace, WebsiteState state)
         {
             Site siteUpdate = new Site { Name = name, State = state.ToString() };
-            WebsiteChannel.UpdateSite(SubscriptionId, webspace, name, siteUpdate);
+            WebsiteChannel.UpdateSite(subscriptionId, webspace, name, siteUpdate);
         }
 
         private void SetApplicationDiagnosticsSettings(
@@ -146,7 +159,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             Site website = GetWebsite(name);
 
-            using (HttpClient client = CreateHttpClient(website.Name))
+            using (HttpClient client = CreateDeploymentHttpClient(website.Name))
             {
                 DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
                 switch (output)
@@ -166,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
 
                             StorageService storageService = ServiceManagementChannel.GetStorageKeys(
-                                SubscriptionId,
+                                subscriptionId,
                                 storageAccountName);
                             StorageCredentials credentials = new StorageCredentials(
                                 storageAccountName,
@@ -202,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                SubscriptionId,
+                subscriptionId,
                 website.WebSpace,
                 website.Name);
 
@@ -211,7 +224,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 configuration.DetailedErrorLoggingEnabled;
             configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
             
-            WebsiteChannel.UpdateSiteConfig(SubscriptionId, website.WebSpace, website.Name, configuration);
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
         /// <summary>
@@ -269,7 +282,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public List<LogPath> ListLogPaths(string name)
         {
             List<LogPath> logPaths = new List<LogPath>();
-            using (HttpClient client = CreateHttpClient(name))
+            using (HttpClient client = CreateDeploymentHttpClient(name))
             {
                 logPaths = client.GetJson<List<LogPath>>(UriElements.LogPaths, Logger);
             }
@@ -286,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             DiagnosticsSettings diagnosticsSettings = null;
 
-            using (HttpClient client = CreateHttpClient(name))
+            using (HttpClient client = CreateDeploymentHttpClient(name))
             {
                 diagnosticsSettings = client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
             }
@@ -333,7 +346,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
-            Site website = WebsiteChannel.GetSite(SubscriptionId, name, null);
+            Site website = WebsiteChannel.GetSite(subscriptionId, name, null);
 
             if (website == null)
             {
@@ -351,7 +364,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public SiteWithConfig GetWebsiteConfiguration(string name)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(SubscriptionId, website.WebSpace, website.Name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(subscriptionId, website.WebSpace, website.Name);
             DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
             SiteWithConfig siteWithConfig = new SiteWithConfig(website, configuration, diagnosticsSettings);
 
@@ -368,11 +381,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                SubscriptionId,
+                subscriptionId,
                 website.WebSpace,
                 website.Name);
             configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
-            WebsiteChannel.UpdateSiteConfig(SubscriptionId, website.WebSpace, website.Name, configuration);
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
         /// <summary>
@@ -418,6 +431,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
         {
             SetApplicationDiagnosticsSettings(name, output, false);
+        }
+
+        /// <summary>
+        /// Lists available website locations.
+        /// </summary>
+        /// <returns>List of location names</returns>
+        public List<string> ListAvailableLocations()
+        {
+            List<string> locations = new List<string>();
+            WebSpaces webspaces = WebsiteChannel.GetWebSpaces(subscriptionId);
+            List<string> webspacesGeoRegions = new List<string>();
+            webspaces.ForEach(w => webspacesGeoRegions.Add(w.GeoRegion));
+            GeoRegions regions = new GeoRegions();
+
+            using (HttpClient client = CreateWebsitesHttpClient())
+            {
+                regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
+            }
+
+            regions.ForEach(r => locations.Add(r.Name));
+            locations = locations.Union(webspacesGeoRegions).ToList();
+
+            return locations;
         }
     }
 }

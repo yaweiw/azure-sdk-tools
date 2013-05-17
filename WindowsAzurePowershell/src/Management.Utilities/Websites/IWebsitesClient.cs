@@ -134,6 +134,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
         void AddAppSetting(string name, string key, string value);
+
+        /// <summary>
+        /// Lists available website locations.
+        /// </summary>
+        /// <returns>List of location names</returns>
+        List<string> ListAvailableLocations();
     }
 
     public enum WebsiteState
