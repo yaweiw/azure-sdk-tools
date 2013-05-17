@@ -136,6 +136,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         void AddAppSetting(string name, string key, string value);
 
         /// <summary>
+        /// Lists available website locations.
+        /// </summary>
+        /// <returns>List of location names</returns>
+        List<string> ListAvailableLocations();
+
+        /// <summary>
         /// Gets the default website DNS suffix for the current environment.
         /// </summary>
         /// <returns>The website DNS suffix</returns>
