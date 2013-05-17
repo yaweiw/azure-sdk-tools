@@ -17,18 +17,40 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets the available Windows Azure environments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>))]
+    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>), typeof(WindowsAzureEnvironment))]
     public class GetAzureEnvironmentCommand : CmdletBase
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "The environment name")]
+        public string Name { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            WriteObject(GlobalSettingsManager.Instance.GetEnvironments(), true);
+            if (string.IsNullOrEmpty(Name))
+            {
+                List<PSObject> output = new List<PSObject>();
+                GlobalSettingsManager.Instance.GetEnvironments().ForEach(e =>
+                {
+                    output.Add(base.ConstructPSObject(
+                        null,
+                        Parameters.EnvironmentName, e.Name,
+                        Parameters.ServiceEndpoint, e.ServiceEndpoint,
+                        Parameters.PublishSettingsFileUrl, e.PublishSettingsFileUrl));
+                });
+
+                WriteObject(output, true);
+            }
+            else
+            {
+                WriteObject(GlobalSettingsManager.Instance.GetEnvironment(Name));
+            }
         }
     }
 }
