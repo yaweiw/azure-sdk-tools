@@ -162,5 +162,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         public const string LogPaths = "vfs/LogFiles";
         public const string DiagnosticsSettings = "diagnostics/settings";
+        public const string WebSpacesGeoRegionsRoot = "webspaces/?properties=georegions";
     }
 }
