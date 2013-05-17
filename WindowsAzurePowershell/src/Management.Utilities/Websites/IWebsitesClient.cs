@@ -134,6 +134,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
         void AddAppSetting(string name, string key, string value);
+
+        /// <summary>
+        /// Gets the default website DNS suffix for the current environment.
+        /// </summary>
+        /// <returns>The website DNS suffix</returns>
+        string GetWebsiteDnsSuffix();
     }
 
     public enum WebsiteState
