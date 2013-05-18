@@ -282,7 +282,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             SiteWithWebSpace website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = new[] { Name + General.AzureWebsiteHostNameSuffix },
+                HostNames = new[] { string.Format("{0}.{1}", Name, suffix) },
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };

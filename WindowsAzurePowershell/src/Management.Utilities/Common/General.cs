@@ -286,17 +286,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
-        /// Gets the value of azure host name suffix from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzureWebsiteHostNameSuffix
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
-            }
-        }
-
-        /// <summary>
         /// Gets the value of blob endpoint uri from environment if set, otherwise returns the default value.
         /// </summary>
         /// <param name="accountName">The storage account name</param>
