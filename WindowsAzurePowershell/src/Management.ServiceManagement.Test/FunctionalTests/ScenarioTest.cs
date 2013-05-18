@@ -478,8 +478,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// Basic Provisioning a Virtual Machine
         /// </summary>
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]  
-        [Ignore]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]
         public void DeploymentUpgrade()        
         {
 
@@ -585,8 +584,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         /// Note: Create a VNet, a LocalNet from the portal without creating a gateway.
         [TestMethod(), TestCategory("LongRunningTest"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
-        Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]     
-        [Ignore]
+        Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]
         public void VNetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -846,7 +844,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         // Disabled. Tracking Issue # 1479
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureServiceRemoteDesktopExtensionConfigScenarioTest()
         {
 
@@ -933,7 +930,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         // Disabled. Tracking Issue # 1479
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureServiceRemoteDesktopExtensionTest()
         {
 

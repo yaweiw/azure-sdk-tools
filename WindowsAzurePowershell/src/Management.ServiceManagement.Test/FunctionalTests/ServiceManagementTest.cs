@@ -166,18 +166,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [AssemblyCleanup]
         public static void CleanUpAssembly()
         {
-
             if (defaultAzureSubscription != null)
             {
+                Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
                 if (deleteDefaultStorageAccount)
                 {
-                    Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
                     vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
                 }
             }
         }
 
-        private static void Retry(string cmdlet, string message, int maxTry = 20, int intervalSecond = 10)
+        private static void Retry(string cmdlet, string message, int maxTry = 1, int intervalSecond = 10)
         {
 
             ServiceManagementCmdletTestHelper pscmdlet = new ServiceManagementCmdletTestHelper();
@@ -197,7 +196,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     if (e.ToString().Contains(message))
                     {
-                        Thread.Sleep(intervalSecond * 1000);
+                        //Thread.Sleep(intervalSecond * 1000);
                         continue;
                     }
                     else
