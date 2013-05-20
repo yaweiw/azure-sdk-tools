@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     // Do nothing
                 }
-                return x509cert != null && ExtensionCertificateSubject.Equals(x509cert.Subject);
+                return x509cert != null && x509cert.HasPrivateKey && ExtensionCertificateSubject.Equals(x509cert.Subject);
             });
 
             if (cert != null)
