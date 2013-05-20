@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Linq;
     using System.Text;
     using System.Web;
+    using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
@@ -454,6 +455,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             locations = locations.Union(webspacesGeoRegions).ToList();
 
             return locations;
+        }
+
+        /// <summary>
+        /// Gets the default website DNS suffix for the current environment.
+        /// </summary>
+        /// <returns>The website DNS suffix</returns>
+        public string GetWebsiteDnsSuffix()
+        {
+            string suffix;
+
+            using (HttpClient client = CreateWebsitesHttpClient())
+            {
+                string body = client.GetXml(UriElements.DnsSuffix, Logger);
+                XDocument doc = XDocument.Parse(body);
+                suffix = doc.Root.Value;
+            }
+
+            return suffix;
         }
     }
 }
