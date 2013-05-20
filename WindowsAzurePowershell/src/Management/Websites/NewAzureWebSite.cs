@@ -252,11 +252,9 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 webspace = webspaceList.FirstOrDefault();
                 if (webspace == null)
                 {
-                    // Use east us
                     webspace = new WebSpace
                     {
-                        Name = "eastuswebspace",
-                        GeoRegion = "East US",
+                        GeoRegion = WebsitesClient.GetDefaultLocation(),
                         Subscription = CurrentSubscription.SubscriptionId,
                         Plan = "VirtualDedicatedPlan"
                     };

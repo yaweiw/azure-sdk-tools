@@ -146,6 +146,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// </summary>
         /// <returns>The website DNS suffix</returns>
         string GetWebsiteDnsSuffix();
+
+        /// <summary>
+        /// Gets the default location for websites.
+        /// </summary>
+        /// <returns>The default location name.</returns>
+        string GetDefaultLocation();
     }
 
     public enum WebsiteState

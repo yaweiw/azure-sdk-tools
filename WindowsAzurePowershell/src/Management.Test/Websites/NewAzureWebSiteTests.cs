@@ -86,5 +86,53 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             Assert.IsTrue(created);
             Assert.AreEqual<string>(websiteName, (mockRuntime.OutputPipeline[0] as SiteWithConfig).Name);
         }
+
+        [TestMethod]
+        public void GetsWebsiteDefaultLocation()
+        {
+            const string websiteName = "website1";
+            const string suffix = "azurewebsites.com";
+
+            // Setup
+            Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
+            bool created = true;
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+            channel.GetWebSpacesThunk = ar => new WebSpaces();
+
+            channel.GetSiteConfigThunk = ar =>
+            {
+                return new SiteConfig
+                {
+                    PublishingUsername = "user1"
+                };
+            };
+
+            channel.CreateSiteThunk = ar =>
+            {
+                Site website = ar.Values["site"] as Site;
+                Assert.IsNotNull(website);
+                Assert.AreEqual(websiteName, website.Name);
+                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
+                created = true;
+                return website;
+            };
+
+            // Test
+            MockCommandRuntime mockRuntime = new MockCommandRuntime();
+            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = mockRuntime,
+                Name = websiteName,
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                WebsitesClient = clientMock.Object
+            };
+
+            newAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.IsTrue(created);
+            Assert.AreEqual<string>(websiteName, (mockRuntime.OutputPipeline[0] as SiteWithConfig).Name);
+            clientMock.Verify(f => f.GetDefaultLocation(), Times.Once());
+        }
     }
 }
