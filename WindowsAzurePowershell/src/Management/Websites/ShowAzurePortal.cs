@@ -34,10 +34,20 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [ValidateNotNullOrEmpty]
         public string Realm { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The environment name.")]
+        public string Environment { get; set; }
+
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void ProcessShowAzurePortal()
         {
-            General.LaunchWindowsAzurePortal(string.Format(Resources.WebsiteSufixUrl, Name), Realm);
+            string managementPortalUrl = GlobalSettingsManager.Instance.GetManagementPortalUrl(Environment, null);
+            string url = string.Format(
+                "{0}/{1}{2}",
+                managementPortalUrl,
+                string.Format(Resources.WebsiteSufixUrl, Name),
+                string.IsNullOrEmpty(Realm) ? string.Empty : string.Format(Resources.ManagementPortalRealmFormat, Realm));
+
+            General.LaunchWebPage(url);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
