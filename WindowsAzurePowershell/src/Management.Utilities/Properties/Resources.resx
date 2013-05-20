@@ -1254,7 +1254,7 @@ Please follow these steps in the portal:
   <data name="AccessDeniedExceptionMessage" xml:space="preserve">
     <value>The remote server returned an error: (401) Unauthorized.</value>
   </data>
-  <data name="RealmFormat" xml:space="preserve">
+  <data name="PublishSettingsFileRealmFormat" xml:space="preserve">
     <value>&amp;whr={0}</value>
   </data>
   <data name="EnvironmentNotFound" xml:space="preserve">
@@ -1271,5 +1271,8 @@ Please follow these steps in the portal:
   </data>
   <data name="ServiceManagementExecuteClientActionInOCSCompletedOperation" xml:space="preserve">
     <value>Completed Operation: {0}</value>
+  </data>
+  <data name="ManagementPortalRealmFormat" xml:space="preserve">
+    <value>?whr={0}</value>
   </data>
 </root>

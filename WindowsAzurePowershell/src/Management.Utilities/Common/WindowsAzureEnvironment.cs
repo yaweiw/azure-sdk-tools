@@ -36,6 +36,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public string ServiceEndpoint { get; set; }
 
         /// <summary>
+        /// Url to the Windows Azure management portal.
+        /// </summary>
+        public string ManagementPortalUrl { get; set; }
+
+        /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
         public string StorageBlobEndpointFormat { get; set; }
@@ -99,6 +104,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     Name = EnvironmentName.AzureCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
+                    ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
                     StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageQueueEndpointFormat,
                     StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat
@@ -111,6 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
+                    ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageBlobEndpointFormat,
                     StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageQueueEndpointFormat,
                     StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageTableEndpointFormat

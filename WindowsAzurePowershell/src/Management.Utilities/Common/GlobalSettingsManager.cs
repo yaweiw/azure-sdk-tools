@@ -287,10 +287,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (!string.IsNullOrEmpty(realm))
             {
-                publishSettingsUrl.AppendFormat(Resources.RealmFormat, realm);
+                publishSettingsUrl.AppendFormat(Resources.PublishSettingsFileRealmFormat, realm);
             }
 
             return publishSettingsUrl.ToString();
+        }
+
+        public string GetManagementPortalUrl(string environment = null, string realm = null)
+        {
+            // If no environment provided assume using the current environment.
+            environment = string.IsNullOrEmpty(environment) ? DefaultEnvironment.Name : environment;
+            WindowsAzureEnvironment environmentObject = GetEnvironment(environment);
+            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PublishSettingsFileUrl));
+
+            StringBuilder managementPortalUrl = new StringBuilder(environmentObject.ManagementPortalUrl);
+
+            if (!string.IsNullOrEmpty(realm))
+            {
+                managementPortalUrl.AppendFormat(Resources.ManagementPortalRealmFormat, realm);
+            }
+
+            return managementPortalUrl.ToString();
         }
 
         /// <summary>
