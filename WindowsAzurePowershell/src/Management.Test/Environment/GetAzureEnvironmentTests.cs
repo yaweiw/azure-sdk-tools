@@ -12,15 +12,32 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Moq;
+    using VisualStudio.TestTools.UnitTesting;
 
-    public class RemoveAzurePublishSettingsCommand
+    [TestClass]
+    public class GetAzureEnvironmentTests
     {
-        public void RemovePublishSettingsProcess(string azureSdkDirPath)
+        [TestMethod]
+        public void GetsAzureEnvironments()
         {
-            GlobalSettingsManager.Load(azureSdkDirPath).DeleteGlobalSettingsManager();
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            GetAzureEnvironmentCommand cmdlet = new GetAzureEnvironmentCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object
+            };
+
+            cmdlet.ExecuteCmdlet();
+
+            commandRuntimeMock.Verify(
+                f => f.WriteObject(It.IsAny<List<WindowsAzureEnvironment>>(), true),
+                Times.Once());
         }
     }
 }

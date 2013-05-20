@@ -12,15 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
-    public class RemoveAzurePublishSettingsCommand
+    /// <summary>
+    /// Gets the available Windows Azure environments.
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "AzureEnvironment"), OutputType(typeof(List<WindowsAzureEnvironment>))]
+    public class GetAzureEnvironmentCommand : CmdletBase
     {
-        public void RemovePublishSettingsProcess(string azureSdkDirPath)
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            GlobalSettingsManager.Load(azureSdkDirPath).DeleteGlobalSettingsManager();
+            WriteObject(GlobalSettingsManager.Instance.GetEnvironments(), true);
         }
     }
 }
