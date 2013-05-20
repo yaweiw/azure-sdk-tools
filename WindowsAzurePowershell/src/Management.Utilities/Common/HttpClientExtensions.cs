@@ -105,12 +105,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static string GetXml(this HttpClient client, string requestUri, Action<string> Logger)
         {
-            return GetRawBody(client, requestUri, Logger, General.ButifyXml);
+            return GetRawBody(client, requestUri, Logger, General.FormatXml);
         }
 
         public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> Logger)
         {
-            return GetFormat<T>(client, requestUri, Logger, General.ButifyXml, General.DeserializeXmlString<T>);
+            return GetFormat<T>(client, requestUri, Logger, General.FormatXml, General.DeserializeXmlString<T>);
         }
 
         public static HttpResponseMessage PostAsJsonAsync(

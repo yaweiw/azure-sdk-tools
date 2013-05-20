@@ -885,7 +885,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// </summary>
         /// <param name="xml">The input xml string</param>
         /// <returns>The formatted xml string</returns>
-        public static string ButifyXml(string xml)
+        public static string FormatXml(string xml)
         {
             try
             {
