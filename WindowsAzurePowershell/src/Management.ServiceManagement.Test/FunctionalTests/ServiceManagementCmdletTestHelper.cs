@@ -702,7 +702,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Collection<PSObject> result = azurePowershellCmdlet.Run();
         }
 
-
         #endregion
 
 
@@ -710,31 +709,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public StorageServiceKeyOperationContext GetAzureStorageAccountKey(string stroageAccountName)
         {
-            GetAzureStorageKeyCmdletInfo getAzureStorageKeyCmdletInfo = new GetAzureStorageKeyCmdletInfo(stroageAccountName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureStorageKeyCmdletInfo);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
-            if (result.Count == 1)
-            {
-                return (StorageServiceKeyOperationContext)result[0].BaseObject;
-            }
-            return null;
+            return RunPSCmdletAndReturnFirst<StorageServiceKeyOperationContext>(new GetAzureStorageKeyCmdletInfo(stroageAccountName));
         }
 
         public StorageServiceKeyOperationContext NewAzureStorageAccountKey(string stroageAccountName, string keyType)
         {
-            NewAzureStorageKeyCmdletInfo newAzureStorageKeyCmdletInfo = new NewAzureStorageKeyCmdletInfo(stroageAccountName, keyType);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(newAzureStorageKeyCmdletInfo);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
-            if (result.Count == 1)
-            {
-                return (StorageServiceKeyOperationContext)result[0].BaseObject;
-            }
-            return null;
+            return RunPSCmdletAndReturnFirst<StorageServiceKeyOperationContext>(new NewAzureStorageKeyCmdletInfo(stroageAccountName, keyType));
         }
-
-
-
-
 
         #endregion
 
