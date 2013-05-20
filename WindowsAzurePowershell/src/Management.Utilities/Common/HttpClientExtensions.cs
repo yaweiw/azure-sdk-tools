@@ -78,14 +78,39 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return serializer(content);
         }
 
+        private static string GetRawBody(
+            HttpClient client,
+            string requestUri,
+            Action<string> Logger,
+            Func<string, string> formatter)
+        {
+            AddUserAgent(client);
+            LogRequest(
+                HttpMethod.Get.Method,
+                client.BaseAddress + requestUri,
+                client.DefaultRequestHeaders,
+                string.Empty,
+                Logger);
+            HttpResponseMessage response = client.GetAsync(requestUri).Result;
+            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+            LogResponse(response.StatusCode.ToString(), response.Headers, formatter(content), Logger);
+
+            return content;
+        }
+
         public static T GetJson<T>(this HttpClient client, string requestUri, Action<string> Logger)
         {
             return GetFormat<T>(client, requestUri, Logger, General.TryFormatJson, JsonConvert.DeserializeObject<T>);
         }
 
+        public static string GetXml(this HttpClient client, string requestUri, Action<string> Logger)
+        {
+            return GetRawBody(client, requestUri, Logger, General.FormatXml);
+        }
+
         public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> Logger)
         {
-            return GetFormat<T>(client, requestUri, Logger, General.ButifyXml, General.DeserializeXmlString<T>);
+            return GetFormat<T>(client, requestUri, Logger, General.FormatXml, General.DeserializeXmlString<T>);
         }
 
         public static HttpResponseMessage PostAsJsonAsync(
