@@ -474,5 +474,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
             return suffix;
         }
+
+        /// <summary>
+        /// Gets the default location for websites.
+        /// </summary>
+        /// <returns>The default location name.</returns>
+        public string GetDefaultLocation()
+        {
+            return ListAvailableLocations().First();
+        }
     }
 }
