@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 PassThru = true,
-                Environment = EnvironmentName.Azure,
+                Environment = EnvironmentName.AzureCloud,
                 Realm = "microsoft.com"
             };
 
