@@ -36,6 +36,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             namedRoles = new Dictionary<string, HashSet<string>>();
         }
 
+        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, ExtensionConfiguration config)
+            : this(extensionManager)
+        {
+            Add(config);
+        }
+
         public bool ExistDefault(string nameSpace, string type)
         {
             return allRoles.Any(id =>
@@ -86,8 +92,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public bool Exist(ExtensionRole role, string extensionId)
         {
-            return role.RoleType == ExtensionRoleType.AllRoles ? ExistDefault(extensionId)
-                                                               : Exist(role.RoleName, extensionId);
+            return role.Default ? ExistDefault(extensionId)
+                                : Exist(role.RoleName, extensionId);
         }
 
         public ExtensionConfigurationBuilder RemoveDefault(string extensionId)
@@ -199,7 +205,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (role != null)
             {
-                if (role.RoleType == ExtensionRoleType.NamedRoles)
+                if (!role.Default)
                 {
                     Add(role.RoleName, extensionId);
                 }
