@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
     public class NetworkAclRule
     {
         public int RuleId { get; set; }
-        public int? Order { get; set; }
+        public int Order { get; set; }
         public string Action { get; set; }
         public string RemoteSubnet { get; set; }
         public string Description { get; set; }
@@ -27,33 +27,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
         public NetworkAclRule()
         {
             this.RuleId = -1;
-            this.Order = null;
+            this.Order = 0;
             this.Action = string.Empty;
             this.RemoteSubnet = string.Empty;
             this.Description = string.Empty;
         }
 
-        public NetworkAclRule(AccessControlListRule aclRule)
-        {
-            
-        }
-
         public override string ToString()
         {
-            if (!string.IsNullOrEmpty(this.Description))
-            {
-                return this.Description;
-            }
-            else
-            {
-                return string.Format("{0} {1}\n", this.Action, this.RemoteSubnet);
-            }
+            return this.Description ?? string.Format("{0} {1}", this.Action, this.RemoteSubnet);
         }
 
         public static implicit operator NetworkAclRule(AccessControlListRule o)
         {
             return new NetworkAclRule() {
-                Order = o.Order,
+                Order = o.Order ?? 0,
                 Action = o.Action,
                 RemoteSubnet = o.RemoteSubnet,
                 Description = o.Description };
@@ -61,13 +49,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
         public static implicit operator AccessControlListRule(NetworkAclRule o)
         {
-            return new AccessControlListRule()
-            {
+            return new AccessControlListRule() {
                 Order = o.Order,
                 Action = o.Action,
                 RemoteSubnet = o.RemoteSubnet,
-                Description = o.Description
-            }; 
+                Description = o.Description }; 
         }
     }
 }

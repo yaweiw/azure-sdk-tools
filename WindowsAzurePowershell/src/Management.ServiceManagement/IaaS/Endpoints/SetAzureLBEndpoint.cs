@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,38 +20,44 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using IaaS;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Set, "AzureLBEndpoint"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureLBEndpoint : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Set, "AzureLBEndpoint", DefaultParameterSetName = SetAzureLBEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
+    public class SetAzureLBEndpoint : IaaSDeploymentManagementCmdletBase
     {
+        public const string DefaultProbeParameterSet = "DefaultProbe";
         public const string TCPProbeParameterSet = "TCPProbe";
         public const string HTTPProbeParameterSet = "HTTPProbe";
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = SetAzureLBEndpoint.TCPProbeParameterSet, HelpMessage = "Indicates that a TCP probe should be used.")]
+        [Parameter(Mandatory = false, ParameterSetName = SetAzureLBEndpoint.DefaultProbeParameterSet, HelpMessage = "Should a default probe be used.")]
+        public SwitchParameter NoDefaultProbe { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = SetAzureLBEndpoint.TCPProbeParameterSet, HelpMessage = "Should a TCP probe should be used.")]
         public SwitchParameter ProbeProtocolTCP { get; set; }
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = SetAzureLBEndpoint.HTTPProbeParameterSet, HelpMessage = "Indicates that a HTTP probe should be used.")]
+        [Parameter(Mandatory = true, ParameterSetName = SetAzureLBEndpoint.HTTPProbeParameterSet, HelpMessage = "Should a HTTP probe should be used.")]
         public SwitchParameter ProbeProtocolHTTP { get; set; }
-
-        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Cloud service name.")]
-        [ValidateNotNullOrEmpty]
-        public string ServiceName { get; set; }
-
-        [Parameter(Position = 2, Mandatory = true, HelpMessage = "Load balancer set name.")]
+                
+        [Parameter(Mandatory = true, HelpMessage = "Load balancer set name.")]
         [ValidateNotNullOrEmpty]
         public string LBSetName { get; set; }
 
-        [Parameter(Position = 3, Mandatory = true, HelpMessage = "Endpoint protocol.")]
+        [Parameter(Mandatory = false, HelpMessage = "Endpoint protocol.")]
         [ValidateSet("TCP", "UDP", IgnoreCase = true)]
         public string Protocol { get; set; }
 
-        [Parameter(Position = 4, Mandatory = true, HelpMessage = "Private port.")]
+        [Parameter(Mandatory = false, HelpMessage = "Private port.")]
         public int LocalPort { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Public port.")]
         public int? PublicPort { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        public bool DirectServerReturn { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "ACLs to specify with the endpoint.")]
+        public NetworkAclObject ACL { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = SetAzureLBEndpoint.HTTPProbeParameterSet, HelpMessage = "Relative path to the HTTP probe.")]
         [ValidateNotNullOrEmpty]
@@ -63,144 +69,110 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
         [Parameter(Mandatory = false, HelpMessage = "Probe timeout in seconds.")]
         public int? ProbeTimeoutInSeconds { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "ACLs to specify with the endpoint.")]
-        public NetworkAclObject[] ACL { get; set; }
-
-        internal void ExecuteCommand()
+        internal override void ExecuteCommand()
         {
-            /*
-            ValidateParameters();
-            var endpoints = GetInputEndpoints();
-            var endpoint = endpoints.SingleOrDefault(p => p.Name == Name);
-
-            if (endpoint == null)
-            {
-                ThrowTerminatingError(
-                    new ErrorRecord(
-                            new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.EndpointCanNotBeFoundInVMConfigurationInSetAzureEndpoint, this.Name)),
-                            string.Empty,
-                            ErrorCategory.InvalidData,
-                            null));
-            }
-
-            endpoint.Port = PublicPort.HasValue ? PublicPort : null;
-            endpoint.LocalPort = LocalPort;
-            endpoint.Protocol = Protocol;
-
-            WriteObject(VM, true);
-             * */
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
-
-        protected Collection<InputEndpoint> GetInputEndpoints()
-        {
-            /*
             base.ExecuteCommand();
-
-            SubscriptionData currentSubscription = this.GetCurrentSubscription();
-            if (CurrentDeployment == null)
+            if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)
             {
                 return;
             }
 
-            // Auto generate disk names based off of default storage account 
-            foreach (DataVirtualHardDisk datadisk in this.VM.DataVirtualHardDisks)
-            {
-                if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
-                {
-                    CloudStorageAccount currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
-                    if (currentStorage == null)
-                    {
-                        throw new ArgumentException(Resources.CurrentStorageAccountIsNotAccessible);
-                    }
+            var endpoint = this.GetEndpoint();
 
-                    DateTime dateTimeCreated = DateTime.Now;
-                    string diskPartName = VM.RoleName;
+            this.UpdateEndpointProperties(endpoint);
 
-                    if (datadisk.DiskLabel != null)
-                    {
-                        diskPartName += "-" + datadisk.DiskLabel;
-                    }
-
-                    string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", ServiceName, diskPartName, dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day, dateTimeCreated.Millisecond);
-                    string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-
-                    if (blobEndpoint.EndsWith("/") == false)
-                    {
-                        blobEndpoint += "/";
-                    }
-
-                    datadisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
-                }
-
-                if (VM.DataVirtualHardDisks.Count > 1)
-                {
-                    // To avoid duplicate disk names
-                    System.Threading.Thread.Sleep(1);
-                }
-            }
-
-            var role = new PersistentVMRole
-            {
-                AvailabilitySetName = VM.AvailabilitySetName,
-                ConfigurationSets = VM.ConfigurationSets,
-                DataVirtualHardDisks = VM.DataVirtualHardDisks,
-                Label = VM.Label,
-                OSVirtualHardDisk = VM.OSVirtualHardDisk,
-                RoleName = VM.RoleName,
-                RoleSize = VM.RoleSize,
-                RoleType = VM.RoleType
-            };
-
-            ExecuteClientActionInOCS(role, CommandRuntime.ToString(), s => this.Channel.UpdateRole(s, this.ServiceName, CurrentDeployment.Name, this.Name, role));
-
-
-            /*
-            var role = VM.GetInstance();
-
-            var networkConfiguration = role.ConfigurationSets
-                                        .OfType<NetworkConfigurationSet>()
-                                        .SingleOrDefault();
-
-            if (networkConfiguration == null)
-            {
-                networkConfiguration = new NetworkConfigurationSet();
-                role.ConfigurationSets.Add(networkConfiguration);
-            }
-
-            if (networkConfiguration.InputEndpoints == null)
-            {
-                networkConfiguration.InputEndpoints = new Collection<InputEndpoint>();
-            }
-
-            var inputEndpoints = networkConfiguration.InputEndpoints;
-            return inputEndpoints;*/
-            return null;
+            this.ExecuteClientActionInOCS(
+                null,
+                this.CommandRuntime.ToString(),
+                s => this.Channel.UpdateLoadBalancedEndpointSet(
+                    this.CurrentSubscription.SubscriptionId,
+                    this.ServiceName,
+                    this.CurrentDeployment.Name,
+                    new LoadBalancedEndpointList{endpoint}));
         }
 
-        private void ValidateParameters()
+        private InputEndpoint GetEndpoint()
         {
-            if (LocalPort < 0 || LocalPort > 65535)
+            var role = this.CurrentDeployment.RoleList.SingleOrDefault();
+
+            if (role.NetworkConfigurationSet == null)
             {
-                throw new ArgumentException(Resources.PortsNotInRangeInSetAzureEndpoint);
+                return null;
             }
 
-            if (PublicPort != null && (PublicPort < 0 || PublicPort > 65535))
+            if (role.NetworkConfigurationSet.InputEndpoints == null)
             {
-                throw new ArgumentException(Resources.PortsNotInRangeInSetAzureEndpoint);
+                return null;
             }
+
+            return role.NetworkConfigurationSet.InputEndpoints.SingleOrDefault(p => p.LoadBalancedEndpointSetName == this.LBSetName);
+        }
+
+        private void UpdateEndpointProperties(InputEndpoint endpoint)
+        {
+            if (this.ParameterSpecified("Protocol"))
+            {
+                endpoint.Protocol = this.Protocol;
+            }
+
+            if (this.ParameterSpecified("LocalPort"))
+            {
+                endpoint.LocalPort = this.LocalPort;
+            }
+
+            if (this.ParameterSpecified("PublicPort"))
+            {
+                endpoint.Port = this.PublicPort;
+            }
+
+            if (this.ParameterSpecified("DirectServerReturn"))
+            {
+                endpoint.EnableDirectServerReturn = this.DirectServerReturn;
+            }
+
+            if (this.ParameterSpecified("ACL"))
+            {
+                endpoint.EndpointAccessControlList = this.ACL;
+            }
+
+            if (this.ParameterSpecified("ProbeIntervalInSeconds"))
+            {
+                endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
+            }
+
+            if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
+            {
+                endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
+            }
+
+            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.DefaultProbeParameterSet)
+                && !this.NoDefaultProbe)
+            {
+                endpoint.LoadBalancerProbe = new LoadBalancerProbe()
+                {
+                    Protocol = "TCP",
+                    Port = endpoint.LocalPort
+                };
+            }
+
+            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.HTTPProbeParameterSet))
+            {
+                endpoint.LoadBalancerProbe.Protocol = "http";
+                endpoint.LoadBalancerProbe.Path = this.ProbePath;
+            }
+
+            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.TCPProbeParameterSet))
+            {
+                endpoint.LoadBalancerProbe.Protocol = "tcp";
+                endpoint.LoadBalancerProbe.Path = null;
+            }   
+        }
+
+        private bool ParameterSpecified(string parameterName)
+        {
+            // Check for parameters by name so we can tell the difference between 
+            // the user not specifying them, and the user specifying null/empty.
+            return this.MyInvocation.BoundParameters.ContainsKey(parameterName);
         }
     }
 }

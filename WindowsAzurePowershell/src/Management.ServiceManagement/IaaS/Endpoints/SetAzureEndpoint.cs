@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
@@ -21,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzureEndpoint"), OutputType(typeof(IPersistentVM))]
     public class SetAzureEndpoint : VirtualMachineConfigurationCmdletBase
@@ -61,7 +60,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             set;
         }
 
-        [Parameter(Mandatory = false, HelpMessage = "ACL config.")]
+
+        [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        public bool? DirectServerReturn
+        { 
+            get;
+            set; 
+        }
+
+        [Parameter(Mandatory = false, HelpMessage = "ACL Config for the endpoint.")]
         public NetworkAclObject ACL
         {
             get;
@@ -89,6 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             endpoint.LocalPort = LocalPort;
             endpoint.Protocol = Protocol;
             endpoint.EndpointAccessControlList = this.ACL;
+            endpoint.EnableDirectServerReturn = this.DirectServerReturn;
 
             WriteObject(VM, true);
         }

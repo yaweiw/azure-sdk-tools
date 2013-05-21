@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,13 +36,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             if (networkConfiguration != null 
                 && networkConfiguration.InputEndpoints != null)
             {
+                if (string.IsNullOrEmpty(this.EndpointName))
+                {
+                    foreach (var endpoint in networkConfiguration.InputEndpoints)
+                    {
+                        NetworkAclObject acl = endpoint.EndpointAccessControlList;
+                        this.WriteObject(acl);
+                    }
+                }
+                else
+                {
+                    var endpoint = (from e in networkConfiguration.InputEndpoints
+                                    where e.Name == this.EndpointName
+                                    select e).FirstOrDefault();
 
-                var endpoint = (from e in networkConfiguration.InputEndpoints
-                                where e.Name == this.EndpointName
-                                select e).FirstOrDefault();
-
-                NetworkAclObject acl = endpoint.EndpointAccessControlList;
-                this.WriteObject(acl);
+                    if (endpoint != null)
+                    {
+                        NetworkAclObject acl = endpoint.EndpointAccessControlList;
+                        this.WriteObject(acl);
+                    }
+                }
             }
         }
 

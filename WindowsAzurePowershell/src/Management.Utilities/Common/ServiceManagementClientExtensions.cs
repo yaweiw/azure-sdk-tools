@@ -427,6 +427,22 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                 null));
         }
 
+        public static void UpdateLoadBalancedEndpointSet(this IServiceManagement proxy,
+            string subscriptionId,
+            string serviceName,
+            string deploymentName,
+            LoadBalancedEndpointList loadBalancedEndpointList)
+        {
+            proxy.EndUpdateLoadBalancedEndpointSet(
+                proxy.BeginUpdateLoadBalancedEndpointSet(
+                    subscriptionId,
+                    serviceName,
+                    deploymentName,
+                    loadBalancedEndpointList,
+                    null,
+                    null));
+        }
+
         public static PersistentVMRole GetRole(this IServiceManagement proxy,
             string subscriptionId,
             string serviceName,

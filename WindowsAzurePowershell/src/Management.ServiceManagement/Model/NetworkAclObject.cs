@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
                 return this.rules.AsReadOnly();
             }
         }
-
+    
         public NetworkAclObject()
         {
             this.rules = new List<NetworkAclRule>();
@@ -65,25 +65,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
             return this.rules.GetEnumerator();
         }
 
-        public static implicit operator NetworkAclObject(EndpointAccessControlList o)
+        public static implicit operator NetworkAclObject(EndpointAccessControlList other)
         {
             var acl = new NetworkAclObject();
 
-            foreach (var r in o.Rules)
+            if (other != null)
             {
-                acl.AddRule(new NetworkAclRule(r));
+                foreach (var rule in other.Rules)
+                {
+                    acl.AddRule(rule);
+                }
             }
 
             return acl;
         }
 
-        public static implicit operator EndpointAccessControlList(NetworkAclObject o)
+        public static implicit operator EndpointAccessControlList(NetworkAclObject other)
         {
             var acl = new EndpointAccessControlList();
+            acl.Rules = new Collection<AccessControlListRule>();
 
-            foreach (var r in o.Rules)
+            if (other != null)
             {
-                acl.Rules.Add(r);
+                foreach (var rule in other.Rules)
+                {
+                    acl.Rules.Add(rule);
+                }
             }
 
             return acl;
