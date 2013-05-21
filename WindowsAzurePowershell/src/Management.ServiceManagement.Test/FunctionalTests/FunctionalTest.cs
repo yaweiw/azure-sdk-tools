@@ -40,8 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         bool createOwnService = false;
         private static string defaultService;
         private static string defaultVm;
-        private const string vhdBlob = "vhdstore/os.vhd";
-        private string vhdName = "os.vhd";
+        private const string vhdName = "os.vhd";
         private string serviceName;
         private string vmName;
         protected static string vhdBlobLocation;
@@ -69,8 +68,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Service Name: {0} is created.", defaultService);
 
 
-            vhdBlobLocation = blobUrlRoot + vhdBlob;
-            if (!string.IsNullOrEmpty(localFile))
+            vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
+            if (string.IsNullOrEmpty(localFile))
+            {
+                try
+                {
+                    CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Assert.Inconclusive("Upload vhd is not set!");
+                }
+            }
+            else
             {
                 try
                 {
@@ -88,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         throw;
                     }
                 }
-            }            
+            }
         }
                                
 
@@ -114,7 +125,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureAffinityGroupTest()
         {
             createOwnService = false;
@@ -199,7 +209,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureCertificateTest()
         {
             createOwnService = false;
@@ -318,7 +327,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureCertificateSetting)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureCertificateSettingTest()
         {
             createOwnService = true;
@@ -380,7 +388,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }    
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
-        [Ignore]
         public void AzureDataDiskTest()
         {
             createOwnService = false;
@@ -460,11 +467,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
-
-       
-
-
-
         private bool CheckDataDisk(string vmName, string serviceName, AddAzureDataDiskConfig dataDiskInfo, HostCaching hc)
         {            
             bool found = false;
@@ -483,20 +485,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return found;
         }
 
-
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
-        [Ignore]
         public void AzureDiskTest()
         {
             createOwnService = false;
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            
-           
-            
 
-            string mediaLocation = String.Format("{0}vhdstore/{1}", blobUrlRoot, vhdName);
+            string mediaLocation = String.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
             
-
             try
             {
                 vmPowershellCmdlets.AddAzureDisk(vhdName, mediaLocation, vhdName, null);
@@ -543,14 +539,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureDeploymentTest()
         {
             createOwnService = true;
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
             
-
-
             // Choose the package and config files from local machine
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
             string configName = Convert.ToString(TestContext.DataRow["configName"]);
@@ -558,13 +551,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
             string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);            
 
-
             var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
             var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
             var packagePath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradePackageName);
             var configPath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradeConfigName);
             var configPath3 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradeConfigName2);
-
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(packagePath2.FullName), "file not exist={0}", packagePath2);
@@ -572,12 +563,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.IsTrue(File.Exists(configPath2.FullName), "file not exist={0}", configPath2);
             Assert.IsTrue(File.Exists(configPath3.FullName), "file not exist={0}", configPath3);
             
-            
-
             string deploymentName = "deployment1";
             string deploymentLabel = "label1";
             DeploymentInfoContext result;
-
 
             try
             {
@@ -641,7 +629,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureDns)")]
-        [Ignore]
         public void AzureDnsTest()
         {
             createOwnService = true;
@@ -689,7 +676,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
-        [Ignore]
         public void AzureEndpointTest()
         {
             createOwnService = false;
@@ -863,7 +849,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
-        [Ignore]
         public void AzureAvailabilitySetTest()
         {
             createOwnService = false;
@@ -894,7 +879,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
-        [Ignore]
         public void AzureLocationTest()
         {
             createOwnService = false;
@@ -918,7 +902,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
-        [Ignore]
         public void AzureOSDiskTest()
         {
             createOwnService = false;
@@ -947,7 +930,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
-        [Ignore]
         public void AzureOSVersionTest()
         {
             createOwnService = false;
@@ -972,7 +954,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureRoleTest()
         {
             createOwnService = true;
@@ -1001,8 +982,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             try
             {
-            
-
                 serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
@@ -1036,7 +1015,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
-        [Ignore]
         public void AzureServiceDiagnosticsExtensionConfigTest()
         {
             createOwnService = true;
@@ -1176,7 +1154,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
-        [Ignore]
         public void AzureServiceRemoteDesktopExtensionConfigTest()
         {
             createOwnService = true;
@@ -1327,7 +1304,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
-        [Ignore]
         public void AzureSubnetTest()
         {
             createOwnService = true;
@@ -1362,7 +1338,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
-        [Ignore]
         public void AzureStorageKeyTest()
         {
             createOwnService = false;
@@ -1392,7 +1367,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\storageAccountTestData.csv", "storageAccountTestData#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void AzureStorageAccountTest()
         {
             createOwnService = false;
@@ -1556,15 +1530,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
-        [Ignore]
         public void AzureVMImageTest()
         {
 
             createOwnService = false;
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string newImageName = Utilities.GetUniqueShortName("vmimage");            
-            string mediaLocation = string.Format("{0}vhdstore/{1}", blobUrlRoot, vhdName);
+            string newImageName = Utilities.GetUniqueShortName("vmimage");
+            string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             string oldLabel = "old label";
             string newLabel = "new label";            
@@ -1597,7 +1570,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
-        [Ignore]
         public void AzureVNetConfigTest()
         {
             createOwnService = false;
@@ -1653,12 +1625,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
-        [Ignore]
         public void VMSizeTest()
         {
 
             string newImageName = Utilities.GetUniqueShortName("vmimage");
-            string mediaLocation = string.Format("{0}vhdstore/{1}", blobUrlRoot, vhdName);
+            string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             string a6ServiceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             string a6VmName = Utilities.GetUniqueShortName(vmNamePrefix);
@@ -1756,6 +1727,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVM, a6VmName, a6ServiceName))
                 {
                     vmPowershellCmdlets.RemoveAzureVM(a6VmName, a6ServiceName);
+                }
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureService, a6ServiceName))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(a6ServiceName);
                 }
             }
         }
