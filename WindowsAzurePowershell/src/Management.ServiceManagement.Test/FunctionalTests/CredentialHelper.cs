@@ -31,11 +31,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private static string EnvironmentPathFormat = "testcredentials-{0}";
         private static string defaultCredentialFile = "default.publishsettings";
         private static string TestEnvironmentVariable = "AZURE_TEST_ENVIRONMENT";
-        private static string StorageAccountVariable = "AZURE_STORAGE_ACCOUNT";
-        private static string StorageAccountKeyVariable = "AZURE_STORAGE_ACCESS_KEY";
+        public static string StorageAccountVariable = "AZURE_STORAGE_ACCOUNT";
+        public static string StorageAccountKeyVariable = "AZURE_STORAGE_ACCESS_KEY";
         private static string DefaultStorageAccountVariable = "AZURERT_DEFAULT_STORAGE_ACCOUNT";
         private static string DefaultLocationVariable = "AZURERT_DEFAULT_LOCATION";
-        private static string CredentialBlobUriFormat = "https://{0}.blob.core.windows.net";
+        public static string CredentialBlobUriFormat = "https://{0}.blob.core.windows.net";
         public static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
         
         private static string publishSettingsFile = null;

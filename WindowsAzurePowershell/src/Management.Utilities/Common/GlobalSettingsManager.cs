@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         protected GlobalSettingsManager(string azurePath, string subscriptionsDataFile)
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
-            DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.Azure];
+            DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
             environments = new Dictionary<string, WindowsAzureEnvironment>(
                 WindowsAzureEnvironment.PublicEnvironments,
                 StringComparer.InvariantCultureIgnoreCase);
@@ -281,9 +281,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             // If no environment provided assume using the current environment.
             environment = string.IsNullOrEmpty(environment) ? DefaultEnvironment.Name : environment;
             WindowsAzureEnvironment environmentObject = GetEnvironment(environment);
-            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PortalEndpoint));
+            Debug.Assert(!string.IsNullOrEmpty(environmentObject.PublishSettingsFileUrl));
 
-            StringBuilder publishSettingsUrl = new StringBuilder(environmentObject.PortalEndpoint);
+            StringBuilder publishSettingsUrl = new StringBuilder(environmentObject.PublishSettingsFileUrl);
 
             if (!string.IsNullOrEmpty(realm))
             {

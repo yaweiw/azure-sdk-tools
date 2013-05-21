@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Subscription
+namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
     using System.Collections.Generic;
     using System.Management.Automation;
@@ -36,7 +36,24 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(
-                f => f.WriteObject(It.IsAny<List<WindowsAzureEnvironment>>(), true),
+                f => f.WriteObject(It.IsAny<List<PSObject>>(), true),
+                Times.Once());
+        }
+
+        [TestMethod]
+        public void GetsAzureEnvironment()
+        {
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            GetAzureEnvironmentCommand cmdlet = new GetAzureEnvironmentCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = EnvironmentName.AzureChinaCloud
+            };
+
+            cmdlet.ExecuteCmdlet();
+
+            commandRuntimeMock.Verify(
+                f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()),
                 Times.Once());
         }
     }
