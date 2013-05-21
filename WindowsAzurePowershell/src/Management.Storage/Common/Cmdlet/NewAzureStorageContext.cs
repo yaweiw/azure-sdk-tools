@@ -192,9 +192,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             {
                 domain = GetDefaultEndPointDomain();
             }
+            else
+            {
+                domain = endPoint.Trim();
+            }
 
-            domain = endPoint.Trim();
-            
             if (useHttps)
             {
                 blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
