@@ -766,11 +766,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
                         CheckEndpoint(defaultVm, defaultService, new[] { ep2Info });
                     }
-                    else
-                    {
-                        // TODO:
-                        // Use the Set-AzureLBEndpoint cmdlet here.
-                    }
 
                     // Remove Endpoint
                     Console.WriteLine("-----Remove endpoints.");

@@ -2048,5 +2048,26 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
         {
             throw new NotImplementedException();
         }
+
+
+        public IAsyncResult BeginRebuildDeploymentRoleInstance(string subscriptionId, string serviceName, string deploymentName, string roleInstanceName, string resources, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRebuildDeploymentRoleInstanceBySlot(string subscriptionId, string serviceName, string deploymentSlot, string roleInstanceName, string resources, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRebuildDeploymentRoleInstance(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRebuildDeploymentRoleInstanceBySlot(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
