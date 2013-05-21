@@ -1728,6 +1728,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     vmPowershellCmdlets.RemoveAzureVM(a6VmName, a6ServiceName);
                 }
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureService, a6ServiceName))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(a6ServiceName);
+                }
             }
         }
 
