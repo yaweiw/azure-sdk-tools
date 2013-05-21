@@ -300,15 +300,15 @@
     <comment>0 for time, 1 for message</comment>
   </data>
   <data name="HttpBlobEndPointFormat" xml:space="preserve">
-    <value>http://{0}.blob.core.{1}/</value>
+    <value>http://{0}.blob.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpQueueEndPointFormat" xml:space="preserve">
-    <value>http://{0}.queue.core.{1}/</value>
+    <value>http://{0}.queue.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpTableEndPointFormat" xml:space="preserve">
-    <value>http://{0}.table.core.{1}/</value>
+    <value>http://{0}.table.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="CurrentStorageAccountNameNotFound" xml:space="preserve">
@@ -416,15 +416,15 @@
     <comment>0 for property name, 1 for property value</comment>
   </data>
   <data name="HttpsBlobEndPointFormat" xml:space="preserve">
-    <value>https://{0}.blob.core.{1}/</value>
+    <value>https://{0}.blob.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpsQueueEndPointFormat" xml:space="preserve">
-    <value>https://{0}.queue.core.{1}/</value>
+    <value>https://{0}.queue.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpsTableEndPointFormat" xml:space="preserve">
-    <value>https://{0}.table.core.{1}/</value>
+    <value>https://{0}.table.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="CopyIdCannotBeEmpty" xml:space="preserve">
@@ -550,7 +550,7 @@ Failed: {2}.</value>
     <comment>0 for Cmdlet verb, 1 for Cmdlet noun.</comment>
   </data>
   <data name="DefaultStorageEndPointDomain" xml:space="preserve">
-    <value>windows.net</value>
+    <value>core.windows.net</value>
   </data>
   <data name="InvalidStorageEndPoint" xml:space="preserve">
     <value>Invalid storage end point '{0}'.</value>

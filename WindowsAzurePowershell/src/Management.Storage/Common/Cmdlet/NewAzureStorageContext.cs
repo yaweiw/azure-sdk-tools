@@ -192,10 +192,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             {
                 domain = GetDefaultEndPointDomain();
             }
-            else
-            {
-                domain = GetStorageDomainFromEndPoint(endPoint);
-            }
+
+            domain = endPoint.Trim();
             
             if (useHttps)
             {
@@ -220,59 +218,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         internal string GetDefaultEndPointDomain()
         {
             return Resources.DefaultStorageEndPointDomain;
-        }
-
-        /// <summary>
-        /// Get endpoint domain from endpoint
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns></returns>
-        internal string GetStorageDomainFromEndPoint(string endpoint)
-        {
-            string domain = string.Empty;
-            Uri uri = SafeGetUri(endpoint);
-
-            string endPointSignature = "core."; //blob.core.windows.net
-            int index = uri.Authority.ToLower().LastIndexOf(endPointSignature);
-
-            if (index != -1)
-            {
-                domain = uri.Authority.Substring(index + endPointSignature.Length).ToLower();
-            }
-
-            if(string.IsNullOrEmpty(domain) || uri.IsFile)
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
-            }
-
-            return domain;
-        }
-
-        /// <summary>
-        /// safely get uri object from end point
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns>Uri object</returns>
-        private Uri SafeGetUri(string endpoint)
-        {
-            Uri uri = null;
-
-            try
-            {
-                endpoint = endpoint.Trim();
-                bool created = Uri.TryCreate(endpoint, UriKind.Absolute, out uri);
-
-                if (!created || uri.HostNameType == UriHostNameType.Unknown)
-                {
-                    uri = new Uri(Resources.HTTPPrefix + endpoint);
-                }
-            }
-            catch
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
-            }
-
-            return uri;
         }
 
         /// <summary>

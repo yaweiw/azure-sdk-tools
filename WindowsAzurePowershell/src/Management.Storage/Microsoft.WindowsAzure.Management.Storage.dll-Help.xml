@@ -1722,6 +1722,13 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>EndPoint</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage Endpoint.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
 		</command:syntaxItem>
 		<command:syntaxItem>
 			<maml:name>New-AzureStorageContext</maml:name>
@@ -1742,6 +1749,13 @@ C:\PS&gt;			</maml:introduction>
 				<maml:name>Protocol</maml:name>
 				<maml:description>
 					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>EndPoint</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage Endpoint.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -1802,6 +1816,18 @@ C:\PS&gt;			</maml:introduction>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue>Https</dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>EndPoint</maml:name>
+			<maml:description>
+				<maml:para>Azure Storage Endpoint.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>Anonymous</maml:name>
@@ -1993,6 +2019,50 @@ C:\PS&gt;			</maml:introduction>
           $context2 = new-azurestoragecontext -StorageAccountName accountname -StorageAccountKey accountkey
 
           ($context1, $context2) | Get-AzureStorageContainer</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+		<command:example>
+			<maml:title>
+--------------  Create azure storage context with specified storage end point --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -EndPoint core.windows.net</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+		<command:example>
+			<maml:title>
+--------------  Create azure storage context with specified storage end point --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -EndPoint core.chinacloudapi.cn</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
@@ -2367,6 +2437,18 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>WhatIf</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Confirm</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</command:parameter>
 		</command:syntaxItem>
 		<command:syntaxItem>
 			<maml:name>Remove-AzureStorageBlob</maml:name>
@@ -2401,6 +2483,18 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>WhatIf</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Confirm</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
 			</command:parameter>
 		</command:syntaxItem>
 		<command:syntaxItem>
@@ -2443,6 +2537,18 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>WhatIf</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Confirm</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
 			</command:parameter>
 		</command:syntaxItem>
 	</command:syntax>
@@ -2512,6 +2618,28 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>WhatIf</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Confirm</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -3353,12 +3481,19 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>ICloudBlob</maml:name>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Blob</maml:name>
 				<maml:description>
-					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
+					<maml:para>Blob name.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>CloudBlobContainer</maml:name>
+				<maml:description>
+					<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >CloudBlobContainer</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>BlobType</maml:name>
@@ -3411,19 +3546,12 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Blob</maml:name>
-				<maml:description>
-					<maml:para>Blob name.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>CloudBlobContainer</maml:name>
+				<maml:name>ICloudBlob</maml:name>
 				<maml:description>
-					<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
+					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >CloudBlobContainer</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>BlobType</maml:name>
@@ -3577,18 +3705,6 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-			<maml:name>ICloudBlob</maml:name>
-			<maml:description>
-				<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">ICloudBlob</command:parameterValue>
-			<dev:type>
-				<maml:name>ICloudBlob</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>CloudBlobContainer</maml:name>
 			<maml:description>
 				<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
@@ -3596,6 +3712,18 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">CloudBlobContainer</command:parameterValue>
 			<dev:type>
 				<maml:name>CloudBlobContainer</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>ICloudBlob</maml:name>
+			<maml:description>
+				<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">ICloudBlob</command:parameterValue>
+			<dev:type>
+				<maml:name>ICloudBlob</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -4013,10 +4141,47 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>SrcContext</maml:name>
-        <maml:description>
-          <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-        </maml:description>
+				<maml:name>SrcContext</maml:name>
+				<maml:description>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>DestContext</maml:name>
+				<maml:description>
+					<maml:para>Destination Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Force</maml:name>
+				<maml:description>
+					<maml:para>Force to overwrite the destination blob without confirmation.</maml:para>
+				</maml:description>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Start-AzureStorageBlobCopy</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>ICloudBlob</maml:name>
+				<maml:description>
+					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>DestICloudBlob</maml:name>
+				<maml:description>
+					<maml:para>Destination ICloudBlob object</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>SrcContext</maml:name>
+				<maml:description>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
@@ -4059,45 +4224,8 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>SrcContext</maml:name>
 				<maml:description>
-					<maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>DestContext</maml:name>
-				<maml:description>
-					<maml:para>Destination Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Force</maml:name>
-				<maml:description>
-					<maml:para>Force to overwrite the destination blob without confirmation.</maml:para>
-				</maml:description>
-			</command:parameter>
-		</command:syntaxItem>
-		<command:syntaxItem>
-			<maml:name>Start-AzureStorageBlobCopy</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>ICloudBlob</maml:name>
-				<maml:description>
-					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>DestICloudBlob</maml:name>
-				<maml:description>
-					<maml:para>Destination ICloudBlob object</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>SrcContext</maml:name>
-        <maml:description>
-          <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-        </maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
@@ -4145,10 +4273,10 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>SrcContext</maml:name>
-        <maml:description>
-          <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-        </maml:description>
+				<maml:name>SrcContext</maml:name>
+				<maml:description>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
@@ -4189,10 +4317,10 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>SrcContext</maml:name>
-        <maml:description>
-          <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-        </maml:description>
+				<maml:name>SrcContext</maml:name>
+				<maml:description>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
@@ -4260,10 +4388,10 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-      <maml:name>SrcContext</maml:name>
-      <maml:description>
-        <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
-      </maml:description>
+			<maml:name>SrcContext</maml:name>
+				<maml:description>
+				  <maml:para>Source Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
