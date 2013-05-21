@@ -83,10 +83,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     Name = ep.Name,
                     Port = ep.Port,
                     Protocol = ep.Protocol,
-                    Vip = ep.Vip
+                    Vip = ep.Vip,
+                    Acl = ep.EndpointAccessControlList
                 };
 
-                
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
                 {
                     endpointCtx.ProbePath = ep.LoadBalancerProbe.Path;
