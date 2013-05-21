@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    using System;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
     public class AzureEndPointConfigInfo
@@ -33,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public int? ProbeTimeout { get; set; }
         public PersistentVM Vm { get; set; }
         public ParameterSet ParamSet { get; set; }
+        public NetworkAclObject Acl { get; set; }
 
         public AzureEndPointConfigInfo(ProtocolInfo endpointProtocol, int endpointLocalPort,
             int endpointPublicPort, string endpointName)
@@ -125,7 +125,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             bool ret = context.Protocol == this.EndpointProtocol.ToString()
                 && context.LocalPort == this.EndpointLocalPort
                 && context.Port == this.EndpointPublicPort
-                && context.Name == this.EndpointName;
+                && context.Name == this.EndpointName
+                && context.Acl == (NetworkAclObject)this.Acl;
 
             if (ParamSet == ParameterSet.LoadBalanced)
             {
