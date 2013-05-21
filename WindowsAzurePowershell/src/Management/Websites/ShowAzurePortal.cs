@@ -40,14 +40,17 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void ProcessShowAzurePortal()
         {
-            string managementPortalUrl = GlobalSettingsManager.Instance.GetManagementPortalUrl(Environment, null);
-            string url = string.Format(
-                "{0}/{1}{2}",
-                managementPortalUrl,
-                string.Format(Resources.WebsiteSufixUrl, Name),
-                string.IsNullOrEmpty(Realm) ? string.Empty : string.Format(Resources.ManagementPortalRealmFormat, Realm));
+            string managementPortalUrl = GlobalSettingsManager.Instance.GetManagementPortalUrl(Environment, Realm);
 
-            General.LaunchWebPage(url);
+            if (!string.IsNullOrEmpty(Name))
+            {
+                managementPortalUrl = string.Format(
+                    "{0}#{1}",
+                    managementPortalUrl,
+                    string.Format(Resources.WebsiteSufixUrl, Name));
+            }
+
+            General.LaunchWebPage(managementPortalUrl);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
