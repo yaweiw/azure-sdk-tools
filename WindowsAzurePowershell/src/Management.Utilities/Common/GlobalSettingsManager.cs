@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (!string.IsNullOrEmpty(realm))
             {
-                managementPortalUrl.AppendFormat(Resources.ManagementPortalRealmFormat, realm);
+                managementPortalUrl.AppendFormat(Resources.PublishSettingsFileRealmFormat, realm);
             }
 
             return managementPortalUrl.ToString();
