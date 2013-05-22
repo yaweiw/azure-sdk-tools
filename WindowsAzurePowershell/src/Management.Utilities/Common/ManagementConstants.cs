@@ -111,6 +111,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public const string ChinaPublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301776";
 
+        public const string AzureManagementPortalUrl = "http://go.microsoft.com/fwlink/?LinkId=254433";
+
+        public const string ChinaManagementPortalUrl = "http://go.microsoft.com/fwlink/?LinkId=301902";
+
         public const string AzureStorageBlobEndpointFormat = "{0}://{1}.blob.core.windows.net/";
 
         public const string AzureStorageQueueEndpointFormat = "{0}://{1}.queue.core.windows.net/";

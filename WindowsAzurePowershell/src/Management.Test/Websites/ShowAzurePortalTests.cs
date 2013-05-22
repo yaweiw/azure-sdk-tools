@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Websites
 {
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites;
@@ -25,17 +26,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         [TestMethod]
         public void ProcessGetAzurePublishSettingsTest()
         {
-            ShowAzurePortalCommand showAzurePortalCommand = new ShowAzurePortalCommand { Name = null };
-            showAzurePortalCommand.ProcessShowAzurePortal();
-        }
+            ShowAzurePortalCommand showAzurePortalCommand = new ShowAzurePortalCommand
+            {
+                Name = null,
+                Environment = EnvironmentName.AzureCloud,
+                Realm = "microsoft.com"
+            };
 
-        /// <summary>
-        /// Happy case, user has internet connection and uri specified is valid.
-        /// </summary>
-        [TestMethod]
-        public void ProcessShowAzurePortalTestFail()
-        {
-            Assert.IsFalse(string.IsNullOrEmpty(General.AzurePortalUrl));
+            showAzurePortalCommand.ExecuteCmdlet();
+
+            //If test reaches here then it passed.
         }
     }
 }

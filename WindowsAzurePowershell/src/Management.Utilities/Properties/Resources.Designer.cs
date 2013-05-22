@@ -1689,6 +1689,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ?whr={0}.
+        /// </summary>
+        internal static string ManagementPortalRealmFormat {
+            get {
+                return ResourceManager.GetString("ManagementPortalRealmFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to //baseuri.
         /// </summary>
         internal static string ManifestBaseUriQuery {
@@ -2399,6 +2408,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;whr={0}.
+        /// </summary>
+        internal static string PublishSettingsFileRealmFormat {
+            get {
+                return ResourceManager.GetString("PublishSettingsFileRealmFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publish settings imported.
         /// </summary>
         internal static string PublishSettingsSetSuccessfully {
@@ -2458,15 +2476,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string PythonScaffolding {
             get {
                 return ResourceManager.GetString("PythonScaffolding", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;whr={0}.
-        /// </summary>
-        internal static string RealmFormat {
-            get {
-                return ResourceManager.GetString("RealmFormat", resourceCulture);
             }
         }
         

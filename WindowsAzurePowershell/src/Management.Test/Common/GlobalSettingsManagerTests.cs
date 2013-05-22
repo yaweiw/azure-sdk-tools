@@ -27,19 +27,22 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GlobalSettingsManagerTests
+    public class GlobalSettingsManagerTests : TestBase
     {
+        private FileSystemHelper helper;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            helper = new FileSystemHelper(this);
+            helper.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
 
-            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureAppDir;
-
-            if (Directory.Exists(Data.AzureAppDir))
-            {
-                Directory.Delete(Data.AzureAppDir, true);
-            }
+        [TestCleanup]
+        public void Cleanup()
+        {
+            helper.Dispose();
         }
 
         [TestMethod]
@@ -51,15 +54,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
 
                 // Prepare
                 new ImportAzurePublishSettingsCommand().ImportSubscriptionFile(publishSettingsFile, null);
-                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(Data.AzureAppDir);
-                PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(Data.AzureAppDir, Resources.PublishSettingsFileName));
+                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
+                PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(GlobalPathInfo.GlobalSettingsDirectory, Resources.PublishSettingsFileName));
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsFile);
 
                 // Assert
-                AzureAssert.AreEqualGlobalSettingsManager(new GlobalPathInfo(Data.AzureAppDir), expectedPublishSettings, globalSettingsManager);
-                
-                // Clean
-                globalSettingsManager.DeleteGlobalSettingsManager();
+                AzureAssert.AreEqualGlobalSettingsManager(new GlobalPathInfo(GlobalPathInfo.GlobalSettingsDirectory), expectedPublishSettings, globalSettingsManager);
             }
         }
 
@@ -358,7 +358,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             // Setup
             string realmValue = "microsoft.com";
             StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl);
-            expected.AppendFormat(Resources.RealmFormat, realmValue);
+            expected.AppendFormat(Resources.PublishSettingsFileRealmFormat, realmValue);
             
             // Test
             string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(realm: realmValue);
@@ -379,7 +379,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             // Setup
             string realmValue = "microsoft.com";
             StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl);
-            expected.AppendFormat(Resources.RealmFormat, realmValue);
+            expected.AppendFormat(Resources.PublishSettingsFileRealmFormat, realmValue);
 
             // Test
             string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(EnvironmentName.AzureChinaCloud, realmValue);
@@ -394,7 +394,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             // Setup
             string realmValue = "microsoft.com";
             StringBuilder expected = new StringBuilder(WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl);
-            expected.AppendFormat(Resources.RealmFormat, realmValue);
+            expected.AppendFormat(Resources.PublishSettingsFileRealmFormat, realmValue);
 
             // Test
             string actual = GlobalSettingsManager.Instance.GetPublishSettingsFile(
