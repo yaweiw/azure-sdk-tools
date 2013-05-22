@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
@@ -77,9 +78,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 return;
             }
 
-            var endpoint = this.GetEndpoint();
-
-            this.UpdateEndpointProperties(endpoint);
+            var endpoints = this.GetEndpoints();
+            this.UpdateEndpointProperties(endpoints);
+            
+            var endpointList = new LoadBalancedEndpointList();
+            foreach (var endpoint in endpoints)
+            {
+                endpointList.Add(endpoint);
+            }
 
             this.ExecuteClientActionInOCS(
                 null,
@@ -88,84 +94,81 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     this.CurrentSubscription.SubscriptionId,
                     this.ServiceName,
                     this.CurrentDeployment.Name,
-                    new LoadBalancedEndpointList{endpoint}));
+                    endpointList));
         }
 
-        private InputEndpoint GetEndpoint()
+        private IEnumerable<InputEndpoint> GetEndpoints()
         {
-            var role = this.CurrentDeployment.RoleList.SingleOrDefault();
-
-            if (role.NetworkConfigurationSet == null)
-            {
-                return null;
-            }
-
-            if (role.NetworkConfigurationSet.InputEndpoints == null)
-            {
-                return null;
-            }
-
-            return role.NetworkConfigurationSet.InputEndpoints.SingleOrDefault(p => p.LoadBalancedEndpointSetName == this.LBSetName);
+            return from role in this.CurrentDeployment.RoleList
+                   where role.NetworkConfigurationSet != null
+                      && role.NetworkConfigurationSet.InputEndpoints != null
+                   from endpoint in role.NetworkConfigurationSet.InputEndpoints
+                   where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
+                      && endpoint.LoadBalancedEndpointSetName.Equals(this.LBSetName, StringComparison.InvariantCultureIgnoreCase)
+                   select endpoint;
         }
 
-        private void UpdateEndpointProperties(InputEndpoint endpoint)
+        private void UpdateEndpointProperties(IEnumerable<InputEndpoint> endpoints)
         {
-            if (this.ParameterSpecified("Protocol"))
+            foreach (var endpoint in endpoints)
             {
-                endpoint.Protocol = this.Protocol;
-            }
-
-            if (this.ParameterSpecified("LocalPort"))
-            {
-                endpoint.LocalPort = this.LocalPort;
-            }
-
-            if (this.ParameterSpecified("PublicPort"))
-            {
-                endpoint.Port = this.PublicPort;
-            }
-
-            if (this.ParameterSpecified("DirectServerReturn"))
-            {
-                endpoint.EnableDirectServerReturn = this.DirectServerReturn;
-            }
-
-            if (this.ParameterSpecified("ACL"))
-            {
-                endpoint.EndpointAccessControlList = this.ACL;
-            }
-
-            if (this.ParameterSpecified("ProbeIntervalInSeconds"))
-            {
-                endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
-            }
-
-            if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
-            {
-                endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
-            }
-
-            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.DefaultProbeParameterSet)
-                && !this.NoDefaultProbe)
-            {
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe()
+                if (this.ParameterSpecified("Protocol"))
                 {
-                    Protocol = "TCP",
-                    Port = endpoint.LocalPort
-                };
-            }
+                    endpoint.Protocol = this.Protocol;
+                }
 
-            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.HTTPProbeParameterSet))
-            {
-                endpoint.LoadBalancerProbe.Protocol = "http";
-                endpoint.LoadBalancerProbe.Path = this.ProbePath;
-            }
+                if (this.ParameterSpecified("LocalPort"))
+                {
+                    endpoint.LocalPort = this.LocalPort;
+                }
 
-            if (this.ParameterSetName.Equals(SetAzureLBEndpoint.TCPProbeParameterSet))
-            {
-                endpoint.LoadBalancerProbe.Protocol = "tcp";
-                endpoint.LoadBalancerProbe.Path = null;
-            }   
+                if (this.ParameterSpecified("PublicPort"))
+                {
+                    endpoint.Port = this.PublicPort;
+                }
+
+                if (this.ParameterSpecified("DirectServerReturn"))
+                {
+                    endpoint.EnableDirectServerReturn = this.DirectServerReturn;
+                }
+
+                if (this.ParameterSpecified("ACL"))
+                {
+                    endpoint.EndpointAccessControlList = this.ACL;
+                }
+
+                if (this.ParameterSpecified("ProbeIntervalInSeconds"))
+                {
+                    endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
+                }
+
+                if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
+                {
+                    endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
+                }
+
+                if (this.ParameterSetName.Equals(SetAzureLBEndpoint.DefaultProbeParameterSet)
+                    && !this.NoDefaultProbe)
+                {
+                    endpoint.LoadBalancerProbe = new LoadBalancerProbe()
+                    {
+                        Protocol = "TCP",
+                        Port = endpoint.LocalPort
+                    };
+                }
+
+                if (this.ParameterSetName.Equals(SetAzureLBEndpoint.HTTPProbeParameterSet))
+                {
+                    endpoint.LoadBalancerProbe.Protocol = "http";
+                    endpoint.LoadBalancerProbe.Path = this.ProbePath;
+                }
+
+                if (this.ParameterSetName.Equals(SetAzureLBEndpoint.TCPProbeParameterSet))
+                {
+                    endpoint.LoadBalancerProbe.Protocol = "tcp";
+                    endpoint.LoadBalancerProbe.Path = null;
+                }
+            }
         }
 
         private bool ParameterSpecified(string parameterName)

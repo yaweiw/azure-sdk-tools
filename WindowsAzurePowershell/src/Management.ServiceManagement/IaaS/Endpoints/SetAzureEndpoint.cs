@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             ValidateParameters();
 
             var endpoints = GetInputEndpoints();
-            var endpoint = endpoints.SingleOrDefault(p => p.Name == Name);
+            var endpoint = endpoints.SingleOrDefault(p => p.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
 
             if (endpoint == null)
             {
