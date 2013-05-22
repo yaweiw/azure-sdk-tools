@@ -229,7 +229,7 @@ namespace Management.Storage.ScenarioTest.Functional
             string endPoint = Utility.GenNameString("core.abc.def");
 
             string cmd = String.Format("new-azurestoragecontext -StorageAccountName {0} " +
-                "-StorageAccountKey {1} -EndPoint {2}", accountName, accountKey, endPoint);
+                "-StorageAccountKey {1} -Endpoint {2}", accountName, accountKey, endPoint);
             ((PowerShellAgent)agent).AddPipelineScript(cmd);
             agent.UseContextParam = false;
             Test.Assert(!agent.GetAzureStorageContainer(string.Empty),
