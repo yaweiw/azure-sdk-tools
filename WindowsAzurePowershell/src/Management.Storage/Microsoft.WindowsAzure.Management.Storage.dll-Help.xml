@@ -1723,7 +1723,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>EndPoint</maml:name>
+				<maml:name>Endpoint</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Endpoint.</maml:para>
 				</maml:description>
@@ -1753,7 +1753,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>EndPoint</maml:name>
+				<maml:name>Endpoint</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Endpoint.</maml:para>
 				</maml:description>
@@ -1818,7 +1818,7 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue>Https</dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>EndPoint</maml:name>
+			<maml:name>Endpoint</maml:name>
 			<maml:description>
 				<maml:para>Azure Storage Endpoint.</maml:para>
 			</maml:description>
@@ -2040,7 +2040,7 @@ C:\PS&gt;			</maml:introduction>
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
-  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -EndPoint core.windows.net</dev:code>
+  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -Endpoint core.windows.net</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
@@ -2062,7 +2062,7 @@ C:\PS&gt;			</maml:introduction>
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
-  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -EndPoint core.chinacloudapi.cn</dev:code>
+  			<dev:code>New-AzureStorageContext New-AzureStorageContext -StorageAccountName name -StorageAccountKey key -Endpoint core.chinacloudapi.cn</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
