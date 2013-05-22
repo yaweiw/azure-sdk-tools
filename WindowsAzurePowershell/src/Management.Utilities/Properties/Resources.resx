@@ -1191,8 +1191,7 @@ Please follow these steps in the portal:
 1. On the left side open "Web Sites"
 2. Click on any website
 3. Choose "Setup Git Publishing" or "Reset deployment credentials"
-4. Back in the PowerShell window, rerun this command by typing "New-AzureWebSite {site name} -Git -PublishingUsername {username}
-Launch portal now?</value>
+4. Back in the PowerShell window, rerun this command by typing "New-AzureWebSite {site name} -Git -PublishingUsername {username}</value>
   </data>
   <data name="InvalidHostnameValidation" xml:space="preserve">
     <value>The specified hostname does not exist. Please specify a valid hostname for the site.</value>
