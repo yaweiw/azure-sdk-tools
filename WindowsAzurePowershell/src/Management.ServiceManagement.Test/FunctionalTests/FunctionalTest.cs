@@ -1540,33 +1540,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             string oldLabel = "old label";
-            string newLabel = "new label";            
+            string newLabel = "new label";
 
             try
-            {                
+            {
                 OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, oldLabel);
-                
 
-                OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];                
-
+                OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
                 result = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, newLabel);
 
                 resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
-
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
-               
-                vmPowershellCmdlets.RemoveAzureVMImage(newImageName);
+
+                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName));
 
                 pass = true;
-
             }
             catch (Exception e)
             {
                 pass = false;
                 Assert.Fail("Exception occurred: {0}", e.ToString());
-            }            
+            }
+            finally
+            {
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName))
+                {
+                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                }
+            }
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
