@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             try
             {
-                string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string webspacesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                     string.Format("spaces.{0}.json", subscriptionId));
                 if (!File.Exists(webspacesFile))
                 {
@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             try
             {
-                string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string sitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                 string.Format("sites.{0}.json", subscriptionId));
                 if (!File.Exists(sitesFile))
                 {
@@ -129,12 +129,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             try
             {
-                string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string webspacesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                     string.Format("spaces.{0}.json", subscriptionId));
                 JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
 
                 // Make sure path exists
-                Directory.CreateDirectory(GlobalPathInfo.AzureAppDir);
+                Directory.CreateDirectory(GlobalPathInfo.GlobalSettingsDirectory);
                 File.WriteAllText(webspacesFile, javaScriptSerializer.Serialize(webSpaces));
             }
             catch
@@ -147,12 +147,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             try
             {
-                string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string sitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                 string.Format("sites.{0}.json", subscriptionId));
                 JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
 
                 // Make sure path exists
-                Directory.CreateDirectory(GlobalPathInfo.AzureAppDir);
+                Directory.CreateDirectory(GlobalPathInfo.GlobalSettingsDirectory);
                 File.WriteAllText(sitesFile, javaScriptSerializer.Serialize(sites));
             }
             catch

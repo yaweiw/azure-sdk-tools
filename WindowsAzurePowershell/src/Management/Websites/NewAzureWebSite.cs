@@ -167,9 +167,9 @@ namespace Microsoft.WindowsAzure.Management.Websites
             {
                 if (ShouldProcess(Resources.InvalidGitCredentials) && ShouldContinue("", ""))
                 {
-                    General.LaunchWindowsAzurePortal(null, null);
+                    // To Do: https://github.com/WindowsAzure/azure-sdk-tools/issues/1506
                 }
-            } 
+            }
             
             if (!(validUsers.Count() == 1 && users.Count() == 1))
             {

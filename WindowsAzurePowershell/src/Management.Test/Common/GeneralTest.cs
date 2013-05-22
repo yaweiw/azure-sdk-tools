@@ -40,15 +40,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void TestAzurePortalUrl()
-        {
-            string expected = Resources.AzurePortalUrl;
-            string actual = General.AzurePortalUrl;
-
-            Assert.AreEqual<string>(expected, actual);
-        }
-
-        [TestMethod]
         public void TestBlobEndpointUri()
         {
             string accountName = "azure awesome account";
