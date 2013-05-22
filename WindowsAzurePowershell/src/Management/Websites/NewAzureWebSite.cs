@@ -165,10 +165,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
             {
-                if (ShouldProcess(Resources.InvalidGitCredentials) && ShouldContinue("", ""))
-                {
-                    // To Do: https://github.com/WindowsAzure/azure-sdk-tools/issues/1506
-                }
+                throw new ArgumentException(Resources.InvalidGitCredentials);
             }
             
             if (!(validUsers.Count() == 1 && users.Count() == 1))

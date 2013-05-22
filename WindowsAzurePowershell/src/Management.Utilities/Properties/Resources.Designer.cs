@@ -1355,8 +1355,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         ///1. On the left side open &quot;Web Sites&quot;
         ///2. Click on any website
         ///3. Choose &quot;Setup Git Publishing&quot; or &quot;Reset deployment credentials&quot;
-        ///4. Back in the PowerShell window, rerun this command by typing &quot;New-AzureWebSite {site name} -Git -PublishingUsername {username}
-        ///Launch portal now?.
+        ///4. Back in the PowerShell window, rerun this command by typing &quot;New-AzureWebSite {site name} -Git -PublishingUsername {username}.
         /// </summary>
         internal static string InvalidGitCredentials {
             get {
