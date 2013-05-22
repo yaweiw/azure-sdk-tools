@@ -275,17 +275,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
-        /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzurePortalUrl
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzurePortalUrlEnv, Resources.AzurePortalUrl);
-            }
-        }
-
-        /// <summary>
         /// Gets the value of blob endpoint uri from environment if set, otherwise returns the default value.
         /// </summary>
         /// <param name="accountName">The storage account name</param>
@@ -295,37 +284,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return string.Format(CultureInfo.InvariantCulture,
                 TryGetEnvironmentVariable(Resources.BlobEndpointUriEnv, Resources.BlobEndpointUri),
                 accountName);
-        }
-
-        /// <summary>
-        /// Launches windows azure management portal with specific service if specified.
-        /// </summary>
-        /// <param name="serviceUrl">The service uri.</param>
-        /// <param name="Realm">Realm of the account.</param>
-        public static void LaunchWindowsAzurePortal(string serviceUrl, string Realm)
-        {
-            Validate.ValidateInternetConnection();
-
-            UriBuilder uriBuilder = new UriBuilder(General.AzurePortalUrl);
-            if (!string.IsNullOrEmpty(serviceUrl))
-            {
-                uriBuilder.Fragment += serviceUrl;
-            }
-
-            if (Realm != null)
-            {
-                string queryToAppend = string.Format("whr={0}", Realm);
-                if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
-                {
-                    uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + queryToAppend;
-                }
-                else
-                {
-                    uriBuilder.Query = queryToAppend;
-                }
-            }
-
-            General.LaunchWebPage(uriBuilder.ToString());
         }
 
         /// <summary>

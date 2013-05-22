@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     /// Opens the azure portal.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzurePortal")]
-    public class ShowAzurePortalCommand : PSCmdlet
+    public class ShowAzurePortalCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
@@ -37,8 +37,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The environment name.")]
         public string Environment { get; set; }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void ProcessShowAzurePortal()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
             string managementPortalUrl = GlobalSettingsManager.Instance.GetManagementPortalUrl(Environment, Realm);
 
@@ -51,21 +51,6 @@ namespace Microsoft.WindowsAzure.Management.Websites
             }
 
             General.LaunchWebPage(managementPortalUrl);
-        }
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                ProcessShowAzurePortal();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

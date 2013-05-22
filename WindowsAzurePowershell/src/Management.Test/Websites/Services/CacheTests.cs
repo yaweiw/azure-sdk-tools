@@ -16,13 +16,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class CacheTests
+    public class CacheTests : TestBase
     {
         public static string SubscriptionName = "fakename";
 
@@ -30,15 +31,18 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 
         public static string SitesFile;
 
+        private FileSystemHelper helper;
+
         [TestInitialize]
         public void SetupTest()
         {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
+            helper = new FileSystemHelper(this);
+            helper.CreateAzureSdkDirectoryAndImportPublishSettings();
 
-            WebSpacesFile =  Path.Combine(GlobalPathInfo.AzureAppDir,
+            WebSpacesFile =  Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("spaces.{0}.json", SubscriptionName));
 
-            SitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+            SitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("sites.{0}.json", SubscriptionName));
             
             if (File.Exists(WebSpacesFile))
@@ -64,6 +68,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
             {
                 File.Delete(SitesFile);
             }
+
+            helper.Dispose();
         }
 
         [TestMethod]

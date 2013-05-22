@@ -266,9 +266,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
-        /// Gets the current instance of GlobalSettingsManager using GlobalPathInfo.AzureAppDir.
+        /// Gets the current instance of GlobalSettingsManager using GlobalPathInfo.GlobalSettingsDirectory.
         /// </summary>
-        public static GlobalSettingsManager Instance { get { return Load(GlobalPathInfo.AzureAppDir); } }
+        public static GlobalSettingsManager Instance { get { return Load(GlobalPathInfo.GlobalSettingsDirectory); } }
 
         /// <summary>
         /// Gets url for downloading publish settings file.
