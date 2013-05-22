@@ -105,12 +105,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private  const string EndPointHelpMessage = "Azure storage endpoint";
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AnonymousParameterSet)]
-        public string EndPoint
+        public string Endpoint
         {
-            get { return storageEndPoint; }
-            set { storageEndPoint = value; }
+            get { return storageEndpoint; }
+            set { storageEndpoint = value; }
         }
-        private string storageEndPoint = string.Empty;
+        private string storageEndpoint = string.Empty;
 
         /// <summary>
         /// Get storage account by account name and account key
@@ -120,10 +120,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="useHttps">Use https or not</param>
         /// <returns>A storage account</returns>
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey,
-            bool useHttps, string storageEndPoint = "")
+            bool useHttps, string storageEndpoint = "")
         {
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
-            return GetStorageAccountWithEndPoint(credential, accountName, useHttps, storageEndPoint);
+            return GetStorageAccountWithEndPoint(credential, accountName, useHttps, storageEndpoint);
         }
 
         /// <summary>
@@ -163,10 +163,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
         /// <returns>A storage account</returns>
-        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName, bool useHttps, string storageEndPoint = "")
+        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName, bool useHttps, string storageEndpoint = "")
         {
             StorageCredentials credential = new StorageCredentials();
-            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps, storageEndPoint);
+            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps, storageEndpoint);
         }
 
         /// <summary>
@@ -183,9 +183,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
             }
 
-            string blobEndPoint = string.Empty;
-            string tableEndPoint = string.Empty;
-            string queueEndPoint = string.Empty;
+            string blobEndpoint = string.Empty;
+            string tableEndpoint = string.Empty;
+            string queueEndpoint = string.Empty;
             string domain = string.Empty;
 
             if (string.IsNullOrEmpty(endPoint))
@@ -194,23 +194,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             }
             else
             {
-                domain = GetStorageDomainFromEndPoint(endPoint);
+                domain = endPoint.Trim();
             }
-            
+
             if (useHttps)
             {
-                blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
-                tableEndPoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, domain);
-                queueEndPoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, domain);
+                blobEndpoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
+                tableEndpoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, domain);
+                queueEndpoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, domain);
             }
             else
             {
-                blobEndPoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, domain);
-                tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, domain);
-                queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, domain);
+                blobEndpoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, domain);
+                tableEndpoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, domain);
+                queueEndpoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, domain);
             }
 
-            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(queueEndPoint), new Uri(tableEndPoint));
+            return new CloudStorageAccount(credential, new Uri(blobEndpoint), new Uri(queueEndpoint), new Uri(tableEndpoint));
         }
 
         /// <summary>
@@ -220,59 +220,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         internal string GetDefaultEndPointDomain()
         {
             return Resources.DefaultStorageEndPointDomain;
-        }
-
-        /// <summary>
-        /// Get endpoint domain from endpoint
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns></returns>
-        internal string GetStorageDomainFromEndPoint(string endpoint)
-        {
-            string domain = string.Empty;
-            Uri uri = SafeGetUri(endpoint);
-
-            string endPointSignature = "core."; //blob.core.windows.net
-            int index = uri.Authority.ToLower().LastIndexOf(endPointSignature);
-
-            if (index != -1)
-            {
-                domain = uri.Authority.Substring(index + endPointSignature.Length).ToLower();
-            }
-
-            if(string.IsNullOrEmpty(domain) || uri.IsFile)
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
-            }
-
-            return domain;
-        }
-
-        /// <summary>
-        /// safely get uri object from end point
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns>Uri object</returns>
-        private Uri SafeGetUri(string endpoint)
-        {
-            Uri uri = null;
-
-            try
-            {
-                endpoint = endpoint.Trim();
-                bool created = Uri.TryCreate(endpoint, UriKind.Absolute, out uri);
-
-                if (!created || uri.HostNameType == UriHostNameType.Unknown)
-                {
-                    uri = new Uri(Resources.HTTPPrefix + endpoint);
-                }
-            }
-            catch
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidStorageEndPoint, endpoint), "EndPoint");
-            }
-
-            return uri;
         }
 
         /// <summary>
@@ -287,7 +234,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             switch (ParameterSetName)
             {
                 case AccountNameKeyParameterSet:
-                    account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps, storageEndPoint);
+                    account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps, storageEndpoint);
                     break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
@@ -296,7 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account = GetLocalDevelopmentStorageAccount();
                     break;
                 case AnonymousParameterSet:
-                    account = GetAnonymousStorageAccount(StorageAccountName, useHttps, storageEndPoint);
+                    account = GetAnonymousStorageAccount(StorageAccountName, useHttps, storageEndpoint);
                     break;
                 default:
                     throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
