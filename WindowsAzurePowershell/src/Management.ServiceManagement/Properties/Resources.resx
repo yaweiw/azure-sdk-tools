@@ -522,4 +522,7 @@
   <data name="ServiceExtensionUploadingCertificate" xml:space="preserve">
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
+  <data name="EndpointsCannotBeFoundWithGivenLBSetName" xml:space="preserve">
+    <value>An endpoint cannot be found with the given load balancer set name '{0}'.</value>
+  </data>
 </root>

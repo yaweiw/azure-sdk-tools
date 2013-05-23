@@ -29,50 +29,52 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Endpoint name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string Name 
         {
-            get;
-            set;
+            get; 
+            set; 
         }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Endpoint protocol.")]
         [ValidateSet("tcp", "udp", IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
         public string Protocol
-        {
-            get;
-            set;
+        { 
+            get; 
+            set; 
         }
 
         [Parameter(Position = 2, Mandatory = true, HelpMessage = "Local port.")]
         [ValidateNotNullOrEmpty]
         public int LocalPort
-        {
-            get;
-            set;
+        { 
+            get; 
+            set; 
         }
 
         [Parameter(Mandatory = false, HelpMessage = "Public port.")]
         [ValidateNotNullOrEmpty]
-        public int? PublicPort
-        {
-            get;
+        public int? PublicPort 
+        { 
+            get; 
             set;
         }
 
 
         [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        [ValidateNotNull]
         public bool? DirectServerReturn
-        { 
-            get;
-            set; 
+        {
+            get; 
+            set;
         }
 
         [Parameter(Mandatory = false, HelpMessage = "ACL Config for the endpoint.")]
+        [ValidateNotNull]
         public NetworkAclObject ACL
         {
-            get;
-            set;
+            get; 
+            set; 
         }
 
         internal void ExecuteCommand()
