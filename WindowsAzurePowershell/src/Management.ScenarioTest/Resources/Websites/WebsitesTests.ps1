@@ -220,7 +220,7 @@ function Test-GetAzureWebsite
 	# Setup
 	$name = Get-WebsiteName
 	New-AzureWebsite $name
-	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Error
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Error
 
 	#Test
 	$config = Get-AzureWebsite -Name $name
@@ -308,11 +308,11 @@ function Test-RestartAzureWebsite
 	Assert-AreEqual "Running" $website.State
 }
 
-########################################################################### Enable-AzureWebsiteDiagnostic Scenario Tests ###########################################################################
+########################################################################### Enable-AzureWebsiteApplicationDiagnostic Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests Enable-AzureWebsiteDiagnostic with storage table
+Tests Enable-AzureWebsiteApplicationDiagnostic with storage table
 #>
 function Test-EnableApplicationDiagnosticOnTableStorage
 {
@@ -325,7 +325,7 @@ function Test-EnableApplicationDiagnosticOnTableStorage
 	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
 	
 	# Test
-	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output StorageTable -LogLevel Warning -StorageAccountName $storageName
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output StorageTable -LogLevel Warning -StorageAccountName $storageName
 
 	# Assert
 	$website = Get-AzureWebsite $name
@@ -339,7 +339,7 @@ function Test-EnableApplicationDiagnosticOnTableStorage
 
 <#
 .SYNOPSIS
-Tests Enable-AzureWebsiteDiagnostic with file system
+Tests Enable-AzureWebsiteApplicationDiagnostic with file system
 #>
 function Test-EnableApplicationDiagnosticOnFileSystem
 {
@@ -348,7 +348,7 @@ function Test-EnableApplicationDiagnosticOnFileSystem
 	New-AzureWebsite $name
 
 	# Test
-	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Warning
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Warning
 
 	# Assert
 	$website = Get-AzureWebsite $name

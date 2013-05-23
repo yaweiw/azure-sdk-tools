@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    //[Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
-    public class EnableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
+    public class EnableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
         private const string SiteParameterSetName = "SiteParameterSet";
 
@@ -55,14 +55,14 @@ namespace Microsoft.WindowsAzure.Management.Websites
         public string StorageAccountName { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the EnableAzureWebsiteDiagnosticCommand class.
+        /// Initializes a new instance of the EnableAzureWebsiteApplicationDiagnosticCommand class.
         /// </summary>
-        public EnableAzureWebsiteDiagnosticCommand()
+        public EnableAzureWebsiteApplicationDiagnosticCommand()
             : this(null)
         {
         }
 
-        public EnableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
+        public EnableAzureWebsiteApplicationDiagnosticCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

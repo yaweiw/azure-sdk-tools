@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    //[Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
-    public class DisableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
+    //[Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
+    public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
         private const string SiteParameterSetName = "SiteParameterSet";
 
@@ -48,14 +48,14 @@ namespace Microsoft.WindowsAzure.Management.Websites
         public WebsiteDiagnosticOutput Output { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the DisableAzureWebsiteDiagnosticCommand class.
+        /// Initializes a new instance of the DisableAzureWebsiteApplicationDiagnosticCommand class.
         /// </summary>
-        public DisableAzureWebsiteDiagnosticCommand()
+        public DisableAzureWebsiteApplicationDiagnosticCommand()
             : this(null)
         {
         }
 
-        public DisableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
+        public DisableAzureWebsiteApplicationDiagnosticCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

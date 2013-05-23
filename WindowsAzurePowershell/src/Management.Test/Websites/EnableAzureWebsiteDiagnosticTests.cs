@@ -28,13 +28,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using Moq;
 
     [TestClass]
-    public class EnableAzureWebsiteDiagnosticTests : WebsitesTestBase
+    public class EnableAzureWebsiteApplicationDiagnosticTests : WebsitesTestBase
     {
         private const string websiteName = "website1";
 
         private Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
 
-        private EnableAzureWebsiteDiagnosticCommand enableAzureWebsiteDiagnosticCommand;
+        private EnableAzureWebsiteApplicationDiagnosticCommand enableAzureWebsiteApplicationDiagnosticCommand;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticSite()
+        public void EnableAzureWebsiteApplicationDiagnosticSite()
         {
             // Setup
             websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 true,
                 true));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticPassThru()
+        public void EnableAzureWebsiteApplicationDiagnosticPassThru()
         {
             // Setup
             websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 true,
                 true));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticSiteIgnoreSetting()
+        public void EnableAzureWebsiteApplicationDiagnosticSiteIgnoreSetting()
         {
             // Setup
             websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 false,
                 true));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
@@ -158,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticApplication()
+        public void EnableAzureWebsiteApplicationDiagnosticApplication()
         {
             // Setup
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 WebsiteDiagnosticOutput.FileSystem,
                 properties));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
@@ -191,7 +191,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticApplicationTableLog()
+        public void EnableAzureWebsiteApplicationDiagnosticApplicationTableLog()
         {
             // Setup
             string storageName = "MyStorage";
@@ -201,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 WebsiteDiagnosticOutput.StorageTable,
                 properties));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
@@ -227,7 +227,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteDiagnosticApplicationTableLogUseCurrentStorageAccount()
+        public void EnableAzureWebsiteApplicationDiagnosticApplicationTableLogUseCurrentStorageAccount()
         {
             // Setup
             string storageName = "MyStorage";
@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 WebsiteDiagnosticOutput.StorageTable,
                 properties));
 
-            enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -254,7 +254,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
