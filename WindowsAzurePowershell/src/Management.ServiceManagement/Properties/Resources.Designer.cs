@@ -313,6 +313,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned..
+        /// </summary>
+        internal static string DeploymentVIPLossWarning {
+            get {
+                return ResourceManager.GetString("DeploymentVIPLossWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deprovisioning the VM: {0} .
+        /// </summary>
+        internal static string DeprovisioningVM {
+            get {
+                return ResourceManager.GetString("DeprovisioningVM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location or AffinityGroup, only one of them needs to be specified..
         /// </summary>
         internal static string EitherLocationOrAffinityGroupBeSpecified {
