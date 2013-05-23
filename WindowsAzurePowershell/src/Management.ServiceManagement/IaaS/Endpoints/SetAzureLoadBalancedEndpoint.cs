@@ -83,9 +83,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 return;
             }
 
-            var endpoints = this.GetEndpoints();
-
-            if (endpoints.Count() == 0)
+            var endpoint = this.GetEndpoint();
+            if(endpoint == null)
             {
                 this.ThrowTerminatingError(
                     new ErrorRecord(
@@ -99,13 +98,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                         null));
             }
 
-            this.UpdateEndpointProperties(endpoints);
+            this.UpdateEndpointProperties(endpoint);
             
             var endpointList = new LoadBalancedEndpointList();
-            foreach (var endpoint in endpoints)
-            {
-                endpointList.Add(endpoint);
-            }
+            endpointList.Add(endpoint);
 
             this.ExecuteClientActionInOCS(
                 null,
@@ -117,91 +113,88 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     endpointList));
         }
 
-        private IEnumerable<InputEndpoint> GetEndpoints()
+        private InputEndpoint GetEndpoint()
         {
-            return from role in this.CurrentDeployment.RoleList
+            return (from role in this.CurrentDeployment.RoleList
                     where role.NetworkConfigurationSet != null
                        && role.NetworkConfigurationSet.InputEndpoints != null
                     from endpoint in role.NetworkConfigurationSet.InputEndpoints
                     where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
                       && endpoint.LoadBalancedEndpointSetName.Equals(this.LBSetName, StringComparison.InvariantCultureIgnoreCase)
-                    select endpoint;
+                    select endpoint).FirstOrDefault<InputEndpoint>();
         }
 
-        private void UpdateEndpointProperties(IEnumerable<InputEndpoint> endpoints)
+        private void UpdateEndpointProperties(InputEndpoint endpoint)
         {
-            foreach (var endpoint in endpoints)
+            if (this.ParameterSpecified("Protocol"))
             {
-                if (this.ParameterSpecified("Protocol"))
+                endpoint.Protocol = this.Protocol;
+            }
+
+            if (this.ParameterSpecified("LocalPort"))
+            {
+                if (!this.ParameterSpecified("ProbePort")
+                    && endpoint.LoadBalancerProbe != null
+                    && endpoint.LocalPort == endpoint.LoadBalancerProbe.Port)
                 {
-                    endpoint.Protocol = this.Protocol;
+                    endpoint.LoadBalancerProbe.Port = this.LocalPort;
                 }
 
-                if (this.ParameterSpecified("LocalPort"))
-                {
-                    if (!this.ParameterSpecified("ProbePort")
-                        && endpoint.LoadBalancerProbe != null
-                        && endpoint.LocalPort == endpoint.LoadBalancerProbe.Port)
-                    {
-                        endpoint.LoadBalancerProbe.Port = this.LocalPort;
-                    }
+                endpoint.LocalPort = this.LocalPort;
+            }
 
-                    endpoint.LocalPort = this.LocalPort;
+            if (this.ParameterSpecified("PublicPort"))
+            {
+                endpoint.Port = this.PublicPort;
+            }
+
+            if (this.ParameterSpecified("DirectServerReturn"))
+            {
+                endpoint.EnableDirectServerReturn = this.DirectServerReturn;
+            }
+
+            if (this.ParameterSpecified("ACL"))
+            {
+                endpoint.EndpointAccessControlList = this.ACL;
+            }
+
+            if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet
+                || this.ParameterSetName == SetAzureLoadBalancedEndpoint.TCPProbeParameterSet)
+            {
+                if (endpoint.LoadBalancerProbe == null)
+                {
+                    endpoint.LoadBalancerProbe = new LoadBalancerProbe();
+                    if (!this.ParameterSpecified("ProbePort"))
+                    {
+                        endpoint.LoadBalancerProbe.Port = endpoint.LocalPort;
+                    }
                 }
 
-                if (this.ParameterSpecified("PublicPort"))
+                if (this.ParameterSpecified("ProbePort"))
                 {
-                    endpoint.Port = this.PublicPort;
+                    endpoint.LoadBalancerProbe.Port = this.ProbePort;
                 }
 
-                if (this.ParameterSpecified("DirectServerReturn"))
+                if (this.ParameterSpecified("ProbeIntervalInSeconds"))
                 {
-                    endpoint.EnableDirectServerReturn = this.DirectServerReturn;
+                    endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
                 }
 
-                if (this.ParameterSpecified("ACL"))
+                if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
                 {
-                    endpoint.EndpointAccessControlList = this.ACL;
+                    endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
                 }
 
-                if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet
-                    || this.ParameterSetName == SetAzureLoadBalancedEndpoint.TCPProbeParameterSet)
+                if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet)
                 {
-                    if (endpoint.LoadBalancerProbe == null)
-                    {
-                        endpoint.LoadBalancerProbe = new LoadBalancerProbe();
-                        if (!this.ParameterSpecified("ProbePort"))
-                        {
-                            endpoint.LoadBalancerProbe.Port = endpoint.LocalPort;
-                        }
-                    }
+                    endpoint.LoadBalancerProbe.Protocol = "http";
+                    endpoint.LoadBalancerProbe.Path = this.ProbePath;
+                }
 
-                    if (this.ParameterSpecified("ProbePort"))
-                    {
-                        endpoint.LoadBalancerProbe.Port = this.ProbePort;
-                    }
-
-                    if (this.ParameterSpecified("ProbeIntervalInSeconds"))
-                    {
-                        endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
-                    }
-
-                    if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
-                    {
-                        endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
-                    }
-
-                    if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet)
-                    {
-                        endpoint.LoadBalancerProbe.Protocol = "http";
-                        endpoint.LoadBalancerProbe.Path = this.ProbePath;
-                    }
-
-                    if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.TCPProbeParameterSet)
-                    {
-                        endpoint.LoadBalancerProbe.Protocol = "tcp";
-                        endpoint.LoadBalancerProbe.Path = null;
-                    }
+                if (this.ParameterSetName == SetAzureLoadBalancedEndpoint.TCPProbeParameterSet)
+                {
+                    endpoint.LoadBalancerProbe.Protocol = "tcp";
+                    endpoint.LoadBalancerProbe.Path = null;
                 }
             }
         }
