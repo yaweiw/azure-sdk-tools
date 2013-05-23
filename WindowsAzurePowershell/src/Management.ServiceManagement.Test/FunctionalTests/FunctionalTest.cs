@@ -744,11 +744,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     CheckEndpoint(defaultVm, defaultService, new[] { ep1Info, ep2Info });
 
                     // Change the endpoint
-                    Console.WriteLine("-----Change the second endpoint.");
-                    ep2Info.EndpointLocalPort = ep2LocalPortChanged;
-                    ep2Info.EndpointPublicPort = ep2PublicPortChanged;
-                    vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
-                    CheckEndpoint(defaultVm, defaultService, new[] { ep2Info });
+                    if (p == AzureEndPointConfigInfo.ParameterSet.NoLB)
+                    {
+                        Console.WriteLine("-----Change the second endpoint.");
+                        ep2Info.EndpointLocalPort = ep2LocalPortChanged;
+                        ep2Info.EndpointPublicPort = ep2PublicPortChanged;
+                        vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
+                        CheckEndpoint(defaultVm, defaultService, new[] { ep2Info });
+                    }
 
                     // Remove Endpoint
                     Console.WriteLine("-----Remove endpoints.");
