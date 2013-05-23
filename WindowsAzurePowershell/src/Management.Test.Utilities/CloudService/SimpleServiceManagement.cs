@@ -1706,86 +1706,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
             return availabilityResponse;
         }
 
-        public IAsyncResult BeginPrepareImageUpload(string subscriptionId, string imageName, PrepareImageUploadInput input, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndPrepareImageUpload(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginGetImageReference(string subscriptionID, string imageName, string expiry, string permission, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MachineImageReference EndGetImageReference(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginCommitImageUpload(string subscriptionID, string imageName, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndCommitImageUpload(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginListImages(string subscriptionID, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MachineImageList EndListImages(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginGetImageProperties(string subscriptionID, string imageName, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MachineImage EndGetImageProperties(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginSetImageProperties(string subscriptionID, string imageName, SetMachineImagePropertiesInput imageProperties, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndSetImageProperties(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginSetParentImage(string subscriptionID, string imageName, SetParentImageInput parentImageInput, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndSetParentImage(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginDeleteImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndDeleteImage(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
         public IAsyncResult BeginSetNetworkConfiguration(string subscriptionId, System.IO.Stream networkConfiguration, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
@@ -2064,6 +1984,88 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
         }
 
         public ExtensionImageList EndListLatestExtensions(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IAsyncResult BeginAddSubscriptionCertificate(string subscriptionId, SubscriptionCertificate Certificate, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginExecuteRoleSetOperation(string subscriptionID, string serviceName, string deploymentName, RoleSetOperation roleSetOperation, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetSubscriptionCertificate(string subscriptionID, string thumbprint, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListSubscriptionCertificates(string subscriptionID, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRemoveSubscriptionCertificate(string subscriptionID, string thumbprint, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateLoadBalancedEndpointSet(string subscriptionID, string serviceName, string deploymentName, LoadBalancedEndpointList loadBalancedEndpointList, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndAddSubscriptionCertificate(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndExecuteRoleSetOperation(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SubscriptionCertificate EndGetSubscriptionCertificate(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SubscriptionCertificateList EndListSubscriptionCertificates(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRemoveSubscriptionCertificate(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateLoadBalancedEndpointSet(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IAsyncResult BeginRebuildDeploymentRoleInstance(string subscriptionId, string serviceName, string deploymentName, string roleInstanceName, string resources, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRebuildDeploymentRoleInstanceBySlot(string subscriptionId, string serviceName, string deploymentSlot, string roleInstanceName, string resources, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRebuildDeploymentRoleInstance(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRebuildDeploymentRoleInstanceBySlot(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

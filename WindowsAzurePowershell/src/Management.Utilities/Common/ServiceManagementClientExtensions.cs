@@ -281,14 +281,15 @@ namespace Microsoft.WindowsAzure.ServiceManagement
             string subscriptionId,
             string serviceName,
             string deploymentName,
-            string roleInstanceName)
+            string roleInstanceName,
+            PostShutdownAction? shutdownAction)
         {
             proxy.EndExecuteRoleOperation(proxy.BeginExecuteRoleOperation(
                 subscriptionId,
                 serviceName,
                 deploymentName,
                 roleInstanceName,
-                new ShutdownRoleOperation(),
+                new ShutdownRoleOperation {PostShutdownAction = shutdownAction},
                 null,
                 null));
         }
@@ -427,6 +428,22 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                 null));
         }
 
+        public static void UpdateLoadBalancedEndpointSet(this IServiceManagement proxy,
+            string subscriptionId,
+            string serviceName,
+            string deploymentName,
+            LoadBalancedEndpointList loadBalancedEndpointList)
+        {
+            proxy.EndUpdateLoadBalancedEndpointSet(
+                proxy.BeginUpdateLoadBalancedEndpointSet(
+                    subscriptionId,
+                    serviceName,
+                    deploymentName,
+                    loadBalancedEndpointList,
+                    null,
+                    null));
+        }
+
         public static PersistentVMRole GetRole(this IServiceManagement proxy,
             string subscriptionId,
             string serviceName,
@@ -518,52 +535,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement
 
 
         #endregion
-
-        #region Image
-
-        public static void PrepareImageUpload(this IServiceManagement proxy, string subscriptionID, string imageName, PrepareImageUploadInput input)
-        {
-            proxy.EndPrepareImageUpload(proxy.BeginPrepareImageUpload(subscriptionID, imageName, input, null, null));
-        }
-
-        public static MachineImageReference GetImageReference(this IServiceManagement proxy, string subscriptionId, string imageName, DateTime expiry, ImageSharedAccessSignaturePermission accessModifier)
-        {
-            return proxy.EndGetImageReference(proxy.BeginGetImageReference(subscriptionId, imageName, expiry.ToString("o"), accessModifier.ToString().ToLower(), null, null));
-        }
-
-        public static void CommitImageUpload(this IServiceManagement proxy, string subscriptionId, string imageName)
-        {
-            proxy.EndCommitImageUpload(proxy.BeginCommitImageUpload(subscriptionId, imageName, null, null));
-        }
-
-        public static MachineImageList ListImages(this IServiceManagement proxy, string subscriptionID)
-        {
-            return proxy.EndListImages(proxy.BeginListImages(subscriptionID, null, null));
-        }
-
-        public static MachineImage GetImageProperties(this IServiceManagement proxy, string subscriptionID, string imageName)
-        {
-            return proxy.EndGetImageProperties(proxy.BeginGetImageProperties(subscriptionID, imageName, null, null));
-        }
-
-        public static void SetImageProperties(this IServiceManagement proxy, string subscriptionID, string imageName, SetMachineImagePropertiesInput input)
-        {
-            proxy.EndSetImageProperties(proxy.BeginSetImageProperties(subscriptionID, imageName, input, null, null));
-        }
-
-        public static void SetParentImage(this IServiceManagement proxy, string subscriptionID, string imageName, SetParentImageInput input)
-        {
-            proxy.EndSetParentImage(proxy.BeginSetParentImage(subscriptionID, imageName, input, null, null));
-        }
-
-        public static void DeleteImage(this IServiceManagement proxy, string subscriptionID, string imageName)
-        {
-            proxy.EndDeleteImage(proxy.BeginDeleteImage(subscriptionID, imageName, null, null));
-        }
-
-
-        #endregion
-
+        
         #region Networking
 
         public static void SetNetworkConfiguration(this IServiceManagement proxy, string subscriptionID, Stream networkConfiguration)
