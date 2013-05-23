@@ -325,7 +325,7 @@ function Test-EnableApplicationDiagnosticOnTableStorage
 	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
 	
 	# Test
-	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output StorageTable -LogLevel Warning -StorageAccountName $storageName
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName $storageName
 
 	# Assert
 	$website = Get-AzureWebsite $name
@@ -348,11 +348,81 @@ function Test-EnableApplicationDiagnosticOnFileSystem
 	New-AzureWebsite $name
 
 	# Test
-	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Warning
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
 
 	# Assert
 	$website = Get-AzureWebsite $name
 	Assert-True { $website.AzureDriveTraceEnabled }
+	Assert-AreEqual Warning $website.AzureDriveTraceLevel
+}
+
+<#
+.SYNOPSIS
+Tests Enable-AzureWebsiteApplicationDiagnostic when updating a log level and expects to pass.
+#>
+function Test-UpdateTheDiagnositicLogLevel
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Verbose
+
+	# Test
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-True { $website.AzureDriveTraceEnabled }
+	Assert-AreEqual Warning $website.AzureDriveTraceLevel
+}
+
+########################################################################### Disable-AzureWebsiteApplicationDiagnostic Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Disable-AzureWebsiteApplicationDiagnostic with storage table
+#>
+function Test-DisableApplicationDiagnosticOnTableStorage
+{
+	# Setup
+	$name = Get-WebsiteName
+	$storageName = $(Get-WebsiteName).ToLower()
+	$locations = Get-AzureLocation
+	$defaultLocation = $locations[0].Name
+	New-AzureWebsite $name
+	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName $storageName
+	
+	# Test
+	Disable-AzureWebsiteApplicationDiagnostic -Name $name -Storage
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-False { $website.AzureTableTraceEnabled }
+	Assert-AreEqual Warning $website.AzureTableTraceLevel
+	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+
+	# Cleanup
+	Remove-AzureStorageAccount $storageName
+}
+
+<#
+.SYNOPSIS
+Tests Disable-AzureWebsiteApplicationDiagnostic with file system
+#>
+function Test-DisableApplicationDiagnosticOnFileSystem
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
+
+	# Test
+	Disable-AzureWebsiteApplicationDiagnostic -Name $name -File
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-False { $website.AzureDriveTraceEnabled }
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
 
