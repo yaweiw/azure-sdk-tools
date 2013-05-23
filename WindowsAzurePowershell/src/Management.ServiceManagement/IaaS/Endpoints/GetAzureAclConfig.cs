@@ -15,10 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureAclConfig"), OutputType(typeof(NetworkAclObject))]
@@ -38,23 +41,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             {
                 if (string.IsNullOrEmpty(this.EndpointName))
                 {
+                    var ret = new List<NetworkAclObject>();
                     foreach (var endpoint in networkConfiguration.InputEndpoints)
                     {
-                        NetworkAclObject acl = endpoint.EndpointAccessControlList;
-                        this.WriteObject(acl);
+                        ret.Add(endpoint.EndpointAccessControlList);
                     }
+
+                    this.WriteObject(ret, true);
                 }
                 else
                 {
                     var endpoint = (from e in networkConfiguration.InputEndpoints
-                                    where e.Name == this.EndpointName
-                                    select e).FirstOrDefault();
+                                    where e.Name.Equals(this.EndpointName, StringComparison.InvariantCultureIgnoreCase)
+                                    select e).SingleOrDefault();
 
-                    if (endpoint != null)
+                    if (endpoint == null)
                     {
-                        NetworkAclObject acl = endpoint.EndpointAccessControlList;
-                        this.WriteObject(acl);
+                        this.ThrowTerminatingError(
+                            new ErrorRecord(
+                                    new InvalidOperationException(
+                                        string.Format(
+                                            CultureInfo.InvariantCulture,
+                                            Resources.EndpointCanNotBeFoundInVMConfiguration,
+                                            this.EndpointName)),
+                                    string.Empty,
+                                    ErrorCategory.InvalidData,
+                                    null));
                     }
+
+                    NetworkAclObject acl = endpoint.EndpointAccessControlList ?? new NetworkAclObject();
+                    this.WriteObject(acl);
                 }
             }
         }

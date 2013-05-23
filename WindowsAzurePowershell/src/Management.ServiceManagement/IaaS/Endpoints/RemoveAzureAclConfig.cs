@@ -15,10 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureAclConfig"), OutputType(typeof(IPersistentVM))]
@@ -37,9 +39,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 && networkConfiguration.InputEndpoints != null)
             {
                 var endpoint = (from e in networkConfiguration.InputEndpoints
-                                where e.Name == this.EndpointName
-                                select e).FirstOrDefault();
+                                where e.Name.Equals(this.EndpointName, StringComparison.InvariantCultureIgnoreCase)
+                                select e).SingleOrDefault();
 
+                if (endpoint == null)
+                {
+                    this.ThrowTerminatingError(
+                        new ErrorRecord(
+                                new InvalidOperationException(
+                                    string.Format(
+                                        CultureInfo.InvariantCulture, 
+                                        Resources.EndpointCanNotBeFoundInVMConfiguration, 
+                                        this.EndpointName)),
+                                string.Empty,
+                                ErrorCategory.InvalidData,
+                                null));
+                }
+                 
                 endpoint.EndpointAccessControlList = null;
             }
 
