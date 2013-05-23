@@ -28,13 +28,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using Moq;
 
     [TestClass]
-    public class DisableAzureWebsiteDiagnosticTests : WebsitesTestBase
+    public class DisableAzureWebsiteApplicationDiagnosticTests : WebsitesTestBase
     {
         private const string websiteName = "website1";
 
         private Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
 
-        private DisableAzureWebsiteDiagnosticCommand disableAzureWebsiteDiagnosticCommand;
+        private DisableAzureWebsiteApplicationDiagnosticCommand disableAzureWebsiteApplicationDiagnosticCommand;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void DisableAzureWebsiteDiagnosticSite()
+        public void DisableAzureWebsiteApplicationDiagnosticSite()
         {
             // Setup
             websitesClientMock.Setup(f => f.DisableSiteDiagnostic(
@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 true,
                 true));
 
-            disableAzureWebsiteDiagnosticCommand = new DisableAzureWebsiteDiagnosticCommand()
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            disableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.DisableSiteDiagnostic(
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void DisableAzureWebsiteDiagnosticPassThru()
+        public void DisableAzureWebsiteApplicationDiagnosticPassThru()
         {
             // Setup
             websitesClientMock.Setup(f => f.DisableSiteDiagnostic(
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 true,
                 true));
 
-            disableAzureWebsiteDiagnosticCommand = new DisableAzureWebsiteDiagnosticCommand()
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            disableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.DisableSiteDiagnostic(
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void DisableAzureWebsiteDiagnosticSiteIgnoreSetting()
+        public void DisableAzureWebsiteApplicationDiagnosticSiteIgnoreSetting()
         {
             // Setup
             websitesClientMock.Setup(f => f.DisableSiteDiagnostic(
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 false,
                 true));
 
-            disableAzureWebsiteDiagnosticCommand = new DisableAzureWebsiteDiagnosticCommand()
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            disableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.DisableSiteDiagnostic(
@@ -154,14 +154,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void DisableAzureWebsiteDiagnosticApplication()
+        public void DisableAzureWebsiteApplicationDiagnosticApplication()
         {
             // Setup
             websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.FileSystem));
 
-            disableAzureWebsiteDiagnosticCommand = new DisableAzureWebsiteDiagnosticCommand()
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            disableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.DisableApplicationDiagnostic(
@@ -184,14 +184,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void DisableAzureWebsiteDiagnosticApplicationTableLog()
+        public void DisableAzureWebsiteApplicationDiagnosticApplicationTableLog()
         {
             // Setup
             websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable));
 
-            disableAzureWebsiteDiagnosticCommand = new DisableAzureWebsiteDiagnosticCommand()
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             };
 
             // Test
-            disableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
             websitesClientMock.Verify(f => f.DisableApplicationDiagnostic(

@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
 
         #endregion
 
-        #region Enable-AzureWebsiteDiagnostic Scenario Tests
+        #region Enable-AzureWebsiteApplicationDiagnostic Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
