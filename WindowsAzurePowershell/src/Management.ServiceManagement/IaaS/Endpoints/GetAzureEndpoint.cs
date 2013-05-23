@@ -84,7 +84,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     Port = ep.Port,
                     Protocol = ep.Protocol,
                     Vip = ep.Vip,
-                    Acl = ep.EndpointAccessControlList
+                    Acl = ep.EndpointAccessControlList,
+                    EnableDirectServerReturn = ep.EnableDirectServerReturn
                 };
 
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)

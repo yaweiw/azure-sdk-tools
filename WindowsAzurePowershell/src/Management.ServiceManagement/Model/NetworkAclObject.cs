@@ -82,6 +82,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
         public static implicit operator EndpointAccessControlList(NetworkAclObject other)
         {
+            if (other == null
+               || other.Rules.Count == 0)
+            {
+                return null;
+            }
+
             var acl = new EndpointAccessControlList();
             acl.Rules = new Collection<AccessControlListRule>();
 
