@@ -128,9 +128,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
                     roles.Add(vmContext);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    WriteObject(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM));
+                    throw new ApplicationException(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM), e);
                 }
             }
 
