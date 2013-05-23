@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Add, "AzureEndpoint", DefaultParameterSetName = "NoLB"), OutputType(typeof(IPersistentVM))]
     public class AddAzureEndpoint : VirtualMachineConfigurationCmdletBase 
@@ -72,11 +72,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        public bool? DirectServerReturn
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, HelpMessage = "ACL Config for the endpoint.")]
+        public NetworkAclObject ACL
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
         [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
         [Alias("LoadBalancedEndpointSetName")]
         [ValidateNotNullOrEmpty]
         public string LBSetName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Specifies that no load balancer probe is to be used.")]
+        public SwitchParameter NoProbe
         {
             get;
             set;
@@ -143,6 +164,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 Port = PublicPort.HasValue ? PublicPort : null,
                 LocalPort = LocalPort,
                 Protocol = Protocol,
+                EndpointAccessControlList = this.ACL,
+                EnableDirectServerReturn = this.DirectServerReturn
             };
 
             if (ParameterSetName == LoadBalancedProbeParameterSet)
@@ -177,6 +200,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             else if (ParameterSetName == LoadBalancedParameterSet)
             {
                 endpoint.LoadBalancedEndpointSetName = LBSetName;
+                endpoint.LoadBalancerProbe = new LoadBalancerProbe()
+                {
+                    Protocol = "TCP",
+                    Port = endpoint.LocalPort
+                };
             }
 
             endpoints.Add(endpoint);
