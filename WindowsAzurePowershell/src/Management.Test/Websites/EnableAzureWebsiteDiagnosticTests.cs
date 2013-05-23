@@ -50,42 +50,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         }
 
         [TestMethod]
-        public void EnableAzureWebsiteApplicationDiagnosticSite()
-        {
-            // Setup
-            websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
-                websiteName,
-                true,
-                true,
-                true));
-
-            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
-            {
-                ShareChannel = true,
-                CommandRuntime = commandRuntimeMock.Object,
-                Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
-                WebsitesClient = websitesClientMock.Object,
-                WebServerLogging = true,
-                DetailedErrorMessages = true,
-                FailedRequestTracing = true,
-                Type = WebsiteDiagnosticType.Site
-            };
-
-            // Test
-            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
-
-            // Assert
-            websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
-                websiteName,
-                true,
-                true,
-                true), Times.Once());
-
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
-        }
-
-        [TestMethod]
         public void EnableAzureWebsiteApplicationDiagnosticPassThru()
         {
             // Setup
@@ -102,10 +66,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
-                WebServerLogging = true,
-                DetailedErrorMessages = true,
-                FailedRequestTracing = true,
-                Type = WebsiteDiagnosticType.Site,
                 PassThru = true
             };
 
@@ -139,9 +99,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
-                WebServerLogging = true,
-                FailedRequestTracing = true,
-                Type = WebsiteDiagnosticType.Site
             };
 
             // Test
@@ -173,8 +130,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
-                Type = WebsiteDiagnosticType.Application,
-                Output = WebsiteDiagnosticOutput.FileSystem,
+                File = true,
                 LogLevel = LogEntryType.Information
             };
 
@@ -208,8 +164,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
-                Type = WebsiteDiagnosticType.Application,
-                Output = WebsiteDiagnosticOutput.StorageTable,
+                Storage = true,
                 LogLevel = LogEntryType.Information,
                 StorageAccountName = storageName
             };
@@ -248,8 +203,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                     CurrentStorageAccount = storageName
                 },
                 WebsitesClient = websitesClientMock.Object,
-                Type = WebsiteDiagnosticType.Application,
-                Output = WebsiteDiagnosticOutput.StorageTable,
+                Storage = true,
                 LogLevel = LogEntryType.Information,
             };
 
