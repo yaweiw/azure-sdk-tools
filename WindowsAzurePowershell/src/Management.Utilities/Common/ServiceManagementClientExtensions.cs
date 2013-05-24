@@ -281,14 +281,15 @@ namespace Microsoft.WindowsAzure.ServiceManagement
             string subscriptionId,
             string serviceName,
             string deploymentName,
-            string roleInstanceName)
+            string roleInstanceName,
+            PostShutdownAction? shutdownAction)
         {
             proxy.EndExecuteRoleOperation(proxy.BeginExecuteRoleOperation(
                 subscriptionId,
                 serviceName,
                 deploymentName,
                 roleInstanceName,
-                new ShutdownRoleOperation(),
+                new ShutdownRoleOperation {PostShutdownAction = shutdownAction},
                 null,
                 null));
         }
