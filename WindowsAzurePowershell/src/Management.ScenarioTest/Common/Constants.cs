@@ -3,6 +3,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
     public class Category
     {
+        // Project
+
         public const string All = "All";
 
         public const string ServiceBus = "ServiceBus";
@@ -18,5 +20,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         public const string Store = "Store";
 
         public const string ServiceManagement = "ServiceManagement";
+
+        // Owners
+
+        public const string OneSDK = "OneSDK";
+
+        // Acceptance type
+
+        public const string CIT = "CIT";
     }
 }
