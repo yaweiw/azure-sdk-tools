@@ -57,7 +57,7 @@ Try
 	###############################################################################
 	#	Test the connection context creation using the current subscription
 	###############################################################################
-	Init-AzureSubscription $SubscriptionId $SerializedCert "https://localhost:12345/MockRDFE"
+	Init-AzureSubscription $SubscriptionId $SerializedCert
 
 	# Test ByManageUrlWithCertAuth
 	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription
