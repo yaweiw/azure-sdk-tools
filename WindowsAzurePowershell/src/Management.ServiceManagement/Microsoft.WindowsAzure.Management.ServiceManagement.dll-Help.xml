@@ -995,6 +995,99 @@
           </dev:type>
           <dev:defaultValue></dev:defaultValue>
         </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DefaultProbe</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the default load balancer probe is to be used.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+          <dev:type>
+            <maml:name>Switchparameter</maml:name>
+            <maml:uri/>
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Add-AzureEndpoint</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
+          <maml:name>LBSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DirectServerReturn</maml:name>
+          <maml:description>
+            <maml:para>Enable/Disable Direct Server Return</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+          <dev:type>
+            <maml:name>bool</maml:name>
+            <maml:uri/>
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+          <dev:type>
+            <maml:name>NetworkAclObject</maml:name>
+            <maml:uri/>
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NoProbe</maml:name>
+          <maml:description>
+            <maml:para>Specifies that no load balancer probe is to be used.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+          <dev:type>
+            <maml:name>Switchparameter</maml:name>
+            <maml:uri/>
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Add-AzureEndpoint</maml:name>
@@ -1244,6 +1337,30 @@
         <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
         <dev:type>
           <maml:name>NetworkAclObject</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>DefaultProbe</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the default load balancer probe is to be used.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>Switchparameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NoProbe</maml:name>
+        <maml:description>
+          <maml:para>Specifies that no load balancer probe is to be used.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>Switchparameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -18037,4 +18154,942 @@
     </maml:relatedLinks>
   </command:command>
 
+  <!--========== AzureACLConfig ==========-->
+  <!-- Get-AzureAclConfig -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    
+    <command:details>
+      <command:name>Get-AzureAclConfig</command:name>
+      <maml:description>
+        <maml:para>Gets the ACL configuration object from an existing Azure VM.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureAclConfig</command:noun>
+      <dev:version />
+    </command:details>
+    
+    <maml:description>
+      <maml:para>
+        The Get-AzureAclConfig cmdlet gets the ACL configuration object from an existing Azure VM.
+      </maml:para>
+      <maml:para></maml:para>
+    </maml:description>
+    
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureAclConfig</maml:name>
+        
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+          <maml:name>EndpointName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+        
+      </command:syntaxItem>
+    </command:syntax>
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+        <maml:name>EndpointName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the endpoint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+      </command:parameter>
+      
+    </command:parameters>
+
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <dev:code>
+          C:\PS&gt; $acl = Get-AzureVM -ServiceName "myservice" -Name "MyVM" | Get-AzureAclConfig -EndpointName "Web"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will get the ACL configuration from the VM with name "MyVM".</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+    
+  </command:command>
+
+  <!-- New-AzureAclConfig -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+
+    <command:details>
+      <command:name>New-AzureAclConfig</command:name>
+      <maml:description>
+        <maml:para>Creates a new empty ACL configuration object.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureAclConfig</command:noun>
+      <dev:version />
+    </command:details>
+
+    <maml:description>
+      <maml:para>
+        The New-AzureAclConfig cmdlet creates a new empty ACL configuration object.
+      </maml:para>
+      <maml:para></maml:para>
+    </maml:description>
+
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureAclConfig</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+
+    <command:parameters>
+    </command:parameters>
+
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <dev:code>
+          C:\PS&gt; $acl = New-AzureAclConfig
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will create a new empty ACL configuration object.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+
+  </command:command>
+
+  <!-- Remove-AzureAclConfig -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+
+    <command:details>
+      <command:name>Remove-AzureAclConfig</command:name>
+      <maml:description>
+        <maml:para>Remove the ACL configuration object from an existing Azure VM configuration.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureAclConfig</command:noun>
+      <dev:version />
+    </command:details>
+
+    <maml:description>
+      <maml:para>
+        The Remove-AzureAclConfig cmdlet removes the ACL configuration object from an existing Azure VM configuration.
+      </maml:para>
+      <maml:para></maml:para>
+    </maml:description>
+
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureAclConfig</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+          <maml:name>EndpointName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+
+      </command:syntaxItem>
+    </command:syntax>
+
+    <command:parameters>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+        <maml:name>EndpointName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the endpoint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+      </command:parameter>
+
+    </command:parameters>
+
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <dev:code>
+          C:\PS&gt; $acl = Get-AzureVM -ServiceName "myservice" -Name "MyVM" | Remove-AzureAclConfig -EndpointName "Web" | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will remove the ACL configuration from "MyVM".</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+
+  </command:command>
+
+  <!-- Set-AzureAclConfig -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+
+    <command:details>
+      <command:name>Set-AzureAclConfig</command:name>
+      <maml:description>
+        <maml:para>Sets the ACL configuration object on an existing Azure VM configuration.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureAclConfig</command:noun>
+      <dev:version />
+    </command:details>
+
+    <maml:description>
+      <maml:para>
+        The Set-AzureAclConfig cmdlet sets the ACL configuration object from an existing Azure VM configuration.
+      </maml:para>
+      <maml:para></maml:para>
+    </maml:description>
+
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureAclConfig</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+          <maml:name>AddRule</maml:name>
+          <maml:description>
+            <maml:para>Indicates that a rule should be added.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+          <maml:name>Action</maml:name>
+          <maml:description>
+            <maml:para>Specifies this rules action. Must be either Permit or Deny.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>RemoteSubnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies the remote subnet for this rule. Must be a valid CIDR Address.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>Order</maml:name>
+          <maml:description>
+            <maml:para>Specifies the processing order for this rule.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>A description for this rule.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" aliases="">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>The ACL configuration object to add this rule to.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+        
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureAclConfig</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+          <maml:name>RemoveRule</maml:name>
+          <maml:description>
+            <maml:para>Indicates that a rule should be removed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+          <maml:name>RuleId</maml:name>
+          <maml:description>
+            <maml:para>Specifies the rule ID to remove from the given ACL configuration.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" aliases="">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>The ACL configuration object to remove this rule from.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureAclConfig</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+          <maml:name>SetRule</maml:name>
+          <maml:description>
+            <maml:para>Indicates that a rule should be changed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+          <maml:name>RuleId</maml:name>
+          <maml:description>
+            <maml:para>Specifies the rule ID to change in the given ACL configuration.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Action</maml:name>
+          <maml:description>
+            <maml:para>Specifies this rules action. Must be either Permit or Deny.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>RemoteSubnet</maml:name>
+          <maml:description>
+            <maml:para>Specifies the remote subnet for this rule. Must be a valid CIDR Address.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Order</maml:name>
+          <maml:description>
+            <maml:para>Specifies the processing order for this rule.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>A description for this rule.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>The ACL configuration object to add this rule to.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+
+      </command:syntaxItem>
+    </command:syntax>
+
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+        <maml:name>AddRule</maml:name>
+        <maml:description>
+          <maml:para>Indicates that a rule should be added.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+        <maml:name>RemoveRule</maml:name>
+        <maml:description>
+          <maml:para>Indicates that a rule should be removed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" aliases="">
+        <maml:name>SetRule</maml:name>
+        <maml:description>
+          <maml:para>Indicates that a rule should be changed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Switch Parameter</command:parameterValue>
+      </command:parameter>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+        <maml:name>RuleId</maml:name>
+        <maml:description>
+          <maml:para>Specifies the rule ID to remove from the given ACL configuration.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="">
+        <maml:name>Action</maml:name>
+        <maml:description>
+          <maml:para>Specifies this rules action. Must be either Permit or Deny.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+        <maml:name>RemoteSubnet</maml:name>
+        <maml:description>
+          <maml:para>Specifies the remote subnet for this rule. Must be a valid CIDR Address.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <maml:name>Order</maml:name>
+        <maml:description>
+          <maml:para>Specifies the processing order for this rule.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <maml:name>Description</maml:name>
+        <maml:description>
+          <maml:para>A description for this rule.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" aliases="">
+        <maml:name>ACL</maml:name>
+        <maml:description>
+          <maml:para>The ACL configuration object to add this rule to.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+      </command:parameter>
+
+    </command:parameters>
+
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <dev:code>
+          C:\PS&gt; $acl = New-AzureAclConfig
+C:\PS&gt; Set-AzureAclConfig -AddRule -ACL $acl Permit 172.0.0.0/8 100 "Rule Description"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will create a new ACL configuration and add a new rule to the configuration.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <dev:code>
+          C:\PS&gt; $acl = Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Get-AzureAclConfig -EndpointName "Web"
+C:\PS&gt; Set-AzureAclConfig –SetRule -ID 0 -ACL $acl -Order 102 -Description "New Description"
+C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint -ACL $acl -Name "Web"  | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will get the ACL Configuration of the endpoint "Web" on "MyVM" and set the Order of the first ACL rule to 102, and change it's description, then update the VM.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 3 --------------
+        </maml:title>
+        <dev:code>
+          <maml:section>
+            C:\PS&gt; $acl = Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Get-AzureAclConfig -EndpointName "Web"
+C:\PS&gt; Set-AzureAclConfig –RemoveRule -ID 0 -ACL $acl
+C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint -ACL $acl -Name "Web"  | Update-AzureVM
+          </maml:section>
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will get the ACL Configuration of the endpoint "Web" on "MyVM" and remove the first ACL rule, then update the VM.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureAclConfig</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+
+  </command:command>
+  
+  <!--========== AzureLoadBalancedEndpoint ==========-->
+  <!-- Set-AzureLoadBalancedEndpoint -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    
+    <command:details>
+      <command:name>Set-AzureLoadBalancedEndpoint</command:name>
+      <maml:description>
+        <maml:para>Updates all of the endpoints in a given load balancer set within a Windows Azure Service.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureLoadBalancedEndpoint</command:noun>
+      <dev:version />
+    </command:details>
+    
+    <maml:description>
+      <maml:para>
+        The Set-AzureLoadBalancedEndpoint cmdlet updates all of the endpoints in a given load balancer set within a Windows Azure Service.
+      </maml:para>
+    </maml:description>
+    
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LBSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the load balancer set to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “TCP” or “UDP”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DirectServerReturn</maml:name>
+          <maml:description>
+            <maml:para>Enable/Disable Direct Server Return.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+        
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LBSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the load balancer set to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “TCP” or “UDP”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DirectServerReturn</maml:name>
+          <maml:description>
+            <maml:para>Enable/Disable Direct Server Return.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ProbeProtocolTCP</maml:name>
+          <maml:description>
+            <maml:para>Specifies that a TCP Probe should be used.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbePort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeIntervalInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the probe polling interval in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeTimeoutInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the probe polling timeout in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LBSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the load balancer set to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “TCP” or “UDP”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DirectServerReturn</maml:name>
+          <maml:description>
+            <maml:para>Enable/Disable Direct Server Return.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ACL</maml:name>
+          <maml:description>
+            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ProbeProtocolHTTP</maml:name>
+          <maml:description>
+            <maml:para>Specifies that a HTTP Probe should be used.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ProbePath</maml:name>
+          <maml:description>
+            <maml:para>Specifies relative path to the HTTP Probe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbePort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeIntervalInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the probe polling interval in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeTimeoutInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the probe polling timeout in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+
+      </command:syntaxItem>
+    </command:syntax>
+    
+    <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>LBSetName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the load balancer set to update.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Protocol</maml:name>
+        <maml:description>
+          <maml:para>Specifies the protocol of the endpoint. Acceptable values are “TCP” or “UDP”.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>LocalPort</maml:name>
+        <maml:description>
+          <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>PublicPort</maml:name>
+        <maml:description>
+          <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>DirectServerReturn</maml:name>
+        <maml:description>
+          <maml:para>Enable/Disable Direct Server Return.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ACL</maml:name>
+        <maml:description>
+          <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ProbeProtocolTCP</maml:name>
+        <maml:description>
+          <maml:para>Specifies that a TCP Probe should be used.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ProbeProtocolHTTP</maml:name>
+        <maml:description>
+          <maml:para>Specifies that a HTTP Probe should be used.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ProbePath</maml:name>
+        <maml:description>
+          <maml:para>Specifies relative path to the HTTP Probe.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbePort</maml:name>
+        <maml:description>
+          <maml:para>Specifies the port that the load balancer probe will use. If not specified, Windows Azure will assign the endpoints local port.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeIntervalInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the probe polling interval in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeTimeoutInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the probe polling timeout in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+
+
+    </command:parameters>
+
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <dev:code>
+          PS C:\&gt; Set-AzureLoadBalancedEndpoint -ServiceName "MyService" -LBSetName "LBSet1" -Protocol tcp -LocalPort 80 -ProbeProtocolTCP -ProbePort 8080
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command will update all endpoints in the load balancer set "LBSet1" to use the TCP protocol and private port 80, and will set the load balancer probe to use the TCP protocol on port 8080.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureEndpoint</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+    
+  </command:command>
+  
 </helpItems>
