@@ -45,10 +45,7 @@ function Init-AzureSubscription
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $SerializedCert,
-		[Parameter(Mandatory=$false, Position=2)]
-		[String]
-		$ServiceEndpoint
+        $SerializedCert
     )
     # Deserialize the input certificate given in base 64 format.
     # Install it in the cert store.
@@ -66,14 +63,9 @@ function Init-AzureSubscription
     $store.Close()
     
     $subName = "MySub" + $SubscriptionID
-	if($ServiceEndpoint)
-	{
-		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert -ServiceEndpoint $ServiceEndpoint
-	}
-	else
-	{
-		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert
-	}
+	
+	Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert
+	
     Select-AzureSubscription -SubscriptionName $subName
 }
 

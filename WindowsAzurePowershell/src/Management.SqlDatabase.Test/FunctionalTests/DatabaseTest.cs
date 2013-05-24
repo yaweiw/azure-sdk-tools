@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class DatabaseTest
@@ -44,8 +46,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
-            this.subscriptionId = root.Element("SubscriptionID").Value;
-            this.serializedCert = root.Element("SerializedCert").Value;
+
+
+            PublishData publishData = General.DeserializeXmlFile<PublishData>("Azure.publishsettings");
+            PublishDataPublishProfile publishProfile = publishData.Items[0];
+            this.serializedCert = publishProfile.ManagementCertificate;
+            this.subscriptionId = publishProfile.Subscription[0].Id;
         }
 
         [TestMethod]
