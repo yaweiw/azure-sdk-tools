@@ -618,5 +618,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
             return (destinationSasUri + destinationBlobToken);
         }
+
+        static public void RecordTimeTaken(ref DateTime prev)
+        {
+            var period = DateTime.Now - prev;
+            Console.WriteLine("{0} minutes {1} seconds and {2} ms passed...", period.Minutes.ToString(), period.Seconds.ToString(), period.Milliseconds.ToString());
+            prev = DateTime.Now;
+        }
     }
 }
