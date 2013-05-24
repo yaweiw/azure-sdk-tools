@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
             if (this.ParameterSetName == AddAzureEndpoint.LBNoProbeParameterSet
                 || this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet
-                || this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet)
+                || this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
             {
                 endpoint.LoadBalancedEndpointSetName = this.LBSetName;
 
