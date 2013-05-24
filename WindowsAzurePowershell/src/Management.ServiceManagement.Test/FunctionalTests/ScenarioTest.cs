@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
                      
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSLinuxVM");
-            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "testvmimage" }, false);
+            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "Ubuntu", "testvmimage" }, false);
 
             vmPowershellCmdlets.NewAzureQuickLinuxVM(OS.Linux, newAzureQuickVMName, serviceName, linuxImageName, "user", password, locationName);
 
