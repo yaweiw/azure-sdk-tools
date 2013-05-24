@@ -242,7 +242,7 @@
     <Compile Include="IaaS\Endpoints\RemoveAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
-    <Compile Include="IaaS\Endpoints\SetAzureLBEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\SetAzureLoadBalancedEndpoint.cs" />
     <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
