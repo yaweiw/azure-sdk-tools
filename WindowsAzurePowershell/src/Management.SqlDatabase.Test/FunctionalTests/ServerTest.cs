@@ -54,7 +54,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         [Ignore]
         public void CreateGetDeleteServerTest()
-        {            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+        {            
+            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ServerTestScript, arguments);
             Assert.IsTrue(testResult);
         }

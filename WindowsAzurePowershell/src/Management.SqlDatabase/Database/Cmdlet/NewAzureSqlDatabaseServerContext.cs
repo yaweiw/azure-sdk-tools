@@ -115,11 +115,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
-        [Parameter(Mandatory = true, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = true, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = false, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = true, Position = 2, ParameterSetName = ManageUrlWithCertAuthParamSet,
+        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         public SubscriptionData SubscriptionData { get; set; }
 
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     credentials,
                     serverName);
 
-                // Retrieve $metadata to verify model version compativility
+                // Retrieve $metadata to verify model version compatibility
                 XDocument metadata = context.RetrieveMetadata();
                 XDocument filteredMetadata = DataConnectionUtility.FilterMetadataDocument(metadata);
                 string metadataHash = DataConnectionUtility.GetDocumentHash(filteredMetadata);
@@ -227,7 +227,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     //create a context using the subscription datat
                     return this.GetServerDataServiceByCertAuth(
                        serverName,
-                       this.SubscriptionData);
+                       subscriptionData);
 
                 default:
                     throw new InvalidOperationException(Resources.UnknownParameterSet);
@@ -251,6 +251,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 // Creates a new Server Data Service Context for the service
                 IServerDataServiceContext operationContext =
                     this.CreateServerDataServiceContext(serverName, managementServiceUri);
+
                 if (operationContext != null)
                 {
                     this.WriteObject(operationContext);
