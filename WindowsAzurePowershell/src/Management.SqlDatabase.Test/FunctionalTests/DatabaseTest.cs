@@ -28,6 +28,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string userName;
         private string password;
         private string manageUrl;
+        private string subscriptionId;
+        private string serializedCert;
 
         private const string CreateContextScript = @"Database\CreateContext.ps1";
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
@@ -42,6 +44,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
+            this.subscriptionId = root.Element("SubscriptionID").Value;
+            this.serializedCert = root.Element("SerializedCert").Value;
         }
 
         [TestMethod]
@@ -50,10 +54,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\"",
+                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" -SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.subscriptionId,
+                this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(
                 DatabaseTest.CreateContextScript,
                 arguments);
