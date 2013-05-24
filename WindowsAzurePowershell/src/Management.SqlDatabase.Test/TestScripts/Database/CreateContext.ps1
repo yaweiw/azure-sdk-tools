@@ -67,6 +67,21 @@ Try
 		Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 	}
     
+	#Test the connection context creation using the current subscription
+	Init-AzureSubscription
+
+	# Test ByManageUrlWithCertAuth
+	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
+	
+	# Test ByManageUrlWithCertAuth with Optional Parameters
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
+	# Test ByFullyQualifiedServerNameWithCertAuth
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
     $IsTestPass = $True
 }
 Finally

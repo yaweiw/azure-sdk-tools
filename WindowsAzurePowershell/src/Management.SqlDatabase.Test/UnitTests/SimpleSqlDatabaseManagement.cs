@@ -294,6 +294,57 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         #endregion
      
         #endregion
+
+
+        public IAsyncResult BeginGetDatabases(string subscriptionId, string serverName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SqlDatabaseList EndGetDatabases(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetDatabase(string subscriptionId, string serverName, string databaseName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SqlDatabaseResponse EndGetDatabase(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginNewDatabase(string subscriptionId, string serverName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SqlDatabaseResponse EndNewDatabase(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SqlDatabaseResponse EndUpdateDatabase(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRemoveDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRemoveDatabase(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -169,6 +169,7 @@
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
+    <Compile Include="Services\Server\ServerDataServiceCertAuth.cs" />
     <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
     <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
     <Compile Include="Services\Server\ServerContextInternal.cs" />
@@ -180,8 +181,11 @@
     <Compile Include="Services\SqlDatabaseFirewallRule.cs" />
     <Compile Include="Services\SqlDatabaseFirewallRuleInput.cs" />
     <Compile Include="Services\SqlDatabaseFirewallRulesList.cs" />
+    <Compile Include="Services\SqlDatabaseInput.cs" />
+    <Compile Include="Services\SqlDatabaseList.cs" />
     <Compile Include="Services\SqlDatabaseManagementError.cs" />
     <Compile Include="Services\SqlDatabaseManagementHelper.cs" />
+    <Compile Include="Services\SqlDatabaseResponse.cs" />
     <Compile Include="Services\SqlDatabaseServer.cs" />
     <Compile Include="Services\SqlDatabaseServerExtensions.cs" />
     <Compile Include="Services\SqlDatabaseServerList.cs" />
