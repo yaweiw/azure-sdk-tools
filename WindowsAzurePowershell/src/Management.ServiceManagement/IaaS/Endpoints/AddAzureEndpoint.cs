@@ -207,7 +207,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
                 if (this.ProbeProtocol.Equals("http", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (this.ParameterSpecified("ProbePath"))
+                    if (!this.ParameterSpecified("ProbePath"))
                     {
                         throw new ArgumentException(Resources.ProbePathIsRequiredForHttp);
                     }
