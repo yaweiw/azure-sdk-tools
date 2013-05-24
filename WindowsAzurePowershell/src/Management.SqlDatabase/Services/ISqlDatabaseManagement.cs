@@ -95,5 +95,46 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         IAsyncResult BeginRemoveServerFirewallRule(string subscriptionId, string serverName, string ruleName, AsyncCallback callback, object state);
 
         void EndRemoveServerFirewallRule(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Enumerates SQL Databases on a server that is provisioned on a subscription.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases?contentview=generic")]
+        IAsyncResult BeginGetDatabases(string subscriptionId, string serverName, AsyncCallback callback, object state);
+        SqlDatabaseList EndGetDatabases(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Get a SQL Database from the server that is provisioned on a subscription
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
+        IAsyncResult BeginGetDatabase(string subscriptionId, string serverName, string databaseName, AsyncCallback callback, object state);
+        SqlDatabaseResponse EndGetDatabase(IAsyncResult asyncResult);
+
+
+        /// <summary>
+        /// Adds a new SQL Database to a server  for a given subscription
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases")]
+        IAsyncResult BeginNewDatabase(string subscriptionId, string serverName, SqlDatabaseInput input, AsyncCallback callback, object state);
+        SqlDatabaseResponse EndNewDatabase(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Updates an existing SQL database on a server for the given subscription
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
+        IAsyncResult BeginUpdateDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state);
+        SqlDatabaseResponse EndUpdateDatabase(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Deletes and Existing SQL Database on a server for a given subscription
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
+        IAsyncResult BeginRemoveDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state);
+        void EndRemoveDatabase(IAsyncResult asyncResult);
     }
 }
