@@ -51,16 +51,20 @@ Write-Output "`$Password=$Password"
 Try
 {
 	Init-TestEnvironment
-	
+	Init-AzureSubscription $SubscriptionId $SerializedCert
+	$sub = Get-AzureSubscription -Current
+
     $IsTestPass = $False
 
 	###############################################################################
 	#	Test the connection context creation using the current subscription
 	###############################################################################
-	Init-AzureSubscription $SubscriptionId $SerializedCert
-
 	# Test ByManageUrlWithCertAuth
 	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
+	
+	# Test ByManageUrlWithCertAuth with optional parameters
+	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -ServerName $ServerName
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
 	
 	# Test ByManageUrlWithCertAuth with Optional Parameters
@@ -71,7 +75,25 @@ Try
     $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
+	###############################################################################
+	#	Test the connection context creation using subscription data
+	###############################################################################
 
+	# Test ByManageUrlWithCertAuth
+	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -SubscriptionData $sub
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
+	
+	# Test ByManageUrlWithCertAuth with optional parameters
+	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -SubscriptionData $sub -ServerName $ServerName
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
+	
+	# Test ByManageUrlWithCertAuth with Optional Parameters
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription -SubscriptionData $sub
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
+	# Test ByFullyQualifiedServerNameWithCertAuth
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription -SubscriptionData $sub
+	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 	
 	###############################################################################
 	#	Test the connection context creation using sql authentication
