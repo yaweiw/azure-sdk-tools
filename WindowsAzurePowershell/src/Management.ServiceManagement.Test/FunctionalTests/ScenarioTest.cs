@@ -330,7 +330,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.AreEqual(vmRoleCtxt.Name, persistentVM.RoleName, true);
 
 
-            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName); // Stop-AzureVM
+            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName, true); // Stop-AzureVM
             for (int i = 0; i < 3; i++)
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);
