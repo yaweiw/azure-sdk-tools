@@ -19,12 +19,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.Specialized;
     using System.Diagnostics;
     using System.IO;
-    using System.Text.RegularExpressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
     public static class CredentialHelper
     {
