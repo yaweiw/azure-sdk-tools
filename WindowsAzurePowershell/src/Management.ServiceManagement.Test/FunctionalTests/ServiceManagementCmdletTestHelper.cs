@@ -839,7 +839,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public PersistentVMRoleContext GetAzureVM(string vmName, string serviceName)
         {
-            return RunPSCmdletAndReturnFirst<PersistentVMRoleContext>(new GetAzureVMCmdletInfo(vmName, serviceName));            
+            return RunPSCmdletAndReturnFirst<PersistentVMRoleContext>(new GetAzureVMCmdletInfo(vmName, serviceName));
         }
 
         public ManagementOperationContext RemoveAzureVM(string vmName, string serviceName)
@@ -847,18 +847,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMCmdletInfo(vmName, serviceName));
         }
 
-        public void StartAzureVM(string vmName, string serviceName)
+        public ManagementOperationContext StartAzureVM(string vmName, string serviceName)
         {
-            StartAzureVMCmdletInfo startAzureVMCmdlet = new StartAzureVMCmdletInfo(vmName, serviceName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(startAzureVMCmdlet);
-            azurePowershellCmdlet.Run();
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new StartAzureVMCmdletInfo(vmName, serviceName));
         }
 
-        public void StopAzureVM(string vmName, string serviceName)
+        public ManagementOperationContext StopAzureVM(PersistentVM vm, string serviceName, bool stay = false, bool force = false)
         {
-            StopAzureVMCmdletInfo stopAzureVMCmdlet = new StopAzureVMCmdletInfo(vmName, serviceName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(stopAzureVMCmdlet);
-            azurePowershellCmdlet.Run();
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new StopAzureVMCmdletInfo(vm, serviceName, stay, force));
+        }
+
+        public ManagementOperationContext StopAzureVM(string vmName, string serviceName, bool stay = false, bool force = false)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new StopAzureVMCmdletInfo(vmName, serviceName, stay, force));
         }
 
         public void RestartAzureVM(string vmName, string serviceName)

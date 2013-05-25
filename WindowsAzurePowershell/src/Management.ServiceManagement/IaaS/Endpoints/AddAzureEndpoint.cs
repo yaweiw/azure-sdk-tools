@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
             if (this.ParameterSetName == AddAzureEndpoint.LBNoProbeParameterSet
                 || this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet
-                || this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet)
+                || this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
             {
                 endpoint.LoadBalancedEndpointSetName = this.LBSetName;
 
@@ -207,7 +207,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
                 if (this.ProbeProtocol.Equals("http", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (this.ParameterSpecified("ProbePath"))
+                    if (!this.ParameterSpecified("ProbePath"))
                     {
                         throw new ArgumentException(Resources.ProbePathIsRequiredForHttp);
                     }
