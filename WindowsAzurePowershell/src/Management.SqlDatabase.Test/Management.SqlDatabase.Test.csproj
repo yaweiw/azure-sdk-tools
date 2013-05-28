@@ -134,10 +134,13 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="TestScripts\CommonFunctions.ps1" />
+    <None Include="TestScripts\Database\DeleteDatabaseWithCert.ps1" />
+    <None Include="TestScripts\Database\CreateAndGetDatabaseWithCert.ps1" />
     <None Include="TestScripts\Database\CreateContext.ps1" />
     <None Include="TestScripts\Database\DeleteDatabase.ps1" />
     <None Include="TestScripts\Database\FormatValidation.ps1" />
     <None Include="TestScripts\Database\UpdateDatabase.ps1" />
+    <None Include="TestScripts\Database\UpdateDatabaseWithCert.ps1" />
     <None Include="TestScripts\Server\CreateGetDeleteServer.ps1" />
     <None Include="TestScripts\Server\CreateGetDropFirewall.ps1" />
     <None Include="TestScripts\Database\CreateAndGetDatabase.ps1" />

@@ -62,7 +62,7 @@ Try
 	# Test ByManageUrlWithCertAuth
 	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
-	
+
 	# Test ByManageUrlWithCertAuth with optional parameters
 	$context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -ServerName $ServerName
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName)]"
@@ -104,7 +104,7 @@ Try
 	# Test ByManageUrlWithSqlAuth
     $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
-
+	
 	# Test ByManageUrlWithSqlAuth with Optional Parameters
     $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential -ServerName $ServerName
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
