@@ -162,6 +162,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         }
 
         [TestMethod]
+        public void NewAzureSqlDatabaseServerContextWithCertAuth()
+        {
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext serverContext = new NewAzureSqlDatabaseServerContext();
+            ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth("testServer", subscriptionData);
+
+            Assert.IsNotNull(service, "The ServerDataServiceCertAuth object returned from "
+                + "NewAzureSqlDatabaseServerContext.GetServerDataServiceByCertAuth is null");
+        }
+
+        [TestMethod]
         public void NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases()
         {
             HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(

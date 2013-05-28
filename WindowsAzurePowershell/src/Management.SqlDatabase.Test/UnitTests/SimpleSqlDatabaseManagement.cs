@@ -416,7 +416,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
             return default(SqlDatabaseResponse);
         }
 
-        public Action<SimpleServiceManagementAsyncResult> DeleteDatabaseThunk { get; set; }
+        public Action<SimpleServiceManagementAsyncResult> RemoveDatabaseThunk { get; set; }
         public IAsyncResult BeginRemoveDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -432,16 +432,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
         public void EndRemoveDatabase(IAsyncResult asyncResult)
         {
-            if (DeleteDatabaseThunk != null)
+            if (RemoveDatabaseThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                DeleteDatabaseThunk(result);
+                RemoveDatabaseThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("DeleteDatabaseThunk is not implemented!");
+                throw new NotImplementedException("RemoveDatabaseThunk is not implemented!");
             }
         }
     }

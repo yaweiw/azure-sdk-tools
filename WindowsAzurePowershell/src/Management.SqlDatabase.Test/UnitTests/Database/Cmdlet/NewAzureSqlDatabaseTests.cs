@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         [TestMethod]
         public void NewAzureSqlDatabaseWithCertAuth()
         {
-            MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
 
             channel.NewDatabaseThunk = ar =>
@@ -90,7 +89,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return operationResult;
             };
 
-            
             SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
             subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
 
@@ -107,7 +105,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             Assert.AreEqual(result.MaxSizeGB, 1, "The max db size does not match");
             Assert.AreEqual(result.Name, "TestDatabaseName", "The name does not match");
         }
-
 
         [TestMethod]
         public void NewAzureSqlDatabaseWithSqlAuthDuplicateName()
