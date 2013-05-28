@@ -106,8 +106,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, serviceName));
 
-            serviceName = "PSTestServiceb65745";
-
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, defaultVm, serviceName, imageName, username, password, locationName);
             Console.WriteLine("Service Name: {0} is created.", serviceName);
 
