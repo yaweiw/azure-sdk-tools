@@ -109,17 +109,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 Resources.SetAzureSqlDatabaseDescription,
                 this.Context.ServerName,
                 databaseName);
+
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.SetAzureSqlDatabaseWarning,
                 this.Context.ServerName,
                 databaseName);
+
             this.WriteVerbose(actionDescription);
+
             if (!this.Force.IsPresent &&
-                !this.ShouldProcess(
-                    actionDescription,
-                    actionWarning,
-                    Resources.ShouldProcessCaption))
+                !this.ShouldProcess( actionDescription, actionWarning, Resources.ShouldProcessCaption))
             {
                 return;
             }
@@ -128,6 +128,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
                     (int?)this.MaxSizeGB : null;
+
                 DatabaseEdition? edition = this.MyInvocation.BoundParameters.ContainsKey("Edition") ?
                     (DatabaseEdition?)this.Edition : null;
 

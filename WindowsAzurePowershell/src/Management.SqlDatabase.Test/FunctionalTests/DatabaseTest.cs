@@ -34,9 +34,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string serializedCert;
 
         private const string CreateContextScript = @"Database\CreateContext.ps1";
+
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
+        private const string CreateScriptWithCert = @"Database\CreateAndGetDatabaseWithCert.ps1";
+
         private const string UpdateScript = @"Database\UpdateDatabase.ps1";
+        private const string UpdateScriptWithCert = @"Database\UpdateDatabaseWithCert.ps1";
+
         private const string DeleteScript = @"Database\DeleteDatabase.ps1";
+        private const string DeleteScriptWithCert = @"Database\DeleteDatabaseWithCert.ps1";
+
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
         [TestInitialize]
@@ -46,12 +53,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
-
-
-            PublishData publishData = General.DeserializeXmlFile<PublishData>("Azure.publishsettings");
-            PublishDataPublishProfile publishProfile = publishData.Items[0];
-            this.serializedCert = publishProfile.ManagementCertificate;
-            this.subscriptionId = publishProfile.Subscription[0].Id;
+            this.subscriptionId = root.Element("SubscriptionID").Value;
+            this.serializedCert = root.Element("SerializedCert").Value;
         }
 
         [TestMethod]
@@ -74,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        public void CreateDatabase()
+        public void CreateDatabaseWithSqlAuth()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
@@ -89,7 +92,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        public void UpdateDatabase()
+        public void CreateDatabaseWithCert()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testcreatedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScriptWithCert, arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void UpdateDatabaseWithSqlAuth()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
@@ -104,7 +122,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        public void DeleteDatabase()
+        public void UpdateDatabaseWithCert()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testupdatedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithCert, arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void DeleteDatabaseWithSqlAuth()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
@@ -114,6 +147,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.userName,
                 this.password);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScript, arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void DeleteDatabaseWithCertAuth()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testDeletedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScriptWithCert, arguments);
             Assert.IsTrue(testResult);
         }
 

@@ -45,7 +45,11 @@ function Init-AzureSubscription
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $SerializedCert
+        $SerializedCert,
+        [Parameter(Mandatory=$false, Position=2)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+		$ServiceEndpoint
     )
     # Deserialize the input certificate given in base 64 format.
     # Install it in the cert store.
@@ -64,7 +68,14 @@ function Init-AzureSubscription
     
     $subName = "MySub" + $SubscriptionID
 	
-	Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert
+	if($ServiceEndpoint)
+	{
+		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert -ServiceEndpoint $ServiceEndpoint
+	}
+	else
+	{
+		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert -ServiceEndpoint "https://management.core.windows.net"
+	}
 	
     Select-AzureSubscription -SubscriptionName $subName
 }
@@ -95,6 +106,22 @@ function Get-ServerContextByManageUrlWithSqlAuth
     $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential
     return $context
 }
+
+function Get-ServerContextByManageUrlWithCertAuth
+{
+	[CmdletBinding()]
+	param
+	(
+		[Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $ManageUrl
+	)
+    
+    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -SubscriptionData (get-azureSubscription -Current)
+    return $context
+}
+
 
 function Assert 
 {
