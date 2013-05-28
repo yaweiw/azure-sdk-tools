@@ -15,17 +15,15 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System.Collections.ObjectModel;
-
-    using System.Diagnostics;
-    using System.Collections.Specialized;
 
     [TestClass]
     public class ServiceManagementTest

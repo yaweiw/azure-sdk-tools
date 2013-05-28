@@ -40,8 +40,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             pass = false;
         }
 
-
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        /// <summary>
+        /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure EndPoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlets ((Add,Get,Set,Remove)-AzureEndpoint), & Set-AzureLoadBalancedEndpoint")]
         public void AzureEndpointTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -64,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             int ep2PublicPortChanged = 60031;
             string ep2LBSetName = "lbset2";
             int ep2ProbePort = 60022;
-            string ep2ProbePath = string.Empty;
+            string ep2ProbePath = "";
             int? ep2ProbeInterval = null;
             int? ep2ProbeTimeout = 32;
             NetworkAclObject ep2AclObj = null;
@@ -72,6 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             AzureEndPointConfigInfo ep1Info = new AzureEndPointConfigInfo(
+                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
                 ProtocolInfo.tcp,
                 ep1LocalPort,
                 ep1PublicPort,
@@ -86,13 +89,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 ep1DirectServerReturn);
 
             AzureEndPointConfigInfo ep2Info = new AzureEndPointConfigInfo(
+                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
                 ProtocolInfo.tcp,
                 ep2LocalPort,
                 ep2PublicPort,
                 ep2Name,
                 ep2LBSetName,
                 ep2ProbePort,
-                ProtocolInfo.tcp,
+                ProtocolInfo.http,
                 ep2ProbePath,
                 ep2ProbeInterval,
                 ep2ProbeTimeout,
@@ -101,6 +105,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             string defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, serviceName));
+
+            serviceName = "PSTestServiceb65745";
 
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, defaultVm, serviceName, imageName, username, password, locationName);
             Console.WriteLine("Service Name: {0} is created.", serviceName);
@@ -131,6 +137,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         ep2Info.EndpointLocalPort = ep2LocalPortChanged;
                         ep2Info.EndpointPublicPort = ep2PublicPortChanged;
                         vmPowershellCmdlets.SetEndPoint(defaultVm, serviceName, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
+                        CheckEndpoint(defaultVm, serviceName, new[] { ep2Info });
+                    }
+                    else
+                    {
+                        Console.WriteLine("-----Change the second endpoint.");
+                        ep2Info.ServiceName = serviceName;
+                        ep2Info.EndpointLocalPort = ep2LocalPortChanged;
+                        ep2Info.EndpointPublicPort = ep2PublicPortChanged;
+                        vmPowershellCmdlets.SetLBEndPoint(defaultVm, serviceName, ep2Info, p);
+
                         CheckEndpoint(defaultVm, serviceName, new[] { ep2Info });
                     }
 
@@ -183,6 +199,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     {
                         found = true;
                         Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
+                        break;
                     }
                 }
 
@@ -223,6 +240,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     {
                         found = true;
                         Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
+                        break;
                     }
                 }
 
@@ -232,11 +250,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return true;
         }
 
-
         /// <summary>
-        /// 
+        /// Add an EndPoint with ACLs during deployment
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsWithNewDeployment()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -250,13 +267,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             NetworkAclObject aclObj = vmPowershellCmdlets.NewAzureAclConfig();
             vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Permit, "172.0.0.0/8", "notes1");
-            vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 200, ACLAction.Deny, "172.0.0.0/8", "notes2");
+            vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 200, ACLAction.Deny, "10.0.0.0/8", "notes2");
 
             AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall, imageName);
             AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
             AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
             AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 80, 80, "web", "lbweb", false, aclObj, true);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.DefaultProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", aclObj, true);
 
             PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
             PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
@@ -277,9 +294,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         /// <summary>
-        /// 
+        /// Add an EndPoint with ACLs to an existing deployment
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsonExistingDeployment()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -293,7 +310,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             NetworkAclObject aclObj = vmPowershellCmdlets.NewAzureAclConfig();
             vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Deny, "172.0.0.0/8", "notes3");
 
-            AzureEndPointConfigInfo epConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 80, 80, "web", aclObj); 
+            AzureEndPointConfigInfo epConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 80, 80, "web", aclObj); 
 
             vmPowershellCmdlets.AddEndPoint(newAzureQuickVMName, serviceName, new[] { epConfigInfo });
 

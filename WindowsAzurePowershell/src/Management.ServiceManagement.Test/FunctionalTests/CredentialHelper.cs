@@ -42,7 +42,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private static string defaultStorageName = null;
         private static CloudBlobContainer blobContainer;
 
-        private static string downloadDirectoryPath = null;
         private static Dictionary<string, string> environment = new Dictionary<string, string>();
         public static Dictionary<string, string> PowerShellVariables { get; private set; }
 
