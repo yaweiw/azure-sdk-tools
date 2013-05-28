@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public string ServiceConfigurationFile { get; private set; }
 
-        public static string AzureAppDir = Path.Combine(
+        public static readonly string AzureAppDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Resources.AzureDirectoryName);
 

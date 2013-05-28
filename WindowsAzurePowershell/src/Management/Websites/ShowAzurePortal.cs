@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     /// Opens the azure portal.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzurePortal")]
-    public class ShowAzurePortalCommand : PSCmdlet
+    public class ShowAzurePortalCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
@@ -34,25 +34,23 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [ValidateNotNullOrEmpty]
         public string Realm { get; set; }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void ProcessShowAzurePortal()
-        {
-            General.LaunchWindowsAzurePortal(string.Format(Resources.WebsiteSufixUrl, Name), Realm);
-        }
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The environment name.")]
+        public string Environment { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
+            string managementPortalUrl = GlobalSettingsManager.Instance.GetManagementPortalUrl(Environment, Realm);
 
-                ProcessShowAzurePortal();
-            }
-            catch (Exception ex)
+            if (!string.IsNullOrEmpty(Name))
             {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                managementPortalUrl = string.Format(
+                    "{0}#{1}",
+                    managementPortalUrl,
+                    string.Format(Resources.WebsiteSufixUrl, Name));
             }
+
+            General.LaunchWebPage(managementPortalUrl);
         }
     }
 }

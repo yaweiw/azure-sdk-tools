@@ -77,6 +77,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.OneSDK)]
+        [TestCategory(Category.CIT)]
         public void TestRemoveAzureServicePipedFromGetAzureService()
         {
             RunPowerShellTest("Test-RemoveAzureServicePipedFromGetAzureService");
