@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.ParamSet = paramSet;
             this.Acl = aclObj;
             this.DirectServerReturn = directServerReturn;
-            if (this.EndpointProtocol.ToString().Equals("http"))
+            if (this.ProbeProtocol.ToString().Equals("http"))
                 this.ProbePath = probePath;
         }
 
