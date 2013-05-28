@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.EndpointPublicPort));
             }
-            if (endPointConfig.GetType().GetProperty("Acl") != null)
+            if (endPointConfig.Acl != null)
             {
                 this.cmdletParams.Add(new CmdletParam("ACL", endPointConfig.Acl));
             }
@@ -44,7 +44,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalancedNoProbe)
             {
                 this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
-                this.cmdletParams.Add(new CmdletParam("NoProbe"));
+                // Update this once issue #1526 is fixed
+                //this.cmdletParams.Add(new CmdletParam("NoProbe"));
             }
             else if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.CustonProbe)
             {
