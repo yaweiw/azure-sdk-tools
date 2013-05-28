@@ -51,7 +51,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
                 this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort));
                 this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString()));
-                this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
+                if ("http" == endPointConfig.ProbeProtocol.ToString())
+                {
+                    this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
+                }
 
                 if (endPointConfig.ProbeInterval.HasValue)
                 {

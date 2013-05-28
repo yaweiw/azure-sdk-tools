@@ -218,6 +218,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureAvailabilitySetCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureEndpointCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureLoadBalancedEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureOSDisk.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureRole.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureServiceCmdletInfo.cs" />

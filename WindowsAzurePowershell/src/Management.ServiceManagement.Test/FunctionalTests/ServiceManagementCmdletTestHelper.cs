@@ -437,19 +437,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<InputEndpointContext>(new GetAzureEndpointCmdletInfo(vmRoleCtxt));            
         }
 
-        public PersistentVM SetAzureEndPoint(AzureEndPointConfigInfo endPointConfig)
-        {
-            if (null != endPointConfig)
-            {
-                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureEndpointCmdletInfo(endPointConfig));                
-            }
-            return null;
-        }
-
         public void SetEndPoint(string vmName, string serviceName, AzureEndPointConfigInfo endPointConfig)
         {
             endPointConfig.Vm = GetAzureVM(vmName, serviceName).VM;
             UpdateAzureVM(vmName, serviceName, SetAzureEndPoint(endPointConfig));
+        }
+
+        public PersistentVM SetAzureEndPoint(AzureEndPointConfigInfo endPointConfig)
+        {
+            if (null != endPointConfig)
+            {
+                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureEndpointCmdletInfo(endPointConfig));
+            }
+            return null;
+        }
+
+        public void SetLBEndPoint(string vmName, string serviceName, AzureEndPointConfigInfo endPointConfig, AzureEndPointConfigInfo.ParameterSet paramset)
+        {
+            endPointConfig.Vm = GetAzureVM(vmName, serviceName).VM;
+            SetAzureLoadBalancedEndPoint(endPointConfig, paramset);
+
+            //UpdateAzureVM(vmName, serviceName, SetAzureLoadBalancedEndPoint(endPointConfig, paramset));
+        }
+
+        private ManagementOperationContext SetAzureLoadBalancedEndPoint(AzureEndPointConfigInfo endPointConfig, AzureEndPointConfigInfo.ParameterSet paramset)
+        {
+            if (null != endPointConfig)
+            {
+                return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureLoadBalancedEndpointCmdletInfo(endPointConfig, paramset));
+            }
+            return null;
         }
 
         public PersistentVMRoleContext RemoveAzureEndPoint(string epName, PersistentVMRoleContext vmRoleCtxt)
@@ -1181,6 +1198,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             var result = setAzureAclConfigCmdlet.Run();
         }
+
     }
+  
 
 }
