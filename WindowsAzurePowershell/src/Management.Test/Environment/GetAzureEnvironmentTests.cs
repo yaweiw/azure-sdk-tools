@@ -15,15 +15,33 @@
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Subscription;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetAzureEnvironmentTests
+    public class GetAzureEnvironmentTests : TestBase
     {
+        private FileSystemHelper helper;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            helper = new FileSystemHelper(this);
+            helper.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            helper.Dispose();
+        }
+
         [TestMethod]
         public void GetsAzureEnvironments()
         {

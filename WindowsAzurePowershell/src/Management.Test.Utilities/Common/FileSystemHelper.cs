@@ -136,7 +136,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
                     // Cleanup any certificates added during the test
                     if (!string.IsNullOrEmpty(AzureSdkPath))
                     {
-                        new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
+                        try { new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath); }
+                        catch { /* Cleanup failed, ignore*/ }
+                        
                         GlobalPathInfo.GlobalSettingsDirectory = null;
                         AzureSdkPath = null;
                     }
@@ -289,7 +291,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
                 GlobalPathInfo.GlobalSettingsDirectory,
                 null,
                 publishSettingsPath);
-            GlobalPathInfo.GlobalSettingsDirectory = AzureSdkPath;
 
             return AzureSdkPath;
         }
