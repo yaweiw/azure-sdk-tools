@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
 
         #endregion
 
-        #region Enable-AzureWebsiteDiagnostic Scenario Tests
+        #region Enable-AzureWebsiteApplicationDiagnostic Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
@@ -197,6 +197,46 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         public void TestEnableApplicationDiagnosticOnFileSystem()
         {
             RunPowerShellTest("Test-EnableApplicationDiagnosticOnFileSystem");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestUpdateTheDiagnositicLogLevel()
+        {
+            RunPowerShellTest("Test-UpdateTheDiagnositicLogLevel");
+        }
+
+        #endregion
+
+        #region Disable-AzureWebsiteApplicationDiagnostic Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestDisableApplicationDiagnosticOnTableStorage()
+        {
+            RunPowerShellTest("Test-DisableApplicationDiagnosticOnTableStorage");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestDisableApplicationDiagnosticOnFileSystem()
+        {
+            RunPowerShellTest("Test-DisableApplicationDiagnosticOnFileSystem");
+        }
+
+        #endregion
+
+        #region Get-AzureWebsiteLocation Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLocation()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLocation");
         }
 
         #endregion

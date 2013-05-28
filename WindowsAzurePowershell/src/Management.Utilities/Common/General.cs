@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Channels;
     using System.Text;
     using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
@@ -142,6 +143,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             T obj = (T)xmlSerializer.Deserialize(stream);
             stream.Close();
+
+            return obj;
+        }
+
+        public static T DeserializeXmlString<T>(string contents)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            T obj;
+
+            using (StringReader reader = new StringReader(contents))
+            {
+                obj = (T)xmlSerializer.Deserialize(reader);
+            }
 
             return obj;
         }
@@ -261,28 +275,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
-        /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzurePortalUrl
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzurePortalUrlEnv, Resources.AzurePortalUrl);
-            }
-        }
-
-        /// <summary>
-        /// Gets the value of azure host name suffix from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzureWebsiteHostNameSuffix
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
-            }
-        }
-
-        /// <summary>
         /// Gets the value of blob endpoint uri from environment if set, otherwise returns the default value.
         /// </summary>
         /// <param name="accountName">The storage account name</param>
@@ -292,37 +284,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return string.Format(CultureInfo.InvariantCulture,
                 TryGetEnvironmentVariable(Resources.BlobEndpointUriEnv, Resources.BlobEndpointUri),
                 accountName);
-        }
-
-        /// <summary>
-        /// Launches windows azure management portal with specific service if specified.
-        /// </summary>
-        /// <param name="serviceUrl">The service uri.</param>
-        /// <param name="Realm">Realm of the account.</param>
-        public static void LaunchWindowsAzurePortal(string serviceUrl, string Realm)
-        {
-            Validate.ValidateInternetConnection();
-
-            UriBuilder uriBuilder = new UriBuilder(General.AzurePortalUrl);
-            if (!string.IsNullOrEmpty(serviceUrl))
-            {
-                uriBuilder.Fragment += serviceUrl;
-            }
-
-            if (Realm != null)
-            {
-                string queryToAppend = string.Format("whr={0}", Realm);
-                if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
-                {
-                    uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + queryToAppend;
-                }
-                else
-                {
-                    uriBuilder.Query = queryToAppend;
-                }
-            }
-
-            General.LaunchWebPage(uriBuilder.ToString());
         }
 
         /// <summary>
@@ -873,8 +834,26 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string endpoint = builder.Uri.GetComponents(
                 UriComponents.AbsoluteUri & ~UriComponents.Port,
                 UriFormat.UriEscaped);
-            
+
             return new Uri(endpoint);
+        }
+
+        /// <summary>
+        /// Formats the given XML into indented way.
+        /// </summary>
+        /// <param name="xml">The input xml string</param>
+        /// <returns>The formatted xml string</returns>
+        public static string FormatXml(string xml)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(xml);
+                return doc.ToString();
+            }
+            catch (Exception)
+            {
+                return xml;
+            }
         }
     }
 }

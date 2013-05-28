@@ -21,48 +21,40 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    //[Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
-    public class EnableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
+    public class EnableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
-        private const string SiteParameterSetName = "SiteParameterSet";
+        private const string FileParameterSetName = "FileParameterSet";
 
-        private const string ApplicationParameterSetName = "ApplicationParameterSet";
+        private const string StorageParameterSetName = "StorageParameterSet";
 
         public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = true)]
-        public WebsiteDiagnosticType Type { get; set; }
+        [Parameter(Mandatory = true, ParameterSetName = FileParameterSetName)]
+        public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter WebServerLogging { get; set; }
+        [Parameter(Mandatory = true, ParameterSetName = StorageParameterSetName)]
+        public SwitchParameter Storage { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter DetailedErrorMessages { get; set; }
-
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter FailedRequestTracing { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = ApplicationParameterSetName)]
-        public WebsiteDiagnosticOutput Output { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = ApplicationParameterSetName)]
+        [Parameter(Mandatory = true, ParameterSetName = FileParameterSetName)]
+        [Parameter(Mandatory = true, ParameterSetName = StorageParameterSetName)]
         public LogEntryType LogLevel { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = ApplicationParameterSetName)]
+        [Parameter(Mandatory = false, ParameterSetName = StorageParameterSetName)]
         public string StorageAccountName { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the EnableAzureWebsiteDiagnosticCommand class.
+        /// Initializes a new instance of the EnableAzureWebsiteApplicationDiagnosticCommand class.
         /// </summary>
-        public EnableAzureWebsiteDiagnosticCommand()
+        public EnableAzureWebsiteApplicationDiagnosticCommand()
             : this(null)
         {
         }
 
-        public EnableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
+        public EnableAzureWebsiteApplicationDiagnosticCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
@@ -71,30 +63,23 @@ namespace Microsoft.WindowsAzure.Management.Websites
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
-            switch (Type)
-            {
-                case WebsiteDiagnosticType.Site:
-                    WebsitesClient.EnableSiteDiagnostic(
-                        Name,
-                        WebServerLogging,
-                        DetailedErrorMessages,
-                        FailedRequestTracing);
-                    break;
-                case WebsiteDiagnosticType.Application:
-                    Dictionary<DiagnosticProperties, object> properties = new Dictionary<DiagnosticProperties, object>();
-                    properties[DiagnosticProperties.LogLevel] = LogLevel;
-                    
-                    if (Output == WebsiteDiagnosticOutput.StorageTable)
-	                {
-                        string storageName = string.IsNullOrEmpty(StorageAccountName) ?
-                            CurrentSubscription.CurrentStorageAccount : StorageAccountName;
-		                properties[DiagnosticProperties.StorageAccountName] = storageName;
-	                }
+            Dictionary<DiagnosticProperties, object> properties = new Dictionary<DiagnosticProperties, object>();
+            properties[DiagnosticProperties.LogLevel] = LogLevel;
 
-                    WebsitesClient.EnableApplicationDiagnostic(Name, Output, properties);
-                    break;
-                default:
-                    throw new PSArgumentException();
+            if (File.IsPresent)
+            {
+                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem, properties);
+            }
+            else if (Storage.IsPresent)
+            {
+                string storageName = string.IsNullOrEmpty(StorageAccountName) ?
+                    CurrentSubscription.CurrentStorageAccount : StorageAccountName;
+                properties[DiagnosticProperties.StorageAccountName] = storageName;
+                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, properties);
+            }
+            else
+            {
+                throw new PSArgumentException();
             }
 
             if (PassThru.IsPresent)

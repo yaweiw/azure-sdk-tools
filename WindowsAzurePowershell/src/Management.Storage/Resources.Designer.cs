@@ -367,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to windows.net.
+        ///   Looks up a localized string similar to core.windows.net.
         /// </summary>
         internal static string DefaultStorageEndPointDomain {
             get {
@@ -529,7 +529,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://{0}.blob.core.{1}/.
+        ///   Looks up a localized string similar to http://{0}.blob.{1}/.
         /// </summary>
         internal static string HttpBlobEndPointFormat {
             get {
@@ -547,7 +547,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://{0}.queue.core.{1}/.
+        ///   Looks up a localized string similar to http://{0}.queue.{1}/.
         /// </summary>
         internal static string HttpQueueEndPointFormat {
             get {
@@ -556,7 +556,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://{0}.blob.core.{1}/.
+        ///   Looks up a localized string similar to https://{0}.blob.{1}/.
         /// </summary>
         internal static string HttpsBlobEndPointFormat {
             get {
@@ -574,7 +574,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://{0}.queue.core.{1}/.
+        ///   Looks up a localized string similar to https://{0}.queue.{1}/.
         /// </summary>
         internal static string HttpsQueueEndPointFormat {
             get {
@@ -583,7 +583,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://{0}.table.core.{1}/.
+        ///   Looks up a localized string similar to https://{0}.table.{1}/.
         /// </summary>
         internal static string HttpsTableEndPointFormat {
             get {
@@ -592,7 +592,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://{0}.table.core.{1}/.
+        ///   Looks up a localized string similar to http://{0}.table.{1}/.
         /// </summary>
         internal static string HttpTableEndPointFormat {
             get {
