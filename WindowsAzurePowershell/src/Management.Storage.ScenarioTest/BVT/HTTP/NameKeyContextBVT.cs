@@ -44,7 +44,6 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
             useHttps = false;
             isSecondary = false;
             SetUpStorageAccount = Utility.GetStorageAccountWithEndPoint(credential, useHttps, StorageEndPoint);
-            SetUpStorageAccount = new CloudStorageAccount(credential, useHttps);
 
             CLICommonBVT.CLICommonBVTInitialize(testContext);
             PowerShellAgent.SetStorageContext(StorageAccountName, StorageAccountKey, useHttps, StorageEndPoint);

@@ -166,7 +166,7 @@ namespace Management.Storage.ScenarioTest
             });
 
             //--------------New operation--------------
-            Test.Assert(agent.NewAzureStorageContext(StorageAccountName, StorageAccountKey), Utility.GenComparisonData("NewAzureStorageContext", true));
+            Test.Assert(agent.NewAzureStorageContext(StorageAccountName, StorageAccountKey, StorageEndPoint), Utility.GenComparisonData("NewAzureStorageContext", true));
             // Verification for returned values
             agent.OutputValidation(comp);
         }
