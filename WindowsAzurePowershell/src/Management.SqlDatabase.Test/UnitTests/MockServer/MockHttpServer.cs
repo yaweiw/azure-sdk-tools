@@ -27,6 +27,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
     {
         public static readonly Uri DefaultServerPrefixUri =
             new Uri("http://localhost:12345/MockTestServer/");
+        public static readonly Uri DefaultHttpsServerPrefixUri =
+            new Uri("https://localhost:12345/MockTestServer/");
 
         private readonly Uri baseUri;
         private readonly AsyncExceptionManager exceptionManager;
