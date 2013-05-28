@@ -33,17 +33,32 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string subscriptionId;
         private string serializedCert;
 
+        /// <summary>
+        /// Scripts for doing context creation tests
+        /// </summary>
         private const string CreateContextScript = @"Database\CreateContext.ps1";
 
+        /// <summary>
+        /// Scripts for doing Create and Get database tests
+        /// </summary>
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
         private const string CreateScriptWithCert = @"Database\CreateAndGetDatabaseWithCert.ps1";
 
+        /// <summary>
+        /// Scripts for duing database update tests
+        /// </summary>
         private const string UpdateScript = @"Database\UpdateDatabase.ps1";
         private const string UpdateScriptWithCert = @"Database\UpdateDatabaseWithCert.ps1";
 
+        /// <summary>
+        /// Scripts for doing delete database tests
+        /// </summary>
         private const string DeleteScript = @"Database\DeleteDatabase.ps1";
         private const string DeleteScriptWithCert = @"Database\DeleteDatabaseWithCert.ps1";
 
+        /// <summary>
+        /// Tests for doing format validation tests 
+        /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
         [TestInitialize]

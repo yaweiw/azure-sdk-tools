@@ -296,54 +296,153 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         #endregion
 
 
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseList> GetDatabasesThunk { get; set; }
         public IAsyncResult BeginGetDatabases(string subscriptionId, string serverName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
-        }
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
 
+            return result;
+        }
         public SqlDatabaseList EndGetDatabases(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (GetDatabasesThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return GetDatabasesThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDatabasesThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseList);
         }
 
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> GetDatabaseThunk { get; set; }
         public IAsyncResult BeginGetDatabase(string subscriptionId, string serverName, string databaseName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
-        }
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
 
+            return result;
+        }
         public SqlDatabaseResponse EndGetDatabase(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (GetDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return GetDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
         }
 
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> NewDatabaseThunk { get; set; }
         public IAsyncResult BeginNewDatabase(string subscriptionId, string serverName, SqlDatabaseInput input, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
-        }
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
 
+            return result;
+        }
         public SqlDatabaseResponse EndNewDatabase(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (NewDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+                
+                return NewDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("NewDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
         }
 
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> UpdateDatabaseThunk { get; set; }
         public IAsyncResult BeginUpdateDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
-        }
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
 
+            return result;
+        }
         public SqlDatabaseResponse EndUpdateDatabase(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (UpdateDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return UpdateDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("UpdateDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
         }
 
+        public Action<SimpleServiceManagementAsyncResult> DeleteDatabaseThunk { get; set; }
         public IAsyncResult BeginRemoveDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
-        }
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
 
+            return result;
+        }
         public void EndRemoveDatabase(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (DeleteDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                DeleteDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeleteDatabaseThunk is not implemented!");
+            }
         }
     }
 }
