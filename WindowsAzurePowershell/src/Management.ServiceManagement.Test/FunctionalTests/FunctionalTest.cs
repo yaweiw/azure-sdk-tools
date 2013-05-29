@@ -131,12 +131,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             string affinityName1 = Convert.ToString(TestContext.DataRow["affinityName1"]);
             string affinityLabel1 = Convert.ToString(TestContext.DataRow["affinityLabel1"]);
-            string location1 = Convert.ToString(TestContext.DataRow["location1"]);
+            string location1 = CheckLocation(Convert.ToString(TestContext.DataRow["location1"]));
             string description1 = Convert.ToString(TestContext.DataRow["description1"]);
 
             string affinityName2 = Convert.ToString(TestContext.DataRow["affinityName2"]);
             string affinityLabel2 = Convert.ToString(TestContext.DataRow["affinityLabel2"]);
-            string location2 = Convert.ToString(TestContext.DataRow["location2"]);
+            string location2 = CheckLocation(Convert.ToString(TestContext.DataRow["location2"]));
             string description2 = Convert.ToString(TestContext.DataRow["description2"]);
            
             try
@@ -1199,8 +1199,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             string storageAccountPrefix = Convert.ToString(TestContext.DataRow["NamePrefix"]);
-            string locationName1 = Convert.ToString(TestContext.DataRow["Location1"]);
-            string locationName2 = Convert.ToString(TestContext.DataRow["Location2"]);
+            string locationName1 = CheckLocation(Convert.ToString(TestContext.DataRow["Location1"]));
+            string locationName2 = CheckLocation(Convert.ToString(TestContext.DataRow["Location2"]));
             string affinityGroupName = Convert.ToString(TestContext.DataRow["AffinityGroupName"]);
 
             string[] label = new string[3] {
@@ -1455,6 +1455,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        [Ignore]
         public void VMSizeTest()
         {
 
@@ -1654,6 +1655,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             catch (Exception e)
             {
                 Console.WriteLine("Error during removing VM: {0}", e.ToString());
+            }
+        }
+
+        private string CheckLocation(string loc)
+        {
+            string checkLoc = vmPowershellCmdlets.GetAzureLocationName(new string[] { loc });
+            if (string.IsNullOrEmpty(checkLoc))
+            {
+                foreach (LocationsContext l in vmPowershellCmdlets.GetAzureLocation())
+                {
+                    if (l.AvailableServices.Contains("Storage"))
+                    {
+                        return l.Name;
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                return checkLoc;
             }
         }
     }
