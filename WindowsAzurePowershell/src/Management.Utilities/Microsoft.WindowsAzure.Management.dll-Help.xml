@@ -7909,34 +7909,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
         </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureDriveTraceEnabled</maml:name>
-          <maml:description>
-            <maml:para>The flag to enable drive logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureDriveTraceLevel</maml:name>
-          <maml:description>
-            <maml:para>The level of logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureTableTraceEnabled</maml:name>
-          <maml:description>
-            <maml:para>The flag to enable table logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureTableTraceLevel</maml:name>
-          <maml:description>
-            <maml:para>The level of logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -8102,34 +8074,6 @@
           <maml:para>When specified, a boolean value is returned</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureDriveTraceEnabled</maml:name>
-        <maml:description>
-          <maml:para>The flag to enable drive logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureDriveTraceLevel</maml:name>
-        <maml:description>
-          <maml:para>The level of logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureTableTraceEnabled</maml:name>
-        <maml:description>
-          <maml:para>The flag to enable table logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureTableTraceLevel</maml:name>
-        <maml:description>
-          <maml:para>The level of logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>Name</maml:name>
