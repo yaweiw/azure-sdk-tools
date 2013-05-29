@@ -12,24 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-
-
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
-    public class SetAzureServiceCmdletInfo : CmdletsInfo
+    using System;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+
+    [Cmdlet(VerbsCommon.New, "AzureAclConfig"), OutputType(typeof(NetworkAclObject))]
+    public class NewAzureAclConfig : PSCmdlet
     {
-        public SetAzureServiceCmdletInfo(string serviceName, string label, string description)
+        internal void ExecuteCommand()
         {
-            this.cmdletName = Utilities.SetAzureServiceCmdletName;
-            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            if (label != null)
+            this.WriteObject(new NetworkAclObject());
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
             {
-                this.cmdletParams.Add(new CmdletParam("Label", label));
+                base.ProcessRecord();
+                this.ExecuteCommand();
             }
-            if (description != null)
+            catch (Exception ex)
             {
-                this.cmdletParams.Add(new CmdletParam("Description", description));
+                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
     }

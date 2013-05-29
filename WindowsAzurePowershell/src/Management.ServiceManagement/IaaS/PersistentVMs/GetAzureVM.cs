@@ -102,8 +102,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         PowerState = roleInstance.PowerState,
                         InstanceErrorCode = roleInstance.InstanceErrorCode,
                         InstanceName = roleInstance.InstanceName,
-                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture),
-                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture),
+                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperation.OperationTrackingId,
                         OperationStatus = GetDeploymentOperation.Status,
@@ -128,9 +128,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
                     roles.Add(vmContext);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    WriteObject(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM));
+                    throw new ApplicationException(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM), e);
                 }
             }
 
