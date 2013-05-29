@@ -139,10 +139,12 @@
     <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
+    <Compile Include="FunctionalTests\ConfigDataInfo\ACLAction.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\HostCaching.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\InstanceSize.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\OS.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\RemoveAzureDataDiskConfig.cs" />
+    <Compile Include="FunctionalTests\ConfigDataInfo\SetACLConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureCertificateCmdletInfo.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetSite.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ImportAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\MoveAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAclConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAffinityGroupCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureCertificateSettingCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureDeploymentCmdletInfo.cs" />
@@ -211,9 +214,11 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureStorageAccountCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAffinityGroupCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureAclConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureAvailabilitySetCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureEndpointCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureLoadBalancedEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureOSDisk.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureRole.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureServiceCmdletInfo.cs" />
@@ -225,6 +230,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
+    <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>

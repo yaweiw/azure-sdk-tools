@@ -12,25 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class SetAzureServiceCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+
+    public class NewAzureAclConfigCmdletInfo : CmdletsInfo
     {
-        public SetAzureServiceCmdletInfo(string serviceName, string label, string description)
-        {
-            this.cmdletName = Utilities.SetAzureServiceCmdletName;
-            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            if (label != null)
-            {
-                this.cmdletParams.Add(new CmdletParam("Label", label));
-            }
-            if (description != null)
-            {
-                this.cmdletParams.Add(new CmdletParam("Description", description));
-            }
+        public NewAzureAclConfigCmdletInfo()
+        {        
+            this.cmdletName = Utilities.NewAzureAclConfigCmdletName;
         }
     }
 }
