@@ -43,6 +43,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
         private const string CreateScriptWithCert = @"Database\CreateAndGetDatabaseWithCert.ps1";
+        private const string CreateScriptWithServerName = @"Database\CreateAndGetDatabaseWithServerName.ps1";
 
         /// <summary>
         /// Scripts for duing database update tests
@@ -60,6 +61,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// Tests for doing format validation tests 
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
+
+        private const string GetDatabaseScriptWithCert = @"Database\GetDatabaseWithCert";
 
         [TestInitialize]
         public void Setup()
@@ -116,7 +119,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.manageUrl,
                 this.subscriptionId,
                 this.serializedCert);
-            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScriptWithCert, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.CreateScriptWithCert, 
+                arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void CreateDatabaseWithServerName()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testcreatedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.CreateScriptWithServerName, 
+                arguments);
             Assert.IsTrue(testResult);
         }
 

@@ -18,14 +18,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.None,
-        DefaultParameterSetName = "ByName")]
+        DefaultParameterSetName = ByNameWithConnectionContext)]
     public class GetAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter Sets
+
+        internal const string ByNameWithConnectionContext =
+            "ByNameWithConnectionContext";
+        internal const string ByInputObjectWithConnectionContext =
+            "ByInputObjectWithConnectionContext";
+        internal const string ByNameWithServerName =
+            "ByNameWithServerName";
+        internal const string ByInputObjectWithServerName =
+            "ByInputObjectWithServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
@@ -34,14 +48,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByInputObjectWithConnectionContext,
+            HelpMessage = "The connection context to the specified server.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByNameWithConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
+        /// Gets or sets the server object upon which to operate
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByInputObjectWithServerName,
+            HelpMessage = "The name of the server to operate on")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
+
+        /// <summary>
         /// Gets or sets the database object to refresh.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
+        [Parameter(Mandatory = false, Position = 1,
+            ParameterSetName = ByInputObjectWithConnectionContext,
+            ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
+        [Parameter(Mandatory = false, Position = 1,
+            ParameterSetName = ByInputObjectWithServerName,
             ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
         [ValidateNotNull]
         public Database Database { get; set; }
@@ -49,7 +82,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the name of the database to retrieve.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByName",
+        [Parameter(Mandatory = false, Position = 1,
+            ParameterSetName = ByNameWithConnectionContext,
+            HelpMessage = "The name of the database to retrieve.")]
+        [Parameter(Mandatory = false, Position = 1,
+            ParameterSetName = ByNameWithServerName,
             HelpMessage = "The name of the database to retrieve.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
@@ -72,6 +109,60 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
+            switch(ParameterSetName)
+            {
+                case ByNameWithConnectionContext:
+                case ByInputObjectWithConnectionContext:
+                    ProcessWithConnectionContext(databaseName);
+                    break;
+
+                case ByInputObjectWithServerName:
+                case ByNameWithServerName:
+                    ProcessWithServerName(databaseName);
+                    break;
+            }
+            
+        }
+
+        /// <summary>
+        /// Process the record with the provided server name
+        /// </summary>
+        private void ProcessWithServerName(string databaseName)
+        {
+            try
+            {
+                //Get the current subscription data.
+                SubscriptionData subscriptionData = this.GetCurrentSubscription();
+                
+                //create a temporary context
+                ServerDataServiceCertAuth context =
+                    ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+
+                if (databaseName != null)
+                {
+                    // Retrieve the database with the specified name
+                    this.WriteObject(context.GetDatabase(databaseName));
+                }
+                else
+                {
+                    // No name specified, retrieve all databases in the server
+                    this.WriteObject(context.GetDatabases());
+                }
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.ConnectionContext.ClientRequestId,
+                    ex);
+            }
+        }
+
+        /// <summary>
+        /// Process the request using the provided connection context
+        /// </summary>
+        private void ProcessWithConnectionContext(string databaseName)
+        {
             try
             {
                 if (databaseName != null)
