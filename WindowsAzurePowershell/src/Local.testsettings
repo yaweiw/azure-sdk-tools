@@ -21,6 +21,7 @@
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />
   </Deployment>
   <Execution>
+    <Timeouts testTimeout="3000000" />
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution>
