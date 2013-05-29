@@ -130,6 +130,50 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         }
 
         [TestMethod]
+        public void GetAzureSqlDatabaseWithCertAuth()
+        {
+            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
+
+            channel.GetDatabaseThunk = ar =>
+            {
+                Assert.AreEqual(ar.Values["databaseName"], "testdb1", "The input databaseName did not match the expected");
+
+                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
+                db1.CollationName = "Japanese_CI_AS";
+                db1.Edition = "Web";
+                db1.Id = "1";
+                db1.MaxSizeGB = "1";
+                db1.Name = "testdb1";
+                db1.CreationDate = DateTime.Now.ToString();
+                db1.IsFederationRoot = true.ToString();
+                db1.IsSystemObject = true.ToString();
+                db1.MaxSizeBytes = "1073741824";
+
+                return db1;
+            };
+
+
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
+
+            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            service.Channel = channel;
+
+            Database database = service.GetDatabase("testdb1");
+
+            Assert.AreEqual("testdb1", database.Name, "Expected db name to be testdb1");
+
+            Assert.AreEqual("Japanese_CI_AS", database.CollationName,
+                "Expected collation to be Japanese_CI_AS");
+            Assert.AreEqual("Web", database.Edition,
+                "Expected edition to be Web");
+            Assert.AreEqual(1, database.MaxSizeGB,
+                "Expected max size to be 1 GB");
+        }
+
+        [TestMethod]
         public void GetAzureSqlDatabasesWithCertAuth()
         {
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
@@ -196,50 +240,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 "Expected edition to be Business");
             Assert.AreEqual(10, database2Obj.MaxSizeGB, 
                 "Expected max size to be 10 GB");
-        }
-
-        [TestMethod]
-        public void GetAzureSqlDatabaseWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            channel.GetDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(ar.Values["databaseName"], "testdb1", "The input databaseName did not match the expected");
-
-                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
-                db1.CollationName = "Japanese_CI_AS";
-                db1.Edition = "Web";
-                db1.Id = "1";
-                db1.MaxSizeGB = "1";
-                db1.Name = "testdb1";
-                db1.CreationDate = DateTime.Now.ToString();
-                db1.IsFederationRoot = true.ToString();
-                db1.IsSystemObject = true.ToString();
-                db1.MaxSizeBytes = "1073741824";
-
-                return db1;
-            };
-
-
-            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
-            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
-            service.Channel = channel;
-
-            Database database = service.GetDatabase("testdb1");
-
-            Assert.AreEqual("testdb1", database.Name, "Expected db name to be testdb1");
-
-            Assert.AreEqual("Japanese_CI_AS", database.CollationName,
-                "Expected collation to be Japanese_CI_AS");
-            Assert.AreEqual("Web", database.Edition,
-                "Expected edition to be Web");
-            Assert.AreEqual(1, database.MaxSizeGB,
-                "Expected max size to be 1 GB");
         }
 
         [TestMethod]
