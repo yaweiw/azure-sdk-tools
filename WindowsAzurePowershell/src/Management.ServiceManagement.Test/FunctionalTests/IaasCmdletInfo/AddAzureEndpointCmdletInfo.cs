@@ -44,8 +44,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalancedNoProbe)
             {
                 this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
-                // Update this once issue #1526 is fixed
-                //this.cmdletParams.Add(new CmdletParam("NoProbe"));
+                this.cmdletParams.Add(new CmdletParam("NoProbe"));
             }
             else if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.CustonProbe)
             {
