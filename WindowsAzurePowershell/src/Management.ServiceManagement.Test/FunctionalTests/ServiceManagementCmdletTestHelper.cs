@@ -33,7 +33,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    
+
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public class ServiceManagementCmdletTestHelper 
     {
@@ -82,6 +83,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             WindowsAzurePowershellScript azurePowershellCmdlet = new WindowsAzurePowershellScript(st);
             return azurePowershellCmdlet.Run();
+        }
+
+        public CopyState CheckCopyBlobStatus(string destContainer, string destBlob)
+        {
+            List<string> st = new List<string>();
+            st.Add(string.Format("Get-AzureStorageBlobCopyState -Container {0} -Blob {1}", destContainer, destBlob));
+
+            WindowsAzurePowershellScript azurePowershellCmdlet = new WindowsAzurePowershellScript(st);
+            return (CopyState)azurePowershellCmdlet.Run()[0].BaseObject;
         }
 
         public bool TestAzureServiceName(string serviceName)
