@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                             break;
                     }
                     break;
-                // Update this once issue #1526 is fixed
+
                 case AzureEndPointConfigInfo.ParameterSet.DefaultProbe :
                 case AzureEndPointConfigInfo.ParameterSet.LoadBalancedNoProbe :
                 default :
