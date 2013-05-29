@@ -33,11 +33,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the database.
@@ -83,12 +84,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.RemoveAzureSqlDatabaseDescription,
-                this.Context.ServerName,
+                this.ConnectionContext.ServerName,
                 databaseName);
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.RemoveAzureSqlDatabaseWarning,
-                this.Context.ServerName,
+                this.ConnectionContext.ServerName,
                 databaseName);
             this.WriteVerbose(actionDescription);
             if (!this.Force.IsPresent &&
@@ -103,13 +104,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             try
             {
                 // Remove the database with the specified name
-                this.Context.RemoveDatabase(databaseName);
+                this.ConnectionContext.RemoveDatabase(databaseName);
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }
