@@ -26,6 +26,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     using System.Diagnostics;
     using System.Collections.Specialized;
+    using System.Management.Automation;
+
 
     [TestClass]
     public class ServiceManagementTest
@@ -238,7 +240,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string srcSasUri = Utilities.GenerateSasUri(CredentialHelper.CredentialBlobUriFormat, storageAccount, storageAccountKey, srcContainer, srcBlob);
 
             vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
-            vmPowershellCmdlets.RunPSScript(string.Format("Get-AzureStorageBlobCopyState -Container {0} -Blob {1}", destContainer, destBlob));
+
+            for (int i = 0; i < 60; i++)
+            {
+                var result = vmPowershellCmdlets.CheckCopyBlobStatus(destContainer, destBlob);
+                if (result.Status.ToString().Equals("Success"))
+                {
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(10 * 1000);
+                }
+            }
         }
     }
 }
