@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        void AddAppSetting(string name, string key, string value);
+        void SetAppSetting(string name, string key, string value);
 
         /// <summary>
         /// Lists available website locations.

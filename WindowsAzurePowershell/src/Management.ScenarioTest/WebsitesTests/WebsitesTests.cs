@@ -235,6 +235,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-DisableApplicationDiagnosticOnTableStorageAndFile");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestReconfigureStorageAppDiagnostics()
+        {
+            RunPowerShellTest("Test-ReconfigureStorageAppDiagnostics");
+        }
+
         #endregion
 
         #region Get-AzureWebsiteLocation Scenario Tests
