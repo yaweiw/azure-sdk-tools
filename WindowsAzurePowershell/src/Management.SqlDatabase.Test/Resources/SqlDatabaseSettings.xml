@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SqlDatabaseSetting>
-    <ServerLocation>North Central US</ServerLocation>
+    <ServerLocation>Onebox</ServerLocation>
     <ManageUrl>https://dawoapzbxb.dev.mscds.com</ManageUrl>
     <SqlAuthUserName>mylogin</SqlAuthUserName>
     <SqlAuthPassword>Sql@zure</SqlAuthPassword>

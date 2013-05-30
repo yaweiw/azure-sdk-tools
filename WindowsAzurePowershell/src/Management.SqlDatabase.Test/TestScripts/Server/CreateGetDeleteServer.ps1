@@ -38,7 +38,7 @@ Write-Output "`$serverLocation=$serverLocation"
 Try
 {
 	Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription $subscriptionID $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     $isTestPass = $False
