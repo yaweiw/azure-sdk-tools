@@ -17,8 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
     [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
     public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
@@ -32,10 +30,10 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = FileParameterSetName)]
+        [Parameter(Mandatory = true)]
         public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = StorageParameterSetName)]
+        [Parameter(Mandatory = true)]
         public SwitchParameter Storage { get; set; }
 
         public override void ExecuteCmdlet()
@@ -46,7 +44,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
             {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
             }
-            else if (Storage.IsPresent)
+            
+            if (Storage.IsPresent)
             {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
             }

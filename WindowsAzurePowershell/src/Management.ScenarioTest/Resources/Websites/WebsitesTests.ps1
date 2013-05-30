@@ -426,6 +426,35 @@ function Test-DisableApplicationDiagnosticOnFileSystem
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
 
+<#
+.SYNOPSIS
+Tests Disable-AzureWebsiteApplicationDiagnostic with storage and file
+#>
+function Test-DisableApplicationDiagnosticOnTableStorageAndFile
+{
+	# Setup
+	$name = Get-WebsiteName
+	$storageName = $(Get-WebsiteName).ToLower()
+	$locations = Get-AzureLocation
+	$defaultLocation = $locations[0].Name
+	New-AzureWebsite $name
+	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName $storageName
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
+	
+	# Test
+	Disable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -File
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-False { $website.AzureTableTraceEnabled }
+	Assert-False { $website.AzureFileTraceEnabled }
+	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+
+	# Cleanup
+	Remove-AzureStorageAccount $storageName
+}
+
 ########################################################################### Get-AzureWebsiteLocation Scenario Tests ###########################################################################
 
 <#
