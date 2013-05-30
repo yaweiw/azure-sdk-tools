@@ -28,8 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected bool deleteLocalFileIfFailed = true;
         protected bool deleteLocalFileIfPassed = true;
         protected string perfFile = "perf.csv";
-        
-        
+
         protected void SaveVhdAndAssertContent(BlobHandle destination, FileInfo localFile, int? numThread, string storageKey, bool overwrite, bool deleteBlob, bool deleteLocal)
         {
             try
@@ -99,9 +98,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         protected bool VerifyMD5hash(BlobHandle blobHandle, string md5hash)
         {
-            Console.WriteLine("MD5 hash of blob, {0}, is {1}", blobHandle.Blob.Uri.ToString(), blobHandle.Blob.Properties.ContentMD5);
+            string blobMd5 = blobHandle.Blob.Properties.ContentMD5;
             Console.WriteLine("MD5 hash of the local file: {0}", md5hash);
-            return String.Equals(blobHandle.Blob.Properties.ContentMD5, md5hash);
+            if (string.IsNullOrEmpty(blobMd5))
+            {
+                Console.WriteLine("The blob does not have MD5 value!!!");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("MD5 hash of blob, {0}, is {1}.", blobHandle.Blob.Uri.ToString(), blobMd5);
+                return String.Equals(blobMd5, md5hash);
+            }
         }
 
         protected void AssertUploadContextAndContentMD5UsingSaveVhd

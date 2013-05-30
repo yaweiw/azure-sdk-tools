@@ -17,25 +17,49 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
-    public class SetAzureEndpointCmdletInfo : CmdletsInfo
+    public class SetAzureLoadBalancedEndpointCmdletInfo : CmdletsInfo
     {
-        public SetAzureEndpointCmdletInfo()
+        public SetAzureLoadBalancedEndpointCmdletInfo()
         {
-            this.cmdletName = Utilities.SetAzureEndpointCmdletName;
+            this.cmdletName = Utilities.SetAzureLoadBalancedEndpointCmdletName;
         }
 
-        public SetAzureEndpointCmdletInfo(AzureEndPointConfigInfo endPointConfig)
+        public SetAzureLoadBalancedEndpointCmdletInfo(AzureEndPointConfigInfo endPointConfig, AzureEndPointConfigInfo.ParameterSet paramset)
         {
-            this.cmdletName = Utilities.SetAzureEndpointCmdletName;
+            this.cmdletName = Utilities.SetAzureLoadBalancedEndpointCmdletName;
 
-            this.cmdletParams.Add(new CmdletParam("Name", endPointConfig.EndpointName));
+            this.cmdletParams.Add(new CmdletParam("ServiceName", endPointConfig.ServiceName));
             this.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.EndpointLocalPort));
             if (endPointConfig.EndpointPublicPort.HasValue)
             {
                 this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.EndpointPublicPort));
             }
             this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.EndpointProtocol.ToString()));
-            this.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm));
+            this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
+
+            switch (paramset)
+            {
+                case AzureEndPointConfigInfo.ParameterSet.CustonProbe :
+                    switch (endPointConfig.ProbeProtocol.ToString())
+                    {
+                        case "tcp":
+                            this.cmdletParams.Add(new CmdletParam("ProbeProtocolTCP"));
+                            break;
+                        case "http":
+                            this.cmdletParams.Add(new CmdletParam("ProbeProtocolHTTP"));
+                            this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case AzureEndPointConfigInfo.ParameterSet.DefaultProbe :
+                case AzureEndPointConfigInfo.ParameterSet.LoadBalancedNoProbe :
+                default :
+                    break;
+            }
+
             if (endPointConfig.Acl != null)
             {
                 this.cmdletParams.Add(new CmdletParam("ACL", endPointConfig.Acl));
@@ -46,4 +70,5 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
     }
+    
 }
