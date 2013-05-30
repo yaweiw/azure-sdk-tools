@@ -194,6 +194,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
         private void ProcessWithServerName(string databaseName)
         {
+            string clientRequestId = null;
             try
             {
                 //Get the current subscription data.
@@ -203,6 +204,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
 
+                clientRequestId = context.ClientRequestId;
+
                 // Remove the database with the specified name
                 context.RemoveDatabase(databaseName);
             }
@@ -210,7 +213,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.ConnectionContext.ClientRequestId,
+                    clientRequestId,
                     ex);
             }
         }
