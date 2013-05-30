@@ -134,6 +134,7 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="TestScripts\CommonFunctions.ps1" />
+    <None Include="TestScripts\Database\UpdateDatabaseWithServerName.ps1" />
     <None Include="TestScripts\Database\DeleteDatabaseWithServerName.ps1" />
     <None Include="TestScripts\Database\CreateAndGetDatabaseWithServerName.ps1" />
     <None Include="TestScripts\Database\DeleteDatabaseWithCert.ps1" />

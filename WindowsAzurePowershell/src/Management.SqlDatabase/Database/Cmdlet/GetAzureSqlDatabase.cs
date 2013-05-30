@@ -125,6 +125,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         private void ProcessWithServerName(string databaseName)
         {
+            string clientRequestId = null;
             try
             {
                 //Get the current subscription data.
@@ -133,6 +134,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 //create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+
+                clientRequestId = context.ClientRequestId;
 
                 if (databaseName != null)
                 {
@@ -149,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.ConnectionContext.ClientRequestId,
+                    clientRequestId,
                     ex);
             }
         }

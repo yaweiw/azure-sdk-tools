@@ -50,6 +50,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string UpdateScript = @"Database\UpdateDatabase.ps1";
         private const string UpdateScriptWithCert = @"Database\UpdateDatabaseWithCert.ps1";
+        private const string UpdateScriptWithServerName = @"Database\UpdateDatabaseWithServerName.ps1";
 
         /// <summary>
         /// Scripts for doing delete database tests
@@ -170,6 +171,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.subscriptionId,
                 this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithCert, arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void UpdateDatabaseWithServerName()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testupdatedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithServerName, arguments);
             Assert.IsTrue(testResult);
         }
 
