@@ -1,4 +1,4 @@
-2013.06.03 0.6.15
+2013.06.03 Version 0.6.15
 * Introduced the environment concept to support differnt Windows Azure environments
   * Get-AzureEnvironment cmdlet to return all the out-of-box Windows Azure environments
   * -Environment parameter in the following cmdlets to specify which environment to target
