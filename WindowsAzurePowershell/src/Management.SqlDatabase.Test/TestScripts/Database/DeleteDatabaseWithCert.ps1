@@ -54,7 +54,7 @@ Try
     Remove-AzureSqlDatabase $context $database -Force
     Write-Output "Done"
     
-    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"
     
     # Delete database by pasing database name
@@ -63,7 +63,7 @@ Try
     Remove-AzureSqlDatabase $context $database.Name -Force
     Write-Output "Done"
     
-    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"    
     $IsTestPass = $True
 }

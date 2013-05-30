@@ -362,6 +362,28 @@ function Drop-Database
     }
 }
 
+function Drop-DatabaseWithServerName
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]
+        $ServerName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        $Database
+    )
+
+    if($Database)
+    {
+        # Drop Database
+        Write-Output "Dropping database $($Database.Name) ..."
+        Remove-AzureSqlDatabase -ServerName $ServerName -InputObject $Database -Force
+        Write-Output "Dropped database $($Database.Name)"
+    }
+}
+
 function Drop-Databases
 {
     [CmdletBinding()]
@@ -379,8 +401,31 @@ function Drop-Databases
     {
         # Drop Database
         Write-Output "Dropping databases with name starts with $NameStartsWith ..."
-        Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+        Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
                     | Remove-AzureSqlDatabase -Context $context -Force
+        Write-Output "Dropped database with name starts with $NameStartsWith"
+    }
+}
+
+function Drop-DatabasesWithServerName
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]
+        $ServerName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [String]
+        $NameStartsWith
+    )
+
+    if($Database)
+    {
+        # Drop Database
+        Write-Output "Dropping databases with name starts with $NameStartsWith ..."
+        Get-AzureSqlDatabase -ServerName $ServerName | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+                    | Remove-AzureSqlDatabase -ServerName $ServerName -Force
         Write-Output "Dropped database with name starts with $NameStartsWith"
     }
 }

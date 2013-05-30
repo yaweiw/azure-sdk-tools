@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Creates a new Windows Azure SQL Databases in the given server context.
@@ -27,6 +28,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter Sets
+
+        internal const string ByConnectionContext =
+            "ByConnectionContext";
+        internal const string ByServerName =
+            "ByServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
@@ -34,9 +44,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ParameterSetName = ByConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
+
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByServerName,
+            HelpMessage = "The name of the server to connect to using the current subscription")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
@@ -79,6 +96,55 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            int? maxSizeGb = null;
+            if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            {
+                maxSizeGb = this.MaxSizeGB;
+            }
+
+            switch(ParameterSetName)
+            {
+                case ByConnectionContext:
+                    ProcessWithConnectionContext(maxSizeGb);
+                    break;
+                case ByServerName:
+                    ProcessWithServerName(maxSizeGb);
+                    break;
+            }
+
+        }
+
+        private void ProcessWithServerName(int? maxSizeGb)
+        {
+            try
+            {
+                //Get the current subscription data.
+                SubscriptionData subscriptionData = this.GetCurrentSubscription();
+
+                //create a temporary context
+                ServerDataServiceCertAuth context =
+                    ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+
+                
+                // Retrieve the database with the specified name
+                this.WriteObject(context.CreateNewDatabase(
+                    this.DatabaseName, 
+                    maxSizeGb, 
+                    this.Collation, 
+                    this.Edition));
+                
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.ConnectionContext.ClientRequestId,
+                    ex);
+            }
+        }
+
+        private void ProcessWithConnectionContext(int? maxSizeGb)
+        {
             // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
                 !this.ShouldProcess(
@@ -91,8 +157,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
             try
             {
-                int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
-                    (int?)this.MaxSizeGB : null;
 
                 Database database = this.ConnectionContext.CreateNewDatabase(
                     this.DatabaseName,

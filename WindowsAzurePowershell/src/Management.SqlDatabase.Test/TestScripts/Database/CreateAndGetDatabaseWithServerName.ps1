@@ -52,6 +52,8 @@ Try
 
     Assert {$server[0]} "There are no servers to connect to"
 
+    $ServerName = $server[0].ServerName
+
     $defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
     $defaultEdition = "Web"
     $defaultMaxSizeGB = "1"
@@ -63,7 +65,7 @@ Try
     # Create Database with only required parameters
     #############################################################
     Write-Output "Creating Database $Name ..."
-    $database = New-AzureSqlDatabase -ServerName $server[0].ServerName -DatabaseName $Name
+    $database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
     Write-Output "Done"
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
             $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
@@ -73,7 +75,7 @@ Try
     #############################################################
     #Get Database by database name
     #############################################################
-    $database = Get-AzureSqlDatabase -ServerName $server[0].ServerName -DatabaseName $Name
+    $database = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
             $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
             -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
@@ -84,7 +86,7 @@ Try
     #############################################################
     $Name = $Name + "1"
     Write-Output "Creating Database $Name ..."
-    $database2 = New-AzureSqlDatabase -ServerName $server[0].ServerName $Name -Collation "SQL_Latin1_General_CP1_CS_AS" -Edition "Business" `
+    $database2 = New-AzureSqlDatabase -ServerName $ServerName $Name -Collation "SQL_Latin1_General_CP1_CS_AS" -Edition "Business" `
             -MaxSizeGB 20 -Force
     Write-Output "Done"
     
@@ -96,7 +98,7 @@ Try
     #############################################################
     #Get Database by database object
     #############################################################
-    $database2 = Get-AzureSqlDatabase -ServerName $server[0].ServerName -Database $database2
+    $database2 = Get-AzureSqlDatabase -ServerName $ServerName -Database $database2
     Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS" `
             -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" -ExpectedIsReadOnly $defaultIsReadOnly `
             -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
@@ -105,7 +107,7 @@ Try
     #############################################################
     #Get Databases with no filter
     #############################################################
-    $databases = Get-AzureSqlDatabase -Context $context | Where-Object {$_.Name.StartsWith($NameStartWith)}
+    $databases = Get-AzureSqlDatabase -ServerName $ServerName | Where-Object {$_.Name.StartsWith($NameStartWith)}
     Assert {$databases.Count -eq 2} "Get database should have returned 2 database, but returned $databases.Count"
     
     $IsTestPass = $True
@@ -115,7 +117,7 @@ Finally
     if($database)
     {
         # Drop Database
-        Drop-Databases $Context $NameStartWith
+        Drop-DatabasesWithServerName $ServerName $NameStartWith
     }
 }
 
