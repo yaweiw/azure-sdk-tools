@@ -376,6 +376,36 @@ function Test-UpdateTheDiagnositicLogLevel
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
 
+<#
+.SYNOPSIS
+Tests reconfiguring the table storage diagnostic settings information.
+#>
+function Test-ReconfigureStorageAppDiagnostics
+{
+	# Setup
+	$name = Get-WebsiteName
+	$storageName = $(Get-WebsiteName).ToLower()
+	$newStorageName = $(Get-WebsiteName).ToLower()
+	$locations = Get-AzureLocation
+	$defaultLocation = $locations[0].Name
+	New-AzureWebsite $name
+	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
+	New-AzureStorageAccount -ServiceName $newStorageName -Location $defaultLocation
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName $storageName
+
+	# Test
+	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Verbose -StorageAccountName $newStorageName
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-True { $website.AzureTableTraceEnabled }
+	Assert-AreEqual Verbose $website.AzureTableTraceLevel
+	Assert-True { $website.AppSettings["CLOUD_STORAGE_ACCOUNT"] -like "*" + $newStorageName + "*" }
+
+	# Cleanup
+	Remove-AzureStorageAccount $storageName
+}
+
 ########################################################################### Disable-AzureWebsiteApplicationDiagnostic Scenario Tests ###########################################################################
 
 <#

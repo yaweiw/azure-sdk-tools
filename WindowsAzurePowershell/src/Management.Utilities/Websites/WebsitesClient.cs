@@ -178,16 +178,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
-
                             StorageService storageService = ServiceManagementChannel.GetStorageKeys(
-                                subscriptionId,
-                                storageAccountName);
+                            subscriptionId,
+                            storageAccountName);
                             StorageCredentials credentials = new StorageCredentials(
                                 storageAccountName,
                                 storageService.StorageServiceKeys.Primary);
                             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
                             string connectionString = cloudStorageAccount.ToString(true);
-                            AddAppSetting(website.Name, storageTableName, connectionString);
+                            SetAppSetting(website.Name, storageTableName, connectionString);
+                            
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
                                 (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
                                 diagnosticsSettings.AzureTableTraceLevel;
@@ -226,6 +226,31 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
             
             WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Gets the index of an application setting. Returns -1 if not found.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="key">the applicationsetting key</param>
+        /// <returns>The application setting index</returns>
+        private int GetAppSettingIndex(string name, string key)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId,
+                website.WebSpace,
+                website.Name);
+
+            for (int i = 0; i < configuration.AppSettings.Count; i++)
+            {
+                if (configuration.AppSettings[i].Name.Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -373,19 +398,30 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         /// <summary>
-        /// Adds an AppSetting of a website.
+        /// Sets an AppSetting of a website.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        public void AddAppSetting(string name, string key, string value)
+        public void SetAppSetting(string name, string key, string value)
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
                 subscriptionId,
                 website.WebSpace,
                 website.Name);
-            configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
+
+            int index = GetAppSettingIndex(name, key);
+
+            if (index != -1)
+            {
+                configuration.AppSettings[index].Value = value;
+            }
+            else
+            {
+                configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
+            }
+            
             WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
