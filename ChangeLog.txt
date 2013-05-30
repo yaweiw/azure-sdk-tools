@@ -7,6 +7,9 @@
 * Windows Azure Web Site application diagnostics cmdlets
   * Enable-AzureWebsiteApplicationDiagnostic
   * Disable-AzureWebsiteApplicationDiagnostic
+* Stop-AzureVM
+  * Changed the behavior to deprovision the VM after stopping it
+  * -StayProvisioned parameter to keep the VM provisioned after stopping it
 * Windows Azure Cloud Services remote desktop extension cmdlets
   * New-AzureServiceRemoteDesktopExtensionConfig
   * Get-AzureServiceRemoteDesktopExtension
