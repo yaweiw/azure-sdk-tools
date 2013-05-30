@@ -37,8 +37,8 @@ $IsTestPass = $False
 
 Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
-Write-Output "`$UserName=$UserName"
-Write-Output "`$Password=$Password"
+Write-Output "`$SubscriptionID=$SubscriptionID"
+Write-Output "`$SerializedCert=$SerializedCert"
 $NameStartWith = $Name
 . .\CommonFunctions.ps1
 
@@ -107,8 +107,9 @@ Try
     #############################################################
     #Get Databases with no filter
     #############################################################
-    $databases = Get-AzureSqlDatabase -ServerName $ServerName | Where-Object {$_.Name.StartsWith($NameStartWith)}
-    Assert {$databases.Count -eq 2} "Get database should have returned 2 database, but returned $databases.Count"
+    $databases = (Get-AzureSqlDatabase -ServerName $ServerName) | Where-Object {$_.Name.StartsWith($NameStartWith)}
+    $count = $databases.Count
+    Assert {$count -eq 2} "Get database should have returned 2 database, but returned $count"
     
     $IsTestPass = $True
 }

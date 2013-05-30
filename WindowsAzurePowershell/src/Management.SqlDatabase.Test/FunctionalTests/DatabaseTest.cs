@@ -56,6 +56,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string DeleteScript = @"Database\DeleteDatabase.ps1";
         private const string DeleteScriptWithCert = @"Database\DeleteDatabaseWithCert.ps1";
+        private const string DeleteScriptWithServerName = @"Database\DeleteDatabaseWithServerName.ps1";
 
         /// <summary>
         /// Tests for doing format validation tests 
@@ -199,6 +200,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.subscriptionId,
                 this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScriptWithCert, arguments);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void DeleteDatabaseWithServerName()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "testDeletedbfromcmdlet",
+                this.manageUrl,
+                this.subscriptionId,
+                this.serializedCert);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.DeleteScriptWithServerName, 
+                arguments);
             Assert.IsTrue(testResult);
         }
 

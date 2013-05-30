@@ -63,10 +63,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the database object to refresh.
         /// </summary>
         [Parameter(Mandatory = false, Position = 1,
-            ParameterSetName = ByConnectionContext,
-            ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
-        [Parameter(Mandatory = false, Position = 1,
-            ParameterSetName = ByServerName,
             ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
         [ValidateNotNull]
         public Database Database { get; set; }
@@ -75,10 +71,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the name of the database to retrieve.
         /// </summary>
         [Parameter(Mandatory = false, Position = 1,
-            ParameterSetName = ByServerName,
-            HelpMessage = "The name of the database to retrieve.")]
-        [Parameter(Mandatory = false, Position = 1,
-            ParameterSetName = ByConnectionContext,
             HelpMessage = "The name of the database to retrieve.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }

@@ -96,6 +96,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            // Do nothing if force is not specified and user cancelled the operation
+            if (!this.Force.IsPresent &&
+                !this.ShouldProcess(
+                Resources.NewAzureSqlDatabaseDescription,
+                Resources.NewAzureSqlDatabaseWarning,
+                Resources.ShouldProcessCaption))
+            {
+                return;
+            }
+
             int? maxSizeGb = null;
             if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
             {
@@ -111,9 +121,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     ProcessWithServerName(maxSizeGb);
                     break;
             }
-
         }
 
+        /// <summary>
+        /// Process the request using the server name
+        /// </summary>
+        /// <param name="maxSizeGb">the maximum size of the database</param>
         private void ProcessWithServerName(int? maxSizeGb)
         {
             try
@@ -143,21 +156,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Process the request using the connection context.
+        /// </summary>
+        /// <param name="maxSizeGb">the maximum size for the new database</param>
         private void ProcessWithConnectionContext(int? maxSizeGb)
         {
-            // Do nothing if force is not specified and user cancelled the operation
-            if (!this.Force.IsPresent &&
-                !this.ShouldProcess(
-                Resources.NewAzureSqlDatabaseDescription,
-                Resources.NewAzureSqlDatabaseWarning,
-                Resources.ShouldProcessCaption))
-            {
-                return;
-            }
-
             try
             {
-
                 Database database = this.ConnectionContext.CreateNewDatabase(
                     this.DatabaseName,
                     maxSizeGb,

@@ -45,26 +45,54 @@ Try
 	Init-TestEnvironment
 	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
 
-    $context = Get-ServerContextByManageUrlWithCertAuth -ManageUrl $ManageUrl
+	$server = Get-AzureSqlDatabaseServer
 
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
+    Assert {$server[0]} "There are no servers to connect to"
+
+    $ServerName = $server[0].ServerName
+
+    $database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
     
+    ######################################################################
     # Delete database by pasing database object
     Write-Output "Deleting Database by passing Database object ..."
-    Remove-AzureSqlDatabase $context $database -Force
+    Remove-AzureSqlDatabase -ServerName $Servername $database -Force
     Write-Output "Done"
     
-    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $Servername | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"
     
+    ######################################################################
     # Delete database by pasing database name
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
+    $database = New-AzureSqlDatabase -ServerName $Servername -DatabaseName $Name
     Write-Output "Deleting Database by passing Database Name ..."
-    Remove-AzureSqlDatabase $context $database.Name -Force
+    Remove-AzureSqlDatabase -ServerName $Servername $database.Name -Force
     Write-Output "Done"
     
-    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $Servername | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"    
+    
+    ######################################################################
+    # Delete database without specifying -ServerName using db name
+    $database = New-AzureSqlDatabase -ServerName $Servername -DatabaseName $Name
+    Write-Output "Deleting Database by name without using -ServerName identifier ..."
+    Remove-AzureSqlDatabase $Servername $database.Name -Force
+    Write-Output "Done"
+    
+    $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $Servername | Where-Object {$_.Name -eq $Name}
+    Assert {!$getDroppedDatabase} "Database is not dropped"    
+    
+    ######################################################################
+    # Delete database without specifying -ServerName  using db object
+    $database = New-AzureSqlDatabase -ServerName $Servername -DatabaseName $Name
+    Write-Output "Deleting Database by name without using -ServerName identifier ..."
+    Remove-AzureSqlDatabase $Servername $database -Force
+    Write-Output "Done"
+    
+    $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $Servername | Where-Object {$_.Name -eq $Name}
+    Assert {!$getDroppedDatabase} "Database is not dropped"    
+    
+
     $IsTestPass = $True
 }
 Finally
@@ -72,7 +100,7 @@ Finally
     if($database)
     {
         # Drop Database
-        Drop-Databases $Context $Name
+        Drop-DatabasesWithServerName $ServerName $Name
     }
 }
 Write-TestResult $IsTestPass
