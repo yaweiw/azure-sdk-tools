@@ -39,20 +39,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void Setup()
         {
 
-            PublishData publishData = General.DeserializeXmlFile<PublishData>("Azure.publishsettings");
-            PublishDataPublishProfile publishProfile = publishData.Items[0];
-            this.serializedCert = publishProfile.ManagementCertificate;
-            this.subscriptionID = publishProfile.Subscription[0].Id;
+            //PublishData publishData = General.DeserializeXmlFile<PublishData>("Azure.publishsettings");
+            //PublishDataPublishProfile publishProfile = publishData.Items[0];
+            //this.serializedCert = publishProfile.ManagementCertificate;
+            //this.subscriptionID = publishProfile.Subscription[0].Id;
+
+            //XElement root = XElement.Load("SqlDatabaseSettings.xml");
+            //this.serverLocation = root.Element("ServerLocation").Value;
+
 
             XElement root = XElement.Load("SqlDatabaseSettings.xml");
+            this.subscriptionID = root.Element("SubscriptionID").Value;
+            this.serializedCert = root.Element("SerializedCert").Value;
             this.serverLocation = root.Element("ServerLocation").Value;
-
-            new NewAzureSqlDatabaseServerFirewallRule();
         }
 
         [TestMethod]
         [TestCategory("Functional")]
-        [Ignore]
         public void CreateGetDeleteServerTest()
         {            
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
