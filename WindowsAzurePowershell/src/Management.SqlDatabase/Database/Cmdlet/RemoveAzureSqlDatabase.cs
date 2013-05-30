@@ -28,6 +28,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.High)]
     public class RemoveAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter sets
+
+        internal const string ByConnectionContext =
+            "ByConnectionContext";
+        internal const string ByServerName =
+            "ByServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
@@ -36,6 +45,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0,
             ValueFromPipelineByPropertyName = true,
+            //ParameterSetName = ByConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
