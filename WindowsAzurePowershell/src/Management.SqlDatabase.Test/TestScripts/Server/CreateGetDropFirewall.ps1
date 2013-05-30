@@ -28,6 +28,7 @@ Param
     [String]
     $serverLocation
 )
+
 Write-Output "`$subscriptionID=$subscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$serverLocation=$serverLocation"
@@ -37,7 +38,7 @@ Write-Output "`$serverLocation=$serverLocation"
 Try
 {
     Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
     $isTestPass = $False
     
     # Create Server
