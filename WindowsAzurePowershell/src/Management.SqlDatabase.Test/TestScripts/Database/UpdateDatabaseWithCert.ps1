@@ -36,8 +36,8 @@ Param
 $IsTestPass = $False
 Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
-Write-Output "`$UserName=$UserName"
-Write-Output "`$Password=$Password"
+Write-Output "`$SubscriptionID=$SubscriptionID"
+Write-Output "`$SerializedCert=$SerializedCert"
 . .\CommonFunctions.ps1
 
 Try
