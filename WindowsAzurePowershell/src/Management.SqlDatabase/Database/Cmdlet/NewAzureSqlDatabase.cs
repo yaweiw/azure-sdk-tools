@@ -49,6 +49,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the server to connect to
+        /// </summary>
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ByServerName,
             HelpMessage = "The name of the server to connect to using the current subscription")]
@@ -106,6 +109,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
+            //determine the max size for the Database or null
             int? maxSizeGb = null;
             if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
             {
@@ -129,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <param name="maxSizeGb">the maximum size of the database</param>
         private void ProcessWithServerName(int? maxSizeGb)
         {
-            string clientRequestId = null;
+            string clientRequestId = string.Empty;
             try
             {
                 //Get the current subscription data.

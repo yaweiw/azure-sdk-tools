@@ -76,23 +76,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the database.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1,
-            ParameterSetName = ByObjectWithConnectionContext,
-            ValueFromPipeline = true)]
-        [Parameter(Mandatory = true, Position = 1,
-            ParameterSetName = ByObjectWithServerName,
-            ValueFromPipeline = true)]
-        [ValidateNotNull]
         [Alias("InputObject")]
+        [Parameter(Mandatory = true, Position = 1, ValueFromPipeline = true, 
+            ParameterSetName = ByObjectWithConnectionContext,
+            HelpMessage = "The database object you want to remove")]
+        [Parameter(Mandatory = true, Position = 1, ValueFromPipeline = true,
+            ParameterSetName = ByObjectWithServerName,
+            HelpMessage = "The database object you want to remove")]
+        [ValidateNotNull]
         public Database Database { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
         /// </summary>
         [Parameter(Mandatory = true, Position = 1,
-            ParameterSetName = ByNameWithConnectionContext)]
+            ParameterSetName = ByNameWithConnectionContext,
+            HelpMessage = "The name of the database to remove")]
         [Parameter(Mandatory = true, Position = 1,
-            ParameterSetName = ByNameWithServerName)]
+            ParameterSetName = ByNameWithServerName,
+            HelpMessage = "The name of the database to remove")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
 
@@ -109,20 +111,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            //This is to enforce the mutual exclusivity of the parameters: Database
-            //and DatabaseName.  This can't be done with parameter sets without changing
-            //existing behaviour of the cmdlet.
-            if (this.MyInvocation.BoundParameters.ContainsKey("Database") &&
-                this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
-            {
-                this.WriteError(new ErrorRecord(
-                    new PSArgumentException("Invalid Parameter combination: "
-                        + "Database and DatabaseName parameters cannot be used together"),
-                    string.Empty,
-                    ErrorCategory.InvalidArgument,
-                    null));
-            }
-
             // Obtain the database name from the given parameters.
             string databaseName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
@@ -133,17 +121,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 databaseName = this.DatabaseName;
             }
-            else
-            {
-                this.WriteError(new ErrorRecord(
-                    new PSArgumentException("Could not determine the name of the database"),
-                    string.Empty,
-                    ErrorCategory.InvalidArgument,
-                    null));
-                return;
-            }
 
-
+            //Determine the name of the server we are connecting to
             string serverName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
             {
@@ -154,7 +133,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 serverName = this.ConnectionContext.ServerName;
             }
 
-            // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.RemoveAzureSqlDatabaseDescription,
@@ -169,6 +147,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
             this.WriteVerbose(actionDescription);
 
+            // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
                 !this.ShouldProcess(
                 actionDescription,
@@ -192,9 +171,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Process the request using a temporary connection context.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to remove</param>
         private void ProcessWithServerName(string databaseName)
         {
-            string clientRequestId = null;
+            string clientRequestId = string.Empty;
             try
             {
                 //Get the current subscription data.
@@ -221,7 +204,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the request with the connection context
         /// </summary>
-        /// <param name="databaseName"></param>
+        /// <param name="databaseName">The name of the database to remove</param>
         private void ProcessWithConnectionContext(string databaseName)
         {
             try
