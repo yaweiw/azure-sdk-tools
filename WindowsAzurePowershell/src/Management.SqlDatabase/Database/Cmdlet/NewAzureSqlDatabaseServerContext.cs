@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// A cmdlet to Connect to a SQL server administration data service.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None,
-        DefaultParameterSetName = ServerNameWithSqlAuthParamSet)]
+        DefaultParameterSetName = ServerNameWithCertAuthParamSet)]
     public class NewAzureSqlDatabaseServerContext : PSCmdlet
     {
         #region ParameterSet Names
@@ -44,8 +44,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             "ByServerNameWithCertAuth";
         internal const string FullyQualifiedServerNameWithCertAuthParamSet =
             "ByFullyQualifiedServerNameWithCertAuth";
-        internal const string ManageUrlWithCertAuthParamSet =
-            "ByManageUrlWithCertAuth";
 
         #endregion
 
@@ -62,9 +60,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             HelpMessage = "The short server name")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "The short server name")]
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The short server name")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
@@ -84,8 +79,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = ManageUrlWithSqlAuthParamSet,
             HelpMessage = "The full management Url for the server")]
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = ManageUrlWithCertAuthParamSet,
-            HelpMessage = "The full management Url for the server")]
         [ValidateNotNullOrEmpty]
         public Uri ManageUrl { get; set; }
 
@@ -104,13 +97,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets whether or not the current subscription should be used for authentication
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "Use certificate authentication")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "Use certificate authentication")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ManageUrlWithCertAuthParamSet,
-            HelpMessage = "Use certificate authentication")]
-        public SwitchParameter UseSubscription { get; set; }
+        //[Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithCertAuthParamSet,
+        //    HelpMessage = "Use certificate authentication")]
+        //[Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+        //    HelpMessage = "Use certificate authentication")]
+        //public SwitchParameter UseSubscription { get; set; }
 
         /// <summary>
         /// Gets or sets the server credentials
@@ -118,8 +109,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         public SubscriptionData SubscriptionData { get; set; }
 
@@ -220,7 +209,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                 case FullyQualifiedServerNameWithCertAuthParamSet:
                 case ServerNameWithCertAuthParamSet:
-                case ManageUrlWithCertAuthParamSet:
                     //Get the current subscription data.
                     SubscriptionData subscriptionData = this.GetSubscriptionData();
 
@@ -289,7 +277,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                         Uri.UriSchemeHttps + Uri.SchemeDelimiter +
                         this.FullyQualifiedServerName);
                 case ManageUrlWithSqlAuthParamSet:
-                case ManageUrlWithCertAuthParamSet:
                     // The full ManageUrl was specified, 
                     // eg. 'https://server001.database.windows.net'. Return as is.
                     return this.ManageUrl;
