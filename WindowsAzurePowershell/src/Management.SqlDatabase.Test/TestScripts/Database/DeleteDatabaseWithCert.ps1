@@ -22,7 +22,7 @@ Param
     [Parameter(Mandatory=$true, Position=1)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $ManageUrl,
+    $ServerName,
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [string]
@@ -35,7 +35,7 @@ Param
 
 $IsTestPass = $False
 Write-Output "`$Name=$Name"
-Write-Output "`$ManageUrl=$ManageUrl"
+Write-Output "`$ServerName=$ServerName"
 Write-Output "`$SubscriptionID=$SubscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 . .\CommonFunctions.ps1
@@ -45,7 +45,7 @@ Try
 	Init-TestEnvironment
 	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
 
-    $context = Get-ServerContextByManageUrlWithCertAuth -ManageUrl $ManageUrl
+    $context = Get-ServerContextByServerNameWithCertAuth $ServerName
 
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     

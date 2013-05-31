@@ -15,14 +15,14 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Xml.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+
 
     [TestClass]
     public class DatabaseTest
@@ -32,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string manageUrl;
         private string subscriptionId;
         private string serializedCert;
+        private string serverName;
 
         /// <summary>
         /// Scripts for doing context creation tests
@@ -75,6 +76,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.manageUrl = root.Element("ManageUrl").Value;
             this.subscriptionId = root.Element("SubscriptionID").Value;
             this.serializedCert = root.Element("SerializedCert").Value;
+            this.serverName = new Uri(manageUrl).Host.Split('.').First();
         }
 
         [TestMethod]
@@ -116,9 +118,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
                 "testcreatedbfromcmdlet",
-                this.manageUrl,
+                this.serverName,
                 this.subscriptionId,
                 this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(
@@ -165,9 +167,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
                 "testupdatedbfromcmdlet",
-                this.manageUrl,
+                this.serverName,
                 this.subscriptionId,
                 this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithCert, arguments);
@@ -210,9 +212,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\"",
                 "testDeletedbfromcmdlet",
-                this.manageUrl,
+                this.serverName,
                 this.subscriptionId,
                 this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScriptWithCert, arguments);
