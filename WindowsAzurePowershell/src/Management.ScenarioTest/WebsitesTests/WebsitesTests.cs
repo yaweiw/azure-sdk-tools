@@ -207,6 +207,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-UpdateTheDiagnositicLogLevel");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestReconfigureStorageAppDiagnostics()
+        {
+            RunPowerShellTest("Test-ReconfigureStorageAppDiagnostics");
+        }
+
         #endregion
 
         #region Disable-AzureWebsiteApplicationDiagnostic Scenario Tests
@@ -238,9 +246,25 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        public void TestReconfigureStorageAppDiagnostics()
+        public void TestDisablesFileOnly()
         {
-            RunPowerShellTest("Test-ReconfigureStorageAppDiagnostics");
+            RunPowerShellTest("Test-DisablesFileOnly");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestDisablesStorageOnly()
+        {
+            RunPowerShellTest("Test-DisablesStorageOnly");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestDisablesBothByDefault()
+        {
+            RunPowerShellTest("Test-DisablesBothByDefault");
         }
 
         #endregion

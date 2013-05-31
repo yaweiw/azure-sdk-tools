@@ -30,24 +30,32 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = false)]
         public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = false)]
         public SwitchParameter Storage { get; set; }
 
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
-            if (File.IsPresent)
+            if (!File.IsPresent && !Storage.IsPresent)
             {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
-            }
-            
-            if (Storage.IsPresent)
-            {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+            }
+            else
+            {
+                if (File.IsPresent)
+                {
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
+                }
+
+                if (Storage.IsPresent)
+                {
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+                }
             }
 
             if (PassThru.IsPresent)
