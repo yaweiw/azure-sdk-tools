@@ -117,7 +117,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     ProcessWithServerName(databaseName);
                     break;
             }
-
         }
 
         /// <summary>
@@ -125,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         private void ProcessWithServerName(string databaseName)
         {
-            string clientRequestId = null;
+            string clientRequestId = string.Empty;
             try
             {
                 //Get the current subscription data.

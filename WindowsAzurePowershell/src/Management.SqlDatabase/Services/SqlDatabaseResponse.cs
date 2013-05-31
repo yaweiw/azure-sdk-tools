@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     [DataContract(Name = "ServiceResource", Namespace = Constants.ServiceManagementNamespace)]
     public class SqlDatabaseResponse : IExtensibleDataObject
     {
-
         [DataMember(Order = 1)]
         public string Name { get; set; }
 

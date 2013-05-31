@@ -67,9 +67,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the management site data connection fully qualified server name.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 0, 
+            ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
             HelpMessage = "The fully qualified server name")]
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = true, Position = 0, 
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
             HelpMessage = "The fully qualified server name")]
         [ValidateNotNull]
         public string FullyQualifiedServerName { get; set; }
@@ -85,11 +87,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ServerNameWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ManageUrlWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ManageUrlWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
         [ValidateNotNull]
         public PSCredential Credential { get; set; }
@@ -97,9 +102,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = false, Position = 2, 
+            ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = false, Position = 2, 
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         public SubscriptionData SubscriptionData { get; set; }
 
@@ -156,6 +163,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             return context;
         }
 
+        /// <summary>
+        /// Connect to Azure Sql Server using certificate authentication.
+        /// </summary>
+        /// <param name="serverName">The name of the server to connect to</param>
+        /// <param name="subscriptionData">The subscription data to use for authentication</param>
+        /// <returns>A new <see cref="ServerDataServiceCertAuth"/> context,
+        /// or <c>null</c> if an error occurred.</returns>
         internal ServerDataServiceCertAuth GetServerDataServiceByCertAuth(
             string serverName,
             SubscriptionData subscriptionData)

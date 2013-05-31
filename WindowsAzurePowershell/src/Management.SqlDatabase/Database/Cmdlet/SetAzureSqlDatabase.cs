@@ -145,6 +145,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
+            //obtain the name of the server 
             string serverName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
             {
@@ -155,7 +156,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 serverName = this.ConnectionContext.ServerName;
             }
 
-            // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.SetAzureSqlDatabaseDescription,
@@ -170,19 +170,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
             this.WriteVerbose(actionDescription);
 
+            // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
                 !this.ShouldProcess( actionDescription, actionWarning, Resources.ShouldProcessCaption))
             {
                 return;
             }
 
-
+            //Determine the max size of the db
             int? maxSizeGb = null;
             if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
             {
                  maxSizeGb = this.MaxSizeGB;
             }
 
+            //determine the edition for the db
             DatabaseEdition? edition = null;
             if(this.MyInvocation.BoundParameters.ContainsKey("Edition"))
             {
@@ -203,6 +205,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Process the request using a temporary connection context using cert. auth.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to update</param>
+        /// <param name="maxSizeGb">the new size for the database or null</param>
+        /// <param name="edition">the new edition for the database or null</param>
         private void ProcessWithServerName(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
         {
             string clientRequestId = null;
