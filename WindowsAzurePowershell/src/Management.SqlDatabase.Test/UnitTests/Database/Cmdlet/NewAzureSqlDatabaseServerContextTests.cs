@@ -88,15 +88,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithCertAuthParamSet));
 
-            //Make sure that Manage Url to Manage Url conversion is working properly
-            contextCmdlet.ManageUrl = new Uri("https://server0005.database.windows.net");
-            Assert.AreEqual(
-                new Uri("https://server0005.database.windows.net"),
-                UnitTestHelper.InvokePrivate(
-                    contextCmdlet,
-                    "GetManageUrl",
-                    NewAzureSqlDatabaseServerContext.ManageUrlWithCertAuthParamSet));
-
             try
             {
                 UnitTestHelper.InvokePrivate(

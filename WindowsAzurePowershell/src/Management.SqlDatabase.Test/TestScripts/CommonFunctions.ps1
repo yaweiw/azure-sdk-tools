@@ -118,7 +118,7 @@ function Get-ServerContextByManageUrlWithCertAuth
         $ManageUrl
 	)
     
-    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription -SubscriptionData (get-azureSubscription -Current)
+    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -UseSubscription #-SubscriptionData (get-azureSubscription -Current)
     return $context
 }
 
