@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
@@ -41,11 +41,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ParameterSetName = ByConnectionContext,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
-        [Alias("Context")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
 
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the database object to refresh.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1,
+        [Parameter(Mandatory = false,
             ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
         [ValidateNotNull]
         public Database Database { get; set; }
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the name of the database to retrieve.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1,
+        [Parameter(Mandatory = false,
             HelpMessage = "The name of the database to retrieve.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
