@@ -95,15 +95,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public PSCredential Credential { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not the current subscription should be used for authentication
-        /// </summary>
-        //[Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithCertAuthParamSet,
-        //    HelpMessage = "Use certificate authentication")]
-        //[Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-        //    HelpMessage = "Use certificate authentication")]
-        //public SwitchParameter UseSubscription { get; set; }
-
-        /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
