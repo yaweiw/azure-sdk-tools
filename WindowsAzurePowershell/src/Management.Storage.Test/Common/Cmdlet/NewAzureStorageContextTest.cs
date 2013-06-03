@@ -96,5 +96,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         {
             AssertThrows<ArgumentException>(() => command.ExecuteCmdlet(), Resources.DefaultStorageCredentialsNotFound);
         }
+
+        [TestMethod]
+        public void GetDefaultEndPointDomainTest()
+        {
+            Assert.AreEqual(command.GetDefaultEndPointDomain(), Resources.DefaultStorageEndPointDomain);
+        }
     }
 }

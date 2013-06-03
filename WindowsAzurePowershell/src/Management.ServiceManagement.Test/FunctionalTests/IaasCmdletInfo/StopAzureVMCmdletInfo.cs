@@ -15,15 +15,35 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
     public class StopAzureVMCmdletInfo : CmdletsInfo
     {
-        public StopAzureVMCmdletInfo(string vmName, string serviceName)
+        private StopAzureVMCmdletInfo(string serviceName, bool stay, bool force)
         {
             this.cmdletName = Utilities.StopAzureVMCmdletName;
 
-            this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            if (stay)
+            {
+                this.cmdletParams.Add(new CmdletParam("StayProvisioned"));
+            }
+            if (force)
+            {
+                this.cmdletParams.Add(new CmdletParam("Force"));
+            }
+        }
+
+        public StopAzureVMCmdletInfo(string vmName, string serviceName, bool stay, bool force)
+            : this(serviceName, stay, force)
+        {
+            this.cmdletParams.Add(new CmdletParam("Name", vmName));
+        }
+
+        public StopAzureVMCmdletInfo(PersistentVM vm, string serviceName, bool stay, bool force)
+            : this(serviceName, stay, force)
+        {
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
         }
     }
 }
