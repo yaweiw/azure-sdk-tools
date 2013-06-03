@@ -15,28 +15,36 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.Management.Automation;
+    using System.Threading;
 
     [TestClass]
     public class ServiceManagementTest
     {
-        
         protected const string serviceNamePrefix = "PSTestService";
         protected const string vmNamePrefix = "PSTestVM";
         protected const string password = "p@ssw0rd";
         protected const string username = "pstestuser";
-        protected const string defaultStorage = "defaultrtstore";
         protected static string localFile = Resource.Vhd;
-        protected const bool deleteDefaultStorageAccount = true;
         protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
-       
+        protected const string testDataContainer = "testdata";
+        protected const string osVhdName = "oneGBFixedWS2008R2.vhd";
+
+        // Test cleanup settings
+        protected const bool deleteDefaultStorageAccount = false; // Temporarily set to false
+        protected bool cleanupIfPassed = true;
+        protected bool cleanupIfFailed = true;
+        protected bool serviceCreated = false;
+        protected const string vhdContainerName = "vhdstore";
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         protected static SubscriptionData defaultAzureSubscription;
@@ -45,14 +53,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         protected static string locationName;
         protected static string imageName;
-        
+
         protected bool pass;
         protected string testName;
         protected DateTime testStartTime;
-        protected bool cleanupIfPassed = true;
-        protected bool cleanupIfFailed = true;
-        protected bool serviceCreated = false;
-        
 
         private TestContext testContextInstance;
         /// <summary>
@@ -78,9 +82,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public static void SetDefaultStorage()
         {
-            if (!string.IsNullOrEmpty(GetDefaultStorage(defaultStorage, locationName)))
+            if (!string.IsNullOrEmpty(GetDefaultStorage(CredentialHelper.DefaultStorageName, CredentialHelper.Location)))
             {
-                defaultAzureSubscription = vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultStorage);
+                defaultAzureSubscription = vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, CredentialHelper.DefaultStorageName);
 
                 storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
                 Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
@@ -97,38 +101,43 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Collection<StorageServicePropertiesOperationContext> storageAccounts = vmPowershellCmdlets.GetAzureStorageAccount(null);
             foreach (var storageAccount in storageAccounts)
             {
-               if (storageAccount.StorageAccountName == storageName)
+                if (storageAccount.StorageAccountName == storageName)
+                {
                     return storageAccount.StorageAccountName;
+                }
             }
 
             var account = vmPowershellCmdlets.NewAzureStorageAccount(storageName, locName);
             if (account.StorageAccountName == storageName)
+            {
                 return account.StorageAccountName;
+            }
 
             return null;
         }
 
         public static void SetTestSettings()
-        {            
+        {
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             CredentialHelper.GetTestSettings(Resource.TestSettings);
 
-            // Temporary fix (Issue #1430)
-            vmPowershellCmdlets.ImportAzurePublishSettingsFile(CredentialHelper.PublishSettingsFile);
             vmPowershellCmdlets.RemoveAzureSubscriptions();
-
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(CredentialHelper.PublishSettingsFile);
 
             if (string.IsNullOrEmpty(CredentialHelper.DefaultSubscriptionName))
-            {                                
+            {
                 defaultAzureSubscription = vmPowershellCmdlets.GetCurrentAzureSubscription();
+                if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+                {
+                    CredentialHelper.DefaultSubscriptionName = defaultAzureSubscription.SubscriptionName;
+                }
             }
             else
             {
                 defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
-            }                         
+            }
 
-            locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }, false); // Get-AzureLocation
+            locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }); // Get-AzureLocation
             if (String.IsNullOrEmpty(locationName))
             {
                 Console.WriteLine("No location is selected!");
@@ -136,7 +145,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Location Name: {0}", locationName);
 
             if (defaultAzureSubscription.CurrentStorageAccount == null)
+            {
                 SetDefaultStorage();
+            }
 
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
             if (String.IsNullOrEmpty(imageName))
@@ -146,29 +157,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Image Name: {0}", imageName);
 
         }
-        
-
 
         protected void StartTest(string testname, DateTime testStartTime)
-        {            
+        {
             Console.WriteLine("{0} test starts at {1}", testname, testStartTime);
         }
 
         [AssemblyCleanup]
         public static void CleanUpAssembly()
         {
-
             if (defaultAzureSubscription != null)
             {
                 Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
-                if (deleteDefaultStorageAccount && !string.IsNullOrEmpty(defaultAzureSubscription.CurrentStorageAccount))
+                if (deleteDefaultStorageAccount)
                 {
                     vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
                 }
             }
         }
 
-        private static void Retry(string cmdlet, string message, int maxTry = 20, int intervalSecond = 10)
+        private static void Retry(string cmdlet, string message, int maxTry = 1, int intervalSecond = 10)
         {
 
             ServiceManagementCmdletTestHelper pscmdlet = new ServiceManagementCmdletTestHelper();
@@ -188,13 +196,60 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     if (e.ToString().Contains(message))
                     {
-                        Thread.Sleep(intervalSecond * 1000);
+                        //Thread.Sleep(intervalSecond * 1000);
                         continue;
                     }
                     else
                     {
                         throw;
                     }
+                }
+            }
+        }
+
+        protected static void ReImportSubscription()
+        {
+            // Re-import the subscription.
+            vmPowershellCmdlets.ImportAzurePublishSettingsFile();
+            vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
+            vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultAzureSubscription.CurrentStorageAccount);
+        }
+
+        protected static void CopyTestData(string srcContainer, string srcBlob, string destContainer, string destBlob)
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
+
+            string storageAccount = environment[CredentialHelper.StorageAccountVariable];
+            string storageAccountKey = environment[CredentialHelper.StorageAccountKeyVariable];
+
+            // Create a container
+            try
+            {
+                vmPowershellCmdlets.RunPSScript("Get-AzureStorageContainer -Name " + destContainer);
+            }
+            catch
+            {
+                // Create a container.
+                vmPowershellCmdlets.RunPSScript("New-AzureStorageContainer -Name " + destContainer);
+            }
+
+            // Make SAS Uri for the source blob.
+            string srcSasUri = Utilities.GenerateSasUri(CredentialHelper.CredentialBlobUriFormat, storageAccount, storageAccountKey, srcContainer, srcBlob);
+
+            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
+            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
+
+            for (int i = 0; i < 60; i++)
+            {
+                var result = vmPowershellCmdlets.CheckCopyBlobStatus(destContainer, destBlob);
+                if (result.Status.ToString().Equals("Success"))
+                {
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(10 * 1000);
                 }
             }
         }

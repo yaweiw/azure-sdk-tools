@@ -232,24 +232,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .azurewebsites.net.
-        /// </summary>
-        internal static string AzureHostNameSuffix {
-            get {
-                return ResourceManager.GetString("AzureHostNameSuffix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AZURE_HOSTNAME_SUFFIX.
-        /// </summary>
-        internal static string AzureHostNameSuffixEnv {
-            get {
-                return ResourceManager.GetString("AzureHostNameSuffixEnv", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to https://manage.windowsazure.com.
         /// </summary>
         internal static string AzurePortalUrl {
@@ -1071,6 +1053,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string EnvironmentNotFound {
+            get {
+                return ResourceManager.GetString("EnvironmentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         internal static string ErrorRetrievingRuntimesForLocation {
@@ -1136,18 +1127,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Could not find publish settings. Please run Import-AzurePublishSettingsFile..
         /// </summary>
-        internal static string GlobalComponents_Load_PublishSettingsNotFound1 {
+        internal static string GlobalSettingsManager_Load_PublishSettingsNotFound1 {
             get {
-                return ResourceManager.GetString("GlobalComponents_Load_PublishSettingsNotFound1", resourceCulture);
+                return ResourceManager.GetString("GlobalSettingsManager_Load_PublishSettingsNotFound1", resourceCulture);
             }
         }
         
@@ -1332,15 +1323,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; is an invalid DNS name for {1}.
-        /// </summary>
-        internal static string InvalidDnsName1 {
-            get {
-                return ResourceManager.GetString("InvalidDnsName1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid service endpoint..
         /// </summary>
         internal static string InvalidEndpoint {
@@ -1359,15 +1341,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The provided file in {0} must be have {1} extension.
-        /// </summary>
-        internal static string InvalidFileExtension1 {
-            get {
-                return ResourceManager.GetString("InvalidFileExtension1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to File {0} has invalid characters.
         /// </summary>
         internal static string InvalidFileName {
@@ -1382,8 +1355,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         ///1. On the left side open &quot;Web Sites&quot;
         ///2. Click on any website
         ///3. Choose &quot;Setup Git Publishing&quot; or &quot;Reset deployment credentials&quot;
-        ///4. Back in the PowerShell window, rerun this command by typing &quot;New-AzureWebSite {site name} -Git -PublishingUsername {username}
-        ///Launch portal now?.
+        ///4. Back in the PowerShell window, rerun this command by typing &quot;New-AzureWebSite {site name} -Git -PublishingUsername {username}.
         /// </summary>
         internal static string InvalidGitCredentials {
             get {
@@ -1442,24 +1414,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string InvalidOrEmptyArgumentMessage {
             get {
                 return ResourceManager.GetString("InvalidOrEmptyArgumentMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is invalid or empty.
-        /// </summary>
-        internal static string InvalidOrEmptyArgumentMessage1 {
-            get {
-                return ResourceManager.GetString("InvalidOrEmptyArgumentMessage1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is invalid or empty.
-        /// </summary>
-        internal static string InvalidOrEmptyArgumentMessage2 {
-            get {
-                return ResourceManager.GetString("InvalidOrEmptyArgumentMessage2", resourceCulture);
             }
         }
         
@@ -1730,6 +1684,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string ManagementCertificateFileName {
             get {
                 return ResourceManager.GetString("ManagementCertificateFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ?whr={0}.
+        /// </summary>
+        internal static string ManagementPortalRealmFormat {
+            get {
+                return ResourceManager.GetString("ManagementPortalRealmFormat", resourceCulture);
             }
         }
         
@@ -2186,29 +2149,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Path {0} doesn&apos;t exist..
-        /// </summary>
-        internal static string PathDoesNotExist1 {
-            get {
-                return ResourceManager.GetString("PathDoesNotExist1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Path for {0} doesn&apos;t exist in {1}..
         /// </summary>
         internal static string PathDoesNotExistForElement {
             get {
                 return ResourceManager.GetString("PathDoesNotExistForElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Path for {0} doesn&apos;t exist in {1}..
-        /// </summary>
-        internal static string PathDoesNotExistForElement1 {
-            get {
-                return ResourceManager.GetString("PathDoesNotExistForElement1", resourceCulture);
             }
         }
         
@@ -2435,15 +2380,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to publish settings.
-        /// </summary>
-        internal static string PublishSettings1 {
-            get {
-                return ResourceManager.GetString("PublishSettings1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Azure.
         /// </summary>
         internal static string PublishSettingsElementName {
@@ -2462,15 +2398,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .PublishSettings.
-        /// </summary>
-        internal static string PublishSettingsFileExtention1 {
-            get {
-                return ResourceManager.GetString("PublishSettingsFileExtention1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to publishSettings.xml.
         /// </summary>
         internal static string PublishSettingsFileName {
@@ -2480,11 +2407,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure.PublishSettings.
+        ///   Looks up a localized string similar to &amp;whr={0}.
         /// </summary>
-        internal static string PublishSettingsFileName1 {
+        internal static string PublishSettingsFileRealmFormat {
             get {
-                return ResourceManager.GetString("PublishSettingsFileName1", resourceCulture);
+                return ResourceManager.GetString("PublishSettingsFileRealmFormat", resourceCulture);
             }
         }
         
@@ -2494,24 +2421,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string PublishSettingsSetSuccessfully {
             get {
                 return ResourceManager.GetString("PublishSettingsSetSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en.
-        /// </summary>
-        internal static string PublishSettingsUrl {
-            get {
-                return ResourceManager.GetString("PublishSettingsUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en.
-        /// </summary>
-        internal static string PublishSettingsUrl1 {
-            get {
-                return ResourceManager.GetString("PublishSettingsUrl1", resourceCulture);
             }
         }
         
@@ -2971,6 +2880,42 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string ServiceIsInTransitionState {
             get {
                 return ResourceManager.GetString("ServiceIsInTransitionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Begin Operation: {0}.
+        /// </summary>
+        internal static string ServiceManagementExecuteClientActionBeginOperation {
+            get {
+                return ResourceManager.GetString("ServiceManagementExecuteClientActionBeginOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed Operation: {0}.
+        /// </summary>
+        internal static string ServiceManagementExecuteClientActionCompletedOperation {
+            get {
+                return ResourceManager.GetString("ServiceManagementExecuteClientActionCompletedOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Begin Operation: {0}.
+        /// </summary>
+        internal static string ServiceManagementExecuteClientActionInOCSBeginOperation {
+            get {
+                return ResourceManager.GetString("ServiceManagementExecuteClientActionInOCSBeginOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed Operation: {0}.
+        /// </summary>
+        internal static string ServiceManagementExecuteClientActionInOCSCompletedOperation {
+            get {
+                return ResourceManager.GetString("ServiceManagementExecuteClientActionInOCSCompletedOperation", resourceCulture);
             }
         }
         
@@ -3458,15 +3403,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string x86InProgramFiles {
             get {
                 return ResourceManager.GetString("x86InProgramFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  (x86).
-        /// </summary>
-        internal static string x86InProgramFiles1 {
-            get {
-                return ResourceManager.GetString("x86InProgramFiles1", resourceCulture);
             }
         }
         
