@@ -3200,6 +3200,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage account &apos;{0}&apos; please type the name of an existing storage account..
+        /// </summary>
+        internal static string StorageAccountNotFound {
+            get {
+                return ResourceManager.GetString("StorageAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Primary Key:.
         /// </summary>
         internal static string StoragePrimaryKey {

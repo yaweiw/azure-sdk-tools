@@ -32,10 +32,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json.Linq;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     public class WebsitesClient : IWebsitesClient
     {
         private string subscriptionId;
+
+        private CloudServiceClient cloudServiceClient;
 
         public const string WebsitesServiceVersion = "2012-12-01";
 
@@ -68,6 +71,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
                 new HttpRestMessageInspector(logger));
+
+            cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
         }
 
         /// <summary>
@@ -178,14 +183,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
-                            StorageService storageService = ServiceManagementChannel.GetStorageKeys(
-                            subscriptionId,
-                            storageAccountName);
-                            StorageCredentials credentials = new StorageCredentials(
-                                storageAccountName,
-                                storageService.StorageServiceKeys.Primary);
-                            CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
-                            string connectionString = cloudStorageAccount.ToString(true);
+                            string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
+                                storageAccountName);
                             SetAppSetting(website.Name, storageTableName, connectionString);
                             
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
