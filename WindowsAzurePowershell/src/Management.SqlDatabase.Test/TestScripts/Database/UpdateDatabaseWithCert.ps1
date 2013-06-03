@@ -45,7 +45,7 @@ Try
 	Init-TestEnvironment
 	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
 	
-	$context = New-AzureSqlDatabaseServerContext -ServerName $ServerName
+	$context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     $edition = "Business"
     $maxSizeGB = "10"

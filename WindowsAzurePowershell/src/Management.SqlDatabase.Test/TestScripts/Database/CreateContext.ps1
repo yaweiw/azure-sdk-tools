@@ -60,22 +60,22 @@ Try
 	#	Test the connection context creation using the current subscription
 	###############################################################################
 	# Test ByManageUrlWithCertAuth with Optional Parameters
-    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
 	# Test ByFullyQualifiedServerNameWithCertAuth
-    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
 	###############################################################################
 	#	Test the connection context creation using subscription data
 	###############################################################################
 	# Test ByManageUrlWithCertAuth with Optional Parameters
-    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -SubscriptionData $sub
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription -SubscriptionData $sub
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
 	# Test ByFullyQualifiedServerNameWithCertAuth
-    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -SubscriptionData $sub
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription -SubscriptionData $sub
 	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 	
 	###############################################################################

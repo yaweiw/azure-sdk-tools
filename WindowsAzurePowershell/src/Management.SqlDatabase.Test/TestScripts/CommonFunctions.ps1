@@ -118,7 +118,7 @@ function Get-ServerContextByServerNameWithCertAuth
         $ServerName
 	)
     
-    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
     return $context
 }
 
