@@ -1,5 +1,4 @@
 // ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +13,11 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System;
-    using System.Management.Automation;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
@@ -29,8 +28,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region Parameter Sets
 
+        /// <summary>
+        /// The parameter set string for connecting with a connection context
+        /// </summary>
         internal const string ByConnectionContext =
             "ByConnectionContext";
+
+        /// <summary>
+        /// The parameter set string for connecting using azure subscription
+        /// </summary>
         internal const string ByServerName =
             "ByServerName";
 
@@ -82,9 +88,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            //This is to enforce the mutual exclusivity of the parameters: Database
-            //and DatabaseName.  This can't be done with parameter sets without changing
-            //existing behaviour of the cmdlet.
+            // This is to enforce the mutual exclusivity of the parameters: Database
+            // and DatabaseName.  This can't be done with parameter sets without changing
+            // existing behaviour of the cmdlet.
             if (this.MyInvocation.BoundParameters.ContainsKey("Database") &&
                 this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
             {
@@ -107,14 +113,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            switch (ParameterSetName)
+            switch (this.ParameterSetName)
             {
                 case ByConnectionContext:
-                    ProcessWithConnectionContext(databaseName);
+                    this.ProcessWithConnectionContext(databaseName);
                     break;
 
                 case ByServerName:
-                    ProcessWithServerName(databaseName);
+                    this.ProcessWithServerName(databaseName);
                     break;
             }
         }
@@ -122,15 +128,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the record with the provided server name
         /// </summary>
+        /// <param name="databaseName">The name of the database to retrieve</param>
         private void ProcessWithServerName(string databaseName)
         {
             string clientRequestId = string.Empty;
             try
             {
-                //Get the current subscription data.
+                // Get the current subscription data.
                 SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                //create a temporary context
+                // create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
 
@@ -159,6 +166,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the request using the provided connection context
         /// </summary>
+        /// <param name="databaseName">the name of the database to retrieve</param>
         private void ProcessWithConnectionContext(string databaseName)
         {
             try

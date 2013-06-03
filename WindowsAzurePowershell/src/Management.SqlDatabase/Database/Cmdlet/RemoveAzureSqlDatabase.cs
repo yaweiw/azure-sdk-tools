@@ -31,12 +31,29 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region Parameter sets
 
+        /// <summary>
+        /// The name of the parameter set for removing a database by name with a connection context
+        /// </summary>
         internal const string ByNameWithConnectionContext =
             "ByNameWithConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by name using azure subscription
+        /// </summary>
         internal const string ByNameWithServerName =
             "ByNameWithServerName";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by input
+        /// object with a connection context
+        /// </summary>
         internal const string ByObjectWithConnectionContext =
             "ByObjectWithConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by input
+        /// object using azure subscription
+        /// </summary>
         internal const string ByObjectWithServerName =
             "ByObjectWithServerName";
 
@@ -122,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            //Determine the name of the server we are connecting to
+            // Determine the name of the server we are connecting to
             string serverName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
             {
@@ -157,16 +174,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
-            switch (ParameterSetName)
+            switch (this.ParameterSetName)
             {
                 case ByNameWithConnectionContext:
                 case ByObjectWithConnectionContext:
-                    ProcessWithConnectionContext(databaseName);
+                    this.ProcessWithConnectionContext(databaseName);
                     break;
 
                 case ByNameWithServerName:
                 case ByObjectWithServerName:
-                    ProcessWithServerName(databaseName);
+                    this.ProcessWithServerName(databaseName);
                     break;
             }
         }
@@ -180,10 +197,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             string clientRequestId = string.Empty;
             try
             {
-                //Get the current subscription data.
+                // Get the current subscription data.
                 SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                //create a temporary context
+                // Create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
 
