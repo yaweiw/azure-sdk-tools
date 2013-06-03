@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// A cmdlet to Connect to a SQL server administration data service.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None,
-        DefaultParameterSetName = ServerNameWithCertAuthParamSet)]
+        DefaultParameterSetName = ServerNameWithSqlAuthParamSet)]
     public class NewAzureSqlDatabaseServerContext : PSCmdlet
     {
         #region ParameterSet Names
@@ -100,12 +100,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public PSCredential Credential { get; set; }
 
         /// <summary>
+        /// Gets or sets whether or not the current subscription should be used for authentication
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ServerNameWithCertAuthParamSet,
+            HelpMessage = "Use certificate authentication")]
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+            HelpMessage = "Use certificate authentication")]
+        public SwitchParameter UseSubscription { get; set; }
+
+        /// <summary>0
         /// Gets or sets the server credentials
         /// </summary>
         [Parameter(Mandatory = false, Position = 2, 
             ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2, 
+        [Parameter(Mandatory = false, Position = 2,
             ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         public SubscriptionData SubscriptionData { get; set; }
