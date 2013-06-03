@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System;
-    using System.Management.Automation;
 
     /// <summary>
     /// Creates a new Windows Azure SQL Databases in the given server context.
@@ -30,8 +30,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region Parameter Sets
 
+        /// <summary>
+        /// The name of the parameter set for connection with a connection context
+        /// </summary>
         internal const string ByConnectionContext =
             "ByConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for connecting with an azure subscription
+        /// </summary>
         internal const string ByServerName =
             "ByServerName";
 
@@ -109,20 +116,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
-            //determine the max size for the Database or null
+            // Determine the max size for the Database or null
             int? maxSizeGb = null;
-            if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
             {
                 maxSizeGb = this.MaxSizeGB;
             }
 
-            switch(ParameterSetName)
+            switch (this.ParameterSetName)
             {
                 case ByConnectionContext:
-                    ProcessWithConnectionContext(maxSizeGb);
+                    this.ProcessWithConnectionContext(maxSizeGb);
                     break;
                 case ByServerName:
-                    ProcessWithServerName(maxSizeGb);
+                    this.ProcessWithServerName(maxSizeGb);
                     break;
             }
         }
@@ -136,10 +143,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             string clientRequestId = string.Empty;
             try
             {
-                //Get the current subscription data.
+                // Get the current subscription data.
                 SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                //create a temporary context
+                // Create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
 
@@ -151,7 +158,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     maxSizeGb, 
                     this.Collation, 
                     this.Edition));
-                
             }
             catch (Exception ex)
             {

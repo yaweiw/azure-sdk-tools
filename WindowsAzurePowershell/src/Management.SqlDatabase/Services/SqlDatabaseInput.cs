@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         [DataMember(Order = 5, EmitDefaultValue = false)]
         public string CollationName { get; set; }
 
-
         public ExtensionDataObject ExtensionData { get; set; }
     }
 }

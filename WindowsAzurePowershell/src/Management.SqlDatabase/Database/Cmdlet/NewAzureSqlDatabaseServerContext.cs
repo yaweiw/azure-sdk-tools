@@ -33,15 +33,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region ParameterSet Names
 
+        /// <summary>
+        /// The name of the parameter set for creating a context with Sql-auth by Server Name
+        /// </summary>
         internal const string ServerNameWithSqlAuthParamSet =
             "ByServerNameWithSqlAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with Sql-auth by FQSN
+        /// </summary>
         internal const string FullyQualifiedServerNameWithSqlAuthParamSet =
             "ByFullyQualifiedServerNameWithSqlAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with Sql-auth by Manage Url
+        /// </summary>
         internal const string ManageUrlWithSqlAuthParamSet =
             "ByManageUrlWithSqlAuth";
 
+        /// <summary>
+        /// The name of the parameter set for creating a context with Cert-auth by Server Name
+        /// </summary>
         internal const string ServerNameWithCertAuthParamSet =
             "ByServerNameWithCertAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with Cert-auth by FQSN
+        /// </summary>
         internal const string FullyQualifiedServerNameWithCertAuthParamSet =
             "ByFullyQualifiedServerNameWithCertAuth";
 
@@ -110,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             HelpMessage = "Use certificate authentication")]
         public SwitchParameter UseSubscription { get; set; }
 
-        /// <summary>0
+        /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
         [Parameter(Mandatory = false, Position = 2, 
@@ -225,10 +243,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                 case FullyQualifiedServerNameWithCertAuthParamSet:
                 case ServerNameWithCertAuthParamSet:
-                    //Get the current subscription data.
+                    // Get the current subscription data.
                     SubscriptionData subscriptionData = this.GetSubscriptionData();
 
-                    //create a context using the subscription datat
+                    // Create a context using the subscription datat
                     return this.GetServerDataServiceByCertAuth(
                        serverName,
                        subscriptionData);
@@ -352,7 +370,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             }
             else
             {
-                //SubscriptionData is not specified, use the current subscription.
+                // SubscriptionData is not specified, use the current subscription.
                 return this.GetCurrentSubscription();
             }
         }

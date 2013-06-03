@@ -31,12 +31,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region Parameter sets
 
+        /// <summary>
+        /// Parameter set name for updating by name with a connection context
+        /// </summary>
         internal const string ByNameWithConnectionContext =
             "ByNameWithConnectionContext";
+
+        /// <summary>
+        /// Parameter set name for updating by name using azure subscription
+        /// </summary>
         internal const string ByNameWithServerName =
             "ByNameWithServerName";
+
+        /// <summary>
+        /// Parameter set name for updating by input object with a connection context
+        /// </summary>
         internal const string ByObjectWithConnectionContext =
             "ByObjectWithConnectionContext";
+
+        /// <summary>
+        /// Parameter set name for updating by input object with a azure subscription
+        /// </summary>
         internal const string ByObjectWithServerName =
             "ByObjectWithServerName";
 
@@ -145,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            //obtain the name of the server 
+            // Obtain the name of the server 
             string serverName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
             {
@@ -172,35 +187,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
             // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
-                !this.ShouldProcess( actionDescription, actionWarning, Resources.ShouldProcessCaption))
+                !this.ShouldProcess(actionDescription, actionWarning, Resources.ShouldProcessCaption))
             {
                 return;
             }
 
-            //Determine the max size of the db
+            // Determine the max size of the db
             int? maxSizeGb = null;
-            if(this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
             {
                  maxSizeGb = this.MaxSizeGB;
             }
 
-            //determine the edition for the db
+            // Determine the edition for the db
             DatabaseEdition? edition = null;
-            if(this.MyInvocation.BoundParameters.ContainsKey("Edition"))
+            if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
             {
                 edition = this.Edition;
             }
 
-            switch(ParameterSetName)
+            switch (this.ParameterSetName)
             {
                 case ByNameWithConnectionContext:
                 case ByObjectWithConnectionContext:
-                    ProcessWithConnectionContext(databaseName, maxSizeGb, edition);
+                    this.ProcessWithConnectionContext(databaseName, maxSizeGb, edition);
                     break;
 
                 case ByNameWithServerName:
                 case ByObjectWithServerName:
-                    ProcessWithServerName(databaseName, maxSizeGb, edition);
+                    this.ProcessWithServerName(databaseName, maxSizeGb, edition);
                     break;
             }
         }
@@ -216,10 +231,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             string clientRequestId = null;
             try
             {
-                //Get the current subscription data.
+                // Get the current subscription data.
                 SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                //create a temporary context
+                // Create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
                 
