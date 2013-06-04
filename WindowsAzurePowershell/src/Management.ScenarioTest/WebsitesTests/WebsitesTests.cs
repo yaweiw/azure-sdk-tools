@@ -206,13 +206,20 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         {
             RunPowerShellTest("Test-UpdateTheDiagnositicLogLevel");
         }
-
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
         public void TestReconfigureStorageAppDiagnostics()
         {
             RunPowerShellTest("Test-ReconfigureStorageAppDiagnostics");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestThrowsForInvalidStorageAccountName()
+        {
+            RunPowerShellTest("Test-ThrowsForInvalidStorageAccountName");
         }
 
         #endregion

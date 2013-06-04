@@ -406,6 +406,20 @@ function Test-ReconfigureStorageAppDiagnostics
 	Remove-AzureStorageAccount $storageName
 }
 
+<#
+.SYNOPSIS
+Tests Enable-AzureWebsiteApplicationDiagnostic with not existing storage service.
+#>
+function Test-ThrowsForInvalidStorageAccountName
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	
+	# Test
+	Assert-Throws { Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName "notexsiting" }
+}
+
 ########################################################################### Disable-AzureWebsiteApplicationDiagnostic Scenario Tests ###########################################################################
 
 <#
