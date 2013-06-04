@@ -1274,4 +1274,7 @@ Please follow these steps in the portal:
   <data name="ManagementPortalRealmFormat" xml:space="preserve">
     <value>?whr={0}</value>
   </data>
+  <data name="StorageAccountNotFound" xml:space="preserve">
+    <value>Cannot find storage account '{0}' please type the name of an existing storage account.</value>
+  </data>
 </root>
