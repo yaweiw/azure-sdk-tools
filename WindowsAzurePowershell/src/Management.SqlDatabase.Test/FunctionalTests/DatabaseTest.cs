@@ -15,13 +15,13 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
     using System;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
 
 
     [TestClass]
@@ -65,6 +65,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
+        /// <summary>
+        /// Tests for retrieving a database using cert auth
+        /// </summary>
         private const string GetDatabaseScriptWithCert = @"Database\GetDatabaseWithCert";
 
         [TestInitialize]
