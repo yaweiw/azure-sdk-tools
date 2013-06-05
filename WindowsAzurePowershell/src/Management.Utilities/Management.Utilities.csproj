@@ -173,7 +173,6 @@
     <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
     <Compile Include="CloudService\Parameters.cs" />
-    <Compile Include="CloudService\RemoveAzureDeployment.cs" />
     <Compile Include="CloudService\RoleInfo.cs" />
     <Compile Include="CloudService\ServiceComponents.cs" />
     <Compile Include="CloudService\ServicePathInfo.cs" />
