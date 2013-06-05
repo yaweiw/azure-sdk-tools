@@ -30,7 +30,11 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $SerializedCert
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -38,12 +42,13 @@ Write-Output "`$Name=$Name"
 Write-Output "`$ServerName=$ServerName"
 Write-Output "`$SubscriptionID=$SubscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
 . .\CommonFunctions.ps1
 
 Try
 {
 	Init-TestEnvironment
-	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
+	Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 	
 	$context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
@@ -68,7 +73,7 @@ Try
     Set-AzureSqlDatabase $context $database.Name -Edition $edition -MaxSizeGB $maxSizeGB -Force
     Write-Output "Done"
 
-    $updatedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -Database $database
+    $updatedDatabase = Get-AzureSqlDatabase $context -Database $database
     Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
@@ -84,12 +89,12 @@ Try
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
 
-    $updatedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $NewName
+    $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
     Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
     
-    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not Renamed"
     
     $IsTestPass = $True

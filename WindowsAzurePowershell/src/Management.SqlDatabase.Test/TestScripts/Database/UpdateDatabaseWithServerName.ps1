@@ -22,7 +22,7 @@ Param
     [Parameter(Mandatory=$true, Position=1)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $ManageUrl,
+    $ServerName,
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [string]
@@ -30,27 +30,25 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $SerializedCert
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
 Write-Output "`$Name=$Name"
-Write-Output "`$ManageUrl=$ManageUrl"
+Write-Output "`$ServerName=$ServerName"
 Write-Output "`$SubscriptionID=$SubscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
 . .\CommonFunctions.ps1
 
 Try
 {
 	Init-TestEnvironment
-	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
-	
-
-	$server = Get-AzureSqlDatabaseServer
-
-    Assert {$server[0]} "There are no servers to connect to"
-
-    $ServerName = $server[0].ServerName
+	Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 
     $database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
     $edition = "Business"

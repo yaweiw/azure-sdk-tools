@@ -53,7 +53,7 @@ Try
     Set-AzureSqlDatabase $context $database -Edition $edition -MaxSizeGB $maxSizeGB -Force
     Write-Output "Done"
 
-    $updatedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $database.Name
+    $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $database.Name
     Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
@@ -66,7 +66,7 @@ Try
     Set-AzureSqlDatabase $context $database.Name -Edition $edition -MaxSizeGB $maxSizeGB -Force
     Write-Output "Done"
 
-    $updatedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -Database $database
+    $updatedDatabase = Get-AzureSqlDatabase $context -Database $database
     Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
@@ -81,12 +81,12 @@ Try
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
 
-    $updatedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $NewName
+    $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
     Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
             -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
             -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
     
-    $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
+    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not Renamed"
     
     $IsTestPass = $True
