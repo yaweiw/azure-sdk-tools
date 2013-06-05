@@ -18,20 +18,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Text;
+    using System.ServiceModel;
+    using System.Globalization;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Exports a database from Sql Azure into blob storage.
     /// </summary>
     [Cmdlet("Export", "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]
-    public class ExportAzureSqlDatabase : PSCmdlet
+    public class ExportAzureSqlDatabaser : SqlDatabaseManagementCmdletBase
     {
         #region Parameters
 
@@ -71,9 +74,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the endpoint URI for the blob storage
         /// </summary>
         [Parameter(Mandatory = true, Position = 4,
-            HelpMessage = "The Endpoint Uri where the blob storage resides")]
+            HelpMessage = "The uri to where the blob storage is.")]
         [ValidateNotNull]
-        public Uri Endpoint { get; set; }
+        public Uri BlobUri { get; set; }
 
         /// <summary>
         /// Gets or sets the storage key for accessing the blob storage
@@ -90,51 +93,69 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            string clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
-
-            // Do nothing if force is not specified and user cancelled the operation
-            //if (!this.ShouldProcess(
-            //    Resources.ExportAzureSqlDatabaseDescription,
-            //    Resources.ExportAzureSqlDatabaseWarning,
-            //    Resources.ShouldProcessCaption))
-            //{
-            //    return;
-            //}
-
             try
             {
-                //Need to connect to RDFE here... (get connection context)
+                base.ProcessRecord();
 
-                //Create request.
-                ExportInput input = new ExportInput()
+                //Create Web Request Inputs - Blob Storage Credentials and Server Connection Info
+                ExportInput exportInput = new ExportInput
                 {
-                    BlobCredentials = new BlobStorageAccessKeyCredentials()
+                    BlobCredentials = new BlobStorageAccessKeyCredentials
                     {
                         StorageAccessKey = this.StorageKey,
-                        Uri = this.Endpoint.ToString(),
+                        Uri = String.Format(
+                        this.BlobUri.ToString(), 
+                        this.DatabaseName, 
+                        DateTime.UtcNow.Ticks.ToString())
                     },
-                    ConnectionInfo = new ConnectionInfo()
+                    ConnectionInfo = new ConnectionInfo
                     {
-                        DatabaseName = this.DatabaseName,
-                        Password = this.Password,
                         ServerName = this.ServerName,
+                        DatabaseName = this.DatabaseName,
                         UserName = this.UserName,
+                        Password = this.Password
                     }
                 };
 
-                //make the call to "context.ExportDatabase(SubscritionId, ServerName, ExportInput);"
 
-                //write out the result
-                //this.WriteObject(result, true);
+                StatusInfo status = this.ExportSqlAzureDatabaseProcess(this.ServerName, exportInput);
+
+                this.WriteObject(status);
             }
             catch (Exception ex)
             {
-                SqlDatabaseExceptionHandler.WriteErrorDetails(
-                    this,
-                    clientRequestId,
-                    ex);
+                this.WriteWindowsAzureError(
+                    new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
+
+        /// <summary>
+        /// Performs the call to export database using the server data service context channel.
+        /// </summary>
+        /// <param name="serverName">The name of the server to connect to.</param>
+        /// <param name="input">The <see cref="ExportInput"/> object that contains 
+        /// all the connection information</param>
+        /// <returns></returns>
+        private StatusInfo ExportSqlAzureDatabaseProcess(string serverName, ExportInput input)
+        {
+            StatusInfo result = null;
+
+            try
+            {
+                InvokeInOperationContext(() =>
+                {
+                    result = RetryCall(subscription => 
+                        Channel.ExportDatabase(subscription, serverName, input));
+
+                    Operation operation = WaitForSqlDatabaseOperation();
+                });
+            }
+            catch (CommunicationException ex)
+            {
+                this.WriteErrorDetails(ex);
             }
 
+            return result;
         }
 
     }

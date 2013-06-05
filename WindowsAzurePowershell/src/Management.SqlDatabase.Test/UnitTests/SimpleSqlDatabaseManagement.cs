@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Xml;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Services;
     using VisualStudio.TestTools.UnitTesting;
@@ -582,7 +583,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         #endregion
+
+        #region Export Database 
         
+        public IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public StatusInfo EndExportDatabase(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+        
+        #endregion
+
         #endregion
     }
 }

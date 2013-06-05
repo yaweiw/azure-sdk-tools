@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     [SerializableAttribute()]
     public class StatusInfo : IExtensibleDataObject
     {
-        [NonSerializedAttribute()]
         [BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
 

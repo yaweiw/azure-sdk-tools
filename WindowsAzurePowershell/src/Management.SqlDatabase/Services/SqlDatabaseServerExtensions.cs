@@ -15,7 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 {
     using System.IO;
+    using System.Runtime.Serialization;
     using System.Xml;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
 
     public static partial class SqlDatabaseManagementExtensionMethods
     {
@@ -121,6 +123,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             var el = (XmlElement)doc.FirstChild.NextSibling;
 
             proxy.EndSetPassword(proxy.BeginSetPassword(subscriptionId, serverName, el, null, null));
+        }
+
+        public static StatusInfo ExportDatabase(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, ExportInput input)
+        {
+            return proxy.EndExportDatabase(proxy.BeginExportDatabase(subscriptionId, serverName, input, null, null));
         }
     }
 }

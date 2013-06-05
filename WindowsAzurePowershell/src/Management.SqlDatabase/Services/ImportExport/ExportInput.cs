@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     [SerializableAttribute()]
     public partial class ExportInput : IExtensibleDataObject
     {
-        [NonSerializedAttribute()]
         public ExtensionDataObject ExtensionData { get; set; }
 
         [DataMemberAttribute(IsRequired=true, EmitDefaultValue=false)]

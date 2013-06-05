@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using System.Xml;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
 
     /// <summary>
     /// The Windows Azure SQL Database related part of the external API
@@ -228,5 +229,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// </summary>
         /// <param name="asyncResult">The web request result</param>
         void EndRemoveDatabase(IAsyncResult asyncResult);
+
+
+        /// <summary>
+        /// Exports a database to blob storage
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
+        IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state);
+
+        StatusInfo EndExportDatabase(IAsyncResult asyncResult);
     }
 }
