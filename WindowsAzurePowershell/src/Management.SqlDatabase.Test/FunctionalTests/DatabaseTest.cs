@@ -65,11 +65,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
-        /// <summary>
-        /// Tests for retrieving a database using cert auth
-        /// </summary>
-        private const string GetDatabaseScriptWithCert = @"Database\GetDatabaseWithCert";
-
         [TestInitialize]
         public void Setup()
         {
