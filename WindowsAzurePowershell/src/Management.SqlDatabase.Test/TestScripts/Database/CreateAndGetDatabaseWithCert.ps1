@@ -30,7 +30,11 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $SerializedCert
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -46,7 +50,7 @@ $NameStartWith = $Name
 Try
 {
 	Init-TestEnvironment
-	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
+	Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 
     $context = Get-ServerContextByServerNameWithCertAuth $ServerName
 

@@ -104,21 +104,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell.Streams.ClearStreams();
 
                     // Expecting master, testdb1, testdb2
-                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
+                    Assert.AreEqual(
+                        3, 
+                        databases.Count, 
+                        "Expecting three Database objects");
 
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database1Obj =
                         (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+                    Assert.AreEqual(
+                        "testdb1", 
+                        database1Obj.Name, 
+                        "Expected db name to be testdb1");
 
                     Assert.IsTrue(
                         database2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database2Obj =
                         (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual(
+                        "testdb2", 
+                        database2Obj.Name, 
+                        "Expected db name to be testdb2");
                     Assert.AreEqual(
                         "Japanese_CI_AS",
                         database2Obj.CollationName,
@@ -136,7 +145,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             channel.GetDatabaseThunk = ar =>
             {
-                Assert.AreEqual(ar.Values["databaseName"], "testdb1", "The input databaseName did not match the expected");
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName did not match the expected");
 
                 SqlDatabaseResponse db1 = new SqlDatabaseResponse();
                 db1.CollationName = "Japanese_CI_AS";
@@ -154,11 +166,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
 
             SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
-            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+            subscriptionData.ServiceEndpoint = 
+                MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
 
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
+            NewAzureSqlDatabaseServerContext contextCmdlet = 
+                new NewAzureSqlDatabaseServerContext();
 
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
             Database database = service.GetDatabase("testdb1");
@@ -213,11 +228,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
 
             SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
-            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+            subscriptionData.ServiceEndpoint =
+                MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
 
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
+            NewAzureSqlDatabaseServerContext contextCmdlet = 
+                new NewAzureSqlDatabaseServerContext();
 
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
             Database[] results = service.GetDatabases();
@@ -306,21 +324,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell.Streams.ClearStreams();
 
                     // Expecting master, testdb1, testdb2
-                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
+                    Assert.AreEqual(
+                        3, 
+                        databases.Count, 
+                        "Expecting three Database objects");
 
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database1Obj =
                         (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+                    Assert.AreEqual(
+                        "testdb1", 
+                        database1Obj.Name, 
+                        "Expected db name to be testdb1");
 
                     Assert.IsTrue(
                         database2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database2Obj =
                         (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual(
+                        "testdb2", 
+                        database2Obj.Name, 
+                        "Expected db name to be testdb2");
                     Assert.AreEqual(
                         "Japanese_CI_AS",
                         database2Obj.CollationName,

@@ -30,7 +30,11 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $SerializedCert
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -39,6 +43,7 @@ Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
 Write-Output "`$SubscriptionID=$SubscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
 $NameStartWith = $Name
 . .\CommonFunctions.ps1
 
@@ -46,7 +51,7 @@ $NameStartWith = $Name
 Try
 {
 	Init-TestEnvironment
-	Init-AzureSubscription $SubscriptionId $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
+	Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 
 	$server = Get-AzureSqlDatabaseServer
 
@@ -76,6 +81,11 @@ Try
     #Get Database by database name
     #############################################################
     $database = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
+            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+			
+    $database = Get-AzureSqlDatabase $ServerName -DatabaseName $Name
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
             $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
             -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
