@@ -26,8 +26,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet("Export", "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]
-    public class ExportAzureSqlDatabaser : SqlDatabaseManagementCmdletBase
+    public class ExportAzureSqlDatabase : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="ExportAzureSqlDatabase"/> class.
+        /// </summary>
+        public ExportAzureSqlDatabase()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="ExportAzureSqlDatabase"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public ExportAzureSqlDatabase(ISqlDatabaseManagement channel)
+        {
+            this.Channel = channel;
+        }
+
         #region Parameters
 
         /// <summary>
