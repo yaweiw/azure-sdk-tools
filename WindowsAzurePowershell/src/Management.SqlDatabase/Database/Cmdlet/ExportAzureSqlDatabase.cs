@@ -17,7 +17,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
+    using System.Xml;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.ServiceManagement;
 
@@ -105,10 +107,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            this.WriteVerbose("Starting to process the record");
             try
             {
+                this.WriteVerbose("Processing base record...");
                 base.ProcessRecord();
+                this.WriteVerbose("Done");
 
+
+                this.WriteVerbose("Creating ExportInput object");
                 //Create Web Request Inputs - Blob Storage Credentials and Server Connection Info
                 ExportInput exportInput = new ExportInput
                 {
@@ -116,26 +123,31 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     {
                         StorageAccessKey = this.StorageKey,
                         Uri = String.Format(
-                        this.BlobUri.ToString(), 
-                        this.DatabaseName, 
-                        DateTime.UtcNow.Ticks.ToString())
+                            this.BlobUri.ToString(), 
+                            this.DatabaseName, 
+                            DateTime.UtcNow.Ticks.ToString())
                     },
                     ConnectionInfo = new ConnectionInfo
                     {
-                        ServerName = this.ServerName,
+                        ServerName = this.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
                         DatabaseName = this.DatabaseName,
                         UserName = this.Username,
                         Password = this.Password
                     }
                 };
+                this.WriteVerbose("Done");
 
+                this.WriteVerbose("Calling ExportSqlAzureDatabaseProcess");
+                XmlElement status = this.ExportSqlAzureDatabaseProcess(this.ServerName, exportInput);
+                this.WriteVerbose("Done");
 
-                StatusInfo status = this.ExportSqlAzureDatabaseProcess(this.ServerName, exportInput);
-
-                this.WriteObject(status);
+                this.WriteVerbose("Writing out result");
+                this.WriteObject(status.InnerText);
+                this.WriteVerbose("Done");
             }
             catch (Exception ex)
             {
+                this.WriteVerbose("An error occured!: " + ex.Message);
                 this.WriteWindowsAzureError(
                     new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
@@ -148,12 +160,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <param name="input">The <see cref="ExportInput"/> object that contains 
         /// all the connection information</param>
         /// <returns></returns>
-        private StatusInfo ExportSqlAzureDatabaseProcess(string serverName, ExportInput input)
+        internal XmlElement ExportSqlAzureDatabaseProcess(string serverName, ExportInput input)
         {
-            StatusInfo result = null;
+            XmlElement result = null;
 
             try
             {
+                this.WriteVerbose("\t\tInvokeInOperationContext");
                 InvokeInOperationContext(() =>
                 {
                     result = RetryCall(subscription => 
@@ -161,10 +174,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                     Operation operation = WaitForSqlDatabaseOperation();
                 });
+                this.WriteVerbose("\t\tDone");
             }
             catch (CommunicationException ex)
             {
+                this.WriteVerbose("\t\tThere was an error");
                 this.WriteErrorDetails(ex);
+                this.WriteVerbose("\t\tDone");
             }
 
             return result;

@@ -238,6 +238,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
         IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state);
 
-        StatusInfo EndExportDatabase(IAsyncResult asyncResult);
+        XmlElement EndExportDatabase(IAsyncResult asyncResult);
     }
 }

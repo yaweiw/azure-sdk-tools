@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             proxy.EndSetPassword(proxy.BeginSetPassword(subscriptionId, serverName, el, null, null));
         }
 
-        public static StatusInfo ExportDatabase(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, ExportInput input)
+        public static XmlElement ExportDatabase(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, ExportInput input)
         {
             return proxy.EndExportDatabase(proxy.BeginExportDatabase(subscriptionId, serverName, input, null, null));
         }

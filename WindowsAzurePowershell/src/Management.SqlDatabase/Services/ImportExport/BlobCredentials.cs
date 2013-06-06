@@ -23,6 +23,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 
     [SerializableAttribute()]
     [KnownTypeAttribute(typeof(BlobStorageAccessKeyCredentials))]
+    [DataContractAttribute(Name = "BlobCredentials", 
+        Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobCredentials : IExtensibleDataObject
     {
 

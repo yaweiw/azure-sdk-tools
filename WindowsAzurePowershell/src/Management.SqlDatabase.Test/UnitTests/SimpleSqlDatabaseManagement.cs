@@ -591,7 +591,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
             throw new NotImplementedException();
         }
 
-        public StatusInfo EndExportDatabase(IAsyncResult asyncResult)
+        public XmlElement EndExportDatabase(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

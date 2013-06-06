@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 
 
     [SerializableAttribute()]
+    [DataContractAttribute(Name = "BlobStorageAccessKeyCredentials", 
+        Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobStorageAccessKeyCredentials : BlobCredentials
     {
         [DataMemberAttribute()]
