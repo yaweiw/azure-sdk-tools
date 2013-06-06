@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 
 
     [SerializableAttribute()]
+    [DataContractAttribute( Name = "ExportInput", 
+        Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public partial class ExportInput : IExtensibleDataObject
     {
         public ExtensionDataObject ExtensionData { get; set; }

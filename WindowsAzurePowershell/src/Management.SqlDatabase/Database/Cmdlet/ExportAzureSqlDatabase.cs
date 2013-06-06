@@ -14,19 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using System.Text;
     using System.ServiceModel;
-    using System.Globalization;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -44,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 0,
             HelpMessage = "The user name for connecting to the database")]
         [ValidateNotNullOrEmpty]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password for connecting to the database
@@ -112,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     {
                         ServerName = this.ServerName,
                         DatabaseName = this.DatabaseName,
-                        UserName = this.UserName,
+                        UserName = this.Username,
                         Password = this.Password
                     }
                 };

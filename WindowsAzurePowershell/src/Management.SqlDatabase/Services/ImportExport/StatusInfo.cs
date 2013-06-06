@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Text;
 
     [SerializableAttribute()]
+    [DataContractAttribute(Name = "StatusInfo",
+        Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class StatusInfo : IExtensibleDataObject
     {
         [BrowsableAttribute(false)]
