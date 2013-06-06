@@ -503,8 +503,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             using (HttpClient client = CreateWebsitesHttpClient())
             {
                 string body = client.GetXml(UriElements.DnsSuffix, Logger);
-                XDocument doc = XDocument.Parse(body);
-                suffix = doc.Root.Value;
+                suffix = General.IsXml(body) ? XDocument.Parse(body).Root.Value : body.Replace("\"", "");
             }
 
             return suffix;

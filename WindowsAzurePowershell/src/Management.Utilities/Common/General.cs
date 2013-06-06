@@ -855,5 +855,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 return xml;
             }
         }
+
+        /// <summary>
+        /// Checks if the content is valid XML or not.
+        /// </summary>
+        /// <param name="content">The text to check</param>
+        /// <returns>True if XML, false otherwise</returns>
+        public static bool IsXml(string content)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(content);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
