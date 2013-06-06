@@ -31,6 +31,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
         // Environment
 
-        public const string Katal = "Katal";
+        public const string WAPack = "WAPack";
     }
 }
