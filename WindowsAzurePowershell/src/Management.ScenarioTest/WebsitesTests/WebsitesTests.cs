@@ -50,6 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteWithInvalidCredentials()
         {
             RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureWebsite $(Get-WebsiteName) }");
@@ -58,6 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithValidName()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithValidName");
@@ -66,6 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithNonExistingName()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithNonExistingName");
@@ -74,6 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithWhatIf()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithWhatIf");
@@ -86,6 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogWithInvalidCredentials()
         {
             RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name $(Get-WebsiteName) }");
@@ -94,6 +99,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogTail()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTail");
@@ -102,6 +108,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogTailPath()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
@@ -110,6 +117,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogTailUriEncoding()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTailUriEncoding");
@@ -118,6 +126,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogListPath()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogListPath");
@@ -130,6 +139,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsite()
         {
             RunPowerShellTest("Test-GetAzureWebsite");
@@ -138,6 +148,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteWithStoppedSite()
         {
             RunPowerShellTest("Test-GetAzureWebsiteWithStoppedSite");
@@ -150,6 +161,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestStartAzureWebsite()
         {
             RunPowerShellTest("Test-StartAzureWebsite");
@@ -162,6 +174,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestStopAzureWebsite()
         {
             RunPowerShellTest("Test-StopAzureWebsite");
@@ -174,6 +187,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestRestartAzureWebsite()
         {
             RunPowerShellTest("Test-RestartAzureWebsite");
@@ -194,6 +208,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestEnableApplicationDiagnosticOnFileSystem()
         {
             RunPowerShellTest("Test-EnableApplicationDiagnosticOnFileSystem");
@@ -202,6 +217,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestUpdateTheDiagnositicLogLevel()
         {
             RunPowerShellTest("Test-UpdateTheDiagnositicLogLevel");
@@ -237,6 +253,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestDisableApplicationDiagnosticOnFileSystem()
         {
             RunPowerShellTest("Test-DisableApplicationDiagnosticOnFileSystem");
@@ -253,6 +270,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestDisablesFileOnly()
         {
             RunPowerShellTest("Test-DisablesFileOnly");
@@ -281,6 +299,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLocation()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLocation");
