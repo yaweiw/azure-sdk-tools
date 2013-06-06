@@ -63,6 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             Action<string> Logger,
             Func<string, string> formatter,
             Func<string, T> serializer)
+            where T: class, new()
         {
             AddUserAgent(client);
             LogRequest(
@@ -75,7 +76,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
             LogResponse(response.StatusCode.ToString(), response.Headers, formatter(content), Logger);
 
-            return serializer(content);
+            try 
+	        {	        
+		        return serializer(content);
+	        }
+	        catch (Exception)
+	        {
+                return new T();
+	        }
         }
 
         private static string GetRawBody(
@@ -99,6 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         public static T GetJson<T>(this HttpClient client, string requestUri, Action<string> Logger)
+            where T : class, new()
         {
             return GetFormat<T>(client, requestUri, Logger, General.TryFormatJson, JsonConvert.DeserializeObject<T>);
         }
@@ -109,6 +118,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> Logger)
+            where T: class, new()
         {
             return GetFormat<T>(client, requestUri, Logger, General.FormatXml, General.DeserializeXmlString<T>);
         }
