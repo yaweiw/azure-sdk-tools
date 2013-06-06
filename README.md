@@ -96,7 +96,7 @@ To get the source code of the SDK via git just type:
 ### Node.js Prerequisites (developer only)
 
 * [Node.js](http://nodejs.org/)
-* [IISNode](https://github.com/tjanczuk/iisnode)
+* [IISNode](https://github.com/WindowsAzure/iisnode)
 
 ### PHP Prerequisites (developer only)
 
