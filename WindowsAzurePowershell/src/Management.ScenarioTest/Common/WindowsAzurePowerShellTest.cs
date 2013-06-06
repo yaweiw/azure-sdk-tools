@@ -35,6 +35,10 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         {
             base.TestSetup();
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
+            {
+                return true;
+            };
         }
     }
 }
