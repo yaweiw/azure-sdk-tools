@@ -220,13 +220,12 @@ function Test-GetAzureWebsite
 	# Setup
 	$name = Get-WebsiteName
 	New-AzureWebsite $name
-	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Error
 
 	#Test
 	$config = Get-AzureWebsite -Name $name
 
 	# Assert
-	Assert-AreEqual $true $config.AzureDriveTraceEnabled
+	Assert-AreEqual $name $config.Name
 }
 
 <#
@@ -259,7 +258,6 @@ function Test-StartAzureWebsite
 	$name = Get-WebsiteName
 	New-AzureWebsite $name
 	Stop-AzureWebsite $name
-	Assert-Throws { Get-AzureWebsite $name }
 
 	# Test
 	Start-AzureWebsite $name
@@ -285,7 +283,8 @@ function Test-StopAzureWebsite
 	Stop-AzureWebsite $name
 
 	# Assert
-	Assert-Throws { Get-AzureWebsite $name }
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual $name $website.Name
 }
 
 ########################################################################### Restart-AzureWebsite Scenario Tests ###########################################################################
