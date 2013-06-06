@@ -79,10 +79,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public const string CustomDomainsEnabledSettingsName = "CustomDomainsEnabled";
         public const string SslSupportSettingsName = "SslSupport";
 
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.14";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.15";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.6.14");
+            "v0.6.15");
     }
 
     public static class HttpConstants
