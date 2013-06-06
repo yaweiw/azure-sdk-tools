@@ -437,7 +437,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
                 subscriptionId, website.WebSpace, website.Name);
 
-            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name == key);
+            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
             if (index == -1)
             {
                 configuration.ConnectionStrings.Add(new ConnStringInfo()
