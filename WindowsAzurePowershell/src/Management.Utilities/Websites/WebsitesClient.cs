@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
                             string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
                                 storageAccountName);
-                            SetAppSetting(website.Name, storageTableName, connectionString);
+                            SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
                             
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
                                 (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
@@ -421,6 +421,38 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
             }
             
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Sets a connection string for a website.
+        /// </summary>
+        /// <param name="name">Name of the website.</param>
+        /// <param name="key">Connection string key.</param>
+        /// <param name="value">Value for the connection string.</param>
+        /// <param name="connectionStringType">Type of connection string.</param>
+        public void SetConnectionString(string name, string key, string value, DatabaseType connectionStringType)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId, website.WebSpace, website.Name);
+
+            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name == key);
+            if (index == -1)
+            {
+                configuration.ConnectionStrings.Add(new ConnStringInfo()
+                {
+                    Name = key,
+                    ConnectionString =  value,
+                    Type = connectionStringType
+                });
+            }
+            else
+            {
+                configuration.ConnectionStrings[index].ConnectionString = value;
+                configuration.ConnectionStrings[index].Type = connectionStringType;
+            }
+
             WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
