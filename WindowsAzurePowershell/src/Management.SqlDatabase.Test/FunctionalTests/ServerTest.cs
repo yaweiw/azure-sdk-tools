@@ -35,6 +35,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private const string ResetPasswordScript = @"Server\ResetPassword.ps1";
         private const string FormatValidationScript = @"Server\FormatValidation.ps1";
 
+        /// <summary>
+        /// The end point to use for the tests
+        /// </summary>
+        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
+         
         [TestInitialize]
         public void Setup()
         {
@@ -48,7 +53,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void CreateGetDeleteServerTest()
         {            
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -Endpoint \"{3}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ServerTestScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -57,7 +67,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void FirewallTest()
         {
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FirewallTestScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -67,8 +81,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [Ignore]
         public void ResetServerPassword()
         {
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ResetPasswordScript, arguments);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation);
+            bool testResult = 
+                PSScriptExecutor.ExecuteScript(ServerTest.ResetPasswordScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -78,12 +97,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void OutputObjectFormatValidation()
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", this.subscriptionID, this.serializedCert, this.serverLocation, outputFile);
-            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FormatValidationScript, arguments);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation, outputFile);
+            bool testResult = 
+                PSScriptExecutor.ExecuteScript(ServerTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
 
             OutputFormatValidator.ValidateOutputFormat(outputFile, @"Server\ExpectedFormat.txt");
         }
-
     }
 }

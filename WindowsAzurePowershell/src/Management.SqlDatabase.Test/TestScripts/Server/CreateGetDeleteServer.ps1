@@ -26,7 +26,11 @@ Param
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [String]
-    $serverLocation
+    $serverLocation,
+    [Parameter(Mandatory=$true, Position=3)]
+    [ValidateNotNullOrEmpty()]
+    [String]
+    $Endpoint
 )
 
 Write-Output "`$subscriptionID=$subscriptionID"
@@ -38,7 +42,7 @@ Write-Output "`$serverLocation=$serverLocation"
 Try
 {
 	Init-TestEnvironment
-    Init-AzureSubscription $subscriptionID $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
+    Init-AzureSubscription $subscriptionID $SerializedCert $Endpoint
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     $isTestPass = $False
