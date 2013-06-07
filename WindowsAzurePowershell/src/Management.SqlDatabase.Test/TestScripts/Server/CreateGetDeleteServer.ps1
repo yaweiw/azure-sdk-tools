@@ -36,6 +36,7 @@ Param
 Write-Output "`$subscriptionID=$subscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$serverLocation=$serverLocation"
+Write-Output "`$Endpoint=$Endpoint"
 
 . .\CommonFunctions.ps1
 
