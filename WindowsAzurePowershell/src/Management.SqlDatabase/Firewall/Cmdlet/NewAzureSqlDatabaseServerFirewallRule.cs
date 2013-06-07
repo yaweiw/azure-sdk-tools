@@ -27,9 +27,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     /// <summary>
     /// Creates a new firewall rule for a Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", DefaultParameterSetName = "IpRange", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", DefaultParameterSetName = IpRangeParameterSet, 
+        SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        #region Parameter Sets
+
+        /// <summary>
+        /// Parameter set that uses an IP Range
+        /// </summary>
+        internal const string IpRangeParameterSet = "IpRange";
+
+        /// <summary>
+        /// Parameter set for allowing all azure services
+        /// </summary>
+        internal const string AllAzureServicesSet = "AllAzureServices";
+
+        #endregion
+
+        /// <summary>
+        /// The special IP for the beginning and ending of the firewall rule that will
+        /// allow all azure services to connect to the server.
+        /// </summary>
+        private const string AzureSpecialRuleAddress = "0.0.0.0";
+
         /// <summary>
         /// Initializes a new instance of the 
         /// <see cref="NewAzureSqlDatabaseServerFirewallRule"/> class.
@@ -50,7 +71,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             this.Channel = channel;
         }
 
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
+        /// <summary>
+        /// Gets or sets the name of the server to connect add the firewall rule to
+        /// </summary>
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
         {
@@ -58,6 +83,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the name of the fire wall rule
+        /// </summary>
         [Parameter(Mandatory = true, HelpMessage = "SQL Database server firewall rule name.")]
         [ValidateNotNullOrEmpty]
         public string RuleName
@@ -66,7 +94,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = true, HelpMessage = "Start of the IP Range.", ParameterSetName = "IpRange")]
+        /// <summary>
+        /// Gets or sets the starting IP address for the rule
+        /// </summary>
+        [Parameter(Mandatory = true, HelpMessage = "Start of the IP Range.", 
+            ParameterSetName = IpRangeParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StartIpAddress
         {
@@ -74,7 +106,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = true, HelpMessage = "End of the IP Range.", ParameterSetName = "IpRange")]
+        /// <summary>
+        /// Gets or sets the ending IP address for the firewall rule
+        /// </summary>
+        [Parameter(Mandatory = true, HelpMessage = "End of the IP Range.", 
+            ParameterSetName = IpRangeParameterSet)]
         [ValidateNotNullOrEmpty]
         public string EndIpAddress
         {
@@ -82,6 +118,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Gets or sets whether or not to allow all windows azure services to connect
+        /// </summary>
+        [Parameter(Mandatory = true, HelpMessage = "Allow all Azure services access to the server.", 
+            ParameterSetName = AllAzureServicesSet)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter AllowAllAzureServices 
+        { 
+            get; 
+            set; 
+        }
+
+        /// <summary>
+        /// Gets or sets whether or not to force the operation to proceed.
+        /// </summary>
         [Parameter(HelpMessage = "Do not confirm on the creation of the firewall rule")]
         public SwitchParameter Force
         {
@@ -108,47 +159,39 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// The ending IP address for the firewall rule.
         /// </param>
         /// <returns>The context to the newly created firewall rule.</returns>
-        internal SqlDatabaseServerFirewallRuleContext NewAzureSqlDatabaseServerFirewallRuleProcess(string parameterSetName, string serverName, string ruleName, string startIpAddress, string endIpAddress)
+        internal SqlDatabaseServerFirewallRuleContext NewAzureSqlDatabaseServerFirewallRuleProcess(
+            string parameterSetName, 
+            string serverName, 
+            string ruleName, 
+            string startIpAddress, 
+            string endIpAddress)
         {
-            // Do nothing if force is not specified and user cancelled the operation
-            if (!Force.IsPresent &&
-                !ShouldProcess(
-                    string.Format(CultureInfo.InvariantCulture, Resources.NewAzureSqlDatabaseServerFirewallRuleDescription, ruleName, serverName),
-                    string.Format(CultureInfo.InvariantCulture, Resources.NewAzureSqlDatabaseServerFirewallRuleWarning, ruleName, serverName),
-                    Resources.ShouldProcessCaption))
-            {
-                return null;
-            }
-
             SqlDatabaseServerFirewallRuleContext operationContext = null;
             try
             {
-                switch (parameterSetName)
+                this.InvokeInOperationContext(() =>
                 {
-                    case "IpRange":
-                        InvokeInOperationContext(() =>
-                        {
-                            RetryCall(subscription =>
-                                Channel.NewServerFirewallRule(subscription, serverName, ruleName, startIpAddress, endIpAddress));
-                            Operation operation = WaitForSqlDatabaseOperation();
+                    this.RetryCall(subscription =>
+                        this.Channel.NewServerFirewallRule(
+                            subscription, 
+                            serverName, 
+                            ruleName, 
+                            startIpAddress, 
+                            endIpAddress));
 
-                            operationContext = new SqlDatabaseServerFirewallRuleContext()
-                            {
-                                OperationDescription = CommandRuntime.ToString(),
-                                OperationStatus = operation.Status,
-                                OperationId = operation.OperationTrackingId,
-                                ServerName = serverName,
-                                RuleName = ruleName,
-                                StartIpAddress = startIpAddress,
-                                EndIpAddress = endIpAddress
-                            };
-                        });
-                        break;
-                    default:
-                        // Should never get here
-                        Debug.Assert(false, "Invalid parameter set!");
-                        break;
-                }
+                    Operation operation = WaitForSqlDatabaseOperation();
+
+                    operationContext = new SqlDatabaseServerFirewallRuleContext()
+                    {
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = operation.Status,
+                        OperationId = operation.OperationTrackingId,
+                        ServerName = serverName,
+                        RuleName = ruleName,
+                        StartIpAddress = startIpAddress,
+                        EndIpAddress = endIpAddress
+                    };
+                });
             }
             catch (CommunicationException ex)
             {
@@ -163,19 +206,59 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            // Do nothing if force is not specified and user cancelled the operation
+            string verboseDescription = string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.NewAzureSqlDatabaseServerFirewallRuleDescription,
+                        this.RuleName,
+                        this.ServerName);
+            
+            string verboseWarning = string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.NewAzureSqlDatabaseServerFirewallRuleWarning,
+                        this.RuleName,
+                        this.ServerName);
+
+            if (!this.Force.IsPresent &&
+                !this.ShouldProcess(verboseDescription, verboseWarning, Resources.ShouldProcessCaption))
+            {
+                return;
+            }
+
             try
             {
                 base.ProcessRecord();
-                SqlDatabaseServerOperationContext context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(this.ParameterSetName, this.ServerName, this.RuleName, this.StartIpAddress, this.EndIpAddress);
+                SqlDatabaseServerOperationContext context = null;
+
+                switch (this.ParameterSetName)
+                {
+                    case IpRangeParameterSet:
+                        context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
+                            this.ParameterSetName,
+                            this.ServerName,
+                            this.RuleName,
+                            this.StartIpAddress,
+                            this.EndIpAddress);
+                        break;
+
+                    case AllAzureServicesSet:
+                        context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
+                            this.ParameterSetName,
+                            this.ServerName,
+                            this.RuleName,
+                            AzureSpecialRuleAddress,
+                            AzureSpecialRuleAddress);
+                        break;
+                }
 
                 if (context != null)
                 {
-                    WriteObject(context, true);
+                    this.WriteObject(context, true);
                 }
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.WriteError, null));
+                this.WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.WriteError, null));
             }
         }
     }
