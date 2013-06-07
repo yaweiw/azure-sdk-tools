@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     internal class ClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
@@ -46,12 +47,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 
                 if (property.Headers[Constants.ClientSessionIdHeaderName] == null)
                 {
-                    property.Headers.Add(Constants.ClientSessionIdHeaderName, SqlDatabaseManagementCmdletBase.clientSessionId);
+                    property.Headers.Add(
+                        Constants.ClientSessionIdHeaderName, 
+                        SqlDatabaseManagementCmdletBase.clientSessionId);
                 }
 
                 if (property.Headers[Constants.ClientRequestIdHeaderName] == null)
                 {
                     property.Headers.Add(Constants.ClientRequestIdHeaderName, this.requestSessionId);
+                }
+
+                if (property.Headers[ServiceManagementClientOutputMessageInspector.UserAgentHeaderName] == null)
+                {
+                    property.Headers.Add(
+                        ServiceManagementClientOutputMessageInspector.UserAgentHeaderName, 
+                        ServiceManagementClientOutputMessageInspector.UserAgentHeaderContent);
                 }
             }
 
