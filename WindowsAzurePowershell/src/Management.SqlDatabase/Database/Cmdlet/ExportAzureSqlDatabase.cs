@@ -11,7 +11,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
@@ -102,6 +101,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
+        /// Performs the call to export database using the server data service context channel.
+        /// </summary>
+        /// <param name="serverName">The name of the server to connect to.</param>
+        /// <param name="input">The <see cref="ExportInput"/> object that contains 
+        /// all the connection information</param>
+        /// <returns>The result of export request.  Upon success contains the GUID of the request</returns>
+        internal XmlElement ExportSqlAzureDatabaseProcess(string serverName, ExportInput input)
+        {
+            XmlElement result = null;
+
+            try
+            {
+                this.InvokeInOperationContext(() =>
+                {
+                    result = RetryCall(subscription =>
+                        this.Channel.ExportDatabase(subscription, serverName, input));
+
+                    Operation operation = WaitForSqlDatabaseOperation();
+                });
+            }
+            catch (CommunicationException ex)
+            {
+                this.WriteErrorDetails(ex);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Process the export request
         /// </summary>
         protected override void ProcessRecord()
@@ -109,19 +137,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             this.WriteVerbose("Starting to process the record");
             try
             {
-                this.WriteVerbose("Processing base record...");
                 base.ProcessRecord();
-                this.WriteVerbose("Done");
 
-
-                this.WriteVerbose("Creating ExportInput object");
-                //Create Web Request Inputs - Blob Storage Credentials and Server Connection Info
+                // Create Web Request Inputs - Blob Storage Credentials and Server Connection Info
                 ExportInput exportInput = new ExportInput
                 {
                     BlobCredentials = new BlobStorageAccessKeyCredentials
                     {
                         StorageAccessKey = this.StorageKey,
-                        Uri = String.Format(
+                        Uri = string.Format(
                             this.BlobUri.ToString(), 
                             this.DatabaseName, 
                             DateTime.UtcNow.Ticks.ToString())
@@ -134,56 +158,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                         Password = this.Password
                     }
                 };
-                this.WriteVerbose("Done");
 
-                this.WriteVerbose("Calling ExportSqlAzureDatabaseProcess");
                 XmlElement status = this.ExportSqlAzureDatabaseProcess(this.ServerName, exportInput);
-                this.WriteVerbose("Done");
 
-                this.WriteVerbose("Writing out result");
                 this.WriteObject(status.InnerText);
-                this.WriteVerbose("Done");
             }
             catch (Exception ex)
             {
-                this.WriteVerbose("An error occured!: " + ex.Message);
                 this.WriteWindowsAzureError(
                     new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
-
-        /// <summary>
-        /// Performs the call to export database using the server data service context channel.
-        /// </summary>
-        /// <param name="serverName">The name of the server to connect to.</param>
-        /// <param name="input">The <see cref="ExportInput"/> object that contains 
-        /// all the connection information</param>
-        /// <returns></returns>
-        internal XmlElement ExportSqlAzureDatabaseProcess(string serverName, ExportInput input)
-        {
-            XmlElement result = null;
-
-            try
-            {
-                this.WriteVerbose("\t\tInvokeInOperationContext");
-                InvokeInOperationContext(() =>
-                {
-                    result = RetryCall(subscription => 
-                        Channel.ExportDatabase(subscription, serverName, input));
-
-                    Operation operation = WaitForSqlDatabaseOperation();
-                });
-                this.WriteVerbose("\t\tDone");
-            }
-            catch (CommunicationException ex)
-            {
-                this.WriteVerbose("\t\tThere was an error");
-                this.WriteErrorDetails(ex);
-                this.WriteVerbose("\t\tDone");
-            }
-
-            return result;
-        }
-
     }
 }

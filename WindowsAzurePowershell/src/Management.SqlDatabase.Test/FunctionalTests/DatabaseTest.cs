@@ -54,6 +54,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// Tests for doing format validation tests 
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
+        private const string ExportScript = @"Database\ExportDatabase.ps1";
 
         #endregion
 

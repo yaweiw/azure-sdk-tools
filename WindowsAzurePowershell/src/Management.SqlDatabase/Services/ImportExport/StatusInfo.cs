@@ -14,13 +14,13 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
-    [SerializableAttribute()]
+    /// <summary>
+    /// Represents the result of querying the status of an import or export database operation
+    /// </summary>
+    [SerializableAttribute]
     [DataContractAttribute(Name = "StatusInfo",
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class StatusInfo : IExtensibleDataObject
@@ -28,31 +28,31 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         [BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string BlobUri { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string DatabaseName { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string ErrorMessage { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public DateTime LastModifiedTime { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public DateTime QueuedTime { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string RequestId { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string RequestType { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string ServerName { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string Status { get; set; }
     }
 }

@@ -19,15 +19,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Runtime.Serialization;
     using System.Text;
 
-
-    [SerializableAttribute()]
-    [DataContractAttribute( Name = "ExportInput", 
+    /// <summary>
+    /// The necessary information to submit an export request to IE
+    /// </summary>
+    [SerializableAttribute]
+    [DataContractAttribute(Name = "ExportInput", 
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public partial class ExportInput : IExtensibleDataObject
     {
         public ExtensionDataObject ExtensionData { get; set; }
 
-        [DataMemberAttribute(IsRequired=true, EmitDefaultValue=false)]
+        [DataMemberAttribute(IsRequired = true, EmitDefaultValue = false)]
         public BlobCredentials BlobCredentials { get; set; }
 
         [DataMemberAttribute(IsRequired = true, EmitDefaultValue = false)]

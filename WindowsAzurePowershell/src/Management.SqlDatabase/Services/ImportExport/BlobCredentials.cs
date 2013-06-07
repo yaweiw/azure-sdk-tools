@@ -20,19 +20,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Runtime.Serialization;
     using System.Text;
 
-
-    [SerializableAttribute()]
+    /// <summary>
+    /// Base class for blob storage connection information
+    /// </summary>
+    [SerializableAttribute]
     [KnownTypeAttribute(typeof(BlobStorageAccessKeyCredentials))]
     [DataContractAttribute(Name = "BlobCredentials", 
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobCredentials : IExtensibleDataObject
     {
-
         [BrowsableAttribute(false)]
         public ExtensionDataObject ExtensionData { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string Uri { get; set; }
-        
     }
 }

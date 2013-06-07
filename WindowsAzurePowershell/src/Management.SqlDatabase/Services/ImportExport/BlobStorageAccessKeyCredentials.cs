@@ -19,13 +19,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Runtime.Serialization;
     using System.Text;
 
-
-    [SerializableAttribute()]
+    /// <summary>
+    /// The necessary information to connect to blob storage using a primary access key.
+    /// </summary>
+    [SerializableAttribute]
     [DataContractAttribute(Name = "BlobStorageAccessKeyCredentials", 
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobStorageAccessKeyCredentials : BlobCredentials
     {
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string StorageAccessKey { get; set; }
     }
 }

@@ -20,7 +20,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Runtime.Serialization;
     using System.Text;
 
-    [SerializableAttribute()]
+    /// <summary>
+    /// The information needed to connecto to a Sql Azure database for the export operation
+    /// </summary>
+    [SerializableAttribute]
     [DataContractAttribute(Name = "ConnectionInfo", 
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class ConnectionInfo : IExtensibleDataObject
@@ -28,17 +31,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         [BrowsableAttribute(false)]
         public ExtensionDataObject ExtensionData { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string DatabaseName { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string Password { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string ServerName { get; set; }
 
-        [DataMemberAttribute()]
+        [DataMemberAttribute]
         public string UserName { get; set; }
-        
     }
 }
