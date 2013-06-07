@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Parameter set for allowing all azure services
         /// </summary>
-        internal const string AllAzureServicesSet = "AllAzureServices";
+        internal const string AllAzureServicesParameterSet = "AllAzureServices";
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// The special IP for the beginning and ending of the firewall rule that will
         /// allow all azure services to connect to the server.
         /// </summary>
-        private const string AzureSpecialRuleAddress = "0.0.0.0";
+        private const string AllowAzureServiceRuleAddress = "0.0.0.0";
 
         /// <summary>
         /// Initializes a new instance of the 
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// Gets or sets whether or not to allow all windows azure services to connect
         /// </summary>
         [Parameter(Mandatory = true, HelpMessage = "Allow all Azure services access to the server.", 
-            ParameterSetName = AllAzureServicesSet)]
+            ParameterSetName = AllAzureServicesParameterSet)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter AllowAllAzureServices 
         { 
@@ -241,13 +241,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
                             this.EndIpAddress);
                         break;
 
-                    case AllAzureServicesSet:
+                    case AllAzureServicesParameterSet:
                         context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
                             this.ParameterSetName,
                             this.ServerName,
                             this.RuleName,
-                            AzureSpecialRuleAddress,
-                            AzureSpecialRuleAddress);
+                            AllowAzureServiceRuleAddress,
+                            AllowAzureServiceRuleAddress);
                         break;
                 }
 
