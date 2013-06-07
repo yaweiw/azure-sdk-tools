@@ -586,14 +586,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
         #region Export Database 
         
+        public Func<SimpleServiceManagementAsyncResult, XmlElement> ExportDatabaseThunk { get; set; }
         public IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
         }
 
         public XmlElement EndExportDatabase(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (ExportDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return ExportDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ExportDatabaseThunk is not implemented!");
+            }
+
+            return default(XmlElement);
         }
         
         #endregion

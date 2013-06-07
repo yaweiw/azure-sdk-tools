@@ -70,5 +70,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
+
+        [TestMethod]
+        public void ExportAzureSqlDatabaseAttributeTest()
+        {
+            Type cmdlet = typeof(ExportAzureSqlDatabase);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+        }
     }
 }

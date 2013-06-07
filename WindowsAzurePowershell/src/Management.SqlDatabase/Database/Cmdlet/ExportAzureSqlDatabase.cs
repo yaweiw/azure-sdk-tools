@@ -26,8 +26,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// <summary>
     /// Exports a database from Sql Azure into blob storage.
     /// </summary>
-    [Cmdlet("Export", "AzureSqlDatabase", SupportsShouldProcess = true,
-        ConfirmImpact = ConfirmImpact.Medium)]
+    [Cmdlet("Export", "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.Medium)]
     public class ExportAzureSqlDatabase : SqlDatabaseManagementCmdletBase
     {
         /// <summary>
