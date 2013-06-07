@@ -22,7 +22,7 @@ Param
     [Parameter(Mandatory=$true, Position=1)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $ManageUrl,
+    $ServerName,
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [string]
@@ -40,7 +40,7 @@ Param
 $IsTestPass = $False
 
 Write-Output "`$Name=$Name"
-Write-Output "`$ManageUrl=$ManageUrl"
+Write-Output "`$ServerName=$ServerName"
 Write-Output "`$SubscriptionID=$SubscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$Endpoint=$Endpoint"
@@ -52,12 +52,6 @@ Try
 {
 	Init-TestEnvironment
 	Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
-
-	$server = Get-AzureSqlDatabaseServer
-
-    Assert {$server[0]} "There are no servers to connect to"
-
-    $ServerName = $server[0].ServerName
 
     $defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
     $defaultEdition = "Web"

@@ -139,9 +139,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
                 "testcreatedbfromcmdlet",
-                this.manageUrl,
+                this.serverName,
                 this.subscriptionId,
                 this.serializedCert,
                 LocalRdfeEndpoint);
