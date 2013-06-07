@@ -43,8 +43,8 @@ New-Alias Save-WAPackWebsiteLog Save-AzureWebsiteLog
 New-Alias Get-WAPackWebsiteLocation Get-AzureWebsiteLocation
 New-Alias Get-WAPackWebsiteDeployment Get-AzureWebsiteDeployment
 New-Alias Restore-WAPackWebsiteDeployment Restore-AzureWebsiteDeployment
-New-Alias Enable-WAPackWebsiteApplicationDiagnositc Enable-AzureWebsiteApplicationDiagnositc
-New-Alias Disable-AzureWebsiteApplicationDiagnositc Disable-AzureWebsiteApplicationDiagnositc
+New-Alias Enable-WAPackWebsiteApplicationDiagnositc Enable-AzureWebsiteApplicationDiagnostic
+New-Alias Disable-WAPackWebsiteApplicationDiagnostic Disable-AzureWebsiteApplicationDiagnostic
 
 # Service Bus alias
 New-Alias Get-WAPackSBLocation Get-AzureSBLocation
