@@ -21,19 +21,15 @@ namespace Microsoft.WindowsAzure.Management.Websites
     [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
     public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
-        private const string FileParameterSetName = "FileParameterSet";
-
-        private const string StorageParameterSetName = "StorageParameterSet";
-
         public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "File switch.")]
         public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage switch.")]
         public SwitchParameter Storage { get; set; }
 
         public override void ExecuteCmdlet()
