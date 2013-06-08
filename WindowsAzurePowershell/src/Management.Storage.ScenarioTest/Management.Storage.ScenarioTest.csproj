@@ -109,6 +109,7 @@
     <Compile Include="AssemblyInitCleanup.cs" />
     <Compile Include="BVT\CLICommonBVT.cs" />
     <Compile Include="BVT\HTTPS\AnonymousBVT.cs" />
+    <Compile Include="BVT\HTTPS\AzureEnvironment.cs" />
     <Compile Include="BVT\HTTPS\ConnectionStringBVT.cs" />
     <Compile Include="BVT\HTTPS\EnvConnectionStringBVT.cs" />
     <Compile Include="BVT\HTTPS\NameKeyContextBVT.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="BVT\HTTPS\SubScriptionBVT.cs" />
     <Compile Include="BVT\HTTP\AnonymousBVT.cs" />
     <Compile Include="BVT\HTTP\AzureEmulatorBVT.cs" />
+    <Compile Include="BVT\HTTP\AzureEnvironment.cs" />
     <Compile Include="BVT\HTTP\ConnectionStringBVT.cs" />
     <Compile Include="BVT\HTTP\EnvConnectionStringBVT.cs" />
     <Compile Include="BVT\HTTP\NameKeyContextBVT.cs" />
