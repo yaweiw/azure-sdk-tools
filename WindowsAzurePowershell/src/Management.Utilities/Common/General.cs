@@ -873,5 +873,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 return false;
             }
         }
+
+        public static string GetNonEmptyValue(string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
+        }
     }
 }
