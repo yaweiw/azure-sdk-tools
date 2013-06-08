@@ -27,7 +27,8 @@ New-Alias Select-WAPackSubscription Select-AzureSubscription
 New-Alias Set-WAPackSubscription Set-AzureSubscription
 New-Alias Show-WAPackPortal Show-AzurePortal
 New-Alias Test-WAPackName Test-AzureName
-New-Alias Get-WAPackEnvironment  Get-AzureEnvironment
+New-Alias Get-WAPackEnvironment Get-AzureEnvironment
+New-Alias Add-WAPackEnvironment Add-AzureEnvironment
 
 # Websites alias
 New-Alias New-WAPackWebsite New-AzureWebsite
