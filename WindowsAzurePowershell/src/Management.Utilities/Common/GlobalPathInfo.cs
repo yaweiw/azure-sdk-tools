@@ -14,51 +14,54 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
-    using System;
-    using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+	using System;
+	using System.IO;
+	using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
-    public class GlobalPathInfo
-    {
-        public string PublishSettingsFile { get; private set; }
+	public class GlobalPathInfo
+	{
+		public string PublishSettingsFile { get; private set; }
 
-        public string SubscriptionsDataFile { get; private set; }
+		public string SubscriptionsDataFile { get; private set; }
 
-        public string ServiceConfigurationFile { get; private set; }
+		public string ServiceConfigurationFile { get; private set; }
 
-        public static readonly string AzureAppDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Resources.AzureDirectoryName);
+		public string EnvironmentsFile { get; private set; }
 
-        /// <summary>
-        /// Path to the global settings directory used by GlobalSettingsManager.
-        /// </summary>
-        private static string _globalSettingsDirectory;
+		public static readonly string AzureAppDir = Path.Combine(
+			Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+			Resources.AzureDirectoryName);
 
-        /// <summary>
-        /// Gets a path to the global settings directory, which defaults to
-        /// AzureSdkAppDir.  This can be set internally for the purpose of
-        /// testing.
-        /// </summary>
-        public static string GlobalSettingsDirectory
-        {
-            get { return _globalSettingsDirectory ?? AzureAppDir; }
-            set { _globalSettingsDirectory = value; }
-        }
+		/// <summary>
+		/// Path to the global settings directory used by GlobalSettingsManager.
+		/// </summary>
+		private static string _globalSettingsDirectory;
+
+		/// <summary>
+		/// Gets a path to the global settings directory, which defaults to
+		/// AzureSdkAppDir.  This can be set internally for the purpose of
+		/// testing.
+		/// </summary>
+		public static string GlobalSettingsDirectory
+		{
+			get { return _globalSettingsDirectory ?? AzureAppDir; }
+			set { _globalSettingsDirectory = value; }
+		}
 	
-        public string AzureDirectory { get; private set; }
+		public string AzureDirectory { get; private set; }
 
-        public GlobalPathInfo(string rootPath)
-            : this(rootPath, null)
-        {
-        }
+		public GlobalPathInfo(string rootPath)
+			: this(rootPath, null)
+		{
+		}
 
-        public GlobalPathInfo(string rootPath, string subscriptionsDataFile)
-        {
-            PublishSettingsFile = Path.Combine(rootPath, Resources.PublishSettingsFileName);
-            SubscriptionsDataFile = subscriptionsDataFile ?? Path.Combine(rootPath, Resources.SubscriptionDataFileName);
-            ServiceConfigurationFile = Path.Combine(rootPath, Resources.ConfigurationFileName);
-            AzureDirectory = rootPath;
-        }
-    }
+		public GlobalPathInfo(string rootPath, string subscriptionsDataFile)
+		{
+			PublishSettingsFile = Path.Combine(rootPath, Resources.PublishSettingsFileName);
+			SubscriptionsDataFile = subscriptionsDataFile ?? Path.Combine(rootPath, Resources.SubscriptionDataFileName);
+			ServiceConfigurationFile = Path.Combine(rootPath, Resources.ConfigurationFileName);
+			EnvironmentsFile = Path.Combine(rootPath, Resources.EnvironmentsFileName);
+			AzureDirectory = rootPath;
+		}
+	}
 }

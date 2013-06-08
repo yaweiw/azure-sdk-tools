@@ -28,7 +28,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public class GlobalSettingsManager
     {
-        private Dictionary<string, WindowsAzureEnvironment> environments;
+        private List<WindowsAzureEnvironment> customEnvironments;
+
+        private Dictionary<string, WindowsAzureEnvironment> Environments
+        { 
+            get 
+            {
+                Dictionary<string, WindowsAzureEnvironment> all = new Dictionary<string, WindowsAzureEnvironment>(
+                    WindowsAzureEnvironment.PublicEnvironments,
+                    StringComparer.OrdinalIgnoreCase);
+
+                foreach (WindowsAzureEnvironment environment in customEnvironments)
+                {
+                    all.Add(environment.Name, environment);
+                }
+
+                return all;
+            } 
+        }
 
         public GlobalPathInfo GlobalPaths { get; private set; }
 
@@ -56,9 +73,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             GlobalPaths = new GlobalPathInfo(azurePath, subscriptionsDataFile);
             DefaultEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
-            environments = new Dictionary<string, WindowsAzureEnvironment>(
-                WindowsAzureEnvironment.PublicEnvironments,
-                StringComparer.InvariantCultureIgnoreCase);
         }
 
         public static GlobalSettingsManager CreateFromPublishSettings(
@@ -170,10 +184,31 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             PublishSettings.Items = new [] { publishDataProfile };
         }
 
+        private bool EnvironmentExists(string name)
+        {
+            return Environments.ContainsKey(name);
+        }
+
+        private bool IsPublicEnvironment(string name)
+        {
+            return WindowsAzureEnvironment.PublicEnvironments.ContainsKey(name);
+        }
+
         internal void LoadCurrent()
         {
             Validate.ValidateDirectoryExists(GlobalPaths.AzureDirectory, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
             Validate.ValidateFileExists(GlobalPaths.PublishSettingsFile, string.Format(Resources.PathDoesNotExistForElement, Resources.PublishSettingsFileName, GlobalPaths.PublishSettingsFile));
+
+            try
+            {
+                // Try deserialize environments.xml if any.
+                customEnvironments = General.DeserializeXmlFile<List<WindowsAzureEnvironment>>(
+                    GlobalPaths.EnvironmentsFile);
+            }
+            catch
+            {
+                customEnvironments = new List<WindowsAzureEnvironment>();
+            }
 
             PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
             if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
@@ -318,7 +353,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public WindowsAzureEnvironment GetEnvironment(string environmentName)
         {
             WindowsAzureEnvironment environment;
-            if (!environments.TryGetValue(environmentName, out environment))
+            if (!Environments.TryGetValue(environmentName, out environment))
             {
                 throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, environmentName));
             }
@@ -332,7 +367,46 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The windows azure environments list</returns>
         public List<WindowsAzureEnvironment> GetEnvironments()
         {
-            return environments.Values.ToList();
+            return Environments.Values.ToList();
+        }
+
+        /// <summary>
+        /// Adds new Windows Azure environment.
+        /// </summary>
+        /// <param name="name">The name</param>
+        /// <param name="publishSettingsFileUrl">The publish settings url</param>
+        /// <param name="serviceEndpoint">The RDFE endpoint</param>
+        /// <param name="managementPortalUrl">The portal url</param>
+        /// <param name="storageBlobEndpointFormat">Blob service endpoint</param>
+        /// <param name="storageQueueEndpointFormat">Queue service endpoint</param>
+        /// <param name="storageTableEndpointFormat">Table service endpoint</param>
+        public WindowsAzureEnvironment AddEnvironment(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageBlobEndpointFormat = null,
+            string storageQueueEndpointFormat = null,
+            string storageTableEndpointFormat = null)
+        {
+            if (!EnvironmentExists(name) && !IsPublicEnvironment(name))
+            {
+                WindowsAzureEnvironment environment = new WindowsAzureEnvironment()
+                {
+                    Name = name,
+                    PublishSettingsFileUrl = publishSettingsFileUrl,
+                    ManagementPortalUrl = managementPortalUrl,
+                    ServiceEndpoint = serviceEndpoint,
+                    StorageBlobEndpointFormat = storageBlobEndpointFormat,
+                    StorageQueueEndpointFormat = storageQueueEndpointFormat,
+                    StorageTableEndpointFormat = storageTableEndpointFormat
+                };
+                customEnvironments.Add(environment);
+                General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+
+                return environment;
+            }
+
+            return GetEnvironment(name);
         }
     }
 }
