@@ -201,8 +201,10 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         public void OnImport()
         {
             PowerShell invoker = null;
+            string assemblyDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location.ToString());
+            string scriptPath = Path.Combine(assemblyDir, "startup.ps1");
             invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
-            invoker.AddScript(File.ReadAllText("startup.ps1"));
+            invoker.AddScript(File.ReadAllText(scriptPath));
             invoker.Invoke();
         }
     }
