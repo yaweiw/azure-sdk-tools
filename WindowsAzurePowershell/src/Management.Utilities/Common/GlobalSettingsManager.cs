@@ -408,5 +408,56 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             return GetEnvironment(name);
         }
+
+        /// <summary>
+        /// Changes an existing Windows Azure environment information.
+        /// </summary>
+        /// <param name="name">The name</param>
+        /// <param name="publishSettingsFileUrl">The publish settings url</param>
+        /// <param name="serviceEndpoint">The RDFE endpoint</param>
+        /// <param name="managementPortalUrl">The portal url</param>
+        /// <param name="storageBlobEndpointFormat">Blob service endpoint</param>
+        /// <param name="storageQueueEndpointFormat">Queue service endpoint</param>
+        /// <param name="storageTableEndpointFormat">Table service endpoint</param>
+        public WindowsAzureEnvironment ChangeEnvironment(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageBlobEndpointFormat = null,
+            string storageQueueEndpointFormat = null,
+            string storageTableEndpointFormat = null)
+        {
+            if (EnvironmentExists(name) && !IsPublicEnvironment(name))
+            {
+                WindowsAzureEnvironment environment = GetEnvironment(name);
+                environment.PublishSettingsFileUrl = General.GetNonEmptyValue(
+                    environment.PublishSettingsFileUrl,
+                    publishSettingsFileUrl);
+                environment.ManagementPortalUrl = General.GetNonEmptyValue(
+                    environment.ManagementPortalUrl,
+                    managementPortalUrl);
+                environment.ServiceEndpoint = General.GetNonEmptyValue(environment.ServiceEndpoint, serviceEndpoint);
+                environment.StorageBlobEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageBlobEndpointFormat,
+                    storageBlobEndpointFormat);
+                environment.StorageQueueEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageQueueEndpointFormat,
+                    storageQueueEndpointFormat);
+                environment.StorageTableEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageTableEndpointFormat,
+                    storageTableEndpointFormat);
+                General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+
+                return environment;
+            }
+            else if (IsPublicEnvironment(name))
+            {
+                return GetEnvironment(name);
+            }
+            else
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
     }
 }
