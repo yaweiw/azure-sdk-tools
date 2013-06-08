@@ -1277,4 +1277,7 @@ Please follow these steps in the portal:
   <data name="StorageAccountNotFound" xml:space="preserve">
     <value>Cannot find storage account '{0}' please type the name of an existing storage account.</value>
   </data>
+  <data name="EnvironmentsFileName" xml:space="preserve">
+    <value>environments.xml</value>
+  </data>
 </root>
