@@ -587,7 +587,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         #region Export Database 
         
         public Func<SimpleServiceManagementAsyncResult, XmlElement> ExportDatabaseThunk { get; set; }
-        public IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state)
+        public IAsyncResult BeginExportDatabase(
+            string subscriptionId, 
+            string serverName, 
+            ExportInput input, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -602,7 +607,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         {
             if (ExportDatabaseThunk != null)
             {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                SimpleServiceManagementAsyncResult result = 
+                    asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
                 return ExportDatabaseThunk(result);

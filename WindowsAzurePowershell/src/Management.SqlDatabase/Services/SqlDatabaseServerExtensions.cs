@@ -125,9 +125,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             proxy.EndSetPassword(proxy.BeginSetPassword(subscriptionId, serverName, el, null, null));
         }
 
-        public static XmlElement ExportDatabase(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, ExportInput input)
+        /// <summary>
+        /// Exports a database into blob storage
+        /// </summary>
+        /// <param name="proxy">Channel used for communication with Azure's service management APIs.</param>
+        /// <param name="subscriptionId">The subscription ID in which the server resides</param>
+        /// <param name="serverName">The name of the server that contains the database</param>
+        /// <param name="input">The input data for the export operation</param>
+        /// <returns>An <see cref="XmlElement"/> containing the request ID (GUID).</returns>
+        public static XmlElement ExportDatabase(
+            this ISqlDatabaseManagement proxy, 
+            string subscriptionId, 
+            string serverName, 
+            ExportInput input)
         {
-            return proxy.EndExportDatabase(proxy.BeginExportDatabase(subscriptionId, serverName, input, null, null));
+            return proxy.EndExportDatabase(proxy.BeginExportDatabase(
+                subscriptionId, 
+                serverName, 
+                input, 
+                null, 
+                null));
         }
     }
 }
