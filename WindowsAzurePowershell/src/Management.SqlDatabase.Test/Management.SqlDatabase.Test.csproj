@@ -142,6 +142,7 @@
     <None Include="TestScripts\Database\CreateContext.ps1" />
     <None Include="TestScripts\Database\DeleteDatabase.ps1" />
     <None Include="TestScripts\Database\FormatValidation.ps1" />
+    <None Include="TestScripts\Database\ImportExportDatabase.ps1" />
     <None Include="TestScripts\Database\UpdateDatabase.ps1" />
     <None Include="TestScripts\Server\CreateGetDeleteServer.ps1" />
     <None Include="TestScripts\Server\CreateGetDropFirewall.ps1" />
