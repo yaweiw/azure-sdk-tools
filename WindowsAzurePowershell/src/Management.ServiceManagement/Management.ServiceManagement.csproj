@@ -242,9 +242,14 @@
     <Compile Include="IaaS\Disks\SetAzureDataDisk.cs" />
     <Compile Include="IaaS\Disks\SetAzureOSDisk.cs" />
     <Compile Include="IaaS\Endpoints\AddAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\GetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\GetAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\NewAzureAclConfig.cs" />
+    <Compile Include="IaaS\Endpoints\RemoveAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\RemoveAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\SetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\SetAzureLoadBalancedEndpoint.cs" />
     <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
@@ -295,6 +300,8 @@
     <Compile Include="Model\InputEndpointContext.cs" />
     <Compile Include="Model\IPersistentVM.cs" />
     <Compile Include="Model\LocationsContext.cs" />
+    <Compile Include="Model\NetworkAclObject.cs" />
+    <Compile Include="Model\NetworkAclRule.cs" />
     <Compile Include="Model\OSImageContext.cs" />
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />

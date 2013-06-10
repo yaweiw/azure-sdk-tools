@@ -15,27 +15,22 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
-    using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using System.Threading;
-    using Sync.Download;
-
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Auth;
-
+    using System.Security;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using System.Xml;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
-    using System.Diagnostics;
-    using System.Security;
-
-    using System.Xml;
-    using System.Text;
+    using Sync.Download;
 
     internal class Utilities 
     {
@@ -232,7 +227,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string TestAzureNameCmdletName = "Test-AzureName";
         
         public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
-        
+
+
+        public static string SetAzureAclConfigCmdletName = "Set-AzureAclConfig";
+
+        public static string NewAzureAclConfigCmdletName = "New-AzureAclConfig";
+
+        public static string GetAzureAclConfigCmdletName = "Get-AzureAclConfig";
+
+        public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
@@ -617,6 +620,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             string destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
             return (destinationSasUri + destinationBlobToken);
+        }
+
+        static public void RecordTimeTaken(ref DateTime prev)
+        {
+            var period = DateTime.Now - prev;
+            Console.WriteLine("{0} minutes {1} seconds and {2} ms passed...", period.Minutes.ToString(), period.Seconds.ToString(), period.Milliseconds.ToString());
+            prev = DateTime.Now;
         }
     }
 }

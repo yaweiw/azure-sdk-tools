@@ -16,22 +16,21 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using System.Threading;
+    using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
-
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using System.Collections.Generic;
-    using System.Xml;
-    using System.Text;
     
 
     [TestClass]
@@ -132,12 +131,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             string affinityName1 = Convert.ToString(TestContext.DataRow["affinityName1"]);
             string affinityLabel1 = Convert.ToString(TestContext.DataRow["affinityLabel1"]);
-            string location1 = Convert.ToString(TestContext.DataRow["location1"]);
+            string location1 = CheckLocation(Convert.ToString(TestContext.DataRow["location1"]));
             string description1 = Convert.ToString(TestContext.DataRow["description1"]);
 
             string affinityName2 = Convert.ToString(TestContext.DataRow["affinityName2"]);
             string affinityLabel2 = Convert.ToString(TestContext.DataRow["affinityLabel2"]);
-            string location2 = Convert.ToString(TestContext.DataRow["location2"]);
+            string location2 = CheckLocation(Convert.ToString(TestContext.DataRow["location2"]));
             string description2 = Convert.ToString(TestContext.DataRow["description2"]);
            
             try
@@ -674,180 +673,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
-
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
-        public void AzureEndpointTest()
-        {
-            createOwnService = false;
-            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
-            string ep1Name = "tcp1";
-            int ep1LocalPort = 60010;
-            int ep1PublicPort = 60011;
-            string ep1LBSetName = "lbset1";
-            int ep1ProbePort = 60012;
-            string ep1ProbePath = string.Empty;
-            int? ep1ProbeInterval = 7;
-            int? ep1ProbeTimeout = null;
-
-            string ep2Name = "tcp2";
-            int ep2LocalPort = 60020;
-            int ep2PublicPort = 60021;
-            int ep2LocalPortChanged = 60030;
-            int ep2PublicPortChanged = 60031;
-            string ep2LBSetName = "lbset2";
-            int ep2ProbePort = 60022;
-            string ep2ProbePath = string.Empty;
-            int? ep2ProbeInterval = null;
-            int? ep2ProbeTimeout = 32;
-
-
-            AzureEndPointConfigInfo ep1Info = new AzureEndPointConfigInfo(
-                ProtocolInfo.tcp, 
-                ep1LocalPort, 
-                ep1PublicPort, 
-                ep1Name,
-                ep1LBSetName,
-                ep1ProbePort,
-                ProtocolInfo.tcp,
-                ep1ProbePath,
-                ep1ProbeInterval,
-                ep1ProbeTimeout);
-
-            AzureEndPointConfigInfo ep2Info = new AzureEndPointConfigInfo(
-                ProtocolInfo.tcp, 
-                ep2LocalPort, 
-                ep2PublicPort, 
-                ep2Name,
-                ep2LBSetName,
-                ep2ProbePort,
-                ProtocolInfo.tcp,
-                ep2ProbePath,
-                ep2ProbeInterval,
-                ep2ProbeTimeout);
-
-            try
-            {
-                foreach (AzureEndPointConfigInfo.ParameterSet p in Enum.GetValues(typeof(AzureEndPointConfigInfo.ParameterSet)))
-                {
-                    string pSetName = Enum.GetName(typeof(AzureEndPointConfigInfo.ParameterSet), p);
-                    Console.WriteLine("--Begin Endpoint Test with '{0}' parameter set.", pSetName);
-
-                    ep1Info.ParamSet = p;
-                    ep2Info.ParamSet = p;
-                    ep2Info.EndpointLocalPort = ep2LocalPort;
-                    ep2Info.EndpointPublicPort = ep2PublicPort;
-
-                    // Add two new endpoints
-                    Console.WriteLine("-----Add 2 new endpoints.");
-                    vmPowershellCmdlets.AddEndPoint(defaultVm, defaultService, new[] { ep1Info, ep2Info }); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm                             
-                    CheckEndpoint(defaultVm, defaultService, new[] { ep1Info, ep2Info });
-
-                    // Change the endpoint
-                    Console.WriteLine("-----Change the second endpoint.");
-                    ep2Info.EndpointLocalPort = ep2LocalPortChanged;
-                    ep2Info.EndpointPublicPort = ep2PublicPortChanged;
-                    vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
-                    CheckEndpoint(defaultVm, defaultService, new[] { ep2Info });
-
-                    // Remove Endpoint
-                    Console.WriteLine("-----Remove endpoints.");
-                    vmPowershellCmdlets.RemoveEndPoint(defaultVm, defaultService, new[] { ep1Name, ep2Name }); // Remove-AzureEndpoint                
-                    CheckEndpointRemoved(defaultVm, defaultService, new[] { ep1Info, ep2Info });
-
-                    Console.WriteLine("Endpoint Test passed with '{0}' parameter set.", pSetName);
-                }
-                
-                pass = true;
-
-            }
-            catch (Exception e)
-            {
-                pass = false;
-                Assert.Fail("Exception occurred: {0}", e.ToString());
-            }            
-        }
-
-        private bool CheckEndpoint(string vmName, string serviceName, AzureEndPointConfigInfo [] epInfos)
-        {
-            var serverEndpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName));
-            
-            // List the endpoints found for debugging.
-            Console.WriteLine("***** Checking for Endpoints **************************************************");
-            Console.WriteLine("***** Listing Returned Endpoints");
-            foreach (InputEndpointContext ep in serverEndpoints)
-            {
-                Console.WriteLine("Endpoint - Name:{0} Protocol:{1} Port:{2} LocalPort:{3} Vip:{4}", ep.Name, ep.Protocol, ep.Port, ep.LocalPort, ep.Vip);
-                
-                if (!string.IsNullOrEmpty(ep.LBSetName))
-                {
-                    Console.WriteLine("\t- LBSetName:{0}", ep.LBSetName);
-                    Console.WriteLine("\t- Probe - Port:{0} Protocol:{1} Interval:{2} Timeout:{3}", ep.ProbePort, ep.ProbeProtocol, ep.ProbeIntervalInSeconds, ep.ProbeTimeoutInSeconds);
-                }
-            }
-
-            Console.WriteLine("*******************************************************************************");
-
-            // Check if the specified endpoints were found.
-            foreach (AzureEndPointConfigInfo epInfo in epInfos)
-            {
-                bool found = false;
-
-                foreach (InputEndpointContext ep in serverEndpoints)
-                {
-                    if (epInfo.CheckInputEndpointContext(ep))
-                    {
-                        found = true;
-                        Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
-                    }
-                }
-                
-                Assert.IsTrue(found, string.Format("Error: Endpoint '{0}' was not found!", epInfo.EndpointName));
-            }
-
-            return true;
-        }
-
-        private bool CheckEndpointRemoved(string vmName, string serviceName, AzureEndPointConfigInfo[] epInfos)
-        {
-            var serverEndpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName));
-
-            // List the endpoints found for debugging.
-            Console.WriteLine("***** Checking for Removed Endpoints ******************************************");
-            Console.WriteLine("***** Listing Returned Endpoints");
-            foreach (InputEndpointContext ep in serverEndpoints)
-            {
-                Console.WriteLine("Endpoint - Name:{0} Protocol:{1} Port:{2} LocalPort:{3} Vip:{4}", ep.Name, ep.Protocol, ep.Port, ep.LocalPort, ep.Vip);
-
-                if (!string.IsNullOrEmpty(ep.LBSetName))
-                {
-                    Console.WriteLine("\t- LBSetName:{0}", ep.LBSetName);
-                    Console.WriteLine("\t- Probe - Port:{0} Protocol:{1} Interval:{2} Timeout:{3}", ep.ProbePort, ep.ProbeProtocol, ep.ProbeIntervalInSeconds, ep.ProbeTimeoutInSeconds);
-                }
-            }
-
-            Console.WriteLine("*******************************************************************************");
-
-            // Check if the specified endpoints were found.
-            foreach (AzureEndPointConfigInfo epInfo in epInfos)
-            {
-                bool found = false;
-
-                foreach (InputEndpointContext ep in serverEndpoints)
-                {
-                    if (epInfo.CheckInputEndpointContext(ep))
-                    {
-                        found = true;
-                        Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
-                    }
-                }
-
-                Assert.IsFalse(found, string.Format("Error: Endpoint '{0}' was found!", epInfo.EndpointName));
-            }
-
-            return true;
-        }
-
+       
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
         public void AzureAvailabilitySetTest()
         {
@@ -1373,8 +1199,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             string storageAccountPrefix = Convert.ToString(TestContext.DataRow["NamePrefix"]);
-            string locationName1 = Convert.ToString(TestContext.DataRow["Location1"]);
-            string locationName2 = Convert.ToString(TestContext.DataRow["Location2"]);
+            string locationName1 = CheckLocation(Convert.ToString(TestContext.DataRow["Location1"]));
+            string locationName2 = CheckLocation(Convert.ToString(TestContext.DataRow["Location2"]));
             string affinityGroupName = Convert.ToString(TestContext.DataRow["AffinityGroupName"]);
 
             string[] label = new string[3] {
@@ -1540,33 +1366,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             string oldLabel = "old label";
-            string newLabel = "new label";            
+            string newLabel = "new label";
 
             try
-            {                
+            {
                 OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, oldLabel);
-                
 
-                OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];                
-
+                OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
                 result = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, newLabel);
 
                 resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
-
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
-               
-                vmPowershellCmdlets.RemoveAzureVMImage(newImageName);
+
+                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName));
 
                 pass = true;
-
             }
             catch (Exception e)
             {
                 pass = false;
                 Assert.Fail("Exception occurred: {0}", e.ToString());
-            }            
+            }
+            finally
+            {
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName))
+                {
+                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                }
+            }
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
@@ -1625,6 +1455,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        [Ignore]
         public void VMSizeTest()
         {
 
@@ -1728,6 +1559,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     vmPowershellCmdlets.RemoveAzureVM(a6VmName, a6ServiceName);
                 }
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureService, a6ServiceName))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(a6ServiceName);
+                }
             }
         }
 
@@ -1820,6 +1655,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             catch (Exception e)
             {
                 Console.WriteLine("Error during removing VM: {0}", e.ToString());
+            }
+        }
+
+        private string CheckLocation(string loc)
+        {
+            string checkLoc = vmPowershellCmdlets.GetAzureLocationName(new string[] { loc });
+            if (string.IsNullOrEmpty(checkLoc))
+            {
+                foreach (LocationsContext l in vmPowershellCmdlets.GetAzureLocation())
+                {
+                    if (l.AvailableServices.Contains("Storage"))
+                    {
+                        return l.Name;
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                return checkLoc;
             }
         }
     }

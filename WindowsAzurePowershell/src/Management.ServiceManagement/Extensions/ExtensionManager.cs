@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected IServiceManagement Channel { get; private set; }
         protected string SubscriptionId { get; private set; }
         protected string ServiceName { get; private set; }
+        protected HostedServiceExtensionList ExtendedExtensionList { get; private set; }
 
         public ExtensionManager(ServiceManagementBaseCmdlet cmdlet, string serviceName)
         {
@@ -58,7 +59,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public HostedServiceExtension GetExtension(string extensionId)
         {
-            return Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName).Find(e => e.Id == extensionId);
+            if (ExtendedExtensionList == null)
+            {
+                ExtendedExtensionList = Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName);
+            }
+            return ExtendedExtensionList == null ? null : ExtendedExtensionList.Find(e => e.Id == extensionId);
         }
 
         public void DeleteExtension(string extensionId)
@@ -109,15 +114,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 thumbprint = extensionList.First().Thumbprint;
                 thumbprintAlgorithm = extensionList.First().ThumbprintAlgorithm;
             }
-
-            string extThumbprint = thumbprint;
-            var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
-            var cert = certList.Find(c =>
+            else if (ExtendedExtensionList != null && ExtendedExtensionList.Any())
             {
-                if (string.IsNullOrWhiteSpace(extThumbprint))
-                {
-                    return true;
-                }
+                thumbprint = ExtendedExtensionList.First().Thumbprint;
+                thumbprintAlgorithm = ExtendedExtensionList.First().ThumbprintAlgorithm;
+            }
+
+            var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
+            string extThumbprint = thumbprint;
+            string extThumbprintAlgorithm = thumbprintAlgorithm;
+            var cert = certList.Find(c => c.Thumbprint == extThumbprint && c.ThumbprintAlgorithm == extThumbprintAlgorithm);
+            cert = cert != null ? cert : certList.Find(c =>
+            {
                 byte[] bytes = Encoding.ASCII.GetBytes(c.Data);
                 X509Certificate2 x509cert = null;
                 try
@@ -128,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     // Do nothing
                 }
-                return x509cert != null && x509cert.HasPrivateKey && ExtensionCertificateSubject.Equals(x509cert.Subject);
+                return x509cert != null && ExtensionCertificateSubject.Equals(x509cert.Subject);
             });
 
             if (cert != null)
@@ -138,8 +146,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                thumbprint = "";
-                thumbprintAlgorithm = "";
+                thumbprint = string.Empty;
+                thumbprintAlgorithm = string.Empty;
             }
         }
 

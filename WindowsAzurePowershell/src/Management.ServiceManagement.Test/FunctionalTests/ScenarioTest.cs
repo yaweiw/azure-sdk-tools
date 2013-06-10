@@ -19,23 +19,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Management.Automation;
     using System.Net;
     using System.Net.Cache;
     using System.Reflection;
     using System.Text;
     using System.Threading;
+    using System.Xml;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Service.Gateway;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
-
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using System.Xml;
-    using System.Management.Automation;
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
@@ -85,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
                      
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSLinuxVM");
-            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "testvmimage" }, false);
+            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "Ubuntu", "testvmimage" }, false);
 
             vmPowershellCmdlets.NewAzureQuickLinuxVM(OS.Linux, newAzureQuickVMName, serviceName, linuxImageName, "user", password, locationName);
 
@@ -142,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
             AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
             AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustonProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
 
             PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
             PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
@@ -178,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
             AddAzureDataDiskConfig azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 1433, 2000, "sql");
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 1433, 2000, "sql");
             AddAzureDataDiskConfig[] dataDiskConfig = { azureDataDiskConfigInfo1, azureDataDiskConfigInfo2 };
             vmPowershellCmdlets.AddVMDataDisksAndEndPoint(newAzureQuickVMName, serviceName, dataDiskConfig, azureEndPointConfigInfo);
 
@@ -330,7 +329,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.AreEqual(vmRoleCtxt.Name, persistentVM.RoleName, true);
 
 
-            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName); // Stop-AzureVM
+            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName, true); // Stop-AzureVM
             for (int i = 0; i < 3; i++)
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);

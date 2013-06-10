@@ -15,17 +15,17 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System.Collections.ObjectModel;
-
-    using System.Diagnostics;
     using System.Collections.Specialized;
+    using System.Management.Automation;
+    using System.Threading;
 
     [TestClass]
     public class ServiceManagementTest
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         protected static string locationName;
         protected static string imageName;
-        
+
         protected bool pass;
         protected string testName;
         protected DateTime testStartTime;
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         public static void SetTestSettings()
-        {            
+        {
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             CredentialHelper.GetTestSettings(Resource.TestSettings);
 
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(CredentialHelper.PublishSettingsFile);
 
             if (string.IsNullOrEmpty(CredentialHelper.DefaultSubscriptionName))
-            {                                
+            {
                 defaultAzureSubscription = vmPowershellCmdlets.GetCurrentAzureSubscription();
                 if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
                 {
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             else
             {
                 defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
-            }                         
+            }
 
             locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }); // Get-AzureLocation
             if (String.IsNullOrEmpty(locationName))
@@ -159,7 +159,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         protected void StartTest(string testname, DateTime testStartTime)
-        {            
+        {
             Console.WriteLine("{0} test starts at {1}", testname, testStartTime);
         }
 
@@ -238,7 +238,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string srcSasUri = Utilities.GenerateSasUri(CredentialHelper.CredentialBlobUriFormat, storageAccount, storageAccountKey, srcContainer, srcBlob);
 
             vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
-            vmPowershellCmdlets.RunPSScript(string.Format("Get-AzureStorageBlobCopyState -Container {0} -Blob {1}", destContainer, destBlob));
+            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
+
+            for (int i = 0; i < 60; i++)
+            {
+                var result = vmPowershellCmdlets.CheckCopyBlobStatus(destContainer, destBlob);
+                if (result.Status.ToString().Equals("Success"))
+                {
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(10 * 1000);
+                }
+            }
         }
     }
 }

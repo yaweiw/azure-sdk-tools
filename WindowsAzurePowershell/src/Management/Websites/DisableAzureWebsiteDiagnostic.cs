@@ -20,64 +20,35 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    //[Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
-    public class DisableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
+    public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
-        private const string SiteParameterSetName = "SiteParameterSet";
+        private const string FileParameterSetName = "FileParameterSet";
 
-        private const string ApplicationParameterSetName = "ApplicationParameterSet";
+        private const string StorageParameterSetName = "StorageParameterSet";
 
         public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = true)]
-        public WebsiteDiagnosticType Type { get; set; }
+        [Parameter(Mandatory = true, ParameterSetName = FileParameterSetName)]
+        public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter WebServerLogging { get; set; }
-
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter DetailedErrorMessages { get; set; }
-
-        [Parameter(Mandatory = false, ParameterSetName = SiteParameterSetName)]
-        public SwitchParameter FailedRequestTracing { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = ApplicationParameterSetName)]
-        public WebsiteDiagnosticOutput Output { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the DisableAzureWebsiteDiagnosticCommand class.
-        /// </summary>
-        public DisableAzureWebsiteDiagnosticCommand()
-            : this(null)
-        {
-        }
-
-        public DisableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        [Parameter(Mandatory = true, ParameterSetName = StorageParameterSetName)]
+        public SwitchParameter Storage { get; set; }
 
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
-            switch (Type)
+            if (File.IsPresent)
             {
-                case WebsiteDiagnosticType.Site:
-                    WebsitesClient.DisableSiteDiagnostic(
-                        Name,
-                        WebServerLogging,
-                        DetailedErrorMessages,
-                        FailedRequestTracing);
-                    break;
-                case WebsiteDiagnosticType.Application:
-                    WebsitesClient.DisableApplicationDiagnostic(Name, Output);
-                    break;
-                default:
-                    throw new PSArgumentException();
+                WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
+            }
+            else if (Storage.IsPresent)
+            {
+                WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
             }
 
             if (PassThru.IsPresent)
