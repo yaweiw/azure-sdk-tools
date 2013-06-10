@@ -96,22 +96,25 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
         }
 
         [TestMethod]
-        public void IgnoresSetingPublicEnvironment()
+        public void IgnoresSettingPublicEnvironment()
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
+
+            foreach (string name in WindowsAzureEnvironment.PublicEnvironments.Keys)
             {
-                CommandRuntime = commandRuntimeMock.Object,
-                Name = EnvironmentName.AzureCloud,
-                PublishSettingsFileUrl = "http://microsoft.com"
-            };
+                SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
+                {
+                    CommandRuntime = commandRuntimeMock.Object,
+                    Name = name,
+                    PublishSettingsFileUrl = "http://microsoft.com"
+                };
 
-            cmdlet.ExecuteCmdlet();
+                cmdlet.ExecuteCmdlet();
 
-            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
-            Assert.AreEqual(
-                WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
-                GlobalSettingsManager.Instance.GetEnvironment(EnvironmentName.AzureCloud).PublishSettingsFileUrl);
+                Assert.AreNotEqual(
+                    "http://microsoft.com",
+                    GlobalSettingsManager.Instance.GetEnvironment(name).PublishSettingsFileUrl);
+            }
         }
     }
 }
