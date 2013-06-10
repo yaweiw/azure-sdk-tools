@@ -380,6 +380,26 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return Environments.Values.ToList();
         }
 
+        public WindowsAzureEnvironment AddEnvironmentStorageEndpoint(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageEndpoint = null)
+        {
+            string storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
+            string storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
+            string storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
+ 
+            return AddEnvironment(
+                name,
+                publishSettingsFileUrl,
+                serviceEndpoint,
+                managementPortalUrl,
+                storageBlobEndpointFormat,
+                storageQueueEndpointFormat,
+                storageTableEndpointFormat);
+        }
+
         /// <summary>
         /// Adds new Windows Azure environment.
         /// </summary>
