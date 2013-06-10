@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
@@ -110,18 +111,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
 
             // Add again
             cmdlet.Name = "kAtAl";
-            cmdlet.ExecuteCmdlet();
-
-            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Exactly(2));
-            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("kAtAl");
-            Assert.AreEqual(env.Name.ToLower(), cmdlet.Name.ToLower());
-            Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
-            Assert.AreEqual(env.ServiceEndpoint, cmdlet.ServiceEndpoint);
-            Assert.AreEqual(env.ManagementPortalUrl, cmdlet.ManagementPortalUrl);
-            Assert.AreEqual(env.StorageBlobEndpointFormat, cmdlet.StorageBlobEndpointFormat);
-            Assert.AreEqual(env.StorageQueueEndpointFormat, cmdlet.StorageQueueEndpointFormat);
-            Assert.AreEqual(env.StorageTableEndpointFormat, cmdlet.StorageTableEndpointFormat);
-            Assert.AreEqual(count, GlobalSettingsManager.Instance.GetEnvironments().Count);
+            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
         }
 
         [TestMethod]
@@ -136,10 +126,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
             };
             int count = GlobalSettingsManager.Instance.GetEnvironments().Count;
 
-            cmdlet.ExecuteCmdlet();
-
-            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
-            Assert.AreEqual(count, GlobalSettingsManager.Instance.GetEnvironments().Count);
+            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
         }
     }
 }
