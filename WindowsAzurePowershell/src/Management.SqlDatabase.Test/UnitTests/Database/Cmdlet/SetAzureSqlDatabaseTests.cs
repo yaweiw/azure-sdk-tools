@@ -19,12 +19,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
 
     [TestClass]
     public class SetAzureSqlDatabaseTests : TestBase
@@ -45,6 +45,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
@@ -119,7 +120,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             //get the necessary database information for the delete.
             channel.GetDatabaseThunk = ar =>
             {
-                Assert.AreEqual(ar.Values["databaseName"], "testdb1", "The input databaseName (for get) did not match the expected");
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName (for get) did not match the expected");
 
                 SqlDatabaseResponse db1 = new SqlDatabaseResponse();
                 db1.CollationName = "Japanese_CI_AS";
@@ -137,15 +141,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             channel.UpdateDatabaseThunk = ar =>
             {
-                Assert.AreEqual("testdb1", ar.Values["databaseName"], "The input databaseName (for update) did not match the expected");
+                Assert.AreEqual(
+                    "testdb1", 
+                    ar.Values["databaseName"], 
+                    "The input databaseName (for update) did not match the expected");
 
-                Assert.AreEqual("testdb1", ((SqlDatabaseInput)ar.Values["input"]).Name,
+                Assert.AreEqual(
+                    "testdb1", 
+                    ((SqlDatabaseInput)ar.Values["input"]).Name,
                     "The database Name input parameter does not match");
-                Assert.AreEqual("5", ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
+                Assert.AreEqual(
+                    "5", 
+                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
                     "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual("Japanese_CI_AS", ((SqlDatabaseInput)ar.Values["input"]).CollationName,
+                Assert.AreEqual(
+                    "Japanese_CI_AS", 
+                    ((SqlDatabaseInput)ar.Values["input"]).CollationName,
                     "The database CollationName input parameter does not match");
-                Assert.AreEqual("Web", ((SqlDatabaseInput)ar.Values["input"]).Edition,
+                Assert.AreEqual(
+                    "Web", 
+                    ((SqlDatabaseInput)ar.Values["input"]).Edition,
                     "The database Edition input parameter does not match");
 
                 SqlDatabaseResponse response = new SqlDatabaseResponse();
@@ -167,20 +182,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
             Database database = service.UpdateDatabase("testdb1", "testdb1", 5, null);
 
-            Assert.AreEqual(database.CollationName, "Japanese_CI_AS",
+            Assert.AreEqual(
+                database.CollationName, 
+                "Japanese_CI_AS",
                 "The updated database collation name is wrong");
-            Assert.AreEqual(database.Edition, "Web",
+            Assert.AreEqual(
+                database.Edition, 
+                "Web",
                 "The updated database Edition is wrong");
-            Assert.AreEqual(database.MaxSizeGB, 5,
+            Assert.AreEqual(
+                database.MaxSizeGB, 
+                5,
                 "The updated database Edition is wrong");
-            Assert.AreEqual(database.Name, "testdb1",
+            Assert.AreEqual(
+                database.Name, 
+                "testdb1",
                 "The updated database Edition is wrong");
-
         }
 
         [TestMethod]
@@ -193,6 +216,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
@@ -267,7 +291,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             //get the necessary database information for the delete.
             channel.GetDatabaseThunk = ar =>
             {
-                Assert.AreEqual(ar.Values["databaseName"], "testdb1", "The input databaseName (for get) did not match the expected");
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName (for get) did not match the expected");
 
                 SqlDatabaseResponse db1 = new SqlDatabaseResponse();
                 db1.CollationName = "Japanese_CI_AS";
@@ -285,15 +312,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             channel.UpdateDatabaseThunk = ar =>
             {
-                Assert.AreEqual("testdb1", ar.Values["databaseName"], "The input databaseName (for update) did not match the expected");
+                Assert.AreEqual(
+                    "testdb1", 
+                    ar.Values["databaseName"], 
+                    "The input databaseName (for update) did not match the expected");
 
-                Assert.AreEqual("newTestDb1", ((SqlDatabaseInput)ar.Values["input"]).Name,
+                Assert.AreEqual(
+                    "newTestDb1", 
+                    ((SqlDatabaseInput)ar.Values["input"]).Name,
                     "The database Name input parameter does not match");
-                Assert.AreEqual("1", ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
+                Assert.AreEqual(
+                    "1", 
+                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
                     "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual("Japanese_CI_AS", ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
+                Assert.AreEqual(
+                    "Japanese_CI_AS", 
+                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
                     "The database CollationName input parameter does not match");
-                Assert.AreEqual("Web", ((SqlDatabaseInput)ar.Values["input"]).Edition,
+                Assert.AreEqual(
+                    "Web", 
+                    ((SqlDatabaseInput)ar.Values["input"]).Edition,
                     "The database Edition input parameter does not match");
 
                 SqlDatabaseResponse response = new SqlDatabaseResponse();
@@ -315,18 +353,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
             Database database = service.UpdateDatabase("testdb1", "newTestDb1", null, null);
 
-            Assert.AreEqual(database.CollationName, "Japanese_CI_AS",
+            Assert.AreEqual(
+                database.CollationName, 
+                "Japanese_CI_AS",
                 "The updated database collation name is wrong");
-            Assert.AreEqual(database.Edition, "Web",
+            Assert.AreEqual(
+                database.Edition, 
+                "Web",
                 "The updated database Edition is wrong");
-            Assert.AreEqual(database.MaxSizeGB, 1,
+            Assert.AreEqual(
+                database.MaxSizeGB, 
+                1,
                 "The updated database Edition is wrong");
-            Assert.AreEqual(database.Name, "newTestDb1",
+            Assert.AreEqual
+                (database.Name, 
+                "newTestDb1",
                 "The updated database Edition is wrong");
         }
     }

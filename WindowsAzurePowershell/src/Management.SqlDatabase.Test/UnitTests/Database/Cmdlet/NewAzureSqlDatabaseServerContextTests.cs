@@ -159,7 +159,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
 
             NewAzureSqlDatabaseServerContext serverContext = new NewAzureSqlDatabaseServerContext();
-            ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth("testServer", subscriptionData);
+            ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth(
+                "testServer", 
+                subscriptionData);
 
             Assert.IsNotNull(service, "The ServerDataServiceCertAuth object returned from "
                 + "NewAzureSqlDatabaseServerContext.GetServerDataServiceByCertAuth is null");

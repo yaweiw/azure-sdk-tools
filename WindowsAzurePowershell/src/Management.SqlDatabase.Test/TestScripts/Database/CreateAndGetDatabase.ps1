@@ -59,27 +59,27 @@ Try
     Write-Output "Creating Database $Name ..."
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     Write-Output "Done"
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+		-ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
     #Get Database by database name
     $database = Get-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+        -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
     #Get Database by database name
     $database = Get-AzureSqlDatabase $context -DatabaseName $Name
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+        -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
     #Get Database by database name
     $database = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $Name
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+        -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
 
     # Create Database with all optional parameters

@@ -297,7 +297,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
 
         public Func<SimpleServiceManagementAsyncResult, SqlDatabaseList> GetDatabasesThunk { get; set; }
-        public IAsyncResult BeginGetDatabases(string subscriptionId, string serverName, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetDatabases(
+            string subscriptionId, 
+            string serverName, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             
@@ -326,7 +330,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> GetDatabaseThunk { get; set; }
-        public IAsyncResult BeginGetDatabase(string subscriptionId, string serverName, string databaseName, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             
@@ -356,7 +365,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> NewDatabaseThunk { get; set; }
-        public IAsyncResult BeginNewDatabase(string subscriptionId, string serverName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        public IAsyncResult BeginNewDatabase(
+            string subscriptionId, 
+            string serverName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             
@@ -386,7 +400,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> UpdateDatabaseThunk { get; set; }
-        public IAsyncResult BeginUpdateDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             
@@ -417,7 +437,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         public Action<SimpleServiceManagementAsyncResult> RemoveDatabaseThunk { get; set; }
-        public IAsyncResult BeginRemoveDatabase(string subscriptionId, string serverName, string databaseName, SqlDatabaseInput input, AsyncCallback callback, object state)
+        public IAsyncResult BeginRemoveDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             

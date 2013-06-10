@@ -43,7 +43,8 @@ Write-Output "`$Password=$Password"
 Try
 {
 	Init-TestEnvironment
-    $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
+    $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName `
+		-Password $Password
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     $edition = "Business"
     $maxSizeGB = "10"
@@ -54,9 +55,10 @@ Try
     Write-Output "Done"
 
     $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $database.Name
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
+        $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+        $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+		$database.IsSystemObject
     
     # Update with database name
     $edition = "Web"
@@ -67,9 +69,10 @@ Try
     Write-Output "Done"
 
     $updatedDatabase = Get-AzureSqlDatabase $context -Database $database
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
+            $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+            $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+			$database.IsSystemObject
     
     #Rename a database
     $NewName = $Name + "-updated"
@@ -77,14 +80,16 @@ Try
     Write-Output "Renaming a database from $Name to $NewName..."
     $updatedDatabase = Set-AzureSqlDatabase $context $database -NewName $NewName -PassThr -Force
     Write-Output "Done"
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
+            $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB `
+            -ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
+			-ExpectedIsSystemObject $database.IsSystemObject
 
     $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
+            $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+            $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+			$database.IsSystemObject
     
     $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not Renamed"
