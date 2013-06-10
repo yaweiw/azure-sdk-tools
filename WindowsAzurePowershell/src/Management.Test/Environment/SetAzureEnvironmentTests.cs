@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class AddAzureEnvironmentTests : TestBase
+    public class SetAzureEnvironmentTests : TestBase
     {
         private FileSystemHelper helper;
 
@@ -44,13 +44,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
         }
 
         [TestMethod]
-        public void AddsAzureEnvironment()
+        public void SetsAzureEnvironment()
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
+            string name = "Katal";
+            GlobalSettingsManager.Instance.AddEnvironment(name, "publish file url");
+            SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                Name = "Katal",
+                Name = "KATaL",
                 PublishSettingsFileUrl = "http://microsoft.com",
                 ServiceEndpoint = "endpoint",
                 ManagementPortalUrl = "management portal url",
@@ -63,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
 
             commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
             WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
-            Assert.AreEqual(env.Name, cmdlet.Name);
+            Assert.AreEqual(env.Name.ToLower(), cmdlet.Name.ToLower());
             Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
             Assert.AreEqual(env.ServiceEndpoint, cmdlet.ServiceEndpoint);
             Assert.AreEqual(env.ManagementPortalUrl, cmdlet.ManagementPortalUrl);
@@ -73,29 +75,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
         }
 
         [TestMethod]
-        public void AddsEnvironmentWithMinimumInformation()
+        public void FailsForNonExistingEnvironments()
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
-            {
-                CommandRuntime = commandRuntimeMock.Object,
-                Name = "Katal",
-                PublishSettingsFileUrl = "http://microsoft.com"
-            };
-
-            cmdlet.ExecuteCmdlet();
-
-            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
-            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
-            Assert.AreEqual(env.Name, cmdlet.Name);
-            Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
-        }
-
-        [TestMethod]
-        public void IgnoresAddingDuplicatedEnvironment()
-        {
-            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
+            SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = "Katal",
@@ -106,27 +89,32 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
                 StorageQueueEndpointFormat = "queue format",
                 StorageTableEndpointFormat = "table format"
             };
-            cmdlet.ExecuteCmdlet();
-            int count = GlobalSettingsManager.Instance.GetEnvironments().Count;
 
-            // Add again
-            cmdlet.Name = "kAtAl";
-            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
+            Testing.AssertThrows<KeyNotFoundException>(
+                () => cmdlet.ExecuteCmdlet(),
+                string.Format(Resources.EnvironmentNotFound, "Katal"));
         }
 
         [TestMethod]
-        public void IgnoresAddingPublicEnvironment()
+        public void IgnoresSettingPublicEnvironment()
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
-            {
-                CommandRuntime = commandRuntimeMock.Object,
-                Name = EnvironmentName.AzureCloud,
-                PublishSettingsFileUrl = "http://microsoft.com"
-            };
-            int count = GlobalSettingsManager.Instance.GetEnvironments().Count;
 
-            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
+            foreach (string name in WindowsAzureEnvironment.PublicEnvironments.Keys)
+            {
+                SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
+                {
+                    CommandRuntime = commandRuntimeMock.Object,
+                    Name = name,
+                    PublishSettingsFileUrl = "http://microsoft.com"
+                };
+
+                cmdlet.ExecuteCmdlet();
+
+                Assert.AreNotEqual(
+                    "http://microsoft.com",
+                    GlobalSettingsManager.Instance.GetEnvironment(name).PublishSettingsFileUrl);
+            }
         }
     }
 }
