@@ -140,6 +140,7 @@
     <None Include="MSSharedLibKey.snk" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
+    <Compile Include="Database\Cmdlet\ImportAzureSqlDatabase.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Services\ImportExport\BlobStorageAccessKeyCredentials.cs" />
     <Compile Include="Services\ImportExport\ConnectionInfo.cs" />
     <Compile Include="Services\ImportExport\ExportInput.cs" />
+    <Compile Include="Services\ImportExport\ImportInput.cs" />
     <Compile Include="Services\ImportExport\ImportExportRequest.cs" />
     <Compile Include="Services\ImportExport\StatusInfo.cs" />
     <Compile Include="Services\ServerQuotaListResponse.cs" />

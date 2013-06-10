@@ -641,6 +641,45 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         
         #endregion
 
+        #region Import Database
+
+        public Func<SimpleServiceManagementAsyncResult, XmlElement> ImportDatabaseThunk { get; set; }
+        public IAsyncResult BeginImportDatabase(
+            string subscriptionId,
+            string serverName,
+            ImportInput input,
+            AsyncCallback callback,
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public XmlElement EndImportDatabase(IAsyncResult asyncResult)
+        {
+            if (ImportDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result =
+                    asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return ImportDatabaseThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ImportDatabaseThunk is not implemented!");
+            }
+
+            return default(XmlElement);
+        }
+
+        #endregion
+
         #endregion
     }
 }

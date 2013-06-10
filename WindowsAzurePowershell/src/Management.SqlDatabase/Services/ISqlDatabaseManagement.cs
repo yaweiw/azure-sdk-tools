@@ -241,12 +241,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <param name="state">the state object</param>
         /// <returns>An <see cref="IAsyncResult"/> for the web request</returns>
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", 
+        [WebInvoke(Method = "POST",
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
         IAsyncResult BeginExportDatabase(
-            string subscriptionId, 
-            string serverName, 
-            ExportInput input, 
+            string subscriptionId,
+            string serverName,
+            ExportInput input,
             AsyncCallback callback,
             object state);
 
@@ -257,5 +257,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// BeginExportDatabase</param>
         /// <returns>An <see cref="XmlElement"/> that contains the request ID of the operation</returns>
         XmlElement EndExportDatabase(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Initiates importing a database from blob storage
+        /// </summary>
+        /// <param name="subscriptionId">The subscription id that the server belongs to</param>
+        /// <param name="serverName">The name of the server to import the database into</param>
+        /// <param name="input">An <see cref="ExportInput"/> object containing connection info</param>
+        /// <param name="callback">The async callback object</param>
+        /// <param name="state">the state object</param>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST",
+            UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Import")]
+        IAsyncResult BeginImportDatabase(
+            string subscriptionId,
+            string serverName,
+            ImportInput input,
+            AsyncCallback callback,
+            object state);
+
+        XmlElement EndImportDatabase(IAsyncResult asyncResult);
     }
 }

@@ -146,5 +146,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
                 null, 
                 null));
         }
+
+        /// <summary>
+        /// Imports a database from blob storage
+        /// </summary>
+        /// <param name="proxy">Channel used for communication with Azure's service management APIs</param>
+        /// <param name="subscriptionId">The subscription ID in which the server resides</param>
+        /// <param name="serverName">The name of the server to put the database in</param>
+        /// <param name="input">The input data for the import operation</param>
+        /// <returns>An <see cref="XmlElement"/> containing the request ID (GUID).</returns>
+        public static XmlElement ImportDatabase(
+            this ISqlDatabaseManagement proxy,
+            string subscriptionId,
+            string serverName,
+            ImportInput input)
+        {
+            return proxy.EndImportDatabase(proxy.BeginImportDatabase(
+                subscriptionId,
+                serverName,
+                input,
+                null,
+                null));
+        }
     }
 }
