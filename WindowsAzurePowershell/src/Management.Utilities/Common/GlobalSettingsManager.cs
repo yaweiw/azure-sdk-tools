@@ -405,8 +405,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
                 return environment;
             }
-
-            return GetEnvironment(name);
+            else
+            {
+                throw new Exception(string.Format(Resources.EnvironmentExists, name));
+            }
         }
 
         /// <summary>
