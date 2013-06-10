@@ -12,12 +12,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-Write-Host `
-"For a list of all Azure cmdlets type 'help azure'.
-For Node.js cmdlets type 'help node-dev'.
-For PHP cmdlets type 'help php-dev'.
-For Python cmdlets type 'help python-dev'."
-
 # Common alias
 New-Alias Get-WAPackPublishSettingsFile Get-AzurePublishSettingsFile
 New-Alias Get-WAPackSubscription Get-AzureSubscription
