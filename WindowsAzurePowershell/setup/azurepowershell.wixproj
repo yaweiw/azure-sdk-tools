@@ -26,8 +26,6 @@
     <SuppressSpecificWarnings>
     </SuppressSpecificWarnings>
     <SuppressIces>ICE30;ICE91;ICE64;ICE61;ICE69</SuppressIces>
-    <DefineConstants>
-    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
