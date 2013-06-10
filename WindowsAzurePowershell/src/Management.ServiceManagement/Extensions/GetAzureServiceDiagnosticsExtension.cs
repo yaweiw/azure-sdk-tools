@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                              select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
                     return from role in extensionRoleList
                            from extension in extensions
-                           where ExtensionManager.CheckNameSpaceType(extension.Id, ExtensionNameSpace, ExtensionType)
+                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new DiagnosticExtensionContext
                            {

@@ -522,7 +522,15 @@
   <data name="ServiceExtensionUploadingCertificate" xml:space="preserve">
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
-  <data name="ServiceExtensionCannotFindStorageAccount" xml:space="preserve">
+  <data name="DeploymentVIPLossWarning" xml:space="preserve">
+    <value>The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned.</value>
+  </data>
+  <data name="DeprovisioningVM" xml:space="preserve">
+    <value>Deprovisioning the VM: {0} </value>
+  </data>  <data name="EndpointsCannotBeFoundWithGivenLBSetName" xml:space="preserve">
+    <value>An endpoint cannot be found with the given load balancer set name '{0}'.</value>
+  </data>
+    <data name="ServiceExtensionCannotFindStorageAccount" xml:space="preserve">
     <value>Cannot find storage account for the account name: {0}.</value>
   </data>
   <data name="ServiceExtensionSettingForSpecificRole" xml:space="preserve">
@@ -540,4 +548,4 @@
   <data name="ServiceExtensionRemovingFromSpecificRoles" xml:space="preserve">
     <value>Removing {0} configuration for {1} from Cloud Service {2}.</value>
   </data>
-</root>
+  </root>

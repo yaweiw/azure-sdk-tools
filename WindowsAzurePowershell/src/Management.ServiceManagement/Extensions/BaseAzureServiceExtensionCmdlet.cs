@@ -29,8 +29,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     {
         protected const string PublicConfigStr = "PublicConfig";
         protected const string PrivateConfigStr = "PrivateConfig";
-        protected const string ConfigXmlAttributeStr = "name";
         protected const string ChangeConfigurationModeStr = "Auto";
+        protected const string XmlNameSpaceAttributeStr = "xmlns";
 
         protected ExtensionManager ExtensionManager { get; set; }
         protected string ExtensionNameSpace { get; set; }
@@ -169,6 +169,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         if (value.GetType().Equals(typeof(XmlDocument)))
                         {
                             e.ReplaceAll(XElement.Load(new XmlNodeReader(value as XmlDocument)));
+                            e.Descendants().ForEach(d =>
+                            {
+                                if (string.IsNullOrEmpty(d.Name.NamespaceName))
+                                {
+                                    d.Name = config.Root.Name.Namespace + d.Name.LocalName;
+                                }
+                            });
                         }
                         else
                         {
