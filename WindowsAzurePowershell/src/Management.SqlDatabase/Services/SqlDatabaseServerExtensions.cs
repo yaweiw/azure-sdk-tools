@@ -19,6 +19,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.Xml;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
 
+    /// <summary>
+    /// Method implementations for Sql Azure managment
+    /// </summary>
     public static partial class SqlDatabaseManagementExtensionMethods
     {
         /// <summary>
@@ -45,17 +48,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <param name="subscriptionId">
         /// The subscription id in which to create the new server.
         /// </param>
-        /// <param name="adminLogin">
+        /// <param name="administratorLogin">
         /// The administrator login name for the new server.
         /// </param>
-        /// <param name="adminLoginPassword">
+        /// <param name="administratorLoginPassword">
         /// The administrator login password for the new server.
         /// </param>
         /// <param name="location">
         /// The location in which to create the new server.
         /// </param>
         /// <returns>The XmlElement with the new server information.</returns>
-        public static XmlElement NewServer(this ISqlDatabaseManagement proxy, string subscriptionId, string administratorLogin, string administratorLoginPassword, string location)
+        public static XmlElement NewServer(
+            this ISqlDatabaseManagement proxy, 
+            string subscriptionId, 
+            string administratorLogin, 
+            string administratorLoginPassword, 
+            string location)
         {
             var input = new NewSqlDatabaseServerInput()
             {

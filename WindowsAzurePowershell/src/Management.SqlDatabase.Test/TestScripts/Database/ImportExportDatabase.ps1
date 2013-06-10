@@ -64,7 +64,7 @@ Write-Output "`$ServerLocation=$ServerLocation"
 
 $ManageUrlPrefix = "https://"
 $ManageUrlPostfix = ".database.windows.net/"
-
+$DatabaseNamePrefix = "ImportExportDatabase"
 Try
 {
     ####################################################
@@ -111,6 +111,12 @@ Try
 	#Test the first parameter set
     $BlobName = $DatabaseName1 + ".bacpac"
 	Write-Output "Exporting to Blob:  $BlobName"
+	
+    ####################################################
+    # Import Database
+	$BlobName = $DatabaseName + ".bacpac"
+    $BlobUri = BlobContainerUri + $BlobName
+	$NewDatabaseName = $DatabaseNamePrefix + "2"
 
 	$Request = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContainer $container `
 		-DatabaseName $DatabaseName1 -BlobName $BlobName
@@ -128,6 +134,13 @@ Try
 	$id = ($Request2.RequestGuid)
     Write-Output "Request Id for export2: $id"
 
+    $requestId = Import-AzureSqlDatabase -UserName $UserName -Password $Password -ServerName `
+        $server.ServerName -DatabaseName $NewDatabaseName -Edition Web -MaxSizeGb 1 -BlobUri $BlobUri `
+		-StorageKey $StorageAccessKey
+
+    Assert {$requestId} "Failed to initiate the import opertaion"
+    Write-Output "Request Id for import: " + $requestId
+	
     $IsTestPass = $True
 }
 Finally

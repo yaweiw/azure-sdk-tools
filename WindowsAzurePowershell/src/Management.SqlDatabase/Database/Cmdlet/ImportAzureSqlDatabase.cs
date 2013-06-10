@@ -23,6 +23,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.ServiceManagement;
 
+    /// <summary>
+    /// Implementation for the Import-AzureSqlDatabase cmdlet.
+    /// </summary>
     [Cmdlet("Import", "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.Medium)]
     public class ImportAzureSqlDatabase : SqlDatabaseManagementCmdletBase
     {
@@ -47,7 +50,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         #region Parameters
-
 
         /// <summary>
         /// Gets or sets the user name for connecting to the database
@@ -185,7 +187,5 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
-
-
     }
 }
