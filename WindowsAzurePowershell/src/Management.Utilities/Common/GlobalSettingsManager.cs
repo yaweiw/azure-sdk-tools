@@ -196,9 +196,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         internal void LoadCurrent()
         {
-            Validate.ValidateDirectoryExists(GlobalPaths.AzureDirectory, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
-            Validate.ValidateFileExists(GlobalPaths.PublishSettingsFile, string.Format(Resources.PathDoesNotExistForElement, Resources.PublishSettingsFileName, GlobalPaths.PublishSettingsFile));
-
             try
             {
                 // Try deserialize environments.xml if any.
@@ -210,20 +207,33 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 customEnvironments = new List<WindowsAzureEnvironment>();
             }
 
-            PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
-            if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+            try
             {
-                Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
-            }
+                PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
+                if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+                {
+                    Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
+                }
 
-            SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
-            ServiceConfiguration = new JavaScriptSerializer().Deserialize<CloudServiceProjectConfiguration>(File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
-            var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription => 
-                subscription.SubscriptionId == ServiceConfiguration.subscription &&
-                (string.IsNullOrEmpty(ServiceConfiguration.subscriptionName) || subscription.SubscriptionName == ServiceConfiguration.subscriptionName));
-            if (defaultSubscription != null)
+                SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
+                ServiceConfiguration = new JavaScriptSerializer().Deserialize<CloudServiceProjectConfiguration>(
+                    File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
+                var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription =>
+                    subscription.SubscriptionId == ServiceConfiguration.subscription &&
+                    (string.IsNullOrEmpty(ServiceConfiguration.subscriptionName) || 
+                     subscription.SubscriptionName == ServiceConfiguration.subscriptionName));
+                if (defaultSubscription != null)
+                {
+                    defaultSubscription.IsDefault = true;
+                }
+            }
+            catch
             {
-                defaultSubscription.IsDefault = true;
+                // Use default values
+                PublishSettings = new PublishData();
+                Certificate = new X509Certificate2();
+                SubscriptionManager = new SubscriptionsManager();
+                ServiceConfiguration = new CloudServiceProjectConfiguration();
             }
         }
 
