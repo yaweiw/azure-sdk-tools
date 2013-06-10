@@ -29,9 +29,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobCredentials : IExtensibleDataObject
     {
+        /// <summary>
+        /// Gets or sets the extension data for the blob credentials object
+        /// </summary>
         [BrowsableAttribute(false)]
         public ExtensionDataObject ExtensionData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Uri for the blob
+        /// </summary>
         [DataMemberAttribute]
         public string Uri { get; set; }
     }

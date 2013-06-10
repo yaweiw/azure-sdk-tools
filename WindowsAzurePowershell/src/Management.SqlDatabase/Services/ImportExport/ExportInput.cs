@@ -27,11 +27,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public partial class ExportInput : IExtensibleDataObject
     {
+        /// <summary>
+        /// Gets or sets the extension data for the export input object
+        /// </summary>
         public ExtensionDataObject ExtensionData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the blob credentials for the export destination
+        /// </summary>
         [DataMemberAttribute(IsRequired = true, EmitDefaultValue = false)]
         public BlobCredentials BlobCredentials { get; set; }
 
+        /// <summary>
+        /// Gets or sets the connection info used for connecting to the database
+        /// </summary>
         [DataMemberAttribute(IsRequired = true, EmitDefaultValue = false)]
         public ConnectionInfo ConnectionInfo { get; set; }
     }

@@ -25,33 +25,63 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class StatusInfo : IExtensibleDataObject
     {
+        /// <summary>
+        /// Gets or sets the import/export status info extension data
+        /// </summary>
         [BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the blob uri
+        /// </summary>
         [DataMemberAttribute]
         public string BlobUri { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the database
+        /// </summary>
         [DataMemberAttribute]
         public string DatabaseName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the error message if any
+        /// </summary>
         [DataMemberAttribute]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// Gets or sets date the database was last modified
+        /// </summary>
         [DataMemberAttribute]
         public DateTime LastModifiedTime { get; set; }
 
+        /// <summary>
+        /// Gets or sets how long the operation has been queued
+        /// </summary>
         [DataMemberAttribute]
         public DateTime QueuedTime { get; set; }
 
+        /// <summary>
+        /// Gets or sets the import/export request id
+        /// </summary>
         [DataMemberAttribute]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the request
+        /// </summary>
         [DataMemberAttribute]
         public string RequestType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the server the database resides in
+        /// </summary>
         [DataMemberAttribute]
         public string ServerName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the status of the import/export operation
+        /// </summary>
         [DataMemberAttribute]
         public string Status { get; set; }
     }

@@ -45,7 +45,6 @@ Param
     $ServerLocation
 )
 
-
 $IsTestPass = $False
 
 Write-Output "`$UserName=$UserName"
@@ -69,8 +68,8 @@ Try
     
     #create a server to use
     Write-Output "Creating server"
-    $server = New-AzureSqlDatabaseServer -AdministratorLogin $UserName -AdministratorLoginPassword $Password `
-        -Location $ServerLocation
+    $server = New-AzureSqlDatabaseServer -AdministratorLogin $UserName -AdministratorLoginPassword `
+        $Password -Location $ServerLocation
     Assert {$server} "Failed to create a server"
     Write-Output "Server $($server.ServerName) created"
     
@@ -91,13 +90,12 @@ Try
     $BlobName = $DatabaseName + ".bacpac"
     $BlobUri = BlobContainerUri + $BlobName
 
-    $requestId = Export-AzureSqlDatabase -UserName $UserName -Password $Password -ServerName $server.ServerName `
-        -DatabaseName $DatabaseName -BlobUri $BlobUri -StorageKey $StorageAccessKey
+    $requestId = Export-AzureSqlDatabase -UserName $UserName -Password $Password -ServerName `
+        $server.ServerName -DatabaseName $DatabaseName -BlobUri $BlobUri -StorageKey $StorageAccessKey
     Assert {$requestId} "Failed to initiate the export opertaion"
     Write-Output "Request Id for export: " + $requestId
 
     $IsTestPass = $True
-
 }
 Finally
 {

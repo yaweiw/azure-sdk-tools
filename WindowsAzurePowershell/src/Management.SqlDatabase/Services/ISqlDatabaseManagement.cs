@@ -234,9 +234,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <summary>
         /// Exports a database to blob storage
         /// </summary>
+        /// <param name="subscriptionId">The subscription id that the server belongs to</param>
+        /// <param name="serverName">The name of the server the database resides in</param>
+        /// <param name="input">An <see cref="ExportInput"/> object containing connection info</param>
+        /// <param name="callback">The async callback object</param>
+        /// <param name="state">the state object</param>
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
-        IAsyncResult BeginExportDatabase(string subscriptionId, string serverName, ExportInput input, AsyncCallback callback, object state);
+        [WebInvoke(Method = "POST", 
+            UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
+        IAsyncResult BeginExportDatabase(
+            string subscriptionId, 
+            string serverName, 
+            ExportInput input, 
+            AsyncCallback callback,
+            object state);
 
         XmlElement EndExportDatabase(IAsyncResult asyncResult);
     }

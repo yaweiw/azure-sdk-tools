@@ -236,15 +236,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             OutputFormatValidator.ValidateOutputFormat(outputFile, @"Database\ExpectedFormat.txt");
         }
 
+        /// <summary>
+        /// Runs the script to test the import and export functionality
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void ImportExportDatabase()
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
+
+            string cmdlineArgs =
+                "-UserName \"{0}\" -Password \"{1}\" -SubscriptionId \"{2}\" -SerializedCert \"{3}\" "
+                + "-BlobContainerUri \"{4}\" -StorageAccessKey \"{5}\" -ServerLocation \"{6}\"";
+
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-UserName \"{0}\" -Password \"{1}\" -SubscriptionId \"{2}\" -SerializedCert \"{3}\" "
-                + "-BlobContainerUri \"{4}\" -StorageAccessKey \"{5}\" -ServerLocation \"{6}\"",
+                cmdlineArgs,
                 this.userName,
                 this.password,
                 this.subscriptionId,

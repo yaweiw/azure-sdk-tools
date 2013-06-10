@@ -27,6 +27,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class BlobStorageAccessKeyCredentials : BlobCredentials
     {
+        /// <summary>
+        /// Gets or sets the storage access key for accessing the blob
+        /// </summary>
         [DataMemberAttribute]
         public string StorageAccessKey { get; set; }
     }

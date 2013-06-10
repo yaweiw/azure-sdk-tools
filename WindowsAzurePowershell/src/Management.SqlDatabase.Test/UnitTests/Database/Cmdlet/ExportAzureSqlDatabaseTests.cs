@@ -25,15 +25,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
+    /// <summary>
+    /// Test class for testing the Export-AzureSqlDatabase cmdlet
+    /// </summary>
     [TestClass]
     public class ExportAzureSqlDatabaseTests : TestBase
     {
+        /// <summary>
+        /// Initializes the test environment
+        /// </summary>
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
+        /// <summary>
+        /// Tests the ExportAzureSqlDatabaseProcess function 
+        /// </summary>
         [TestMethod]
         public void ExportAzureSqlDatabaseProcessTest()
         {
@@ -54,24 +63,38 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 }
             };
 
-
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
             channel.ExportDatabaseThunk = ar =>
             {
                 Assert.AreEqual(serverName, (string)ar.Values["serverName"]);
-                Assert.AreEqual(input.BlobCredentials.Uri, ((ExportInput)ar.Values["input"]).BlobCredentials.Uri);
-                Assert.AreEqual(input.ConnectionInfo.DatabaseName, ((ExportInput)ar.Values["input"]).ConnectionInfo.DatabaseName);
-                Assert.AreEqual(input.ConnectionInfo.Password, ((ExportInput)ar.Values["input"]).ConnectionInfo.Password);
-                Assert.AreEqual(input.ConnectionInfo.ServerName, ((ExportInput)ar.Values["input"]).ConnectionInfo.ServerName);
-                Assert.AreEqual(input.ConnectionInfo.UserName, ((ExportInput)ar.Values["input"]).ConnectionInfo.UserName);
+                Assert.AreEqual(
+                    input.BlobCredentials.Uri, 
+                    ((ExportInput)ar.Values["input"]).BlobCredentials.Uri);
+                Assert.AreEqual(
+                    input.ConnectionInfo.DatabaseName, 
+                    ((ExportInput)ar.Values["input"]).ConnectionInfo.DatabaseName);
+                Assert.AreEqual(
+                    input.ConnectionInfo.Password,
+                    ((ExportInput)ar.Values["input"]).ConnectionInfo.Password);
+                Assert.AreEqual(
+                    input.ConnectionInfo.ServerName,
+                    ((ExportInput)ar.Values["input"]).ConnectionInfo.ServerName);
+                Assert.AreEqual(
+                    input.ConnectionInfo.UserName, 
+                    ((ExportInput)ar.Values["input"]).ConnectionInfo.UserName);
                 
-                XmlElement operationResult = new XmlDocument().CreateElement("guid", "http://schemas.microsoft.com/2003/10/Serialization/");
+                XmlElement operationResult = 
+                    new XmlDocument().CreateElement(
+                        "guid", 
+                        "http://schemas.microsoft.com/2003/10/Serialization/");
+
                 operationResult.InnerText = "00000000-0000-0000-0000-000000000000";
                 return operationResult;
             };
 
-            ExportAzureSqlDatabase exportAzureSqlDatabase = new ExportAzureSqlDatabase(channel) { ShareChannel = true };
+            ExportAzureSqlDatabase exportAzureSqlDatabase = 
+                new ExportAzureSqlDatabase(channel) { ShareChannel = true };
             exportAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             exportAzureSqlDatabase.CommandRuntime = commandRuntime;
             var result = exportAzureSqlDatabase.ExportSqlAzureDatabaseProcess(serverName, input);
