@@ -38,14 +38,16 @@ Write-Output "`$serverLocation=$serverLocation"
 Try
 {
     Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert "https://management.dev.mscds.com:12346/MockRDFE/"
+    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert `
+		"https://management.dev.mscds.com:12346/MockRDFE/"
     $isTestPass = $False
     
     # Create Server
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     Write-Output "Creating server"
-    $server = New-AzureSqlDatabaseServer -AdministratorLogin $loginName -AdministratorLoginPassword $loginPassword -Location $serverLocation
+    $server = New-AzureSqlDatabaseServer -AdministratorLogin $loginName -AdministratorLoginPassword `
+		$loginPassword -Location $serverLocation
     Assert {$server} "Server is not created"
     Write-Output "Server $($server.ServerName) created"
     
@@ -54,8 +56,11 @@ Try
     $rule1StartIP="1.0.0.0"
     $rule1EndIP="2.0.0.0"
     Write-Output "Creating Firewall rule $rule1Name ..."
-    $rule = New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName $rule1Name -StartIpAddress $rule1StartIP -EndIpAddress $rule1EndIP
-    Validate-SqlDatabaseServerFirewallRuleContext -Actual $rule -ExpectedRuleName $rule1Name -ExpectedStartIpAddress $rule1StartIP -ExpectedEndIpAddress $rule1EndIP -ExpectedServerName $server.ServerName -ExpectedOperationDescription "New-AzureSqlDatabaseServerFirewallRule"
+    $rule = New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName $rule1Name `
+		-StartIpAddress $rule1StartIP -EndIpAddress $rule1EndIP
+    Validate-SqlDatabaseServerFirewallRuleContext -Actual $rule -ExpectedRuleName $rule1Name `
+		-ExpectedStartIpAddress $rule1StartIP -ExpectedEndIpAddress $rule1EndIP -ExpectedServerName `
+			$server.ServerName -ExpectedOperationDescription "New-AzureSqlDatabaseServerFirewallRule"
     Write-Output "created"
     
     $rule2Name="rule2"

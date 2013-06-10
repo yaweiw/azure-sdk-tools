@@ -65,15 +65,15 @@ Try
     Write-Output "Creating Database $Name ..."
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     Write-Output "Done"
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+        -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
     #Get Database by database name
     $database = Get-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
+        -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     
     # Create Database with all optional parameters
     $Name = $Name + "1"
@@ -82,13 +82,13 @@ Try
             -MaxSizeGB 20 -Force
     Write-Output "Done"
     
-    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS" `
+    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS"`
             -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" -ExpectedIsReadOnly $defaultIsReadOnly `
             -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
 
     #Get Database by database object
     $database2 = Get-AzureSqlDatabase -Context $context -Database $database2
-    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS" `
+    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS"`
             -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" -ExpectedIsReadOnly $defaultIsReadOnly `
             -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
             

@@ -205,7 +205,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 
             ISqlDatabaseManagement channel = GetManagementChannel();
 
-            SqlDatabaseList databases = channel.EndGetDatabases(channel.BeginGetDatabases(this.subscriptionId, this.ServerName, null, null));
+            SqlDatabaseList databases = 
+                channel.EndGetDatabases(
+                    channel.BeginGetDatabases(this.subscriptionId, this.ServerName, null, null));
 
             List<Database> results = new List<Database>();
             foreach (var db in databases)
@@ -230,7 +232,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             ISqlDatabaseManagement channel = GetManagementChannel();
 
             //query the server for the database
-            SqlDatabaseResponse database = channel.EndGetDatabase(channel.BeginGetDatabase(this.subscriptionId, this.ServerName, databaseName, null, null));
+            SqlDatabaseResponse database = 
+                channel.EndGetDatabase(
+                    channel.BeginGetDatabase(this.subscriptionId, this.ServerName, databaseName, null, null));
 
             //Create the database from the response
             Database result = CreateDatabaseFromResponse(database);
@@ -278,7 +282,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
 
             //create a new database on the server
-            SqlDatabaseResponse response = channel.EndNewDatabase(channel.BeginNewDatabase(this.subscriptionId, this.serverName, input, null, null));
+            SqlDatabaseResponse response = 
+                channel.EndNewDatabase(
+                    channel.BeginNewDatabase(this.subscriptionId, this.serverName, input, null, null));
 
             Database database = CreateDatabaseFromResponse(response);
 
@@ -383,7 +389,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             input.Edition = database.Edition.ToString();
             input.MaxSizeGB = database.MaxSizeGB.ToString();
 
-            channel.EndRemoveDatabase(channel.BeginRemoveDatabase(this.subscriptionId, this.serverName, databaseName, input, null, null));
+            channel.EndRemoveDatabase(
+                channel.BeginRemoveDatabase(
+                    this.subscriptionId, 
+                    this.serverName, 
+                    databaseName, 
+                    input, 
+                    null, 
+                    null));
         }
 
         #endregion

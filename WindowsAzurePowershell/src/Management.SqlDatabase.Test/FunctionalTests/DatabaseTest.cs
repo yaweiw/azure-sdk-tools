@@ -88,7 +88,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" -SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",
+                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" "
+                + "-SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",
                 this.manageUrl,
                 this.userName,
                 this.password,
@@ -121,7 +122,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testcreatedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,
@@ -139,14 +141,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testcreatedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,
                 this.serializedCert,
                 LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(
-                DatabaseTest.CreateScriptWithServerName, 
+            bool testResult = PSScriptExecutor.ExecuteScript( 
+                DatabaseTest.CreateScriptWithServerName,  
                 arguments);
             Assert.IsTrue(testResult);
         }
@@ -172,13 +175,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testupdatedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,
                 this.serializedCert,
                 LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithCert, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.UpdateScriptWithCert, 
+                arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -188,13 +194,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testupdatedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,
                 this.serializedCert,
                 LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScriptWithServerName, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.UpdateScriptWithServerName, 
+                arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -219,7 +228,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testDeletedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,
@@ -235,7 +245,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" -Endpoint \"{4}\"",
+                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
+                + "-Endpoint \"{4}\"",
                 "testDeletedbfromcmdlet",
                 this.serverName,
                 this.subscriptionId,

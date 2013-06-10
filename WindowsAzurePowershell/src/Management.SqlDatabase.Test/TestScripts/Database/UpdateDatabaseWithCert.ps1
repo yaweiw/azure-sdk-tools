@@ -61,9 +61,10 @@ Try
     Write-Output "Done"
 
     $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $database.Name
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
+        $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+        $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+		$database.IsSystemObject
     
     # Update with database name
     $edition = "Web"
@@ -74,9 +75,10 @@ Try
     Write-Output "Done"
 
     $updatedDatabase = Get-AzureSqlDatabase $context -Database $database
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
+        $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+        $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+		$database.IsSystemObject
     
     #Rename a database
     $NewName = $Name + "-updated"
@@ -85,14 +87,16 @@ Try
     $updatedDatabase = Set-AzureSqlDatabase $context $database -NewName $NewName -PassThr -Force
     Write-Output "Done"
 
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
+        $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+        $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+		$database.IsSystemObject
 
     $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
+        $database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
+        $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
+		$database.IsSystemObject
     
     $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not Renamed"

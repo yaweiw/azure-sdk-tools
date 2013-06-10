@@ -19,12 +19,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
 
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
@@ -66,13 +66,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             channel.NewDatabaseThunk = ar =>
             {
-                Assert.AreEqual(((SqlDatabaseInput)ar.Values["input"]).Name, "UnitTestNewDatabase",
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Name, 
+                    "UnitTestNewDatabase",
                     "The database Name input parameter does not match");
-                Assert.AreEqual(((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB, "1",
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
+                    "1",
                     "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual(((SqlDatabaseInput)ar.Values["input"]).CollationName, "Japanese_CI_AS",
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
+                    "Japanese_CI_AS",
                     "The database CollationName input parameter does not match");
-                Assert.AreEqual(((SqlDatabaseInput)ar.Values["input"]).Edition, "Web",
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Edition, 
+                    "Web",
                     "The database Edition input parameter does not match");
 
                 SqlDatabaseResponse operationResult = new SqlDatabaseResponse();
@@ -94,10 +102,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
-            ServerDataServiceCertAuth service = contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
-            Database result = service.CreateNewDatabase("UnitTestNewDatabase", 1, "Japanese_CI_AS", DatabaseEdition.Web);
+            Database result = 
+                service.CreateNewDatabase("UnitTestNewDatabase", 1, "Japanese_CI_AS", DatabaseEdition.Web);
 
             //verify that the result matches the stuff in the thunk.
             Assert.AreEqual(result.CollationName, "Japanese_CI_AS", "The collation does not match");
