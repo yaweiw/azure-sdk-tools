@@ -239,6 +239,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <param name="input">An <see cref="ExportInput"/> object containing connection info</param>
         /// <param name="callback">The async callback object</param>
         /// <param name="state">the state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> for the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations/Export")]
@@ -249,6 +250,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback,
             object state);
 
+        /// <summary>
+        /// Finishes the web request to export database to blob storage
+        /// </summary>
+        /// <param name="asyncResult">The <see cref="IAsyncResult"/> of the call to: 
+        /// BeginExportDatabase</param>
+        /// <returns>An <see cref="XmlElement"/> that contains the request ID of the operation</returns>
         XmlElement EndExportDatabase(IAsyncResult asyncResult);
     }
 }

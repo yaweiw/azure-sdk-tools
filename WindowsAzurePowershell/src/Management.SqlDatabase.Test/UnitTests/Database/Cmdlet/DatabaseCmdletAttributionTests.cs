@@ -71,6 +71,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
 
+        /// <summary>
+        /// Tests the attributes of the Export-AzureSqlDatabase cmdlet
+        /// </summary>
         [TestMethod]
         public void ExportAzureSqlDatabaseAttributeTest()
         {
