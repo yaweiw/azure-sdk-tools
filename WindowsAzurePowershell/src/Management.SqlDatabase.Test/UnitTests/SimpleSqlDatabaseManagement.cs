@@ -684,8 +684,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
         public Func<SimpleServiceManagementAsyncResult, StatusInfo> GetImportExporStatusThunk { get; set; }
         public IAsyncResult BeginGetImportExportStatus(
-            string subscriptionId, 
-            string serverName, 
+            string subscriptionId,
+            string serverName,
+            string serverName2, 
             string userName, 
             string password, 
             string requestId, 

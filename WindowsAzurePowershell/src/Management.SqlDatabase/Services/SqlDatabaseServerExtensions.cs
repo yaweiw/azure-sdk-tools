@@ -177,6 +177,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
                 null));
         }
 
+        /// <summary>
+        /// Gets the status of an import/export operation
+        /// </summary>
+        /// <param name="proxy">Channel used for communication with Azure's service management APIs.</param>
+        /// <param name="subscriptionId">The subscription ID in which the server resides</param>
+        /// <param name="serverName">The name of the server that contains the database</param>
+        /// <param name="userName">The username to connect to the server</param>
+        /// <param name="password">The password to connect to the server</param>
+        /// <param name="requestId">The request Id of the import/export operation</param>
+        /// <returns>A <see cref="StatusInfo"/> object containting the import/export status</returns>
         public static StatusInfo GetImportExportStatus(
             this ISqlDatabaseManagement proxy,
             string subscriptionId,
@@ -188,6 +198,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             return proxy.EndGetImportExportStatus(
                 proxy.BeginGetImportExportStatus(
                     subscriptionId,
+                    serverName,
                     serverName,
                     userName,
                     password,

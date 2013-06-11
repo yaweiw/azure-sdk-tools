@@ -106,8 +106,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 {
                     result = RetryCall(subscription =>
                         this.Channel.GetImportExportStatus(
-                            subscription, 
-                            serverName, 
+                            subscription,
+                            serverName,
+                            serverNameLong, 
                             userName, 
                             password, 
                             requestId));
