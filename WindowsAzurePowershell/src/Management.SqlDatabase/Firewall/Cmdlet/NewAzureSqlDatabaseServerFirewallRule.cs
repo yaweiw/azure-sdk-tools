@@ -27,10 +27,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     /// <summary>
     /// Creates a new firewall rule for a Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", DefaultParameterSetName = IpRangeParameterSet, 
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", 
+        DefaultParameterSetName = IpRangeParameterSet, 
         SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// The default rule name for allowing all Azure services.  This is used when a
+        /// rule name is not specified for the AllowAllAzureServicesParameterSet parameter
+        /// set
+        /// </summary>
+        private const string AllowAllAzureServicesRuleName = "AllowAllAzureServices";
+
         #region Parameter Sets
 
         /// <summary>
@@ -86,7 +94,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Gets or sets the name of the fire wall rule
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "SQL Database server firewall rule name.")]
+        [Parameter(Mandatory = true, ParameterSetName = IpRangeParameterSet,
+            HelpMessage = "SQL Database server firewall rule name.")]
+        [Parameter(Mandatory = false, ParameterSetName = AllowAllAzureServicesParameterSet,
+            HelpMessage = "SQL Database server firewall rule name.")]
         [ValidateNotNullOrEmpty]
         public string RuleName
         {
@@ -242,10 +253,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
                         break;
 
                     case AllowAllAzureServicesParameterSet:
+
+                        //Determine which rule name to use.
+                        string ruleName = AllowAllAzureServicesRuleName;
+                        if (this.MyInvocation.BoundParameters.ContainsKey("RuleName"))
+                        {
+                            ruleName = this.RuleName;
+                        }
+
+                        //Create the rule
                         context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
                             this.ParameterSetName,
                             this.ServerName,
-                            this.RuleName,
+                            ruleName,
                             AllowAzureServicesRuleAddress,
                             AllowAzureServicesRuleAddress);
                         break;
