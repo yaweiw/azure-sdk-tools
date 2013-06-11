@@ -176,5 +176,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
                 null,
                 null));
         }
+
+        public static StatusInfo GetImportExportStatus(
+            this ISqlDatabaseManagement proxy,
+            string subscriptionId,
+            string serverName,
+            string userName,
+            string password,
+            string requestId)
+        {
+            return proxy.EndGetImportExportStatus(
+                proxy.BeginGetImportExportStatus(
+                    subscriptionId,
+                    serverName,
+                    userName,
+                    password,
+                    requestId,
+                    null,
+                    null));
+        }
     }
 }

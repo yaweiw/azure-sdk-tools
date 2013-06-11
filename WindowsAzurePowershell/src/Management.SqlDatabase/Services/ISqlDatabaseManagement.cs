@@ -277,5 +277,31 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             object state);
 
         XmlElement EndImportDatabase(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Gets the status of an import/export operation
+        /// </summary>
+        /// <param name="subscriptionId">The subscription id that the server belongs to</param>
+        /// <param name="serverName">The name of the server the database resides in</param>
+        /// <param name="userName">The username to connect to the database</param>
+        /// <param name="password">The password to connect to the database</param>
+        /// <param name="requestId">The request ID for the operation to query</param>
+        /// <param name="callback">The async callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> for the web request</returns>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET",
+            UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations"
+            +"/Status?servername={serverName}&username={userName}&password={password}&reqId={requestId}")]
+        IAsyncResult BeginGetImportExportStatus(
+            string subscriptionId,
+            string serverName,
+            string userName,
+            string password, 
+            string requestId,
+            AsyncCallback callback,
+            object state);
+
+        StatusInfo EndGetImportExportStatus(IAsyncResult asyncResult);
     }
 }
