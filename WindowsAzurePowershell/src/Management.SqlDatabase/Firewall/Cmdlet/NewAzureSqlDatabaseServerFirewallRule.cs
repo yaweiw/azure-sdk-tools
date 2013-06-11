@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Parameter set for allowing all azure services
         /// </summary>
-        internal const string AllAzureServicesParameterSet = "AllAzureServices";
+        internal const string AllowAllAzureServicesParameterSet = "AllowAllAzureServices";
 
         #endregion
 
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         /// Gets or sets whether or not to allow all windows azure services to connect
         /// </summary>
         [Parameter(Mandatory = true, HelpMessage = "Allow all Azure services access to the server.", 
-            ParameterSetName = AllAzureServicesParameterSet)]
+            ParameterSetName = AllowAllAzureServicesParameterSet)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter AllowAllAzureServices 
         { 
@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
                             this.EndIpAddress);
                         break;
 
-                    case AllAzureServicesParameterSet:
+                    case AllowAllAzureServicesParameterSet:
                         context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
                             this.ParameterSetName,
                             this.ServerName,
