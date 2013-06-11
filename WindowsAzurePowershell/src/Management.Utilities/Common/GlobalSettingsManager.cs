@@ -491,5 +491,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
             }
         }
+
+        /// <summary>
+        /// Removes a custom Windows Azure environment.
+        /// </summary>
+        /// <param name="name">The environment name</param>
+        public void RemoveEnvironment(string name)
+        {
+            if (EnvironmentExists(name) && !IsPublicEnvironment(name))
+            {
+                int count = customEnvironments.RemoveAll(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                Debug.Assert(count == 1);
+                General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+            }
+            else
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
     }
 }
