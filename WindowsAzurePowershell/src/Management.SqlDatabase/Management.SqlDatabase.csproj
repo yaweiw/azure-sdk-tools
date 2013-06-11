@@ -206,6 +206,7 @@
     <Compile Include="Services\SqlDatabaseFirewallRulesList.cs" />
     <Compile Include="Services\SqlDatabaseInput.cs" />
     <Compile Include="Services\SqlDatabaseList.cs" />
+    <Compile Include="Services\ImportExport\ArrayOfStatusInfo.cs" />
     <Compile Include="Services\SqlDatabaseManagementError.cs" />
     <Compile Include="Services\SqlDatabaseManagementHelper.cs" />
     <Compile Include="Services\SqlDatabaseResponse.cs" />

@@ -292,17 +292,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET",
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations"
-            +"/Status?servername={serverName2}&username={userName}&password={password}&reqId={requestId}")]
+            + "/Status?servername={fullyQualifiedServerName}&username={userName}&password={password}&reqId={requestId}")]
         IAsyncResult BeginGetImportExportStatus(
             string subscriptionId,
             string serverName,
-            string serverName2,
+            string fullyQualifiedServerName,
             string userName,
             string password, 
             string requestId,
             AsyncCallback callback,
             object state);
 
-        StatusInfo EndGetImportExportStatus(IAsyncResult asyncResult);
+        ArrayOfStatusInfo EndGetImportExportStatus(IAsyncResult asyncResult);
     }
 }

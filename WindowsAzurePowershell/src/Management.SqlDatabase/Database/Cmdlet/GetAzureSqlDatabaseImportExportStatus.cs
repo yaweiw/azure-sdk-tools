@@ -92,13 +92,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <param name="password">The password for authentication</param>
         /// <param name="requestId">The request Id of the operation to query</param>
         /// <returns>The status of the import/export operation</returns>
-        internal StatusInfo GetAzureSqlDatabaseImportExportStatusProcess(
+        internal ArrayOfStatusInfo GetAzureSqlDatabaseImportExportStatusProcess(
             string serverName, 
             string userName,
             string password,
             string requestId)
         {
-            StatusInfo result = null;
+            ArrayOfStatusInfo result = null;
 
             try
             {
@@ -107,8 +107,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     result = RetryCall(subscription =>
                         this.Channel.GetImportExportStatus(
                             subscription,
-                            serverName,
-                            serverNameLong, 
+                            serverName, 
+                            serverName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
                             userName, 
                             password, 
                             requestId));
@@ -134,19 +134,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 base.ProcessRecord();
 
-                StatusInfo status = 
+                ArrayOfStatusInfo status = 
                     this.GetAzureSqlDatabaseImportExportStatusProcess(
                         this.ServerName, 
                         this.Username, 
                         this.Password, 
                         this.RequestId);
 
+                if (status == null)
+                {
+                    this.WriteVerbose("The result is null");
+                }
+                this.WriteVerbose("Status: " + status[0].Status);
+
                 this.WriteObject(status);
             }
             catch (Exception ex)
             {
+                this.WriteDebug("There was an error: " + ex.Message);
                 this.WriteWindowsAzureError(
                     new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteExceptionError(ex);
             }
         }
     }

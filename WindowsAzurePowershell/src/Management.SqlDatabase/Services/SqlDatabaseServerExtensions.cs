@@ -186,11 +186,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <param name="userName">The username to connect to the server</param>
         /// <param name="password">The password to connect to the server</param>
         /// <param name="requestId">The request Id of the import/export operation</param>
-        /// <returns>A <see cref="StatusInfo"/> object containting the import/export status</returns>
-        public static StatusInfo GetImportExportStatus(
+        /// <returns>A <see cref="ArrayOfStatusInfo"/> object containting the import/export status</returns>
+        public static ArrayOfStatusInfo GetImportExportStatus(
             this ISqlDatabaseManagement proxy,
             string subscriptionId,
             string serverName,
+            string fullyQualifiedServerName,
             string userName,
             string password,
             string requestId)
@@ -199,7 +200,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
                 proxy.BeginGetImportExportStatus(
                     subscriptionId,
                     serverName,
-                    serverName,
+                    fullyQualifiedServerName,
                     userName,
                     password,
                     requestId,
