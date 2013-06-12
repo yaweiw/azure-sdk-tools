@@ -160,5 +160,31 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
                 WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat,
                 actual.StorageTableEndpointFormat);
         }
+
+        [TestMethod]
+        public void AddsEnvironmentWithEmptyStorageEndpoint()
+        {
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            WindowsAzureEnvironment actual = null;
+            commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<object>()))
+                .Callback((object output) => actual = (WindowsAzureEnvironment)output);
+            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = "Katal",
+                PublishSettingsFileUrl = "http://microsoft.com",
+                StorageEndpoint = null
+            };
+
+            cmdlet.ExecuteCmdlet();
+
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
+            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
+            Assert.AreEqual(env.Name, cmdlet.Name);
+            Assert.AreEqual(env.PublishSettingsFileUrl, actual.PublishSettingsFileUrl);
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageBlobEndpointFormat));
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageQueueEndpointFormat));
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageTableEndpointFormat));
+        }
     }
 }

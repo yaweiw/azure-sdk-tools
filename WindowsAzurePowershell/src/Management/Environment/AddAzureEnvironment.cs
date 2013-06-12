@@ -26,10 +26,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     [Cmdlet(VerbsCommon.Add, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
     public class AddAzureEnvironmentCommand : CmdletBase
     {
-        const string StorageEndpointParameterSet = "StorageEndpoint";
-
-        const string IndividualEndpointParameterSet = "IndividualEndpoint";
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
@@ -42,16 +38,16 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string ManagementPortalUrl { get; set; }
 
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = IndividualEndpointParameterSet)]
+        [Parameter(Position = 4, Mandatory = false)]
         public string StorageBlobEndpointFormat { get; set; }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = IndividualEndpointParameterSet)]
+        [Parameter(Position = 5, Mandatory = false)]
         public string StorageQueueEndpointFormat { get; set; }
 
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = IndividualEndpointParameterSet)]
+        [Parameter(Position = 6, Mandatory = false)]
         public string StorageTableEndpointFormat { get; set; }
 
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = StorageEndpointParameterSet)]
+        [Parameter(Mandatory = false, HelpMessage = "The storage endpoint")]
         public string StorageEndpoint { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
