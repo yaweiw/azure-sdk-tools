@@ -1280,4 +1280,7 @@ Please follow these steps in the portal:
   <data name="EnvironmentsFileName" xml:space="preserve">
     <value>environments.xml</value>
   </data>
+  <data name="EnvironmentExists" xml:space="preserve">
+    <value>The environment '{0}' already exists.</value>
+  </data>
 </root>

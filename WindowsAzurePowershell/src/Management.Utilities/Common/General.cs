@@ -267,11 +267,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static void RemoveCertificateFromStore(X509Certificate2 certificate)
         {
-            Validate.ValidateNullArgument(certificate, Resources.InvalidCertificate);
-            X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadWrite);
-            store.Remove(certificate);
-            store.Close();
+            if (certificate != null)
+            {
+                X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadWrite);
+                store.Remove(certificate);
+                store.Close();
+            }
         }
 
         /// <summary>
@@ -872,6 +874,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             {
                 return false;
             }
+        }
+
+        public static string GetNonEmptyValue(string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
+        }
+
+        public static string CominePath(params string[] paths)
+        {
+            StringBuilder final = new StringBuilder();
+
+            for (int i = 0; i < paths.Length - 1; i++)
+            {
+                final.Append(paths[i]).Append("\\");
+            }
+
+            return final.Append(paths[paths.Length - 1]).ToString();
         }
     }
 }
