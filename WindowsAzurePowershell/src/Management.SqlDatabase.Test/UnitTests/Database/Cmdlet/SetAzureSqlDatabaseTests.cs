@@ -111,13 +111,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Test changing a database size using certificate authentication
+        /// </summary>
         [TestMethod]
         public void SetAzureSqlDatabaseSizeWithCertAuth()
         {
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
 
-            //This is needed because UpdateDatabases calls GetDatabases in order to 
-            //get the necessary database information for the delete.
+            // This is needed because UpdateDatabases calls GetDatabases in order to 
+            // get the necessary database information for the delete.
             channel.GetDatabaseThunk = ar =>
             {
                 Assert.AreEqual(
@@ -282,13 +285,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Test changing a database name using certificate authentication
+        /// </summary>
         [TestMethod]
         public void SetAzureSqlDatabaseNameWithCertAuth()
         {
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
 
-            //This is needed because UpdateDatabases calls GetDatabases in order to 
-            //get the necessary database information for the delete.
+            // This is needed because UpdateDatabases calls GetDatabases in order to 
+            // get the necessary database information for the delete.
             channel.GetDatabaseThunk = ar =>
             {
                 Assert.AreEqual(
@@ -371,8 +377,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 database.MaxSizeGB, 
                 1,
                 "The updated database Edition is wrong");
-            Assert.AreEqual
-                (database.Name, 
+            Assert.AreEqual(
+                database.Name, 
                 "newTestDb1",
                 "The updated database Edition is wrong");
         }

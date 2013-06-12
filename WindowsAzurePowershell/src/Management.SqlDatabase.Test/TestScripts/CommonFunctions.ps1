@@ -70,7 +70,7 @@ function Init-AzureSubscription
 	
 	if($ServiceEndpoint)
 	{
-		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert 
+		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
 			-ServiceEndpoint $ServiceEndpoint
 	}
 	else

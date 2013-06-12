@@ -138,6 +138,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Test getting a database using certificate authentication
+        /// </summary>
         [TestMethod]
         public void GetAzureSqlDatabaseWithCertAuth()
         {
@@ -164,7 +167,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return db1;
             };
 
-
             SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
             subscriptionData.ServiceEndpoint = 
                 MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
@@ -180,14 +182,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             Assert.AreEqual("testdb1", database.Name, "Expected db name to be testdb1");
 
-            Assert.AreEqual("Japanese_CI_AS", database.CollationName,
+            Assert.AreEqual(
+                "Japanese_CI_AS", 
+                database.CollationName,
                 "Expected collation to be Japanese_CI_AS");
-            Assert.AreEqual("Web", database.Edition,
-                "Expected edition to be Web");
-            Assert.AreEqual(1, database.MaxSizeGB,
-                "Expected max size to be 1 GB");
+            Assert.AreEqual("Web", database.Edition, "Expected edition to be Web");
+            Assert.AreEqual(1, database.MaxSizeGB, "Expected max size to be 1 GB");
         }
 
+        /// <summary>
+        /// Test getting all databases with certificate authentication
+        /// </summary>
         [TestMethod]
         public void GetAzureSqlDatabasesWithCertAuth()
         {
@@ -226,7 +231,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return operationResult;
             };
 
-
             SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
             subscriptionData.ServiceEndpoint =
                 MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
@@ -243,21 +247,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             // Expecting master, testdb1, testdb2
             Assert.AreEqual(2, results.Length, "Expecting two Database objects");
 
-            
             Database database1Obj = results[0];
             Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
 
-
             Database database2Obj = results[1];
             
-            Assert.AreEqual("testdb2", database2Obj.Name, 
-                "Expected db name to be testdb2");
-            Assert.AreEqual( "Japanese_CI_AS", database2Obj.CollationName,
+            Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+            Assert.AreEqual(
+                "Japanese_CI_AS", 
+                database2Obj.CollationName, 
                 "Expected collation to be Japanese_CI_AS");
-            Assert.AreEqual("Business", database2Obj.Edition, 
-                "Expected edition to be Business");
-            Assert.AreEqual(10, database2Obj.MaxSizeGB, 
-                "Expected max size to be 10 GB");
+            Assert.AreEqual("Business", database2Obj.Edition, "Expected edition to be Business");
+            Assert.AreEqual(10, database2Obj.MaxSizeGB, "Expected max size to be 10 GB");
         }
 
         [TestMethod]

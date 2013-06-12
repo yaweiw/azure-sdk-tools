@@ -100,7 +100,6 @@ Try
         $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
 		$database.IsSystemObject
     
-
     ####################################################################
     # Cleanup
     $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $ServerName | Where-Object {$_.Name -eq $Name}
