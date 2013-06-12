@@ -3,7 +3,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
     public class Category
     {
-        // Project
+        // Service
 
         public const string All = "All";
 
@@ -28,5 +28,9 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         // Acceptance type
 
         public const string CIT = "CIT";
+
+        // Environment
+
+        public const string WAPack = "WAPack";
     }
 }

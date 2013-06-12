@@ -26,6 +26,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public string ServiceConfigurationFile { get; private set; }
 
+        public string EnvironmentsFile { get; private set; }
+
         public static readonly string AzureAppDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Resources.AzureDirectoryName);
@@ -45,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             get { return _globalSettingsDirectory ?? AzureAppDir; }
             set { _globalSettingsDirectory = value; }
         }
-	
+    
         public string AzureDirectory { get; private set; }
 
         public GlobalPathInfo(string rootPath)
@@ -58,6 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             PublishSettingsFile = Path.Combine(rootPath, Resources.PublishSettingsFileName);
             SubscriptionsDataFile = subscriptionsDataFile ?? Path.Combine(rootPath, Resources.SubscriptionDataFileName);
             ServiceConfigurationFile = Path.Combine(rootPath, Resources.ConfigurationFileName);
+            EnvironmentsFile = Path.Combine(rootPath, Resources.EnvironmentsFileName);
             AzureDirectory = rootPath;
         }
     }

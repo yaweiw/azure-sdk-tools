@@ -133,7 +133,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        void AddAppSetting(string name, string key, string value);
+        void SetAppSetting(string name, string key, string value);
+
+        /// <summary>
+        /// Sets a connection string for a website.
+        /// </summary>
+        /// <param name="name">Name of the website.</param>
+        /// <param name="key">Connection string key.</param>
+        /// <param name="value">Value for the connection string.</param>
+        /// <param name="connectionStringType">Type of connection string.</param>
+        void SetConnectionString(string name, string key, string value, DatabaseType connectionStringType);
 
         /// <summary>
         /// Lists available website locations.

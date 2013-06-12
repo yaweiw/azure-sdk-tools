@@ -130,6 +130,16 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.WAPack)]
+        public void TestNewAzureSBNamespaceWithDefaultLocation()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithDefaultLocation");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.WAPack)]
         [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1400
         public void TestNewAzureSBNamespaceWithValidExistingNamespace()
         {
