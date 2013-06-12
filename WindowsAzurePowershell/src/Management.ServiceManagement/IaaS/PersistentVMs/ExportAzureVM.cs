@@ -14,13 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Helpers;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
+    using Properties;
     using Model;
 
     [Cmdlet(VerbsData.Export, "AzureVM")]
-    public class ExportAzureVMCommand : GetAzureVMCommand
+    public class ExportAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         public ExportAzureVMCommand()
         {
@@ -31,6 +34,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             Channel = channel;
         }
 
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
+        [ValidateNotNullOrEmpty]
+        public override string ServiceName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to get.")]
+        public virtual string Name
+        {
+            get;
+            set;
+        }
+
         [Parameter(Position = 2, Mandatory = true, HelpMessage = "The file path in which serialize the persistent VM role state.")]
         [ValidateNotNullOrEmpty]
         public string Path
@@ -39,9 +57,40 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
-        protected override void SaveRoleState(PersistentVM role)
+        internal override void ExecuteCommand()
         {
-            PersistentVMHelper.SaveStateToFile(role, Path);
+            base.ExecuteCommand();
+            if (CurrentDeployment == null)
+            {
+                return;
+            }
+
+            var role = CurrentDeployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+            if(role == null)
+            {
+                throw new ApplicationException(string.Format(Resources.NoCorrespondingRoleCanBeFoundInDeployment, Name));
+            }
+            try
+            {
+                var vmRole = (PersistentVMRole)role;
+                var vm = new PersistentVM
+                {
+                    AvailabilitySetName = vmRole.AvailabilitySetName,
+                    ConfigurationSets = vmRole.ConfigurationSets,
+                    DataVirtualHardDisks = vmRole.DataVirtualHardDisks,
+                    Label = vmRole.Label,
+                    OSVirtualHardDisk = vmRole.OSVirtualHardDisk,
+                    RoleName = vmRole.RoleName,
+                    RoleSize = vmRole.RoleSize,
+                    RoleType = vmRole.RoleType,
+                    DefaultWinRmCertificateThumbprint = vmRole.DefaultWinRmCertificateThumbprint
+                };
+                PersistentVMHelper.SaveStateToFile(vm, Path);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(string.Format(Resources.VMPropertiesCanNotBeRead, role.RoleName), e);
+            }
         }
     }
 }
