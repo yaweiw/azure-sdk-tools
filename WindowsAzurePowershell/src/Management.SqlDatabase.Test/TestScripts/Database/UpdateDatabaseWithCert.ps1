@@ -55,6 +55,7 @@ Try
     $edition = "Business"
     $maxSizeGB = "10"
 
+	############################################################
     #Update with database object
     Write-Output "Updating Database $Name edition to $edition and maxSizeGB to $maxSizeGB ..."
     Set-AzureSqlDatabase $context $database -Edition $edition -MaxSizeGB $maxSizeGB -Force
@@ -66,6 +67,7 @@ Try
         $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
 		$database.IsSystemObject
     
+	############################################################
     # Update with database name
     $edition = "Web"
     $maxSizeGB = "5"
@@ -80,6 +82,7 @@ Try
         $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
 		$database.IsSystemObject
     
+	############################################################
     #Rename a database
     $NewName = $Name + "-updated"
 
@@ -98,6 +101,8 @@ Try
         $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
 		$database.IsSystemObject
     
+	############################################################
+	#Clean up
     $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not Renamed"
     

@@ -26,20 +26,24 @@ Param
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [String]
-    $serverLocation
+    $serverLocation,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 Write-Output "`$subscriptionID=$subscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$serverLocation=$serverLocation"
+Write-Output "`$Endpoint=$Endpoint"
 
 . .\CommonFunctions.ps1
 
 Try
 {
     Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert `
-		"https://management.dev.mscds.com:12346/MockRDFE/"
+    Init-AzureSubscription -SubscriptionID $subscriptionID -SerializedCert $SerializedCert $Endpoint
     $isTestPass = $False
     
     # Create Server

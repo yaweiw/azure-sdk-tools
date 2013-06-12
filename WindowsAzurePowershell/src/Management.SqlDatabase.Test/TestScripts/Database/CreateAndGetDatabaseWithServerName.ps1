@@ -47,7 +47,6 @@ Write-Output "`$Endpoint=$Endpoint"
 $NameStartWith = $Name
 . .\CommonFunctions.ps1
 
-
 Try
 {
 	Init-TestEnvironment
@@ -62,35 +61,33 @@ Try
     
     #############################################################
     # Create Database with only required parameters
-    #############################################################
     Write-Output "Creating Database $Name ..."
     $database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
     Write-Output "Done"
+
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
         -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly `
         $defaultIsReadOnly -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject `
 		$defaultIsSystemObject
     
-    
     #############################################################
     #Get Database by database name
-    #############################################################
     $database = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
+
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
         -ExpectedEdition $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly `
         $defaultIsReadOnly -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject `
 		$defaultIsSystemObject
 			
     $database = Get-AzureSqlDatabase $ServerName -DatabaseName $Name
+
     Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation `
-        $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-        -ExpectedEdition -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject `
+        -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
+        -ExpectedEdition $defaultEdition -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject `
 		$defaultIsSystemObject
-    
     
     #############################################################
     # Create Database with all optional parameters
-    #############################################################
     $Name = $Name + "1"
     Write-Output "Creating Database $Name ..."
     $database2 = New-AzureSqlDatabase -ServerName $ServerName $Name -Collation `
@@ -102,23 +99,21 @@ Try
         -ExpectedIsReadOnly $defaultIsReadOnly -ExpectedIsFederationRoot $defaultIsFederationRoot `
 		-ExpectedIsSystemObject $defaultIsSystemObject
 
-            
     #############################################################
     #Get Database by database object
-    #############################################################
     $database2 = Get-AzureSqlDatabase -ServerName $ServerName -Database $database2
+
     Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName `
         "SQL_Latin1_General_CP1_CS_AS" -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" `
         -ExpectedIsReadOnly $defaultIsReadOnly -ExpectedIsFederationRoot $defaultIsFederationRoot `
 		-ExpectedIsSystemObject $defaultIsSystemObject
             
-            
     #############################################################
     #Get Databases with no filter
-    #############################################################
     $databases = (Get-AzureSqlDatabase -ServerName $ServerName) | `
 		Where-Object {$_.Name.StartsWith($NameStartWith)}
     $count = $databases.Count
+
     Assert {$count -eq 2} "Get database should have returned 2 database, but returned $count"
     
     $IsTestPass = $True

@@ -29,6 +29,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
     {
+        /// <summary>
+        /// Initialize the necessary environment for the tests.
+        /// </summary>
         [TestInitialize]
         public void SetupTest()
         {
@@ -59,6 +62,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Test creating a new database using certificate authentication
+        /// </summary>
         [TestMethod]
         public void NewAzureSqlDatabaseWithCertAuth()
         {
@@ -109,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             Database result = 
                 service.CreateNewDatabase("UnitTestNewDatabase", 1, "Japanese_CI_AS", DatabaseEdition.Web);
 
-            //verify that the result matches the stuff in the thunk.
+            // Verify that the result matches the stuff in the thunk.
             Assert.AreEqual(result.CollationName, "Japanese_CI_AS", "The collation does not match");
             Assert.AreEqual(result.Edition, DatabaseEdition.Web.ToString(), "The edition does not match");
             Assert.AreEqual(result.MaxSizeGB, 1, "The max db size does not match");

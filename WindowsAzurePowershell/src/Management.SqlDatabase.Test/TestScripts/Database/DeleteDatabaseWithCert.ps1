@@ -54,6 +54,7 @@ Try
 
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     
+	############################################################
     # Delete database by pasing database object
     Write-Output "Deleting Database by passing Database object ..."
     Remove-AzureSqlDatabase $context $database -Force
@@ -62,6 +63,7 @@ Try
     $getDroppedDatabase = Get-AzureSqlDatabase -ConnectionContext $context | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"
     
+	############################################################
     # Delete database by pasing database name
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     Write-Output "Deleting Database by passing Database Name ..."

@@ -44,6 +44,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
@@ -111,6 +112,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Test removing a database using certificate authentication
+        /// </summary>
         [TestMethod]
         public void RemoveAzureSqlDatabaseWithCertAuth()
         {

@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
     using System;
@@ -23,16 +22,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
 
-
+    /// <summary>
+    /// Functional tests for Database CRUD operations
+    /// </summary>
     [TestClass]
     public class DatabaseTest
     {
-        private string userName;
-        private string password;
-        private string manageUrl;
-        private string subscriptionId;
-        private string serializedCert;
-        private string serverName;
+        #region Test Script Locations
 
         /// <summary>
         /// Scripts for doing context creation tests
@@ -40,24 +36,51 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private const string CreateContextScript = @"Database\CreateContext.ps1";
 
         /// <summary>
-        /// Scripts for doing Create and Get database tests
+        /// Script for doing Create and Get database tests with SQL authentication
         /// </summary>
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
+
+        /// <summary>
+        /// Script for doing Create and Get database tests with Certificate authentication
+        /// </summary>
         private const string CreateScriptWithCert = @"Database\CreateAndGetDatabaseWithCert.ps1";
+
+        /// <summary>
+        /// Script for doing Create and Get database tests with Certificate authentication
+        /// using the server name
+        /// </summary>
         private const string CreateScriptWithServerName = @"Database\CreateAndGetDatabaseWithServerName.ps1";
 
         /// <summary>
-        /// Scripts for duing database update tests
+        /// Scripts for doing database update tests
         /// </summary>
         private const string UpdateScript = @"Database\UpdateDatabase.ps1";
+
+        /// <summary>
+        /// Script for doing Update database tests with Certificate authentication
+        /// </summary>
         private const string UpdateScriptWithCert = @"Database\UpdateDatabaseWithCert.ps1";
+
+        /// <summary>
+        /// Script for doing Update database tests with Certificate authentication
+        /// using the server name
+        /// </summary>
         private const string UpdateScriptWithServerName = @"Database\UpdateDatabaseWithServerName.ps1";
 
         /// <summary>
         /// Scripts for doing delete database tests
         /// </summary>
         private const string DeleteScript = @"Database\DeleteDatabase.ps1";
+
+        /// <summary>
+        /// Script for doing Delete database tests with Certificate authentication
+        /// </summary>
         private const string DeleteScriptWithCert = @"Database\DeleteDatabaseWithCert.ps1";
+
+        /// <summary>
+        /// Script for doing Delete database tests with Certificate authentication
+        /// using the server name
+        /// </summary>
         private const string DeleteScriptWithServerName = @"Database\DeleteDatabaseWithServerName.ps1";
 
         /// <summary>
@@ -65,11 +88,50 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
+        #endregion
+
         /// <summary>
         /// The end point to use for the tests
         /// </summary>
         private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
 
+        #region Private Fields
+
+        /// <summary>
+        /// Username to use for running the tests
+        /// </summary>
+        private string userName;
+
+        /// <summary>
+        /// Password to use for running the tests
+        /// </summary>
+        private string password;
+
+        /// <summary>
+        /// ManageUrl to use when running the tests
+        /// </summary>
+        private string manageUrl;
+
+        /// <summary>
+        /// Subscription Id to use when running the tests
+        /// </summary>
+        private string subscriptionId;
+
+        /// <summary>
+        /// Serialized Certificate to use when running the tests
+        /// </summary>
+        private string serializedCert;
+
+        /// <summary>
+        /// The server name to use when running the tests
+        /// </summary>
+        private string serverName;
+
+        #endregion
+        
+        /// <summary>
+        /// Get the necessary variables from settings file for the tests
+        /// </summary>
         [TestInitialize]
         public void Setup()
         {
@@ -82,6 +144,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.serverName = new Uri(manageUrl).Host.Split('.').First();
         }
 
+        /// <summary>
+        /// Tests context creation
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateContext()
@@ -101,6 +166,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests creating a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateDatabaseWithSqlAuth()
@@ -116,6 +184,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests creating a database using certificate authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateDatabaseWithCert()
@@ -135,6 +206,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests creating a database using certificate authentication and using
+        /// the server name to connect
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateDatabaseWithServerName()
@@ -154,6 +229,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests updating a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void UpdateDatabaseWithSqlAuth()
@@ -169,6 +247,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests updating a database using certificate authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void UpdateDatabaseWithCert()
@@ -188,6 +269,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests updating a database using certificate authentication and using
+        /// the server name to connect
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void UpdateDatabaseWithServerName()
@@ -207,6 +292,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests removing a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void DeleteDatabaseWithSqlAuth()
@@ -222,6 +310,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests removing a database using certificate authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void DeleteDatabaseWithCertAuth()
@@ -239,6 +330,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests removing a database using certificate authentication and using
+        /// the server name to connect
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void DeleteDatabaseWithServerName()
@@ -258,6 +353,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Validates the object output format
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void OutputObjectFormatValidation()

@@ -68,10 +68,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void FirewallTest()
         {
             string arguments = string.Format(
-                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", 
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -Endpoint \"{3}\"", 
                 this.subscriptionID, 
-                this.serializedCert, 
-                this.serverLocation);
+                this.serializedCert,
+                this.serverLocation,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FirewallTestScript, arguments);
             Assert.IsTrue(testResult);
         }

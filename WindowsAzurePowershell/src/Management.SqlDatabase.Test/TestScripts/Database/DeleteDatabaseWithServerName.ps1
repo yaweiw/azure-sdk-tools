@@ -91,7 +91,6 @@ Try
     $getDroppedDatabase = Get-AzureSqlDatabase -ServerName $Servername | Where-Object {$_.Name -eq $Name}
     Assert {!$getDroppedDatabase} "Database is not dropped"    
     
-
     $IsTestPass = $True
 }
 Finally

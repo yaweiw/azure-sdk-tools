@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         {
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
-            //Make sure that server name to Manage Url conversion is working
+            // Make sure that server name to Manage Url conversion is working
             contextCmdlet.ServerName = "server0001";
             Assert.AreEqual(
                 new Uri("https://server0001.database.windows.net"),
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ServerNameWithSqlAuthParamSet));
 
-            //Make sure that fully qualified server name name to Manage Url conversion is working
+            // Make sure that fully qualified server name name to Manage Url conversion is working
             contextCmdlet.FullyQualifiedServerName = "server0003.database.windows.net";
             Assert.AreEqual(
                 new Uri("https://server0003.database.windows.net"),
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithSqlAuthParamSet));
             
-            //Make sure that Manage Url to Manage Url conversion is working properly
+            // Make sure that Manage Url to Manage Url conversion is working properly
             contextCmdlet.ManageUrl = new Uri("https://server0005.database.windows.net");
             Assert.AreEqual(
                 new Uri("https://server0005.database.windows.net"),
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     NewAzureSqlDatabaseServerContext.ManageUrlWithSqlAuthParamSet));
 
 
-            //Make sure that server name to Manage Url conversion is working
+            // Make sure that server name to Manage Url conversion is working
             contextCmdlet.ServerName = "server0001";
             Assert.AreEqual(
                 new Uri("https://server0001.database.windows.net"),
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ServerNameWithCertAuthParamSet));
 
-            //Make sure that fully qualified server name name to Manage Url conversion is working
+            // Make sure that fully qualified server name name to Manage Url conversion is working
             contextCmdlet.FullyQualifiedServerName = "server0003.database.windows.net";
             Assert.AreEqual(
                 new Uri("https://server0003.database.windows.net"),
@@ -152,6 +152,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Create a new server context using certificate authentication
+        /// </summary>
         [TestMethod]
         public void NewAzureSqlDatabaseServerContextWithCertAuth()
         {
