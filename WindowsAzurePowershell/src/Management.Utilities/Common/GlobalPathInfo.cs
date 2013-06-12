@@ -57,10 +57,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public GlobalPathInfo(string rootPath, string subscriptionsDataFile)
         {
-            PublishSettingsFile = Path.Combine(rootPath, Resources.PublishSettingsFileName);
-            SubscriptionsDataFile = subscriptionsDataFile ?? Path.Combine(rootPath, Resources.SubscriptionDataFileName);
-            ServiceConfigurationFile = Path.Combine(rootPath, Resources.ConfigurationFileName);
-            EnvironmentsFile = Path.Combine(rootPath, Resources.EnvironmentsFileName);
+            PublishSettingsFile = General.CominePath(rootPath, Resources.PublishSettingsFileName);
+            SubscriptionsDataFile = subscriptionsDataFile ?? 
+                General.CominePath(rootPath, Resources.SubscriptionDataFileName);
+            ServiceConfigurationFile = General.CominePath(rootPath, Resources.ConfigurationFileName);
+            EnvironmentsFile = General.CominePath(rootPath, Resources.EnvironmentsFileName);
             AzureDirectory = rootPath;
         }
     }
