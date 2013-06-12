@@ -105,65 +105,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         }
 
         [TestMethod]
-        public void GlobalSettingsManagerCreateNewEmptyAzureDirectoryFail()
-        {
-            foreach (string fileName in Data.ValidSubscriptionsData)
-            {
-                try
-                {
-                    GlobalSettingsManager.Load(string.Empty, fileName);
-                    Assert.Fail("No exception thrown");
-                }
-                catch (Exception ex)
-                {
-                    Assert.IsTrue(ex is ArgumentException);
-                    Assert.AreEqual<string>(ex.Message, string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.AzureDirectoryName));
-                    Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GlobalSettingsManagerCreateNewNullAzureDirectoryFail()
-        {
-            foreach (string fileName in Data.ValidSubscriptionsData)
-            {
-                try
-                {
-                    GlobalSettingsManager.Load(null, fileName);
-                    Assert.Fail("No exception thrown");
-                }
-                catch (Exception ex)
-                {
-                    Assert.IsTrue(ex is ArgumentException);
-                    Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GlobalSettingsManagerCreateNewInvalidAzureDirectoryFail()
-        {
-            foreach (string fileName in Data.ValidPublishSettings)
-            {
-                foreach (string invalidDirectoryName in Data.InvalidServiceRootName)
-                {
-                    try
-                    {
-                        GlobalSettingsManager.Load(invalidDirectoryName, fileName);
-                        Assert.Fail("No exception thrown");
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.IsTrue(ex is ArgumentException);
-                        Assert.AreEqual<string>(ex.Message, "Illegal characters in path.");
-                        Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                    }
-                }
-            }
-        }
-
-        [TestMethod]
         public void GlobalSettingsManagerCreateNewInvalidPublishSettingsSchemaFail()
         {
             foreach (string fileName in Data.InvalidPublishSettings)
@@ -187,17 +128,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
-                try
-                {
-                    GlobalSettingsManager.Load("fake");
-                    Assert.Fail("No exception thrown");
-                }
-                catch (Exception ex)
-                {
-                    Assert.IsTrue(ex is FileNotFoundException);
-                    Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
-                    Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                }
+                GlobalSettingsManager.Load("fake");
+                Assert.IsNotNull(GlobalSettingsManager.Instance.PublishSettings);
+                Assert.IsNotNull(GlobalSettingsManager.Instance.ServiceConfiguration);
+                Assert.IsNotNull(GlobalSettingsManager.Instance.Certificate);
             }
         }
 
@@ -206,60 +140,25 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
-                try
-                {
-                    GlobalSettingsManager.Load(null);
-                    Assert.Fail("No exception thrown");
-                }
-                catch (Exception ex)
-                {
-                    Assert.IsTrue(ex is ArgumentException);
-                    Assert.AreEqual<string>("Value cannot be null. Parameter name: 'azurePath'", ex.Message);
-                    Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                }
+                GlobalSettingsManager.Load(null);
+                Assert.IsNotNull(GlobalSettingsManager.Instance.PublishSettings);
+                Assert.IsNotNull(GlobalSettingsManager.Instance.ServiceConfiguration);
+                Assert.IsNotNull(GlobalSettingsManager.Instance.Certificate);
             }
         }
 
         [TestMethod]
-        public void GlobalSettingsManagerLoadExistingInvalidDirectoryNameAzureDirectoryFail()
+        public void GlobalSettingsManagerLoadDoesNotExistAzureDirectoryGetDefaultValues()
         {
             foreach (string fileName in Data.ValidPublishSettings)
             {
                 foreach (string invalidDirectoryName in Data.InvalidServiceRootName)
                 {
-                    try
-                    {
-                        GlobalSettingsManager.Load(invalidDirectoryName);
-                        Assert.Fail("No exception thrown");
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.IsTrue(ex is ArgumentException);
-                        Assert.AreEqual<string>(ex.Message, "Illegal characters in path.");
-                        Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                    }
-                }
-            }
-        }
+                    GlobalSettingsManager.Load("DoesNotExistDirectory");
 
-        [TestMethod]
-        public void GlobalSettingsManagerLoadDoesNotExistAzureDirectoryFail()
-        {
-            foreach (string fileName in Data.ValidPublishSettings)
-            {
-                foreach (string invalidDirectoryName in Data.InvalidServiceRootName)
-                {
-                    try
-                    {
-                        GlobalSettingsManager.Load("DoesNotExistDirectory");
-                        Assert.Fail("No exception thrown");
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.IsTrue(ex is FileNotFoundException);
-                        Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
-                        Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                    }
+                    Assert.IsNotNull(GlobalSettingsManager.Instance.PublishSettings);
+                    Assert.IsNotNull(GlobalSettingsManager.Instance.ServiceConfiguration);
+                    Assert.IsNotNull(GlobalSettingsManager.Instance.Certificate);
                 }
             }
         }
@@ -314,13 +213,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
         [TestMethod]
         public void GlobalSettingsManagerLoadInvalidPublishSettingsSchemaFail()
         {
-            Testing.AssertThrows<FileNotFoundException>(
-                () => GlobalSettingsManager.Load("DoesNotExistDirectory"),
-                ex =>
-                {
-                    Assert.AreEqual<string>(ex.Message, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
-                    Assert.IsFalse(Directory.Exists(Data.AzureAppDir));
-                });
+            GlobalSettingsManager.Load("DoesNotExistDirectory");
+
+            Assert.IsNotNull(GlobalSettingsManager.Instance.PublishSettings);
+            Assert.IsNotNull(GlobalSettingsManager.Instance.ServiceConfiguration);
+            Assert.IsNotNull(GlobalSettingsManager.Instance.Certificate);
         }
 
         [TestMethod]
