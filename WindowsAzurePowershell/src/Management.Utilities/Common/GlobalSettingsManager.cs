@@ -115,9 +115,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static GlobalSettingsManager Load(string azurePath, string subscriptionsDataFile)
         {
-            Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
-            Validate.ValidateStringIsNullOrEmpty(azurePath, Resources.AzureDirectoryName);
-
             var globalSettingsManager = new GlobalSettingsManager(azurePath, subscriptionsDataFile);
             globalSettingsManager.LoadCurrent();
 
@@ -196,9 +193,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         internal void LoadCurrent()
         {
+            // Try load environments.xml
             try
             {
-                // Try deserialize environments.xml if any.
                 customEnvironments = General.DeserializeXmlFile<List<WindowsAzureEnvironment>>(
                     GlobalPaths.EnvironmentsFile);
             }
@@ -207,6 +204,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 customEnvironments = new List<WindowsAzureEnvironment>();
             }
 
+            // Try load publishSettings.xml
             try
             {
                 PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
@@ -214,14 +212,34 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 {
                     Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
                 }
+            }
+            catch
+            {
+                PublishSettings = null;
+                Certificate = null;
+            }
 
+            // Try load subscriptionsData.xml
+            try
+            {
                 SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
+            }
+            catch
+            {
+                SubscriptionManager = new SubscriptionsManager();
+            }
+
+            // Try load config.json
+            try
+            {
                 ServiceConfiguration = new JavaScriptSerializer().Deserialize<CloudServiceProjectConfiguration>(
                     File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
+
                 var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription =>
                     subscription.SubscriptionId == ServiceConfiguration.subscription &&
                     (string.IsNullOrEmpty(ServiceConfiguration.subscriptionName) || 
                      subscription.SubscriptionName == ServiceConfiguration.subscriptionName));
+
                 if (defaultSubscription != null)
                 {
                     defaultSubscription.IsDefault = true;
@@ -229,11 +247,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
             catch
             {
-                // Use default values
-                PublishSettings = new PublishData();
-                Certificate = new X509Certificate2();
-                SubscriptionManager = new SubscriptionsManager();
-                ServiceConfiguration = new CloudServiceProjectConfiguration();
+                ServiceConfiguration = null;
             }
         }
 
@@ -245,7 +259,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             // Save *.publishsettings
             //
-            General.SerializeXmlFile(PublishSettings, GlobalPaths.PublishSettingsFile);
+            if (PublishSettings != null)
+            {
+                General.SerializeXmlFile(PublishSettings, GlobalPaths.PublishSettingsFile);
+            }
 
             // Save certificate in the store
             //
@@ -256,11 +273,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             // Save service configuration
             //
-            File.WriteAllText(GlobalPaths.ServiceConfigurationFile, new JavaScriptSerializer().Serialize(ServiceConfiguration));
+            if (ServiceConfiguration != null)
+            {
+                File.WriteAllText(
+                    GlobalPaths.ServiceConfigurationFile,
+                    new JavaScriptSerializer().Serialize(ServiceConfiguration));
+            }
 
             // Save subscriptions
             //
-            SubscriptionManager.SaveSubscriptions(GlobalPaths.SubscriptionsDataFile);
+            if (SubscriptionManager != null)
+            {
+                SubscriptionManager.SaveSubscriptions(GlobalPaths.SubscriptionsDataFile);
+            }
         }
 
         internal void SaveSubscriptions()
@@ -280,10 +305,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(s => s.IsDefault);
             if (defaultSubscription != null)
             {
+                ServiceConfiguration = ServiceConfiguration ?? new CloudServiceProjectConfiguration();
                 ServiceConfiguration.subscription = defaultSubscription.SubscriptionId;
                 ServiceConfiguration.subscriptionName = defaultSubscription.SubscriptionName;
                 ServiceConfiguration.endpoint = defaultSubscription.ServiceEndpoint;
-                File.WriteAllText(GlobalPaths.ServiceConfigurationFile, new JavaScriptSerializer().Serialize(ServiceConfiguration));
+                File.WriteAllText(
+                    GlobalPaths.ServiceConfigurationFile,
+                    new JavaScriptSerializer().Serialize(ServiceConfiguration));
             }
         }
 
@@ -386,6 +414,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string managementPortalUrl = null,
             string storageEndpoint = null)
         {
+            Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
             string storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
             string storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
             string storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
