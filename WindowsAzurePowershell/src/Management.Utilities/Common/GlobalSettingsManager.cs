@@ -414,6 +414,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string managementPortalUrl = null,
             string storageEndpoint = null)
         {
+            Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
             string storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
             string storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
             string storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
