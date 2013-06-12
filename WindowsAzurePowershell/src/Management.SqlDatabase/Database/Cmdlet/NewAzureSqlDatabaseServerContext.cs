@@ -34,31 +34,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #region ParameterSet Names
 
         /// <summary>
-        /// The name of the parameter set for creating a context with Sql-auth by Server Name
+        /// The name of the parameter set for creating a context with SQL authentication by Server Name
         /// </summary>
         internal const string ServerNameWithSqlAuthParamSet =
             "ByServerNameWithSqlAuth";
 
         /// <summary>
-        /// The name of the parameter set for creating a context with Sql-auth by FQSN
+        /// The name of the parameter set for creating a context with SQL authentication by FQSN
         /// </summary>
         internal const string FullyQualifiedServerNameWithSqlAuthParamSet =
             "ByFullyQualifiedServerNameWithSqlAuth";
 
         /// <summary>
-        /// The name of the parameter set for creating a context with Sql-auth by Manage Url
+        /// The name of the parameter set for creating a context with SQL authentication by Manage Url
         /// </summary>
         internal const string ManageUrlWithSqlAuthParamSet =
             "ByManageUrlWithSqlAuth";
 
         /// <summary>
-        /// The name of the parameter set for creating a context with Cert-auth by Server Name
+        /// The name of the parameter set for creating a context with certificate
+        /// authentication by Server Name
         /// </summary>
         internal const string ServerNameWithCertAuthParamSet =
             "ByServerNameWithCertAuth";
 
         /// <summary>
-        /// The name of the parameter set for creating a context with Cert-auth by FQSN
+        /// The name of the parameter set for creating a context with certificate
+        /// authentication by FQSN
         /// </summary>
         internal const string FullyQualifiedServerNameWithCertAuthParamSet =
             "ByFullyQualifiedServerNameWithCertAuth";
@@ -142,12 +144,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
-        /// Connect to a Azure Sql Server with the given ManagementService Uri using
-        /// Sql Authentication credentials.
+        /// Connect to a Azure SQL Server with the given ManagementService Uri using
+        /// SQL authentication credentials.
         /// </summary>
         /// <param name="serverName">The server name.</param>
         /// <param name="managementServiceUri">The server's ManagementService Uri.</param>
-        /// <param name="credentials">The Sql Authentication credentials for the server.</param>
+        /// <param name="credentials">The SQL Authentication credentials for the server.</param>
         /// <returns>A new <see cref="ServerDataServiceSqlAuth"/> context,
         /// or <c>null</c> if an error occurred.</returns>
         internal ServerDataServiceSqlAuth GetServerDataServiceBySqlAuth(
@@ -193,7 +195,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Connect to Azure Sql Server using certificate authentication.
+        /// Connect to Azure SQL Server using certificate authentication.
         /// </summary>
         /// <param name="serverName">The name of the server to connect to</param>
         /// <param name="subscriptionData">The subscription data to use for authentication</param>
@@ -340,7 +342,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Obtain the SqlAuthentication Credentials based on the Cmdlet's parameter set.
+        /// Obtain the SQL Authentication Credentials based on the Cmdlet's parameter set.
         /// </summary>
         /// <returns>The Credentials based on the Cmdlet's parameter set.</returns>
         private SqlAuthenticationCredentials GetSqlAuthCredentials()

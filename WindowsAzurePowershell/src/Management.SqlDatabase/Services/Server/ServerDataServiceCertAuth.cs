@@ -1,5 +1,4 @@
 ﻿﻿// ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +13,10 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
-
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
-
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.

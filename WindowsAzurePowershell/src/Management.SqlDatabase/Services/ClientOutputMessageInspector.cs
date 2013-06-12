@@ -35,16 +35,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         { 
         }
 
+        /// <summary>
+        /// Adds additional trace information and agent identification values to the web request header
+        /// </summary>
+        /// <param name="request">The web request to be sent</param>
+        /// <param name="channel">The channel being used.</param>
+        /// <returns>always null</returns>
         public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
         {
             if (request.Properties.ContainsKey(HttpRequestMessageProperty.Name))
             {
                 var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+
+                // Add the version to the header.
                 if (property.Headers[Constants.VersionHeaderName] == null)
                 {
                     property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent);
                 }
 
+                // Add the client session ID to the header
                 if (property.Headers[Constants.ClientSessionIdHeaderName] == null)
                 {
                     property.Headers.Add(
@@ -52,11 +61,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
                         SqlDatabaseManagementCmdletBase.clientSessionId);
                 }
 
+                // Add the request session id to the header
                 if (property.Headers[Constants.ClientRequestIdHeaderName] == null)
                 {
                     property.Headers.Add(Constants.ClientRequestIdHeaderName, this.requestSessionId);
                 }
 
+                // Add the appropriate headers to indicate which user agent sent the request.
                 if (property.Headers[ServiceManagementClientOutputMessageInspector.UserAgentHeaderName] == null)
                 {
                     property.Headers.Add(
