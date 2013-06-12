@@ -1062,6 +1062,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to environments.xml.
+        /// </summary>
+        internal static string EnvironmentsFileName {
+            get {
+                return ResourceManager.GetString("EnvironmentsFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         internal static string ErrorRetrievingRuntimesForLocation {
@@ -3196,6 +3205,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string StorageAccountName {
             get {
                 return ResourceManager.GetString("StorageAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage account &apos;{0}&apos; please type the name of an existing storage account..
+        /// </summary>
+        internal static string StorageAccountNotFound {
+            get {
+                return ResourceManager.GetString("StorageAccountNotFound", resourceCulture);
             }
         }
         

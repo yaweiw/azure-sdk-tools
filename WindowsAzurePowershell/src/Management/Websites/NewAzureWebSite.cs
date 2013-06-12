@@ -249,9 +249,11 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 webspace = webspaceList.FirstOrDefault();
                 if (webspace == null)
                 {
+                    string defaultLocation = WebsitesClient.GetDefaultLocation();
                     webspace = new WebSpace
                     {
-                        GeoRegion = WebsitesClient.GetDefaultLocation(),
+                        Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
+                        GeoRegion = defaultLocation,
                         Subscription = CurrentSubscription.SubscriptionId,
                         Plan = "VirtualDedicatedPlan"
                     };
