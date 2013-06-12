@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
@@ -110,18 +111,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
 
             // Add again
             cmdlet.Name = "kAtAl";
-            cmdlet.ExecuteCmdlet();
-
-            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Exactly(2));
-            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("kAtAl");
-            Assert.AreEqual(env.Name.ToLower(), cmdlet.Name.ToLower());
-            Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
-            Assert.AreEqual(env.ServiceEndpoint, cmdlet.ServiceEndpoint);
-            Assert.AreEqual(env.ManagementPortalUrl, cmdlet.ManagementPortalUrl);
-            Assert.AreEqual(env.StorageBlobEndpointFormat, cmdlet.StorageBlobEndpointFormat);
-            Assert.AreEqual(env.StorageQueueEndpointFormat, cmdlet.StorageQueueEndpointFormat);
-            Assert.AreEqual(env.StorageTableEndpointFormat, cmdlet.StorageTableEndpointFormat);
-            Assert.AreEqual(count, GlobalSettingsManager.Instance.GetEnvironments().Count);
+            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
         }
 
         [TestMethod]
@@ -136,10 +126,65 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
             };
             int count = GlobalSettingsManager.Instance.GetEnvironments().Count;
 
+            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
+        }
+
+        [TestMethod]
+        public void AddsEnvironmentWithStorageEndpoint()
+        {
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            WindowsAzureEnvironment actual = null;
+            commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<object>()))
+                .Callback((object output) => actual = (WindowsAzureEnvironment)output);
+            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = "Katal",
+                PublishSettingsFileUrl = "http://microsoft.com",
+                StorageEndpoint = "core.windows.net"
+            };
+
             cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
-            Assert.AreEqual(count, GlobalSettingsManager.Instance.GetEnvironments().Count);
+            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
+            Assert.AreEqual(env.Name, cmdlet.Name);
+            Assert.AreEqual(env.PublishSettingsFileUrl, actual.PublishSettingsFileUrl);
+            Assert.AreEqual(
+                WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
+                actual.StorageBlobEndpointFormat);
+            Assert.AreEqual(
+                WindowsAzureEnvironmentConstants.AzureStorageQueueEndpointFormat,
+                actual.StorageQueueEndpointFormat);
+            Assert.AreEqual(
+                WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat,
+                actual.StorageTableEndpointFormat);
+        }
+
+        [TestMethod]
+        public void AddsEnvironmentWithEmptyStorageEndpoint()
+        {
+            Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
+            WindowsAzureEnvironment actual = null;
+            commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<object>()))
+                .Callback((object output) => actual = (WindowsAzureEnvironment)output);
+            AddAzureEnvironmentCommand cmdlet = new AddAzureEnvironmentCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = "Katal",
+                PublishSettingsFileUrl = "http://microsoft.com",
+                StorageEndpoint = null
+            };
+
+            cmdlet.ExecuteCmdlet();
+
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
+            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
+            Assert.AreEqual(env.Name, cmdlet.Name);
+            Assert.AreEqual(env.PublishSettingsFileUrl, actual.PublishSettingsFileUrl);
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageBlobEndpointFormat));
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageQueueEndpointFormat));
+            Assert.IsTrue(string.IsNullOrEmpty(actual.StorageTableEndpointFormat));
         }
     }
 }

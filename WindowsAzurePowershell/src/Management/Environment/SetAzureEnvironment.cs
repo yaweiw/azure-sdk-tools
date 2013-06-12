@@ -21,10 +21,10 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
-    /// Adds a new Windows Azure environment.
+    /// Sets a Windows Azure environment.
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
-    public class AddAzureEnvironmentCommand : CmdletBase
+    [Cmdlet(VerbsCommon.Set, "AzureEnvironment"), OutputType(typeof(WindowsAzureEnvironment))]
+    public class SetAzureEnvironmentCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
@@ -38,45 +38,26 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string ManagementPortalUrl { get; set; }
 
-        [Parameter(Position = 4, Mandatory = false)]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string StorageBlobEndpointFormat { get; set; }
 
-        [Parameter(Position = 5, Mandatory = false)]
+        [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string StorageQueueEndpointFormat { get; set; }
 
-        [Parameter(Position = 6, Mandatory = false)]
+        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string StorageTableEndpointFormat { get; set; }
-
-        [Parameter(Mandatory = false, HelpMessage = "The storage endpoint")]
-        public string StorageEndpoint { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            WindowsAzureEnvironment environment = null;
-
-            if (!string.IsNullOrEmpty(StorageEndpoint))
-            {
-                environment = GlobalSettingsManager.Instance.AddEnvironmentStorageEndpoint(
-                    Name,
-                    PublishSettingsFileUrl,
-                    ServiceEndpoint,
-                    ManagementPortalUrl,
-                    StorageEndpoint);
-            }
-            else
-            {
-                environment = GlobalSettingsManager.Instance.AddEnvironment(
-                    Name,
-                    PublishSettingsFileUrl,
-                    ServiceEndpoint,
-                    ManagementPortalUrl,
-                    StorageBlobEndpointFormat,
-                    StorageQueueEndpointFormat,
-                    StorageTableEndpointFormat);
-            }
-
-            WriteObject(environment);
+            WriteObject(GlobalSettingsManager.Instance.ChangeEnvironment(
+                Name,
+                PublishSettingsFileUrl,
+                ServiceEndpoint,
+                ManagementPortalUrl,
+                StorageBlobEndpointFormat,
+                StorageQueueEndpointFormat,
+                StorageTableEndpointFormat));
         }
     }
 }
