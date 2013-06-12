@@ -21,21 +21,39 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     [DataContract(Name = "ServiceResource", Namespace = Constants.ServiceManagementNamespace)]
     public class SqlDatabaseInput : IExtensibleDataObject
     {
+        /// <summary>
+        /// Gets or sets the name of the database
+        /// </summary>
         [DataMember(Order = 1, EmitDefaultValue = false)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the database ID number
+        /// </summary>
         [DataMember(Order = 2, EmitDefaultValue = false)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the edition of the database
+        /// </summary>
         [DataMember(Order = 3, EmitDefaultValue = false)]
         public string Edition { get; set; }
 
+        /// <summary>
+        /// Gets or sets the maximum size in GB
+        /// </summary>
         [DataMember(Order = 4, EmitDefaultValue = false)]
         public string MaxSizeGB { get; set; }
 
+        /// <summary>
+        /// Gets or sets the collation name for the database
+        /// </summary>
         [DataMember(Order = 5, EmitDefaultValue = false)]
         public string CollationName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the extension data
+        /// </summary>
         public ExtensionDataObject ExtensionData { get; set; }
     }
 }

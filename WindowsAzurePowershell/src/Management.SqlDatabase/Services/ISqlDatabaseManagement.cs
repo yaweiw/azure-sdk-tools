@@ -99,6 +99,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <summary>
         /// Enumerates SQL Databases on a server that is provisioned on a subscription.
         /// </summary>
+        /// <param name="subscriptionId">The subscription ID that the server belongs to</param>
+        /// <param name="serverName">The server name that the databases belongs to</param>
+        /// <param name="callback">The callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> from the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases?contentview=generic")]
@@ -108,11 +113,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback, 
             object state);
         
+        /// <summary>
+        /// Given the <see cref="IAsyncResult"/> from the BeginGetDatabases web request
+        /// this finishes the operation and returns a <see cref="SqlDatabaseList"/> containing
+        /// all the databases
+        /// </summary>
+        /// <param name="asyncResult">The web request result</param>
+        /// <returns>A list of SqlDatabase objects.</returns>
         SqlDatabaseList EndGetDatabases(IAsyncResult asyncResult);
 
         /// <summary>
         /// Get a SQL Database from the server that is provisioned on a subscription
         /// </summary>
+        /// <param name="subscriptionId">The subscription Id that the server belongs to</param>
+        /// <param name="serverName">The name of the server the database belongs to</param>
+        /// <param name="databaseName">The name of the database to retrieve</param>
+        /// <param name="callback">The callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> from the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
@@ -123,11 +141,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback, 
             object state);
         
+        /// <summary>
+        /// Finishes the Async web request and gets the database
+        /// </summary>
+        /// <param name="asyncResult">The web request result</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/> representing the database</returns>
         SqlDatabaseResponse EndGetDatabase(IAsyncResult asyncResult);
 
         /// <summary>
         /// Adds a new SQL Database to a server  for a given subscription
         /// </summary>
+        /// <param name="subscriptionId">The subscription Id that the server belongs to</param>
+        /// <param name="serverName">The name of the server to place the new database in</param>
+        /// <param name="input">The parameters for creating a new database</param>
+        /// <param name="callback">The callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> from the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases")]
@@ -138,11 +167,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback, 
             object state);
         
+        /// <summary>
+        /// Finishes the Async web request and gets the result of creating a new database
+        /// </summary>
+        /// <param name="asyncResult">The web request result</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/> representing the new database</returns>
         SqlDatabaseResponse EndNewDatabase(IAsyncResult asyncResult);
 
         /// <summary>
         /// Updates an existing SQL database on a server for the given subscription
         /// </summary>
+        /// <param name="subscriptionId">The subscription Id that the server belongs to</param>
+        /// <param name="serverName">The name of the server containing the database to change</param>
+        /// <param name="databaseName">The name of the database to change</param>
+        /// <param name="input">The parameters for changing the database</param>
+        /// <param name="callback">The callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> from the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "PUT", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
@@ -153,12 +194,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             SqlDatabaseInput input, 
             AsyncCallback callback, 
             object state);
-        
+
+        /// <summary>
+        /// Finishes the Async web request and gets the result of updating a database
+        /// </summary>
+        /// <param name="asyncResult">The web request result</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/> representing the new database</returns>
         SqlDatabaseResponse EndUpdateDatabase(IAsyncResult asyncResult);
 
         /// <summary>
         /// Deletes and Existing SQL Database on a server for a given subscription
         /// </summary>
+        /// <param name="subscriptionId">The subscription Id that the server belongs to</param>
+        /// <param name="serverName">The name of the server containing the database to change</param>
+        /// <param name="databaseName">The name of the database to remove</param>
+        /// <param name="input">The parameters for deleting the database</param>
+        /// <param name="callback">The callback object</param>
+        /// <param name="state">The state object</param>
+        /// <returns>An <see cref="IAsyncResult"/> from the web request</returns>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "DELETE", 
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/databases/{databaseName}")]
@@ -169,7 +222,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             SqlDatabaseInput input, 
             AsyncCallback callback, 
             object state);
-        
+
+        /// <summary>
+        /// Finishes the Async web request for removing a database
+        /// </summary>
+        /// <param name="asyncResult">The web request result</param>
         void EndRemoveDatabase(IAsyncResult asyncResult);
     }
 }

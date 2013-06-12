@@ -21,34 +21,63 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     [DataContract(Name = "ServiceResource", Namespace = Constants.ServiceManagementNamespace)]
     public class SqlDatabaseResponse : IExtensibleDataObject
     {
+        /// <summary>
+        /// Gets or sets the name of the database
+        /// </summary>
         [DataMember(Order = 1)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the id of the database
+        /// </summary>
         [DataMember(Order = 2)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the edition of the database
+        /// </summary>
         [DataMember(Order = 3)]
         public string Edition { get; set; }
 
+        /// <summary>
+        /// Gets or sets the max size in GB
+        /// </summary>
         [DataMember(Order = 4)]
         public string MaxSizeGB { get; set; }
 
+        /// <summary>
+        /// Gets or sets the collation name
+        /// </summary>
         [DataMember(Order = 5)]
         public string CollationName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the creation date
+        /// </summary>
         [DataMember(Order = 6)]
         public string CreationDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether or not the database is federation root
+        /// </summary>
         [DataMember(Order = 7)]
         public string IsFederationRoot { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether or not the database is a system object
+        /// </summary>
         [DataMember(Order = 8)]
         public string IsSystemObject { get; set; }
 
+        /// <summary>
+        /// Gets or sets the maximum size in bytes.
+        /// </summary>
         [DataMember(Order = 9)]
         public string MaxSizeBytes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the extension data
+        /// </summary>
         public ExtensionDataObject ExtensionData { get; set; }
-
     }
 }

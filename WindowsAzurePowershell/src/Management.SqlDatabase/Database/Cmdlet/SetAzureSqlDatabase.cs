@@ -221,7 +221,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Process the request using a temporary connection context using cert. auth.
+        /// Process the request using a temporary connection context using certificate authentication
         /// </summary>
         /// <param name="databaseName">The name of the database to update</param>
         /// <param name="maxSizeGb">the new size for the database or null</param>
