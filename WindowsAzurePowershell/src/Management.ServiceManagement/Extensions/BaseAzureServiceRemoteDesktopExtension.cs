@@ -49,8 +49,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
                 new XElement(PublicConfigStr,
-                    new XElement(UserNameElemStr, ""),
-                    new XElement(ExpirationElemStr, "")
+                    new XElement(UserNameElemStr, string.Empty),
+                    new XElement(ExpirationElemStr, string.Empty)
                 )
             );
 
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
                 new XElement(PrivateConfigStr,
-                    new XElement(PasswordElemStr, "")
+                    new XElement(PasswordElemStr, string.Empty)
                 )
             );
         }
