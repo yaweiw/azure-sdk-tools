@@ -11,17 +11,18 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using System.Reflection;
+    using System.Net;
     using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
+    using Helpers;
     using Properties;
+    using Utilities.CloudService;
     using Utilities.Common;
-    using WindowsAzure.Management.Utilities.CloudService;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceExtensionCmdlet : ServiceManagementBaseCmdlet
@@ -29,11 +30,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string PublicConfigStr = "PublicConfig";
         protected const string PrivateConfigStr = "PrivateConfig";
         protected const string ChangeConfigurationModeStr = "Auto";
-        protected ExtensionManager ExtensionManager;
-        protected string ExtensionNameSpace;
-        protected string ExtensionType;
-        protected XDocument PublicConfigurationXmlTemplate;
-        protected XDocument PrivateConfigurationXmlTemplate;
+        protected const string XmlNameSpaceAttributeStr = "xmlns";
+
+        protected ExtensionManager ExtensionManager { get; set; }
+        protected string ExtensionNameSpace { get; set; }
+        protected string ExtensionType { get; set; }
+        protected XDocument PublicConfigurationXmlTemplate { get; set; }
+        protected XDocument PrivateConfigurationXmlTemplate { get; set; }
+        protected XDocument PublicConfigurationXml { get; set; }
+        protected XDocument PrivateConfigurationXml { get; set; }
+        protected string PublicConfiguration { get; set; }
+        protected string PrivateConfiguration { get; set; }
+        protected Deployment Deployment { get; set; }
+
+        public virtual string ServiceName { get; set; }
+        public virtual string Slot { get; set; }
+        public virtual string[] Role { get; set; }
+        public virtual X509Certificate2 X509Certificate { get; set; }
+        public virtual string CertificateThumbprint { get; set; }
+        public virtual string ThumbprintAlgorithm { get; set; }
+        public virtual SwitchParameter UninstallConfiguration { get; set; }
 
         public BaseAzureServiceExtensionCmdlet()
             : base()
@@ -44,48 +60,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             : base()
         {
             Channel = channel;
-        }
-
-        public virtual string ServiceName
-        {
-            get;
-            set;
-        }
-
-        public virtual string Slot
-        {
-            get;
-            set;
-        }
-
-        public virtual string[] Role
-        {
-            get;
-            set;
-        }
-
-        public virtual X509Certificate2 X509Certificate
-        {
-            get;
-            set;
-        }
-
-        public virtual string CertificateThumbprint
-        {
-            get;
-            set;
-        }
-
-        public virtual string ThumbprintAlgorithm
-        {
-            get;
-            set;
-        }
-
-        protected virtual Deployment Deployment
-        {
-            get;
-            set;
         }
 
         protected virtual void ValidateParameters()
@@ -110,48 +84,43 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
             }
-
-            ExtensionManager = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+            ExtensionManager = new ExtensionManager(this, ServiceName);
         }
 
         protected void ValidateDeployment()
         {
             Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
 
-            Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-            if (Deployment == null)
+            Deployment = GetDeployment(Slot);
+            if (!UninstallConfiguration)
             {
-                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindDeployment, ServiceName, Slot));
-            }
-
-            if (Deployment.ExtensionConfiguration == null)
-            {
-                Deployment.ExtensionConfiguration = new ExtensionConfiguration
+                if (Deployment == null)
+                {
+                    throw new Exception(string.Format(Resources.ServiceExtensionCannotFindDeployment, ServiceName, Slot));
+                }
+                Deployment.ExtensionConfiguration = Deployment.ExtensionConfiguration ?? new ExtensionConfiguration
                 {
                     AllRoles = new AllRoles(),
                     NamedRoles = new NamedRoles()
                 };
+                Deployment.ExtensionConfiguration.AllRoles = Deployment.ExtensionConfiguration.AllRoles ?? new AllRoles();
+                Deployment.ExtensionConfiguration.NamedRoles = Deployment.ExtensionConfiguration.NamedRoles ?? new NamedRoles();
             }
         }
 
         protected void ValidateRoles()
         {
-            if (Role != null)
+            Role = Role == null ? new string[0] : Role.Select(r => r == null ? string.Empty : r.Trim()).Distinct().ToArray();
+            foreach (string roleName in Role)
             {
-                Role.ForEach(r => r = r == null ? r : r.Trim());
-                Role = Role.Distinct().ToArray();
-
-                foreach (string roleName in Role)
+                if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
                 {
-                    if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
-                    {
-                        throw new Exception(string.Format(Resources.ServiceExtensionCannotFindRole, roleName, Slot, ServiceName));
-                    }
+                    throw new Exception(string.Format(Resources.ServiceExtensionCannotFindRole, roleName, Slot, ServiceName));
+                }
 
-                    if (string.IsNullOrWhiteSpace(roleName))
-                    {
-                        throw new Exception(Resources.ServiceExtensionCannotFindRoleName);
-                    }
+                if (string.IsNullOrWhiteSpace(roleName))
+                {
+                    throw new Exception(Resources.ServiceExtensionCannotFindRoleName);
                 }
             }
         }
@@ -167,33 +136,64 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
                 CertificateThumbprint = X509Certificate.Thumbprint;
             }
-            ThumbprintAlgorithm = ThumbprintAlgorithm == null ? "" : ThumbprintAlgorithm;
-            CertificateThumbprint = CertificateThumbprint == null ? "" : CertificateThumbprint;
+            ThumbprintAlgorithm = ThumbprintAlgorithm ?? string.Empty;
+            CertificateThumbprint = CertificateThumbprint ?? string.Empty;
         }
 
-        protected virtual bool IsServiceAvailable(string serviceName)
+        protected virtual void ValidateConfiguration()
         {
-            // Check that cloud service exists
-            bool found = false;
-            InvokeInOperationContext(() =>
-            {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
-            });
-            return found;
         }
 
-        private static string GetConfigValue(string text, string elem)
+        private static string GetConfigValue(string xmlText, string element)
         {
-            XDocument config = XDocument.Parse(text);
+            XDocument config = XDocument.Parse(xmlText);
             var result = from d in config.Descendants()
-                         where d.Name.LocalName == elem
+                         where d.Name.LocalName == element
                          select d.Descendants().Any() ? d.ToString() : d.Value;
             return result.FirstOrDefault();
         }
 
-        protected string GetPublicConfigValue(HostedServiceExtension ext, string elem)
+        protected string GetPublicConfigValue(HostedServiceExtension extension, string element)
         {
-            return ext == null ? "" : GetConfigValue(ext.PublicConfiguration, elem);
+            return extension == null ? string.Empty : GetConfigValue(extension.PublicConfiguration, element);
+        }
+
+        private void SetConfigValue(XDocument config, string element, Object value)
+        {
+            if (config != null && value != null)
+            {
+                config.Descendants().ForEach(e =>
+                {
+                    if (e.Name.LocalName == element)
+                    {
+                        if (value.GetType().Equals(typeof(XmlDocument)))
+                        {
+                            e.ReplaceAll(XElement.Load(new XmlNodeReader(value as XmlDocument)));
+                            e.Descendants().ForEach(d =>
+                            {
+                                if (string.IsNullOrEmpty(d.Name.NamespaceName))
+                                {
+                                    d.Name = config.Root.Name.Namespace + d.Name.LocalName;
+                                }
+                            });
+                        }
+                        else
+                        {
+                            e.SetValue(value.ToString());
+                        }
+                    }
+                });
+            }
+        }
+
+        protected void SetPublicConfigValue(string element, Object value)
+        {
+            SetConfigValue(PublicConfigurationXml, element, value);
+        }
+
+        protected void SetPrivateConfigValue(string element, Object value)
+        {
+            SetConfigValue(PrivateConfigurationXml, element, value);
         }
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)
@@ -207,6 +207,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 TreatWarningsAsError = false
             };
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
+        }
+
+        protected Deployment GetDeployment(string slot)
+        {
+            Deployment deployment = null;
+            using (new OperationContextScope(Channel.ToContextChannel()))
+            {
+                try
+                {
+                    deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
+                }
+                catch (ServiceManagementClientException ex)
+                {
+                    if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
+                    {
+                        this.WriteErrorDetails(ex);
+                    }
+                }
+            }
+            return deployment;
+        }
+
+        protected virtual bool IsServiceAvailable(string serviceName)
+        {
+            // Check that cloud service exists
+            bool found = false;
+            InvokeInOperationContext(() =>
+            {
+                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
+            });
+            return found;
         }
     }
 }

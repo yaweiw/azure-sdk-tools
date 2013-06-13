@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Mandatory = false, HelpMessage = "Extension configurations.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Extension configurations.")]
         public ExtensionConfigurationInput[] ExtensionConfiguration
         {
             get;
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
 
-                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+                ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
                 Deployment currentDeployment = null;
                 ExtensionConfiguration deploymentExtensionConfig = null;
                 using (new OperationContextScope(Channel.ToContextChannel()))

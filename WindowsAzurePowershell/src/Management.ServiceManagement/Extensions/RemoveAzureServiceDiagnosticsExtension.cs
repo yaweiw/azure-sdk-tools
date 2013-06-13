@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using Properties;
     using Utilities.Common;
@@ -35,16 +37,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
         public override string ServiceName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -52,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         public override string[] Role
         {
             get;
@@ -60,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "RemoveAll", HelpMessage = "If specified uninstall all Diagnostics configurations from the cloud service.")]
-        public SwitchParameter UninstallConfiguration
+        public override SwitchParameter UninstallConfiguration
         {
             get;
             set;
@@ -68,6 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
+            base.ValidateParameters();
             ValidateService();
             ValidateDeployment();
             ValidateRoles();
@@ -76,33 +79,48 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ValidateParameters();
-
             ExtensionConfigurationBuilder configBuilder = ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration);
-
-            bool removed = false;
             if (UninstallConfiguration && configBuilder.ExistAny(ExtensionNameSpace, ExtensionType))
             {
                 configBuilder.RemoveAny(ExtensionNameSpace, ExtensionType);
-                removed = true;
+                WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                ChangeDeployment(configBuilder.ToConfiguration());
             }
             else if (configBuilder.Exist(Role, ExtensionNameSpace, ExtensionType))
             {
                 configBuilder.Remove(Role, ExtensionNameSpace, ExtensionType);
-                removed = true;
-            }
-
-            if (removed)
-            {
+                if (Role == null || !Role.Any())
+                {
+                    WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                }
+                else
+                {
+                    bool defaultExists = configBuilder.ExistDefault(ExtensionNameSpace, ExtensionType);
+                    foreach (var r in Role)
+                    {
+                        WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromSpecificRoles, ExtensionType, r, ServiceName));
+                        if (defaultExists)
+                        {
+                            WriteVerbose(string.Format(Resources.ServiceExtensionRemovingSpecificAndApplyingDefault, ExtensionType, r));
+                        }
+                    }
+                }
                 ChangeDeployment(configBuilder.ToConfiguration());
             }
             else
             {
-                WriteWarning(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
+                WriteVerbose(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
             }
 
             if (UninstallConfiguration)
             {
-                ExtensionManager.Uninstall(ExtensionNameSpace, ExtensionType, Slot);
+                var allConfig = ExtensionManager.GetBuilder();
+                var deploymentList = (from slot in (new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging })
+                                      let d = GetDeployment(slot)
+                                      where d != null
+                                      select d).ToList();
+                deploymentList.ForEach(d => allConfig.Add(d.ExtensionConfiguration));
+                ExtensionManager.Uninstall(ExtensionNameSpace, ExtensionType, allConfig.ToConfiguration());
             }
         }
 
