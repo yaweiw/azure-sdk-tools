@@ -201,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 return Channel;
             }
             
-            return ServiceManagementHelper.CreateServiceManagementChannel<T>(
+            return ChannelHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,
