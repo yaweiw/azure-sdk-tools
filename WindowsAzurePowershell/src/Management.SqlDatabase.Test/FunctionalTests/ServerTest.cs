@@ -52,7 +52,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        [Ignore]
         public void CreateGetDeleteServerTest()
         {            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ServerTestScript, arguments);
@@ -61,7 +60,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        [Ignore]
         public void FirewallTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
@@ -71,7 +69,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        [Ignore]
         public void ResetServerPassword()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
