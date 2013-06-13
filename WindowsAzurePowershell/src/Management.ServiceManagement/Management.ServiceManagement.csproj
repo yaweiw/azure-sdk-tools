@@ -266,6 +266,7 @@
     <Compile Include="IaaS\PersistentVMs\GetAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureWinRMUri.cs" />
     <Compile Include="IaaS\PersistentVMs\ImportAzureVM.cs" />
+    <Compile Include="IaaS\PersistentVMs\MediaLinkFactory.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureQuickVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVMConfig.cs" />
