@@ -63,11 +63,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XElement(configNameSpace + PublicConfigStr,
                     new XElement(configNameSpace + StorageAccountElemStr,
-                        new XElement(configNameSpace + ConnectionQualifiersElemStr, ""),
-                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, ""),
-                        new XElement(configNameSpace + StorageNameElemStr, "")
+                        new XElement(configNameSpace + ConnectionQualifiersElemStr, string.Empty),
+                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, string.Empty),
+                        new XElement(configNameSpace + StorageNameElemStr, string.Empty)
                     ),
-                    new XElement(configNameSpace + WadCfgElemStr, "")
+                    new XElement(configNameSpace + WadCfgElemStr, string.Empty)
                 )
             );
 
