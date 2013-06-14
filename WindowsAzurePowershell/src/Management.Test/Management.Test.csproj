@@ -173,6 +173,8 @@
     <Compile Include="CloudService\Utilities\ServiceSettingsTests.cs" />
     <Compile Include="Common\WindowsAzureEnvironmentTests.cs" />
     <Compile Include="Environment\AddAzureEnvironmentTests.cs" />
+    <Compile Include="Environment\RemoveAzureEnvironmentTests.cs" />
+    <Compile Include="Environment\SetAzureEnvironmentTests.cs" />
     <Compile Include="Environment\GetAzureEnvironmentTests.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocationTest.cs" />
     <Compile Include="ServiceBus\GetAzureSBNamespaceTest.cs" />

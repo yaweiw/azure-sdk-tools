@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
             // Check that we cant get a current subscription as there is no working directory
-            Assert.IsNull(setSubscriptionCommand.GetCurrentSubscription());
+            Assert.IsNotNull(GlobalSettingsManager.Instance.SubscriptionManager);
 
             // Create a new subscription and a new working directory implicitly.
             var publishSettings = General.DeserializeXmlFile<PublishData>(Data.ValidPublishSettings.First(), string.Empty);

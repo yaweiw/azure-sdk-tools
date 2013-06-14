@@ -1053,6 +1053,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment &apos;{0}&apos; already exists..
+        /// </summary>
+        internal static string EnvironmentExists {
+            get {
+                return ResourceManager.GetString("EnvironmentExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
         /// </summary>
         internal static string EnvironmentNotFound {

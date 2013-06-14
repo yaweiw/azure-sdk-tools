@@ -184,6 +184,8 @@
     <Compile Include="CloudService\StopAzureService.cs" />
     <Compile Include="CloudService\TestAzureName.cs" />
     <Compile Include="Environment\AddAzureEnvironment.cs" />
+    <Compile Include="Environment\RemoveAzureEnvironment.cs" />
+    <Compile Include="Environment\SetAzureEnvironment.cs" />
     <Compile Include="Environment\GetAzureEnvironment.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocation.cs" />
     <Compile Include="ServiceBus\GetAzureSBNamespace.cs" />

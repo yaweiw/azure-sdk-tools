@@ -115,9 +115,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static GlobalSettingsManager Load(string azurePath, string subscriptionsDataFile)
         {
-            Validate.ValidateNullArgument(azurePath, string.Format(Resources.InvalidNullArgument, "azurePath"));
-            Validate.ValidateStringIsNullOrEmpty(azurePath, Resources.AzureDirectoryName);
-
             var globalSettingsManager = new GlobalSettingsManager(azurePath, subscriptionsDataFile);
             globalSettingsManager.LoadCurrent();
 
@@ -196,12 +193,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         internal void LoadCurrent()
         {
-            Validate.ValidateDirectoryExists(GlobalPaths.AzureDirectory, Resources.GlobalSettingsManager_Load_PublishSettingsNotFound);
-            Validate.ValidateFileExists(GlobalPaths.PublishSettingsFile, string.Format(Resources.PathDoesNotExistForElement, Resources.PublishSettingsFileName, GlobalPaths.PublishSettingsFile));
-
+            // Try load environments.xml
             try
             {
-                // Try deserialize environments.xml if any.
                 customEnvironments = General.DeserializeXmlFile<List<WindowsAzureEnvironment>>(
                     GlobalPaths.EnvironmentsFile);
             }
@@ -210,20 +204,50 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 customEnvironments = new List<WindowsAzureEnvironment>();
             }
 
-            PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
-            if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+            // Try load publishSettings.xml
+            try
             {
-                Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
+                PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
+                if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+                {
+                    Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
+                }
+            }
+            catch
+            {
+                PublishSettings = null;
+                Certificate = null;
             }
 
-            SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
-            ServiceConfiguration = new JavaScriptSerializer().Deserialize<CloudServiceProjectConfiguration>(File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
-            var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription => 
-                subscription.SubscriptionId == ServiceConfiguration.subscription &&
-                (string.IsNullOrEmpty(ServiceConfiguration.subscriptionName) || subscription.SubscriptionName == ServiceConfiguration.subscriptionName));
-            if (defaultSubscription != null)
+            // Try load subscriptionsData.xml
+            try
             {
-                defaultSubscription.IsDefault = true;
+                SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
+            }
+            catch
+            {
+                SubscriptionManager = new SubscriptionsManager();
+            }
+
+            // Try load config.json
+            try
+            {
+                ServiceConfiguration = new JavaScriptSerializer().Deserialize<CloudServiceProjectConfiguration>(
+                    File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
+
+                var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription =>
+                    subscription.SubscriptionId == ServiceConfiguration.subscription &&
+                    (string.IsNullOrEmpty(ServiceConfiguration.subscriptionName) || 
+                     subscription.SubscriptionName == ServiceConfiguration.subscriptionName));
+
+                if (defaultSubscription != null)
+                {
+                    defaultSubscription.IsDefault = true;
+                }
+            }
+            catch
+            {
+                ServiceConfiguration = null;
             }
         }
 
@@ -235,7 +259,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             // Save *.publishsettings
             //
-            General.SerializeXmlFile(PublishSettings, GlobalPaths.PublishSettingsFile);
+            if (PublishSettings != null)
+            {
+                General.SerializeXmlFile(PublishSettings, GlobalPaths.PublishSettingsFile);
+            }
 
             // Save certificate in the store
             //
@@ -246,11 +273,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             // Save service configuration
             //
-            File.WriteAllText(GlobalPaths.ServiceConfigurationFile, new JavaScriptSerializer().Serialize(ServiceConfiguration));
+            if (ServiceConfiguration != null)
+            {
+                File.WriteAllText(
+                    GlobalPaths.ServiceConfigurationFile,
+                    new JavaScriptSerializer().Serialize(ServiceConfiguration));
+            }
 
             // Save subscriptions
             //
-            SubscriptionManager.SaveSubscriptions(GlobalPaths.SubscriptionsDataFile);
+            if (SubscriptionManager != null)
+            {
+                SubscriptionManager.SaveSubscriptions(GlobalPaths.SubscriptionsDataFile);
+            }
         }
 
         internal void SaveSubscriptions()
@@ -270,10 +305,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(s => s.IsDefault);
             if (defaultSubscription != null)
             {
+                ServiceConfiguration = ServiceConfiguration ?? new CloudServiceProjectConfiguration();
                 ServiceConfiguration.subscription = defaultSubscription.SubscriptionId;
                 ServiceConfiguration.subscriptionName = defaultSubscription.SubscriptionName;
                 ServiceConfiguration.endpoint = defaultSubscription.ServiceEndpoint;
-                File.WriteAllText(GlobalPaths.ServiceConfigurationFile, new JavaScriptSerializer().Serialize(ServiceConfiguration));
+                File.WriteAllText(
+                    GlobalPaths.ServiceConfigurationFile,
+                    new JavaScriptSerializer().Serialize(ServiceConfiguration));
             }
         }
 
@@ -370,6 +408,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return Environments.Values.ToList();
         }
 
+        public WindowsAzureEnvironment AddEnvironmentStorageEndpoint(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageEndpoint = null)
+        {
+            Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
+            string storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
+            string storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
+            string storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
+ 
+            return AddEnvironment(
+                name,
+                publishSettingsFileUrl,
+                serviceEndpoint,
+                managementPortalUrl,
+                storageBlobEndpointFormat,
+                storageQueueEndpointFormat,
+                storageTableEndpointFormat);
+        }
+
         /// <summary>
         /// Adds new Windows Azure environment.
         /// </summary>
@@ -405,8 +464,79 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
                 return environment;
             }
+            else
+            {
+                throw new Exception(string.Format(Resources.EnvironmentExists, name));
+            }
+        }
 
-            return GetEnvironment(name);
+        /// <summary>
+        /// Changes an existing Windows Azure environment information.
+        /// </summary>
+        /// <param name="name">The name</param>
+        /// <param name="publishSettingsFileUrl">The publish settings url</param>
+        /// <param name="serviceEndpoint">The RDFE endpoint</param>
+        /// <param name="managementPortalUrl">The portal url</param>
+        /// <param name="storageBlobEndpointFormat">Blob service endpoint</param>
+        /// <param name="storageQueueEndpointFormat">Queue service endpoint</param>
+        /// <param name="storageTableEndpointFormat">Table service endpoint</param>
+        public WindowsAzureEnvironment ChangeEnvironment(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageBlobEndpointFormat = null,
+            string storageQueueEndpointFormat = null,
+            string storageTableEndpointFormat = null)
+        {
+            if (EnvironmentExists(name) && !IsPublicEnvironment(name))
+            {
+                WindowsAzureEnvironment environment = GetEnvironment(name);
+                environment.PublishSettingsFileUrl = General.GetNonEmptyValue(
+                    environment.PublishSettingsFileUrl,
+                    publishSettingsFileUrl);
+                environment.ManagementPortalUrl = General.GetNonEmptyValue(
+                    environment.ManagementPortalUrl,
+                    managementPortalUrl);
+                environment.ServiceEndpoint = General.GetNonEmptyValue(environment.ServiceEndpoint, serviceEndpoint);
+                environment.StorageBlobEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageBlobEndpointFormat,
+                    storageBlobEndpointFormat);
+                environment.StorageQueueEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageQueueEndpointFormat,
+                    storageQueueEndpointFormat);
+                environment.StorageTableEndpointFormat = General.GetNonEmptyValue(
+                    environment.StorageTableEndpointFormat,
+                    storageTableEndpointFormat);
+                General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+
+                return environment;
+            }
+            else if (IsPublicEnvironment(name))
+            {
+                return GetEnvironment(name);
+            }
+            else
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
+
+        /// <summary>
+        /// Removes a custom Windows Azure environment.
+        /// </summary>
+        /// <param name="name">The environment name</param>
+        public void RemoveEnvironment(string name)
+        {
+            if (EnvironmentExists(name) && !IsPublicEnvironment(name))
+            {
+                int count = customEnvironments.RemoveAll(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                Debug.Assert(count == 1);
+                General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+            }
+            else
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
         }
     }
 }
