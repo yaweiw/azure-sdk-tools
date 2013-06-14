@@ -119,9 +119,7 @@ namespace Management.Storage.ScenarioTest
             ps.BindParameter("PublishSettingsFileUrl", Utility.GenNameString("PublishSettingsFileUrl"));
             ps.BindParameter("ServiceEndpoint", Utility.GenNameString("ServiceEndpoint"));
             ps.BindParameter("ManagementPortalUrl", Utility.GenNameString("ManagementPortalUrl"));
-            ps.BindParameter("StorageBlobEndpointFormat", string.Format("{{0}}://{{1}}.blob.{0}", endpoint));
-            ps.BindParameter("StorageQueueEndpointFormat", string.Format("{{0}}://{{1}}.queue.{0}", endpoint));
-            ps.BindParameter("StorageTableEndpointFormat", string.Format("{{0}}://{{1}}.table.{0}", endpoint));
+            ps.BindParameter("StorageEndpoint", endpoint);
             Test.Info("Add Azure Environment, Cmdline: {0}", GetCommandLine(ps));
             ps.Invoke();
 
@@ -130,6 +128,20 @@ namespace Management.Storage.ScenarioTest
                 Test.Error("Can't add azure envrionment. Exception: {0}", ps.Streams.Error[0].Exception.Message);
             }
             return envName;
+        }
+
+        public static void RemoveAzureEnvironment(string name)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("Remove-AzureEnvironment");
+            ps.BindParameter("Name", name);
+            Test.Info("Remove Azure Environment, Cmdline: {0}", GetCommandLine(ps));
+            ps.Invoke();
+
+            if (ps.Streams.Error.Count > 0)
+            {
+                Test.Error("Can't add azure envrionment. Exception: {0}", ps.Streams.Error[0].Exception.Message);
+            }
         }
 
         /// <summary>

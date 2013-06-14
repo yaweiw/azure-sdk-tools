@@ -38,7 +38,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
             string StorageEndpoint = Test.Data.Get("SecondaryStorageEndPoint");
             string StorageAccountKey = Test.Data.Get("SecondaryStorageAccountKey");
             CLICommonBVT.CLICommonBVTInitialize(testContext);
-            string azureEnvironmentName = PowerShellAgent.AddRandomAzureEnvironment(StorageEndpoint, "bvt");
+            azureEnvironmentName = PowerShellAgent.AddRandomAzureEnvironment(StorageEndpoint, "bvt");
             PowerShellAgent.SetStorageContextWithAzureEnvironment(StorageAccountName, StorageAccountKey, useHttps, azureEnvironmentName);
         }
 
@@ -46,6 +46,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
         public static void AzureEnvironmentHTTPBVTCleanup()
         {
             CLICommonBVT.CLICommonBVTCleanup();
+            PowerShellAgent.RemoveAzureEnvironment(azureEnvironmentName);
         }
     }
 }
