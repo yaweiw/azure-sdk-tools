@@ -1283,4 +1283,7 @@ Please follow these steps in the portal:
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
   </data>
+  <data name="CreateWebsiteFailed" xml:space="preserve">
+    <value>The create website request failed, if this the first website to create please use management portal to create it.</value>
+  </data>
 </root>
