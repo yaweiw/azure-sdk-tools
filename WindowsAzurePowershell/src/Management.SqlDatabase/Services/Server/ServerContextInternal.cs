@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name: ServerContextInternal.cs
-// Generation date: 5/7/2013 12:32:50 PM
+// Generation date: 6/17/2013 4:02:56 PM
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     
@@ -369,6 +369,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<EventLog> _EventLogs;
         /// <summary>
+        /// There are no comments for ServerQuotas in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<ServerQuota> ServerQuotas
+        {
+            get
+            {
+                if ((this._ServerQuotas == null))
+                {
+                    this._ServerQuotas = base.CreateQuery<ServerQuota>("ServerQuotas");
+                }
+                return this._ServerQuotas;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<ServerQuota> _ServerQuotas;
+        /// <summary>
         /// There are no comments for Servers in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -528,6 +545,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         {
             base.AddObject("EventLogs", eventLog);
         }
+        /// <summary>
+        /// There are no comments for ServerQuotas in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToServerQuotas(ServerQuota serverQuota)
+        {
+            base.AddObject("ServerQuotas", serverQuota);
+        }
     }
     /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.Server in the schema.
@@ -607,6 +632,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private ServerMetrics _ServerMetrics;
+        /// <summary>
+        /// There are no comments for ServerQuotas in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Collections.ObjectModel.Collection<ServerQuota> ServerQuotas
+        {
+            get
+            {
+                return this._ServerQuotas;
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    this._ServerQuotas = value;
+                }
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Collections.ObjectModel.Collection<ServerQuota> _ServerQuotas = new global::System.Collections.ObjectModel.Collection<ServerQuota>();
     }
     /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.Database in the schema.
@@ -706,6 +751,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         partial void OnServiceObjectiveIdChanging(global::System.Nullable<global::System.Guid> value);
         partial void OnServiceObjectiveIdChanged();
         /// <summary>
+        /// There are no comments for Property AssignedServiceObjectiveId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<global::System.Guid> AssignedServiceObjectiveId
+        {
+            get
+            {
+                return this._AssignedServiceObjectiveId;
+            }
+            set
+            {
+                this.OnAssignedServiceObjectiveIdChanging(value);
+                this._AssignedServiceObjectiveId = value;
+                this.OnAssignedServiceObjectiveIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<global::System.Guid> _AssignedServiceObjectiveId;
+        partial void OnAssignedServiceObjectiveIdChanging(global::System.Nullable<global::System.Guid> value);
+        partial void OnAssignedServiceObjectiveIdChanged();
+        /// <summary>
         /// There are no comments for Property ServiceObjectiveAssignmentState in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -726,6 +792,90 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         private global::System.Nullable<byte> _ServiceObjectiveAssignmentState;
         partial void OnServiceObjectiveAssignmentStateChanging(global::System.Nullable<byte> value);
         partial void OnServiceObjectiveAssignmentStateChanged();
+        /// <summary>
+        /// There are no comments for Property ServiceObjectiveAssignmentStateDescription in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string ServiceObjectiveAssignmentStateDescription
+        {
+            get
+            {
+                return this._ServiceObjectiveAssignmentStateDescription;
+            }
+            set
+            {
+                this.OnServiceObjectiveAssignmentStateDescriptionChanging(value);
+                this._ServiceObjectiveAssignmentStateDescription = value;
+                this.OnServiceObjectiveAssignmentStateDescriptionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _ServiceObjectiveAssignmentStateDescription;
+        partial void OnServiceObjectiveAssignmentStateDescriptionChanging(string value);
+        partial void OnServiceObjectiveAssignmentStateDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Property ServiceObjectiveAssignmentErrorCode in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<int> ServiceObjectiveAssignmentErrorCode
+        {
+            get
+            {
+                return this._ServiceObjectiveAssignmentErrorCode;
+            }
+            set
+            {
+                this.OnServiceObjectiveAssignmentErrorCodeChanging(value);
+                this._ServiceObjectiveAssignmentErrorCode = value;
+                this.OnServiceObjectiveAssignmentErrorCodeChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<int> _ServiceObjectiveAssignmentErrorCode;
+        partial void OnServiceObjectiveAssignmentErrorCodeChanging(global::System.Nullable<int> value);
+        partial void OnServiceObjectiveAssignmentErrorCodeChanged();
+        /// <summary>
+        /// There are no comments for Property ServiceObjectiveAssignmentErrorDescription in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string ServiceObjectiveAssignmentErrorDescription
+        {
+            get
+            {
+                return this._ServiceObjectiveAssignmentErrorDescription;
+            }
+            set
+            {
+                this.OnServiceObjectiveAssignmentErrorDescriptionChanging(value);
+                this._ServiceObjectiveAssignmentErrorDescription = value;
+                this.OnServiceObjectiveAssignmentErrorDescriptionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _ServiceObjectiveAssignmentErrorDescription;
+        partial void OnServiceObjectiveAssignmentErrorDescriptionChanging(string value);
+        partial void OnServiceObjectiveAssignmentErrorDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Property ServiceObjectiveAssignmentSuccessDate in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<global::System.DateTime> ServiceObjectiveAssignmentSuccessDate
+        {
+            get
+            {
+                return this._ServiceObjectiveAssignmentSuccessDate;
+            }
+            set
+            {
+                this.OnServiceObjectiveAssignmentSuccessDateChanging(value);
+                this._ServiceObjectiveAssignmentSuccessDate = value;
+                this.OnServiceObjectiveAssignmentSuccessDateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<global::System.DateTime> _ServiceObjectiveAssignmentSuccessDate;
+        partial void OnServiceObjectiveAssignmentSuccessDateChanging(global::System.Nullable<global::System.DateTime> value);
+        partial void OnServiceObjectiveAssignmentSuccessDateChanged();
         /// <summary>
         /// There are no comments for Property Edition in the schema.
         /// </summary>
@@ -4651,11 +4801,96 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         partial void OnAdditionalDataChanging(string value);
         partial void OnAdditionalDataChanged();
     }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.ServerQuota in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Name
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("Name")]
+    public partial class ServerQuota
+    {
+        /// <summary>
+        /// Create a new ServerQuota object.
+        /// </summary>
+        /// <param name="name">Initial value of Name.</param>
+        /// <param name="value">Initial value of Value.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static ServerQuota CreateServerQuota(string name, int value)
+        {
+            ServerQuota serverQuota = new ServerQuota();
+            serverQuota.Name = name;
+            serverQuota.Value = value;
+            return serverQuota;
+        }
+        /// <summary>
+        /// There are no comments for Property Name in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this._Name = value;
+                this.OnNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property Value in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Value
+        {
+            get
+            {
+                return this._Value;
+            }
+            set
+            {
+                this.OnValueChanging(value);
+                this._Value = value;
+                this.OnValueChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Value;
+        partial void OnValueChanging(int value);
+        partial void OnValueChanged();
+        /// <summary>
+        /// There are no comments for Server in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public Server Server
+        {
+            get
+            {
+                return this._Server;
+            }
+            set
+            {
+                this._Server = value;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private Server _Server;
+    }
 }
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     public abstract partial class ServerContextInternal
     {
-        public readonly string[] metadataHashes = new string[]{"68BA8B4EB74E0C5A91D0A734B742001018A9F9D2", "80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F", "3070BEE06139E0754E2F022E56E9798BF8A57F30"};
+        public readonly string[] metadataHashes = new string[]{ "5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9", 
+                                                                "68BA8B4EB74E0C5A91D0A734B742001018A9F9D2",
+                                                                "80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F",
+                                                                "3070BEE06139E0754E2F022E56E9798BF8A57F30"};
     }
 }
