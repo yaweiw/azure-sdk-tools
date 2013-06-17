@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
             string rootPath = General.GetServiceRootPath(CurrentPath());
             string packagePath;
 
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
 
             if (!Local.IsPresent)
             {

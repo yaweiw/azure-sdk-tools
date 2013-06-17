@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         /// <returns>Role after updating instance count</returns>
         public RoleSettings SetAzureInstancesProcess(string roleName, int instances, string rootPath)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             service.SetRoleInstances(service.Paths, roleName, instances);
 
             if (PassThru)
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         /// <returns>Role after updating VM size</returns>
         public RoleSettings SetAzureVMSizeProcess(string roleName, string vmSize, string rootPath)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             service.SetRoleVMSize(service.Paths, roleName, vmSize);
 
             if (PassThru)
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public RoleSettings SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
 
             if (PassThru)

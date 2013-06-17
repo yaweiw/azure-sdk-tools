@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
                     ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
-                        String.Format(DjangoStartProjectCommand, roleInfo.Name)
+                        string.Format(DjangoStartProjectCommand, roleInfo.Name)
                     ),
                     out stdOut,
                     out stdErr);
@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
-                    WriteWarning(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
+                    WriteWarning(string.Format(Resources.UnableToCreateDjangoApp, stdErr));
                     WriteWarning(Resources.UnableToCreateDjangoAppFix);
                 }
             }

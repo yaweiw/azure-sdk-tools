@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static void ValidateFileExtention(string filePath, string desiredExtention)
         {
-            bool invalidExtension = Convert.ToBoolean(String.Compare(Path.GetExtension(filePath), desiredExtention, true));
+            bool invalidExtension = Convert.ToBoolean(string.Compare(Path.GetExtension(filePath), desiredExtention, true));
 
             if (invalidExtension)
             {

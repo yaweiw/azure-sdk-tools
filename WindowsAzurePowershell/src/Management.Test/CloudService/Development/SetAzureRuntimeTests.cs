@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 cmdlet.PassThru = false;
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "noide", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 string caseInsensitiveName = "weBrolE1";

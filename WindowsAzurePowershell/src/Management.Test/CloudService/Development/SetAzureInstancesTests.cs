@@ -49,12 +49,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
@@ -72,11 +72,11 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, 10), string.Format(Resources.RoleNotFoundMessage, roleName));
             }
         }
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, string.Empty, 10), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, null, 10), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, 2000), string.Format(Resources.InvalidInstancesCount, roleName));
             }
         }
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, -1), string.Format(Resources.InvalidInstancesCount, roleName));
             }
         }
@@ -206,12 +206,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WeBrolE1", newRoleInstances, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
@@ -227,12 +227,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             string originalDirectory = Directory.GetCurrentDirectory();
             string serviceName = "AzureService1";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            CloudServiceProject service = new CloudServiceProject(Directory.GetCurrentDirectory(), serviceName, null);
             service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
             Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1"));
             cmdlet.RoleName = string.Empty;
             cmdlet.ExecuteCmdlet();
-            service = new AzureService(service.Paths.RootPath, null);
+            service = new CloudServiceProject(service.Paths.RootPath, null);
 
             Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
             Directory.SetCurrentDirectory(originalDirectory);
@@ -243,12 +243,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             string originalDirectory = Directory.GetCurrentDirectory();
             string serviceName = "AzureService2";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            CloudServiceProject service = new CloudServiceProject(Directory.GetCurrentDirectory(), serviceName, null);
             service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
             Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1", "bin"));
             cmdlet.RoleName = string.Empty;
             cmdlet.ExecuteCmdlet();
-            service = new AzureService(service.Paths.RootPath, null);
+            service = new CloudServiceProject(service.Paths.RootPath, null);
 
             Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
             Directory.SetCurrentDirectory(originalDirectory);
@@ -258,7 +258,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         public void SetAzureServiceProjectRoleInServiecRootDirectoryFail()
         {
             string serviceName = "AzureService3";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            CloudServiceProject service = new CloudServiceProject(Directory.GetCurrentDirectory(), serviceName, null);
             service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
             cmdlet.RoleName = string.Empty;
             Testing.AssertThrows<InvalidOperationException>(() => cmdlet.ExecuteCmdlet(), Resources.CannotFindServiceRoot);
