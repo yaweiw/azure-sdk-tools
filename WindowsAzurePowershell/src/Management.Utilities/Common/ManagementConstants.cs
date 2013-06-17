@@ -20,6 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     public class SDKVersion
     {
         public const string Version180 = "1.8.0";
+
+        public const string Version200 = "2.0.0";
     }
 
     public enum DevEnv

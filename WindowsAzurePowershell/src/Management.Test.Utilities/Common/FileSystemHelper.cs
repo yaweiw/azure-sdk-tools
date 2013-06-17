@@ -303,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// <returns>Directory created for the service.</returns>
         public string CreateNewService(string serviceName)
         {
-            AzureService newService = new AzureService(RootPath, serviceName, null);
+            CloudServiceProject newService = new CloudServiceProject(RootPath, serviceName, null);
             string path = Path.Combine(RootPath, serviceName);
             _previousDirectory = Environment.CurrentDirectory;
             Environment.CurrentDirectory = path;

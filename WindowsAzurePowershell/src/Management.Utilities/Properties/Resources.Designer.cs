@@ -1733,7 +1733,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml.
         /// </summary>
         internal static string ManifestUri {
             get {
@@ -1751,7 +1751,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MaxSupportAzureSdkVersion {
             get {
@@ -1778,7 +1778,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MinSupportAzureSdkVersion {
             get {
