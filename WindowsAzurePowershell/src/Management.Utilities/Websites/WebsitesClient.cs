@@ -50,6 +50,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         public Action<string> Logger { get; set; }
 
+        public HeadersInspector HeadersInspector { get; set; }
+
         /// <summary>
         /// Creates new WebsitesClient.
         /// </summary>
@@ -60,13 +62,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
             Logger = logger;
-            WebsiteChannel = ServiceManagementHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
+            HeadersInspector = new HeadersInspector();
+            HeadersInspector.RequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
+            HeadersInspector.RequestHeaders.Add(ApiConstants.UserAgentHeaderName, ApiConstants.UserAgentHeaderValue);
+            HeadersInspector.RemoveHeaders.Add(ApiConstants.VSDebuggerCausalityDataHeaderName);
+            WebsiteChannel = ChannelHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
-                new HttpRestMessageInspector(logger));
+                new HttpRestMessageInspector(logger),
+                HeadersInspector);
 
-            ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,

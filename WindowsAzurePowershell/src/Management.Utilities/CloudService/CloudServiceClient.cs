@@ -512,7 +512,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             VerboseStream = verboseStream;
             WarningeStream = warningStream;
             HeadersInspector = new HeadersInspector();
-            ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,

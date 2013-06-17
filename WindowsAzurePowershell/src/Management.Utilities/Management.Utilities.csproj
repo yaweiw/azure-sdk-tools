@@ -216,7 +216,7 @@
     <Compile Include="Common\General.cs" />
     <Compile Include="Common\ManagementConstants.cs" />
     <Compile Include="Common\ProcessHelper.cs" />
-    <Compile Include="Common\ServiceManagementHelper.cs" />
+    <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
     <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
