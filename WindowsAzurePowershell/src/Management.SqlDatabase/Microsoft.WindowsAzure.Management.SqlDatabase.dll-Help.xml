@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
+
 <helpItems xmlns="http://msh" schema="maml">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
@@ -14,8 +15,9 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>If the database name is not specified, then the cmdlet returns all SQL databases for the SQL Server.
-</maml:para>
+      <maml:para>
+        If the database name is not specified, then the cmdlet returns all SQL databases for the SQL Server.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -23,17 +25,18 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the database to be retrieved.</maml:para>
+            <maml:para>
+              The name of the database to be retrieved.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -41,17 +44,18 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
           <maml:name>Database</maml:name>
           <maml:description>
-            <maml:para>A database object representing the database to be retrieved.</maml:para>
+            <maml:para>
+              A database object representing the database to be retrieved.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -59,8 +63,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+          <maml:para>
+            The connection context to the specified Windows Azure SQL Database Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -72,7 +77,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
         <maml:name>Database</maml:name>
         <maml:description>
-          <maml:para>A database object representing the database to be retrieved.</maml:para>
+          <maml:para>
+            A database object representing the database to be retrieved.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         <dev:type>
@@ -84,7 +91,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the database to be retrieved.</maml:para>
+          <maml:para>
+            The name of the database to be retrieved.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -122,27 +131,32 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title> 
- 
--------------------------- EXAMPLE 1 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 1 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase $ctx -DatabaseName "Database1"
+        <dev:code>
+          C:\PS&gt;$database1 = Get-AzureSqlDatabase $ctx -DatabaseName "Database1"
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example returns the database, "Database1", from the Windows Azure SQL Database Server specified by the connection $ctx.
-</maml:para>
+          <maml:para>
+            This example returns the database, "Database1", from the Windows Azure SQL Database Server specified by the connection $ctx.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -180,8 +194,9 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureSqlDatabaseServer cmdlet retrieves information about SQL Database servers in the current subscription. If a SQL Database server name is specified in the ServerName parameter, it returns an object with information about the specific SQL Database server. Else, it returns information about all the SQL Database servers.
-</maml:para>
+      <maml:para>
+        The Get-AzureSqlDatabaseServer cmdlet retrieves information about SQL Database servers in the current subscription. If a SQL Database server name is specified in the ServerName parameter, it returns an object with information about the specific SQL Database server. Else, it returns information about all the SQL Database servers.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -189,10 +204,10 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Database server for which you want to retrieve information. Specify only the server name, and not the fully qualified DNS name. If not specified, information about all the SQL Database servers in the current subscription is returned.
-</maml:para>
+            <maml:para>
+              The name of the SQL Database server for which you want to retrieve information. Specify only the server name, and not the fully qualified DNS name. If not specified, information about all the SQL Database servers in the current subscription is returned.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -200,8 +215,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL Database server for which you want to retrieve information. Specify only the server name, and not the fully qualified DNS name. If not specified, information about all the SQL Database servers in the current subscription is returned.
-</maml:para>
+          <maml:para>
+            The name of the SQL Database server for which you want to retrieve information. Specify only the server name, and not the fully qualified DNS name. If not specified, information about all the SQL Database servers in the current subscription is returned.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -243,13 +259,17 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServer
+        <dev:code>
+          PS C:\&gt; Get-AzureSqlDatabaseServer
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command returns information about all of the SQL Database servers in the current subscription.
-</maml:para>
+          <maml:para>
+            This command returns information about all of the SQL Database servers in the current subscription.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -262,13 +282,17 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y"
+        <dev:code>
+          PS C:\&gt; Get-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y"
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command returns information about the “lpqd0zbr8y” server.
-</maml:para>
+          <maml:para>
+            This command returns information about the “lpqd0zbr8y” server.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -306,8 +330,9 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureSqlDatabaseServerFirewallRule cmdlet retrieves firewall rules from the specified SQL Database server in the current subscription. If a firewall rule name is specified in the RuleName parameter, it returns information about the specific firewall rule. Else, information about all the firewall rules in the specified SQL Database server is listed.
-</maml:para>
+      <maml:para>
+        The Get-AzureSqlDatabaseServerFirewallRule cmdlet retrieves firewall rules from the specified SQL Database server in the current subscription. If a firewall rule name is specified in the RuleName parameter, it returns information about the specific firewall rule. Else, information about all the firewall rules in the specified SQL Database server is listed.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -315,18 +340,18 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Database server for which you want to retrieve the firewall rules. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+            <maml:para>
+              The name of the SQL Database server for which you want to retrieve the firewall rules. Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>The name of the firewall rule to retrieve. If not specified, information about all the firewall rules in the specified SQL Database server is listed.
-</maml:para>
+            <maml:para>
+              The name of the firewall rule to retrieve. If not specified, information about all the firewall rules in the specified SQL Database server is listed.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -334,8 +359,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>The name of the firewall rule to retrieve. If not specified, information about all the firewall rules in the specified SQL Database server is listed.
-</maml:para>
+          <maml:para>
+            The name of the firewall rule to retrieve. If not specified, information about all the firewall rules in the specified SQL Database server is listed.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -347,8 +373,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL Database server for which you want to retrieve the firewall rules. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+          <maml:para>
+            The name of the SQL Database server for which you want to retrieve the firewall rules. Specify only the server name, and not the fully qualified DNS name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -390,13 +417,17 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y"
+        <dev:code>
+          PS C:\&gt; Get-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y"
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command returns all the firewall rules in the specified SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command returns all the firewall rules in the specified SQL Database server (“lpqd0zbr8y”).
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -409,13 +440,17 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule"
+        <dev:code>
+          PS C:\&gt; Get-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule"
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command returns the specified firewall rule (“myRule”) in the specified SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command returns the specified firewall rule (“myRule”) in the specified SQL Database server (“lpqd0zbr8y”).
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -453,8 +488,9 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureSqlDatabase cmdlet creates a new SQL Server database for the specified the SQL Server connection context.
-</maml:para>
+      <maml:para>
+        The New-AzureSqlDatabase cmdlet creates a new SQL Server database for the specified the SQL Server connection context.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -462,76 +498,68 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the new database.</maml:para>
+            <maml:para>
+              The name of the new database.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Collation</maml:name>
           <maml:description>
-            <maml:para>Collation for the newly created SQL database.
-</maml:para>
+            <maml:para>
+              Collation for the newly created SQL database.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>The edition for the SQL database. Acceptable values are Web and Business. The default value is Web.
-</maml:para>
+            <maml:para>
+              The edition for the SQL database. Acceptable values are Web and Business. The default value is Web.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting the user for confirmation.</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting the user for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>MaxSizeGB</maml:name>
           <maml:description>
-            <maml:para>The maximum size for the database in gigabytes. The acceptable values differ based on edition.
-</maml:para>
-            <maml:para>Web Edition values: 1 or 5
-</maml:para>
-            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
-</maml:para>
+            <maml:para>
+              The maximum size for the database in gigabytes. The acceptable values differ based on edition.
+            </maml:para>
+            <maml:para>
+              Web Edition values: 1 or 5
+            </maml:para>
+            <maml:para>
+              Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -539,8 +567,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Collation</maml:name>
         <maml:description>
-          <maml:para>Collation for the newly created SQL database.
-</maml:para>
+          <maml:para>
+            Collation for the newly created SQL database.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -552,8 +581,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+          <maml:para>
+            The connection context to the specified Windows Azure SQL Database Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -565,7 +595,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the new database.</maml:para>
+          <maml:para>
+            The name of the new database.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -577,8 +609,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Edition</maml:name>
         <maml:description>
-          <maml:para>The edition for the SQL database. Acceptable values are Web and Business. The default value is Web.
-</maml:para>
+          <maml:para>
+            The edition for the SQL database. Acceptable values are Web and Business. The default value is Web.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         <dev:type>
@@ -590,7 +623,9 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting the user for confirmation.</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting the user for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -602,12 +637,15 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>MaxSizeGB</maml:name>
         <maml:description>
-          <maml:para>The maximum size for the database in gigabytes. The acceptable values differ based on edition.
-</maml:para>
-          <maml:para>Web Edition values: 1 or 5
-</maml:para>
-          <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
-</maml:para>
+          <maml:para>
+            The maximum size for the database in gigabytes. The acceptable values differ based on edition.
+          </maml:para>
+          <maml:para>
+            Web Edition values: 1 or 5
+          </maml:para>
+          <maml:para>
+            Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -670,34 +708,40 @@
     <maml:alertSet>
       <maml:title />
       <maml:alert>
-        <maml:para>To delete a database that was created by New-AzureSqlDatabase, use the Remove-AzureSqlDatabase cmdlet.
-</maml:para>
+        <maml:para>
+          To delete a database that was created by New-AzureSqlDatabase, use the Remove-AzureSqlDatabase cmdlet.
+        </maml:para>
       </maml:alert>
       <maml:alert></maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title> 
- 
--------------------------- EXAMPLE 1 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 1 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" –Edition "Business" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
+        <dev:code>
+          C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" –Edition "Business" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example creates a new database with the name, "Database1", on the Windows Azure SQL Database Server specified by the connection $ctx.
-</maml:para>
+          <maml:para>
+            This example creates a new database with the name, "Database1", on the Windows Azure SQL Database Server specified by the connection $ctx.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -745,52 +789,41 @@
           <maml:description>
             <maml:para>Administrator account name for your new SQL Database server.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
             <maml:para>Allows the action to complete without prompting you for confirmation.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>AdministratorLoginPassword</maml:name>
           <maml:description>
-            <maml:para>Administrator account password for your new SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink><maml:linkText>Strong Passwords</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+            <maml:para>
+              Administrator account password for your new SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink>
+                <maml:linkText>Strong Passwords</maml:linkText>
+                <maml:uri></maml:uri>
+              </maml:navigationLink>.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Location</maml:name>
           <maml:description>
             <maml:para>Region or location where the new SQL Database server is created. The location determines which datacenter the database will reside in.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -810,7 +843,12 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>AdministratorLoginPassword</maml:name>
         <maml:description>
-          <maml:para>Administrator account password for your new SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink><maml:linkText>Strong Passwords</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+          <maml:para>
+            Administrator account password for your new SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink>
+              <maml:linkText>Strong Passwords</maml:linkText>
+              <maml:uri></maml:uri>
+            </maml:navigationLink>.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -885,7 +923,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name></maml:name>
+          <maml:name>SqlDatabaseOperationContext</maml:name>
           <maml:uri></maml:uri>
           <maml:description>
             <maml:para />
@@ -904,9 +942,10 @@
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;New-AzureSqlDatabaseServer –Location "East US" –AdministratorLogin "myLogin" –AdministratorLoginPassword "myP@ssword"
+        <dev:code>
+          PS C:\&gt;New-AzureSqlDatabaseServer –Location "East US" –AdministratorLogin "myLogin" –AdministratorLoginPassword "myP@ssword"
 
-</dev:code>
+        </dev:code>
         <dev:remarks>
           <maml:para>This command creates a SQL Database server.</maml:para>
         </dev:remarks>
@@ -946,8 +985,9 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Using the credentials provided, the New-AzureSqlDatabaseServerContext cmdlet creates a new connection context to the specified Windows Azure SQL Database Server. The server may be specified by name, by the fully-qualified name, or by URL.
-</maml:para>
+      <maml:para>
+        Using the credentials provided, the New-AzureSqlDatabaseServerContext cmdlet creates a new connection context to the specified Windows Azure SQL Database Server. The server may be specified by name, by the fully-qualified name, or by URL.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -955,17 +995,18 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Server.</maml:para>
+            <maml:para>
+              The name of the SQL Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>A credential object that provides sufficient authentication for the user to access the service.
-</maml:para>
+            <maml:para>
+              A credential object that provides sufficient authentication for the user to access the service.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -973,17 +1014,18 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>FullyQualifiedServerName</maml:name>
           <maml:description>
-            <maml:para>The FQDN name for the SQL Server.</maml:para>
+            <maml:para>
+              The FQDN name for the SQL Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>A credential object that provides sufficient authentication for the user to access the service.
-</maml:para>
+            <maml:para>
+              A credential object that provides sufficient authentication for the user to access the service.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -991,24 +1033,26 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>ManageUrl</maml:name>
           <maml:description>
-            <maml:para>The URL to access the Windows Azure SQL Database Management Portal for the server.</maml:para>
+            <maml:para>
+              The URL to access the Windows Azure SQL Database Management Portal for the server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>A credential object that provides sufficient authentication for the user to access the service.
-</maml:para>
+            <maml:para>
+              A credential object that provides sufficient authentication for the user to access the service.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Server.</maml:para>
+            <maml:para>
+              The name of the SQL Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1016,8 +1060,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>Credential</maml:name>
         <maml:description>
-          <maml:para>A credential object that provides sufficient authentication for the user to access the service.
-</maml:para>
+          <maml:para>
+            A credential object that provides sufficient authentication for the user to access the service.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         <dev:type>
@@ -1029,7 +1074,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>FullyQualifiedServerName</maml:name>
         <maml:description>
-          <maml:para>The FQDN name for the SQL Server.</maml:para>
+          <maml:para>
+            The FQDN name for the SQL Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1041,7 +1088,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>ManageUrl</maml:name>
         <maml:description>
-          <maml:para>The URL to access the Windows Azure SQL Database Management Portal for the server.</maml:para>
+          <maml:para>
+            The URL to access the Windows Azure SQL Database Management Portal for the server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
         <dev:type>
@@ -1053,7 +1102,9 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL Server.</maml:para>
+          <maml:para>
+            The name of the SQL Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1089,31 +1140,49 @@
     </command:returnValues>
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para>
+          If you authenticated without specifying a domain, then if you are using PowerShell 2.0, the Get-Credential cmdlet returns a backslash prepended to the username, for example,  "\user" (PowerShell 3.0 does not add the backslash). This backslash is not recognized by the -Credential parameter of the New-AzureSqlDatabaseServerContext cmdlet. To remove it, use code similar to the following:
+        </maml:para>
+        <maml:para>
+          C:\PS&gt;$cred = Get-Credential
+
+          C:\PS&gt;$cred = New-Object -TypeName 'System.Management.Automation.PSCredential' -ArgumentList $cred.Username.Replace("\",""),$cred.Password
+        </maml:para>
+      </maml:alert>
+    </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>  
- 
--------------------------- EXAMPLE 1 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 1 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$cred = Get-Credential
-C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -credential $cred
-C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
+        <dev:code>
+          C:\PS&gt;$cred = Get-Credential
+          C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -credential $cred
+          C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example prompts the user for server administrator credentials, connects to the SQL Server, "lpqd0zbr8y", using those credentials, and creates a new database on that server.
-</maml:para>
+          <maml:para>
+            This example prompts the user for server administrator credentials, connects to the SQL Server, "lpqd0zbr8y", using those credentials, and creates a new database on that server.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -1124,15 +1193,15 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Get-AzureSqlDatabase</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>New-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureSqlDatabase</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Get-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
@@ -1155,8 +1224,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureSqlDatabaseServerFirewallRule cmdlet creates a new firewall rule in the specified SQL Database server. Any IP address within the range specified in the StartIpAddress and EndIpAddress parameters will be able to connect to the SQL Database server. A firewall rule with starting and ending IP addresses equal to 0.0.0.0 indicates that Windows Azure connections to this SQL Database server are allowed.
-</maml:para>
+      <maml:para>The New-AzureSqlDatabaseServerFirewallRule cmdlet creates a new firewall rule in the specified SQL Database server. </maml:para>
+      <maml:para>Use the cmdlet with the IpRange parameter set to allow any IP address within the range specified in the StartIpAddress and EndIpAddress parameters to connect to the SQL Database server.</maml:para>
+      <maml:para>Use the cmdlet with the AllowAllAzureServices parameter set to allow Windows Azure connections to the SQL Database server. A firewall rule with starting and ending IP addresses equal to 0.0.0.0 will be created. If you do not specify a firewall rule name, a firewall rule with default name “AllowAllAzureServices” will be created.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1164,75 +1234,121 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Database server where the new firewall rule is created. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+            <maml:para>
+              The name of the SQL Database server where the new firewall rule is created. Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>EndIpAddress</maml:name>
           <maml:description>
-            <maml:para>End value of the IP address range.
-</maml:para>
+            <maml:para>
+              End value of the IP address range.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>New SQL Database firewall rule name.
-</maml:para>
+            <maml:para>
+              New SQL Database firewall rule name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>StartIpAddress</maml:name>
           <maml:description>
-            <maml:para>Start value of the IP address range.
-</maml:para>
+            <maml:para>
+              Start value of the IP address range.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureSqlDatabaseServerFirewallRule</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>ServerName</maml:name>
+          <maml:description>
+            <maml:para>
+              The name of the SQL Database server where the new firewall rule is created. Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>RuleName</maml:name>
+          <maml:description>
+            <maml:para>
+              New SQL Database firewall rule name.
+            </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>AllowAllAzureServices</maml:name>
+          <maml:description>
+            <maml:para>Allows Windows Azure connections to the SQL Database server.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          </maml:description>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>AllowAllAzureServices</maml:name>
+        <maml:description>
+          <maml:para>Allows Windows Azure connections to the SQL Database server.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>EndIpAddress</maml:name>
         <maml:description>
-          <maml:para>End value of the IP address range.
-</maml:para>
+          <maml:para>
+            End value of the IP address range.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1244,8 +1360,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting you for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1257,8 +1374,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>New SQL Database firewall rule name.
-</maml:para>
+          <maml:para>
+            New SQL Database firewall rule name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1270,8 +1388,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL Database server where the new firewall rule is created. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+          <maml:para>
+            The name of the SQL Database server where the new firewall rule is created. Specify only the server name, and not the fully qualified DNS name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1283,8 +1402,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>StartIpAddress</maml:name>
         <maml:description>
-          <maml:para>Start value of the IP address range.
-</maml:para>
+          <maml:para>
+            Start value of the IP address range.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1350,13 +1470,63 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; New-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule" -StartIpAddress 12.1.1.1 –EndIpAddress 12.1.1.2
+        <dev:code>
+          PS C:\&gt; New-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule1" -StartIpAddress 12.1.1.1 –EndIpAddress 12.1.1.2
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command creates a new firewall rule (“myRule”) in the specified SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command creates a new firewall rule (“myRule1”) in the specified SQL Database server (“lpqd0zbr8y”) with the specified IP range values.
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>-------------- Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; New-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -AllowAllAzureServices -RuleName "myRule2"
+
+
+
+
+        </dev:code>
+        <dev:remarks>
+          <maml:para>
+            This command creates a new firewall rule (“myRule2”) in the specified SQL Database server (“lpqd0zbr8y”) to allow Windows Azure connections.
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>-------------- Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; New-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -AllowAllAzureServices
+
+
+
+
+        </dev:code>
+        <dev:remarks>
+          <maml:para>
+            This command creates a new firewall rule with the default firewall rule name (“AllowAllAzureServices”) in the specified SQL Database server (“lpqd0zbr8y”) to allow Windows Azure connections.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -1394,8 +1564,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Remove-AzureSqlDatabase cmdlet deletes a SQL Server database at the specified SQL Server connection context.
-</maml:para>
+      <maml:para>
+        The Remove-AzureSqlDatabase cmdlet deletes a SQL Server database at the specified SQL Server connection context.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1403,49 +1574,38 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="InputObject">
           <maml:name>Database</maml:name>
           <maml:description>
-            <maml:para>A database object representing the database to be removed.</maml:para>
+            <maml:para>
+              A database object representing the database to be removed.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting the user for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting the user for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -1453,49 +1613,38 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the database to be removed.</maml:para>
+            <maml:para>
+              The name of the database to be removed.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting the user for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting the user for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1503,8 +1652,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+          <maml:para>
+            The connection context to the specified Windows Azure SQL Database Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -1516,7 +1666,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="InputObject">
         <maml:name>Database</maml:name>
         <maml:description>
-          <maml:para>A database object representing the database to be removed.</maml:para>
+          <maml:para>
+            A database object representing the database to be removed.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         <dev:type>
@@ -1528,7 +1680,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the database to be removed.</maml:para>
+          <maml:para>
+            The name of the database to be removed.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1540,8 +1694,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting the user for confirmation.
-</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting the user for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1604,34 +1759,40 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
     <maml:alertSet>
       <maml:title />
       <maml:alert>
-        <maml:para>Because of the severity of the operation, this cmdlet prompts the user for confirmation by default.  This can be overridden by using the -Force parameter.
-</maml:para>
+        <maml:para>
+          Because of the severity of the operation, this cmdlet prompts the user for confirmation by default.  This can be overridden by using the -Force parameter.
+        </maml:para>
       </maml:alert>
       <maml:alert></maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title> 
- 
--------------------------- EXAMPLE 1 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 1 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;Remove-AzureSqlDatabase $ctx -DatabaseName "Database1"
+        <dev:code>
+          C:\PS&gt;Remove-AzureSqlDatabase $ctx -DatabaseName "Database1"
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example removes the database "Database1" on the Windows Azure SQL Database Server specified by the connection $ctx.
-</maml:para>
+          <maml:para>
+            This example removes the database "Database1" on the Windows Azure SQL Database Server specified by the connection $ctx.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -1640,27 +1801,32 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         </command:commandLines>
       </command:example>
       <command:example>
-        <maml:title> 
- 
--------------------------- EXAMPLE 2 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 2 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 | Remove-AzureSqlDatabase $ctx
+        <dev:code>
+          C:\PS&gt;$database1 | Remove-AzureSqlDatabase $ctx
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example demonstrates the alternative method of passing the database object through the pipeline.
-</maml:para>
+          <maml:para>
+            This example demonstrates the alternative method of passing the database object through the pipeline.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -1698,8 +1864,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Remove-AzureSqlDatabaseServer cmdlet removes the specified SQL Database server from the current subscription. It also deletes all databases under the specified SQL Database server.
-</maml:para>
+      <maml:para>
+        The Remove-AzureSqlDatabaseServer cmdlet removes the specified SQL Database server from the current subscription. It also deletes all databases under the specified SQL Database server.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1707,42 +1874,30 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The SQL Database server name to be deleted. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+            <maml:para>
+              The SQL Database server name to be deleted. Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1750,8 +1905,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting you for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1763,8 +1919,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The SQL Database server name to be deleted. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+          <maml:para>
+            The SQL Database server name to be deleted. Specify only the server name, and not the fully qualified DNS name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1830,13 +1987,17 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Remove-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y"
+        <dev:code>
+          PS C:\&gt; Remove-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y"
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command deletes the specified SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command deletes the specified SQL Database server (“lpqd0zbr8y”).
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -1874,8 +2035,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Remove-AzureSqlDatabaseServerFirewallRule deletes a firewall rule from the specified SQL Database server in the current subscription.
-</maml:para>
+      <maml:para>
+        The Remove-AzureSqlDatabaseServerFirewallRule deletes a firewall rule from the specified SQL Database server in the current subscription.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1883,50 +2045,38 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The SQL Database server name from where the firewall rule is to be deleted.  Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+            <maml:para>
+              The SQL Database server name from where the firewall rule is to be deleted.  Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>The SQL Database firewall rule name to be deleted.
-</maml:para>
+            <maml:para>
+              The SQL Database firewall rule name to be deleted.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1934,8 +2084,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting you for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1947,8 +2098,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>The SQL Database firewall rule name to be deleted.
-</maml:para>
+          <maml:para>
+            The SQL Database firewall rule name to be deleted.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1960,8 +2112,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The SQL Database server name from where the firewall rule is to be deleted.  Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+          <maml:para>
+            The SQL Database server name from where the firewall rule is to be deleted.  Specify only the server name, and not the fully qualified DNS name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2027,13 +2180,17 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Remove-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule"
+        <dev:code>
+          PS C:\&gt; Remove-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule"
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command deletes a firewall rule (“myRule”) from the specified SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command deletes a firewall rule (“myRule”) from the specified SQL Database server (“lpqd0zbr8y”).
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -2071,8 +2228,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureSqlDatabase cmdlet sets properties for the specified SQL database.  You can specify the database by name or pass a SQL database object through the pipeline.
-</maml:para>
+      <maml:para>
+        The Set-AzureSqlDatabase cmdlet sets properties for the specified SQL database.  You can specify the database by name or pass a SQL database object through the pipeline.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2080,84 +2238,76 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
           <maml:name>Database</maml:name>
           <maml:description>
-            <maml:para>A database object representing the SQL database to modify.</maml:para>
+            <maml:para>
+              A database object representing the SQL database to modify.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>If specified, the new edition for the SQL database. Acceptable values are Web and Business.
-</maml:para>
+            <maml:para>
+              If specified, the new edition for the SQL database. Acceptable values are Web and Business.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>MaxSizeGB</maml:name>
           <maml:description>
-            <maml:para>If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
-</maml:para>
-            <maml:para>Web Edition values: 1 or 5
-</maml:para>
-            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
-</maml:para>
+            <maml:para>
+              If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
+            </maml:para>
+            <maml:para>
+              Web Edition values: 1 or 5
+            </maml:para>
+            <maml:para>
+              Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>NewName</maml:name>
           <maml:description>
-            <maml:para>If specified, the new name of the SQL database.
-</maml:para>
+            <maml:para>
+              If specified, the new name of the SQL database.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PassThru</maml:name>
           <maml:description>
-            <maml:para>Returns the input object.
-</maml:para>
+            <maml:para>
+              Returns the input object.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -2165,84 +2315,76 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+            <maml:para>
+              The connection context to the specified Windows Azure SQL Database Server.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL database to modify.</maml:para>
+            <maml:para>
+              The name of the SQL database to modify.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>If specified, the new edition for the SQL database. Acceptable values are Web and Business.
-</maml:para>
+            <maml:para>
+              If specified, the new edition for the SQL database. Acceptable values are Web and Business.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>MaxSizeGB</maml:name>
           <maml:description>
-            <maml:para>If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
-</maml:para>
-            <maml:para>Web Edition values: 1 or 5
-</maml:para>
-            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
-</maml:para>
+            <maml:para>
+              If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
+            </maml:para>
+            <maml:para>
+              Web Edition values: 1 or 5
+            </maml:para>
+            <maml:para>
+              Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>NewName</maml:name>
           <maml:description>
-            <maml:para>If specified, the new name of the SQL database.
-</maml:para>
+            <maml:para>
+              If specified, the new name of the SQL database.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PassThru</maml:name>
           <maml:description>
-            <maml:para>Returns the input object.
-</maml:para>
+            <maml:para>
+              Returns the input object.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -2250,8 +2392,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
-</maml:para>
+          <maml:para>
+            The connection context to the specified Windows Azure SQL Database Server.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -2263,7 +2406,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
         <maml:name>Database</maml:name>
         <maml:description>
-          <maml:para>A database object representing the SQL database to modify.</maml:para>
+          <maml:para>
+            A database object representing the SQL database to modify.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         <dev:type>
@@ -2275,7 +2420,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL database to modify.</maml:para>
+          <maml:para>
+            The name of the SQL database to modify.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2287,8 +2434,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Edition</maml:name>
         <maml:description>
-          <maml:para>If specified, the new edition for the SQL database. Acceptable values are Web and Business.
-</maml:para>
+          <maml:para>
+            If specified, the new edition for the SQL database. Acceptable values are Web and Business.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         <dev:type>
@@ -2300,7 +2448,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting you for confirmation.</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting you for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2312,12 +2462,15 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>MaxSizeGB</maml:name>
         <maml:description>
-          <maml:para>If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
-</maml:para>
-          <maml:para>Web Edition values: 1 or 5
-</maml:para>
-          <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
-</maml:para>
+          <maml:para>
+            If specified, the new maximum size for the database in gigabytes. The acceptable values differ based on edition.
+          </maml:para>
+          <maml:para>
+            Web Edition values: 1 or 5
+          </maml:para>
+          <maml:para>
+            Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -2329,8 +2482,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>NewName</maml:name>
         <maml:description>
-          <maml:para>If specified, the new name of the SQL database.
-</maml:para>
+          <maml:para>
+            If specified, the new name of the SQL database.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2342,8 +2496,9 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>PassThru</maml:name>
         <maml:description>
-          <maml:para>Returns the input object.
-</maml:para>
+          <maml:para>
+            Returns the input object.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2405,28 +2560,33 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title> 
- 
--------------------------- EXAMPLE 1 --------------------------  
- 
- 
-                      </maml:title>
+        <maml:title>
+
+
+
+          -------------------------- EXAMPLE 1 --------------------------
+
+
+
+
+
+        </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase $ctx -DatabaseName "Database1"
-C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
+        <dev:code>
+          C:\PS&gt;$database1 = Get-AzureSqlDatabase $ctx -DatabaseName "Database1"
+          C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
 
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>Description
-</maml:para>
-          <maml:para>-----------
-</maml:para>
-          <maml:para>This example changes the current size of the database, "Database1", to 20 GB, on the Windows Azure SQL Database Server specified by the connection $ctx.
-</maml:para>
+          <maml:para>
+            This example changes the current size of the database, "Database1", to 20 GB, on the Windows Azure SQL Database Server specified by the connection $ctx.
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -2454,7 +2614,7 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
     <command:details>
       <command:name>Set-AzureSqlDatabaseServer</command:name>
       <maml:description>
-        <maml:para>Updates the properties of the specified SQL Database server in the current subscription.</maml:para>
+        <maml:para>Updates the properties of the specified SQL Database server in the current subscription. </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2474,45 +2634,35 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
           <maml:description>
             <maml:para>The name of the SQL Database server to be updated. Specify only the server name, and not the fully qualified DNS name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
             <maml:para>Allows the action to complete without prompting you for confirmation.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>AdminPassword</maml:name>
           <maml:description>
-            <maml:para>The new Administrator account password for your SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink><maml:linkText>Strong Passwords</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+            <maml:para>
+              The new Administrator account password for your SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink>
+                <maml:linkText>Strong Passwords</maml:linkText>
+                <maml:uri></maml:uri>
+              </maml:navigationLink>.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -2520,7 +2670,12 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>AdminPassword</maml:name>
         <maml:description>
-          <maml:para>The new Administrator account password for your SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink><maml:linkText>Strong Passwords</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+          <maml:para>
+            The new Administrator account password for your SQL Database server. You must specify a strong password. For more information, see <maml:navigationLink>
+              <maml:linkText>Strong Passwords</maml:linkText>
+              <maml:uri></maml:uri>
+            </maml:navigationLink>.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2614,9 +2769,10 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt;Set-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y" -AdminPassword "myNewP@ssword"
+        <dev:code>
+          PS C:\&gt;Set-AzureSqlDatabaseServer –ServerName "lpqd0zbr8y" -AdminPassword "myNewP@ssword"
 
-</dev:code>
+        </dev:code>
         <dev:remarks>
           <maml:para>This command updates the administrator account password for the SQL Database server (“lpqd0zbr8y”) with the new password (“myNewP@ssword”).</maml:para>
         </dev:remarks>
@@ -2656,8 +2812,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureSqlDatabaseServerFirewallRule cmdlet updates the start IP address and end IP address values of an existing firewall rule in the specified SQL Database server.
-</maml:para>
+      <maml:para>
+        The Set-AzureSqlDatabaseServerFirewallRule cmdlet updates the start IP address and end IP address values of an existing firewall rule in the specified SQL Database server.
+      </maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2665,66 +2822,54 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>Name of the SQL Database server that contains the firewall rule to be updated. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+            <maml:para>
+              Name of the SQL Database server that contains the firewall rule to be updated. Specify only the server name, and not the fully qualified DNS name.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
           <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+            <maml:para>
+              Allows the action to complete without prompting you for confirmation.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>EndIpAddress</maml:name>
           <maml:description>
-            <maml:para>The new end IP address value.
-</maml:para>
+            <maml:para>
+              The new end IP address value.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>Name of the SQL Database firewall rule to be updated.
-</maml:para>
+            <maml:para>
+              Name of the SQL Database firewall rule to be updated.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>StartIpAddress</maml:name>
           <maml:description>
-            <maml:para>The new start IP address value.
-</maml:para>
+            <maml:para>
+              The new start IP address value.
+            </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>false</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -2732,8 +2877,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>EndIpAddress</maml:name>
         <maml:description>
-          <maml:para>The new end IP address value.
-</maml:para>
+          <maml:para>
+            The new end IP address value.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2745,8 +2891,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Force</maml:name>
         <maml:description>
-          <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
+          <maml:para>
+            Allows the action to complete without prompting you for confirmation.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2758,8 +2905,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>Name of the SQL Database firewall rule to be updated.
-</maml:para>
+          <maml:para>
+            Name of the SQL Database firewall rule to be updated.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2771,8 +2919,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>Name of the SQL Database server that contains the firewall rule to be updated. Specify only the server name, and not the fully qualified DNS name.
-</maml:para>
+          <maml:para>
+            Name of the SQL Database server that contains the firewall rule to be updated. Specify only the server name, and not the fully qualified DNS name.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2784,8 +2933,9 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>StartIpAddress</maml:name>
         <maml:description>
-          <maml:para>The new start IP address value.
-</maml:para>
+          <maml:para>
+            The new start IP address value.
+          </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2851,13 +3001,17 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
-        <dev:code>PS C:\&gt; Set-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule" –StartIpAddress 12.1.1.2 –EndIpAddress 12.1.1.4
+        <dev:code>
+          PS C:\&gt; Set-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule" –StartIpAddress 12.1.1.2 –EndIpAddress 12.1.1.4
 
 
-</dev:code>
+
+
+        </dev:code>
         <dev:remarks>
-          <maml:para>This command updates the start IP address and end IP address of the firewall rule (“myRule”) in the SQL Database server (“lpqd0zbr8y”).
-</maml:para>
+          <maml:para>
+            This command updates the start IP address and end IP address of the firewall rule (“myRule”) in the SQL Database server (“lpqd0zbr8y”).
+          </maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
