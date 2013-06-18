@@ -51,9 +51,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         [TestMethod]
         public void NewAzureSqlDatabaseWithSqlAuthDuplicateName()
         {
-            // Create 2 test databases
-            NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth();
-            
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
             {
