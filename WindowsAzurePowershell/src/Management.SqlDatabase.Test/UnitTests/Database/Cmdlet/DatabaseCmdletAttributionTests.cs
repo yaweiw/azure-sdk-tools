@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         [TestMethod]
         public void ExportAzureSqlDatabaseAttributeTest()
         {
-            Type cmdlet = typeof(ExportAzureSqlDatabase);
+            Type cmdlet = typeof(StartAzureSqlDatabaseExport);
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
         }

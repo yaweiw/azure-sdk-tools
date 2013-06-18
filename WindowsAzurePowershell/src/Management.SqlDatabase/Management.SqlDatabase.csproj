@@ -114,6 +114,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -134,7 +138,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
-    <Compile Include="Database\Cmdlet\ExportAzureSqlDatabase.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="Services\ImportExport\BlobStorageAccessKeyCredentials.cs" />
     <Compile Include="Services\ImportExport\ConnectionInfo.cs" />
     <Compile Include="Services\ImportExport\ExportInput.cs" />
+    <Compile Include="Services\ImportExport\ImportExportRequest.cs" />
     <Compile Include="Services\ImportExport\StatusInfo.cs" />
     <Compile Include="Services\ServerQuotaListResponse.cs" />
     <Compile Include="Services\ServerQuotaResponse.cs" />

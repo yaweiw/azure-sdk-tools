@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         public SqlAuthenticationCredentials SqlCredentials { get; set; }
 
         /// <summary>
-        /// Gets or set the server name
+        /// Gets or sets the server name
         /// </summary>
         public string ServerName { get; set; }
 

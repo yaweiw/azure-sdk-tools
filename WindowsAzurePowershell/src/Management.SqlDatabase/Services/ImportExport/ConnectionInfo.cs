@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     using System.Text;
 
     /// <summary>
-    /// The information needed to connect to a Sql Azure database for the export operation
+    /// The information needed to connect to a SQL Azure database for the export operation
     /// </summary>
     [SerializableAttribute]
     [DataContractAttribute(Name = "ConnectionInfo", 

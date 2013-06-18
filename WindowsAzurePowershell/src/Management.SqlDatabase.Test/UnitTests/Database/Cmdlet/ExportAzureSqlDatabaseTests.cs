@@ -93,12 +93,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return operationResult;
             };
 
-            ExportAzureSqlDatabase exportAzureSqlDatabase = 
-                new ExportAzureSqlDatabase(channel) { ShareChannel = true };
+            StartAzureSqlDatabaseExport exportAzureSqlDatabase =
+                new StartAzureSqlDatabaseExport(channel) { ShareChannel = true };
             exportAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             exportAzureSqlDatabase.CommandRuntime = commandRuntime;
             var result = exportAzureSqlDatabase.ExportSqlAzureDatabaseProcess(serverName, input);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.InnerText);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.RequestGuid);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }

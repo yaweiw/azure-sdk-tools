@@ -15,37 +15,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using System.Xml;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
 
     /// <summary>
-    /// Exports a database from Sql Azure into blob storage.
+    /// Exports a database from SQL Azure into blob storage.
     /// </summary>
-    [Cmdlet("Export", "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.Medium)]
-    public class ExportAzureSqlDatabase : PSCmdlet
+    [Cmdlet("Start", "AzureSqlDatabaseExport", ConfirmImpact = ConfirmImpact.Medium)]
+    public class StartAzureSqlDatabaseExport : SqlDatabaseManagementCmdletBase
     {
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="ExportAzureSqlDatabase"/> class.
+        /// Initializes a new instance of the <see cref="StartAzureSqlDatabaseExport"/> class.
         /// </summary>
-        public ExportAzureSqlDatabase()
+        public StartAzureSqlDatabaseExport()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="ExportAzureSqlDatabase"/> class.
+        /// Initializes a new instance of the <see cref="StartAzureSqlDatabaseExport"/> class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public ExportAzureSqlDatabase(ISqlDatabaseManagement channel)
+        public StartAzureSqlDatabaseExport(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
         }
@@ -58,10 +54,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 0,
             HelpMessage = "The context for connecting to the server")]
         [ValidateNotNullOrEmpty]
-        public ServerDataServiceSqlAuth Context { get; set; }
+        public ServerDataServiceSqlAuth SqlConnectionContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the destination storage container for the bacpac
+        /// Gets or sets the destination storage container for the blob
         /// </summary>
         [Parameter(Mandatory = true, Position = 1,
             HelpMessage = "The Azure Storage Container to place the blob in.")]
@@ -100,17 +96,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
             try
             {
-                result = new ImportExportRequest();
-                result.SqlCredentials = this.Context.SqlCredentials;
-                result.ServerName = serverName;
+                XmlElement requestId = RetryCall(subscription =>
+                    this.Channel.ExportDatabase(subscription, serverName, input));
+                Microsoft.WindowsAzure.ServiceManagement.Operation operation = WaitForSqlDatabaseOperation();
 
-
+                if (requestId != null)
+                {
+                    result = new ImportExportRequest();
+                    result.SqlCredentials = this.SqlConnectionContext.SqlCredentials;
+                    result.ServerName = serverName;
+                    result.RequestGuid = requestId.InnerText;
+                }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.SqlConnectionContext.ClientRequestId,
                     ex);
             }
 
@@ -127,35 +129,55 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 base.ProcessRecord();
 
+                string accessKey =
+                    System.Convert.ToBase64String(
+                        this.StorageContainer.CloudBlobContainer.ServiceClient.Credentials.ExportKey());
+                
+                string blobUri = 
+                            this.StorageContainer.Context.BlobEndPoint +
+                            this.StorageContainer.Name + "/" +
+                            this.BlobName;
+
+                string fullyQualifiedServerName = 
+                    this.SqlConnectionContext.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix;
+
                 // Create Web Request Inputs - Blob Storage Credentials and Server Connection Info
                 ExportInput exportInput = new ExportInput
                 {
                     BlobCredentials = new BlobStorageAccessKeyCredentials
                     {
-                        StorageAccessKey = System.Convert.ToBase64String(this.StorageContainer.CloudBlobContainer.ServiceClient.Credentials.ExportKey()),
-                        Uri = string.Format(
-                            this.StorageContainer.Context.BlobEndPoint, 
-                            this.DatabaseName, 
-                            DateTime.UtcNow.Ticks.ToString())
+                        StorageAccessKey = accessKey,
+                        Uri = blobUri
                     },
                     ConnectionInfo = new ConnectionInfo
                     {
-                        ServerName = this.Context.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
+                        ServerName = fullyQualifiedServerName,
                         DatabaseName = this.DatabaseName,
-                        UserName = this.Context.SqlCredentials.UserName,
-                        Password = this.Context.SqlCredentials.Password
+                        UserName = this.SqlConnectionContext.SqlCredentials.UserName,
+                        Password = this.SqlConnectionContext.SqlCredentials.Password
                     }
                 };
 
-                ImportExportRequest status = this.ExportSqlAzureDatabaseProcess(this.Context.ServerName, exportInput);
+                this.WriteVerbose("AccessKey: " + accessKey);
+                this.WriteVerbose("blobUri: " + blobUri);
+                this.WriteVerbose("ServerName: " + exportInput.ConnectionInfo.ServerName);
+                this.WriteVerbose("DatabaseName: " + exportInput.ConnectionInfo.DatabaseName);
+                this.WriteVerbose("UserName: " + exportInput.ConnectionInfo.UserName);
+                this.WriteVerbose("Password: " + exportInput.ConnectionInfo.Password); 
 
-                this.WriteObject(status);
+                ImportExportRequest status =
+                    this.ExportSqlAzureDatabaseProcess(this.SqlConnectionContext.ServerName, exportInput);
+
+                if (status != null)
+                {
+                    this.WriteObject(status);
+                }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.SqlConnectionContext.ClientRequestId,
                     ex);
             }
         }
