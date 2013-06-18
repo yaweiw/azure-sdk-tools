@@ -1284,6 +1284,6 @@ Please follow these steps in the portal:
     <value>The environment '{0}' already exists.</value>
   </data>
   <data name="CreateWebsiteFailed" xml:space="preserve">
-    <value>The create website request failed, if this the first website to create please use management portal to create it.</value>
+    <value>Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead.</value>
   </data>
 </root>
