@@ -9,6 +9,7 @@
         <Property Name="Name" Type="Edm.String" Nullable="false" />
         <NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" ToRole="Database_Server" FromRole="Server_Databases" />
         <NavigationProperty Name="ServerMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server" ToRole="ServerMetrics_Server" FromRole="Server_ServerMetrics" />
+        <NavigationProperty Name="ServerQuotas" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server" ToRole="ServerQuota_Server" FromRole="Server_ServerQuotas" />
       </EntityType>
       <EntityType Name="Database" OpenType="true">
         <Key>
@@ -17,7 +18,12 @@
         <Property Name="Id" Type="Edm.Int32" Nullable="false" />
         <Property Name="Name" Type="Edm.String" />
         <Property Name="ServiceObjectiveId" Type="Edm.Guid" />
+        <Property Name="AssignedServiceObjectiveId" Type="Edm.Guid" />
         <Property Name="ServiceObjectiveAssignmentState" Type="Edm.Byte" />
+        <Property Name="ServiceObjectiveAssignmentStateDescription" Type="Edm.String" />
+        <Property Name="ServiceObjectiveAssignmentErrorCode" Type="Edm.Int32" />
+        <Property Name="ServiceObjectiveAssignmentErrorDescription" Type="Edm.String" />
+        <Property Name="ServiceObjectiveAssignmentSuccessDate" Type="Edm.DateTime" />
         <Property Name="Edition" Type="Edm.String" />
         <Property Name="MaxSizeGB" Type="Edm.Int32" />
         <Property Name="MaxSizeBytes" Type="Edm.Int64" />
@@ -274,6 +280,14 @@
         <Property Name="Description" Type="Edm.String" />
         <Property Name="AdditionalData" Type="Edm.String" />
       </EntityType>
+      <EntityType Name="ServerQuota" OpenType="true">
+        <Key>
+          <PropertyRef Name="Name" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" Nullable="false" />
+        <Property Name="Value" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server" ToRole="Server_ServerQuotas" FromRole="ServerQuota_Server" />
+      </EntityType>
       <Association Name="Server_Databases_Database_Server">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Database" Role="Database_Server" Multiplicity="*" />
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_Databases" Multiplicity="0..1" />
@@ -281,6 +295,10 @@
       <Association Name="Server_ServerMetrics_ServerMetrics_Server">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.ServerMetrics" Role="ServerMetrics_Server" Multiplicity="0..1" />
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_ServerMetrics" Multiplicity="0..1" />
+      </Association>
+      <Association Name="Server_ServerQuotas_ServerQuota_Server">
+        <End Type="Microsoft.SqlServer.Management.Server.Domain.ServerQuota" Role="ServerQuota_Server" Multiplicity="*" />
+        <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_ServerQuotas" Multiplicity="0..1" />
       </Association>
       <Association Name="Database_ServiceObjective">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Database" Role="Database" Multiplicity="*" />
@@ -323,6 +341,7 @@
         <EntitySet Name="DatabaseMetrics" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseMetrics" />
         <EntitySet Name="ServerMetrics" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServerMetrics" />
         <EntitySet Name="EventLogs" EntityType="Microsoft.SqlServer.Management.Server.Domain.EventLog" />
+        <EntitySet Name="ServerQuotas" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServerQuota" />
         <AssociationSet Name="ServerDatabase" Association="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server">
           <End Role="Server_Databases" EntitySet="Servers" />
           <End Role="Database_Server" EntitySet="Databases" />
@@ -330,6 +349,10 @@
         <AssociationSet Name="ServerServerMetrics" Association="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server">
           <End Role="Server_ServerMetrics" EntitySet="Servers" />
           <End Role="ServerMetrics_Server" EntitySet="ServerMetrics" />
+        </AssociationSet>
+        <AssociationSet Name="ServerServerQuota" Association="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server">
+          <End Role="Server_ServerQuotas" EntitySet="Servers" />
+          <End Role="ServerQuota_Server" EntitySet="ServerQuotas" />
         </AssociationSet>
         <AssociationSet Name="fk_slo_database_objective_selections_objective_id" Association="Microsoft.SqlServer.Management.Server.Domain.Database_ServiceObjective">
           <End Role="Database" EntitySet="Databases" />

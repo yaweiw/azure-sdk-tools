@@ -428,10 +428,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             // Update the service objective property if specified
             if (serviceObjective != null)
             {
-                // We update both the scalar Guid and the link to the same thing
                 database.ServiceObjectiveId = serviceObjective.Id;
-                this.SetLink(database, "ServiceObjective", serviceObjective);
-                database.ServiceObjective = serviceObjective;
             }
 
             // Mark the database object for update and submit the changes
