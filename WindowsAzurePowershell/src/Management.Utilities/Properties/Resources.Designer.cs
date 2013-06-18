@@ -701,6 +701,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead..
+        /// </summary>
+        internal static string CreateWebsiteFailed {
+            get {
+                return ResourceManager.GetString("CreateWebsiteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating {0} package....
         /// </summary>
         internal static string CreatingPackageMessage {
