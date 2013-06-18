@@ -51,7 +51,7 @@
               <Name>Edition</Name>
               <Name>MaxSizeGB</Name>
               <Name>ServiceObjectiveName</Name>
-              <Name>ServiceObjectiveAssignmentState</Name>
+              <Name>ServiceObjectiveAssignmentStateDescription</Name>
               <Name>CreationDate</Name>
             </ReferencedProperties>
           </PropertySet>
