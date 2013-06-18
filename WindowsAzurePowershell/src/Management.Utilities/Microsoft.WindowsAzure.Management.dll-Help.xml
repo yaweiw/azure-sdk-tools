@@ -173,23 +173,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -225,23 +211,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -291,7 +263,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          PS C:\&gt; Add-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+          PS C:\&gt; Add-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageEndpoint "core.windows.net"
         </dev:code>
         <dev:remarks>
           <maml:para>This example adds a new environment called MyEnvironment.</maml:para>
@@ -360,23 +332,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -412,26 +370,12 @@
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageBlobEndpointFormat</maml:name>
-        <maml:description>
-          <maml:para>The blob endpoint format.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageQueueEndpointFormat</maml:name>
-        <maml:description>
-          <maml:para>The queue endpoint format</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageTableEndpointFormat</maml:name>
-        <maml:description>
-          <maml:para>The table endpoint format</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
+          <maml:name>StorageEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -478,7 +422,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          PS C:\&gt; Set-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+          PS C:\&gt; Set-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageEndpoint "core.windows.net"
         </dev:code>
         <dev:remarks>
           <maml:para>This example Sets an existing environment called MyEnvironment.</maml:para>
