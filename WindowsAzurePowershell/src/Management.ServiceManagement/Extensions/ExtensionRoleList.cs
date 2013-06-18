@@ -14,17 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System.Security.Cryptography.X509Certificates;
+    using System.Collections.Generic;
 
-    public class ExtensionConfigurationInput
+    public class ExtensionRoleList : List<ExtensionRole>
     {
-        public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
-        public string CertificateThumbprint { get; set; }
-        public string ThumbprintAlgorithm { get; set; }
-        public string PublicConfiguration { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public ExtensionRoleList Roles { get; set; }
-        public X509Certificate2 X509Certificate { get; set; }
+        public ExtensionRoleList()
+            : base()
+        {
+        }
+
+        public ExtensionRoleList(IEnumerable<ExtensionRole> roles)
+            : base(roles)
+        {
+        }
     }
 }
