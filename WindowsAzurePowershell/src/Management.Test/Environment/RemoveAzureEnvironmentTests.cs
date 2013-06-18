@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
@@ -85,14 +86,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
             foreach (string name in WindowsAzureEnvironment.PublicEnvironments.Keys)
             {
                 RemoveAzureEnvironmentCommand cmdlet = new RemoveAzureEnvironmentCommand()
-            {
-                CommandRuntime = commandRuntimeMock.Object,
-                Name = name
-            };
+                {
+                    CommandRuntime = commandRuntimeMock.Object,
+                    Name = name
+                };
 
-            Testing.AssertThrows<KeyNotFoundException>(
-                () => cmdlet.ExecuteCmdlet(),
-                string.Format(Resources.EnvironmentNotFound, name));
+                Testing.AssertThrows<InvalidOperationException>(
+                    () => cmdlet.ExecuteCmdlet(),
+                    string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
         }
     }
