@@ -1554,7 +1554,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>DisableWinRMHttps</maml:name>
           <maml:description>
-            <maml:para>Disables WinRM on http which is added by default.</maml:para>
+            <maml:para>Disables WinRM on https which is added by default.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -1573,6 +1573,12 @@
           <maml:name>NoRDPEndpoint</maml:name>
           <maml:description>
             <maml:para>If specified, create the virtual machine without a remote desktop endpoint.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NoWinRMEndpoint</maml:name>
+          <maml:description>
+            <maml:para>Prevents the WinRM endpoint from being added</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -1676,7 +1682,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>DisableWinRMHttps</maml:name>
           <maml:description>
-            <maml:para>Disables WinRM on http which is added by default.</maml:para>
+            <maml:para>Disables WinRM on https which is added by default.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -1702,6 +1708,12 @@
           <maml:name>NoRDPEndpoint</maml:name>
           <maml:description>
             <maml:para>If specified, create the virtual machine without a remote desktop endpoint.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NoWinRMEndpoint</maml:name>
+          <maml:description>
+            <maml:para>Prevents the WinRM endpoint from being added</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -1796,7 +1808,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>DisableWinRMHttps</maml:name>
         <maml:description>
-          <maml:para>Disables WinRM on http which is added by default.</maml:para>
+          <maml:para>Disables WinRM on https which is added by default.</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -1940,6 +1952,19 @@
         <maml:name>NoSSHEndpoint</maml:name>
         <maml:description>
           <maml:para>If specified, create the virtual machine without an SSH endpoint.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NoWinRMEndpoint</maml:name>
+        <maml:description>
+          <maml:para>Prevents the WinRM endpoint from being added</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -7263,7 +7288,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>DisableWinRMHttps</maml:name>
           <maml:description>
-            <maml:para>Disables WinRM on http which is added by default.</maml:para>
+            <maml:para>Disables WinRM on https which is added by default.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
@@ -7320,6 +7345,12 @@
             <maml:para>Prevents the private key from being uploaded</maml:para>
           </maml:description>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NoWinRMEndpoint</maml:name>
+          <maml:description>
+            <maml:para>Prevents the WinRM endpoint from being added</maml:para>
+          </maml:description>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>SubnetNames</maml:name>
           <maml:description>
@@ -7337,7 +7368,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>WaitForBoot</maml:name>
           <maml:description>
-            <maml:para>Waits for VM to boot.</maml:para>
+            <maml:para>Waits for VM to reach ReadyRole state. Cmdlet fails if VM falls in one of the following states while waiting: &quot;FailedStartingVM&quot;, &quot;ProvisioningFailed&quot;, &quot;ProvisioningTimeout&quot;.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -7413,7 +7444,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>DisableWinRMHttps</maml:name>
         <maml:description>
-          <maml:para>Disables WinRM on http which is added by default.</maml:para>
+          <maml:para>Disables WinRM on https which is added by default.</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -7566,6 +7597,19 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NoWinRMEndpoint</maml:name>
+        <maml:description>
+          <maml:para>Prevents the WinRM endpoint from being added</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Password</maml:name>
         <maml:description>
@@ -7647,7 +7691,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>WaitForBoot</maml:name>
         <maml:description>
-          <maml:para>Waits for VM to boot.</maml:para>
+          <maml:para>Waits for VM to reach ReadyRole state. Cmdlet fails if VM falls in one of the following states while waiting: &quot;FailedStartingVM&quot;, &quot;ProvisioningFailed&quot;, &quot;ProvisioningTimeout&quot;.</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -8809,7 +8853,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>WaitForBoot</maml:name>
           <maml:description>
-            <maml:para>Waits for VM to boot.</maml:para>
+            <maml:para>Waits for VM to reach &quot;ReadyRole&quot; state. Cmdlet fails if VM falls in one of the following states while waiting: &quot;FailedStartingVM&quot;, &quot;ProvisioningFailed&quot;, &quot;ProvisioningTimeout&quot;.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -8860,7 +8904,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>WaitForBoot</maml:name>
           <maml:description>
-            <maml:para>Waits for VM to boot.</maml:para>
+            <maml:para>Waits for VM to reach &quot;ReadyRole&quot; state. Cmdlet fails if VM falls in one of the following states while waiting: &quot;FailedStartingVM&quot;, &quot;ProvisioningFailed&quot;, &quot;ProvisioningTimeout&quot;.</maml:para>
           </maml:description>
         </command:parameter>
       </command:syntaxItem>
@@ -9000,7 +9044,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>WaitForBoot</maml:name>
         <maml:description>
-          <maml:para>Waits for VM to boot.</maml:para>
+          <maml:para>Waits for VM to reach &quot;ReadyRole&quot; state. Cmdlet fails if VM falls in one of the following states while waiting: &quot;FailedStartingVM&quot;, &quot;ProvisioningFailed&quot;, &quot;ProvisioningTimeout&quot;.</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -18871,6 +18915,16 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+        
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0" aliases="">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
 
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>LBSetName</maml:name>
@@ -18923,6 +18977,16 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0" aliases="">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
 
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>LBSetName</maml:name>
@@ -19007,6 +19071,16 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
+
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0" aliases="">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
 
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>LBSetName</maml:name>
@@ -19100,6 +19174,16 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
     </command:syntax>
     
     <command:parameters>
+      
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0" aliases="">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>
+            Specifies the name of the Windows Azure service containing the endpoint that will be modified.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
       
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>LBSetName</maml:name>
