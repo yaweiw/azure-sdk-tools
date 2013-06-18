@@ -586,7 +586,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
         #region Export Database 
         
+        /// <summary>
+        /// Gets or sets the Thunk used for testing the Export Database functionality
+        /// </summary>
         public Func<SimpleServiceManagementAsyncResult, XmlElement> ExportDatabaseThunk { get; set; }
+        
+        /// <summary>
+        /// Starts a mock call to Begin Export Database.
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="input">The input object to pass through</param>
+        /// <param name="callback">The callback object to pass through</param>
+        /// <param name="state">The state object to pass through</param>
+        /// <returns>A <see cref="SimpleServiceManagementAsyncResult"/> object</returns>
         public IAsyncResult BeginExportDatabase(
             string subscriptionId, 
             string serverName, 
@@ -603,17 +616,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
             return result;
         }
 
+        /// <summary>
+        /// Ends the mock call to Export Database
+        /// </summary>
+        /// <param name="asyncResult">The result of calling BeginExportDatabase</param>
+        /// <returns>An XmlElement with the request GUID</returns>
         public XmlElement EndExportDatabase(IAsyncResult asyncResult)
         {
-            if (ExportDatabaseThunk != null)
+            if (this.ExportDatabaseThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = 
                     asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return ExportDatabaseThunk(result);
+                return this.ExportDatabaseThunk(result);
             }
-            else if (ThrowsIfNotImplemented)
+            else if (this.ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("ExportDatabaseThunk is not implemented!");
             }

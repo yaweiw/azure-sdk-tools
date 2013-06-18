@@ -34,7 +34,7 @@ Param
     [Parameter(Mandatory=$true, Position=4)]
     [ValidateNotNullOrEmpty()]
     [Uri]
-    $BlobContainerUri,
+    $ContainerName,
     [Parameter(Mandatory=$true, Position=5)]
     [ValidateNotNullOrEmpty()]
     [string]
@@ -51,7 +51,7 @@ Write-Output "`$UserName=$UserName"
 Write-Output "`$Password=$Password"
 Write-Output "`$SubscriptionId=$SubscriptionId"
 Write-Output "`$SerializedCert=$SerializedCert"
-Write-Output "`$BlobContainerUri=$BlobContainerUri"
+Write-Output "`$ContainerName=$ContainerName"
 Write-Output "`$StorageAccessKey=$StorageAccessKey"
 
 . .\CommonFunctions.ps1
@@ -84,16 +84,20 @@ Try
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $DatabaseName
     Assert {$database} "Failed to create a database"
     Write-Output "Done"
+
+	$StgCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageKey
+	$container = Get-AzureStorageContainer -Name $ContainerName -Context $StgCtx
     
     ####################################################
     # Export Database
     $BlobName = $DatabaseName + ".bacpac"
-    $BlobUri = BlobContainerUri + $BlobName
 
-    $requestId = Export-AzureSqlDatabase -UserName $UserName -Password $Password -ServerName `
-        $server.ServerName -DatabaseName $DatabaseName -BlobUri $BlobUri -StorageKey $StorageAccessKey
-    Assert {$requestId} "Failed to initiate the export opertaion"
-    Write-Output "Request Id for export: " + $requestId
+	
+	$Request = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContainer $container `
+		-DatabaseName $DatabaseName -BlobName $BlobName
+
+    Assert {$request} "Failed to initiate the export opertaion"
+    Write-Output "Request Id for export: " + $request.RequestId
 
     $IsTestPass = $True
 }

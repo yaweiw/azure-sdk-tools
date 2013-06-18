@@ -103,8 +103,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 if (requestId != null)
                 {
                     result = new ImportExportRequest();
-                    result.SqlCredentials = this.SqlConnectionContext.SqlCredentials;
-                    result.ServerName = serverName;
                     result.RequestGuid = requestId.InnerText;
                 }
             }
@@ -165,12 +163,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 this.WriteVerbose("UserName: " + exportInput.ConnectionInfo.UserName);
                 this.WriteVerbose("Password: " + exportInput.ConnectionInfo.Password); 
 
-                ImportExportRequest status =
+                ImportExportRequest request =
                     this.ExportSqlAzureDatabaseProcess(this.SqlConnectionContext.ServerName, exportInput);
 
-                if (status != null)
+                if (request != null)
                 {
-                    this.WriteObject(status);
+                    request.SqlCredentials = this.SqlConnectionContext.SqlCredentials;
+                    request.ServerName = fullyQualifiedServerName;
+                    this.WriteObject(request);
                 }
             }
             catch (Exception ex)

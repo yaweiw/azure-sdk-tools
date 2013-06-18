@@ -32,8 +32,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string serverLocation;
         private string subscriptionId;
         private string serializedCert;
-        private string blobContainerUri;
+        private string containerName;
         private string accessKey;
+        private string ieServerLocation;
 
         /// <summary>
         /// Scripts for doing context creation tests
@@ -116,8 +117,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.subscriptionId = root.Element("SubscriptionId").Value;
             this.serializedCert = root.Element("SerializedCert").Value;
             this.serverName = new Uri(manageUrl).Host.Split('.').First();
-            this.blobContainerUri = root.Element("BlobContainerUri").Value;
+            this.containerName = root.Element("ContainerName").Value;
             this.accessKey = root.Element("AccessKey").Value;
+            this.ieServerLocation = root.Element("IEServerLocation").Value;
         }
 
         /// <summary>
@@ -247,7 +249,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
             string cmdlineArgs =
                 "-UserName \"{0}\" -Password \"{1}\" -SubscriptionId \"{2}\" -SerializedCert \"{3}\" "
-                + "-BlobContainerUri \"{4}\" -StorageAccessKey \"{5}\" -ServerLocation \"{6}\"";
+                + "-ContainerName \"{4}\" -StorageAccessKey \"{5}\" -ServerLocation \"{6}\"";
 
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
@@ -256,9 +258,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.password,
                 this.subscriptionId,
                 this.serializedCert,
-                this.blobContainerUri,
-                this.accessKey, 
-                this.serverLocation);
+                this.containerName,
+                this.accessKey,
+                this.ieServerLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.ImportExportScript, arguments);
             Assert.IsTrue(testResult);
         }

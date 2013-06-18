@@ -13,14 +13,9 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -97,6 +92,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 new StartAzureSqlDatabaseExport(channel) { ShareChannel = true };
             exportAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             exportAzureSqlDatabase.CommandRuntime = commandRuntime;
+            
             var result = exportAzureSqlDatabase.ExportSqlAzureDatabaseProcess(serverName, input);
             Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.RequestGuid);
 
