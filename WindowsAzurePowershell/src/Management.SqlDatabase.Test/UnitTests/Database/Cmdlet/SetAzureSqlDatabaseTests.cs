@@ -218,7 +218,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             case 4:
                             case 5:
                             case 6:
-                            case 7:
                                 DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);
