@@ -602,6 +602,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changing/Removing public environment &apos;{0}&apos; is not allowed..
+        /// </summary>
+        internal static string ChangePublicEnvironmentMessage {
+            get {
+                return ResourceManager.GetString("ChangePublicEnvironmentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service {0} is set to value {1}.
         /// </summary>
         internal static string ChangeSettingsElementMessage {

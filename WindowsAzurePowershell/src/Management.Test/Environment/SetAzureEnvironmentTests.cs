@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Environment
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
@@ -92,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
         }
 
         [TestMethod]
-        public void IgnoresSettingPublicEnvironment()
+        public void ThrowsWhenSettingPublicEnvironment()
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
 
@@ -105,11 +106,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
                     PublishSettingsFileUrl = "http://microsoft.com"
                 };
 
-                cmdlet.ExecuteCmdlet();
-
-                Assert.AreNotEqual(
-                    "http://microsoft.com",
-                    GlobalSettingsManager.Instance.GetEnvironment(name).PublishSettingsFileUrl);
+                Testing.AssertThrows<InvalidOperationException>(
+                    () => cmdlet.ExecuteCmdlet(),
+                    string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
         }
     }
