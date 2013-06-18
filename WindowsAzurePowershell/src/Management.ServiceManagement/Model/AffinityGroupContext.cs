@@ -32,6 +32,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
         public IEnumerable<Service> StorageServices { get; set; }
 
+        public IEnumerable<string> Capabilities { get; set; }
+
         public class Service
         {
             public Uri Url { get; set; }
