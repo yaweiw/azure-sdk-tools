@@ -520,7 +520,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
             else if (IsPublicEnvironment(name))
             {
-                return GetEnvironment(name);
+                throw new InvalidOperationException(string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
             else
             {
@@ -567,6 +567,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 int count = customEnvironments.RemoveAll(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
                 Debug.Assert(count == 1);
                 General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+            }
+            else if (IsPublicEnvironment(name))
+            {
+                throw new InvalidOperationException(string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
             else
             {
