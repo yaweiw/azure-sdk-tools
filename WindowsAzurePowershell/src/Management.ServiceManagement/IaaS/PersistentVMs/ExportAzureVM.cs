@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Linq;
+    using System.Globalization;
     using System.Management.Automation;
     using Helpers;
     using WindowsAzure.ServiceManagement;
@@ -72,20 +73,42 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             }
             try
             {
-                var vmRole = (PersistentVMRole)role;
-                var vm = new PersistentVM
+                var vm = (PersistentVMRole)role;
+                var roleInstance = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName);
+                var vmContext = new PersistentVMRoleContext
                 {
-                    AvailabilitySetName = vmRole.AvailabilitySetName,
-                    ConfigurationSets = vmRole.ConfigurationSets,
-                    DataVirtualHardDisks = vmRole.DataVirtualHardDisks,
-                    Label = vmRole.Label,
-                    OSVirtualHardDisk = vmRole.OSVirtualHardDisk,
-                    RoleName = vmRole.RoleName,
-                    RoleSize = vmRole.RoleSize,
-                    RoleType = vmRole.RoleType,
-                    DefaultWinRmCertificateThumbprint = vmRole.DefaultWinRmCertificateThumbprint
+                    ServiceName = ServiceName,
+                    Name = vm.RoleName,
+                    DeploymentName = CurrentDeployment.Name,
+                    AvailabilitySetName = vm.AvailabilitySetName,
+                    Label = vm.Label,
+                    InstanceSize = vm.RoleSize,
+                    InstanceStatus = roleInstance.InstanceStatus,
+                    IpAddress = roleInstance.IpAddress,
+                    InstanceStateDetails = roleInstance.InstanceStateDetails,
+                    PowerState = roleInstance.PowerState,
+                    InstanceErrorCode = roleInstance.InstanceErrorCode,
+                    InstanceName = roleInstance.InstanceName,
+                    InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                    InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                    OperationDescription = CommandRuntime.ToString(),
+                    OperationId = GetDeploymentOperation.OperationTrackingId,
+                    OperationStatus = GetDeploymentOperation.Status,
+                    VM = new PersistentVM
+                    {
+                        AvailabilitySetName = vm.AvailabilitySetName,
+                        ConfigurationSets = vm.ConfigurationSets,
+                        DataVirtualHardDisks = vm.DataVirtualHardDisks,
+                        Label = vm.Label,
+                        OSVirtualHardDisk = vm.OSVirtualHardDisk,
+                        RoleName = vm.RoleName,
+                        RoleSize = vm.RoleSize,
+                        RoleType = vm.RoleType,
+                        DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
+                    }
                 };
-                PersistentVMHelper.SaveStateToFile(vm, Path);
+                PersistentVMHelper.SaveStateToFile(vmContext.VM, Path);
+                WriteObject(vmContext, true);
             }
             catch (Exception e)
             {
