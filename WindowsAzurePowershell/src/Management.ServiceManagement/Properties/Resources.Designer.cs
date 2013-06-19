@@ -1105,7 +1105,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find cloud servcie: {0}..
+        ///   Looks up a localized string similar to Cannot find cloud service: {0}..
         /// </summary>
         internal static string ServiceExtensionCannotFindServiceName {
             get {
