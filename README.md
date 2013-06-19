@@ -9,20 +9,27 @@ For documentation on how to build and deploy applications to Windows Azure pleas
 
 * Account
   * Get and import Azure publish settings
+* Environment
+  * Get the differnet out-of-box Windows Azure environments (like AzureCloud and AzureChinaCloud)
+  * Get Azure publish settings for a particular environment
 * Subscription
   * Manage Azure subscription
   * Manage AffinityGroup
 * Website
   * Manage website, such as CRUD, start and stop.
   * Diagnostics
+      * Configure site and application diagnostics
       * Log streaming
       * Save log
-* Cloud service
+* Cloud Services
   * Create scaffolding for cloud service and role. Role support includes Node.js, PHP, Django and Cache.
   * Manage cloud service and role, such as CRUD, start and stop.
   * Enable/Disable remote desktop.
   * Start/Stop Azure emulator.
   * Manage certificate.
+  * Manage cloud service extensions
+    * Remote desktoo
+    * Diagnostics 
 * Storage
   * Manage storage account and access key.
   * Manage storage container and blob.
@@ -37,7 +44,7 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Manage VM, such as CRUD, import/export and start/stop/restart.
   * Manage VM image, such as CRUD.
   * Manage disk, such as CRUD.
-  * Manage VM endpoint, such as CRUD.
+  * Manage VM endpoint, such as CRUD and ACL.
   * Get/Set VM sub net.
   * Manage certificate and SSH key.
   * PowerShell remoting
@@ -123,7 +130,7 @@ To get the source code of the SDK via git just type:
 
 4. You are now ready to publish to the cloud service. Go ahead and register for a Windows Azure account and make sure you have your credentials handy.
 
-5. Get your account's publish settings and save them to a file by typing ```Get-AzurePublishSettingsFile```
+5. Get your account's publish settings and save them to a file by typing ```Get-AzurePublishSettingsFile```. It will by default target the public Azure. If you want to target environment like Azure in China, use `Get-AzureEnvironment` to see the environments we support and use `Get-AzurePublishSettingsFile -Environment` to get the publish settings for the paticular environment.
 
 6. Now import the settings
 

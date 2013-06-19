@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     /// Imports publish profiles.
     /// </summary>
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile"), OutputType(typeof (string))]
-    public class ImportAzurePublishSettingsCommand : CmdletBase
+    public class ImportAzurePublishSettingsCommand : CmdletBase, IModuleAssemblyInitializer
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to the publish settings file.")]
@@ -196,6 +196,17 @@ namespace Microsoft.WindowsAzure.Management.Subscription
             }
 
             return null;
+        }
+
+        public void OnImport()
+        {
+            PowerShell invoker = null;
+            string startupScriptPath = Path.Combine(
+                Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()),
+                "startup.ps1"); 
+            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
+            invoker.AddScript(File.ReadAllText(startupScriptPath));
+            invoker.Invoke();
         }
     }
 }

@@ -14,37 +14,45 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    public enum ExtensionRoleType { AllRoles, NamedRoles };
+    using WindowsAzure.ServiceManagement;
 
     public class ExtensionRole
     {
+        protected const string DefaultExtensionIdPrefixStr = "Default";
+
+        public string RoleName { get; private set; }
+        public string PrefixName { get; private set; }
+        public string RoleType { get; private set; }
+        public bool Default { get; private set; }
+
         public ExtensionRole()
         {
-            RoleName = "";
-            RoleType = ExtensionRoleType.AllRoles;
+            RoleName = string.Empty;
+            RoleType = typeof(AllRoles).Name;
+            PrefixName = DefaultExtensionIdPrefixStr;
+            Default = true;
         }
 
         public ExtensionRole(string roleName)
         {
-            RoleName = roleName.Trim();
-            RoleType = string.IsNullOrEmpty(RoleName) ? ExtensionRoleType.AllRoles : ExtensionRoleType.NamedRoles;
-        }
-
-        public string RoleName
-        {
-            get;
-            private set;
-        }
-
-        public ExtensionRoleType RoleType
-        {
-            get;
-            private set;
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                RoleName = string.Empty;
+                RoleType = typeof(AllRoles).Name;
+                PrefixName = DefaultExtensionIdPrefixStr;
+                Default = true;
+            }
+            else
+            {
+                PrefixName = RoleName = roleName.Trim();
+                RoleType = typeof(NamedRoles).Name;
+                Default = false;
+            }
         }
 
         public override string ToString()
         {
-            return RoleType == ExtensionRoleType.AllRoles ? "AllRoles" : RoleName;
+            return PrefixName;
         }
     }
 }
