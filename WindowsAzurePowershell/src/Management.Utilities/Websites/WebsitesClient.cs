@@ -66,12 +66,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             HeadersInspector.RequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
             HeadersInspector.RequestHeaders.Add(ApiConstants.UserAgentHeaderName, ApiConstants.UserAgentHeaderValue);
             HeadersInspector.RemoveHeaders.Add(ApiConstants.VSDebuggerCausalityDataHeaderName);
-            WebsiteChannel = ChannelHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
+            WebsiteChannel = ChannelHelper.CreateChannel<IWebsitesServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
-                new HttpRestMessageInspector(logger),
-                HeadersInspector);
+                HeadersInspector,
+                new HttpRestMessageInspector(logger));
 
             ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
