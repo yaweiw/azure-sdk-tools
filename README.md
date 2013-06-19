@@ -123,7 +123,7 @@ Get-AzurePublishSettingsFile
 # Import the file you just downloaded.
 # Notice that the file contains credential of your subscription so you don't want to make it public
 # (like check in to source control, etc.).
-Import-AzurePublishSettingsFile <file location>
+Import-AzurePublishSettingsFile "<file location>"
 
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "West US"
@@ -146,7 +146,7 @@ Get-AzurePublishSettingsFile -Environment "AzureChinaCloud"
 # Import the file you just downloaded.
 # Notice that the file contains credential of your subscription so you don't want to make it public
 # (like check in to source control, etc.).
-Import-AzurePublishSettingsFile <file location>
+Import-AzurePublishSettingsFile "<file location>"
 
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "China East"
@@ -162,10 +162,10 @@ New-AzureWebsite -Name mywebsite -Location "China East"
 # 3. Management Portal URL                        Optional
 # 4. Storage service endpoint                     Optional
 Add-WAPackEnvironment -Name "MyWAPackEnv" `
-    -PublishSettingsFileUrl <URL to download the publish settings file> `
-    -ServiceEndpoint <Management service endpoint> `
-    -ManagementPortalUrl <Storage service endpoint> `
-    -StorageEndpoint <Management Portal URL>
+    -PublishSettingsFileUrl "URL to download the publish settings file>" `
+    -ServiceEndpoint "<Management service endpoint>" `
+    -ManagementPortalUrl "<Storage service endpoint>" `
+    -StorageEndpoint "<Management Portal URL>"
 
 # Download a file which contains the publish settings information of your subscription.
 # Use the -Environment parameter to target Windows Azure China.
@@ -175,7 +175,7 @@ Get-WAPackPublishSettingsFile -Environment "MyWAPackEnv"
 # Import the file you just downloaded.
 # Notice that the file contains credential of your subscription so you don't want to make it public
 # (like check in to source control, etc.).
-Import-WAPackPublishSettingsFile <file location>
+Import-WAPackPublishSettingsFile "<file location>"
 
 # Use the cmdlets to manage your services/applications
 New-WAPackWebsite -Name mywebsite
@@ -184,6 +184,7 @@ New-WAPackWebsite -Name mywebsite
 # Find Your Way
 
 All the cmdlets can be put into 3 categories:
+
 1. Cmdlets support both Windows Azure and Windows Azure Pack
 2. Cmdlets only support both Windows Azure
 3. Cmdlets only support Windows Azure Pack
