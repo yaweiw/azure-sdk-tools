@@ -1053,11 +1053,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment &apos;{0}&apos; already exists..
+        /// </summary>
+        internal static string EnvironmentExists {
+            get {
+                return ResourceManager.GetString("EnvironmentExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
         /// </summary>
         internal static string EnvironmentNotFound {
             get {
                 return ResourceManager.GetString("EnvironmentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to environments.xml.
+        /// </summary>
+        internal static string EnvironmentsFileName {
+            get {
+                return ResourceManager.GetString("EnvironmentsFileName", resourceCulture);
             }
         }
         
@@ -3196,6 +3214,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string StorageAccountName {
             get {
                 return ResourceManager.GetString("StorageAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage account &apos;{0}&apos; please type the name of an existing storage account..
+        /// </summary>
+        internal static string StorageAccountNotFound {
+            get {
+                return ResourceManager.GetString("StorageAccountNotFound", resourceCulture);
             }
         }
         

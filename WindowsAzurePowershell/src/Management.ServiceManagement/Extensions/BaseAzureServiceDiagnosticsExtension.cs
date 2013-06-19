@@ -12,12 +12,14 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
+    using System.Xml;
     using System.Xml.Linq;
-    using Model;
     using Properties;
+    using Storage;
+    using Storage.Auth;
+    using Utilities.CloudService;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
@@ -31,15 +33,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string DiagnosticsExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
         protected const string DiagnosticsExtensionType = "Diagnostics";
 
-        protected string StorageKey;
-        protected string ConnectionQualifiers;
-        protected string DefaultEndpointsProtocol;
+        protected string StorageKey { get; set; }
+        protected string ConnectionQualifiers { get; set; }
+        protected string DefaultEndpointsProtocol { get; set; }
 
-        public virtual string StorageAccountName
-        {
-            get;
-            set;
-        }
+        public virtual string StorageAccountName { get; set; }
+        public virtual XmlDocument DiagnosticsConfiguration { get; set; }
 
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
@@ -53,31 +52,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Initialize();
         }
 
-        protected void ValidateStorageAccount()
-        {
-            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
-            if (storageService == null)
-            {
-                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
-            }
-
-            StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0}", storageService.StorageServiceProperties.Endpoints[0]);
-            endpointStr.AppendFormat(";QueueEndpoint={0}", storageService.StorageServiceProperties.Endpoints[1]);
-            endpointStr.AppendFormat(";TableEndpoint={0}", storageService.StorageServiceProperties.Endpoints[2]);
-            endpointStr.Replace("http://", "https://");
-
-            DefaultEndpointsProtocol = "https";
-            ConnectionQualifiers = endpointStr.ToString();
-
-            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
-            if (storageKeys == null)
-            {
-                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
-            }
-            StorageKey = storageKeys.StorageServiceKeys.Primary;
-        }
-
         protected void Initialize()
         {
             ExtensionNameSpace = DiagnosticsExtensionNamespace;
@@ -89,11 +63,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XElement(configNameSpace + PublicConfigStr,
                     new XElement(configNameSpace + StorageAccountElemStr,
-                        new XElement(configNameSpace + ConnectionQualifiersElemStr, "{0}"),
-                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, "{1}"),
-                        new XElement(configNameSpace + StorageNameElemStr, "{2}")
+                        new XElement(configNameSpace + ConnectionQualifiersElemStr, string.Empty),
+                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, string.Empty),
+                        new XElement(configNameSpace + StorageNameElemStr, string.Empty)
                     ),
-                    new XElement(configNameSpace + WadCfgElemStr, "{3}")
+                    new XElement(configNameSpace + WadCfgElemStr, string.Empty)
                 )
             );
 
@@ -104,6 +78,43 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     new XElement(StorageKeyElemStr, "{0}")
                 )
             );
+        }
+
+        protected void ValidateStorageAccount()
+        {
+            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
+            if (storageService == null)
+            {
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
+            }
+
+            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
+            if (storageKeys == null || storageKeys.StorageServiceKeys == null)
+            {
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
+            }
+            StorageKey = storageKeys.StorageServiceKeys.Primary;
+
+            StringBuilder endpointStr = new StringBuilder();
+            endpointStr.AppendFormat("BlobEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]));
+            endpointStr.AppendFormat("QueueEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]));
+            endpointStr.AppendFormat("TableEndpoint={0}", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2]));
+            ConnectionQualifiers = endpointStr.ToString();
+            DefaultEndpointsProtocol = "https";
+        }
+
+        protected override void ValidateConfiguration()
+        {
+            PublicConfigurationXml = new XDocument(PublicConfigurationXmlTemplate);
+            SetPublicConfigValue(ConnectionQualifiersElemStr, ConnectionQualifiers);
+            SetPublicConfigValue(DefaultEndpointsProtocolElemStr, DefaultEndpointsProtocol);
+            SetPublicConfigValue(StorageNameElemStr, StorageAccountName);
+            SetPublicConfigValue(WadCfgElemStr, DiagnosticsConfiguration);
+            PublicConfiguration = PublicConfigurationXml.ToString();
+
+            PrivateConfigurationXml = new XDocument(PrivateConfigurationXmlTemplate);
+            SetPrivateConfigValue(StorageKeyElemStr, StorageKey);
+            PrivateConfiguration = PrivateConfigurationXml.ToString();
         }
     }
 }

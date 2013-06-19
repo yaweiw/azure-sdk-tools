@@ -3,6 +3,503 @@
 <helpItems xmlns="http://msh" schema="maml">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-AzureEnvironment</command:name>
+      <maml:description>
+        <maml:para>Gets the available Windows Azure environment</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureEnvironment</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+        Gets the available Windows Azure environment
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureEnvironment</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      </command:syntax>
+    <command:parameters>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Get-AzureEnvironment
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example displays all the available windows azure environments on this machince.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Get-AzureEnvironment -Name MyEnvironment
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example all the details about environment MyEnvironment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureEnvironment</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Add-AzureEnvironment</command:name>
+      <maml:description>
+        <maml:para>Adds a new windows azure environment</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Add</command:verb>
+      <command:noun>AzureEnvironment</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+        Adds a new windows azure environment and saves them in environments.xml in under Roaming\Windows Azure PowerShell
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-AzureEnvironment</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>PublishSettingsFileUrl</maml:name>
+          <maml:description>
+            <maml:para>The publish settings file url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ManagementPortalUrl</maml:name>
+          <maml:description>
+            <maml:para>The management portal url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The blob endpoint format.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageQueueEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The queue endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageTableEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The table endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      </command:syntax>
+    <command:parameters>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>PublishSettingsFileUrl</maml:name>
+          <maml:description>
+            <maml:para>The publish settings file url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ManagementPortalUrl</maml:name>
+          <maml:description>
+            <maml:para>The management portal url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The blob endpoint format.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageQueueEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The queue endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageTableEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The table endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Add-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example adds a new environment called MyEnvironment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureEnvironment</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-AzureEnvironment</command:name>
+      <maml:description>
+        <maml:para>Sets an existing windows azure environment</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureEnvironment</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+        Sets an existing windows azure environment and saves it in environments.xml under Roaming\Windows Azure PowerShell
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureEnvironment</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>PublishSettingsFileUrl</maml:name>
+          <maml:description>
+            <maml:para>The publish settings file url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ManagementPortalUrl</maml:name>
+          <maml:description>
+            <maml:para>The management portal url</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The blob endpoint format.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageQueueEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The queue endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>StorageTableEndpointFormat</maml:name>
+          <maml:description>
+            <maml:para>The table endpoint format</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The environment name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>PublishSettingsFileUrl</maml:name>
+        <maml:description>
+          <maml:para>The publish settings file url</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>ServiceEndpoint</maml:name>
+        <maml:description>
+          <maml:para>The service endpoint</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>ManagementPortalUrl</maml:name>
+        <maml:description>
+          <maml:para>The management portal url</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>StorageBlobEndpointFormat</maml:name>
+        <maml:description>
+          <maml:para>The blob endpoint format.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>StorageQueueEndpointFormat</maml:name>
+        <maml:description>
+          <maml:para>The queue endpoint format</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>StorageTableEndpointFormat</maml:name>
+        <maml:description>
+          <maml:para>The table endpoint format</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Set-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example Sets an existing environment called MyEnvironment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureEnvironment</maml:linkText>
+        <maml:linkText>Add-AzureEnvironment</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzurePublishSettingsFile</command:name>
       <maml:description>
         <maml:para>Downloads the publish-settings file for a Windows Azure subscription</maml:para>
@@ -30,20 +527,29 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Environment</maml:name>
+          <maml:description>
+            <maml:para>The Windows Azure environment name to be used. Example AzureCloud</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
         <maml:name>Realm</maml:name>
         <maml:description>
           <maml:para>The organization ID to use for federated authentication when displaying the Windows Azure Portal</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>Environment</maml:name>
+        <maml:description>
+          <maml:para>The Windows Azure environment name to be used. Example AzureCloud</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -7909,34 +8415,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
         </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureDriveTraceEnabled</maml:name>
-          <maml:description>
-            <maml:para>The flag to enable drive logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureDriveTraceLevel</maml:name>
-          <maml:description>
-            <maml:para>The level of logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureTableTraceEnabled</maml:name>
-          <maml:description>
-            <maml:para>The flag to enable table logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>AzureTableTraceLevel</maml:name>
-          <maml:description>
-            <maml:para>The level of logging</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -8102,34 +8580,6 @@
           <maml:para>When specified, a boolean value is returned</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureDriveTraceEnabled</maml:name>
-        <maml:description>
-          <maml:para>The flag to enable drive logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureDriveTraceLevel</maml:name>
-        <maml:description>
-          <maml:para>The level of logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureTableTraceEnabled</maml:name>
-        <maml:description>
-          <maml:para>The flag to enable table logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>AzureTableTraceLevel</maml:name>
-        <maml:description>
-          <maml:para>The level of logging</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>Name</maml:name>

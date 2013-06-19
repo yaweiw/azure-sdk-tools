@@ -986,8 +986,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
-            DateTime exp = DateTime.Now.AddYears(1);
-            DateTime defaultExp = DateTime.Now.AddMonths(6);
+            DateTime exp = DateTime.Now.AddMonths(18);
+            DateTime defaultExp = DateTime.Now.AddMonths(12);
             List<string> defaultRoles = new List<string>(new string[] { "AllRoles" });
             string[] roles = new string[]{"WebRole1", "WorkerRole2"};
             string thumb = "abc";

@@ -12,11 +12,10 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System;
+    using System.Management.Automation;
     using System.Xml.Linq;
+    using Utilities.Websites.Services;
     using WindowsAzure.ServiceManagement;
-    using System.Security;
-    using System.Security.Permissions;
-    using System.Runtime.InteropServices;
     
     public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
@@ -25,6 +24,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string PasswordElemStr = "Password";
         protected const string RDPExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
         protected const string RDPExtensionType = "RDP";
+
+        public virtual PSCredential Credential { get; set; }
+        public virtual DateTime Expiration { get; set; }
 
         public BaseAzureServiceRemoteDesktopExtensionCmdlet()
             : base()
@@ -47,8 +49,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
                 new XElement(PublicConfigStr,
-                    new XElement(UserNameElemStr, "{0}"),
-                    new XElement(ExpirationElemStr, "{1}")
+                    new XElement(UserNameElemStr, string.Empty),
+                    new XElement(ExpirationElemStr, string.Empty)
                 )
             );
 
@@ -56,9 +58,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 new XDeclaration("1.0", "utf-8", null),
                 new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
                 new XElement(PrivateConfigStr,
-                    new XElement(PasswordElemStr, "{0}")
+                    new XElement(PasswordElemStr, string.Empty)
                 )
             );
+        }
+
+        protected override void ValidateConfiguration()
+        {
+            PublicConfigurationXml = new XDocument(PublicConfigurationXmlTemplate);
+            SetPublicConfigValue(UserNameElemStr, Credential.UserName);
+            SetPublicConfigValue(ExpirationElemStr, Expiration.ToString("yyyy-MM-dd"));
+            PublicConfiguration = PublicConfigurationXml.ToString();
+
+            PrivateConfigurationXml = new XDocument(PrivateConfigurationXmlTemplate);
+            SetPrivateConfigValue(PasswordElemStr, Credential.Password.ConvertToUnsecureString());
+            PrivateConfiguration = PrivateConfigurationXml.ToString();
         }
     }
 }

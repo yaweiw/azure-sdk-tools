@@ -32,10 +32,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json.Linq;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     public class WebsitesClient : IWebsitesClient
     {
         private string subscriptionId;
+
+        private CloudServiceClient cloudServiceClient;
 
         public const string WebsitesServiceVersion = "2012-12-01";
 
@@ -68,6 +71,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
                 new HttpRestMessageInspector(logger));
+
+            cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
         }
 
         /// <summary>
@@ -178,16 +183,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
-
-                            StorageService storageService = ServiceManagementChannel.GetStorageKeys(
-                                subscriptionId,
+                            string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
                                 storageAccountName);
-                            StorageCredentials credentials = new StorageCredentials(
-                                storageAccountName,
-                                storageService.StorageServiceKeys.Primary);
-                            CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
-                            string connectionString = cloudStorageAccount.ToString(true);
-                            AddAppSetting(website.Name, storageTableName, connectionString);
+                            SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
+                            
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
                                 (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
                                 diagnosticsSettings.AzureTableTraceLevel;
@@ -198,11 +197,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         throw new ArgumentException();
                 }
 
-                JObject json = new JObject();
-                json[UriElements.AzureDriveTraceEnabled] = diagnosticsSettings.AzureDriveTraceEnabled;
-                json[UriElements.AzureDriveTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureDriveTraceLevel);
-                json[UriElements.AzureTableTraceEnabled] = diagnosticsSettings.AzureTableTraceEnabled;
-                json[UriElements.AzureTableTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureTableTraceLevel);
+                JObject json = new JObject(
+                    new JProperty(UriElements.AzureDriveTraceEnabled, diagnosticsSettings.AzureDriveTraceEnabled),
+                    new JProperty(UriElements.AzureDriveTraceLevel, diagnosticsSettings.AzureDriveTraceLevel.ToString()),
+                    new JProperty(UriElements.AzureTableTraceEnabled, diagnosticsSettings.AzureTableTraceEnabled),
+                    new JProperty(UriElements.AzureTableTraceLevel, diagnosticsSettings.AzureTableTraceLevel.ToString()));
                 client.PostAsJsonAsync(UriElements.DiagnosticsSettings, json, Logger);
             }
         }
@@ -226,6 +225,31 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
             
             WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Gets the index of an application setting. Returns -1 if not found.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="key">the applicationsetting key</param>
+        /// <returns>The application setting index</returns>
+        private int GetAppSettingIndex(string name, string key)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId,
+                website.WebSpace,
+                website.Name);
+
+            for (int i = 0; i < configuration.AppSettings.Count; i++)
+            {
+                if (configuration.AppSettings[i].Name.Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -373,19 +397,62 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         /// <summary>
-        /// Adds an AppSetting of a website.
+        /// Sets an AppSetting of a website.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        public void AddAppSetting(string name, string key, string value)
+        public void SetAppSetting(string name, string key, string value)
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
                 subscriptionId,
                 website.WebSpace,
                 website.Name);
-            configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
+
+            int index = GetAppSettingIndex(name, key);
+
+            if (index != -1)
+            {
+                configuration.AppSettings[index].Value = value;
+            }
+            else
+            {
+                configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
+            }
+            
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Sets a connection string for a website.
+        /// </summary>
+        /// <param name="name">Name of the website.</param>
+        /// <param name="key">Connection string key.</param>
+        /// <param name="value">Value for the connection string.</param>
+        /// <param name="connectionStringType">Type of connection string.</param>
+        public void SetConnectionString(string name, string key, string value, DatabaseType connectionStringType)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId, website.WebSpace, website.Name);
+
+            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
+            if (index == -1)
+            {
+                configuration.ConnectionStrings.Add(new ConnStringInfo()
+                {
+                    Name = key,
+                    ConnectionString =  value,
+                    Type = connectionStringType
+                });
+            }
+            else
+            {
+                configuration.ConnectionStrings[index].ConnectionString = value;
+                configuration.ConnectionStrings[index].Type = connectionStringType;
+            }
+
             WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
@@ -468,8 +535,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             using (HttpClient client = CreateWebsitesHttpClient())
             {
                 string body = client.GetXml(UriElements.DnsSuffix, Logger);
-                XDocument doc = XDocument.Parse(body);
-                suffix = doc.Root.Value;
+                suffix = General.IsXml(body) ? XDocument.Parse(body).Root.Value : body.Replace("\"", "");
             }
 
             return suffix;
