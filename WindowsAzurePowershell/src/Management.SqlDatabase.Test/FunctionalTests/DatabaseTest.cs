@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string subscriptionId;
         private string serializedCert;
         private string containerName;
+        private string storageName;
         private string accessKey;
         private string ieServerLocation;
 
@@ -118,6 +119,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.serializedCert = root.Element("SerializedCert").Value;
             this.serverName = new Uri(manageUrl).Host.Split('.').First();
             this.containerName = root.Element("ContainerName").Value;
+            this.storageName = root.Element("StorageName").Value;
             this.accessKey = root.Element("AccessKey").Value;
             this.ieServerLocation = root.Element("IEServerLocation").Value;
         }
@@ -249,7 +251,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
             string cmdlineArgs =
                 "-UserName \"{0}\" -Password \"{1}\" -SubscriptionId \"{2}\" -SerializedCert \"{3}\" "
-                + "-ContainerName \"{4}\" -StorageAccessKey \"{5}\" -ServerLocation \"{6}\"";
+                + "-ContainerName \"{4}\" -StorageName \"{5}\" -StorageAccessKey \"{6}\" "
+                + "-ServerLocation \"{7}\"";
 
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
@@ -259,6 +262,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 this.subscriptionId,
                 this.serializedCert,
                 this.containerName,
+                this.storageName,
                 this.accessKey,
                 this.ieServerLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.ImportExportScript, arguments);

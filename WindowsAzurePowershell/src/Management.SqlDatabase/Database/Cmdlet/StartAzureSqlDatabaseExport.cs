@@ -28,6 +28,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     [Cmdlet("Start", "AzureSqlDatabaseExport", ConfirmImpact = ConfirmImpact.Medium)]
     public class StartAzureSqlDatabaseExport : SqlDatabaseManagementCmdletBase
     {
+        #region Parameter Set names
+
+        /// <summary>
+        /// The name of the parameter set that uses the Azure Storage Container object
+        /// </summary>
+        internal const string ByContainerObjectParameterSet =
+            "ByContainerObject";
+
+        /// <summary>
+        /// The name of the parameter set that uses the storage container name
+        /// </summary>
+        internal const string ByContainerNameParameterSet =
+            "ByContainerName";
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StartAzureSqlDatabaseExport"/> class.
         /// </summary>
@@ -60,14 +76,37 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the destination storage container for the blob
         /// </summary>
         [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByContainerObjectParameterSet,
             HelpMessage = "The Azure Storage Container to place the blob in.")]
         [ValidateNotNull]
         public AzureStorageContainer StorageContainer { get; set; }
 
         /// <summary>
+        /// Gets or sets the storage context
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByContainerNameParameterSet,
+            HelpMessage = "The storage connection context")]
+        [ValidateNotNull]
+        public AzureStorageContext StorageContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the storage container to use.
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 2,
+            ParameterSetName = ByContainerNameParameterSet,
+            HelpMessage = "The name of the storage container to use")]
+        [ValidateNotNullOrEmpty]
+        public string StorageContainerName { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the database to export
         /// </summary>
         [Parameter(Mandatory = true, Position = 2,
+            ParameterSetName = ByContainerObjectParameterSet,
+            HelpMessage = "The name of the database to export")]
+        [Parameter(Mandatory = true, Position = 3,
+            ParameterSetName = ByContainerNameParameterSet,
             HelpMessage = "The name of the database to export")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
@@ -76,6 +115,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets name of the blob to use for the export
         /// </summary>
         [Parameter(Mandatory = true, Position = 3,
+            ParameterSetName = ByContainerObjectParameterSet,
+            HelpMessage = "The name of the blob to use for the export")]
+        [Parameter(Mandatory = true, Position = 4,
+            ParameterSetName = ByContainerNameParameterSet,
             HelpMessage = "The name of the blob to use for the export")]
         [ValidateNotNullOrEmpty]
         public string BlobName { get; set; }
@@ -127,14 +170,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 base.ProcessRecord();
 
-                string accessKey =
-                    System.Convert.ToBase64String(
-                        this.StorageContainer.CloudBlobContainer.ServiceClient.Credentials.ExportKey());
+                string accessKey = null;
+                string blobUri = null;
+
+                switch(this.ParameterSetName)
+                {
+                    case ByContainerNameParameterSet:
+                        accessKey =
+                            System.Convert.ToBase64String(
+                                this.StorageContext.StorageAccount.Credentials.ExportKey());
                 
-                string blobUri = 
+                        blobUri = 
+                            this.StorageContext.BlobEndPoint + 
+                            this.StorageContainerName + "/" +
+                            this.BlobName;
+                        break;
+
+                    case ByContainerObjectParameterSet:
+                        accessKey =
+                            System.Convert.ToBase64String(
+                                this.StorageContainer.CloudBlobContainer.ServiceClient.Credentials.ExportKey());
+                
+                        blobUri = 
                             this.StorageContainer.Context.BlobEndPoint +
                             this.StorageContainer.Name + "/" +
                             this.BlobName;
+                        break;
+                }
+
+                
 
                 string fullyQualifiedServerName = 
                     this.SqlConnectionContext.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix;
