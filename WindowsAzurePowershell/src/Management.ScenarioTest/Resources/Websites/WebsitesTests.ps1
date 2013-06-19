@@ -330,7 +330,7 @@ function Test-EnableApplicationDiagnosticOnTableStorage
 	$website = Get-AzureWebsite $name
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Warning $website.AzureTableTraceLevel
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -399,7 +399,7 @@ function Test-ReconfigureStorageAppDiagnostics
 	$website = Get-AzureWebsite $name
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Verbose $website.AzureTableTraceLevel
-	Assert-True { $website.AppSettings["CLOUD_STORAGE_ACCOUNT"] -like "*" + $newStorageName + "*" }
+	Assert-True { $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"] -like "*" + $newStorageName + "*" }
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -443,7 +443,7 @@ function Test-DisableApplicationDiagnosticOnTableStorage
 	$website = Get-AzureWebsite $name
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Warning $website.AzureTableTraceLevel
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -492,7 +492,7 @@ function Test-DisableApplicationDiagnosticOnTableStorageAndFile
 	$website = Get-AzureWebsite $name
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -521,7 +521,7 @@ function Test-DisablesFileOnly
 	$website = Get-AzureWebsite $name
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -550,7 +550,7 @@ function Test-DisablesStorageOnly
 	$website = Get-AzureWebsite $name
 	Assert-True { $website.AzureDriveTraceEnabled }
 	Assert-False { $website.AzureTableTraceEnabled }
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
@@ -579,7 +579,7 @@ function Test-DisablesBothByDefault
 	$website = Get-AzureWebsite $name
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
-	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+	Assert-NotNull $website.ConnectionStrings["CLOUD_STORAGE_ACCOUNT"]
 
 	# Cleanup
 	Remove-AzureStorageAccount $storageName
