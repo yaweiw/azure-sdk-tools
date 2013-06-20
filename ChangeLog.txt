@@ -6,6 +6,7 @@
 * Service Bus cmdlets now support Windows Azure Pack
 * Added "WAPack" prefix to all the cmdlets which support Windows Azure Pack. Use "help WAPack" to see all the supported cmdlets
 * Added -NoWinRMEndpoint parameter to New-AzureQuickVM and Add-AzureProvisioningConfig
+* Added -AllowAllAzureSerivces parameter to New-AzureSqlDatabaseServerFirewallRule
 * Many bug fixes around VM, Cloud Services and Web Site diagnositcs
 
 2013.06.03 Version 0.6.15
