@@ -399,14 +399,11 @@ function Drop-Databases
         $NameStartsWith
     )
 
-    if($Database)
-    {
-        # Drop Database
-        Write-Output "Dropping databases with name starts with $NameStartsWith ..."
-        Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
-                    | Remove-AzureSqlDatabase -Context $context -Force
-        Write-Output "Dropped database with name starts with $NameStartsWith"
-    }
+    # Drop Database
+    Write-Output "Dropping databases with name starts with $NameStartsWith ..."
+    Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+                | Remove-AzureSqlDatabase -Context $context -Force
+    Write-Output "Dropped database with name starts with $NameStartsWith"
 }
 
 function Drop-DatabasesWithServerName
@@ -422,14 +419,11 @@ function Drop-DatabasesWithServerName
         $NameStartsWith
     )
 
-    if($Database)
-    {
-        # Drop Database
-        Write-Output "Dropping databases with name starts with $NameStartsWith ..."
-        (Get-AzureSqlDatabase $ServerName) | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
-                    | Remove-AzureSqlDatabase -Force
-        Write-Output "Dropped database with name starts with $NameStartsWith"
-    }
+    # Drop Database
+    Write-Output "Dropping databases with name starts with $NameStartsWith ..."
+    (Get-AzureSqlDatabase $ServerName) | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+                | Remove-AzureSqlDatabase -Force
+    Write-Output "Dropped database with name starts with $NameStartsWith"
 }
 
 function Write-TestResult
