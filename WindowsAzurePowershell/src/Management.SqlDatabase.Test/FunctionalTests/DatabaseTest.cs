@@ -171,61 +171,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
-        public void CreateDatabaseWithSqlAuth()
+        public void CreateAndGetDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                +  "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testcreatedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScript, arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests creating a database using certificate authentication
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void CreateDatabaseWithCert()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testcreatedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(
-                DatabaseTest.CreateScriptWithCert, 
-                arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests creating a database using certificate authentication and using
-        /// the server name to connect
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void CreateDatabaseWithServerName()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testcreatedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript( 
-                DatabaseTest.CreateScriptWithServerName,  
-                arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -234,61 +195,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
-        public void UpdateDatabaseWithSqlAuth()
+        public void UpdateDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testupdatedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScript, arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests updating a database using certificate authentication
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void UpdateDatabaseWithCert()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testupdatedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(
-                DatabaseTest.UpdateScriptWithCert, 
-                arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests updating a database using certificate authentication and using
-        /// the server name to connect
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void UpdateDatabaseWithServerName()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testupdatedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(
-                DatabaseTest.UpdateScriptWithServerName, 
-                arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -297,59 +219,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
-        public void DeleteDatabaseWithSqlAuth()
+        public void DeleteDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testDeletedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScript, arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests removing a database using certificate authentication
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void DeleteDatabaseWithCertAuth()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testDeletedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScriptWithCert, arguments);
-            Assert.IsTrue(testResult);
-        }
-
-        /// <summary>
-        /// Tests removing a database using certificate authentication and using
-        /// the server name to connect
-        /// </summary>
-        [TestMethod]
-        [TestCategory("Functional")]
-        public void DeleteDatabaseWithServerName()
-        {
-            string arguments = string.Format(
-                CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ServerName \"{1}\" -SubscriptionID \"{2}\" -SerializedCert \"{3}\" "
-                + "-Endpoint \"{4}\"",
-                "testDeletedbfromcmdlet",
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
-                LocalRdfeEndpoint);
-            bool testResult = PSScriptExecutor.ExecuteScript(
-                DatabaseTest.DeleteScriptWithServerName, 
-                arguments);
             Assert.IsTrue(testResult);
         }
 
