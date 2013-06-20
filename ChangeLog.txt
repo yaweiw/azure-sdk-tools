@@ -1,10 +1,11 @@
 2013.06.24 Version 0.6.16
-* Add-AzureEnvironment
-* Set-AzureEnvironment
-* Remove-AzureEnvrionment
+* Add-AzureEnvironment to add customized environment like Windows Azure Pack
+* Set-AzureEnvironment to set customized environment like Windows Azure Pack
+* Remove-AzureEnvrionment to remove customized environment like Windows Azure Pack
 * Web Site cmdlets now support Windows Azure Pack
 * Service Bus cmdlets now support Windows Azure Pack
 * Added "WAPack" prefix to all the cmdlets which support Windows Azure Pack. Use "help WAPack" to see all the supported cmdlets
+* Added -NoWinRMEndpoint parameter to New-AzureQuickVM and Add-AzureProvisioningConfig
 * Many bug fixes around VM, Cloud Services and Web Site diagnositcs
 
 2013.06.03 Version 0.6.15
