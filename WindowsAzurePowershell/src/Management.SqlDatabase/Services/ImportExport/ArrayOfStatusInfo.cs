@@ -26,14 +26,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     public class ArrayOfStatusInfo : List<StatusInfo>
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="ArrayOfStatusInfo"/> class.
         /// </summary>
         public ArrayOfStatusInfo()
         {
         }
 
         /// <summary>
-        /// Constructor that initializes the container
+        /// Initializes a new instance of the <see cref="ArrayOfStatusInfo"/> class.  Populates
+        /// the list with a set of elements.
         /// </summary>
         /// <param name="statusList">The list of <see cref="StatusInfo"/> to populate
         /// the list with.</param>

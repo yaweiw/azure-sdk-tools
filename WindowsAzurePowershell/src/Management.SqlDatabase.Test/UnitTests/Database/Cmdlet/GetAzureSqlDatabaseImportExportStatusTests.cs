@@ -56,6 +56,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             DateTime queuedTime = new DateTime(1, 2, 3, 4, 5, 6);
             string requestType = "Export";
             string ieRequestStatus = "Complete";
+            string errorMessage = "errormessage";
 
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
@@ -69,6 +70,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 StatusInfo status = new StatusInfo();
                 status.BlobUri = blobUri;
                 status.DatabaseName = databaseName;
+                status.ErrorMessage = errorMessage;
                 status.LastModifiedTime = lastModified;
                 status.QueuedTime = queuedTime;
                 status.RequestId = requestId;
@@ -93,14 +95,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 password, 
                 requestId);
 
-            Assert.AreEqual(blobUri, result[0].RequestId);
-            Assert.AreEqual(databaseName, result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result[0].RequestId);
+            Assert.AreEqual(blobUri, result[0].BlobUri);
+            Assert.AreEqual(databaseName, result[0].DatabaseName);
+            Assert.AreEqual(errorMessage, result[0].ErrorMessage);
+            Assert.AreEqual(lastModified, result[0].LastModifiedTime);
+            Assert.AreEqual(queuedTime, result[0].QueuedTime);
+            Assert.AreEqual(requestId, result[0].RequestId);
+            Assert.AreEqual(requestType, result[0].RequestType);
+            Assert.AreEqual(serverName, result[0].ServerName);
+            Assert.AreEqual(ieRequestStatus, result[0].Status);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }

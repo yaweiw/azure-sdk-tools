@@ -23,11 +23,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Exports a database from Sql Azure into blob storage.
+    /// Exports a database from SQL Azure into blob storage.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseImportExportStatus", ConfirmImpact = ConfirmImpact.Low)]
+    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseImportExportStatus", ConfirmImpact = ConfirmImpact.None)]
     public class GetAzureSqlDatabaseImportExportStatus : SqlDatabaseManagementCmdletBase
     {
+        #region Parameter sets
+
+        /// <summary>
+        /// The name of the parameter set that uses a RequestObject
+        /// </summary>
+        internal const string ByRequestObjectParameterSet =
+            "ByRequestObject";
+
+        /// <summary>
+        /// The name of the parameter set that gets the connection information from
+        /// the parameters
+        /// </summary>
+        internal const string ByConnectionInfoParameterSet =
+            "ByConnectionInfo";
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the 
         /// <see cref="GetAzureSqlDatabaseImportExportStatus"/> class.
@@ -54,6 +71,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the user name for connecting to the database
         /// </summary>
         [Parameter(Mandatory = true, Position = 0,
+            ParameterSetName = ByConnectionInfoParameterSet,
             HelpMessage = "The user name for connecting to the database")]
         [ValidateNotNullOrEmpty]
         public string Username { get; set; }
@@ -62,6 +80,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the password for connecting to the database
         /// </summary>
         [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByConnectionInfoParameterSet,
             HelpMessage = "The password for connecting to the database")]
         [ValidateNotNullOrEmpty]
         public string Password { get; set; }
@@ -70,6 +89,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the name of the server the database resides in
         /// </summary>
         [Parameter(Mandatory = true, Position = 2,
+            ParameterSetName = ByConnectionInfoParameterSet,
             HelpMessage = "The name of the server the database is in")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
@@ -78,9 +98,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the request Id of the operation to get the status of
         /// </summary>
         [Parameter(Mandatory = true, Position = 3,
+            ParameterSetName = ByConnectionInfoParameterSet,
             HelpMessage = "The request Id of the operation to get the status of")]
         [ValidateNotNullOrEmpty]
         public string RequestId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the request object 
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0,
+            ParameterSetName = ByRequestObjectParameterSet,
+            HelpMessage = "The ImportExportRequest object returned from starting the request")]
+        [ValidateNotNullOrEmpty]
+        public ImportExportRequest Request { get; set; }
 
         #endregion
 
@@ -134,17 +164,39 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 base.ProcessRecord();
 
+                string serverName = null;
+                string userName = null;
+                string password = null;
+                string requestId = null;
+
+                switch (this.ParameterSetName)
+                {
+                    case ByRequestObjectParameterSet:
+                        serverName = this.Request.ServerName.Split('.')[0];
+                        userName = this.Request.SqlCredentials.UserName;
+                        password = this.Request.SqlCredentials.Password;
+                        requestId = this.Request.RequestGuid;
+                        break;
+                    case ByConnectionInfoParameterSet:
+                        serverName = this.ServerName;
+                        userName = this.Username;
+                        password = this.Password;
+                        requestId = this.RequestId;
+                        break;
+                }
+
                 ArrayOfStatusInfo status = 
                     this.GetAzureSqlDatabaseImportExportStatusProcess(
-                        this.ServerName, 
-                        this.Username, 
-                        this.Password, 
-                        this.RequestId);
+                        serverName, 
+                        userName, 
+                        password, 
+                        requestId);
 
                 if (status == null)
                 {
                     this.WriteVerbose("The result is null");
                 }
+
                 this.WriteVerbose("Status: " + status[0].Status);
 
                 this.WriteObject(status);

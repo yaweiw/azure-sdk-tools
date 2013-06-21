@@ -92,5 +92,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
         }
+
+        /// <summary>
+        /// Tests the attributes of the Get-AzureSqlDatabaseImportExport cmdlet
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabaseIEStatusAttributeTest()
+        {
+            Type cmdlet = typeof(GetAzureSqlDatabaseImportExportStatus);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+        }
     }
 }

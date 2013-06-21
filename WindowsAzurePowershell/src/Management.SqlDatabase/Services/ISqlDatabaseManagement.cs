@@ -283,6 +283,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// </summary>
         /// <param name="subscriptionId">The subscription id that the server belongs to</param>
         /// <param name="serverName">The name of the server the database resides in</param>
+        /// <param name="fullyQualifiedServerName">The fully qualified server name</param>
         /// <param name="userName">The username to connect to the database</param>
         /// <param name="password">The password to connect to the database</param>
         /// <param name="requestId">The request ID for the operation to query</param>
@@ -292,7 +293,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET",
             UriTemplate = @"{subscriptionId}/services/sqlservers/servers/{serverName}/DacOperations"
-            + "/Status?servername={fullyQualifiedServerName}&username={userName}&password={password}&reqId={requestId}")]
+            + "/Status?servername={fullyQualifiedServerName}&username={userName}&password={password}" +
+            "&reqId={requestId}")]
         IAsyncResult BeginGetImportExportStatus(
             string subscriptionId,
             string serverName,
@@ -303,6 +305,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback,
             object state);
 
+        /// <summary>
+        /// Finishes the web request to get the import/export operation status
+        /// </summary>
+        /// <param name="asyncResult">The result of calling <see cref="BeginGetImportExportStatus"/>
+        /// </param>
+        /// <returns>An <see cref="ArrayOfStatusInfo"/> object</returns>
         ArrayOfStatusInfo EndGetImportExportStatus(IAsyncResult asyncResult);
     }
 }
