@@ -92,7 +92,7 @@ function Scenario1-UpdateWithObject
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject
+			$database.IsSystemObject "S1-Context"
 	}
 	elseif ($serverName)
 	{
@@ -104,7 +104,7 @@ function Scenario1-UpdateWithObject
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject
+			$database.IsSystemObject "S1-ServerName"
 	}
 }
 
@@ -139,7 +139,7 @@ function Scenario2-UpdateWithName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 				$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-				$database.IsSystemObject
+				$database.IsSystemObject "S2-Context"
 	}
 	elseif ($serverName)
 	{
@@ -151,7 +151,7 @@ function Scenario2-UpdateWithName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject
+			$database.IsSystemObject "S2-ServerName"
 	}
 }
 
@@ -178,18 +178,20 @@ function Scenario3-RenameDatabase
 	if($Context)
 	{
 		Write-Output "Renaming a database from $Name to $NewName..."
+		$database = Get-AzureSqlDatabase $context -DatabaseName $database.Name
 		$updatedDatabase = Set-AzureSqlDatabase $context $database -NewName $NewName -PassThr -Force
 		Write-Output "Done"
+
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
 				-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
-				-ExpectedIsSystemObject $database.IsSystemObject
+				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-1"
 
 		$updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
 				-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
-				-ExpectedIsSystemObject $database.IsSystemObject
+				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-2"
     
 		$database = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
 		Assert {!$getDroppedDatabase} "Database is not Renamed"
@@ -197,27 +199,29 @@ function Scenario3-RenameDatabase
 	elseif ($serverName)
 	{
 		Write-Output "Renaming a database from $Name to $NewName..."
+		$database = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $database.Name
 		$updatedDatabase = Set-AzureSqlDatabase -ServerName $ServerName $database -NewName $NewName -PassThr -Force
 		Write-Output "Done"
 
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
-			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
-			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject
+			$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
+			-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
+			-ExpectedIsSystemObject $database.IsSystemObject  "S3-ServerName-1"
 
 		$updatedDatabase = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $NewName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
-			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
-			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject
+			$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
+			-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
+			-ExpectedIsSystemObject $database.IsSystemObject  "S3-ServerName-2"
 	}
 }
 
 Try
 {
 	Init-TestEnvironment
-    # Update with Sql Auth
-    try
+    
+	# Update with Sql Auth
+	try
 	{
 		$context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName `
 			-Password $Password
@@ -234,15 +238,16 @@ Try
 	{
 		# Drop Database
 		Drop-Databases $Context $Name
+		$context = $null
 	}
 
 	# Update with Cert Auth
     try
 	{
+		
 		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 		$sub = Get-AzureSubscription -Current
-
-		$context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
+		$context = Get-ServerContextByServerNameWithCertAuth $ServerName	
 			
 		$database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
 
@@ -256,17 +261,17 @@ Try
 	{
 		# Drop Database
 		Drop-Databases $Context $Name
-		Remove-AzureSubscription $sub.SubscriptionName -Force
+		$context = $null
 	}
-	
 
+	
 	# Update with Cert Auth with Server Name
     try
 	{
 		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 		$sub = Get-AzureSubscription -Current
 
-		$database = New-AzureSqlDatabase -ServerName $context -DatabaseName $Name
+		$database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
 
 		Scenario1-UpdateWithObject -ServerName $ServerName
 
@@ -277,15 +282,14 @@ Try
 	finally
 	{
 		# Drop Database
-		Drop-Databases $Context $Name
+		Drop-DatabasesWithServerName $ServerName $Name
 		Remove-AzureSubscription $sub.SubscriptionName -Force
 	}
 
-
     $IsTestPass = $True
 }
-Finally
+finally
 {
-    Drop-Databases $Context $Name
 }
+
 Write-TestResult $IsTestPass
