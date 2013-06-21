@@ -303,24 +303,28 @@ function Validate-SqlDatabase
         [Parameter(Mandatory=$true, Position=7)]
         [ValidateNotNullOrEmpty()]
         [bool]
-        $ExpectedIsSystemObject
+        $ExpectedIsSystemObject,
+        [Parameter(Mandatory=$false, Position=8)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $Source
     )
 
     Assert {$actual} "SqlDatabaseServerContext is null"
     Assert {$actual.Name -eq $ExpectedName} "Database Name didn't match. Actual:[$($actual.Name)] `
-            expected:[$ExpectedRuleName]"
+            expected:[$ExpectedRuleName] | $Source"
     Assert {$actual.CollationName -eq $ExpectedCollationName} "CollationName didn't match. `
-            Actual:[$($actual.CollationName)] expected:[$ExpectedCollationName]"
+            Actual:[$($actual.CollationName)] expected:[$ExpectedCollationName] | $Source"
     Assert {$actual.Edition -eq $ExpectedEdition} "Edition didn't match. `
-            Actual:[$($actual.Edition)] expected:[$ExpectedEdition]"
+            Actual:[$($actual.Edition)] expected:[$ExpectedEdition] | $Source"
     Assert {$actual.MaxSizeGB -eq $ExpectedMaxSizeGB} "MaxSizeGB didn't match. `
-            Actual:[$($actual.MaxSizeGB)] expected:[$ExpectedMaxSizeGB]"
+            Actual:[$($actual.MaxSizeGB)] expected:[$ExpectedMaxSizeGB] | $Source"
     Assert {$actual.IsReadOnly -eq $ExpectedIsReadOnly} "IsReadOnly didn't match. `
-            Actual:[$($actual.IsReadOnly)] expected:[$ExpectedIsReadOnly]"
+            Actual:[$($actual.IsReadOnly)] expected:[$ExpectedIsReadOnly] | $Source"
     Assert {$actual.IsFederationRoot -eq $ExpectedIsFederationRoot} "IsFederationRoot didn't match. `
-            Actual:[$($actual.IsFederationRoot)] expected:[$ExpectedIsFederationRoot]"
+            Actual:[$($actual.IsFederationRoot)] expected:[$ExpectedIsFederationRoot] | $Source"
     Assert {$actual.IsSystemObject -eq $ExpectedIsSystemObject} "Edition didn't match. `
-            Actual:[$($actual.IsSystemObject)] expected:[$ExpectedIsSystemObject]"
+            Actual:[$($actual.IsSystemObject)] expected:[$ExpectedIsSystemObject] | $Source"
 }
 
 function Drop-Server

@@ -171,6 +171,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 serverName = this.ConnectionContext.ServerName;
             }
 
+            // Determine the max size of the db
+            int? maxSizeGb = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            {
+                maxSizeGb = this.MaxSizeGB;
+            }
+
+            // Determine the edition for the db
+            DatabaseEdition? edition = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
+            {
+                edition = this.Edition;
+            }
+
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.SetAzureSqlDatabaseDescription,
@@ -190,20 +204,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 !this.ShouldProcess(actionDescription, actionWarning, Resources.ShouldProcessCaption))
             {
                 return;
-            }
-
-            // Determine the max size of the db
-            int? maxSizeGb = null;
-            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
-            {
-                 maxSizeGb = this.MaxSizeGB;
-            }
-
-            // Determine the edition for the db
-            DatabaseEdition? edition = null;
-            if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
-            {
-                edition = this.Edition;
             }
 
             switch (this.ParameterSetName)
