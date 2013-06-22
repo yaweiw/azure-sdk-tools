@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private static string DefaultStorageAccountVariable = "AZURERT_DEFAULT_STORAGE_ACCOUNT";
         private static string DefaultLocationVariable = "AZURERT_DEFAULT_LOCATION";
         private static string CredentialBlobUriFormat = "https://{0}.blob.core.windows.net";
-        private static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
+        //private static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
         
         private static string publishSettingsFile = null;
         private static string defaultSubscriptionName = null;

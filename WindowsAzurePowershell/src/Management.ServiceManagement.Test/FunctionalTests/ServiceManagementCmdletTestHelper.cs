@@ -196,6 +196,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureAvailabilitySet
 
+        public PersistentVM SetAzureAvailabilitySet(string availabilitySetName, PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
+        }
+
         public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
         {
             if (!string.IsNullOrEmpty(availabilitySetName))
@@ -269,7 +274,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<DataVirtualHardDisk>(new GetAzureDataDiskCmdletInfo(vmRolectx.VM));
         }
 
-        private PersistentVM RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
+        public Collection<DataVirtualHardDisk> GetAzureDataDisk(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnAll<DataVirtualHardDisk>(new GetAzureDataDiskCmdletInfo(vm));
+        }
+        public PersistentVM RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureDataDiskCmdletInfo(discCfg));            
         }
@@ -853,9 +862,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureVM
         
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null)
         {
-            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, null);                        
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, location);
         }
 
         internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings, string affinityGroup,
@@ -1147,7 +1156,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             UpdateAzureVM(vmName, serviceName, vmRolectx.VM);
         }
 
-        private PersistentVM SetAzureVMSize(SetAzureVMSizeConfig sizeCfg)
+        public PersistentVM SetAzureVMSize(SetAzureVMSizeConfig sizeCfg)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMSizeCmdletInfo(sizeCfg));            
         }
