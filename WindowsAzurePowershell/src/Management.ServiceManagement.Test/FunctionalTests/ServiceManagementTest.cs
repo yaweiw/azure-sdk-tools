@@ -27,6 +27,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Management.Automation;
     using System.Threading;
 
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.ServiceManagement;
     [TestClass]
     public class ServiceManagementTest
     {
@@ -171,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
                 if (deleteDefaultStorageAccount)
                 {
-                    vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
+                    //vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
                 }
             }
         }
@@ -213,6 +215,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
             vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultAzureSubscription.CurrentStorageAccount);
+        }
+
+        protected bool CheckDataDisk(PersistentVM vm, AddAzureDataDiskConfig dataDiskInfo, HostCaching hc)
+        {
+            bool found = false;
+            foreach (DataVirtualHardDisk disk in vmPowershellCmdlets.GetAzureDataDisk(vm))
+            {
+                found = CheckDataDisk(disk, dataDiskInfo, hc);
+                break;
+            }
+            return found;
+        }
+
+        protected bool CheckDataDisk(DataVirtualHardDisk disk, AddAzureDataDiskConfig dataDiskInfo, HostCaching hc)
+        {
+            bool found = false;
+
+            Console.WriteLine("DataDisk - Name:{0}, Label:{1}, Size:{2}, LUN:{3}, HostCaching: {4}",
+                disk.DiskName, disk.DiskLabel, disk.LogicalDiskSizeInGB, disk.Lun, disk.HostCaching);
+
+            if (disk.DiskLabel == dataDiskInfo.DiskLabel && disk.LogicalDiskSizeInGB == dataDiskInfo.DiskSizeGB && disk.Lun == dataDiskInfo.LunSlot)
+            {
+                if (disk.HostCaching == null && hc == HostCaching.None || disk.HostCaching == hc.ToString())
+                {
+                    found = true;
+                    Console.WriteLine("DataDisk found: {0}", disk.DiskLabel);
+                }
+            }
+            return found;
         }
     }
 }

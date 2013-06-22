@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             AzureEndPointConfigInfo ep1Info = new AzureEndPointConfigInfo(
-                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
+                AzureEndPointConfigInfo.ParameterSet.CustomProbe,
                 ProtocolInfo.tcp,
                 ep1LocalPort,
                 ep1PublicPort,
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 ep1DirectServerReturn);
 
             AzureEndPointConfigInfo ep2Info = new AzureEndPointConfigInfo(
-                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
+                AzureEndPointConfigInfo.ParameterSet.CustomProbe,
                 ProtocolInfo.tcp,
                 ep2LocalPort,
                 ep2PublicPort,

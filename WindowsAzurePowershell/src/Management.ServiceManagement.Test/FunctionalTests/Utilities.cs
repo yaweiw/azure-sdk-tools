@@ -449,7 +449,34 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return false;            
         }
 
-        public static X509Certificate2 CreateCertificate(string issuer, string friendlyName, string password)
+        public static X509Certificate2 InstallCert(string certFile, StoreLocation location = StoreLocation.CurrentUser, StoreName name = StoreName.My)
+        {
+            X509Certificate2 cert = new X509Certificate2(certFile);
+            X509Store certStore = new X509Store(name, location);
+            certStore.Open(OpenFlags.ReadWrite);
+            certStore.Add(cert);
+            certStore.Close();
+            Console.WriteLine("Cert, {0}, is installed.", cert.Thumbprint);
+            return cert;
+        }
+
+        public static void UninstallCert(X509Certificate2 cert, StoreLocation location, StoreName name)
+        {
+            try
+            {
+                X509Store certStore = new X509Store(name, location);
+                certStore.Open(OpenFlags.ReadWrite);
+                certStore.Remove(cert);
+                certStore.Close();
+                Console.WriteLine("Cert, {0}, is uninstalled.", cert.Thumbprint);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error during uninstalling the cert: {0}", e.ToString());
+                throw;
+            }
+        }
+        public static X509Certificate2 CreateCertificate(string password, string issuer = "CN=Windows Azure Powershell Test", string friendlyName = "PSTest")
         {
 
             var keyCreationParameters = new CngKeyCreationParameters
