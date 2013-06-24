@@ -11,7 +11,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * Account
   * Get and import Azure publish settings
 * Environment
-  * Get the differnet out-of-box Windows Azure environments (like AzureCloud and AzureChinaCloud)
+  * Get the differnet out-of-box Windows Azure environments
   * Add/Set/Remove customized environments (like your Windows Azure Pack environments)
   * Get Azure publish settings for a particular environment
 * Subscription
@@ -74,8 +74,11 @@ For detail descriptions and examples of the cmdlets, type
 # Supported Environments
 
 * [Windows Azure](http://www.windowsazure.com/)
-* [Windows Azure China](http://www.windowsazure.cn/)
 * [Windows Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
+
+<!--
+  [Windows Azure China](http://www.windowsazure.cn/)
+-->
 
 # Getting Started
 
@@ -101,7 +104,6 @@ You can also find the standalone installers for all the versions at [Downloads](
   * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 * 0.6.16 or higher
   * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
-  * Windows PowerShell 4.0
 
 # Quick Start
 
@@ -128,7 +130,7 @@ Import-AzurePublishSettingsFile "<file location>"
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "West US"
 ```
-
+<!--
 ## Windows Azure China
 
 ```powershell
@@ -151,6 +153,7 @@ Import-AzurePublishSettingsFile "<file location>"
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "China East"
 ```
+-->
 
 ## Windows Azure Pack
 
@@ -168,7 +171,7 @@ Add-WAPackEnvironment -Name "MyWAPackEnv" `
     -StorageEndpoint "<Management Portal URL>"
 
 # Download a file which contains the publish settings information of your subscription.
-# Use the -Environment parameter to target Windows Azure China.
+# Use the -Environment parameter to target your Windows Azure Pack environment.
 # This will open a browser window and ask you to log in to get the file.
 Get-WAPackPublishSettingsFile -Environment "MyWAPackEnv"
 
