@@ -100,9 +100,7 @@ You can also find the standalone installers for all the versions at [Downloads](
 * 0.6.9 or lower
   * [Windows PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
   * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
-* 0.6.10 to 0.6.15
-  * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
-* 0.6.16 or higher
+* 0.6.10 to higher
   * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 
 # Quick Start
@@ -135,9 +133,6 @@ New-AzureWebsite -Name mywebsite -Location "West US"
 
 ```powershell
 # Check the environment supported by your Windows Azure PowerShell installation.
-# By default it will return 2 environments:
-# 1. AzureCloud         This is for Windows Azure
-# 2. AzureChinaCloud    This is for Windows Azure China
 Get-AzureEnvironment
 
 # Download a file which contains the publish settings information of your subscription.
