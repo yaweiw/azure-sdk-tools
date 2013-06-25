@@ -86,7 +86,38 @@ CmdletsToExport = '*'
 VariablesToExport = '*'
 
 # Aliases to export from this module
-AliasesToExport = '*'
+AliasesToExport = @(
+'Add-WAPackEnvironment',
+'Disable-WAPackWebsiteApplicationDiagnostic'
+'Enable-WAPackWebsiteApplicationDiagnositc'
+'Get-WAPackEnvironment',
+'Get-WAPackPublishSettingsFile',
+'Get-WAPackSBLocation',
+'Get-WAPackSBNamespace',
+'Get-WAPackSubscription',
+'Get-WAPackWebsite',
+'Get-WAPackWebsiteDeployment',
+'Get-WAPackWebsiteLocation',
+'Get-WAPackWebsiteLog',
+'Import-WAPackPublishSettingsFile',
+'New-WAPackSBNamespace',
+'New-WAPackWebsite',
+'Remove-WAPackEnvironment',
+'Remove-WAPackSBNamespace',
+'Remove-WAPackSubscription',
+'Remove-WAPackWebsite',
+'Restart-WAPackWebsite',
+'Restore-WAPackWebsiteDeployment',
+'Save-WAPackWebsiteLog',
+'Select-WAPackSubscription',
+'Set-WAPackEnvironment',
+'Set-WAPackSubscription',
+'Set-WAPackWebsite',
+'Show-WAPackPortal',
+'Show-WAPackWebsite',
+'Start-WAPackWebsite',
+'Stop-WAPackWebsite',
+'Test-WAPackName')
 
 # List of all modules packaged with this module
 ModuleList = @()
@@ -98,4 +129,3 @@ FileList =	@()
 PrivateData = ''
 
 }
-
