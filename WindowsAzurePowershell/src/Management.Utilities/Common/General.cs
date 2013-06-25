@@ -336,6 +336,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         }
 
         /// <summary>
+        /// Ensures that a directory exists beofre attempting to write a file
+        /// </summary>
+        /// <param name="pathName">The path to the file that will be created</param>
+        public static void EnsureDirectoryExists(string pathName)
+        {
+            Validate.ValidateStringIsNullOrEmpty(pathName, "Settings directory");
+            string directoryPath = Path.GetDirectoryName(pathName);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+        }
+
+        /// <summary>
         /// Compares two strings with handling special case that base string can be empty.
         /// </summary>
         /// <param name="leftHandSide">The base string.</param>
