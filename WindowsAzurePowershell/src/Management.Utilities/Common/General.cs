@@ -132,7 +132,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             Encoding encoding = GetFileEncoding(fileName);
-            
             using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
             {
                 xmlSerializer.Serialize(writer, obj);
