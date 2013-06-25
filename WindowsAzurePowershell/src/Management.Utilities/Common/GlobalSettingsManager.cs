@@ -467,6 +467,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     StorageTableEndpointFormat = storageTableEndpointFormat
                 };
                 customEnvironments.Add(environment);
+                General.EnsureDirectoryExists(GlobalPaths.EnvironmentsFile);
                 General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
 
                 return environment;

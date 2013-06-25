@@ -132,6 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             Encoding encoding = GetFileEncoding(fileName);
+            
             using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
             {
                 xmlSerializer.Serialize(writer, obj);
@@ -332,6 +333,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     string temppath = Path.Combine(destDirName, subdir.Name);
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Ensures that a directory exists beofre attempting to write a file
+        /// </summary>
+        /// <param name="pathName">The path to the file that will be created</param>
+        public static void EnsureDirectoryExists(string pathName)
+        {
+            Validate.ValidateStringIsNullOrEmpty(pathName, string.Empty);
+            string directoryPath = Path.GetDirectoryName(pathName);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
             }
         }
 
