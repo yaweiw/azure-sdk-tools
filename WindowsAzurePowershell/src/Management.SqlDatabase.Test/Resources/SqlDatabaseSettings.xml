@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SqlDatabaseSetting>
     <ServerLocation>Onebox</ServerLocation>
-    <ManageUrl>https://pc6fayy0cp.dev.mscds.com</ManageUrl>
+    <ManageUrl>https://zm2ub2d94w.dev.mscds.com</ManageUrl>
     <SqlAuthUserName>mylogin</SqlAuthUserName>
     <SqlAuthPassword>Sql@zure</SqlAuthPassword>
     <SubscriptionID>7e977884-d868-460e-b2d1-c527f23f63bc</SubscriptionID>
