@@ -341,7 +341,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <param name="pathName">The path to the file that will be created</param>
         public static void EnsureDirectoryExists(string pathName)
         {
-            Validate.ValidateStringIsNullOrEmpty(pathName, string.Empty);
+            Validate.ValidateStringIsNullOrEmpty(pathName, "Settings directory");
             string directoryPath = Path.GetDirectoryName(pathName);
             if (!Directory.Exists(directoryPath))
             {
