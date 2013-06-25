@@ -138,9 +138,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseImport.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
-    <Compile Include="Database\Cmdlet\ImportAzureSqlDatabase.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />

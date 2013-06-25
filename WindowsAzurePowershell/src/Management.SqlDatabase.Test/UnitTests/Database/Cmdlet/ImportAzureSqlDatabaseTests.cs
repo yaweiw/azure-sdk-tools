@@ -96,12 +96,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return operationResult;
             };
 
-            ImportAzureSqlDatabase importAzureSqlDatabase =
-                new ImportAzureSqlDatabase(channel) { ShareChannel = true };
+            StartAzureSqlDatabaseImport importAzureSqlDatabase =
+                new StartAzureSqlDatabaseImport(channel) { ShareChannel = true };
             importAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             importAzureSqlDatabase.CommandRuntime = commandRuntime;
             var result = importAzureSqlDatabase.ImportSqlAzureDatabaseProcess(serverName, input);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.InnerText);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.RequestGuid);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
