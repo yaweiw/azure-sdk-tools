@@ -414,10 +414,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string managementPortalUrl = null,
             string storageEndpoint = null)
         {
-            Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
-            string storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
-            string storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
-            string storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
+            string storageBlobEndpointFormat = null;
+            string storageQueueEndpointFormat = null;
+            string storageTableEndpointFormat = null;
+
+            if (!string.IsNullOrEmpty(storageEndpoint))
+            {
+                Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
+                storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
+                storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
+                storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
+            }
  
             return AddEnvironment(
                 name,
@@ -460,6 +467,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     StorageTableEndpointFormat = storageTableEndpointFormat
                 };
                 customEnvironments.Add(environment);
+                General.EnsureDirectoryExists(GlobalPaths.EnvironmentsFile);
                 General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
 
                 return environment;
@@ -513,12 +521,40 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
             else if (IsPublicEnvironment(name))
             {
-                return GetEnvironment(name);
+                throw new InvalidOperationException(string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
             else
             {
                 throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
             }
+        }
+
+        public WindowsAzureEnvironment ChangeEnvironmentStorageEndpoint(string name,
+            string publishSettingsFileUrl,
+            string serviceEndpoint = null,
+            string managementPortalUrl = null,
+            string storageEndpoint = null)
+        {
+            string storageBlobEndpointFormat = null;
+            string storageQueueEndpointFormat = null;
+            string storageTableEndpointFormat = null;
+
+            if (!string.IsNullOrEmpty(storageEndpoint))
+            {
+                Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
+                storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
+                storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
+                storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
+            }
+
+            return ChangeEnvironment(
+                name,
+                publishSettingsFileUrl,
+                serviceEndpoint,
+                managementPortalUrl,
+                storageBlobEndpointFormat,
+                storageQueueEndpointFormat,
+                storageTableEndpointFormat);
         }
 
         /// <summary>
@@ -532,6 +568,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 int count = customEnvironments.RemoveAll(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
                 Debug.Assert(count == 1);
                 General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
+            }
+            else if (IsPublicEnvironment(name))
+            {
+                throw new InvalidOperationException(string.Format(Resources.ChangePublicEnvironmentMessage, name));
             }
             else
             {

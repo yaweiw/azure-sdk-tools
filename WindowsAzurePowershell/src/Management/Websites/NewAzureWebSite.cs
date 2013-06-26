@@ -249,7 +249,17 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 webspace = webspaceList.FirstOrDefault();
                 if (webspace == null)
                 {
-                    string defaultLocation = WebsitesClient.GetDefaultLocation();
+                    string defaultLocation;
+
+                    try
+                    {
+                        defaultLocation = WebsitesClient.GetDefaultLocation();
+                    }
+                    catch
+                    {
+                        throw new Exception(Resources.CreateWebsiteFailed);
+                    }
+                    
                     webspace = new WebSpace
                     {
                         Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
@@ -303,7 +313,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
                 SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() => 
+                InvokeInOperationContext(() =>
                 {
                     websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
                     WaitForOperation(CommandRuntime.ToString());

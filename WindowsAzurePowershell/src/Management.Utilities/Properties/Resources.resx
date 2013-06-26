@@ -1283,4 +1283,10 @@ Please follow these steps in the portal:
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
   </data>
+  <data name="CreateWebsiteFailed" xml:space="preserve">
+    <value>Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead.</value>
+  </data>
+  <data name="ChangePublicEnvironmentMessage" xml:space="preserve">
+    <value>Changing/Removing public environment '{0}' is not allowed.</value>
+  </data>
 </root>
