@@ -63,7 +63,10 @@ function Init-AzureSubscription
     $myCert = New-Object $X509Certificate2(,$bytes)
     $store = New-Object $X509Store($StoreName::My, $StoreLocation::CurrentUser)
     $store.Open($OpenFlags::ReadWrite)
-    $store.Add($myCert)
+	if($store.Certificates.Contains($myCert) -ne $true)
+	{
+		$store.Add($myCert)
+	}
     $store.Close()
     
     $subName = "MySub" + $SubscriptionID

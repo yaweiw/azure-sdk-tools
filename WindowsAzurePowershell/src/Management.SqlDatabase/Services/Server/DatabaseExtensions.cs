@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <summary>
         /// Gets or sets the context from which this object was constructed.
         /// </summary>
-        public IServerDataServiceContext Context { get; set; }
+        internal IServerDataServiceContext Context { get; set; }
 
         /// <summary>
         /// Tries to copy the context into the database field.
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// Copies all the internal fields from one database object into another.
         /// </summary>
         /// <param name="other">The database to be copied.</param>
-        internal void Copy(Database other)
+        internal void CopyFields(Database other)
         {
             this._CollationName = other._CollationName;
             this._CreationDate = other._CreationDate;
