@@ -48,3 +48,8 @@ New-Alias Get-WAPackSBLocation Get-AzureSBLocation
 New-Alias Get-WAPackSBNamespace Get-AzureSBNamespace
 New-Alias New-WAPackSBNamespace New-AzureSBNamespace
 New-Alias Remove-WAPackSBNamespace Remove-AzureSBNamespace
+
+# Storage alias
+New-Alias Get-AzureStorageContainerAcl Get-AzureStorageContainer
+New-Alias Start-CopyAzureStorageBlob Start-AzureStorageBlobCopy
+New-Alias Stop-CopyAzureStorageBlob Stop-AzureStorageBlobCopy
