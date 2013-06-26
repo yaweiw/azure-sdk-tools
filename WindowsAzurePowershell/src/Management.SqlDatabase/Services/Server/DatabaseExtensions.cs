@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <summary>
         /// Gets or sets the context from which this object was constructed.
         /// </summary>
-        internal IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext Context;
 
         /// <summary>
         /// Tries to copy the context into the database field.
