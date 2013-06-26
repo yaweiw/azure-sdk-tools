@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
     [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
-    public class StopAzureStorageBlobCopy : StorageCloudBlobCmdletBase, IModuleAssemblyInitializer
+    public class StopAzureStorageBlobCopy : StorageCloudBlobCmdletBase
     {
         /// <summary>
         /// Blob Pipeline parameter set name
@@ -235,17 +235,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             Channel.AbortCopy(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext);
             return true;
-        }
-
-        /// <summary>
-        /// add alias "Stop-CopyAzureStorageBlob" for this cmdlet to keep compatibility
-        /// </summary>
-        public void OnImport()
-        {
-            PowerShell invoker = null;
-            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
-            invoker.AddCommand(Resources.NewAlias).AddParameter(Resources.NewAliasName, String.Format(Resources.CmdletFormat, VerbsLifecycle.Stop, StorageNouns.CopyBlobDeprecatedName)).AddParameter(Resources.NewAliasValue, String.Format(Resources.CmdletFormat, VerbsLifecycle.Stop, StorageNouns.CopyBlob));
-            invoker.Invoke();
         }
     }
 }

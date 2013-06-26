@@ -135,8 +135,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
         public ExtensionConfigurationInput[] ExtensionConfiguration
         {
             get;
@@ -174,7 +174,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 }
 
                 Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+                ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
                 {

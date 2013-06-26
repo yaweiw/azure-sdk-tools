@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
 
             this.subscriptionId = subscriptionId;
             headersInspector = new HeadersInspector();
-            storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
+            storeChannel = ChannelHelper.CreateServiceManagementChannel<IStoreManagement>(
                 ConfigurationConstants.WebHttpBinding(0),
                 new Uri(storeEndpointUri),
                 cert,

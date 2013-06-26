@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -36,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, HelpMessage = "Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -44,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = false, HelpMessage = "Deployment Slot: Production (default) or Staging")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Deployment Slot: Production (default) or Staging")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -54,6 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
+            base.ValidateParameters();
             ValidateService();
             ValidateDeployment();
         }
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                              select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
                     return from role in extensionRoleList
                            from extension in extensions
-                           where ExtensionManager.CheckExtensionType(extension.Id, ExtensionNameSpace, ExtensionType)
+                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new RemoteDesktopExtensionContext
                            {

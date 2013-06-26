@@ -298,63 +298,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
         private PersistentVMRole CreatePersistenVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
+            var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
+
             if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))
             {
-                DateTime dateTimeCreated = DateTime.Now;
-                string diskPartName = persistentVM.RoleName;
-
-                if (persistentVM.OSVirtualHardDisk.DiskLabel != null)
-                {
-                    diskPartName += "-" + persistentVM.OSVirtualHardDisk.DiskLabel;
-                }
-
-                string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName,
-                                               dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day,
-                                               dateTimeCreated.Millisecond);
-                string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-                if (blobEndpoint.EndsWith("/") == false)
-                {
-                    blobEndpoint += "/";
-                }
-
-                persistentVM.OSVirtualHardDisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
+                persistentVM.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
 
-            foreach (DataVirtualHardDisk datadisk in persistentVM.DataVirtualHardDisks)
+            foreach (DataVirtualHardDisk datadisk in persistentVM.DataVirtualHardDisks.Where(d => d.MediaLink == null && string.IsNullOrEmpty(d.DiskName)))
             {
-                if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
-                {
-                    if (currentStorage == null)
-                    {
-                        throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);
-                    }
-
-                    DateTime dateTimeCreated = DateTime.Now;
-                    string diskPartName = persistentVM.RoleName;
-
-                    if (datadisk.DiskLabel != null)
-                    {
-                        diskPartName += "-" + datadisk.DiskLabel;
-                    }
-
-                    string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName,
-                                                   dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day,
-                                                   dateTimeCreated.Millisecond);
-                    string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-
-                    if (blobEndpoint.EndsWith("/") == false)
-                    {
-                        blobEndpoint += "/";
-                    }
-
-                    datadisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
-                }
-
-                if (persistentVM.DataVirtualHardDisks.Count() > 1)
-                {
-                    // To avoid duplicate disk names
-                    System.Threading.Thread.Sleep(1);
-                }
+                datadisk.MediaLink = mediaLinkFactory.Create();
             }
 
             return new PersistentVMRole
