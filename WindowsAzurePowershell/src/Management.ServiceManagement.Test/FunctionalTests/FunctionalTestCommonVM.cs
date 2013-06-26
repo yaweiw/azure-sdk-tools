@@ -268,9 +268,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 var vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, testAVSetName);
                 vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
-
-                CheckAvailabilitySet(defaultVm, defaultService, testAVSetName);
-
+                Assert.IsTrue(Verify.AzureAvailabilitySet(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM, testAVSetName));
                 pass = true;
             }
             catch (Exception e)
@@ -278,12 +276,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 pass = false;
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
-        }
-
-        private void CheckAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
-        {
-            var vm = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-            Assert.IsTrue(vm.AvailabilitySetName.Equals(availabilitySetName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <summary>
@@ -297,14 +289,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 PersistentVM vm = vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService).VM;
-                OSVirtualHardDisk osdisk = vmPowershellCmdlets.GetAzureOSDisk(vm);
-                Console.WriteLine("OS Disk: Name - {0}, Label - {1}, HostCaching - {2}, OS - {3}", osdisk.DiskName, osdisk.DiskLabel, osdisk.HostCaching, osdisk.OS);
-                Assert.IsTrue(osdisk.Equals(vm.OSVirtualHardDisk), "OS disk returned is not the same!");
+                Assert.IsTrue(Verify.AzureOsDisk(vm, "Windows", HostCaching.ReadWrite));
 
                 PersistentVM vm2 = vmPowershellCmdlets.SetAzureOSDisk(HostCaching.ReadOnly, vm);
-                osdisk = vmPowershellCmdlets.GetAzureOSDisk(vm2);
-                Console.WriteLine("OS Disk: Name - {0}, Label - {1}, HostCaching - {2}, OS - {3}", osdisk.DiskName, osdisk.DiskLabel, osdisk.HostCaching, osdisk.OS);
-                Assert.IsTrue(osdisk.Equals(vm2.OSVirtualHardDisk), "OS disk returned is not the same!");
+                Assert.IsTrue(Verify.AzureOsDisk(vm2, "Windows", HostCaching.ReadOnly));
 
                 pass = true;
 
@@ -332,7 +320,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error during removing VM: {0}", e.ToString());
+                Console.WriteLine("Error during removing the service: {0}", e.ToString());
             }
         }
     }
