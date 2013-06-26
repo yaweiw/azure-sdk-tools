@@ -128,7 +128,6 @@ function Scenario3-RenameDatabase
 	if($Context)
 	{
 		Write-Output "Renaming a database from $Name to $NewName..."
-		$database = Get-AzureSqlDatabase $context -DatabaseName $database.Name
 		$updatedDatabase = Set-AzureSqlDatabase $context $database -NewName $NewName -PassThru -Force
 		Write-Output "Done"
 
@@ -149,7 +148,6 @@ function Scenario3-RenameDatabase
 	elseif ($serverName)
 	{
 		Write-Output "Renaming a database from $Name to $NewName..."
-		$database = Get-AzureSqlDatabase -ServerName $ServerName -DatabaseName $database.Name
 		$updatedDatabase = Set-AzureSqlDatabase -ServerName $ServerName $database -NewName $NewName -PassThru -Force
 		Write-Output "Done"
 
