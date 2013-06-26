@@ -42,7 +42,7 @@ function Scenario1-UpdateWithObject
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 			$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 			$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-			$database.IsSystemObject "S1-Context"
+			$database.IsSystemObject "S1-Context $context"
 	}
 	elseif ($serverName)
 	{
@@ -89,7 +89,7 @@ function Scenario2-UpdateWithName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly `
 				$database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject `
-				$database.IsSystemObject "S2-Context"
+				$database.IsSystemObject "S2-Context $context"
 	}
 	elseif ($serverName)
 	{
@@ -135,13 +135,13 @@ function Scenario3-RenameDatabase
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
 				-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
-				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-1"
+				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-1 $context"
 
 		$updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
 		Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName `
 				$database.CollationName -ExpectedEdition $database.Edition -ExpectedMaxSizeGB $database.MaxSizeGB `
 				-ExpectedIsReadOnly $database.IsReadOnly -ExpectedIsFederationRoot $database.IsFederationRoot `
-				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-2"
+				-ExpectedIsSystemObject $database.IsSystemObject "S3-Context-2 $context"
     
 		$database = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
 		Assert {!$getDroppedDatabase} "Database is not Renamed"

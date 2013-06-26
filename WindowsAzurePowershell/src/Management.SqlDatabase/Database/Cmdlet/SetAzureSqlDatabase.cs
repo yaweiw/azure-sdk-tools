@@ -251,7 +251,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                 if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
                 {
-                    this.Database.Copy(database);
+                    this.Database.CopyFields(database);
                 }
             }
             catch (Exception ex)
@@ -286,13 +286,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     this.WriteObject(database);
                 }
 
-                this.WriteVerbose("ContextType: " + this.ConnectionContext.GetType().ToString());
-
                 if (this.ConnectionContext.GetType() == typeof(ServerDataServiceCertAuth))
                 {
                     if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
                     {
-                        this.Database.Copy(database);
+                        this.Database.CopyFields(database);
                     }
                 }
             }
