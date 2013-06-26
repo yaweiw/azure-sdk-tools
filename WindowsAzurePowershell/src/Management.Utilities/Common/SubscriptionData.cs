@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
                 Microsoft.WindowsAzure.Management.Utilities.Common.ConfigurationConstants.ServiceManagementEndpoint :
                 ServiceEndpoint;
-            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+            IServiceManagement channel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 serviceBinding,
                 new Uri(ServiceEndpoint),
                 Certificate);

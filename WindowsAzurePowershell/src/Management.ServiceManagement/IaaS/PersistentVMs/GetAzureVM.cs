@@ -134,16 +134,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 }
             }
 
-            if (!string.IsNullOrEmpty(Name) && roles != null && roles.Count > 0)
-            {
-                SaveRoleState(roles[0].VM);
-            }
-
             WriteObject(roles, true);
-        }
-
-        protected virtual void SaveRoleState(PersistentVM role)
-        {
         }
 
         private void ListAllVMs()

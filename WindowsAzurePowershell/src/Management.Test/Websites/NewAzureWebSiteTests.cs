@@ -92,10 +92,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             const string websiteName = "website1";
             const string suffix = "azurewebsites.com";
+            const string location = "West US";
 
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
+            clientMock.Setup(f => f.GetDefaultLocation()).Returns(location);
             bool created = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebSpacesThunk = ar => new WebSpaces();

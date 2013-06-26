@@ -17,38 +17,41 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
     [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
     public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
     {
-        private const string FileParameterSetName = "FileParameterSet";
-
-        private const string StorageParameterSetName = "StorageParameterSet";
-
         public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = FileParameterSetName)]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "File switch.")]
         public SwitchParameter File { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = StorageParameterSetName)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage switch.")]
         public SwitchParameter Storage { get; set; }
 
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
-            if (File.IsPresent)
+            if (!File.IsPresent && !Storage.IsPresent)
             {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
-            }
-            else if (Storage.IsPresent)
-            {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+            }
+            else
+            {
+                if (File.IsPresent)
+                {
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
+                }
+
+                if (Storage.IsPresent)
+                {
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+                }
             }
 
             if (PassThru.IsPresent)

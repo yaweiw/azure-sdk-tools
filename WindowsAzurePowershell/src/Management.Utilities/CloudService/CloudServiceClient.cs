@@ -512,7 +512,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             VerboseStream = verboseStream;
             WarningeStream = warningStream;
             HeadersInspector = new HeadersInspector();
-            ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
@@ -818,9 +818,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// <returns>The storage service instance</returns>
         public StorageService GetStorageService(string name)
         {
-            StorageService storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
-            StorageService storageServiceKeys = ServiceManagementChannel.GetStorageKeys(subscriptionId, name);
-            storageService.StorageServiceKeys = storageServiceKeys.StorageServiceKeys;
+            StorageService storageService = null;
+
+            try
+            {
+                storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
+                StorageService storageServiceKeys = ServiceManagementChannel.GetStorageKeys(subscriptionId, name);
+                storageService.StorageServiceKeys = storageServiceKeys.StorageServiceKeys;
+            }
+            catch
+            {
+                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
+            }
 
             return storageService;
         }
