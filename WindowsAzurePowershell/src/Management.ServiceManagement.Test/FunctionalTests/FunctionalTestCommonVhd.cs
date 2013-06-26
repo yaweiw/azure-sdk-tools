@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             testStartTime = DateTime.Now;
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
         public void AzureDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
         public void AzureVMImageTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);

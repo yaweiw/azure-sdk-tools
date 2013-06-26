@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
         public void AzureAffinityGroupTest()
         {
@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureDeploymentTest()
         {
@@ -336,16 +336,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
            
-                vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null, null, null);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null);
 
-                DnsServerList dnsList =  vmPowershellCmdlets.GetAzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production).DnsSettings);
-                foreach (DnsServer dnsServer in dnsList)
-                {
-                    Console.WriteLine("DNS Server Name: {0}, DNS Server Address: {1}", dnsServer.Name, dnsServer.Address);
-                    Assert.AreEqual(dnsServer.Name, dns.Name);
-                    Assert.AreEqual(dnsServer.Address, dns.Address);
-                }
-
+                Assert.IsTrue(Verify.AzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings, dns));
                 pass = true;
 
             }
@@ -360,7 +353,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
         public void AzureLocationTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -385,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
         public void AzureOSVersionTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);       
@@ -473,7 +466,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         public void AzureServiceDiagnosticsExtensionConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -612,7 +605,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         public void AzureServiceRemoteDesktopExtensionConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -762,7 +755,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
         public void AzureSubnetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -798,7 +791,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
         public void AzureStorageKeyTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -994,7 +987,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
+        [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
         public void AzureVNetConfigTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
