@@ -42,6 +42,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
         [Alias("i")]
         public int Instances { get; set; }
 
+        /// <summary>
+        /// Creates new instance from AddAzureCacheWorkerRoleCommand
+        /// </summary>
+        public AddAzureCacheWorkerRoleCommand()
+        {
+            Instances = 1;
+        }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
