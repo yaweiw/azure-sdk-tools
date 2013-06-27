@@ -38,7 +38,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
         [TestMethod]
         public void TestSetDefaultSubscription()
         {
-            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(
+                GlobalPathInfo.GlobalSettingsDirectory,
+                null,
+                Data.ValidPublishSettings.First());
 
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
@@ -119,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
         }
 
         [TestMethod]
-        public void TestCreateSubscriptionNoImport()
+        public void CreatesNewSubscriptionOnCleanMachine()
         {
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
