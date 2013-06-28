@@ -79,7 +79,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 
         [TestMethod]
         [TestCategory("Functional")]
-        [Ignore]
         public void ResetServerPassword()
         {
             string arguments = string.Format(

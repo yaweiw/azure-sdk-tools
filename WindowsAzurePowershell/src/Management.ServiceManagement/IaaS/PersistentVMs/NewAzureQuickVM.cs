@@ -181,6 +181,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Prevents the WinRM endpoint from being added")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoWinRMEndpoint
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "SSH Public Key List")]
         public LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
         {
@@ -450,12 +458,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
             if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))
             {
-                DateTime dtCreated = DateTime.Now;
-                string vhdname = String.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, vm.RoleName, dtCreated.Year, dtCreated.Month, dtCreated.Day, dtCreated.Millisecond);
-                string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-                if (blobEndpoint.EndsWith("/") == false)
-                    blobEndpoint += "/";
-                vm.OSVirtualHardDisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
+                var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
+                vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
 
 
@@ -476,9 +480,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 };
 
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
-                if(!this.DisableWinRMHttps.IsPresent)
+                if (!this.NoWinRMEndpoint.IsPresent && !this.DisableWinRMHttps.IsPresent)
                 {
-                    netConfig.InputEndpoints.Add(new InputEndpoint { LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName });
+                    netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName});
                 }
                 vm.ConfigurationSets.Add(windowsConfig);
                 vm.ConfigurationSets.Add(netConfig);

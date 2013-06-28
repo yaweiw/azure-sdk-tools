@@ -305,6 +305,28 @@ function Test-NewAzureSBNamespaceWithWebsite
 	Test-CleanupServiceBus
 }
 
+<#
+.SYNOPSIS
+Tests running New-AzureSBNamespace cmdlet without location and expects new namespace created.
+#>
+function Test-NewAzureSBNamespaceWithDefaultLocation
+{
+	# Setup
+	$name = Get-NamespaceName
+
+	# Test
+	$actual = New-AzureSBNamespace $name
+
+	# Assert
+	Assert-AreEqual $name $actual.Name
+	Assert-AreEqual $(Get-DefaultServiceBusLocation) $actual.Region
+	Assert-True { "Activating" -eq $actual.Status -or "Active" -eq $actual.Status } "The namespace status does not equal to active or activating"
+
+	# Cleanup
+	$createdNamespaces += $name
+	Test-CleanupServiceBus
+}
+
 ########################################################################### Remove-AzureSBNamespace Scenario Tests ###########################################################################
 
 <#

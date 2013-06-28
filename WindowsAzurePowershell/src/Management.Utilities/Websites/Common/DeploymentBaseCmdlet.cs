@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
                 return DeploymentChannel;
             }
             
-            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(
+            return ChannelHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(
                 new Uri(repository.RepositoryUri),
                 repository.PublishingUsername,
                 repository.PublishingPassword,

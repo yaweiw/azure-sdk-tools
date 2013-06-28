@@ -313,6 +313,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned..
+        /// </summary>
+        internal static string DeploymentVIPLossWarning {
+            get {
+                return ResourceManager.GetString("DeploymentVIPLossWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deprovisioning the VM: {0} .
+        /// </summary>
+        internal static string DeprovisioningVM {
+            get {
+                return ResourceManager.GetString("DeprovisioningVM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location or AffinityGroup, only one of them needs to be specified..
         /// </summary>
         internal static string EitherLocationOrAffinityGroupBeSpecified {
@@ -345,6 +363,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         internal static string EndpointCanNotBeFoundInVMConfigurationInSetAzureEndpoint {
             get {
                 return ResourceManager.GetString("EndpointCanNotBeFoundInVMConfigurationInSetAzureEndpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An endpoint cannot be found with the given load balancer set name &apos;{0}&apos;..
+        /// </summary>
+        internal static string EndpointsCannotBeFoundWithGivenLBSetName {
+            get {
+                return ResourceManager.GetString("EndpointsCannotBeFoundWithGivenLBSetName", resourceCulture);
             }
         }
         
@@ -561,6 +588,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         internal static string NoCloudServicePresent {
             get {
                 return ResourceManager.GetString("NoCloudServicePresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No role can be found in the deployment with &apos;{0}&apos; name.
+        /// </summary>
+        internal static string NoCorrespondingRoleCanBeFoundInDeployment {
+            get {
+                return ResourceManager.GetString("NoCorrespondingRoleCanBeFoundInDeployment", resourceCulture);
             }
         }
         
@@ -1078,6 +1114,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage account for the account name: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindStorageAccount {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindStorageAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find storage keys for the account name: {0}..
         /// </summary>
         internal static string ServiceExtensionCannotFindStorageAccountKey {
@@ -1101,6 +1146,51 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         internal static string ServiceExtensionNoExistingExtensionsEnabledOnRoles {
             get {
                 return ResourceManager.GetString("ServiceExtensionNoExistingExtensionsEnabledOnRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing default {0} configuration for all roles from Cloud Service {1}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingFromAllRoles {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingFromAllRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing {0} configuration for {1} from Cloud Service {2}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingFromSpecificRoles {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingFromSpecificRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default {0} configuration exists applying default configuration to {1}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingSpecificAndApplyingDefault {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingSpecificAndApplyingDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting default {0} configuration for all roles..
+        /// </summary>
+        internal static string ServiceExtensionSettingForDefaultRole {
+            get {
+                return ResourceManager.GetString("ServiceExtensionSettingForDefaultRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting {0} configuration for {1}..
+        /// </summary>
+        internal static string ServiceExtensionSettingForSpecificRole {
+            get {
+                return ResourceManager.GetString("ServiceExtensionSettingForSpecificRole", resourceCulture);
             }
         }
         

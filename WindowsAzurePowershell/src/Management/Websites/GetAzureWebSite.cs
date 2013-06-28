@@ -90,11 +90,19 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 // Add to cache
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
-                DiagnosticsSettings diagnosticsSettings = null;
+                DiagnosticsSettings diagnosticsSettings = new DiagnosticsSettings();
                 if (websiteObject.State == "Running")
                 {
                     WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-                    diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+
+                    try
+                    {
+                        diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                    }
+                    catch
+                    {
+                        // Ignore the exception and use default values.
+                    }
                 }
 
                 // Output results
