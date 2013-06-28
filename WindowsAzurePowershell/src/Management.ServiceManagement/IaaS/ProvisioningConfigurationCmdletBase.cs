@@ -228,6 +228,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Prevents the WinRM endpoint from being added")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Prevents the WinRM endpoint from being added")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoWinRMEndpoint
+        {
+            get;
+            set;
+        }
+
         protected void SetProvisioningConfiguration(LinuxProvisioningConfigurationSet provisioningConfiguration)
         {
             provisioningConfiguration.UserName = LinuxUser;

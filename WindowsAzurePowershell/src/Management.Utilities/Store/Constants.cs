@@ -47,7 +47,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
              new Guid("3a9a3dff-5d25-4a4e-850f-559f0bc8f706"),
              new Guid("385dbf8e-3c0c-4b62-b425-7f01b19c9764"),
              new Guid("95dc44c2-7516-480b-9246-a636fcdb9bb5"),
-             new Guid("d79f5602-33a6-4538-9376-d1ca9c2b4521")
+             new Guid("d79f5602-33a6-4538-9376-d1ca9c2b4521"),
+             new Guid("da8888b8-2418-499b-9c0e-38d328f9a0b2"),
+             new Guid("d653a682-cba2-456a-87b2-e9f01db09078")
         };
 
         //

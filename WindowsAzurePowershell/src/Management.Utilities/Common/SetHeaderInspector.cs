@@ -21,10 +21,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
+    using System.Linq;
 
     public class HeadersInspector : IClientMessageInspector, IEndpointBehavior
     {
         public Dictionary<string, string> RequestHeaders { get; set; }
+
+        public List<string> RemoveHeaders { get; set; }
 
         public WebHeaderCollection ResponseHeaders { get; set; }
 
@@ -32,6 +35,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             Debug.Assert(requestHeaders.Length % 2 == 0);
             RequestHeaders = new Dictionary<string, string>();
+            RemoveHeaders = new List<string>();
 
             for (int i = 0, j = 0; i < requestHeaders.Length / 2; i++, j += 2)
             {
@@ -56,6 +60,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 foreach (KeyValuePair<string, string> pair in RequestHeaders)
                 {
                     property.Headers.Add(pair.Key, pair.Value);
+                }
+
+                foreach (string headerName in RemoveHeaders)
+                {
+                    try { property.Headers.Remove(headerName); }
+                    catch { /* The header name does not exist, continue.*/ }
                 }
             }
             return request;

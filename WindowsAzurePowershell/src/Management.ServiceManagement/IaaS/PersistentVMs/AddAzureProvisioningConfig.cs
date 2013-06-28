@@ -174,8 +174,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     builder.AddHttpsListener(this.WinRMCertificate);
                     provisioningConfiguration.WinRM = builder.Configuration;
 
-                    var winRmEndpoint = new InputEndpoint {LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName};
-                    netConfig.InputEndpoints.Add(winRmEndpoint);
+                    if(!this.NoWinRMEndpoint.IsPresent)
+                    {
+                        var winRmEndpoint = new InputEndpoint { LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName };
+                        netConfig.InputEndpoints.Add(winRmEndpoint);
+                    }
                     role.WinRMCertificate = WinRMCertificate;
                 }
 

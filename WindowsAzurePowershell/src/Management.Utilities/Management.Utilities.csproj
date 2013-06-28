@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -66,6 +67,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
@@ -173,7 +175,6 @@
     <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
     <Compile Include="CloudService\Parameters.cs" />
-    <Compile Include="CloudService\RemoveAzureDeployment.cs" />
     <Compile Include="CloudService\RoleInfo.cs" />
     <Compile Include="CloudService\ServiceComponents.cs" />
     <Compile Include="CloudService\ServicePathInfo.cs" />
@@ -217,7 +218,7 @@
     <Compile Include="Common\General.cs" />
     <Compile Include="Common\ManagementConstants.cs" />
     <Compile Include="Common\ProcessHelper.cs" />
-    <Compile Include="Common\ServiceManagementHelper.cs" />
+    <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
     <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
@@ -348,6 +349,9 @@
     <Content Include="Azure.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="startup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -458,6 +462,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="welcome.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="PostBuildCleanup.bat" />
@@ -624,9 +631,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WelcomeMessage.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Common\XmlSchema\SubscriptionsData.xsd">

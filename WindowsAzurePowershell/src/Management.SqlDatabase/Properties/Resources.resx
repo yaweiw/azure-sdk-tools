@@ -251,7 +251,7 @@ Error Code: {0}</value>
     <comment>Generic</comment>
   </data>
   <data name="WarningModelOutOfDate" xml:space="preserve">
-    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recomended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility.</value>
+    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recommended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility.</value>
   </data>
   <data name="WrongAsyncResultForCreate" xml:space="preserve">
     <value>The asyncResult object was not created by a preceding call of the BeginCreate method from the same control.</value>
