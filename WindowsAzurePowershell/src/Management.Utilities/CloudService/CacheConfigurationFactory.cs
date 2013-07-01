@@ -53,6 +53,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         #region Cache Role Configuration
 
+        /// <summary>
+        /// Configuration required to enable dedicated caching on a given role.
+        /// </summary>
+        /// <param name="rootPath">The service project root path</param>
+        /// <param name="cacheRoleInfo">The cache role info</param>
         private static void CacheRole180(string rootPath, RoleInfo cacheRoleInfo)
         {
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
@@ -131,6 +136,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         #region Cache Client Role Configuration
 
+        /// <summary>
+        /// Configuration action to enable using dedicated caching on the client role.
+        /// </summary>
+        /// <param name="cloudServiceProject">The cloud service project instance</param>
+        /// <param name="roleName">The role name</param>
+        /// <param name="cacheWorkerRoleName">The dedicated cache worker role name</param>
         private static void CacheClientRole180(
             CloudServiceProject cloudServiceProject,
             string roleName,
@@ -287,6 +298,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         #endregion
 
+        /// <summary>
+        /// Gets the configuration action to enable dedicated caching on a role for the given SDK version.
+        /// </summary>
+        /// <param name="version">The SDK version</param>
+        /// <returns>Action to apply to enable dedicated caching on a role</returns>
         public static Action<string, RoleInfo> GetCacheRoleConfigurationAction(string version)
         {
             if (!cacheRoleConfigurationActions.ContainsKey(version))
@@ -299,6 +315,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             return cacheRoleConfigurationActions[version];
         }
 
+        /// <summary>
+        /// Gets the configuration action to enable using dedicated caching on a role for the given SDK version.
+        /// </summary>
+        /// <param name="version">The SDK version</param>
+        /// <returns>Action to apply on the client role</returns>
         public static Action<CloudServiceProject, string, string> GetClientRoleConfigurationAction(string version)
         {
             if (!clientRoleConfigurationActions.ContainsKey(version))
