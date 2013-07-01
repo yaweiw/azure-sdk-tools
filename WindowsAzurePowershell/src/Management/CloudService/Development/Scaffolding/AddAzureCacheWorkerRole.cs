@@ -72,22 +72,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
 
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
             
-            RoleInfo nodeWorkerRole = cloudServiceProject.AddWorkerRole(
+            RoleInfo genericWorkerRole = cloudServiceProject.AddWorkerRole(
                 Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()),
                 workerRoleName,
                 instances);
 
             // Dedicate the worker role for caching.
-            cacheWorkerRoleAction(cloudServiceProject.Paths.RootPath, nodeWorkerRole);
+            cacheWorkerRoleAction(cloudServiceProject.Paths.RootPath, genericWorkerRole);
 
             cloudServiceProject.Reload();
-            WorkerRole cacheWorkerRole = cloudServiceProject.Components.GetWorkerRole(nodeWorkerRole.Name);
+            WorkerRole cacheWorkerRole = cloudServiceProject.Components.GetWorkerRole(genericWorkerRole.Name);
 
             // Write output
             SafeWriteOutputPSObject(
                 cacheWorkerRole.GetType().FullName,
-                Parameters.CacheWorkerRoleName, nodeWorkerRole.Name,
-                Parameters.Instances, nodeWorkerRole.InstanceCount
+                Parameters.CacheWorkerRoleName, genericWorkerRole.Name,
+                Parameters.Instances, genericWorkerRole.InstanceCount
                 );
 
             return cloudServiceProject.Components.GetWorkerRole(workerRoleName);
