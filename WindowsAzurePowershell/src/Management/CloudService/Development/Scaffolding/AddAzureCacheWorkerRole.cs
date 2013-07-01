@@ -42,13 +42,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
         [Alias("i")]
         public int Instances { get; set; }
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public override void ExecuteCmdlet()
-        {
-            base.ExecuteCmdlet();
-            AddAzureCacheWorkerRoleProcess(Name, Instances, General.GetServiceRootPath(CurrentPath()));
-        }
-
         /// <summary>
         /// Creates new instance from AddAzureCacheWorkerRoleCommand
         /// </summary>
@@ -57,17 +50,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
             Instances = 1;
         }
 
-        private AzureService CachingConfigurationFactoryMethod(string rootPath, RoleInfo cacheWorkerRole, string sdkVersion)
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            switch (sdkVersion)
-            {
-                case SDKVersion.Version180:
-                    return Version180Configuration(rootPath, cacheWorkerRole);
-
-                default:
-                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported,
-                        Resources.MinSupportAzureSdkVersion, Resources.MaxSupportAzureSdkVersion));
-            }
+            AddAzureCacheWorkerRoleProcess(Name, Instances, General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -81,64 +67,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
         public WorkerRole AddAzureCacheWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
             // Create cache worker role.
-            AzureService azureService = new AzureService(rootPath, null);
-            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), workerRoleName, instances);
-            azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
-            azureService.Components.Save(azureService.Paths);
-            WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
+            Action<string, RoleInfo> cacheWorkerRoleAction = CacheConfigurationFactory.GetCacheRoleConfigurationAction(
+                new AzureTool().AzureSdkVersion);
+
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+            
+            RoleInfo genericWorkerRole = cloudServiceProject.AddWorkerRole(
+                Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()),
+                workerRoleName,
+                instances);
+
+            // Dedicate the worker role for caching.
+            cacheWorkerRoleAction(cloudServiceProject.Paths.RootPath, genericWorkerRole);
+
+            cloudServiceProject.Reload();
+            WorkerRole cacheWorkerRole = cloudServiceProject.Components.GetWorkerRole(genericWorkerRole.Name);
 
             // Write output
             SafeWriteOutputPSObject(
                 cacheWorkerRole.GetType().FullName,
-                Parameters.CacheWorkerRoleName, nodeWorkerRole.Name,
-                Parameters.Instances, nodeWorkerRole.InstanceCount
+                Parameters.CacheWorkerRoleName, genericWorkerRole.Name,
+                Parameters.Instances, genericWorkerRole.InstanceCount
                 );
 
-            return azureService.Components.GetWorkerRole(workerRoleName);
-        }
-
-        /// <summary>
-        /// Configure the worker role for caching by:
-        /// * Add caching module to the role imports.
-        /// * Enable caching Diagnostic store.
-        /// * Remove input endpoints.
-        /// * Add caching configuration settings.
-        /// </summary>
-        /// <param name="rootPath"></param>
-        /// <param name="cacheRoleInfo"></param>
-        /// <returns></returns>
-        private AzureService Version180Configuration(string rootPath, RoleInfo cacheRoleInfo)
-        {
-            // Fetch cache role information from service definition and service configuration files.
-            AzureService azureService = new AzureService(rootPath, null);
-            WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(cacheRoleInfo.Name);
-            RoleSettings cacheRoleSettings = azureService.Components.GetCloudConfigRole(cacheRoleInfo.Name);
-
-            // Add caching module to the role imports
-            cacheWorkerRole.Imports = General.ExtendArray<Import>(cacheWorkerRole.Imports, new Import { moduleName = Resources.CachingModuleName });
-
-            // Enable caching Diagnostic store.
-            LocalStore diagnosticStore = new LocalStore { name = Resources.CacheDiagnosticStoreName, cleanOnRoleRecycle = false };
-            cacheWorkerRole.LocalResources = General.InitializeIfNull<LocalResources>(cacheWorkerRole.LocalResources);
-            cacheWorkerRole.LocalResources.LocalStorage = General.ExtendArray<LocalStore>(cacheWorkerRole.LocalResources.LocalStorage, diagnosticStore);
-
-            // Remove input endpoints.
-            cacheWorkerRole.Endpoints.InputEndpoint = null;
-
-            // Add caching configuration settings
-            AddCacheConfiguration(azureService.Components.GetCloudConfigRole(cacheRoleInfo.Name));
-            AddCacheConfiguration(azureService.Components.GetLocalConfigRole(cacheRoleInfo.Name), Resources.EmulatorConnectionString);
-            return azureService;
-        }
-
-        private static void AddCacheConfiguration(RoleSettings cacheRoleSettings, string connectionString = "")
-        {
-            List<ConfigConfigurationSetting> cachingConfigSettings = new List<ConfigConfigurationSetting>();
-            cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.NamedCacheSettingName, value = Resources.NamedCacheSettingValue });
-            cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.DiagnosticLevelName, value = Resources.DiagnosticLevelValue });
-            cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty });
-            cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = connectionString });
-            cacheRoleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(cacheRoleSettings.ConfigurationSettings, cachingConfigSettings);
+            return cloudServiceProject.Components.GetWorkerRole(workerRoleName);
         }
     }
 }

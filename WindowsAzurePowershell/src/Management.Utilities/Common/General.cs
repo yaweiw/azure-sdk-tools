@@ -627,14 +627,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             else
             {
                 serviceSettings = ServiceSettings.LoadDefault(
-                    new AzureService(rootPath, null).Paths.Settings,
+                    new CloudServiceProject(rootPath, null).Paths.Settings,
                     slot,
                     location,
                     affinityGroup,
                     subscription,
                     storageName,
                     inServiceName,
-                    new AzureService(rootPath, null).ServiceName,
+                    new CloudServiceProject(rootPath, null).ServiceName,
                     out serviceName);
             }
 
@@ -654,7 +654,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             {
                 string difference = currentPath.Replace(rootPath, string.Empty);
                 roleName = difference.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).GetValue(0).ToString();
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 found = service.Components.RoleExists(roleName);
             }
 
@@ -688,7 +688,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new InvalidOperationException(Resources.CannotFindServiceRoot);
             }
 
-            AzureService service = new AzureService(servicePath, null);
+            CloudServiceProject service = new CloudServiceProject(servicePath, null);
             if (service.Components.CloudConfig.Role != null)
             {
                 foreach (RoleSettings role in service.Components.CloudConfig.Role)

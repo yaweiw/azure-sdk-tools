@@ -110,13 +110,13 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         {
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
             if (currentSubscription != null && 
-                !String.IsNullOrEmpty(currentSubscription.ServiceEndpoint) &&
-                String.IsNullOrEmpty(serviceEndpoint))
+                !string.IsNullOrEmpty(currentSubscription.ServiceEndpoint) &&
+                string.IsNullOrEmpty(serviceEndpoint))
             {
                 // If the current subscription already has a service endpoint do not overwrite if not specified 
                 serviceEndpoint = currentSubscription.ServiceEndpoint;
             }
-            else if (String.IsNullOrEmpty(serviceEndpoint))
+            else if (string.IsNullOrEmpty(serviceEndpoint))
             {
                 // No current subscription and nothing specified initialize with the default
                 serviceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;

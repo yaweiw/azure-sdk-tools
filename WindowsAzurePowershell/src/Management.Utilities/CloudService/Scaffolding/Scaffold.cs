@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
             foreach (ScaffoldFile file in scaffold.Files)
             {
                 string sourceDirectory; 
-                if(String.IsNullOrEmpty(file.SourceDirectory) ||
+                if(string.IsNullOrEmpty(file.SourceDirectory) ||
                     !parameters.ContainsKey(file.SourceDirectory))
                 {
                     sourceDirectory = sourcePath;
