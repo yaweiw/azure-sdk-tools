@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             {
                 try
                 {
-                    website = RetryCall(s => Channel.GetSite(s, Name, null));
+                    website = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
                     websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
                 }
                 catch (CommunicationException ex)
