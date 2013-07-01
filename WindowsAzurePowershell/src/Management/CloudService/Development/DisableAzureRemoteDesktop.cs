@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void DisableRemoteDesktop()
         {
-            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
+            CloudServiceProject service = new CloudServiceProject(General.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
             return forwarderName;
         }
 
-        private void UpdateServiceConfigurations(AzureService service, string forwarderName)
+        private void UpdateServiceConfigurations(CloudServiceProject service, string forwarderName)
         {
             foreach (ServiceConfiguration config in new[] { service.Components.LocalConfig, service.Components.CloudConfig })
             {

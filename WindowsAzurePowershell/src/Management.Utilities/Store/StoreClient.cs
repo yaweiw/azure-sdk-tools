@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
 
         private string GetCloudServiceName(string subscriptionId, string region)
         {
-            string hashedSubId = String.Empty;
+            string hashedSubId = string.Empty;
             using (SHA256 sha256 = SHA256Managed.Create())
             {
                 hashedSubId = Base32NoPaddingEncode(sha256.ComputeHash(UTF8Encoding.UTF8.GetBytes(subscriptionId)));

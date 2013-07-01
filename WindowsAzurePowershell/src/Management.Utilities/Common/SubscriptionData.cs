@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             IServiceManagement channel,
             SubscriptionData subscriptionData)
         {
-            if (String.IsNullOrEmpty(subscriptionData.CurrentStorageAccount))
+            if (string.IsNullOrEmpty(subscriptionData.CurrentStorageAccount))
             {
                 return null;
             }

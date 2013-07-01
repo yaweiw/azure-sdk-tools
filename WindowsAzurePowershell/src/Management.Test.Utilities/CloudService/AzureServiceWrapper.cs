@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
-    public class AzureServiceWrapper : AzureService
+    public class AzureServiceWrapper : CloudServiceProject
     {
         public AzureServiceWrapper(string rootPath, string serviceName, string scaffoldingPath) : base(rootPath, serviceName, scaffoldingPath) { }
         

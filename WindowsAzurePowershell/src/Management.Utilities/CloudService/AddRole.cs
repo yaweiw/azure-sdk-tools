@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         public override void ExecuteCmdlet()
         {
             RootPath = RootPath ?? General.GetServiceRootPath(CurrentPath());
-            AzureService service = new AzureService(RootPath, null);
+            CloudServiceProject service = new CloudServiceProject(RootPath, null);
             RoleInfo roleInfo = null;
             
             if (isWebRole)
