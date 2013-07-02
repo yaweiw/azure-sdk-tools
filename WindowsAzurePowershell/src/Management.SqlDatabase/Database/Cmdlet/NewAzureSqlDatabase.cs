@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Creates a new Windows Azure SQL Databases in the given server context.
@@ -27,15 +28,42 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter Sets
+
+        /// <summary>
+        /// The name of the parameter set for connection with a connection context
+        /// </summary>
+        internal const string ByConnectionContext =
+            "ByConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for connecting with an azure subscription
+        /// </summary>
+        internal const string ByServerName =
+            "ByServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ParameterSetName = ByConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the server to connect to
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByServerName,
+            HelpMessage = "The name of the server to connect to using the current subscription")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
@@ -74,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
-        /// Execute the command.
+        /// Process the command.
         /// </summary>
         protected override void ProcessRecord()
         {
@@ -88,12 +116,67 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
+            // Determine the max size for the Database or null
+            int? maxSizeGb = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            {
+                maxSizeGb = this.MaxSizeGB;
+            }
+
+            switch (this.ParameterSetName)
+            {
+                case ByConnectionContext:
+                    this.ProcessWithConnectionContext(maxSizeGb);
+                    break;
+                case ByServerName:
+                    this.ProcessWithServerName(maxSizeGb);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the request using the server name
+        /// </summary>
+        /// <param name="maxSizeGb">the maximum size of the database</param>
+        private void ProcessWithServerName(int? maxSizeGb)
+        {
+            string clientRequestId = string.Empty;
             try
             {
-                int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
-                    (int?)this.MaxSizeGB : null;
+                // Get the current subscription data.
+                SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                Database database = this.Context.CreateNewDatabase(
+                // Create a temporary context
+                ServerDataServiceCertAuth context =
+                    ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+
+                clientRequestId = context.ClientRequestId;
+                
+                // Retrieve the database with the specified name
+                this.WriteObject(context.CreateNewDatabase(
+                    this.DatabaseName, 
+                    maxSizeGb, 
+                    this.Collation, 
+                    this.Edition));
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    clientRequestId,
+                    ex);
+            }
+        }
+
+        /// <summary>
+        /// Process the request using the connection context.
+        /// </summary>
+        /// <param name="maxSizeGb">the maximum size for the new database</param>
+        private void ProcessWithConnectionContext(int? maxSizeGb)
+        {
+            try
+            {
+                Database database = this.ConnectionContext.CreateNewDatabase(
                     this.DatabaseName,
                     maxSizeGb,
                     this.Collation,
@@ -105,7 +188,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }
