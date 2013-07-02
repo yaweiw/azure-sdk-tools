@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             string website,
             string propertiesToInclude)
         {
-            // Try t get the website's webspace from the cache
+            // Try to get the website's webspace from the cache
             Site site = Cache.GetSite(subscriptionId, website, propertiesToInclude);
             if (site != null)
             {
