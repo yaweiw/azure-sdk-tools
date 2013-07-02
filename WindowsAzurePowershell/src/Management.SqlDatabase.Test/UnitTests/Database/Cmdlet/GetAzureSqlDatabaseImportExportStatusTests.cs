@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             DateTime lastModified = DateTime.UtcNow;
             DateTime queuedTime = new DateTime(1, 2, 3, 4, 5, 6);
             string requestType = "Export";
-            string ieRequestStatus = "Complete";
+            string requestStatus = "Complete";
             string errorMessage = "errormessage";
 
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 status.RequestId = requestId;
                 status.RequestType = requestType;
                 status.ServerName = serverName;
-                status.Status = ieRequestStatus;
+                status.Status = requestStatus;
 
                 ArrayOfStatusInfo operationResult = new ArrayOfStatusInfo();
                 operationResult.Add(status);
@@ -84,7 +84,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 return operationResult;
             };
 
-            
             GetAzureSqlDatabaseImportExportStatus getImportExportStatus = 
                 new GetAzureSqlDatabaseImportExportStatus(channel) { ShareChannel = true };
             getImportExportStatus.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
@@ -103,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             Assert.AreEqual(requestId, result[0].RequestId);
             Assert.AreEqual(requestType, result[0].RequestType);
             Assert.AreEqual(serverName, result[0].ServerName);
-            Assert.AreEqual(ieRequestStatus, result[0].Status);
+            Assert.AreEqual(requestStatus, result[0].Status);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
