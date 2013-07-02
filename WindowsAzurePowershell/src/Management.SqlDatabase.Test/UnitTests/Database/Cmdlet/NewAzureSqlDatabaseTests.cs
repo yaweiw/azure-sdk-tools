@@ -19,12 +19,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
     {
+        /// <summary>
+        /// Initialize the necessary environment for the tests.
+        /// </summary>
+        [TestInitialize]
+        public void SetupTest()
+        {
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+        }
+
         [TestCleanup]
         public void CleanupTest()
         {
@@ -47,6 +60,66 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell,
                     "$context");
             }
+        }
+
+        /// <summary>
+        /// Test creating a new database using certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void NewAzureSqlDatabaseWithCertAuth()
+        {
+            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
+
+            channel.NewDatabaseThunk = ar =>
+            {
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Name, 
+                    "UnitTestNewDatabase",
+                    "The database Name input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
+                    "1",
+                    "The database MaxSizeGB input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
+                    "Japanese_CI_AS",
+                    "The database CollationName input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Edition, 
+                    "Web",
+                    "The database Edition input parameter does not match");
+
+                SqlDatabaseResponse operationResult = new SqlDatabaseResponse();
+                operationResult.CollationName = "Japanese_CI_AS";
+                operationResult.Edition = "Web";
+                operationResult.Id = "1";
+                operationResult.MaxSizeGB = "1";
+                operationResult.Name = "TestDatabaseName";
+                operationResult.CreationDate = DateTime.Now.ToString();
+                operationResult.IsFederationRoot = true.ToString();
+                operationResult.IsSystemObject = true.ToString();
+                operationResult.MaxSizeBytes = "1073741824";
+                
+                return operationResult;
+            };
+
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
+
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            service.Channel = channel;
+
+            Database result = 
+                service.CreateNewDatabase("UnitTestNewDatabase", 1, "Japanese_CI_AS", DatabaseEdition.Web);
+
+            // Verify that the result matches the stuff in the thunk.
+            Assert.AreEqual(result.CollationName, "Japanese_CI_AS", "The collation does not match");
+            Assert.AreEqual(result.Edition, DatabaseEdition.Web.ToString(), "The edition does not match");
+            Assert.AreEqual(result.MaxSizeGB, 1, "The max db size does not match");
+            Assert.AreEqual(result.Name, "TestDatabaseName", "The name does not match");
         }
 
         [TestMethod]

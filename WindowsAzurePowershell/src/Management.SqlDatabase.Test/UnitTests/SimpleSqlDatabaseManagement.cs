@@ -292,8 +292,297 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         }
 
         #endregion
-     
+
+        #region GetDatabases
+
+        /// <summary>
+        /// Gets or sets the Thunk for the GetDatabases opertaion
+        /// </summary>
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseList> GetDatabasesThunk { get; set; }
+
+        /// <summary>
+        /// A mock call to BeginGetDatabases
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="callback">the callback to pass through</param>
+        /// <param name="state">the state to pass through</param>
+        /// <returns>An <see cref="IAsyncResult"/> of the mock request</returns>
+        public IAsyncResult BeginGetDatabases(
+            string subscriptionId, 
+            string serverName, 
+            AsyncCallback callback, 
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+        
+        /// <summary>
+        /// A mock call to EndGetDatabases
+        /// </summary>
+        /// <param name="asyncResult">The result of the mock BeginGetDatabases call</param>
+        /// <returns>A <see cref="SqlDatabaseList"/>: the result of calling the thunk on the input</returns>
+        public SqlDatabaseList EndGetDatabases(IAsyncResult asyncResult)
+        {
+            if (this.GetDatabasesThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return this.GetDatabasesThunk(result);
+            }
+            else if (this.ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDatabasesThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseList);
+        }
+
+        #endregion
+
+        #region GetDatabase
+
+        /// <summary>
+        /// Gets or sets the Thunk for the GetDatabase opertaion
+        /// </summary>
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> GetDatabaseThunk { get; set; }
+
+        /// <summary>
+        /// A mock call to BeginGetDatabase
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="databaseName">The name of the database to pass through</param>
+        /// <param name="callback">the callback object to pass through</param>
+        /// <param name="state">the state object to pass through</param>
+        /// <returns>An <see cref="IAsyncResult"/> of the mock request</returns>
+        public IAsyncResult BeginGetDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            AsyncCallback callback, 
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        /// <summary>
+        /// A mock call to EndGetDatabase
+        /// </summary>
+        /// <param name="asyncResult">The result of the mock BeginGetDatabase call</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/>: the result of calling the thunk on the input</returns>
+        public SqlDatabaseResponse EndGetDatabase(IAsyncResult asyncResult)
+        {
+            if (this.GetDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return this.GetDatabaseThunk(result);
+            }
+            else if (this.ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
+        }
+
+        #endregion
+
+        #region NewDatabase
+
+        /// <summary>
+        /// Gets or sets the Thunk for the NewDatabase opertaion
+        /// </summary>
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> NewDatabaseThunk { get; set; }
+
+        /// <summary>
+        /// A mock call to BeginNewDatabase
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="input">the input object to pass through</param>
+        /// <param name="callback">the callback object to pass through</param>
+        /// <param name="state">the state object to pass through</param>
+        /// <returns>An <see cref="IAsyncResult"/> of the mock request</returns>
+        public IAsyncResult BeginNewDatabase(
+            string subscriptionId, 
+            string serverName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        /// <summary>
+        /// A mock call to EndNewDatabase
+        /// </summary>
+        /// <param name="asyncResult">The result of the mock BeginNewDatabase call</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/>: the result of calling the thunk on the input</returns>
+        public SqlDatabaseResponse EndNewDatabase(IAsyncResult asyncResult)
+        {
+            if (this.NewDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return this.NewDatabaseThunk(result);
+            }
+            else if (this.ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("NewDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
+        }
+
+        #endregion
+
+        #region UpdateDatabase
+
+        /// <summary>
+        /// Gets or sets the Thunk for the NewDatabase opertaion
+        /// </summary>
+        public Func<SimpleServiceManagementAsyncResult, SqlDatabaseResponse> UpdateDatabaseThunk { get; set; }
+
+        /// <summary>
+        /// A mock call to BeginUpdateDatabase
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="databaseName">The name of the database to pass through</param>
+        /// <param name="input">the input object to pass through</param>
+        /// <param name="callback">the callback object to pass through</param>
+        /// <param name="state">the state object to pass through</param>
+        /// <returns>An <see cref="IAsyncResult"/> of the mock request</returns>
+        public IAsyncResult BeginUpdateDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        /// <summary>
+        /// A mock call to EndUpdateDatabase
+        /// </summary>
+        /// <param name="asyncResult">The result of the mock BeginUpdateDatabase call</param>
+        /// <returns>A <see cref="SqlDatabaseResponse"/>: the result of calling the thunk on the input</returns>
+        public SqlDatabaseResponse EndUpdateDatabase(IAsyncResult asyncResult)
+        {
+            if (this.UpdateDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return this.UpdateDatabaseThunk(result);
+            }
+            else if (this.ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("UpdateDatabaseThunk is not implemented!");
+            }
+
+            return default(SqlDatabaseResponse);
+        }
+
+        #endregion
+
+        #region RemoveDatabase
+
+        /// <summary>
+        /// Gets or sets the Thunk for the RemoveDatabase opertaion
+        /// </summary>
+        public Action<SimpleServiceManagementAsyncResult> RemoveDatabaseThunk { get; set; }
+
+        /// <summary>
+        /// A mock call to BeginRemoveDatabase
+        /// </summary>
+        /// <param name="subscriptionId">The subscription Id to pass through</param>
+        /// <param name="serverName">The server name to pass through</param>
+        /// <param name="databaseName">The name of the database to pass through</param>
+        /// <param name="input">the input object to pass through</param>
+        /// <param name="callback">the callback object to pass through</param>
+        /// <param name="state">the state object to pass through</param>
+        /// <returns>An <see cref="IAsyncResult"/> of the mock request</returns>
+        public IAsyncResult BeginRemoveDatabase(
+            string subscriptionId, 
+            string serverName, 
+            string databaseName, 
+            SqlDatabaseInput input, 
+            AsyncCallback callback, 
+            object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serverName"] = serverName;
+            result.Values["databaseName"] = databaseName;
+            result.Values["input"] = input;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        /// <summary>
+        /// A mock call to EndRemoveDatabase
+        /// </summary>
+        /// <param name="asyncResult">The result of the mock BeginRemoveDatabase call</param>
+        public void EndRemoveDatabase(IAsyncResult asyncResult)
+        {
+            if (this.RemoveDatabaseThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                this.RemoveDatabaseThunk(result);
+            }
+            else if (this.ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("RemoveDatabaseThunk is not implemented!");
+            }
+        }
+
+        #endregion
+        
         #endregion
     }
 }
-

@@ -45,7 +45,11 @@ function Init-AzureSubscription
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $SerializedCert
+        $SerializedCert,
+        [Parameter(Mandatory=$false, Position=2)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+		$ServiceEndpoint
     )
     # Deserialize the input certificate given in base 64 format.
     # Install it in the cert store.
@@ -59,11 +63,25 @@ function Init-AzureSubscription
     $myCert = New-Object $X509Certificate2(,$bytes)
     $store = New-Object $X509Store($StoreName::My, $StoreLocation::CurrentUser)
     $store.Open($OpenFlags::ReadWrite)
-    $store.Add($myCert)
+	if($store.Certificates.Contains($myCert) -ne $true)
+	{
+		$store.Add($myCert)
+	}
     $store.Close()
     
     $subName = "MySub" + $SubscriptionID
-    Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert
+	
+	if($ServiceEndpoint)
+	{
+		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+			-ServiceEndpoint $ServiceEndpoint
+	}
+	else
+	{
+		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+			-ServiceEndpoint "https://management.core.windows.net"
+	}
+	
     Select-AzureSubscription -SubscriptionName $subName
 }
 
@@ -93,6 +111,22 @@ function Get-ServerContextByManageUrlWithSqlAuth
     $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential
     return $context
 }
+
+function Get-ServerContextByServerNameWithCertAuth
+{
+	[CmdletBinding()]
+	param
+	(
+		[Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $ServerName
+	)
+    
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
+    return $context
+}
+
 
 function Assert 
 {
@@ -272,24 +306,28 @@ function Validate-SqlDatabase
         [Parameter(Mandatory=$true, Position=7)]
         [ValidateNotNullOrEmpty()]
         [bool]
-        $ExpectedIsSystemObject
+        $ExpectedIsSystemObject,
+        [Parameter(Mandatory=$false, Position=8)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $Source
     )
 
     Assert {$actual} "SqlDatabaseServerContext is null"
     Assert {$actual.Name -eq $ExpectedName} "Database Name didn't match. Actual:[$($actual.Name)] `
-            expected:[$ExpectedRuleName]"
+            expected:[$ExpectedRuleName] | $Source"
     Assert {$actual.CollationName -eq $ExpectedCollationName} "CollationName didn't match. `
-            Actual:[$($actual.CollationName)] expected:[$ExpectedCollationName]"
+            Actual:[$($actual.CollationName)] expected:[$ExpectedCollationName] | $Source"
     Assert {$actual.Edition -eq $ExpectedEdition} "Edition didn't match. `
-            Actual:[$($actual.Edition)] expected:[$ExpectedEdition]"
+            Actual:[$($actual.Edition)] expected:[$ExpectedEdition] | $Source"
     Assert {$actual.MaxSizeGB -eq $ExpectedMaxSizeGB} "MaxSizeGB didn't match. `
-            Actual:[$($actual.MaxSizeGB)] expected:[$ExpectedMaxSizeGB]"
+            Actual:[$($actual.MaxSizeGB)] expected:[$ExpectedMaxSizeGB] | $Source"
     Assert {$actual.IsReadOnly -eq $ExpectedIsReadOnly} "IsReadOnly didn't match. `
-            Actual:[$($actual.IsReadOnly)] expected:[$ExpectedIsReadOnly]"
+            Actual:[$($actual.IsReadOnly)] expected:[$ExpectedIsReadOnly] | $Source"
     Assert {$actual.IsFederationRoot -eq $ExpectedIsFederationRoot} "IsFederationRoot didn't match. `
-            Actual:[$($actual.IsFederationRoot)] expected:[$ExpectedIsFederationRoot]"
+            Actual:[$($actual.IsFederationRoot)] expected:[$ExpectedIsFederationRoot] | $Source"
     Assert {$actual.IsSystemObject -eq $ExpectedIsSystemObject} "Edition didn't match. `
-            Actual:[$($actual.IsSystemObject)] expected:[$ExpectedIsSystemObject]"
+            Actual:[$($actual.IsSystemObject)] expected:[$ExpectedIsSystemObject] | $Source"
 }
 
 function Drop-Server
@@ -333,6 +371,28 @@ function Drop-Database
     }
 }
 
+function Drop-DatabaseWithServerName
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]
+        $ServerName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        $Database
+    )
+
+    if($Database)
+    {
+        # Drop Database
+        Write-Output "Dropping database $($Database.Name) ..."
+        Remove-AzureSqlDatabase -ServerName $ServerName -InputObject $Database -Force
+        Write-Output "Dropped database $($Database.Name)"
+    }
+}
+
 function Drop-Databases
 {
     [CmdletBinding()]
@@ -346,14 +406,31 @@ function Drop-Databases
         $NameStartsWith
     )
 
-    if($Database)
-    {
-        # Drop Database
-        Write-Output "Dropping databases with name starts with $NameStartsWith ..."
-        Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
-                    | Remove-AzureSqlDatabase -Context $context -Force
-        Write-Output "Dropped database with name starts with $NameStartsWith"
-    }
+    # Drop Database
+    Write-Output "Dropping databases with name starts with $NameStartsWith ..."
+    Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+                | Remove-AzureSqlDatabase -Context $context -Force
+    Write-Output "Dropped database with name starts with $NameStartsWith"
+}
+
+function Drop-DatabasesWithServerName
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]
+        $ServerName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [String]
+        $NameStartsWith
+    )
+
+    # Drop Database
+    Write-Output "Dropping databases with name starts with $NameStartsWith ..."
+    (Get-AzureSqlDatabase $ServerName) | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
+                | Remove-AzureSqlDatabase -Force
+    Write-Output "Dropped database with name starts with $NameStartsWith"
 }
 
 function Write-TestResult

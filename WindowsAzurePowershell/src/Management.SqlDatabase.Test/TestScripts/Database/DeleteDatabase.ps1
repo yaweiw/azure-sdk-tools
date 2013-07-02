@@ -30,7 +30,23 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Password
+    $Password,
+    [Parameter(Mandatory=$true, Position=1)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $ServerName,
+    [Parameter(Mandatory=$true, Position=2)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SubscriptionID,
+    [Parameter(Mandatory=$true, Position=3)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -38,38 +54,78 @@ Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
 Write-Output "`$UserName=$UserName"
 Write-Output "`$Password=$Password"
+Write-Output "`$ServerName=$ServerName"
+Write-Output "`$SubscriptionID=$SubscriptionID"
+Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
+
 . .\CommonFunctions.ps1
+. .\Database\DeleteDatabase-ScenarioFunctions.ps1
 
 Try
 {
 	Init-TestEnvironment
-    $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
-    
-    # Delete database by pasing database object
-    Write-Output "Deleting Database by passing Database object ..."
-    Remove-AzureSqlDatabase $context $database -Force
-    Write-Output "Done"
-    
-    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
-    Assert {!$getDroppedDatabase} "Database is not dropped"
-    
-    # Delete database by pasing database name
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Write-Output "Deleting Database by passing Database Name ..."
-    Remove-AzureSqlDatabase $context $database.Name -Force
-    Write-Output "Done"
-    
-    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
-    Assert {!$getDroppedDatabase} "Database is not dropped"    
+	$database = $null
+
+	# Delete with Sql Auth
+	try
+	{
+		$context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl `
+			-UserName $UserName -Password $Password
+		
+		Scenerio1-DeleteByName -Context $context
+
+		Scenerio2-DeleteByObject -Context $context
+	}
+	finally
+	{
+		# Drop Database
+		Drop-Databases $Context $Name
+	}
+	
+	
+	# Delete with Cert Auth
+	try
+	{
+		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+		$sub = Get-AzureSubscription -Current
+
+		$context = Get-ServerContextByServerNameWithCertAuth $ServerName
+		
+		Scenerio1-DeleteByName -Context $context
+
+		Scenerio2-DeleteByObject -Context $context
+	}
+	finally
+	{
+		# Drop Database
+		Drop-Databases $Context $Name
+		Remove-AzureSubscription $sub.SubscriptionName -Force
+	}
+	
+	# Delete with Cert Auth With Server Name
+	try
+	{
+		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+		$sub = Get-AzureSubscription -Current
+		
+		Scenerio1-DeleteByName -ServerName $ServerName
+
+		Scenerio2-DeleteByObject -ServerName $ServerName
+	}
+	finally
+	{
+		# Drop Database
+		Drop-Databases $Context $Name
+		Remove-AzureSubscription $sub.SubscriptionName -Force
+	}
+	
+	  
     $IsTestPass = $True
 }
 Finally
 {
-    if($database)
-    {
-        # Drop Database
-        Drop-Databases $Context $Name
-    }
+    # Drop Database
+    Drop-Databases $Context $Name
 }
 Write-TestResult $IsTestPass
