@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
+            Site site = WebsiteChannel.GetSiteWithCache(
                 subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository TryGetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
+            Site site = WebsiteChannel.GetSiteWithCache(
                 subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
@@ -378,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
-            Site website = WebsiteChannel.GetSite(subscriptionId, name, null);
+            Site website = WebsiteChannel.GetSiteWithCache(subscriptionId, name, null);
 
             if (website == null)
             {
