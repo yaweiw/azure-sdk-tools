@@ -75,7 +75,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
             }
 
-            if (!Channel.ListServiceBusRegions(subscriptionId).Contains(new ServiceBusRegion { Code = region }))
+            if (!Channel.ListServiceBusRegions(subscriptionId)
+                .Exists(r => r.Code.Equals(region, StringComparison.OrdinalIgnoreCase)))
             {
                 throw new ArgumentException(string.Format(Resources.InvalidServiceBusLocation, region), "Location");
             }
