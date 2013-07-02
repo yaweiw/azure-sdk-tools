@@ -142,5 +142,36 @@ namespace Microsoft.WindowsAzure.Management.Test.ServiceBus
 
             Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
         }
+
+        [TestMethod]
+        public void CreatesNewSBCaseInsensitiveRegion()
+        {
+            // Setup
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+            string name = "test";
+            string location = "West US";
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel)
+            {
+                Name = name,
+                Location = "west Us",
+                CommandRuntime = mockCommandRuntime
+            };
+            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
+            channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
+            channel.ListServiceBusRegionsThunk = lsbr =>
+            {
+                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
+                list.Add(new ServiceBusRegion { Code = location });
+                return list;
+            };
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
+            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+        }
     }
 }
