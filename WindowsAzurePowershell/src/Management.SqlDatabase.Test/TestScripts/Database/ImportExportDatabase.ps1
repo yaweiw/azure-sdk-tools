@@ -109,8 +109,10 @@ Try
     # Export Database
 	
 	$status = $null
-
+    
+    ###########
 	#Test the first parameter set
+
     $BlobName = $DatabaseName1 + ".bacpac"
 	Write-Output "Exporting to Blob:  $BlobName"
 	
@@ -134,7 +136,9 @@ Try
 		Write-Output "Request1 Status: $s"
 	} while($status.Status -ne "Completed")
 
+    ###########
 	# Test the second parameter set
+
     $BlobName2 = $DatabaseName2 + ".bacpac"
 	Write-Output "Exporting to Blob: $BlobName2"
 
@@ -147,7 +151,8 @@ Try
 	do
 	{
 		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus $Request2
+		$status = Get-AzureSqlDatabaseImportExportStatus -RequestId $Request2.RequestGuid `
+            -ServerName $server.ServerName -UserName $UserName -Password $Password
 		$s = $status.Status
 		Write-Output "Request2 Status: $s"
 	} while($status.Status -ne "Completed")
