@@ -3705,13 +3705,6 @@
       <command:syntaxItem>
         <maml:name>Publish-AzureServiceProject</maml:name>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>Subscription</maml:name>
-          <maml:description>
-            <maml:para>The Windows Azure subscription name to be used while deploying this service. If no Subscription parameter is specified, the value will be taken from the last Set-AzureServiceProject command issued for this service, or, if no subscription was ever specified, it will default to the first subscription listed in the current windows Azure publish profile.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>The name to be used for the service when publishing to the cloud. The name determines the subdomain label in the cloudapp.net subdomain that will be used to address the service when hosted in Azure (that is, &lt;Name&gt;.cloudapp.net). Any name specified while publishing the service will override the name given when creating the service (see the New-AzureServiceProject commandlet).</maml:para>
@@ -3746,33 +3739,22 @@
           </maml:description>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>TimeoutSeconds</maml:name>
+          <maml:name>AffinityGroup</maml:name>
           <maml:description>
-            <maml:para>The timeout in seconds for service deployment operations</maml:para>
+            <maml:para>The affinity group name</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>Force</maml:name>
+          <maml:name>DeploymentName</maml:name>
           <maml:description>
-            <maml:para>Publish service without confirmation prompts</maml:para>
+            <maml:para>The deployment name</maml:para>
           </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Subscription</maml:name>
-        <maml:description>
-          <maml:para>The Windows Azure subscription name to be used while deploying this service. If no Subscription parameter is specified, the value will be taken from the last Set-AzureServiceProject command issued for this service, or, if no subscription was ever specified, it will default to the first subscription listed in the current windows Azure publish profile.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue>value taken from current service settings or the current publish profile</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
@@ -3832,28 +3814,19 @@
         </dev:type>
         <dev:defaultValue>Off</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>TimeoutSeconds</maml:name>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+        <maml:name>AffinityGroup</maml:name>
         <maml:description>
-          <maml:para>The timeout in seconds for service deployment operations</maml:para>
+          <maml:para>The affinity group name</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Force</maml:name>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+        <maml:name>DeploymentName</maml:name>
         <maml:description>
-          <maml:para>Publish service without confirmation prompts</maml:para>
+          <maml:para>The deployment name</maml:para>
         </maml:description>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
