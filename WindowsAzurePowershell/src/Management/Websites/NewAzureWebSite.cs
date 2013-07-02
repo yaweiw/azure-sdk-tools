@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             }
 
             WebSpaces webspaceList = null;
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
             if (Git && webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -304,12 +304,6 @@ namespace Microsoft.WindowsAzure.Management.Websites
             try
             {
                 InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
-
-                // If operation succeeded try to update cache with new webspace if that's the case
-                if (webspaceList.FirstOrDefault(ws => ws.Name.Equals(webspace.Name)) == null)
-                {
-                    Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
-                }
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
                 SiteConfig websiteConfiguration = null;

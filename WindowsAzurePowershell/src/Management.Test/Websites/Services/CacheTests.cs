@@ -73,56 +73,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
         }
 
         [TestMethod]
-        public void GetEmptyWebspaceTest()
-        {
-            WebSpaces getWebSpaces = Cache.GetWebSpaces("NotExisting");
-            Assert.IsNotNull(getWebSpaces);
-            Assert.AreEqual<int>(0, getWebSpaces.Count);
-        }
-
-        [TestMethod]
-        public void AddWebSpaceTest()
-        {
-            WebSpace webSpace = new WebSpace {Name = "newwebspace"};
-            // Add without any cache from before
-            Cache.AddWebSpace(SubscriptionName, webSpace);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-        }
-
-        [TestMethod]
-        public void RemoveWebSpaceTest()
-        {
-            WebSpace webSpace = new WebSpace { Name = "newwebspace" };
-            // Add without any cache from before
-            Cache.AddWebSpace(SubscriptionName, webSpace);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-
-            // Now remove it
-            Cache.RemoveWebSpace(SubscriptionName, webSpace);
-            getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-        }
-
-        [TestMethod]
-        public void GetSetWebSpacesTest()
-        {
-            // Test no webspaces
-            Assert.AreEqual<int>(0, Cache.GetWebSpaces(SubscriptionName).Count);
-
-            // Test valid webspaces
-            WebSpaces webSpaces = new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" }});
-            Cache.SaveSpaces(SubscriptionName, webSpaces);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace1")));
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace2")));
-        }
-
-        [TestMethod]
         public void AddSiteTest()
         {
             Site site = new Site { Name = "newsite" };
