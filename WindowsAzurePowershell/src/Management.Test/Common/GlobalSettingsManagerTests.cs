@@ -309,6 +309,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             string path = Path.Combine(Directory.GetCurrentDirectory(), "New Windows Azure PowerShell");
             GlobalPathInfo.GlobalSettingsDirectory = path;
             Assert.AreEqual(2, GlobalSettingsManager.Instance.GetEnvironments().Count);
+            Assert.AreEqual(0, GlobalSettingsManager.Instance.Subscriptions.Count);
 
             // Test
             GlobalSettingsManager.Instance.AddEnvironment("test", "url1", "url2");
