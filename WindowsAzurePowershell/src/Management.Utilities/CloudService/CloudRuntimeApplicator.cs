@@ -23,8 +23,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     public class CloudRuntimeApplicator
     {
         CloudRuntime Runtime { get; set; }
+
         CloudRuntimePackage Package { get; set; }
+
         WebRole WebRole { get; set; }
+
         WorkerRole WorkerRole { get; set; }
 
         private CloudRuntimeApplicator()

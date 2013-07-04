@@ -354,6 +354,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     WebRole web = (this.Components.Definition.WebRole == null ? null :
                         this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
                             StringComparison.OrdinalIgnoreCase)));
+                    desiredRuntime.CloudServiceProject = this;
                     if (worker != null)
                     {
                         desiredRuntime.ApplyRuntime(foundPackage, worker);
@@ -400,6 +401,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
+                        runtime.CloudServiceProject = this;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                         {
                             string warning;
@@ -428,6 +430,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
+                        runtime.CloudServiceProject = this;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                         {
                             string warning;

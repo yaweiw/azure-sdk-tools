@@ -117,7 +117,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         /// <param name="manifest">The manifest containing available runtimes, defaults to the cloud manifest
         /// mainly used a s a test hook</param>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public RoleSettings SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
+        public RoleSettings SetAzureRuntimesProcess(
+            string roleName,
+            string runtimeType,
+            string runtimeVersion,
+            string rootPath,
+            string manifest = null)
         {
             CloudServiceProject service = new CloudServiceProject(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
