@@ -25,7 +25,6 @@ function Init-TestEnvironment
     $WarningPreference = "Continue"
     $WhatIfPreference = $false
 
-    
     # Setting to continue because WA sets a bunch of aliases which ask for 
     # confirmation when running the functional tests.
     $ConfirmPreference = "Continue"
@@ -130,7 +129,6 @@ function Get-ServerContextByServerNameWithCertAuth
     $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
     return $context
 }
-
 
 function Assert 
 {
