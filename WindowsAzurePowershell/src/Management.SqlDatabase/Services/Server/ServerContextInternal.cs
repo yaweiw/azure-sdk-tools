@@ -4889,8 +4889,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     public abstract partial class ServerContextInternal
     {
         public readonly string[] metadataHashes = new string[]{ "5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9", 
-                                                                "68BA8B4EB74E0C5A91D0A734B742001018A9F9D2",
-                                                                "80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F",
-                                                                "3070BEE06139E0754E2F022E56E9798BF8A57F30"};
+        "68BA8B4EB74E0C5A91D0A734B742001018A9F9D2",
+        "80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F",
+        "3070BEE06139E0754E2F022E56E9798BF8A57F30"};
     }
 }

@@ -36,27 +36,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.EndpointProtocol.ToString()));
             this.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm));
-
-            if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalanced)
+            if (endPointConfig.Acl != null)
             {
-                this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
+                this.cmdletParams.Add(new CmdletParam("ACL", endPointConfig.Acl));
             }
-            else if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalancedProbe)
+            if (endPointConfig.DirectServerReturn)
             {
-                this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
-                this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort));
-                this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString()));
-                this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
-
-                if (endPointConfig.ProbeInterval.HasValue)
-                {
-                    this.cmdletParams.Add(new CmdletParam("ProbeIntervalInSeconds", endPointConfig.ProbeInterval));
-                }
-
-                if (endPointConfig.ProbeTimeout.HasValue)
-                {
-                    this.cmdletParams.Add(new CmdletParam("ProbeTimeoutInSeconds", endPointConfig.ProbeTimeout));
-                }
+                this.cmdletParams.Add(new CmdletParam("DirectServerReturn", endPointConfig.DirectServerReturn));
             }
         }
     }

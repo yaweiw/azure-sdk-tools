@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 this.cmdletParams.Add(new CmdletParam("Label", label));
             }
-            if (label != null)
+            if (description != null)
             {
                 this.cmdletParams.Add(new CmdletParam("Description", description));
             }

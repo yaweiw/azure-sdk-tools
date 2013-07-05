@@ -25,20 +25,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionId, null, null));
         }
 
-        public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionId)
-        {
-            WebSpaces webSpaces = Cache.GetWebSpaces(subscriptionId);
-            if (webSpaces != null && webSpaces.Count > 0)
-            {
-                return webSpaces;
-            }
-
-            webSpaces = GetWebSpaces(proxy, subscriptionId);
-            Cache.SaveSpaces(subscriptionId, webSpaces);
-
-            return webSpaces;
-        }
-
         public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionId, string name)
         {
             return proxy.EndGetWebSpace(proxy.BeginGetWebSpace(subscriptionId, name, null, null));
@@ -114,9 +100,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
-        public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
+        public static Site GetSiteWithCache(
+            this IWebsitesServiceManagement proxy,
+            string subscriptionId,
+            string website,
+            string propertiesToInclude)
         {
-            // Try to find webspace for site from cache
+            // Try to get the website's webspace from the cache
             Site site = Cache.GetSite(subscriptionId, website, propertiesToInclude);
             if (site != null)
             {
@@ -126,16 +116,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                 }
                 catch
                 {
+                    // The website is removed or it's webspace changed.
                     Cache.RemoveSite(subscriptionId, site);
                     throw;
                 }
             }
 
-            // If site was not in cache, find out in which webspace it could be
-            var webspaces = proxy.GetWebSpacesWithCache(subscriptionId);
-            foreach (var webspace in webspaces)
+            // Get all available webspace using REST API
+            WebSpaces webspaces = proxy.GetWebSpaces(subscriptionId);
+
+            // Iterate over all the webspaces until finding the website.
+            foreach (WebSpace webspace in webspaces)
             {
-                var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
+                Sites websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website, System.StringComparison.InvariantCultureIgnoreCase));
                 if (matchWebsite != null)
                 {
@@ -143,6 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                 }
             }
 
+            // The website does not exist.
             return null;
         }
     }

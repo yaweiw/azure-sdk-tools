@@ -12,13 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
+    using System;
+    using System.Linq;
+    using System.Globalization;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
     using Model;
+    using Properties;
 
     [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StopAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -49,6 +53,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 2, HelpMessage = "Keeps the VM provisioned")]
+        public SwitchParameter StayProvisioned
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, HelpMessage = "Allows the deallocation of last VM in a deployment")]
+        public SwitchParameter Force
+        {
+            get;
+            set;
+        }
+
         internal override void ExecuteCommand()
         {
             base.ExecuteCommand();
@@ -59,7 +77,44 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             }
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
+
+            var roleInstance = CurrentDeployment.RoleInstanceList.Where(r => r.RoleName != null).
+                FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+
+            if (roleInstance == null)
+            {
+                throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
+            }
+
+            if(StayProvisioned.IsPresent)
+            {
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.Stopped));
+            }
+            else
+            {
+                
+                if(!Force.IsPresent && IsLastVmInDeployment())
+                {
+                    ConfirmAction(false,
+                        Resources.DeploymentVIPLossWarning,
+                        string.Format(Resources.DeprovisioningVM, roleName),
+                        String.Empty,
+                        () =>
+                            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated))
+                        );
+                }
+                else
+                {
+                    ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated));
+                }
+            }
+        }
+
+        private bool IsLastVmInDeployment()
+        {
+            Func<RoleInstance, bool> roleNotStoppedDeallocated = r => String.Compare(r.InstanceStatus, PostShutdownAction.StoppedDeallocated.ToString(), true, CultureInfo.InvariantCulture) != 0;
+            bool result = CurrentDeployment.RoleInstanceList.Count(roleNotStoppedDeallocated) <= 1;
+            return result;
         }
     }
 }

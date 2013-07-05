@@ -12,29 +12,93 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
 
+    /// <summary>
+    /// Functional tests for Database CRUD operations
+    /// </summary>
     [TestClass]
     public class DatabaseTest
     {
-        private string userName;
-        private string password;
-        private string manageUrl;
+        #region Test Script Locations
 
+        /// <summary>
+        /// Scripts for doing context creation tests
+        /// </summary>
         private const string CreateContextScript = @"Database\CreateContext.ps1";
+
+        /// <summary>
+        /// Script for doing Create and Get database tests with SQL authentication
+        /// </summary>
         private const string CreateScript = @"Database\CreateAndGetDatabase.ps1";
+
+        /// <summary>
+        /// Scripts for doing database update tests
+        /// </summary>
         private const string UpdateScript = @"Database\UpdateDatabase.ps1";
+
+        /// <summary>
+        /// Scripts for doing delete database tests
+        /// </summary>
         private const string DeleteScript = @"Database\DeleteDatabase.ps1";
+
+        /// <summary>
+        /// Tests for doing format validation tests 
+        /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
 
+        #endregion
+
+        /// <summary>
+        /// The end point to use for the tests
+        /// </summary>
+        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
+
+        #region Private Fields
+
+        /// <summary>
+        /// Username to use for running the tests
+        /// </summary>
+        private string userName;
+
+        /// <summary>
+        /// Password to use for running the tests
+        /// </summary>
+        private string password;
+
+        /// <summary>
+        /// ManageUrl to use when running the tests
+        /// </summary>
+        private string manageUrl;
+
+        /// <summary>
+        /// Subscription Id to use when running the tests
+        /// </summary>
+        private string subscriptionId;
+
+        /// <summary>
+        /// Serialized Certificate to use when running the tests
+        /// </summary>
+        private string serializedCert;
+
+        /// <summary>
+        /// The server name to use when running the tests
+        /// </summary>
+        private string serverName;
+
+        #endregion
+        
+        /// <summary>
+        /// Get the necessary variables from settings file for the tests
+        /// </summary>
         [TestInitialize]
         public void Setup()
         {
@@ -42,69 +106,108 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
+            this.subscriptionId = root.Element("SubscriptionID").Value;
+            this.serializedCert = root.Element("SerializedCert").Value;
+            this.serverName = new Uri(manageUrl).Host.Split('.').First();
         }
 
+        /// <summary>
+        /// Tests context creation
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateContext()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\"",
+                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" "
+                + "-SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.subscriptionId,
+                this.serializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(
                 DatabaseTest.CreateContextScript,
                 arguments);
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests creating a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
-        public void CreateDatabase()
+        public void CreateAndGetDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                +  "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testcreatedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScript, arguments);
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests updating a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void UpdateDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testupdatedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScript, arguments);
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Tests removing a database using SQL authentication
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void DeleteDatabase()
         {
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
-                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
+                + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-Endpoint \"{7}\"",
                 "testDeletedbfromcmdlet",
                 this.manageUrl,
                 this.userName,
-                this.password);
+                this.password,
+                this.serverName,
+                this.subscriptionId,
+                this.serializedCert,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScript, arguments);
             Assert.IsTrue(testResult);
         }
 
+        /// <summary>
+        /// Validates the object output format
+        /// </summary>
         [TestMethod]
         [TestCategory("Functional")]
         public void OutputObjectFormatValidation()

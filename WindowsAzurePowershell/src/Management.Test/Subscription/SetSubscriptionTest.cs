@@ -38,7 +38,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
         [TestMethod]
         public void TestSetDefaultSubscription()
         {
-            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(
+                GlobalPathInfo.GlobalSettingsDirectory,
+                null,
+                Data.ValidPublishSettings.First());
 
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
@@ -51,13 +54,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.AreEqual("TestSubscription1", setSubscriptionCommand.GetSubscriptions(null).Values.Single(sub => sub.IsDefault).SubscriptionName);
 
             // Clean
-            globalComponents.DeleteGlobalComponents();
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
 
         [TestMethod]
         public void TestResetDefaultSubscription()
         {
-            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
@@ -74,13 +77,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.AreEqual("Windows Azure Sandbox 9-220", setSubscriptionCommand.GetSubscriptions(null).Values.Single(sub => sub.IsDefault).SubscriptionName);
 
             // Clean
-            globalComponents.DeleteGlobalComponents();
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
 
         [TestMethod]
         public void TestUpdateSubscription()
         {
-            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
@@ -94,13 +97,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.AreEqual("newEndpoint", updatedSubscription.ServiceEndpoint);
 
             // Clean
-            globalComponents.DeleteGlobalComponents();
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
 
         [TestMethod]
         public void TestCreateSubscription()
         {
-            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+            var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
@@ -115,16 +118,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.AreEqual("storage", updatedSubscription.CurrentStorageAccount);
 
             // Clean
-            globalComponents.DeleteGlobalComponents();
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
 
         [TestMethod]
-        public void TestCreateSubscriptionNoImport()
+        public void CreatesNewSubscriptionOnCleanMachine()
         {
             var setSubscriptionCommand = new SetSubscriptionCommandStub();
 
             // Check that we cant get a current subscription as there is no working directory
-            Assert.IsNull(setSubscriptionCommand.GetCurrentSubscription());
+            Assert.IsNotNull(GlobalSettingsManager.Instance.SubscriptionManager);
 
             // Create a new subscription and a new working directory implicitly.
             var publishSettings = General.DeserializeXmlFile<PublishData>(Data.ValidPublishSettings.First(), string.Empty);
@@ -136,8 +139,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.AreEqual("newEndpoint", updatedSubscription.ServiceEndpoint);
 
             // Clean
-            var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
-            globalComponents.DeleteGlobalComponents();
+            var globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
+            globalSettingsManager.DeleteGlobalSettingsManager();
         }
     }
 

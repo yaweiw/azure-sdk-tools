@@ -23,52 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
 
     public static class Cache
     {
-        public static void AddWebSpace(string subscriptionId, WebSpace webSpace)
-        {
-            WebSpaces webSpaces = GetWebSpaces(subscriptionId);
-            if (webSpaces == null)
-            {
-                webSpaces = new WebSpaces();
-            }
-
-            webSpaces.Add(webSpace);
-            SaveSpaces(subscriptionId, webSpaces);
-        }
-
-        public static void RemoveWebSpace(string subscriptionId, WebSpace webSpace)
-        {
-            WebSpaces webSpaces = GetWebSpaces(subscriptionId);
-            if (webSpaces == null)
-            {
-                return;
-            }
-
-            webSpaces.RemoveAll(ws => ws.Name.Equals(webSpace.Name));
-            SaveSpaces(subscriptionId, webSpaces);
-        }
-
-        public static WebSpaces GetWebSpaces(string subscriptionId)
-        {
-            try
-            {
-                string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
-                                                    string.Format("spaces.{0}.json", subscriptionId));
-                if (!File.Exists(webspacesFile))
-                {
-                    return new WebSpaces();
-                }
-
-                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-                List<WebSpace> webSpaces =
-                    javaScriptSerializer.Deserialize<List<WebSpace>>(File.ReadAllText(webspacesFile));
-                return new WebSpaces(webSpaces);
-            }
-            catch
-            {
-                return new WebSpaces();
-            }
-        }
-
         public static void AddSite(string subscriptionId, Site site)
         {
             Sites sites = GetSites(subscriptionId);
@@ -108,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         {
             try
             {
-                string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string sitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                 string.Format("sites.{0}.json", subscriptionId));
                 if (!File.Exists(sitesFile))
                 {
@@ -125,34 +79,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             }
         }
 
-        public static void SaveSpaces(string subscriptionId, WebSpaces webSpaces)
-        {
-            try
-            {
-                string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
-                                                    string.Format("spaces.{0}.json", subscriptionId));
-                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-
-                // Make sure path exists
-                Directory.CreateDirectory(GlobalPathInfo.AzureAppDir);
-                File.WriteAllText(webspacesFile, javaScriptSerializer.Serialize(webSpaces));
-            }
-            catch
-            {
-                // Do nothing. Caching is optional.
-            }
-        }
-
         public static void SaveSites(string subscriptionId, Sites sites)
         {
             try
             {
-                string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+                string sitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                 string.Format("sites.{0}.json", subscriptionId));
                 JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
 
                 // Make sure path exists
-                Directory.CreateDirectory(GlobalPathInfo.AzureAppDir);
+                Directory.CreateDirectory(GlobalPathInfo.GlobalSettingsDirectory);
                 File.WriteAllText(sitesFile, javaScriptSerializer.Serialize(sites));
             }
             catch

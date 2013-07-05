@@ -127,8 +127,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             if (!string.IsNullOrEmpty(subscriptionName))
             {
-                GlobalComponents globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
-                CurrentSubscription = globalComponents.Subscriptions.Values.First(sub => sub.SubscriptionName == subscriptionName);
+                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
+                CurrentSubscription = globalSettingsManager.Subscriptions.Values.First(sub => sub.SubscriptionName == subscriptionName);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new ArgumentException(Resources.InvalidCurrentSuscriptionCertificate);
             }
 
-            if (String.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
+            if (string.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscriptionId);
             }
@@ -201,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 return Channel;
             }
             
-            return ServiceManagementHelper.CreateServiceManagementChannel<T>(
+            return ChannelHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,

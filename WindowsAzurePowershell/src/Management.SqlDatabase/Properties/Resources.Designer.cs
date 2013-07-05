@@ -170,6 +170,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Parameter combination: {0} and {1} parameters cannot be used together..
+        /// </summary>
+        internal static string InvalidParameterCombination {
+            get {
+                return ResourceManager.GetString("InvalidParameterCombination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database..
         /// </summary>
         internal static string NewAzureSqlDatabaseDescription {

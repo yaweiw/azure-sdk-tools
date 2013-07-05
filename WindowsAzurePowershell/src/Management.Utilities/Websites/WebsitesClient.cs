@@ -18,34 +18,39 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Linq;
+    using System.Text;
     using System.Web;
+    using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json.Linq;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     public class WebsitesClient : IWebsitesClient
     {
+        private string subscriptionId;
+
+        private CloudServiceClient cloudServiceClient;
+
+        public const string WebsitesServiceVersion = "2012-12-01";
+
         public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
 
         public IServiceManagement ServiceManagementChannel { get; internal set; }
 
-        public string SubscriptionId { get; set; }
+        public SubscriptionData Subscription { get; set; }
 
         public Action<string> Logger { get; set; }
 
-        /// <summary>
-        /// Parameterless constructor for mocking.
-        /// </summary>
-        public WebsitesClient()
-        {
-
-        }
+        public HeadersInspector HeadersInspector { get; set; }
 
         /// <summary>
         /// Creates new WebsitesClient.
@@ -54,19 +59,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="logger">The logger action</param>
         public WebsitesClient(SubscriptionData subscription, Action<string> logger)
         {
-            SubscriptionId = subscription.SubscriptionId;
+            subscriptionId = subscription.SubscriptionId;
+            Subscription = subscription;
             Logger = logger;
-            WebsiteChannel = ServiceManagementHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
+            HeadersInspector = new HeadersInspector();
+            HeadersInspector.RequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
+            HeadersInspector.RequestHeaders.Add(ApiConstants.UserAgentHeaderName, ApiConstants.UserAgentHeaderValue);
+            HeadersInspector.RemoveHeaders.Add(ApiConstants.VSDebuggerCausalityDataHeaderName);
+            WebsiteChannel = ChannelHelper.CreateChannel<IWebsitesServiceManagement>(
+                ConfigurationConstants.WebHttpBinding(),
+                new Uri(subscription.ServiceEndpoint),
+                subscription.Certificate,
+                HeadersInspector,
+                new HttpRestMessageInspector(logger));
+
+            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
                 new HttpRestMessageInspector(logger));
 
-            ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
-                ConfigurationConstants.WebHttpBinding(),
-                new Uri(subscription.ServiceEndpoint),
-                subscription.Certificate,
-                new HttpRestMessageInspector(logger));
+            cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
         }
 
         /// <summary>
@@ -80,8 +93,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
-                SubscriptionId,
+            Site site = WebsiteChannel.GetSiteWithCache(
+                subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
             if (site != null)
@@ -94,8 +107,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository TryGetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
-                SubscriptionId,
+            Site site = WebsiteChannel.GetSiteWithCache(
+                subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
             if (site != null)
@@ -106,12 +119,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return null;
         }
 
-        private HttpClient CreateHttpClient(string websiteName)
+        private HttpClient CreateDeploymentHttpClient(string websiteName)
         {
             Repository repository;
             ICredentials credentials;
             websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
             return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
+        }
+
+        private HttpClient CreateWebsitesHttpClient()
+        {
+            WebRequestHandler requestHandler = new WebRequestHandler();
+            requestHandler.ClientCertificates.Add(Subscription.Certificate);
+            StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
+            endpoint.Append(subscriptionId);
+            endpoint.Append("/services/");
+            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
+            client.DefaultRequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
+
+            return client;
         }
 
         private string GetWebsiteDeploymentHttpConfiguration(
@@ -135,7 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         private void ChangeWebsiteState(string name, string webspace, WebsiteState state)
         {
             Site siteUpdate = new Site { Name = name, State = state.ToString() };
-            WebsiteChannel.UpdateSite(SubscriptionId, webspace, name, siteUpdate);
+            WebsiteChannel.UpdateSite(subscriptionId, webspace, name, siteUpdate);
         }
 
         private void SetApplicationDiagnosticsSettings(
@@ -146,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             Site website = GetWebsite(name);
 
-            using (HttpClient client = CreateHttpClient(website.Name))
+            using (HttpClient client = CreateDeploymentHttpClient(website.Name))
             {
                 DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
                 switch (output)
@@ -164,16 +190,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
                             string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
-
-                            StorageService storageService = ServiceManagementChannel.GetStorageKeys(
-                                SubscriptionId,
+                            string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
                                 storageAccountName);
-                            StorageCredentials credentials = new StorageCredentials(
-                                storageAccountName,
-                                storageService.StorageServiceKeys.Primary);
-                            CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
-                            string connectionString = cloudStorageAccount.ToString(true);
-                            AddAppSetting(website.Name, storageTableName, connectionString);
+                            SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
+                            
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
                                 (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
                                 diagnosticsSettings.AzureTableTraceLevel;
@@ -184,11 +204,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         throw new ArgumentException();
                 }
 
-                JObject json = new JObject();
-                json[UriElements.AzureDriveTraceEnabled] = diagnosticsSettings.AzureDriveTraceEnabled;
-                json[UriElements.AzureDriveTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureDriveTraceLevel);
-                json[UriElements.AzureTableTraceEnabled] = diagnosticsSettings.AzureTableTraceEnabled;
-                json[UriElements.AzureTableTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureTableTraceLevel);
+                JObject json = new JObject(
+                    new JProperty(UriElements.AzureDriveTraceEnabled, diagnosticsSettings.AzureDriveTraceEnabled),
+                    new JProperty(UriElements.AzureDriveTraceLevel, diagnosticsSettings.AzureDriveTraceLevel.ToString()),
+                    new JProperty(UriElements.AzureTableTraceEnabled, diagnosticsSettings.AzureTableTraceEnabled),
+                    new JProperty(UriElements.AzureTableTraceLevel, diagnosticsSettings.AzureTableTraceLevel.ToString()));
                 client.PostAsJsonAsync(UriElements.DiagnosticsSettings, json, Logger);
             }
         }
@@ -202,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                SubscriptionId,
+                subscriptionId,
                 website.WebSpace,
                 website.Name);
 
@@ -211,7 +231,32 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 configuration.DetailedErrorLoggingEnabled;
             configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
             
-            WebsiteChannel.UpdateSiteConfig(SubscriptionId, website.WebSpace, website.Name, configuration);
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Gets the index of an application setting. Returns -1 if not found.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="key">the applicationsetting key</param>
+        /// <returns>The application setting index</returns>
+        private int GetAppSettingIndex(string name, string key)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId,
+                website.WebSpace,
+                website.Name);
+
+            for (int i = 0; i < configuration.AppSettings.Count; i++)
+            {
+                if (configuration.AppSettings[i].Name.Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -269,7 +314,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public List<LogPath> ListLogPaths(string name)
         {
             List<LogPath> logPaths = new List<LogPath>();
-            using (HttpClient client = CreateHttpClient(name))
+            using (HttpClient client = CreateDeploymentHttpClient(name))
             {
                 logPaths = client.GetJson<List<LogPath>>(UriElements.LogPaths, Logger);
             }
@@ -286,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         {
             DiagnosticsSettings diagnosticsSettings = null;
 
-            using (HttpClient client = CreateHttpClient(name))
+            using (HttpClient client = CreateDeploymentHttpClient(name))
             {
                 diagnosticsSettings = client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
             }
@@ -333,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
-            Site website = WebsiteChannel.GetSite(SubscriptionId, name, null);
+            Site website = WebsiteChannel.GetSiteWithCache(subscriptionId, name, null);
 
             if (website == null)
             {
@@ -351,7 +396,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public SiteWithConfig GetWebsiteConfiguration(string name)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(SubscriptionId, website.WebSpace, website.Name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(subscriptionId, website.WebSpace, website.Name);
             DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
             SiteWithConfig siteWithConfig = new SiteWithConfig(website, configuration, diagnosticsSettings);
 
@@ -359,20 +404,63 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         /// <summary>
-        /// Adds an AppSetting of a website.
+        /// Sets an AppSetting of a website.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        public void AddAppSetting(string name, string key, string value)
+        public void SetAppSetting(string name, string key, string value)
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                SubscriptionId,
+                subscriptionId,
                 website.WebSpace,
                 website.Name);
-            configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
-            WebsiteChannel.UpdateSiteConfig(SubscriptionId, website.WebSpace, website.Name, configuration);
+
+            int index = GetAppSettingIndex(name, key);
+
+            if (index != -1)
+            {
+                configuration.AppSettings[index].Value = value;
+            }
+            else
+            {
+                configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
+            }
+            
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+        }
+
+        /// <summary>
+        /// Sets a connection string for a website.
+        /// </summary>
+        /// <param name="name">Name of the website.</param>
+        /// <param name="key">Connection string key.</param>
+        /// <param name="value">Value for the connection string.</param>
+        /// <param name="connectionStringType">Type of connection string.</param>
+        public void SetConnectionString(string name, string key, string value, DatabaseType connectionStringType)
+        {
+            Site website = GetWebsite(name);
+            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
+                subscriptionId, website.WebSpace, website.Name);
+
+            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
+            if (index == -1)
+            {
+                configuration.ConnectionStrings.Add(new ConnStringInfo()
+                {
+                    Name = key,
+                    ConnectionString =  value,
+                    Type = connectionStringType
+                });
+            }
+            else
+            {
+                configuration.ConnectionStrings[index].ConnectionString = value;
+                configuration.ConnectionStrings[index].Type = connectionStringType;
+            }
+
+            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
         }
 
         /// <summary>
@@ -418,6 +506,55 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
         {
             SetApplicationDiagnosticsSettings(name, output, false);
+        }
+
+        /// <summary>
+        /// Lists available website locations.
+        /// </summary>
+        /// <returns>List of location names</returns>
+        public List<string> ListAvailableLocations()
+        {
+            List<string> locations = new List<string>();
+            WebSpaces webspaces = WebsiteChannel.GetWebSpaces(subscriptionId);
+            List<string> webspacesGeoRegions = new List<string>();
+            webspaces.ForEach(w => webspacesGeoRegions.Add(w.GeoRegion));
+            GeoRegions regions = new GeoRegions();
+
+            using (HttpClient client = CreateWebsitesHttpClient())
+            {
+                regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
+            }
+
+            regions.ForEach(r => locations.Add(r.Name));
+            locations = locations.Union(webspacesGeoRegions).ToList();
+
+            return locations;
+        }
+
+        /// <summary>
+        /// Gets the default website DNS suffix for the current environment.
+        /// </summary>
+        /// <returns>The website DNS suffix</returns>
+        public string GetWebsiteDnsSuffix()
+        {
+            string suffix;
+
+            using (HttpClient client = CreateWebsitesHttpClient())
+            {
+                string body = client.GetXml(UriElements.DnsSuffix, Logger);
+                suffix = General.IsXml(body) ? XDocument.Parse(body).Root.Value : body.Replace("\"", "");
+            }
+
+            return suffix;
+        }
+
+        /// <summary>
+        /// Gets the default location for websites.
+        /// </summary>
+        /// <returns>The default location name.</returns>
+        public string GetDefaultLocation()
+        {
+            return ListAvailableLocations().First();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
@@ -83,10 +83,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     Name = ep.Name,
                     Port = ep.Port,
                     Protocol = ep.Protocol,
-                    Vip = ep.Vip
+                    Vip = ep.Vip,
+                    Acl = ep.EndpointAccessControlList,
+                    EnableDirectServerReturn = ep.EnableDirectServerReturn
                 };
 
-                
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
                 {
                     endpointCtx.ProbePath = ep.LoadBalancerProbe.Path;

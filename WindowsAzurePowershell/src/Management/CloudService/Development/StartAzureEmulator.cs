@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(AzureService))]
+    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(CloudServiceProject))]
     public class StartAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
@@ -34,13 +34,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         public SwitchParameter Launch { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public AzureService StartAzureEmulatorProcess(string rootPath)
+        public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
             string standardError;
 
             StringBuilder message = new StringBuilder();
-            AzureService service = new AzureService(rootPath ,null);
+            CloudServiceProject service = new CloudServiceProject(rootPath ,null);
 
             if (Directory.Exists(service.Paths.LocalPackage))
             {

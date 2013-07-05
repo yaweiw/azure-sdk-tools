@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
@@ -21,103 +20,61 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
+    using Properties;
+    using WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Set, "AzureEndpoint", DefaultParameterSetName = "NoLB"), OutputType(typeof(IPersistentVM))]
+    [Cmdlet(VerbsCommon.Set, "AzureEndpoint"), OutputType(typeof(IPersistentVM))]
     public class SetAzureEndpoint : VirtualMachineConfigurationCmdletBase
     {
-        private const string NoLBParameterSet = "NoLB";
-        private const string LoadBalancedParameterSet = "LoadBalanced";
-        private const string LoadBalancedProbeParameterSet = "LoadBalancedProbe";
-
-        [Parameter(Position = 0, ParameterSetName = NoLBParameterSet, Mandatory = true, HelpMessage = "Endpoint name.")]
-        [Parameter(Position = 0, ParameterSetName = LoadBalancedParameterSet, Mandatory = true, HelpMessage = "Endpoint name.")]
-        [Parameter(Position = 0, ParameterSetName = LoadBalancedProbeParameterSet, Mandatory = true, HelpMessage = "Endpoint name.")]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Endpoint name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string Name 
         {
-            get;
-            set;
+            get; 
+            set; 
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = NoLBParameterSet, HelpMessage = "Endpoint protocol.")]
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Endpoint protocol.")]
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Endpoint protocol.")]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Endpoint protocol.")]
         [ValidateSet("tcp", "udp", IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
         public string Protocol
-        {
-            get;
-            set;
+        { 
+            get; 
+            set; 
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = NoLBParameterSet, HelpMessage = "Local port.")]
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Local port.")]
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Local port.")]
+        [Parameter(Position = 2, Mandatory = true, HelpMessage = "Local port.")]
         [ValidateNotNullOrEmpty]
         public int LocalPort
-        {
-            get;
-            set;
+        { 
+            get; 
+            set; 
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = NoLBParameterSet, HelpMessage = "Public port.")]
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Public port.")]
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Public port.")]
+        [Parameter(Mandatory = false, HelpMessage = "Public port.")]
         [ValidateNotNullOrEmpty]
-        public int? PublicPort
-        {
-            get;
+        public int? PublicPort 
+        { 
+            get; 
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Load Balanced Endpoint Set Name.")]
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name.")]
-        [Alias("LoadBalancedEndpointSetName")]
-        [ValidateNotNullOrEmpty]
-        public string LBSetName
+
+        [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        [ValidateNotNull]
+        public bool? DirectServerReturn
         {
-            get;
+            get; 
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Port")]
-        public int ProbePort
+        [Parameter(Mandatory = false, HelpMessage = "ACL Config for the endpoint.")]
+        [ValidateNotNull]
+        public NetworkAclObject ACL
         {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Protocol (http/tcp)")]
-        [ValidateSet("tcp", "http", IgnoreCase = true)]
-        public string ProbeProtocol
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Relative Path")]
-        public string ProbePath
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Interval in Seconds.")]
-        [ValidateNotNullOrEmpty]
-        public int? ProbeIntervalInSeconds
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Timeout in Seconds.")]
-        [ValidateNotNullOrEmpty]
-        public int? ProbeTimeoutInSeconds
-        {
-            get;
-            set;
+            get; 
+            set; 
         }
 
         internal void ExecuteCommand()
@@ -125,13 +82,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             ValidateParameters();
 
             var endpoints = GetInputEndpoints();
-            var endpoint = endpoints.SingleOrDefault(p => p.Name == Name);
+            var endpoint = endpoints.SingleOrDefault(p => p.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
 
             if (endpoint == null)
             {
                 ThrowTerminatingError(
                     new ErrorRecord(
-                            new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "An endpoint named '{0}' cannot be found in the configuration of this VM. Use New-ExternalEndpoint to define it.", this.Name)),
+                            new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.EndpointCanNotBeFoundInVMConfigurationInSetAzureEndpoint, this.Name)),
                             string.Empty,
                             ErrorCategory.InvalidData,
                             null));
@@ -140,40 +97,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             endpoint.Port = PublicPort.HasValue ? PublicPort : null;
             endpoint.LocalPort = LocalPort;
             endpoint.Protocol = Protocol;
-
-            if (ParameterSetName == LoadBalancedProbeParameterSet)
-            {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe { Protocol = ProbeProtocol };
-
-                endpoint.LoadBalancerProbe.Port = ProbePort;
-
-                if (endpoint.LoadBalancerProbe.Protocol == "http")
-                {
-                    if (string.IsNullOrEmpty(ProbePath) == false)
-                    {
-                        endpoint.LoadBalancerProbe.Path = ProbePath;
-                    }
-                    else
-                    {
-                        endpoint.LoadBalancerProbe.Path = "/";
-                    }
-                }
-
-                if (ProbeIntervalInSeconds.HasValue)
-                {
-                    endpoint.LoadBalancerProbe.IntervalInSeconds = ProbeIntervalInSeconds;
-                }
-
-                if (ProbeTimeoutInSeconds.HasValue)
-                {
-                    endpoint.LoadBalancerProbe.TimeoutInSeconds = ProbeTimeoutInSeconds;
-                }
-            }
-            else if (ParameterSetName == LoadBalancedParameterSet)
-            {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;                
-            }
+            endpoint.EndpointAccessControlList = this.ACL;
+            endpoint.EnableDirectServerReturn = this.DirectServerReturn;
 
             WriteObject(VM, true);
         }
@@ -216,38 +141,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
         private void ValidateParameters()
         {
-            if (string.Compare(ParameterSetName, "LoadBalancedProbe", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (string.Compare(ProbeProtocol, "tcp", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    if (!string.IsNullOrEmpty(ProbePath))
-                    {
-                        throw new ArgumentException("ProbePath not valid with tcp");
-                    }
-                }
-
-                if (string.Compare(ProbeProtocol, "http", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    if (string.IsNullOrEmpty(ProbePath))
-                    {
-                        throw new ArgumentException("ProbePath is required for http");
-                    }
-                }
-            }
-
             if (LocalPort < 0 || LocalPort > 65535)
             {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
+                throw new ArgumentException(Resources.PortsNotInRangeInSetAzureEndpoint);
             }
 
             if (PublicPort != null && (PublicPort < 0 || PublicPort > 65535))
             {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
-            }
-
-            if (ProbePort < 0 || ProbePort > 65535)
-            {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
+                throw new ArgumentException(Resources.PortsNotInRangeInSetAzureEndpoint);
             }
         }
     }

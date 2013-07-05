@@ -29,6 +29,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </summary>
         public string ServiceObjectiveName;
 
+        /// <summary>
+        /// Tries to copy the context into the database field.
+        /// </summary>
+        /// <param name="context">The context to store in the database object</param>
         internal void LoadExtraProperties(IServerDataServiceContext context)
         {
             try
@@ -45,6 +49,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             {
                 // Ignore exceptions when loading extra properties, for backward compatibility.
             }
+        }
+
+        /// <summary>
+        /// Copies all the internal fields from one database object into another.
+        /// </summary>
+        /// <param name="other">The database to be copied.</param>
+        internal void CopyFields(Database other)
+        {
+            this._CollationName = other._CollationName;
+            this._CreationDate = other._CreationDate;
+            this._Edition = other._Edition;
+            this._Id = other._Id;
+            this._MaxSizeGB = other._MaxSizeGB;
+            this._Name = other._Name;
+            this._Server = other._Server;
+            this.Context = other.Context;
         }
     }
 }

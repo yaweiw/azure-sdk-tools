@@ -110,6 +110,40 @@ namespace Management.Storage.ScenarioTest
             }
         }
 
+        public static string AddRandomAzureEnvironment(string endpoint, string prefix = "") 
+        {
+            string envName = Utility.GenNameString(prefix);
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("Add-AzureEnvironment");
+            ps.BindParameter("Name", envName);
+            ps.BindParameter("PublishSettingsFileUrl", Utility.GenNameString("PublishSettingsFileUrl"));
+            ps.BindParameter("ServiceEndpoint", Utility.GenNameString("ServiceEndpoint"));
+            ps.BindParameter("ManagementPortalUrl", Utility.GenNameString("ManagementPortalUrl"));
+            ps.BindParameter("StorageEndpoint", endpoint);
+            Test.Info("Add Azure Environment, Cmdline: {0}", GetCommandLine(ps));
+            ps.Invoke();
+
+            if (ps.Streams.Error.Count > 0)
+            {
+                Test.Error("Can't add azure envrionment. Exception: {0}", ps.Streams.Error[0].Exception.Message);
+            }
+            return envName;
+        }
+
+        public static void RemoveAzureEnvironment(string name)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("Remove-AzureEnvironment");
+            ps.BindParameter("Name", name);
+            Test.Info("Remove Azure Environment, Cmdline: {0}", GetCommandLine(ps));
+            ps.Invoke();
+
+            if (ps.Streams.Error.Count > 0)
+            {
+                Test.Error("Can't add azure envrionment. Exception: {0}", ps.Streams.Error[0].Exception.Message);
+            }
+        }
+
         /// <summary>
         /// Remove the current azure subscription
         /// </summary>
@@ -120,13 +154,15 @@ namespace Management.Storage.ScenarioTest
             ps.Invoke();
         }
 
-        public static void SetStorageContext(string StorageAccountName, string StorageAccountKey, bool useHttps = true)
+        public static void SetStorageContext(string StorageAccountName, string StorageAccountKey,
+            bool useHttps = true, string endPoint = "")
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
             ps.BindParameter("StorageAccountName", StorageAccountName);
             ps.BindParameter("StorageAccountKey", StorageAccountKey);
-            
+            ps.BindParameter("EndPoint", endPoint.Trim());
+
             if (useHttps)
             {
                 //TODO need tests to check whether it's ignore cases.
@@ -138,6 +174,28 @@ namespace Management.Storage.ScenarioTest
             }
 
             Test.Info("Set PowerShell Storage Context using name and key, Cmdline: {0}", GetCommandLine(ps));
+            SetStorageContext(ps);
+        }
+
+        public static void SetStorageContextWithAzureEnvironment(string StorageAccountName, string StorageAccountKey,
+            bool useHttps = true, string azureEnvironmentName = "")
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("New-AzureStorageContext");
+            ps.BindParameter("StorageAccountName", StorageAccountName);
+            ps.BindParameter("StorageAccountKey", StorageAccountKey);
+            ps.BindParameter("Environment", azureEnvironmentName.Trim());
+
+            if (useHttps)
+            {
+                ps.BindParameter("Protocol", "https");
+            }
+            else
+            {
+                ps.BindParameter("Protocol", "http");
+            }
+
+            Test.Info("Set PowerShell Storage Context using name, key and azureEnvironment, Cmdline: {0}", GetCommandLine(ps));
             SetStorageContext(ps);
         }
 
@@ -161,12 +219,13 @@ namespace Management.Storage.ScenarioTest
             SetStorageContext(ps);
         }
 
-        public static void SetAnonymousStorageContext(string StorageAccountName, bool useHttps)
+        public static void SetAnonymousStorageContext(string StorageAccountName, bool useHttps, string endPoint = "")
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
             ps.BindParameter("StorageAccountName", StorageAccountName);
             ps.BindParameter("Anonymous");
+            ps.BindParameter("EndPoint", endPoint.Trim());
 
             if (useHttps)
             {
@@ -247,12 +306,19 @@ namespace Management.Storage.ScenarioTest
             return GetStorageContext(ps.Invoke());
         }
 
-        public override bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey)
+        public override bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey, string endPoint = "")
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContext");
             ps.BindParameter("StorageAccountName", StorageAccountName);
             ps.BindParameter("StorageAccountKey", StorageAccountKey);
+
+            if (string.IsNullOrEmpty(StorageAccountKey))
+            {
+                ps.BindParameter("Anonymous", true);
+            }
+
+            ps.BindParameter("EndPoint", endPoint);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
@@ -568,6 +634,7 @@ namespace Management.Storage.ScenarioTest
         public override bool GetAzureStorageBlobByPrefix(string Prefix, string ContainerName)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlob");
             ps.BindParameter("Prefix", Prefix);
             ps.BindParameter("Container", ContainerName);
@@ -696,7 +763,7 @@ namespace Management.Storage.ScenarioTest
         public override bool StartAzureStorageBlobCopy(string sourceUri, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.BindParameter("SrcUri", sourceUri);
             ps.BindParameter("DestContainer", destContainerName);
             ps.BindParameter("DestBlob", destBlobName);
@@ -714,7 +781,7 @@ namespace Management.Storage.ScenarioTest
         public override bool StartAzureStorageBlobCopy(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.BindParameter("SrcContainer", srcContainerName);
             ps.BindParameter("SrcBlob", srcBlobName);
             ps.BindParameter("DestContainer", destContainerName);
@@ -728,7 +795,7 @@ namespace Management.Storage.ScenarioTest
         public override bool StartAzureStorageBlobCopy(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.BindParameter("ICloudBlob", srcBlob);
             ps.BindParameter("DestContainer", destContainerName);
             ps.BindParameter("Force", force);
@@ -767,7 +834,7 @@ namespace Management.Storage.ScenarioTest
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
 
-            ps.AddCommand("Stop-CopyAzureStorageBlob");
+            ps.AddCommand("Stop-AzureStorageBlobCopy");
             ps.BindParameter("Container", containerName);
             ps.BindParameter("Blob", blobName);
             ps.BindParameter("CopyId", copyId);

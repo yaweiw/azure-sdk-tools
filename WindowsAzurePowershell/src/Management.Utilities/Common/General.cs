@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Channels;
     using System.Text;
     using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
@@ -146,6 +147,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return obj;
         }
 
+        public static T DeserializeXmlString<T>(string contents)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            T obj;
+
+            using (StringReader reader = new StringReader(contents))
+            {
+                obj = (T)xmlSerializer.Deserialize(reader);
+            }
+
+            return obj;
+        }
+
         public static byte[] GetResourceContents(string resourceName)
         {
             Stream stream = _assembly.GetManifestResourceStream(resourceName);
@@ -253,54 +267,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static void RemoveCertificateFromStore(X509Certificate2 certificate)
         {
-            Validate.ValidateNullArgument(certificate, Resources.InvalidCertificate);
-            X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadWrite);
-            store.Remove(certificate);
-            store.Close();
-        }
-
-        /// <summary>
-        /// Gets the value of publish settings url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string PublishSettingsUrl
-        {
-            get
+            if (certificate != null)
             {
-                return TryGetEnvironmentVariable(Resources.PublishSettingsUrlEnv, Resources.PublishSettingsUrl);
+                X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadWrite);
+                store.Remove(certificate);
+                store.Close();
             }
-        }
-
-        /// <summary>
-        /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzurePortalUrl
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzurePortalUrlEnv, Resources.AzurePortalUrl);
-            }
-        }
-
-        /// <summary>
-        /// Gets the value of azure host name suffix from environment if set, otherwise returns the default value.
-        /// </summary>
-        public static string AzureWebsiteHostNameSuffix
-        {
-            get
-            {
-                return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
-            }
-        }
-
-        /// <summary>
-        /// Gets the value of publish settings url with realm from environment if set, otherwise returns the default value.
-        /// </summary>
-        /// <param name="realm">Realm phrase</param>
-        /// <returns>The publish settings url with realm phrase</returns>
-        public static string PublishSettingsUrlWithRealm(string realm)
-        {
-            return PublishSettingsUrl + "&whr=" + realm;
         }
 
         /// <summary>
@@ -313,37 +286,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return string.Format(CultureInfo.InvariantCulture,
                 TryGetEnvironmentVariable(Resources.BlobEndpointUriEnv, Resources.BlobEndpointUri),
                 accountName);
-        }
-
-        /// <summary>
-        /// Launches windows azure management portal with specific service if specified.
-        /// </summary>
-        /// <param name="serviceUrl">The service uri.</param>
-        /// <param name="Realm">Realm of the account.</param>
-        public static void LaunchWindowsAzurePortal(string serviceUrl, string Realm)
-        {
-            Validate.ValidateInternetConnection();
-
-            UriBuilder uriBuilder = new UriBuilder(General.AzurePortalUrl);
-            if (!string.IsNullOrEmpty(serviceUrl))
-            {
-                uriBuilder.Fragment += serviceUrl;
-            }
-
-            if (Realm != null)
-            {
-                string queryToAppend = string.Format("whr={0}", Realm);
-                if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
-                {
-                    uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + queryToAppend;
-                }
-                else
-                {
-                    uriBuilder.Query = queryToAppend;
-                }
-            }
-
-            General.LaunchWebPage(uriBuilder.ToString());
         }
 
         /// <summary>
@@ -390,6 +332,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     string temppath = Path.Combine(destDirName, subdir.Name);
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Ensures that a directory exists beofre attempting to write a file
+        /// </summary>
+        /// <param name="pathName">The path to the file that will be created</param>
+        public static void EnsureDirectoryExists(string pathName)
+        {
+            Validate.ValidateStringIsNullOrEmpty(pathName, "Settings directory");
+            string directoryPath = Path.GetDirectoryName(pathName);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
             }
         }
 
@@ -671,14 +627,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             else
             {
                 serviceSettings = ServiceSettings.LoadDefault(
-                    new AzureService(rootPath, null).Paths.Settings,
+                    new CloudServiceProject(rootPath, null).Paths.Settings,
                     slot,
                     location,
                     affinityGroup,
                     subscription,
                     storageName,
                     inServiceName,
-                    new AzureService(rootPath, null).ServiceName,
+                    new CloudServiceProject(rootPath, null).ServiceName,
                     out serviceName);
             }
 
@@ -698,7 +654,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             {
                 string difference = currentPath.Replace(rootPath, string.Empty);
                 roleName = difference.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).GetValue(0).ToString();
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 found = service.Components.RoleExists(roleName);
             }
 
@@ -732,7 +688,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new InvalidOperationException(Resources.CannotFindServiceRoot);
             }
 
-            AzureService service = new AzureService(servicePath, null);
+            CloudServiceProject service = new CloudServiceProject(servicePath, null);
             if (service.Components.CloudConfig.Role != null)
             {
                 foreach (RoleSettings role in service.Components.CloudConfig.Role)
@@ -894,8 +850,61 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string endpoint = builder.Uri.GetComponents(
                 UriComponents.AbsoluteUri & ~UriComponents.Port,
                 UriFormat.UriEscaped);
-            
+
             return new Uri(endpoint);
+        }
+
+        /// <summary>
+        /// Formats the given XML into indented way.
+        /// </summary>
+        /// <param name="xml">The input xml string</param>
+        /// <returns>The formatted xml string</returns>
+        public static string FormatXml(string xml)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(xml);
+                return doc.ToString();
+            }
+            catch (Exception)
+            {
+                return xml;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the content is valid XML or not.
+        /// </summary>
+        /// <param name="content">The text to check</param>
+        /// <returns>True if XML, false otherwise</returns>
+        public static bool IsXml(string content)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(content);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static string GetNonEmptyValue(string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
+        }
+
+        public static string CominePath(params string[] paths)
+        {
+            StringBuilder final = new StringBuilder();
+
+            for (int i = 0; i < paths.Length - 1; i++)
+            {
+                final.Append(paths[i]).Append("\\");
+            }
+
+            return final.Append(paths[paths.Length - 1]).ToString();
         }
     }
 }

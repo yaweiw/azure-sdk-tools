@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
         [TestInitialize]
         public virtual void SetupTest()
         {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
@@ -35,12 +34,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
         [TestCleanup]
         public void TestCleanup()
         {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-
-            string webSpacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+            string webSpacesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("spaces.{0}.json", subscriptionId));
 
-            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+            string sitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("sites.{0}.json", subscriptionId));
 
             if (File.Exists(webSpacesFile))

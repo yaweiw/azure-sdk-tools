@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <?define productName="Windows Azure PowerShell - April 2013" ?>
+  <?define productName="Windows Azure PowerShell - June 2013" ?>
   <?define sourceDir="$(var.SolutionDir)..\..\Package\$(var.Configuration)" ?>
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
-  <?define version="0.6.13.1" ?>
+  <?define version="0.6.16.1" ?>
   <?define azureSdkVersion="1.8" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
@@ -32,8 +32,8 @@
       <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
 
-    <Condition Message="PowerShell 3.0 must be installed before Windows Azure PowerShell installation.">
-      <![CDATA[Installed or (POWERSHELLVERSION = "3.0")]]>
+    <Condition Message="This setup requires the Windows PowerShell 3.0 or higher to be installed.">
+      <![CDATA[Installed or (POWERSHELLVERSION = "3.0") or (POWERSHELLVERSION = "4.0")]]>
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
@@ -76,7 +76,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -Command &quot;cd '[PowerShellFolder]'; Import-Module .\Azure.psd1; Get-Content .\WelcomeMessage.txt; $VerbosePreference=\&quot;Continue\&quot;; cd 'C:\'&quot;" />
+                  Arguments="-NoExit -Command &quot;cd '[PowerShellFolder]'; Import-Module .\Azure.psd1; Get-Content .\welcome.txt; $VerbosePreference=\&quot;Continue\&quot;; cd 'C:\'&quot;" />
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>

@@ -35,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -68,6 +69,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -156,6 +158,58 @@
     <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\BaseAzureServiceExtensionCmdlet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\DiagnosticsExtensionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionConfigurationBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionConfigurationInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionRoleList.cs" />
+    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RemoteDesktopExtensionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Helpers\CertUtils.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
@@ -190,9 +244,14 @@
     <Compile Include="IaaS\Disks\SetAzureDataDisk.cs" />
     <Compile Include="IaaS\Disks\SetAzureOSDisk.cs" />
     <Compile Include="IaaS\Endpoints\AddAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\GetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\GetAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\NewAzureAclConfig.cs" />
+    <Compile Include="IaaS\Endpoints\RemoveAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\RemoveAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\SetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
+    <Compile Include="IaaS\Endpoints\SetAzureLoadBalancedEndpoint.cs" />
     <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
@@ -216,6 +275,7 @@
     <Compile Include="IaaS\PersistentVMs\GetAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureWinRMUri.cs" />
     <Compile Include="IaaS\PersistentVMs\ImportAzureVM.cs" />
+    <Compile Include="IaaS\PersistentVMs\MediaLinkFactory.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureQuickVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVMConfig.cs" />
@@ -243,6 +303,8 @@
     <Compile Include="Model\InputEndpointContext.cs" />
     <Compile Include="Model\IPersistentVM.cs" />
     <Compile Include="Model\LocationsContext.cs" />
+    <Compile Include="Model\NetworkAclObject.cs" />
+    <Compile Include="Model\NetworkAclRule.cs" />
     <Compile Include="Model\OSImageContext.cs" />
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />
@@ -300,6 +362,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

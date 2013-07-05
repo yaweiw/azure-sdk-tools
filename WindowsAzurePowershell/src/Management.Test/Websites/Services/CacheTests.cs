@@ -16,13 +16,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class CacheTests
+    public class CacheTests : TestBase
     {
         public static string SubscriptionName = "fakename";
 
@@ -30,15 +31,18 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 
         public static string SitesFile;
 
+        private FileSystemHelper helper;
+
         [TestInitialize]
         public void SetupTest()
         {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
+            helper = new FileSystemHelper(this);
+            helper.CreateAzureSdkDirectoryAndImportPublishSettings();
 
-            WebSpacesFile =  Path.Combine(GlobalPathInfo.AzureAppDir,
+            WebSpacesFile =  Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("spaces.{0}.json", SubscriptionName));
 
-            SitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
+            SitesFile = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory,
                                                           string.Format("sites.{0}.json", SubscriptionName));
             
             if (File.Exists(WebSpacesFile))
@@ -64,56 +68,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
             {
                 File.Delete(SitesFile);
             }
-        }
 
-        [TestMethod]
-        public void GetEmptyWebspaceTest()
-        {
-            WebSpaces getWebSpaces = Cache.GetWebSpaces("NotExisting");
-            Assert.IsNotNull(getWebSpaces);
-            Assert.AreEqual<int>(0, getWebSpaces.Count);
-        }
-
-        [TestMethod]
-        public void AddWebSpaceTest()
-        {
-            WebSpace webSpace = new WebSpace {Name = "newwebspace"};
-            // Add without any cache from before
-            Cache.AddWebSpace(SubscriptionName, webSpace);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-        }
-
-        [TestMethod]
-        public void RemoveWebSpaceTest()
-        {
-            WebSpace webSpace = new WebSpace { Name = "newwebspace" };
-            // Add without any cache from before
-            Cache.AddWebSpace(SubscriptionName, webSpace);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-
-            // Now remove it
-            Cache.RemoveWebSpace(SubscriptionName, webSpace);
-            getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
-        }
-
-        [TestMethod]
-        public void GetSetWebSpacesTest()
-        {
-            // Test no webspaces
-            Assert.AreEqual<int>(0, Cache.GetWebSpaces(SubscriptionName).Count);
-
-            // Test valid webspaces
-            WebSpaces webSpaces = new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" }});
-            Cache.SaveSpaces(SubscriptionName, webSpaces);
-
-            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace1")));
-            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace2")));
+            helper.Dispose();
         }
 
         [TestMethod]
