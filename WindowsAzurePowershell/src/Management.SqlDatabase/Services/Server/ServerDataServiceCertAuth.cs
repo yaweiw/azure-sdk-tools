@@ -431,7 +431,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 
         #endregion
 
-
         public void LoadProperty(object obj, string propertyName)
         {
             throw new NotImplementedException();
