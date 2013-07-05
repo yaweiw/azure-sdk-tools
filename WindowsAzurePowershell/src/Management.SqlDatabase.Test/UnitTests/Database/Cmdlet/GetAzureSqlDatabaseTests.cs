@@ -320,9 +320,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             @"Get-AzureSqlDatabase " +
                             @"-Context $context");
                         powershell.InvokeBatchScript(
-                            @"$testdb1 = Get-AzureSqlDatabase $context testdb1");
+                            @"$testdb1 = Get-AzureSqlDatabase $context -DatabaseName testdb1");
                         powershell.InvokeBatchScript(
-                            @"$testdb2 = Get-AzureSqlDatabase $context testdb2");
+                            @"$testdb2 = Get-AzureSqlDatabase $context -DatabaseName testdb2");
                         database1 = powershell.InvokeBatchScript(
                             @"$testdb1 | Get-AzureSqlDatabase");
                         database2 = powershell.InvokeBatchScript(
