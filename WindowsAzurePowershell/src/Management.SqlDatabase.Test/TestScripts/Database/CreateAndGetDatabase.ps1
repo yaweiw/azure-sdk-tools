@@ -101,8 +101,9 @@ Try
 
 		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
 		$sub = Get-AzureSubscription -Current
-		$context = Get-ServerContextByServerNameWithCertAuth $ServerName
 
+		$context = Get-ServerContextByServerNameWithCertAuth $ServerName
+        Write-Output $context
 		Scenerio1-CreateWithRequiredParameters -Context $context
     
 		Scenerio2-CreateWithOptionalParameters -Context $context

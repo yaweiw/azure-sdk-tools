@@ -182,14 +182,34 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 MaxSizeGB = int.Parse(response.MaxSizeGB),
                 MaxSizeBytes = long.Parse(response.MaxSizeBytes),
                 Name = response.Name,
-                ServiceObjectiveAssignmentErrorCode = int.Parse(response.ServiceObjectiveAssignmentErrorCode),
-                ServiceObjectiveAssignmentErrorDescription = response.ServiceObjectiveAssignmentErrorDescription,
-                ServiceObjectiveAssignmentState = byte.Parse(response.ServiceObjectiveAssignmentState),
-                ServiceObjectiveAssignmentStateDescription = response.ServiceObjectiveAssignmentStateDescription,
-                ServiceObjectiveAssignmentSuccessDate = DateTime.Parse(response.ServiceObjectiveAssignmentSuccessDate),
-                ServiceObjectiveId = Guid.Parse(response.ServiceObjectiveId)
-
             };
+
+            // Parse the service objective information
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorCode))
+            {
+                result.ServiceObjectiveAssignmentErrorCode = int.Parse(response.ServiceObjectiveAssignmentErrorCode);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorDescription))
+            {
+                result.ServiceObjectiveAssignmentErrorDescription = response.ServiceObjectiveAssignmentErrorDescription;
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentState))
+            {
+                result.ServiceObjectiveAssignmentState = byte.Parse(response.ServiceObjectiveAssignmentState);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentStateDescription))
+            {
+                result.ServiceObjectiveAssignmentStateDescription = response.ServiceObjectiveAssignmentStateDescription;
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentSuccessDate))
+            {
+                result.ServiceObjectiveAssignmentSuccessDate = DateTime.Parse(response.ServiceObjectiveAssignmentSuccessDate);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveId))
+            {
+                result.ServiceObjectiveId = Guid.Parse(response.ServiceObjectiveId);
+            }
+            
             result.LoadExtraProperties(this);
 
             return result;
