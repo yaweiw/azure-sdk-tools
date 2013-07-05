@@ -49,38 +49,56 @@ function TestImportWithRequestObjectAndOptionalParameters
     $defaultIsReadOnly = $false
     $defaultIsFederationRoot = $false
     $defaultIsSystemObject = $false
+    $defaultMaxSize = 1
+    $defaultEdition = "Web"
 	$status = $null
     $Edition = "Business"
     $MaxSize = 10
     
     ###########
-	# Test the first parameter set
+	# Test optional Edition
 
-    $BlobName = $DatabaseName1 + ".bacpac"
-    $dbName = $DatabaseName1 + "Options"
-	Write-Output "Importing from Blob: $BlobName"
+    for( $i = 0; $i -ne 3; $i++)
+    {
+        Write-Output "Running test parameter set combination $i"
+        $BlobName = $DatabaseName1 + ".bacpac"
+        $dbName = $DatabaseName1 + "Options-$i"
+	    Write-Output "\tImporting from Blob: $BlobName"
 
-	$Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		-DatabaseName $dbName -BlobName $BlobName -Edition $Edition -DatabaseMaxSize $MaxSize
-    Assert {$Request} "Failed to initiate the second import opertaion"
-	$id = ($Request.RequestGuid)
-    Write-Output "Request Id for import: $id"
+        $currEdition = $defaultEdition
+        $currMaxSize = $defaultMaxSize
 
+        if( ($i -eq 0) -or ($i -eq 2) )
+        {
+            $currEdition = $edition
+        }
+        elseif ($i -eq 1 -or ($i -eq 2) )
+        {
+            $currMaxSize = $MaxSize
+        }
+
+	    $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+		    -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $MaxSize
+
+        Assert {$Request} "\tFailed to initiate the second import opertaion"
+	    $id = ($Request.RequestGuid)
+        Write-Output "Request Id for import: $id"
     
-    ##############
-    # Test Get IE status with request object
-	do
-	{
-		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus $Request
-		$s = $status.Status
-		Write-Output "Request Status: $s"
-	} while($status.Status -ne "Completed")
+        ##############
+        # Test Get IE status with request object
+	    do
+	    {
+		    Start-Sleep -m 1500
+		    $status = Get-AzureSqlDatabaseImportExportStatus $Request
+		    $s = $status.Status
+		    Write-Output "Request Status: $s"
+	    } while($status.Status -ne "Completed")
 
-    $db = get-azuresqldatabase $context -DatabaseName $dbName
-    Validate-SqlDatabase -Actual $db -ExpectedName $dbName -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $Edition -ExpectedMaxSizeGB $MaxSize -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+        $db = get-azuresqldatabase $context -DatabaseName $dbName
+        Validate-SqlDatabase -Actual $db -ExpectedName $dbName -ExpectedCollationName $defaultCollation -ExpectedEdition `
+                $currEdition -ExpectedMaxSizeGB $currMaxSize -ExpectedIsReadOnly $defaultIsReadOnly `
+                -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
+    }
 }
 
 function TestImportWithRequestId
