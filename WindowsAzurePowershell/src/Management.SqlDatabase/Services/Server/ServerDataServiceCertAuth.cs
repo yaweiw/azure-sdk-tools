@@ -417,6 +417,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             throw new NotImplementedException();
         }
 
+        public ServerQuota GetQuota(string quotaName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServerQuota[] GetQuotas()
+        {
+            throw new NotImplementedException();
+        }
+
         public ServiceObjective[] GetServiceObjectives()
         {
             throw new NotImplementedException();

@@ -17,7 +17,6 @@
 
 function Init-TestEnvironment
 {
-    $ConfirmPreference = "Continue"
     $DebugPreference = "Continue"
     $ErrorActionPreference = "Continue"
     $FormatEnumerationLimit = 10000
@@ -26,11 +25,16 @@ function Init-TestEnvironment
     $WarningPreference = "Continue"
     $WhatIfPreference = $false
 
+    
+    # Setting to continue because WA sets a bunch of aliases which ask for 
+    # confirmation when running the functional tests.
+    $ConfirmPreference = "Continue"
     $moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Management"
     if(!$moduleLoaded)
     {
         Import-Module .\Microsoft.WindowsAzure.Management.SqlDatabase.Test.psd1
     }
+    $ConfirmPreference = "Medium"
 }
 
 function Init-AzureSubscription
@@ -49,7 +53,7 @@ function Init-AzureSubscription
         [Parameter(Mandatory=$false, Position=2)]
         [ValidateNotNullOrEmpty()]
         [String]
-		$ServiceEndpoint
+        $ServiceEndpoint
     )
     # Deserialize the input certificate given in base 64 format.
     # Install it in the cert store.
@@ -63,24 +67,24 @@ function Init-AzureSubscription
     $myCert = New-Object $X509Certificate2(,$bytes)
     $store = New-Object $X509Store($StoreName::My, $StoreLocation::CurrentUser)
     $store.Open($OpenFlags::ReadWrite)
-	if($store.Certificates.Contains($myCert) -ne $true)
-	{
-		$store.Add($myCert)
-	}
+    if($store.Certificates.Contains($myCert) -ne $true)
+    {
+        $store.Add($myCert)
+    }
     $store.Close()
     
     $subName = "MySub" + $SubscriptionID
 	
-	if($ServiceEndpoint)
-	{
-		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
-			-ServiceEndpoint $ServiceEndpoint
-	}
-	else
-	{
-		Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
-			-ServiceEndpoint "https://management.core.windows.net"
-	}
+    if($ServiceEndpoint)
+    {
+        Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+            -ServiceEndpoint $ServiceEndpoint
+    }
+    else
+    {
+        Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+            -ServiceEndpoint "https://management.core.windows.net"
+    }
 	
     Select-AzureSubscription -SubscriptionName $subName
 }
@@ -114,14 +118,14 @@ function Get-ServerContextByManageUrlWithSqlAuth
 
 function Get-ServerContextByServerNameWithCertAuth
 {
-	[CmdletBinding()]
-	param
-	(
-		[Parameter(Mandatory=$true, Position=0)]
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
         [ValidateNotNullOrEmpty()]
         [String]
         $ServerName
-	)
+    )
     
     $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
     return $context
@@ -409,7 +413,7 @@ function Drop-Databases
     # Drop Database
     Write-Output "Dropping databases with name starts with $NameStartsWith ..."
     Get-AzureSqlDatabase $context | Where-Object {$_.Name.StartsWith($NameStartsWith)} `
-                | Remove-AzureSqlDatabase -Context $context -Force
+        | Remove-AzureSqlDatabase -Context $context -Force
     Write-Output "Dropped database with name starts with $NameStartsWith"
 }
 

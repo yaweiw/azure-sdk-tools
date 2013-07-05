@@ -120,6 +120,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </returns>
         ServiceObjective GetServiceObjective(string serviceObjectiveName);
 
+        /// <summary>
+        /// Get a specific quota for a server
+        /// </summary>
+        /// <param name="quotaName">The name of the quota to retrieve</param>
+        /// <returns>A quota object.</returns>
+        ServerQuota GetQuota(string quotaName);
+
+        /// <summary>
+        /// Get a list of all quotas for a server
+        /// </summary>
+        /// <returns>An array of server quota objects</returns>
+        ServerQuota[] GetQuotas();
+
         #endregion
     }
 }
