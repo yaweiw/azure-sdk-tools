@@ -136,7 +136,7 @@
     <None Include="MSSharedLibKey.snk" />
     <None Include="TestScripts\CommonFunctions.ps1" />
     <None Include="TestScripts\Database\CreateAndGetDatabase-ScenarioFunctions.ps1" />
-    <None Include="TestScripts\Database\GetServerQuota.ps1" />
+    <None Include="TestScripts\Server\GetServerQuota.ps1" />
     <None Include="TestScripts\Database\UpdateDatabase-ScenarioFunctions.ps1" />
     <None Include="TestScripts\Database\CreateContext.ps1" />
     <None Include="TestScripts\Database\DeleteDatabase.ps1" />

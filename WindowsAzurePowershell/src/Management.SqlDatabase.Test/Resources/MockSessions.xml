@@ -73,8 +73,7 @@
                         </Header>
                     </Headers>
                     <Cookies />
-                    <ResponseText>
-                        &lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+                    <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
                         &lt;feed xml:base="http://localhost/v1/ManagementService.svc/Server2('localhost')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
                         &lt;title type="text"&gt;Servers&lt;/title&gt;
                         &lt;id&gt;http://localhost/v1/ManagementService.svc/Server2('localhost')/Servers&lt;/id&gt;
@@ -97,8 +96,7 @@
                         &lt;/m:properties&gt;
                         &lt;/content&gt;
                         &lt;/entry&gt;
-                        &lt;/feed&gt;
-                    </ResponseText>
+                        &lt;/feed&gt;</ResponseText>
                 </ResponseInfo>
             </HttpMessage>
             <HttpMessage>
@@ -203,8 +201,7 @@
                         </Header>
                     </Headers>
                     <Cookies />
-                    <ResponseText>
-                        &lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+                    <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
                         &lt;feed xml:base="https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
                         &lt;title type="text"&gt;Servers&lt;/title&gt;
                         &lt;id&gt;https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Servers&lt;/id&gt;
@@ -227,8 +224,7 @@
                         &lt;/m:properties&gt;
                         &lt;/content&gt;
                         &lt;/entry&gt;
-                        &lt;/feed&gt;
-                    </ResponseText>
+                        &lt;/feed&gt;</ResponseText>
                 </ResponseInfo>
             </HttpMessage>
             <HttpMessage>
