@@ -21,13 +21,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     public class GlobalPathInfo
     {
         public string PublishSettingsFile { get; private set; }
+
         public string SubscriptionsDataFile { get; private set; }
+
         public string ServiceConfigurationFile { get; private set; }
 
-        public static string AzureAppDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Resources.AzureDirectoryName);
+        public string EnvironmentsFile { get; private set; }
+
+        public static readonly string AzureAppDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            Resources.AzureDirectoryName);
 
         /// <summary>
-        /// Path to the global settings directory used by GlobalComponents.
+        /// Path to the global settings directory used by GlobalSettingsManager.
         /// </summary>
         private static string _globalSettingsDirectory;
 
@@ -41,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             get { return _globalSettingsDirectory ?? AzureAppDir; }
             set { _globalSettingsDirectory = value; }
         }
-	
+    
         public string AzureDirectory { get; private set; }
 
         public GlobalPathInfo(string rootPath)
@@ -51,9 +57,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public GlobalPathInfo(string rootPath, string subscriptionsDataFile)
         {
-            PublishSettingsFile = Path.Combine(rootPath, Resources.PublishSettingsFileName);
-            SubscriptionsDataFile = subscriptionsDataFile ?? Path.Combine(rootPath, Resources.SubscriptionDataFileName);
-            ServiceConfigurationFile = Path.Combine(rootPath, Resources.ConfigurationFileName);
+            PublishSettingsFile = General.CominePath(rootPath, Resources.PublishSettingsFileName);
+            SubscriptionsDataFile = subscriptionsDataFile ?? 
+                General.CominePath(rootPath, Resources.SubscriptionDataFileName);
+            ServiceConfigurationFile = General.CominePath(rootPath, Resources.ConfigurationFileName);
+            EnvironmentsFile = General.CominePath(rootPath, Resources.EnvironmentsFileName);
             AzureDirectory = rootPath;
         }
     }

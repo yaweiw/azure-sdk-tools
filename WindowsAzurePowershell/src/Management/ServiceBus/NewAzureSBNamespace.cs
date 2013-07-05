@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -32,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace location")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace location")]
         public string Location { get; set; }
 
         /// <summary>
@@ -66,14 +68,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             ServiceBusNamespace namespaceDescription = null;
             string subscriptionId = CurrentSubscription.SubscriptionId;
             string name = Name;
-            string region = Location;
+            string region = string.IsNullOrEmpty(Location) ? GetDefaultLocation() : Location;
 
             if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
             {
                 throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
             }
 
-            if (!Channel.ListServiceBusRegions(subscriptionId).Contains(new ServiceBusRegion { Code = region }))
+            if (!Channel.ListServiceBusRegions(subscriptionId)
+                .Exists(r => r.Code.Equals(region, StringComparison.OrdinalIgnoreCase)))
             {
                 throw new ArgumentException(string.Format(Resources.InvalidServiceBusLocation, region), "Location");
             }
@@ -91,6 +94,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                     throw new Exception(Resources.NewNamespaceErrorMessage);
                 }
             }
+        }
+
+        private string GetDefaultLocation()
+        {
+            return Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId).First().Code;
         }
     }
 }

@@ -20,117 +20,85 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
+    using Properties;
+    using WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Add, "AzureEndpoint", DefaultParameterSetName = "NoLB"), OutputType(typeof(IPersistentVM))]
+    [Cmdlet(VerbsCommon.Add, "AzureEndpoint", DefaultParameterSetName = AddAzureEndpoint.NoLBParameterSet), OutputType(typeof(IPersistentVM))]
     public class AddAzureEndpoint : VirtualMachineConfigurationCmdletBase 
     {
         private const string NoLBParameterSet = "NoLB";
-        private const string LoadBalancedParameterSet = "LoadBalanced";
-        private const string LoadBalancedProbeParameterSet = "LoadBalancedProbe";
+        private const string LBNoProbeParameterSet = "LBNoProbe";
+        private const string LBDefaultProbeParameterSet = "LBDefaultProbe";
+        private const string LBCustomProbeParameterSet = "LBCustomProbe";
 
-        [Parameter(Position = 0, ParameterSetName = NoLBParameterSet, Mandatory = true, HelpMessage = "Endpoint name")]
-        [Parameter(Position = 0, ParameterSetName = LoadBalancedParameterSet, Mandatory = true, HelpMessage = "Endpoint name")]
-        [Parameter(Position = 0, ParameterSetName = LoadBalancedProbeParameterSet, Mandatory = true, HelpMessage = "Endpoint name")]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Endpoint name")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = NoLBParameterSet, HelpMessage = "Endpoint protocol.")]
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Endpoint protocol.")]
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Endpoint protocol.")]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Endpoint protocol.")]
         [ValidateSet("tcp", "udp", IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
-        public string Protocol
-        {
-            get;
-            set;
-        }
+        public string Protocol { get; set; }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = NoLBParameterSet, HelpMessage = "Local port.")]
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Local port.")]
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Local port.")]
+        [Parameter(Position = 2, Mandatory = true, HelpMessage = "Local port.")]
         [ValidateNotNullOrEmpty]
-        public int LocalPort
-        {
-            get;
-            set;
-        }
+        public int LocalPort { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = NoLBParameterSet, HelpMessage = "Public port.")]
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Public port.")]
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Public port.")]
+        [Parameter(Mandatory = false, HelpMessage = "Public port.")]
         [ValidateNotNullOrEmpty]
-        public int? PublicPort
-        {
-            get;
-            set;
-        }
+        public int? PublicPort { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
+        [Parameter(Mandatory = false, HelpMessage = "Enable Direct Server Return")]
+        public bool? DirectServerReturn { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "ACL Config for the endpoint.")]
+        public NetworkAclObject ACL { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBNoProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBDefaultProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Load Balanced Endpoint Set Name")]
         [Alias("LoadBalancedEndpointSetName")]
         [ValidateNotNullOrEmpty]
-        public string LBSetName
-        {
-            get;
-            set;
-        }
+        public string LBSetName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Port")]
-        public int ProbePort
-        {
-            get;
-            set;
-        }
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBNoProbeParameterSet, HelpMessage = "Specifies that no load balancer probe is to be used.")]
+        public SwitchParameter NoProbe { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Protocol (http/tcp)")]
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBDefaultProbeParameterSet, HelpMessage = "Specifies that the default load balancer probe is to be used.")]
+        public SwitchParameter DefaultProbe { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Probe Port")]
+        public int ProbePort { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Probe Protocol (http/tcp)")]
         [ValidateSet("tcp", "http", IgnoreCase = true)]
-        public string ProbeProtocol
-        {
-            get;
-            set;
-        }
+        public string ProbeProtocol { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Relative Path")]
-        public string ProbePath
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Interval in Seconds.")]
+        [Parameter(Mandatory = false, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Probe Relative Path")]
         [ValidateNotNullOrEmpty]
-        public int? ProbeIntervalInSeconds
-        {
-            get;
-            set;
-        }
+        public string ProbePath { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Timeout in Seconds.")]
-        [ValidateNotNullOrEmpty]
-        public int? ProbeTimeoutInSeconds
-        {
-            get;
-            set;
-        }
+        [Parameter(Mandatory = false, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Probe Interval in Seconds.")]
+        [ValidateNotNull]
+        public int? ProbeIntervalInSeconds { get; set; }
+
+        [Parameter(Mandatory = false, ParameterSetName = AddAzureEndpoint.LBCustomProbeParameterSet, HelpMessage = "Probe Timeout in Seconds.")]
+        [ValidateNotNull]
+        public int? ProbeTimeoutInSeconds { get; set; }
 
         internal void ExecuteCommand()
         {
-            ValidateParameters();
+            this.ValidateParameters();
 
             var endpoints = GetInputEndpoints();
-            var endpoint = endpoints.SingleOrDefault(p => p.Name == Name);
+            var endpoint = endpoints.SingleOrDefault(p => p.Name.Equals(this.Name, StringComparison.InvariantCultureIgnoreCase));
 
             if (endpoint != null)
             {
                 ThrowTerminatingError(
                     new ErrorRecord(
-                            new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "An endpoint named '{0}' has already been defined for this VM. Specify a different endpoint name or use Set-Endpoint to change the configuration settings of the existing endpoint.", this.Name)),
+                            new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.EndpointAlreadyDefinedForVM, this.Name)),
                             string.Empty,
                             ErrorCategory.InvalidData,
                             null));
@@ -138,49 +106,56 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
             endpoint = new InputEndpoint
             {
-                Name = Name,
-                Port = PublicPort.HasValue ? PublicPort : null,
-                LocalPort = LocalPort,
-                Protocol = Protocol,
+                Name = this.Name,
+                Port = this.ParameterSpecified("PublicPort") ? this.PublicPort : null,
+                LocalPort = this.LocalPort,
+                Protocol = this.Protocol,
+                EndpointAccessControlList = this.ACL,
+                EnableDirectServerReturn = this.DirectServerReturn
             };
 
-            if (ParameterSetName == LoadBalancedProbeParameterSet)
+            if (this.ParameterSetName == AddAzureEndpoint.LBNoProbeParameterSet
+                || this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet
+                || this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
             {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe { Protocol = ProbeProtocol };
+                endpoint.LoadBalancedEndpointSetName = this.LBSetName;
 
-                endpoint.LoadBalancerProbe.Port = ProbePort;
-
-                if (endpoint.LoadBalancerProbe.Protocol == "http")
+                if (this.ParameterSetName == AddAzureEndpoint.LBDefaultProbeParameterSet)
                 {
-                    if (string.IsNullOrEmpty(ProbePath) == false)
+                    endpoint.LoadBalancerProbe = new LoadBalancerProbe()
                     {
-                        endpoint.LoadBalancerProbe.Path = ProbePath;
-                    }
-                    else
+                        Protocol = "TCP",
+                        Port = endpoint.LocalPort
+                    };
+                }
+                else if (this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
+                {
+                    endpoint.LoadBalancerProbe = new LoadBalancerProbe 
+                    { 
+                        Protocol = this.ProbeProtocol,
+                        Port = this.ProbePort
+                    };
+
+                    if (endpoint.LoadBalancerProbe.Protocol.Equals("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        endpoint.LoadBalancerProbe.Path = "/";
+                        endpoint.LoadBalancerProbe.Path = this.ParameterSpecified("ProbePath") ? this.ProbePath : "/";
+                    }
+
+                    if (this.ParameterSpecified("ProbeIntervalInSeconds"))
+                    {
+                        endpoint.LoadBalancerProbe.IntervalInSeconds = this.ProbeIntervalInSeconds;
+                    }
+
+                    if (this.ParameterSpecified("ProbeTimeoutInSeconds"))
+                    {
+                        endpoint.LoadBalancerProbe.TimeoutInSeconds = this.ProbeTimeoutInSeconds;
                     }
                 }
-
-                if (ProbeIntervalInSeconds.HasValue)
-                {
-                    endpoint.LoadBalancerProbe.IntervalInSeconds = ProbeIntervalInSeconds;
-                }
-
-                if (ProbeTimeoutInSeconds.HasValue)
-                {
-                    endpoint.LoadBalancerProbe.TimeoutInSeconds = ProbeTimeoutInSeconds;
-                }
-            }
-            else if (ParameterSetName == LoadBalancedParameterSet)
-            {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;
             }
 
             endpoints.Add(endpoint);
 
-            WriteObject(VM, true);
+            this.WriteObject(VM, true);
         }
 
         protected override void ProcessRecord()
@@ -188,17 +163,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             try
             {
                 base.ProcessRecord();
-                ExecuteCommand();
+                this.ExecuteCommand();
             }
             catch (Exception ex)
             {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
 
         protected Collection<InputEndpoint> GetInputEndpoints()
         {
-            var role = VM.GetInstance();
+            var role = this.VM.GetInstance();
 
             var networkConfiguration = role.ConfigurationSets
                                         .OfType<NetworkConfigurationSet>()
@@ -215,49 +190,55 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 networkConfiguration.InputEndpoints = new Collection<InputEndpoint>();
             }
 
-            var inputEndpoints = networkConfiguration.InputEndpoints;
-
-            return inputEndpoints;
+            return networkConfiguration.InputEndpoints;
         }
 
         private void ValidateParameters()
         {
-            if (string.Compare(ParameterSetName, "LoadBalancedProbe", StringComparison.OrdinalIgnoreCase) == 0)
+            if (this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
             {
-                if (string.Compare(ProbeProtocol, "tcp", StringComparison.OrdinalIgnoreCase) == 0)
+                if (this.ProbeProtocol.Equals("tcp", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (!string.IsNullOrEmpty(ProbePath))
+                    if (this.ParameterSpecified("ProbePath"))
                     {
-                        throw new ArgumentException("ProbePath not valid with tcp");
+                        throw new ArgumentException(Resources.ProbePathIsNotValidWithTcp);
                     }
                 }
 
-                if (string.Compare(ProbeProtocol, "http", StringComparison.OrdinalIgnoreCase) == 0)
+                if (this.ProbeProtocol.Equals("http", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (string.IsNullOrEmpty(ProbePath))
+                    if (!this.ParameterSpecified("ProbePath"))
                     {
-                        throw new ArgumentException("ProbePath is required for http");
+                        throw new ArgumentException(Resources.ProbePathIsRequiredForHttp);
                     }
                 }
             }
 
-            if (LocalPort < 1 || LocalPort > 65535)
+            if (this.LocalPort < 1 || this.LocalPort > 65535)
             {
-                throw new ArgumentException("Ports must be in the range of 1 - 65535");
+                throw new ArgumentException(Resources.PortSpecifiedIsNotInRange);
             }
 
-            if (PublicPort != null && (PublicPort < 1 || PublicPort > 65535))
+            if (this.ParameterSpecified("PublicPort")
+                && (this.PublicPort < 1 || this.PublicPort > 65535))
             {
-                throw new ArgumentException("Ports must be in the range of 1 - 65535");
+                throw new ArgumentException(Resources.PortSpecifiedIsNotInRange);
             }
 
-            if (ParameterSetName == "LoadBalancedProbe")
+            if (this.ParameterSetName == AddAzureEndpoint.LBCustomProbeParameterSet)
             {
                 if (ProbePort < 1 || ProbePort > 65535)
                 {
-                    throw new ArgumentException("Ports must be in the range of 1 - 65535");
+                    throw new ArgumentException(Resources.PortSpecifiedIsNotInRange);
                 }
             }
-        }       
+        }
+
+        private bool ParameterSpecified(string parameterName)
+        {
+            // Check for parameters by name so we can tell the difference between 
+            // the user not specifying them, and the user specifying null/empty.
+            return this.MyInvocation.BoundParameters.ContainsKey(parameterName);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -64,7 +64,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
                     Description = affinityGroup.Description,
                     Location = affinityGroup.Location,
                     HostedServices = affinityGroup.HostedServices != null ? affinityGroup.HostedServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0],
-                    StorageServices = affinityGroup.StorageServices != null ? affinityGroup.StorageServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0]
+                    StorageServices = affinityGroup.StorageServices != null ? affinityGroup.StorageServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0],
+                    Capabilities = affinityGroup.Capabilities != null ? affinityGroup.Capabilities.Select(p => p) : new List<string>()
                 });
 
             if (this.Name != null)

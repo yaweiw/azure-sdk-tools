@@ -30,9 +30,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     public class NewAzureStorageContext : CmdletBase
     {
         /// <summary>
-        /// Default parameter set name
+        /// Account name and key parameter set name
         /// </summary>
         private const string AccountNameKeyParameterSet = "AccountNameAndKey";
+
+        /// <summary>
+        /// Account name and key and azure environment parameter set name
+        /// </summary>
+        private const string AccountNameKeyEnvironmentParameterSet = "AccountNameAndKeyEnvironment";
 
         /// <summary>
         /// Connection string parameter set name
@@ -49,24 +54,39 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         private const string AnonymousParameterSet = "AnonymousAccount";
 
-        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
+        /// <summary>
+        /// Anonymous storage account with azure environment parameter set name
+        /// </summary>
+        private const string AnonymousEnvironmentParameterSet = "AnonymousAccountEnvironment";
+
+        private const string StorageAccountNameHelpMessage = "Azure Storage Acccount Name";
+        [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
             Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
-        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
+        [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
+            Mandatory = true, ParameterSetName = AccountNameKeyEnvironmentParameterSet)]
+        [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
+        [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
+            Mandatory = true, ParameterSetName = AnonymousEnvironmentParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Position = 1, HelpMessage = "Azure Storage Account Key",
+        private const string StorageAccountKeyHelpMessage = "Azure Storage Account Key";
+        [Parameter(Position = 1, HelpMessage = StorageAccountKeyHelpMessage,
             Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
+        [Parameter(Position = 1, HelpMessage = StorageAccountKeyHelpMessage,
+            Mandatory = true, ParameterSetName = AccountNameKeyEnvironmentParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
 
-        [Parameter(HelpMessage = "Azure Storage Connection String",
+        private const string ConnectionStringHelpMessage = "Azure Storage Connection String";
+        [Parameter(HelpMessage = ConnectionStringHelpMessage,
             Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
         public string ConnectionString { get; set; }
 
-        [Parameter(HelpMessage = "Use local development storage account",
+        private const string LocalHelpMessage = "Use local development storage account";
+        [Parameter(HelpMessage = LocalHelpMessage,
             Mandatory = true, ParameterSetName = LocalParameterSet)]
         public SwitchParameter Local
         {
@@ -75,7 +95,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private bool isLocalDevAccount;
 
-        [Parameter(HelpMessage = "Use anonymous storage account",
+        private const string AnonymousHelpMessage = "Use anonymous storage account";
+        [Parameter(HelpMessage = AnonymousHelpMessage,
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
         public SwitchParameter Anonymous
         {
@@ -84,10 +105,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private bool isAnonymous;
 
-        [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
+        private const string ProtocolHelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS";
+        [Parameter(HelpMessage = ProtocolHelpMessage,
             ParameterSetName = AccountNameKeyParameterSet)]
-        [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
+        [Parameter(HelpMessage = ProtocolHelpMessage,
+            ParameterSetName = AccountNameKeyEnvironmentParameterSet)]
+        [Parameter(HelpMessage = ProtocolHelpMessage,
             ParameterSetName = AnonymousParameterSet)]
+        [Parameter(HelpMessage = ProtocolHelpMessage,
+            ParameterSetName = AnonymousEnvironmentParameterSet)]
         [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS, IgnoreCase = true)]
         public string Protocol
         {
@@ -96,6 +122,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private string protocolType = StorageNouns.HTTPS;
 
+        private  const string EndPointHelpMessage = "Azure storage endpoint";
+        [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AccountNameKeyParameterSet)]
+        [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AnonymousParameterSet)]
+        public string Endpoint
+        {
+            get { return storageEndpoint; }
+            set { storageEndpoint = value; }
+        }
+        private string storageEndpoint = string.Empty;
+
+        private const string AzureEnvironmentHelpMessage = "Azure environment name";
+        [Alias("Name", "EnvironmentName")]
+        [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AccountNameKeyEnvironmentParameterSet,
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AnonymousEnvironmentParameterSet,
+            ValueFromPipelineByPropertyName = true)]
+        public string Environment
+        {
+            get { return environmentName; }
+            set { environmentName = value; }
+        }
+        private string environmentName = string.Empty;
+
         /// <summary>
         /// Get storage account by account name and account key
         /// </summary>
@@ -103,10 +152,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="accountKey">Storage account key</param>
         /// <param name="useHttps">Use https or not</param>
         /// <returns>A storage account</returns>
-        internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
+        internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey,
+            bool useHttps, string storageEndpoint = "")
         {
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
-            return new CloudStorageAccount(credential, useHttps);
+            return GetStorageAccountWithEndPoint(credential, accountName, useHttps, storageEndpoint);
+        }
+
+        /// <summary>
+        /// Get storage account by account name and account key
+        /// </summary>
+        /// <param name="accountName">Storage account name</param>
+        /// <param name="accountKey">Storage account key</param>
+        /// <param name="useHttps">Use https or not</param>
+        /// <param name="azureEnvironmentName">Azure environment name</param>
+        /// <returns>A storage account</returns>
+        internal CloudStorageAccount GetStorageAccountByNameAndKeyFromAzureEnvironment(string accountName,
+            string accountKey, bool useHttps, string azureEnvironmentName = "")
+        {
+            StorageCredentials credential = new StorageCredentials(accountName, accountKey);
+            return GetStorageAccountWithAzureEnvironment(credential, StorageAccountName, useHttps, azureEnvironmentName);
         }
 
         /// <summary>
@@ -146,10 +211,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
         /// <returns>A storage account</returns>
-        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName, bool useHttps)
+        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName, bool useHttps, string storageEndpoint = "")
         {
             StorageCredentials credential = new StorageCredentials();
-            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps);
+            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps, storageEndpoint);
+        }
+
+        /// <summary>
+        /// Get anonymous storage account
+        /// </summary>
+        /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
+        /// <returns>A storage account</returns>
+        internal CloudStorageAccount GetAnonymousStorageAccountFromAzureEnvironment(string storageAccountName,
+            bool useHttps, string azureEnvironmentName = "")
+        {
+            StorageCredentials credential = new StorageCredentials();
+            return GetStorageAccountWithAzureEnvironment(credential, storageAccountName, useHttps, azureEnvironmentName);
         }
 
         /// <summary>
@@ -158,31 +235,78 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="credential">Storage credentail</param>
         /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
         /// <returns>A storage account</returns>
-        internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName, bool useHttps)
+        internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential,
+            string storageAccountName, bool useHttps, string endPoint = "")
         {
             if (String.IsNullOrEmpty(storageAccountName))
             {
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
             }
 
-            string blobEndPoint = string.Empty;
-            string tableEndPoint = string.Empty;
-            string queueEndPoint = string.Empty;
-            
-            if (useHttps)
+            string blobEndpoint = string.Empty;
+            string tableEndpoint = string.Empty;
+            string queueEndpoint = string.Empty;
+            string domain = string.Empty;
+
+            if (string.IsNullOrEmpty(endPoint))
             {
-                blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName);
-                tableEndPoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName);
-                queueEndPoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName);
+                domain = GetDefaultEndPointDomain();
             }
             else
             {
-                blobEndPoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName);
-                tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName);
-                queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName);
+                domain = endPoint.Trim();
             }
 
-            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(queueEndPoint), new Uri(tableEndPoint));
+            if (useHttps)
+            {
+                blobEndpoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
+                tableEndpoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, domain);
+                queueEndpoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, domain);
+            }
+            else
+            {
+                blobEndpoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, domain);
+                tableEndpoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, domain);
+                queueEndpoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, domain);
+            }
+
+            return new CloudStorageAccount(credential, new Uri(blobEndpoint), new Uri(queueEndpoint), new Uri(tableEndpoint));
+        }
+
+        /// <summary>
+        /// Get storage account and use specific azure environment
+        /// </summary>
+        /// <param name="credential">Storage credentail</param>
+        /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
+        /// <returns>A storage account</returns>
+        internal CloudStorageAccount GetStorageAccountWithAzureEnvironment(StorageCredentials credential,
+            string storageAccountName, bool useHttps, string azureEnvironmentName = "")
+        {
+            WindowsAzureEnvironment azureEnvironment = null;
+
+            if (string.IsNullOrEmpty(azureEnvironmentName))
+            {
+                azureEnvironment = GlobalSettingsManager.Instance.DefaultEnvironment;
+            }
+            else
+            {
+                azureEnvironment = GlobalSettingsManager.Instance.GetEnvironment(azureEnvironmentName);
+            }
+
+            Uri blobEndPoint = azureEnvironment.GetStorageBlobEndpoint(storageAccountName, useHttps);
+            Uri queueEndPoint = azureEnvironment.GetStorageQueueEndpoint(storageAccountName, useHttps);
+            Uri tableEndPoint = azureEnvironment.GetStorageTableEndpoint(storageAccountName, useHttps);
+
+            return new CloudStorageAccount(credential, blobEndPoint, queueEndPoint, tableEndPoint);
+        }
+
+        /// <summary>
+        /// Get default end point domain
+        /// </summary>
+        /// <returns></returns>
+        internal string GetDefaultEndPointDomain()
+        {
+            return Resources.DefaultStorageEndPointDomain;
         }
 
         /// <summary>
@@ -197,7 +321,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             switch (ParameterSetName)
             {
                 case AccountNameKeyParameterSet:
-                    account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps);
+                    account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps, storageEndpoint);
+                    break;
+                case AccountNameKeyEnvironmentParameterSet:
+                    account = GetStorageAccountByNameAndKeyFromAzureEnvironment(StorageAccountName, StorageAccountKey,
+                        useHttps, environmentName);
                     break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
@@ -206,7 +334,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account = GetLocalDevelopmentStorageAccount();
                     break;
                 case AnonymousParameterSet:
-                    account = GetAnonymousStorageAccount(StorageAccountName, useHttps);
+                    account = GetAnonymousStorageAccount(StorageAccountName, useHttps, storageEndpoint);
+                    break;
+                case AnonymousEnvironmentParameterSet:
+                    account = GetAnonymousStorageAccountFromAzureEnvironment(StorageAccountName, useHttps, environmentName);
                     break;
                 default:
                     throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);

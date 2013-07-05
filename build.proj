@@ -27,6 +27,7 @@
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>"!Functional&#x26;!Scenario&#x26;!LongRunningTest"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
+	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
 	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
 	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
@@ -179,7 +180,7 @@
   </Target>
   
   <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildDebug;BuildReleaseSigned">
+  <Target Name="Test" DependsOnTargets="BuildDebug">
     <Message Importance="high" Text="Running tests..." />
     <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
@@ -214,6 +215,18 @@
       ContinueOnError="false" />
   </Target>
   
+  <!-- Run the CITs -->
+  <Target Name="RunOneSDKCIT" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running CITs..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+    
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
   <!-- Run the scenario tests -->
   <Target Name="AzureRTScenarioTest2" DependsOnTargets="Clean;BuildDebug">
     <Message Importance="high" Text="Running scenario tests..." />
@@ -233,7 +246,7 @@
 
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
   
@@ -244,7 +257,7 @@
 
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Scenario /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Scenario /resultsfile:$(TestOutputDirectory)\RTScenarioDebug.trx"
       ContinueOnError="false" />
   </Target>
 
@@ -255,7 +268,7 @@
 
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Functional /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Functional /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
       ContinueOnError="false" />
   </Target>
   
@@ -278,7 +291,7 @@
   <!-- Run Full switch with scenario tests -->
   <Target
     Name="FullWithScenarioTests"
-    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;ScenarioTest;BuildSetupDebug;BuildSetup" />
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned">

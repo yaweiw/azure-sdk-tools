@@ -14,86 +14,138 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
-    using System;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+	using System;
+	using System.IO;
+	using System.Net.Http;
+	using System.Net.Http.Headers;
+	using System.Xml.Serialization;
+	using Newtonsoft.Json;
+	using Newtonsoft.Json.Linq;
 
-    public static class HttpClientExtensions
-    {
-        private static void AddUserAgent(HttpClient client)
-        {
-            if (!client.DefaultRequestHeaders.UserAgent.Contains(ApiConstants.UserAgentValue))
-            {
-                client.DefaultRequestHeaders.UserAgent.Add(ApiConstants.UserAgentValue);
-            }
-        }
+	public static class HttpClientExtensions
+	{
+		private static void AddUserAgent(HttpClient client)
+		{
+			if (!client.DefaultRequestHeaders.UserAgent.Contains(ApiConstants.UserAgentValue))
+			{
+				client.DefaultRequestHeaders.UserAgent.Add(ApiConstants.UserAgentValue);
+			}
+		}
 
-        private static void LogResponse(
-            string statusCode,
-            HttpResponseHeaders headers,
-            string content,
-            Action<string> Logger)
-        {
-            if (Logger != null)
-            {
-                Logger(General.GetHttpResponseLog(statusCode, headers, content));
-            }
-        }
+		private static void LogResponse(
+			string statusCode,
+			HttpResponseHeaders headers,
+			string content,
+			Action<string> Logger)
+		{
+			if (Logger != null)
+			{
+				Logger(General.GetHttpResponseLog(statusCode, headers, content));
+			}
+		}
 
-        private static void LogRequest(
-            string method,
-            string requestUri,
-            HttpRequestHeaders headers,
-            string body,
-            Action<string> Logger)
-        {
-            if (Logger != null)
-            {
-                Logger(General.GetHttpRequestLog(method, requestUri, headers, body));
-            }
-        }
+		private static void LogRequest(
+			string method,
+			string requestUri,
+			HttpRequestHeaders headers,
+			string body,
+			Action<string> Logger)
+		{
+			if (Logger != null)
+			{
+				Logger(General.GetHttpRequestLog(method, requestUri, headers, body));
+			}
+		}
 
-        public static T GetJson<T>(this HttpClient client, string requestUri, Action<string> Logger)
-        {
-            AddUserAgent(client);
-            LogRequest(
-                HttpMethod.Get.Method,
-                client.BaseAddress + requestUri,
-                client.DefaultRequestHeaders,
-                string.Empty,
-                Logger);
-            HttpResponseMessage response = client.GetAsync(requestUri).Result;
-            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
-            LogResponse(response.StatusCode.ToString(), response.Headers, General.TryFormatJson(content), Logger);
-            
-            return JsonConvert.DeserializeObject<T>(content);
-        }
+		private static T GetFormat<T>(
+			HttpClient client,
+			string requestUri,
+			Action<string> Logger,
+			Func<string, string> formatter,
+			Func<string, T> serializer)
+			where T: class, new()
+		{
+			AddUserAgent(client);
+			LogRequest(
+				HttpMethod.Get.Method,
+				client.BaseAddress + requestUri,
+				client.DefaultRequestHeaders,
+				string.Empty,
+				Logger);
+			HttpResponseMessage response = client.GetAsync(requestUri).Result;
+			string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+			LogResponse(response.StatusCode.ToString(), response.Headers, formatter(content), Logger);
 
-        public static HttpResponseMessage PostAsJsonAsync(
-            this HttpClient client,
-            string requestUri,
-            JObject json,
-            Action<string> Logger)
-        {
-            AddUserAgent(client);
+			try 
+			{	        
+				return serializer(content);
+			}
+			catch (Exception)
+			{
+				return new T();
+			}
+		}
 
-            LogRequest(
-                HttpMethod.Post.Method,
-                client.BaseAddress + requestUri,
-                client.DefaultRequestHeaders,
-                JsonConvert.SerializeObject(json, Formatting.Indented),
-                Logger);
-            HttpResponseMessage response = client.PostAsJsonAsync(requestUri, json).Result;
-            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
-            LogResponse(
-                response.StatusCode.ToString(),
-                response.Headers,
-                General.TryFormatJson(content),
-                Logger);
+		private static string GetRawBody(
+			HttpClient client,
+			string requestUri,
+			Action<string> Logger,
+			Func<string, string> formatter)
+		{
+			AddUserAgent(client);
+			LogRequest(
+				HttpMethod.Get.Method,
+				client.BaseAddress + requestUri,
+				client.DefaultRequestHeaders,
+				string.Empty,
+				Logger);
+			HttpResponseMessage response = client.GetAsync(requestUri).Result;
+			string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+			LogResponse(response.StatusCode.ToString(), response.Headers, formatter(content), Logger);
 
-            return response;
-        }
-    }
+			return content;
+		}
+
+		public static T GetJson<T>(this HttpClient client, string requestUri, Action<string> Logger)
+			where T : class, new()
+		{
+			return GetFormat<T>(client, requestUri, Logger, General.TryFormatJson, JsonConvert.DeserializeObject<T>);
+		}
+
+		public static string GetXml(this HttpClient client, string requestUri, Action<string> Logger)
+		{
+			return GetRawBody(client, requestUri, Logger, General.FormatXml);
+		}
+
+		public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> Logger)
+			where T: class, new()
+		{
+			return GetFormat<T>(client, requestUri, Logger, General.FormatXml, General.DeserializeXmlString<T>);
+		}
+
+		public static HttpResponseMessage PostAsJsonAsync(
+			this HttpClient client,
+			string requestUri,
+			JObject json,
+			Action<string> Logger)
+		{
+			AddUserAgent(client);
+
+			LogRequest(
+				HttpMethod.Post.Method,
+				client.BaseAddress + requestUri,
+				client.DefaultRequestHeaders,
+				JsonConvert.SerializeObject(json, Formatting.Indented),
+				Logger);
+			HttpResponseMessage response = client.PostAsJsonAsync(requestUri, json).Result;
+			string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+			LogResponse(
+				response.StatusCode.ToString(),
+				response.Headers,
+				General.TryFormatJson(content),
+				Logger);
+
+			return response;
+		}
+	}
 }

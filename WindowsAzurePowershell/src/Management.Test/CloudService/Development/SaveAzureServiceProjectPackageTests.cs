@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 string rootPath = Path.Combine(files.RootPath, "NEW_SERVICE");
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 cmdlet.ExecuteCmdlet();
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 string rootPath = Path.Combine(files.RootPath, "NEW_SERVICE");
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);

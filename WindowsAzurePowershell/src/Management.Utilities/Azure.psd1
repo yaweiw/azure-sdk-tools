@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Management.dll'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '0.6.16.1'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
@@ -86,7 +86,38 @@ CmdletsToExport = '*'
 VariablesToExport = '*'
 
 # Aliases to export from this module
-AliasesToExport = '*'
+AliasesToExport = @(
+'Add-WAPackEnvironment',
+'Disable-WAPackWebsiteApplicationDiagnostic'
+'Enable-WAPackWebsiteApplicationDiagnositc'
+'Get-WAPackEnvironment',
+'Get-WAPackPublishSettingsFile',
+'Get-WAPackSBLocation',
+'Get-WAPackSBNamespace',
+'Get-WAPackSubscription',
+'Get-WAPackWebsite',
+'Get-WAPackWebsiteDeployment',
+'Get-WAPackWebsiteLocation',
+'Get-WAPackWebsiteLog',
+'Import-WAPackPublishSettingsFile',
+'New-WAPackSBNamespace',
+'New-WAPackWebsite',
+'Remove-WAPackEnvironment',
+'Remove-WAPackSBNamespace',
+'Remove-WAPackSubscription',
+'Remove-WAPackWebsite',
+'Restart-WAPackWebsite',
+'Restore-WAPackWebsiteDeployment',
+'Save-WAPackWebsiteLog',
+'Select-WAPackSubscription',
+'Set-WAPackEnvironment',
+'Set-WAPackSubscription',
+'Set-WAPackWebsite',
+'Show-WAPackPortal',
+'Show-WAPackWebsite',
+'Start-WAPackWebsite',
+'Stop-WAPackWebsite',
+'Test-WAPackName')
 
 # List of all modules packaged with this module
 ModuleList = @()
@@ -98,4 +129,3 @@ FileList =	@()
 PrivateData = ''
 
 }
-

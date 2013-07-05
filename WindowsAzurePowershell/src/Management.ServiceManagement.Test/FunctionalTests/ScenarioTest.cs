@@ -19,14 +19,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Management.Automation;
     using System.Net;
     using System.Net.Cache;
     using System.Reflection;
     using System.Text;
     using System.Threading;
+    using System.Xml;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Service.Gateway;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
@@ -81,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
                      
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSLinuxVM");
-            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "testvmimage" }, false);
+            string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "Ubuntu", "testvmimage" }, false);
 
             vmPowershellCmdlets.NewAzureQuickLinuxVM(OS.Linux, newAzureQuickVMName, serviceName, linuxImageName, "user", password, locationName);
 
@@ -138,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
             AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
             AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustonProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
 
             PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
             PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
@@ -174,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
             AddAzureDataDiskConfig azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 1433, 2000, "sql");
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 1433, 2000, "sql");
             AddAzureDataDiskConfig[] dataDiskConfig = { azureDataDiskConfigInfo1, azureDataDiskConfigInfo2 };
             vmPowershellCmdlets.AddVMDataDisksAndEndPoint(newAzureQuickVMName, serviceName, dataDiskConfig, azureEndPointConfigInfo);
 
@@ -326,7 +329,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.AreEqual(vmRoleCtxt.Name, persistentVM.RoleName, true);
 
 
-            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName); // Stop-AzureVM
+            vmPowershellCmdlets.StopAzureVM(newAzureVMName, serviceName, true); // Stop-AzureVM
             for (int i = 0; i < 3; i++)
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);
@@ -474,8 +477,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// Basic Provisioning a Virtual Machine
         /// </summary>
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]  
-        [Ignore]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]
         public void DeploymentUpgrade()        
         {
 
@@ -581,8 +583,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         /// Note: Create a VNet, a LocalNet from the portal without creating a gateway.
         [TestMethod(), TestCategory("LongRunningTest"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
-        Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]     
-        [Ignore]
+        Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]
         public void VNetTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -724,6 +725,290 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\nodiagpackage.csv", "nodiagpackage#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceDiagnosticsExtensionConfigScenarioTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
+            string configName = Convert.ToString(TestContext.DataRow["configName"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+            string storage = defaultAzureSubscription.CurrentStorageAccount;
+            XmlDocument daConfig = new XmlDocument();
+            daConfig.Load(@".\da.xml");
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                ExtensionConfigurationInput config = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, daConfig);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false, config);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                DiagnosticExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName)[0];
+
+                VerifyDiagExtContext(resultContext, "AllRoles", "Default-Diagnostics-Production-Ext-0", storage, daConfig);
+
+                vmPowershellCmdlets.RemoveAzureServiceDiagnosticsExtension(serviceName);
+
+                Assert.AreEqual(vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName).Count, 0);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\nodiagpackage.csv", "nodiagpackage#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceDiagnosticsExtensionTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
+            string configName = Convert.ToString(TestContext.DataRow["configName"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+            string storage = defaultAzureSubscription.CurrentStorageAccount;
+            XmlDocument daConfig = new XmlDocument();
+            daConfig.Load(@".\da.xml");
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                vmPowershellCmdlets.SetAzureServiceDiagnosticsExtension(serviceName, storage, daConfig);
+
+                DiagnosticExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName)[0];
+
+                Assert.IsTrue(VerifyDiagExtContext(resultContext, "AllRoles", "Default-Diagnostics-Production-Ext-0", storage, daConfig));
+
+                vmPowershellCmdlets.RemoveAzureServiceDiagnosticsExtension(serviceName, true);
+
+                Assert.AreEqual(vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName).Count, 0);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+
+        // Disabled. Tracking Issue # 1479
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceRemoteDesktopExtensionConfigScenarioTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
+            string rdpPath = @".\WebRole1.rdp";
+            string dns;
+
+            try
+            {
+
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                ExtensionConfigurationInput config = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false, config);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
+
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddMonths(6));
+
+                Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
+
+                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+
+                using (StreamReader stream = new StreamReader(rdpPath))
+                {
+                    string firstLine = stream.ReadLine();
+                    dns = Utilities.FindSubstring(firstLine, ':', 2);
+                }
+
+                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+
+                vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName);
+
+                try
+                {
+                    vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+                    Assert.Fail("Succeeded, but extected to fail!");
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to get RDP file as expected");
+                    }
+                }
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        // Disabled. Tracking Issue # 1479
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceRemoteDesktopExtensionTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
+            string rdpPath = @".\WebRole1.rdp";
+            string dns;
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                vmPowershellCmdlets.SetAzureServiceRemoteDesktopExtension(serviceName, cred);
+
+                RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
+
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddMonths(6));
+
+                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+
+                using (StreamReader stream = new StreamReader(rdpPath))
+                {
+                    string firstLine = stream.ReadLine();
+                    dns = Utilities.FindSubstring(firstLine, ':', 2);
+                }
+
+                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+
+                vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName, true);
+
+                try
+                {
+                    vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+                    Assert.Fail("Succeeded, but extected to fail!");
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to get RDP file as expected");
+                    }
+                }
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
         [TestCleanup]
         public virtual void CleanUp()
         {
@@ -824,6 +1109,43 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             while (!vnetState.Equals(expectedState) || i < maxTime);
 
             return vnetState.Equals(expectedState);
+        }
+
+        private bool VerifyDiagExtContext(DiagnosticExtensionContext resultContext, string role, string extID, string storage, XmlDocument config)
+        {
+            try
+            {
+                Assert.AreEqual(role, resultContext.Role.RoleType.ToString());
+                Assert.AreEqual("Diagnostics", resultContext.Extension);
+                Assert.AreEqual(extID, resultContext.Id);
+                Assert.AreEqual(storage, resultContext.StorageAccountName);
+
+                string inner = Utilities.GetInnerXml(resultContext.WadCfg, "WadCfg");
+                Assert.IsTrue(Utilities.CompareWadCfg(inner, config));
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool VerifyRDPExtContext(RemoteDesktopExtensionContext resultContext, string role, string extID, string userName, DateTime exp)
+        {
+            try
+            {
+                Assert.AreEqual(role, resultContext.Role.RoleType.ToString());
+                Assert.AreEqual("RDP", resultContext.Extension);
+                Assert.AreEqual(extID, resultContext.Id);
+                Assert.AreEqual(userName, resultContext.UserName);
+                Assert.IsTrue(Utilities.CompareDateTime(exp, resultContext.Expiration));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

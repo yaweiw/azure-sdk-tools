@@ -1,3 +1,63 @@
+2013.06.24 Version 0.6.16
+* Add-AzureEnvironment to add customized environment like Windows Azure Pack
+* Set-AzureEnvironment to set customized environment like Windows Azure Pack
+* Remove-AzureEnvironment to remove customized environment like Windows Azure Pack
+* Web Site cmdlets now support Windows Azure Pack
+* Service Bus cmdlets now support Windows Azure Pack
+* Added "WAPack" prefix to all the cmdlets which support Windows Azure Pack. Use "help WAPack" to see all the supported cmdlets
+* Added -NoWinRMEndpoint parameter to New-AzureQuickVM and Add-AzureProvisioningConfig
+* Added -AllowAllAzureSerivces parameter to New-AzureSqlDatabaseServerFirewallRule
+* Many bug fixes around VM, Cloud Services and Web Site diagnositcs
+
+2013.06.03 Version 0.6.15
+* Introduced the environment concept to support differnt Windows Azure environments
+  * Get-AzureEnvironment cmdlet to return all the out-of-box Windows Azure environments
+  * -Environment parameter in the following cmdlets to specify which environment to target
+    * Get-AzurePublishSettingsFile
+    * Show-AzurePortal
+* Windows Azure Web Site application diagnostics cmdlets
+  * Enable-AzureWebsiteApplicationDiagnostic
+  * Disable-AzureWebsiteApplicationDiagnostic
+* Stop-AzureVM
+  * Changed the behavior to deprovision the VM after stopping it
+  * -StayProvisioned parameter to keep the VM provisioned after stopping it
+* Windows Azure Cloud Services remote desktop extension cmdlets
+  * New-AzureServiceRemoteDesktopExtensionConfig
+  * Get-AzureServiceRemoteDesktopExtension
+  * Set-AzureServiceRemoteDesktopExtension
+  * Remove-AzureServiceRemoteDesktopExtension
+* Windows Azure Cloud Services diagnostics extension cmdlets
+  * New-AzureServiceDiagnosticsExtensionConfig
+  * Get-AzureServiceDiagnosticsExtension
+  * Set-AzureServiceDiagnosticsExtension
+  * Remove-AzureServiceDiagnosticsExtension
+* Windows Azure Virtual Machine endpoint enhancements
+  * Cmdlets to create ACL configration objects
+    * New-AzureVMAclConfig
+    * Get-AzureVMAclConfig
+    * Set-AzureVMAclConfig
+    * Remove-AzureVMAclConfig
+  * -ACL parameter to support ACL in
+    * Add-AzureEndpoint
+    * Set-AzureEndpoint
+  * -DirectServerReturn prameter in
+    * Add-AzureEndpoint
+    * Set-AzureEndpoint
+  * Set-AzureLoadBalancedEndpoint cmdlet to modify load balanced endpoints
+* Bug fixes
+  * Fixed New-AzureSqlDatabaseServerContext model mismatch warning
+
+2013.05.08 Version 0.6.14
+* Windows Azure Storage Table cmdlets
+  * Get-AzureStorageTable
+  * New-AzureStorageTable
+  * Remove-AzureStorageTable
+* Windows Azure Storage Queue cmdlets
+  * Get-AzureStorageQueue
+  * New-AzureStorageQueue
+  * Remove-AzureStorageQueue
+* Fix an issue in Publish-AzureServiceProject when swapping between staging and production slot
+
 2013.04.23 Version 0.6.13.1
 * Hotfix to make Set-AzureStorageAccount behave correctly with the -GeoReplicationEnabled parameter
 

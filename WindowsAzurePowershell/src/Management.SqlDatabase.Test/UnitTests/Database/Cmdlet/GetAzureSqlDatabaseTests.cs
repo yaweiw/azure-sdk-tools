@@ -15,12 +15,17 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class GetAzureSqlDatabaseTests : TestBase
@@ -111,21 +116,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell.Streams.ClearStreams();
 
                     // Expecting master, testdb1, testdb2
-                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
+                    Assert.AreEqual(
+                        3, 
+                        databases.Count, 
+                        "Expecting three Database objects");
 
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database1Obj =
                         (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+                    Assert.AreEqual(
+                        "testdb1", 
+                        database1Obj.Name, 
+                        "Expected db name to be testdb1");
 
                     Assert.IsTrue(
                         database2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database2Obj =
                         (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual(
+                        "testdb2", 
+                        database2Obj.Name, 
+                        "Expected db name to be testdb2");
                     Assert.AreEqual(
                         "Japanese_CI_AS",
                         database2Obj.CollationName,
@@ -134,6 +148,129 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
                 }
             }
+        }
+
+        /// <summary>
+        /// Test getting a database using certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabaseWithCertAuth()
+        {
+            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
+
+            channel.GetDatabaseThunk = ar =>
+            {
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName did not match the expected");
+
+                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
+                db1.CollationName = "Japanese_CI_AS";
+                db1.Edition = "Web";
+                db1.Id = "1";
+                db1.MaxSizeGB = "1";
+                db1.Name = "testdb1";
+                db1.CreationDate = DateTime.Now.ToString();
+                db1.IsFederationRoot = true.ToString();
+                db1.IsSystemObject = true.ToString();
+                db1.MaxSizeBytes = "1073741824";
+
+                return db1;
+            };
+
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = 
+                MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext contextCmdlet = 
+                new NewAzureSqlDatabaseServerContext();
+
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            service.Channel = channel;
+
+            Database database = service.GetDatabase("testdb1");
+
+            Assert.AreEqual("testdb1", database.Name, "Expected db name to be testdb1");
+
+            Assert.AreEqual(
+                "Japanese_CI_AS", 
+                database.CollationName,
+                "Expected collation to be Japanese_CI_AS");
+            Assert.AreEqual("Web", database.Edition, "Expected edition to be Web");
+            Assert.AreEqual(1, database.MaxSizeGB, "Expected max size to be 1 GB");
+        }
+
+        /// <summary>
+        /// Test getting all databases with certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabasesWithCertAuth()
+        {
+            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
+
+            channel.GetDatabasesThunk = ar =>
+            {
+                List<SqlDatabaseResponse> databases = new List<SqlDatabaseResponse>();
+
+                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
+                db1.CollationName = "Japanese_CI_AS";
+                db1.Edition = "Web";
+                db1.Id = "1";
+                db1.MaxSizeGB = "1";
+                db1.Name = "testdb1";
+                db1.CreationDate = DateTime.Now.ToString();
+                db1.IsFederationRoot = true.ToString();
+                db1.IsSystemObject = true.ToString();
+                db1.MaxSizeBytes = "1073741824";
+                databases.Add(db1);
+
+                SqlDatabaseResponse db2 = new SqlDatabaseResponse();
+                db2.CollationName = "Japanese_CI_AS";
+                db2.Edition = "Business";
+                db2.Id = "2";
+                db2.MaxSizeGB = "10";
+                db2.Name = "testdb2";
+                db2.CreationDate = DateTime.Now.ToString();
+                db2.IsFederationRoot = true.ToString();
+                db2.IsSystemObject = true.ToString();
+                db2.MaxSizeBytes = "10737418240";
+                databases.Add(db2);
+
+                SqlDatabaseList operationResult = new SqlDatabaseList(databases);
+
+                return operationResult;
+            };
+
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint =
+                MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext contextCmdlet = 
+                new NewAzureSqlDatabaseServerContext();
+
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            service.Channel = channel;
+
+            Database[] results = service.GetDatabases();
+
+            // Expecting master, testdb1, testdb2
+            Assert.AreEqual(2, results.Length, "Expecting two Database objects");
+
+            Database database1Obj = results[0];
+            Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+
+            Database database2Obj = results[1];
+            
+            Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+            Assert.AreEqual(
+                "Japanese_CI_AS", 
+                database2Obj.CollationName, 
+                "Expected collation to be Japanese_CI_AS");
+            Assert.AreEqual("Business", database2Obj.Edition, "Expected edition to be Business");
+            Assert.AreEqual(10, database2Obj.MaxSizeGB, "Expected max size to be 10 GB");
         }
 
         [TestMethod]
@@ -197,21 +334,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell.Streams.ClearStreams();
 
                     // Expecting master, testdb1, testdb2
-                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
+                    Assert.AreEqual(
+                        3, 
+                        databases.Count, 
+                        "Expecting three Database objects");
 
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database1Obj =
                         (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+                    Assert.AreEqual(
+                        "testdb1", 
+                        database1Obj.Name, 
+                        "Expected db name to be testdb1");
 
                     Assert.IsTrue(
                         database2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database2Obj =
                         (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual(
+                        "testdb2", 
+                        database2Obj.Name, 
+                        "Expected db name to be testdb2");
                     Assert.AreEqual(
                         "Japanese_CI_AS",
                         database2Obj.CollationName,
@@ -221,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 }
             }
         }
-
+        
         [TestMethod]
         public void GetAzureSqlDatabaseWithSqlAuthNonExistentDb()
         {
