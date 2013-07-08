@@ -67,6 +67,8 @@ Write-Output "`$ServerLocation=$ServerLocation"
 $ManageUrlPrefix = "https://"
 $ManageUrlPostfix = ".database.windows.net/"
 $DatabaseNamePrefix = "testIEDatabase"
+$BlobName = $null
+$BlobName2 = $null
 
 Try
 {
@@ -99,14 +101,14 @@ Try
     $DatabaseName1 = $DatabaseNamePrefix + (get-date).Ticks
     
     Write-Output "Creating Database $DatabaseName1 ..."
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $DatabaseName1
+    $database = New-AzureSqlDatabase -Context $context -DatabaseName $DatabaseName1 -Edition "Web" -MaxSizeGb 1
     Assert {$database} "Failed to create a database"
     Write-Output "Done"
 
     $DatabaseName2 = $DatabaseNamePrefix + "2" + (get-date).Ticks
     
     Write-Output "Creating Database $DatabaseName2 ..."
-    $database2 = New-AzureSqlDatabase -Context $context -DatabaseName $DatabaseName2
+    $database2 = New-AzureSqlDatabase -Context $context -DatabaseName $DatabaseName2 -Edition "Web" -MaxSizeGb 1
     Assert {$database2} "Failed to create a database"
     Write-Output "Done"
 
@@ -140,9 +142,9 @@ Try
     {
         TestImportWithRequestObject
 
-        TestImportWithRequestObjectAndOptionalParameters
-
         TestImportWithRequestId
+
+        TestImportWithRequestObjectAndOptionalParameters
     }
     finally
     {

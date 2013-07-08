@@ -22,10 +22,11 @@ function TestImportWithRequestObject
 	# Test the first parameter set
 
     $BlobName = $DatabaseName1 + ".bacpac"
+    $dbName = $DatabaseName1 + "-import1"
 	Write-Output "Importing from Blob: $BlobName"
 
 	$Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		-DatabaseName $DatabaseName1 -BlobName $BlobName
+		-DatabaseName $dbName -BlobName $BlobName
     Assert {$Request} "Failed to initiate the first import opertaion"
 	$id = ($Request.RequestGuid)
     Write-Output "Request Id for import1: $id"
@@ -37,7 +38,7 @@ function TestImportWithRequestObject
 		Start-Sleep -m 1500
 		$status = Get-AzureSqlDatabaseImportExportStatus $Request
 		$s = $status.Status
-		Write-Output "Request Status: $s"
+		Write-Output "Request Status: $($status.Status)"
 	} while($status.Status -ne "Completed")
 }
 
@@ -45,42 +46,46 @@ function TestImportWithRequestObjectAndOptionalParameters
 {
     ####################################################
     # Import Database
-	$defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
-    $defaultIsReadOnly = $false
-    $defaultIsFederationRoot = $false
-    $defaultIsSystemObject = $false
-    $defaultMaxSize = 1
-    $defaultEdition = "Web"
 	$status = $null
-    $Edition = "Business"
-    $MaxSize = 10
     
     ###########
 	# Test optional Edition
+    
+    $BlobName = $DatabaseName1 + ".bacpac"
+	Write-Output "Importing from Blob: $BlobName"
 
     for( $i = 0; $i -ne 3; $i++)
     {
         Write-Output "Running test parameter set combination $i"
-        $BlobName = $DatabaseName1 + ".bacpac"
         $dbName = $DatabaseName1 + "Options-$i"
-	    Write-Output "\tImporting from Blob: $BlobName"
+        Write-Output "Database name: $dbName"
 
-        $currEdition = $defaultEdition
-        $currMaxSize = $defaultMaxSize
+        $Request = $null
 
-        if( ($i -eq 0) -or ($i -eq 2) )
+        if ($i -eq 0)
         {
-            $currEdition = $edition
+            $currEdition = "Business"
+	    
+            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+		        -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition
         }
-        elseif ($i -eq 1 -or ($i -eq 2) )
+        elseif ($i -eq 1)
         {
-            $currMaxSize = $MaxSize
+            $currMaxSize = 5
+	    
+            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+		        -DatabaseName $dbName -BlobName $BlobName -DatabaseMaxSize $currMaxSize
+        }
+        elseif ($i -eq 2)
+        {
+            $currEdition = "Business"
+            $currMaxSize = 20
+	    
+            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+		        -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $currMaxSize
         }
 
-	    $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		    -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $MaxSize
-
-        Assert {$Request} "\tFailed to initiate the second import opertaion"
+        Assert {$Request} "Failed to initiate the import opertaion for parameter set combination: $i"
 	    $id = ($Request.RequestGuid)
         Write-Output "Request Id for import: $id"
     
@@ -91,13 +96,13 @@ function TestImportWithRequestObjectAndOptionalParameters
 		    Start-Sleep -m 1500
 		    $status = Get-AzureSqlDatabaseImportExportStatus $Request
 		    $s = $status.Status
-		    Write-Output "Request Status: $s"
+		    Write-Output "Request Status: $($status.Status)"
+            if($status.Status -eq "Failed")
+            {
+		        Write-Output "Error message: $($status.ErrorMessage)"
+                break
+            }
 	    } while($status.Status -ne "Completed")
-
-        $db = get-azuresqldatabase $context -DatabaseName $dbName
-        Validate-SqlDatabase -Actual $db -ExpectedName $dbName -ExpectedCollationName $defaultCollation -ExpectedEdition `
-                $currEdition -ExpectedMaxSizeGB $currMaxSize -ExpectedIsReadOnly $defaultIsReadOnly `
-                -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
     }
 }
 
@@ -107,10 +112,11 @@ function TestImportWithRequestId
 	# Test the second parameter set
 
     $BlobName2 = $DatabaseName2 + ".bacpac"
+    $dbName = $DatabaseName2 + "-import3"
 	Write-Output "Importing from Blob: $BlobName2"
 
 	$Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContext $StgCtx `
-		-StorageContainerName $ContainerName -DatabaseName $DatabaseName2 -BlobName $BlobName2
+		-StorageContainerName $ContainerName -DatabaseName $dbName -BlobName $BlobName2
     Assert {$Request} "Failed to initiate the third import opertaion"
 	$id = ($Request.RequestGuid)
     Write-Output "Request Id for Import: $id"
