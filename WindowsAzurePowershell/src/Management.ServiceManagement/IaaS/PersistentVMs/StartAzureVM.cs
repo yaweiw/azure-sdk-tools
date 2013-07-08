@@ -18,6 +18,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using WindowsAzure.ServiceManagement;
     using Utilities.Common;
     using Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
+    using System;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
 
 
     [Cmdlet(VerbsLifecycle.Start, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
@@ -59,7 +62,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             }
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
+
+            // Create a regular expression based on user input.
+            var regex = PersistentVMHelper.GetRegexFromRoleName(roleName);
+
+            // Generate a list of role names matching regular expressions or
+            // the exact name specified in the -Name parameter.
+            var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, regex);
+
+            // Insure at least one of the role name instances can be found.
+            if (roleNames.Count == 0)
+                throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
+
+            var startRolesOperation = new StartRolesOperation();
+            startRolesOperation.Roles = roleNames;
+
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRoles(s, this.ServiceName, CurrentDeployment.Name, startRolesOperation));
+        
         }
 
     }

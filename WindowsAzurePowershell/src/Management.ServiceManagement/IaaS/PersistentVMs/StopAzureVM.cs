@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Utilities.Common;
     using Model;
     using Properties;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
 
     [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StopAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -78,34 +79,48 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
 
-            var roleInstance = CurrentDeployment.RoleInstanceList.Where(r => r.RoleName != null).
-                FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+            // Create a regular expression based on Name parameter
+            var regex = PersistentVMHelper.GetRegexFromRoleName(roleName);
 
-            if (roleInstance == null)
-            {
+            // Insure the Force switch is specified for wildcard operations
+            if (!roleName.Equals(regex.ToString()))
+                if (!Force.IsPresent)
+                    throw new ArgumentException(Resources.MustSpecifyForceParameterWhenUsingWildcards);
+
+            // Generate a list of role names matching regular expressions or
+            // the exact name specified in the -Name parameter.
+            var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, regex);
+
+            // Insure at least one of the role name instances can be found.
+            if (roleNames.Count == 0)
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
-            }
+
+            var shutdownRolesOperation = new ShutdownRolesOperation();
+            shutdownRolesOperation.Roles = roleNames;
 
             if(StayProvisioned.IsPresent)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.Stopped));
+                shutdownRolesOperation.PostShutdownAction = PostShutdownAction.Stopped;
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation));
             }
             else
             {
                 
                 if(!Force.IsPresent && IsLastVmInDeployment())
                 {
+                    shutdownRolesOperation.PostShutdownAction = PostShutdownAction.StoppedDeallocated;
                     ConfirmAction(false,
                         Resources.DeploymentVIPLossWarning,
                         string.Format(Resources.DeprovisioningVM, roleName),
                         String.Empty,
                         () =>
-                            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated))
+                            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation))
                         );
                 }
                 else
                 {
-                    ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated));
+                    shutdownRolesOperation.PostShutdownAction = PostShutdownAction.StoppedDeallocated;
+                    ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation));
                 }
             }
         }
