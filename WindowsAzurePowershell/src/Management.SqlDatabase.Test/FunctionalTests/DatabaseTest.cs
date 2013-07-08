@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string storageName;
         private string accessKey;
         private string ieServerLocation;
+        private string ieSubscriptionId;
 
         /// <summary>
         /// Scripts for doing context creation tests
@@ -122,6 +123,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
             this.storageName = root.Element("StorageName").Value;
             this.accessKey = root.Element("AccessKey").Value;
             this.ieServerLocation = root.Element("IEServerLocation").Value;
+            this.ieSubscriptionId = root.Element("IESubId").Value;
         }
 
         /// <summary>
@@ -259,7 +261,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
                 cmdlineArgs,
                 this.userName,
                 this.password,
-                this.subscriptionId,
+                this.ieSubscriptionId,
                 this.serializedCert,
                 this.containerName,
                 this.storageName,
