@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;
+    using System.Text.RegularExpressions;
 
     public static class PersistentVMHelper
     {
@@ -71,5 +72,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 
             return role;
         }
+
+        public static RoleNamesCollection GetRoleNames(RoleInstanceList roleInstanceList, Regex regex)
+        {
+            var roleNamesCollection = new RoleNamesCollection();
+            foreach (RoleInstance role in roleInstanceList)
+                if (!string.IsNullOrEmpty(role.RoleName) && (regex.IsMatch(role.RoleName)))
+                    roleNamesCollection.Add(role.RoleName);
+            return roleNamesCollection;
+        }
+
+        public static Regex GetRegexFromRoleName(string roleName)
+        {
+            if (roleName.StartsWith("*") && (roleName.Length > 1))
+                return new Regex("[" + roleName.Replace("*", string.Empty) + "]$", RegexOptions.IgnoreCase);
+            else if (roleName.EndsWith("*") && (roleName.Length > 1))
+                return new Regex("^[" + roleName.Replace("*", string.Empty) + "]", RegexOptions.IgnoreCase);
+            else if (roleName.Equals("*"))
+                return new Regex("[.]*", RegexOptions.IgnoreCase);
+            else
+                return new Regex(roleName);
+        }
+
     }
 }
