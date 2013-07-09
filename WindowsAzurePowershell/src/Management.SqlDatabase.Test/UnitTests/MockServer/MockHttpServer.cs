@@ -321,7 +321,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
             responseInfo.Cookies = new HttpMessage.CookieCollection();
             foreach (Cookie cookie in response.Cookies)
             {
-                Uri cookieHostUri = new Uri(serviceBaseUri.Scheme + Uri.SchemeDelimiter + cookie.Domain);
+                Uri cookieHostUri = new Uri(serviceBaseUri.Scheme + Uri.SchemeDelimiter + serviceBaseUri.Host);
                 Uri cookieUri = new Uri(cookieHostUri, cookie.Path);
                 Uri cookieRelativeUri = serviceBaseUri.MakeRelativeUri(cookieUri);
                 responseInfo.Cookies.Add(new HttpMessage.Cookie

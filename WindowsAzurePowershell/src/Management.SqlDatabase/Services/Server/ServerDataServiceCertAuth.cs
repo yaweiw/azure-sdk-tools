@@ -181,8 +181,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 IsSystemObject = bool.Parse(response.IsSystemObject),
                 MaxSizeGB = int.Parse(response.MaxSizeGB),
                 MaxSizeBytes = long.Parse(response.MaxSizeBytes),
-                Name = response.Name
+                Name = response.Name,
             };
+
+            // Parse the service objective information
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorCode))
+            {
+                result.ServiceObjectiveAssignmentErrorCode = int.Parse(response.ServiceObjectiveAssignmentErrorCode);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorDescription))
+            {
+                result.ServiceObjectiveAssignmentErrorDescription = response.ServiceObjectiveAssignmentErrorDescription;
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentState))
+            {
+                result.ServiceObjectiveAssignmentState = byte.Parse(response.ServiceObjectiveAssignmentState);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentStateDescription))
+            {
+                result.ServiceObjectiveAssignmentStateDescription = response.ServiceObjectiveAssignmentStateDescription;
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentSuccessDate))
+            {
+                result.ServiceObjectiveAssignmentSuccessDate = DateTime.Parse(response.ServiceObjectiveAssignmentSuccessDate);
+            }
+            if (!string.IsNullOrEmpty(response.ServiceObjectiveId))
+            {
+                result.ServiceObjectiveId = Guid.Parse(response.ServiceObjectiveId);
+            }
+            
             result.LoadExtraProperties(this);
 
             return result;
@@ -300,7 +327,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSize,
-            DatabaseEdition? databaseEdition)
+            DatabaseEdition? databaseEdition, 
+            ServiceObjective serviceObjective)
         {
             this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
 
@@ -320,6 +348,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             //Set the database ID and collation
             input.Id = database.Id.ToString();
             input.CollationName = database.CollationName;
+
+            if (serviceObjective != null)
+            {
+                input.ServiceObjectiveId = serviceObjective.Id.ToString();
+            }
 
             //Determine what the new name for the database should be
             if (!string.IsNullOrEmpty(newDatabaseName))
@@ -397,5 +430,30 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
 
         #endregion
+
+        public void LoadProperty(object obj, string propertyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServerQuota GetQuota(string quotaName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServerQuota[] GetQuotas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServiceObjective[] GetServiceObjectives()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServiceObjective GetServiceObjective(string serviceObjectiveName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -75,6 +75,50 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         [DataMember(Order = 9)]
         public string MaxSizeBytes { get; set; }
 
+
+        /// <summary>
+        /// Gets the service objective currently assigned to the database.
+        /// </summary>
+        [DataMember(Order = 15)]
+        public string ServiceObjectiveId { get; private set; }
+
+        /// <summary>
+        /// Gets the service objective pending assignment to the database.
+        /// </summary>
+        [DataMember(Order = 16)]
+        public string AssignedServiceObjectiveId { get; private set; }
+
+        /// <summary>
+        /// Gets the service objective assignment state.
+        /// </summary>
+        [DataMember(Order = 17)]
+        public string ServiceObjectiveAssignmentState { get; private set; }
+
+        /// <summary>
+        /// Gets the service objective assignment state description.
+        /// </summary>
+        [DataMember(Order = 18)]
+        public string ServiceObjectiveAssignmentStateDescription { get; private set; }
+
+        /// <summary>
+        /// Gets the last known service objective assignment error code.
+        /// </summary>
+        [DataMember(Order = 19)]
+        public string ServiceObjectiveAssignmentErrorCode { get; private set; }
+
+        /// <summary>
+        /// Gets the last known service objective assignment error description.
+        /// </summary>
+        [DataMember(Order = 20)]
+        public string ServiceObjectiveAssignmentErrorDescription { get; private set; }
+
+        /// <summary>
+        /// Gets the last known successful service objective assignment date.
+        /// </summary>
+        [DataMember(Order = 21)]
+        public string ServiceObjectiveAssignmentSuccessDate { get; private set; }
+
+
         /// <summary>
         /// Gets or sets the extension data
         /// </summary>

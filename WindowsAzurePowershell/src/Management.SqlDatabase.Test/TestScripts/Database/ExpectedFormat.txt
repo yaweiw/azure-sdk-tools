@@ -12,18 +12,21 @@ Databases         : <database_list>
 
 Database
 
-Name                   CollationName                Edition MaxSizeGB CreationDate         
-----                   -------------                ------- --------- ------------         
-testFormatdbfromcmdlet SQL_Latin1_General_CP1_CI_AS Web             1 <databaseCreate_date>
+Name                   CollationName                Edition MaxSizeGB ServiceObjectiveName ServiceObjectiveAssignmentStateDescription CreationDate        
+----                   -------------                ------- --------- -------------------- ------------------------------------------ ------------        
+testFormatdbfromcmdlet SQL_Latin1_General_CP1_CI_AS Web             1 Shared               Complete                                   <databaseCreate_date>
 
 
 
 
-Name          : testFormatdbfromcmdlet
-CollationName : SQL_Latin1_General_CP1_CI_AS
-Edition       : Web
-MaxSizeGB     : 1
-CreationDate  : <databaseCreate_date>
+
+Name                                       : testFormatdbfromcmdlet
+CollationName                              : SQL_Latin1_General_CP1_CI_AS
+Edition                                    : Web
+MaxSizeGB                                  : 1
+ServiceObjectiveName                       : Shared
+ServiceObjectiveAssignmentStateDescription : Complete
+CreationDate                               : <databaseCreate_date>
 
 
 

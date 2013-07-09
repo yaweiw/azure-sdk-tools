@@ -66,73 +66,73 @@ $NameStartWith = $Name
 
 Try
 {
-	Init-TestEnvironment
-	
-	$database = $null
-	$database2 = $null
-	$defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
+    Init-TestEnvironment
+    
+    $database = $null
+    $database2 = $null
+    $defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
     $defaultEdition = "Web"
     $defaultMaxSizeGB = "1"
     $defaultIsReadOnly = $false
     $defaultIsFederationRoot = $false
     $defaultIsSystemObject = $false
 
-	# Using Sql Auth
-	try
-	{	
-		Write-Output "Test 1: Using Sql Auth"
+    # Using Sql Auth
+    try
+    {    
+        Write-Output "Test 1: Using Sql Auth"
 
-		$context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
+        $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
 
-		Scenerio1-CreateWithRequiredParameters -Context $context
+        Scenerio1-CreateWithRequiredParameters -Context $context
     
-		Scenerio2-CreateWithOptionalParameters -Context $context
-	}
-	finally
-	{
-		# Drop Database
-		Drop-Databases $Context $NameStartWith
-	}
-	
-	# Using Cert Auth
-	try
-	{	
-		Write-Output "Test 2: Using Cert Auth"
-
-		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
-		$sub = Get-AzureSubscription -Current
-		$context = Get-ServerContextByServerNameWithCertAuth $ServerName
-
-		Scenerio1-CreateWithRequiredParameters -Context $context
+        Scenerio2-CreateWithOptionalParameters -Context $context
+    }
+    finally
+    {
+        # Drop Database
+        Drop-Databases $Context $NameStartWith
+    }
     
-		Scenerio2-CreateWithOptionalParameters -Context $context
-	}
-	finally
-	{
-		# Drop Database
-		Drop-Databases $Context $NameStartWith
-		Remove-AzureSubscription $sub.SubscriptionName -Force
-	}
+    # Using Cert Auth
+    try
+    {    
+        Write-Output "Test 2: Using Cert Auth"
 
-	# Using Cert Auth with server name
-	try
-	{	
-		Write-Output "Test 3: Using Cert Auth with Server Name"
+        Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+        $sub = Get-AzureSubscription -Current
 
-		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
-		$sub = Get-AzureSubscription -Current
-
-		Scenerio1-CreateWithRequiredParameters -ServerName $ServerName
+        $context = Get-ServerContextByServerNameWithCertAuth $ServerName
+        Scenerio1-CreateWithRequiredParameters -Context $context
     
-		Scenerio2-CreateWithOptionalParameters -ServerName $ServerName
+        Scenerio2-CreateWithOptionalParameters -Context $context
+    }
+    finally
+    {
+        # Drop Database
+        Drop-Databases $Context $NameStartWith
+        Remove-AzureSubscription $sub.SubscriptionName -Force
+    }
+
+    # Using Cert Auth with server name
+    try
+    {    
+        Write-Output "Test 3: Using Cert Auth with Server Name"
+
+        Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+        $sub = Get-AzureSubscription -Current
+
+        Scenerio1-CreateWithRequiredParameters -ServerName $ServerName
     
-	}
-	finally
-	{
-		# Drop Database
-		Drop-Databases $Context $NameStartWith
-		Remove-AzureSubscription $sub.SubscriptionName -Force
-	}
+        Scenerio2-CreateWithOptionalParameters -ServerName $ServerName
+    
+    }
+    finally
+    {
+        # Drop Database
+        Drop-Databases $Context $NameStartWith
+        Remove-AzureSubscription $sub.SubscriptionName -Force
+    }
 
     $IsTestPass = $True
 }
