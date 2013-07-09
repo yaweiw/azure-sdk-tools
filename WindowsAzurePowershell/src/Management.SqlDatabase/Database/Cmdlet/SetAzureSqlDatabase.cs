@@ -131,6 +131,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public int MaxSizeGB { get; set; }
 
         /// <summary>
+        /// Gets or sets the new ServiceObjective for this database.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new ServiceObjective for the database.")]
+        [ValidateNotNull]
+        public ServiceObjective ServiceObjective { get; set; }
+
+        /// <summary>
         /// Gets or sets the switch to output the target object to the pipeline.
         /// </summary>
         [Parameter(HelpMessage = "Pass through the input object to the output pipeline")]
@@ -206,6 +213,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
+            // If service objective is specified, ask the user to confirm the change
+            if (!this.Force.IsPresent &&
+                this.ServiceObjective != null)
+            {
+                string serviceObjectiveWarning = string.Format(
+                    CultureInfo.InvariantCulture,
+                    Resources.SetAzureSqlDatabaseServiceObjectiveWarning,
+                    this.ConnectionContext.ServerName,
+                    databaseName);
+                if (!this.ShouldContinue(
+                    serviceObjectiveWarning,
+                    Resources.ShouldProcessCaption))
+                {
+                    return;
+                }
+            }
+
             switch (this.ParameterSetName)
             {
                 case ByNameWithConnectionContext:
@@ -241,7 +265,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 clientRequestId = context.ClientRequestId;
 
                 // Remove the database with the specified name
-                Database database = context.UpdateDatabase(databaseName, this.NewDatabaseName, maxSizeGb, edition);
+                Database database = context.UpdateDatabase(
+                    databaseName, 
+                    this.NewDatabaseName, 
+                    maxSizeGb, 
+                    edition,
+                    this.ServiceObjective);
                 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)
@@ -278,7 +307,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     databaseName,
                     this.NewDatabaseName,
                     maxSizeGb,
-                    edition);
+                    edition,
+                    this.ServiceObjective);
 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)

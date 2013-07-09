@@ -29,9 +29,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class SetAzureSqlDatabaseTests : TestBase
     {
+        [TestInitialize]
+        public void InitializeTest()
+        {
+            // Create 2 test databases
+            NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth();
+        }
+
         [TestCleanup]
         public void CleanupTest()
         {
+            // Remove the test databases
+            NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
+
+            // Save the mock session results
             DatabaseTestHelper.SaveDefaultSessionCollection();
         }
 
@@ -46,11 +57,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell,
                     "$context");
 
-                // Create 2 test databases
-                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
-                    powershell,
-                    "$context");
-
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.SetAzureSqlDatabaseSizeWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
@@ -60,20 +66,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
+                        if (expected.Index < 5)
                         {
-                            // Request 0-1: Set testdb1 with new MaxSize
-                            case 0:
-                            case 1:
-                            // Request 2: Get updated testdb1
-                            case 2:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
+                            // Request 0-2: Set testdb1 with new MaxSize
+                            // Request 3-4: Get updated testdb1
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
+                        }
+                        else
+                        {
+                            Assert.Fail("No more requests expected.");
                         }
                     });
 
@@ -189,7 +192,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
-            Database database = service.UpdateDatabase("testdb1", "testdb1", 5, null);
+            Database database = service.UpdateDatabase("testdb1", "testdb1", 5, null, null);
 
             Assert.AreEqual(
                 database.CollationName, 
@@ -219,11 +222,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
-
-                // Create 2 test databases
-                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
-                    "$context");
+                    "$contextCleanup");
 
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.SetAzureSqlDatabaseNameWithSqlAuth");
@@ -234,13 +235,91 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        if (expected.Index < 10)
+                        {
+                            // Request 0-4: Set testdb1 with new name of new_testdb1
+                            // Request 5-9: Set new_testdb1 with new name of testdb1
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
+                        }
+                        else
+                        {
+                            Assert.Fail("No more requests expected.");
+                        }
+                    });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    // Create context with both ManageUrl and ServerName overriden
+                    Collection<PSObject> database;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        database = powershell.InvokeBatchScript(
+                           @"Set-AzureSqlDatabase " +
+                           @"-Context $context " +
+                           @"-DatabaseName testdb1 " +
+                           @"-NewName new_testdb1 " +
+                           @"-Force " +
+                           @"-PassThru");
+                        powershell.InvokeBatchScript(
+                           @"Set-AzureSqlDatabase " +
+                           @"-Context $contextCleanup " +
+                           @"-DatabaseName new_testdb1 " +
+                           @"-NewName testdb1 " +
+                           @"-Force");
+                    }
+
+                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                    powershell.Streams.ClearStreams();
+
+                    Assert.IsTrue(
+                        database.Single().BaseObject is Services.Server.Database,
+                        "Expecting a Database object");
+                    Services.Server.Database databaseObj =
+                        (Services.Server.Database)database.Single().BaseObject;
+                    Assert.AreEqual("new_testdb1", databaseObj.Name, "Expected db name to be new_testdb1");
+                    Assert.AreEqual("Web", databaseObj.Edition, "Expected edition to be Web");
+                    Assert.AreEqual(1, databaseObj.MaxSizeGB, "Expected max size to be 1 GB");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SetAzureSqlDatabaseServiceObjectiveWithSqlAuth()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.SetAzureSqlDatabaseServiceObjectiveWithSqlAuth");
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                         switch (expected.Index)
                         {
-                            // Request 1-2: Set testdb1 with new name of testdb2
+                            // Request 0-1: Get Service Objective
                             case 0:
                             case 1:
-                            // Request 3: Get updated testdb2
+                            // Request 2-7: Get/Update/Re-Get testdb2
                             case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
                                 DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);
@@ -260,13 +339,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         MockHttpServer.DefaultServerPrefixUri,
                         testSession))
                     {
+                        powershell.InvokeBatchScript(
+                            @"$slo = Get-AzureSqlDatabaseServiceObjective " +
+                            @"-Context $context " +
+                            @"-ServiceObjectiveName ""Reserved P1""");
+
                         database = powershell.InvokeBatchScript(
-                           @"Set-AzureSqlDatabase " +
-                           @"-Context $context " +
-                           @"-DatabaseName testdb1 " +
-                           @"-NewName testdb3 " +
-                           @"-Force " +
-                           @"-PassThru");
+                            @"Set-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb2 " +
+                            @"-ServiceObjective $slo " +
+                            @"-Force " +
+                            @"-PassThru");
                     }
 
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
@@ -278,9 +362,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         "Expecting a Database object");
                     Services.Server.Database databaseObj =
                         (Services.Server.Database)database.Single().BaseObject;
-                    Assert.AreEqual("testdb3", databaseObj.Name, "Expected db name to be testdb3");
-                    Assert.AreEqual("Web", databaseObj.Edition, "Expected edition to be Web");
-                    Assert.AreEqual(1, databaseObj.MaxSizeGB, "Expected max size to be 1 GB");
+                    databaseObj = (Services.Server.Database)database.Single().BaseObject;
+                    Assert.AreEqual("testdb2", databaseObj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be pending");
+                    //Assert.AreEqual("Reserved P1", databaseObj.ServiceObjective.Name, "Expected Reserved P1");
+                    //Assert.AreEqual("Reserved P1", databaseObj.ServiceObjectiveName, "Expected Reserved P1");
                 }
             }
         }
@@ -363,7 +449,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
             service.Channel = channel;
 
-            Database database = service.UpdateDatabase("testdb1", "newTestDb1", null, null);
+            Database database = service.UpdateDatabase("testdb1", "newTestDb1", null, null, null);
 
             Assert.AreEqual(
                 database.CollationName, 

@@ -214,6 +214,9 @@ Error Code: {0}</value>
     <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="ServiceObjectiveNotFound" xml:space="preserve">
+    <value>Service objective '{1}' was not found on server '{0}'.</value>
+  </data>
   <data name="SetAzureSqlDatabaseDescription" xml:space="preserve">
     <value>Updating database "{1}" for Windows Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
@@ -232,6 +235,10 @@ Error Code: {0}</value>
   </data>
   <data name="SetAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
     <value>Are you sure you want to update the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="SetAzureSqlDatabaseServiceObjectiveWarning" xml:space="preserve">
+    <value>Are you sure you want to change the service objective for database "{1}" in Windows Azure Sql Database server "{0}"? A change to the service objective will significantly change the cost of this database.</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseWarning" xml:space="preserve">
