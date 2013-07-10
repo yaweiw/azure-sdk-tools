@@ -305,7 +305,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 });
 
             UnitTestHelper.ImportSqlDatabaseModule(powershell);
-            UnitTestHelper.CreateTestCredential(powershell);
+            UnitTestHelper.CreateTestCredential(
+                powershell,
+                testSession.SessionProperties["Username"],
+                testSession.SessionProperties["Password"]);
 
             Collection<PSObject> serverContext;
             using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
@@ -319,11 +322,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         string.Format(
                             CultureInfo.InvariantCulture,
                             @"{1} = New-AzureSqlDatabaseServerContext " +
-                            @"-ServerName testserver " +
+                            @"-ServerName {2} " +
                             @"-ManageUrl {0} " +
                             @"-Credential $credential",
                             MockHttpServer.DefaultServerPrefixUri.AbsoluteUri,
-                            contextVariable),
+                            contextVariable,
+                            testSession.SessionProperties["Servername"]),
                         contextVariable);
                 }
             }

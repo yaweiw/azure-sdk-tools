@@ -25,6 +25,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         public IServerDataServiceContext Context;
 
         /// <summary>
+        /// Gets the name of the service objective for this Database.
+        /// </summary>
+        public string ServiceObjectiveName;
+
+        /// <summary>
         /// Tries to copy the context into the database field.
         /// </summary>
         /// <param name="context">The context to store in the database object</param>
@@ -34,6 +39,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             {
                 // Fill in the context property
                 this.Context = context;
+
+                // Fill in the service objective properties
+                this.Context.LoadProperty(this, "ServiceObjective");
+                this.ServiceObjectiveName =
+                    this.ServiceObjective == null ? null : this.ServiceObjective.Name;
             }
             catch
             {
