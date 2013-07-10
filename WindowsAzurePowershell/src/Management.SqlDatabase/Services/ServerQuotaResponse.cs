@@ -16,46 +16,46 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// New database data contract
+    /// Represents a server quota response to a web request
     /// </summary>
     [DataContract(Name = "ServiceResource", Namespace = Constants.ServiceManagementNamespace)]
-    public class SqlDatabaseInput : IExtensibleDataObject
+    public class ServerQuotaResponse : IExtensibleDataObject
     {
         /// <summary>
-        /// Gets or sets the name of the database
+        /// Gets or sets the resource name.
         /// </summary>
         [DataMember(Order = 1, EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the database ID number
+        /// Gets or sets the resource type.
         /// </summary>
         [DataMember(Order = 2, EmitDefaultValue = false)]
-        public string Id { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the edition of the database
+        /// Gets or sets the resource state.
         /// </summary>
         [DataMember(Order = 3, EmitDefaultValue = false)]
-        public string Edition { get; set; }
+        public string State { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum size in GB
+        /// Gets or sets the self link to the resource instance.
         /// </summary>
         [DataMember(Order = 4, EmitDefaultValue = false)]
-        public string MaxSizeGB { get; set; }
+        public string SelfLink { get; set; }
 
         /// <summary>
-        /// Gets or sets the collation name for the database
+        /// Gets or sets the link to the resource parent instance.
         /// </summary>
         [DataMember(Order = 5, EmitDefaultValue = false)]
-        public string CollationName { get; set; }
+        public string ParentLink { get; set; }
 
         /// <summary>
-        /// Gets or sets the collation name for the database
+        /// Gets or sets the quota value.
         /// </summary>
         [DataMember(Order = 6, EmitDefaultValue = false)]
-        public string ServiceObjectiveId { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Gets or sets the extension data

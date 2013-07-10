@@ -134,6 +134,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
     <Compile Include="Database\Cmdlet\NewAzureSqlDatabase.cs" />
+    <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServerQuota.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
     <Compile Include="Database\Cmdlet\NewAzureSqlDatabaseServerContext.cs" />
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
@@ -170,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\ServerQuotaListResponse.cs" />
+    <Compile Include="Services\ServerQuotaResponse.cs" />
+    <Compile Include="Services\Server\MergeOptionTemporaryChange.cs" />
+    <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
