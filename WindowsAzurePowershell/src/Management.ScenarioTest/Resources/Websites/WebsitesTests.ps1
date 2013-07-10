@@ -210,6 +210,31 @@ function Test-GetAzureWebsiteLogListPath
 }
 
 ########################################################################### Get-AzureWebsite Scenario Tests ###########################################################################
+<#
+.SYNOPSIS
+Test Kudu apps
+#>
+function Test-KuduAppsExpressApp
+{
+	# Setup
+	$sitename = "sitename" + (Get-Random).ToString()
+	Mkdir $sitename
+	cd $sitename
+	
+	# Test
+	$command = "install -g express";
+	Start-Process npm $command -WAIT
+
+	express
+	$createsite = New-AzureWebSite $sitename -Git –PublishingUsername nodeqa
+	
+	# Assert
+	Assert-NotNull { $createsite } "Site $sitename created failed"
+	Assert-Exists "..\$sitename\iisnode.yml"
+	
+	# CleanUp
+	Remove-AzureWebsite -Name $sitename –Force
+}
 
 <#
 .SYNOPSIS
@@ -599,4 +624,248 @@ function Test-GetAzureWebsiteLocation
 	# Assert
 	Assert-NotNull { $locations }
 	Assert-True { $locations.Count -gt 0 }
+}
+
+<#
+.SYNOPSIS
+Test Get-AzureWebsite list none
+#>
+function Test-GetAzureWebSiteListNone
+{
+	 Get-AzureWebsite | Remove-AzureWebsite –Force
+	 Assert-True { (Get-AzureWebsite) -eq $null}
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsite list all
+#>
+function Test-AzureWebSiteListAll
+{
+	#Setup
+	$name1 = Get-WebsiteName
+	$name2 = Get-WebsiteName
+	$name3 = Get-WebsiteName
+
+	#Test
+	New-AzureWebsite $name1
+	New-AzureWebsite $name2
+	New-AzureWebsite $name3
+
+	$name = (Get-AzureWebsite).Name
+	Assert-True {$name.Contains($name1)}
+	Assert-True {$name.Contains($name2)}
+	Assert-True {$name.Contains($name3)}
+
+	# Cleanup
+	Remove-AzureWebsite $name1 -Force
+   	Remove-AzureWebsite $name2 -Force
+	Remove-AzureWebsite $name3 -Force
+}
+
+<#
+.SYNOPSIS
+Test Get-AzureWebsite show single site
+#>
+function Test-AzureWebSiteShowSingleSite
+{
+	# Setup
+	$name1 = Get-WebsiteName
+	$name2 = Get-WebsiteName
+	$name3 = Get-WebsiteName
+
+	#Test
+	New-AzureWebsite $name1
+	New-AzureWebsite $name2
+	New-AzureWebsite $name3
+	Assert-True { (Get-AzureWebsite $name1).Name -eq  $name1 }	
+	Assert-True { (Get-AzureWebsite $name2).Name -eq  $name2 }	
+	Assert-True { (Get-AzureWebsite $name3).Name -eq  $name3 }	
+	
+	# Cleanup
+	Remove-AzureWebsite $name1 -Force
+	Remove-AzureWebsite $name2 -Force
+	Remove-AzureWebsite $name3 -Force
+} 
+
+########################################################################### Azurewebsite Git Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests New azure web site with git hub.
+#>
+function Test-NewAzureWebSiteMultipleCreds
+{
+	$GIT_USERNAME = $env:GIT_USERNAME
+	$GIT_PASSWORD = $env:GIT_PASSWORD
+
+	# Setup
+	$siteName = Get-WebsiteName
+	Set-Location "\"
+	mkdir $siteName
+	Set-Location $siteName
+	
+	# Test
+	New-AzureWebsite $siteName -Git -PublishingUsername $GIT_USERNAME
+	
+	$webSite = Get-AzureWebsite -Name $siteName
+	
+	$repositorySiteName = $webSite.RepositorySiteName
+	$publishingUsername1 = $webSite.PublishingUsername
+	$publishingPassword1 = $webSite.PublishingPassword
+
+	$properties = $webSite.SiteProperties.Properties
+	$publishingUsername2 = $properties[$properties.Name.IndexOf("PublishingUsername")].Value
+	$publishingPassword2 = $properties[$properties.Name.IndexOf("PublishingPassword")].Value
+	
+	Assert-AreEqual $siteName $repositorySiteName
+	Assert-AreEqual $publishingUsername1 $publishingUsername2
+	Assert-AreEqual $publishingPassword1 $publishingPassword2
+	
+	# Install express
+	Npm-InstallExpress
+	
+	# Push local git to website
+	$expectedWarning = "warning: LF will be replaced by CRLF in node_modules/.bin/express."
+	Assert-Throws { git add -A } $expectedWarning
+	$commitString = "Add the express app to the repository"
+	Assert-Throws { git commit -m $commitString } $expectedWarning
+
+	$remoteAlias = "azureins"
+	$repositoryUri = $properties[$properties.Name.IndexOf("RepositoryUri")].Value
+	$remoteUri = $repositoryUri.Insert($repositoryUri.IndexOf($repositoryUri.Split('//')[-1]),"$GIT_USERNAME"+":$GIT_PASSWORD@") + "/$siteName.git"
+	git remote add $remoteAlias $remoteUri
+	Assert-Throws { git push $remoteAlias master }
+	
+	# Verify browse website
+	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
+	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
+	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
+	{
+		$url = "http://" + (Get-Azurewebsite $siteName).EnabledHostNames[0]
+		$expectedString = "Welcome to Express"
+		Assert-True { Test-ValidateResultInBrowser ($url) $expectedString }
+	}
+	else
+	{
+		throw "Web site or git repository is not ready for browse"
+	}
+	
+	# CleanUP
+	if($webSite -ne $null)
+	{
+		Remove-AzureWebsite $siteName -Force
+	}   
+}
+
+<#
+.SYNOPSIS
+Tests New azure web site with git hub.
+#>
+function Test-NewAzureWebSiteGitHubAllParms
+{
+	$GitHub_REPO = "IIS-WeiSheng/WebChatDefault-0802"
+	$GitHub_USERNAME = "IIS-WeiSheng"
+	$GitHub_PASSWORD = "1qaz2wsx"
+	
+	# Setup
+	$siteName = Get-WebsiteName
+	Set-Location "\"
+	mkdir $siteName
+	Set-Location $siteName
+
+	# Test
+	$myCreds = New-Object "System.Management.Automation.PSCredential" ($GitHub_USERNAME, (ConvertTo-SecureString $GitHub_PASSWORD -AsPlainText -Force))
+	$webSite = New-AzureWebsite $siteName -Location (Get-AzureWebsiteLocation)[0] -GitHub -GithubRepository $GitHub_REPO -GithubCredentials $myCreds
+
+	$siteStatusRunning = Retry-Function { (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 2
+	$deploymentStatusSuccess = Retry-Function { (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 3
+	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
+	{
+		Assert-True { Test-ValidateResultInBrowser ("http://" + $WebSite.HostNames[0]) "0.8.2" }
+	}
+	else
+	{
+		throw "Web site or git repository is not ready for browse"
+	}
+	
+	# Cleanup
+	if($webSite -ne $null)
+	{
+		Remove-AzureWebsite $siteName -Force
+	}
+}
+
+<#
+.SYNOPSIS
+Test New azure web site then update git deployment
+#>
+function Test-NewAzureWebSiteUpdateGit
+{
+	$GIT_USERNAME = $env:GIT_USERNAME
+	$GIT_PASSWORD = $env:GIT_PASSWORD
+
+	# Setup
+	$siteName = Get-WebsiteName
+	Set-Location "\"
+	mkdir $siteName
+	Set-Location $siteName
+
+	# Test
+	New-AzureWebSite $siteName
+	
+	$oldErrorActionPreferenceValue = $ErrorActionPreference
+	$ErrorActionPreference = "SilentlyContinue"
+	New-AzureWebSite $siteName -Git -Publishingusername:$GIT_USERNAME
+	$ErrorActionPreference = $oldErrorActionPreferenceValue
+
+	# Verify site name and publishingusername & publishingpassword
+	$webSite = Get-AzureWebsite -Name $siteName
+	
+	$repositorySiteName = $webSite.RepositorySiteName
+	$publishingUsername1 = $webSite.PublishingUsername
+	$publishingPassword1 = $webSite.PublishingPassword
+	
+	$properties = $webSite.SiteProperties.Properties
+	$publishingUsername2 = $properties[$Properties.Name.IndexOf("PublishingUsername")].Value
+	$publishingPassword2 = $properties[$Properties.Name.IndexOf("PublishingPassword")].Value
+	
+	Assert-AreEqual $siteName $repositorySiteName
+	Assert-AreEqual $publishingUsername1 $publishingUsername2
+	Assert-AreEqual $publishingPassword1 $publishingPassword2
+
+	# Install express
+	Npm-InstallExpress
+
+	# Push local git to website
+	$expectedWarning = "warning: LF will be replaced by CRLF in node_modules/.bin/express."
+	Assert-Throws { git add -A } $expectedWarning
+	$commitString = "Update azurewebsite with local git"
+	Assert-Throws { git commit -m $commitString } $expectedWarning
+
+	$remoteAlias = "azureins"
+	$repositoryUri = $properties[$properties.Name.IndexOf("RepositoryUri")].Value
+	$remoteUri = $repositoryUri.Insert($repositoryUri.IndexOf($repositoryUri.Split('//')[-1]),"$GIT_USERNAME"+":$GIT_PASSWORD@") + "/$siteName.git"
+	git remote add $remoteAlias $remoteUri
+	Assert-Throws { git push $remoteAlias master }
+
+	# Verify browse website
+	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
+	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
+	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
+	{
+		$url = "http://" + (Get-Azurewebsite $siteName).EnabledHostNames[0]
+		$expectedString = "Welcome to Express"
+		Assert-True { Test-ValidateResultInBrowser ($url) $expectedString }
+	}
+	else
+	{
+		throw "Web site or git repository is not ready for browse"
+	}
+
+	# CleanUp
+	if($webSite -ne $null)
+	{
+		Remove-AzureWebsite $siteName -Force
+	}
 }

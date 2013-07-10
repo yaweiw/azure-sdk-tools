@@ -114,3 +114,36 @@ function Retry-DownloadString
 	}
 	while ($retry)
 }
+
+<#
+.SYNOPSIS
+Get downloadString and verify expected string
+#>
+function Test-ValidateResultInBrowser
+{
+       param([string] $uri, [string] $expectedString)
+       $client = New-Object System.Net.WebClient
+       $resultString = $client.DownloadString($uri)
+       return $resultString.ToUpper().Contains($expectedString.ToUpper())
+}
+
+<#
+.SYNOPSIS
+Runs npm and verifies the results.
+
+.PARAMETER command
+The npm command to run
+#>
+
+function Npm-InstallExpress
+{
+	$command = "install -g express";
+	Start-Process npm $command -WAIT
+	"Y" | express
+	if([system.IO.File]::Exists("server.js"))
+	{
+		del server.js
+	}
+	mv app.js server.js
+	Assert-Throws { npm install } "npm WARN package.json application-name@0.0.1 No README.md file found!"
+}
