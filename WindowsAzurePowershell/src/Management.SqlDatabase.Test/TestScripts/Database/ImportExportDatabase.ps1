@@ -74,7 +74,7 @@ Try
 {
     ####################################################
     # Set up test
-	Init-TestEnvironment
+    Init-TestEnvironment
     Init-AzureSubscription -SubscriptionID $SubscriptionId -SerializedCert $SerializedCert
     
     ##########
