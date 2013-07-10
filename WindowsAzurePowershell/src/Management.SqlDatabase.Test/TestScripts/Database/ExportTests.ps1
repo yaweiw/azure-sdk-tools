@@ -15,54 +15,49 @@ function TestExportWithRequestObject
 {
     ####################################################
     # Export Database
-	
-	$status = $null
+    
+    $status = $null
     
     ###########
-	# Test the first parameter set
+    # Test the first parameter set
 
     $BlobName = $DatabaseName1 + ".bacpac"
-	Write-Output "Exporting to Blob:  $BlobName"
+    Write-Output "Exporting to Blob:  $BlobName"
 
-	$Request = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContainer $container `
-		-DatabaseName $DatabaseName1 -BlobName $BlobName
-    Assert {$Request} "Failed to initiate the first export opertaion"
-	$id = ($Request.RequestGuid)
+    $Request = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContainer $container `
+        -DatabaseName $DatabaseName1 -BlobName $BlobName
+    Assert {$Request} "Failed to initiate the first export operation"
+    $id = ($Request.RequestGuid)
     Write-Output "Request Id for export1: $id"
     
     ##############
     # Test Get IE status with request object
-	do
-	{
-		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus $Request
-		$s = $status.Status
-		Write-Output "Request1 Status: $s"
-	} while($status.Status -ne "Completed")
+    
+    GetOperationStatus $Request
+    
+    $blob = Get-AzureStorageBlob -Context  $StgCtx -Container $container.Name -Blob $BlobName2
+    Assert {$blob} "A blob was not created as a result of the export operation"
 }
 
 function TestExportWithRequestId
 {
     ###########
-	# Test the second parameter set
+    # Test the second parameter set
 
     $BlobName2 = $DatabaseName2 + ".bacpac"
-	Write-Output "Exporting to Blob: $BlobName2"
+    Write-Output "Exporting to Blob: $BlobName2"
 
-	$Request2 = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContext $StgCtx `
-		-StorageContainerName $ContainerName -DatabaseName $DatabaseName2 -BlobName $BlobName2
-    Assert {$Request2} "Failed to initiate the second export opertaion"
-	$id = ($Request2.RequestGuid)
+    $Request2 = Start-AzureSqlDatabaseExport -SqlConnectionContext $context -StorageContext $StgCtx `
+        -StorageContainerName $ContainerName -DatabaseName $DatabaseName2 -BlobName $BlobName2
+    Assert {$Request2} "Failed to initiate the second export operation"
+    $id = ($Request2.RequestGuid)
     Write-Output "Request Id for export2: $id"
     
     ##############
     # Test Get IE status with request id, server name, and login credentials
-	do
-	{
-		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus -RequestId $Request2.RequestGuid `
-            -ServerName $server.ServerName -UserName $UserName -Password $Password
-		$s = $status.Status
-		Write-Output "Request2 Status: $s"
-	} while($status.Status -ne "Completed")
+    
+    GetOperationStatusWithRequestId $Request.Id $server.ServerName $Username $Password
+    
+    $blob = Get-AzureStorageBlob -Context $StgCtx -Container $container.Name -Blob $BlobName2
+    Assert {$blob} "A blob was not created as a result of the export operation"
 }

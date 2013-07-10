@@ -15,44 +15,40 @@ function TestImportWithRequestObject
 {
     ####################################################
     # Import Database
-	
-	$status = $null
+    
+    $status = $null
     
     ###########
-	# Test the first parameter set
+    # Test the first parameter set
 
     $BlobName = $DatabaseName1 + ".bacpac"
     $dbName = $DatabaseName1 + "-import1"
-	Write-Output "Importing from Blob: $BlobName"
+    Write-Output "Importing from Blob: $BlobName"
 
-	$Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		-DatabaseName $dbName -BlobName $BlobName
+    $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+        -DatabaseName $dbName -BlobName $BlobName
     Assert {$Request} "Failed to initiate the first import opertaion"
-	$id = ($Request.RequestGuid)
+    $id = ($Request.RequestGuid)
     Write-Output "Request Id for import1: $id"
 
-    ##############
-    # Test Get IE status with request object
-	do
-	{
-		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus $Request
-		$s = $status.Status
-		Write-Output "Request Status: $($status.Status)"
-	} while($status.Status -ne "Completed")
+    GetOperationStatus $Request
+    
+    # Make sure that the database was indeed imported
+    $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
+    Assert {$importedDatabase} "The database was not properly imported"
 }
 
 function TestImportWithRequestObjectAndOptionalParameters
 {
     ####################################################
     # Import Database
-	$status = $null
+    $status = $null
     
     ###########
-	# Test optional Edition
+    # Test Import with optional parameters
     
     $BlobName = $DatabaseName1 + ".bacpac"
-	Write-Output "Importing from Blob: $BlobName"
+    Write-Output "Importing from Blob: $BlobName"
 
     for( $i = 0; $i -ne 3; $i++)
     {
@@ -65,70 +61,56 @@ function TestImportWithRequestObjectAndOptionalParameters
         if ($i -eq 0)
         {
             $currEdition = "Business"
-	    
+        
             $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		        -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition
+                -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition
         }
         elseif ($i -eq 1)
         {
             $currMaxSize = 5
-	    
+        
             $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		        -DatabaseName $dbName -BlobName $BlobName -DatabaseMaxSize $currMaxSize
+                -DatabaseName $dbName -BlobName $BlobName -DatabaseMaxSize $currMaxSize
         }
         elseif ($i -eq 2)
         {
             $currEdition = "Business"
             $currMaxSize = 20
-	    
+        
             $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-		        -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $currMaxSize
+                -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $currMaxSize
         }
 
-        Assert {$Request} "Failed to initiate the import opertaion for parameter set combination: $i"
-	    $id = ($Request.RequestGuid)
+        Assert {$Request} "Failed to initiate the import operation for parameter set combination: $i"
+        $id = ($Request.RequestGuid)
         Write-Output "Request Id for import: $id"
     
-        ##############
-        # Test Get IE status with request object
-	    do
-	    {
-		    Start-Sleep -m 1500
-		    $status = Get-AzureSqlDatabaseImportExportStatus $Request
-		    $s = $status.Status
-		    Write-Output "Request Status: $($status.Status)"
-            if($status.Status -eq "Failed")
-            {
-		        Write-Output "Error message: $($status.ErrorMessage)"
-                break
-            }
-	    } while($status.Status -ne "Completed")
+        GetOperationStatus $Request
+        
+        # Make sure that the database was indeed imported
+        $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
+        Assert {$importedDatabase} "The database was not properly imported"
     }
 }
 
 function TestImportWithRequestId
 {
     ###########
-	# Test the second parameter set
+    # Test the second parameter set
 
     $BlobName2 = $DatabaseName2 + ".bacpac"
     $dbName = $DatabaseName2 + "-import3"
-	Write-Output "Importing from Blob: $BlobName2"
+    Write-Output "Importing from Blob: $BlobName2"
 
-	$Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContext $StgCtx `
-		-StorageContainerName $ContainerName -DatabaseName $dbName -BlobName $BlobName2
+    $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContext $StgCtx `
+        -StorageContainerName $ContainerName -DatabaseName $dbName -BlobName $BlobName2
     Assert {$Request} "Failed to initiate the third import opertaion"
-	$id = ($Request.RequestGuid)
+    $id = ($Request.RequestGuid)
     Write-Output "Request Id for Import: $id"
     
-    ##############
-    # Test Get IE status with request id, servername, and login credentials
-	do
-	{
-		Start-Sleep -m 1500
-		$status = Get-AzureSqlDatabaseImportExportStatus -RequestId $Request.RequestGuid `
-            -ServerName $server.ServerName -UserName $UserName -Password $Password
-		$s = $status.Status
-		Write-Output "Request Status: $s"
-	} while($status.Status -ne "Completed")
+    GetOperationStatusWithRequestId $Request.Id $server.ServerName $Username $Password
+    
+    # Make sure that the database was indeed imported
+    $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
+    Assert {$importedDatabase} "The database was not properly imported"
 }

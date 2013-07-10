@@ -70,6 +70,69 @@ $DatabaseNamePrefix = "testIEDatabase"
 $BlobName = $null
 $BlobName2 = $null
 
+function GetOperationStatus
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        $Request
+    )
+    ##############
+    # Test Get IE status with request object
+    do
+    {
+        Start-Sleep -m 1500
+        $status = Get-AzureSqlDatabaseImportExportStatus $Request
+        Write-Output "Request Status: $($status.Status)"
+        if($status.Status -eq "Failed")
+        {
+            Write-Output "Error message: $($status.ErrorMessage)"
+            break
+        }
+    } while($status.Status -ne "Completed")
+}
+
+function GetOperationStatusWithRequestId
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $RequestId,
+        [Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $ServerName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $UserName,
+        [Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $Password
+    )
+    ##############
+    # Test Get IE status with request id, servername, and login credentials
+    do
+    {
+        Start-Sleep -m 1500
+        $status = Get-AzureSqlDatabaseImportExportStatus -RequestId $RequestId `
+            -ServerName $ServerName -UserName $UserName -Password $Password
+
+        Write-Output "Request Status: $($status.Status)"
+        if($status.Status -eq "Failed")
+        {
+            Write-Output "Error message: $($status.ErrorMessage)"
+            break
+        }
+    } while($status.Status -ne "Completed")
+}
+
 Try
 {
     ####################################################
@@ -86,16 +149,16 @@ Try
     Write-Output "Server $($server.ServerName) created"
     
     ##########
-	# set the firewall rules
-	New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName "AllowAll" `
-		-StartIpAddress "0.0.0.0" -EndIpAddress "255.255.255.255"
+    # set the firewall rules
+    New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName "AllowAll" `
+        -StartIpAddress "0.0.0.0" -EndIpAddress "255.255.255.255"
     
     ##########
     # create a context to connect to the server.
     $ManageUrl = $ManageUrlPrefix + $server.ServerName + $ManageUrlPostfix
     $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName `
         -Password $Password
-		
+        
     ##########
     # Create a couple databases
     $DatabaseName1 = $DatabaseNamePrefix + (get-date).Ticks
@@ -114,8 +177,8 @@ Try
 
     ##########
     # Create the storage connection context.
-	$StgCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageAccessKey
-	$container = Get-AzureStorageContainer -Name $ContainerName -Context $StgCtx
+    $StgCtx = New-AzureStorageContext -StorageAccountName $StorageName -StorageAccountKey $StorageAccessKey
+    $container = Get-AzureStorageContainer -Name $ContainerName -Context $StgCtx
     
     ####################################################
     # Test export and get-export status
@@ -162,22 +225,22 @@ Try
 }
 Finally
 {
-	if($server)
-	{
-		Drop-Server $server
-	}
-		
-	if($StgCtx)
-	{
-		if($BlobName)
-		{
-			Remove-AzureStorageBlob -Container $ContainerName -Blob $BlobName -Context $StgCtx
-		}
-		if($BlobName2)
-		{
-			Remove-AzureStorageBlob -Container $ContainerName -Blob $BlobName2 -Context $StgCtx
-		}
-	}
+    if($server)
+    {
+        Drop-Server $server
+    }
+        
+    if($StgCtx)
+    {
+        if($BlobName)
+        {
+            Remove-AzureStorageBlob -Container $ContainerName -Blob $BlobName -Context $StgCtx
+        }
+        if($BlobName2)
+        {
+            Remove-AzureStorageBlob -Container $ContainerName -Blob $BlobName2 -Context $StgCtx
+        }
+    }
 }
 
 Write-TestResult $IsTestPass
