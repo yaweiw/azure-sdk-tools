@@ -55,8 +55,7 @@ function TestExportWithRequestId
     
     ##############
     # Test Get IE status with request id, server name, and login credentials
-    
-    GetOperationStatusWithRequestId $Request.Id $server.ServerName $Username $Password
+    GetOperationStatusWithRequestId $Request2.RequestGuid $server.ServerName $Username $Password
     
     $blob = Get-AzureStorageBlob -Context $StgCtx -Container $container.Name -Blob $BlobName2
     Assert {$blob} "A blob was not created as a result of the export operation"

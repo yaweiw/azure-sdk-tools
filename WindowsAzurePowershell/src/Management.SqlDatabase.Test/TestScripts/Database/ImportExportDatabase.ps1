@@ -77,6 +77,7 @@ function GetOperationStatus
     (
         [Parameter(Mandatory=$true, Position=0)]
         [ValidateNotNullOrEmpty()]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport.ImportExportRequest]
         $Request
     )
     ##############
@@ -107,11 +108,11 @@ function GetOperationStatusWithRequestId
         [ValidateNotNullOrEmpty()]
         [string]
         $ServerName,
-        [Parameter(Mandatory=$true, Position=1)]
+        [Parameter(Mandatory=$true, Position=2)]
         [ValidateNotNullOrEmpty()]
         [string]
         $UserName,
-        [Parameter(Mandatory=$true, Position=1)]
+        [Parameter(Mandatory=$true, Position=3)]
         [ValidateNotNullOrEmpty()]
         [string]
         $Password
@@ -142,7 +143,7 @@ Try
     
     ##########
     # create a server to use
-    Write-Output "Creating server"
+    Write-Output "Creating server... "
     $server = New-AzureSqlDatabaseServer -AdministratorLogin $UserName -AdministratorLoginPassword `
         $Password -Location $ServerLocation
     Assert {$server} "Failed to create a server"
@@ -150,15 +151,18 @@ Try
     
     ##########
     # set the firewall rules
+    Write-Output "Creating server firewall rule... "
     New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName "AllowAll" `
         -StartIpAddress "0.0.0.0" -EndIpAddress "255.255.255.255"
     
     ##########
     # create a context to connect to the server.
+    Write-Output "Creating server connection context... "
     $ManageUrl = $ManageUrlPrefix + $server.ServerName + $ManageUrlPostfix
     $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName `
         -Password $Password
-        
+    Assert {$context} "Failed to create the connection context..."
+    
     ##########
     # Create a couple databases
     $DatabaseName1 = $DatabaseNamePrefix + (get-date).Ticks

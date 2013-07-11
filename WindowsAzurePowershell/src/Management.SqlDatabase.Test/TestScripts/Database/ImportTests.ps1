@@ -108,7 +108,7 @@ function TestImportWithRequestId
     $id = ($Request.RequestGuid)
     Write-Output "Request Id for Import: $id"
     
-    GetOperationStatusWithRequestId $Request.Id $server.ServerName $Username $Password
+    GetOperationStatusWithRequestId $Request.RequestGuid $server.ServerName $Username $Password
     
     # Make sure that the database was indeed imported
     $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
