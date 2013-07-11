@@ -35,7 +35,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     public class CloudServiceProject
     {
         public ServicePathInfo Paths { get; private set; }
+
         public ServiceComponents Components { get; private set; }
+        
         private string scaffoldingFolderPath;
 
         public string ServiceName { get { return this.Components.Definition.name; } }
@@ -253,8 +255,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void CreatePackage(DevEnv type, out string standardOutput, out string standardError)
         {
-            var packageTool = new CsPack();
+            VerifyCloudServiceProjectComponents();
+            CsPack packageTool = new CsPack();
             packageTool.CreatePackage(Components.Definition, Paths.RootPath, type, out standardOutput, out standardError);
+        }
+
+        private void VerifyCloudServiceProjectComponents()
+        {
+            const string CacheVersion = "2.0.0";
+
+            // Verify caching version is 2.0
+            foreach (string roleName in Components.GetRoles())
+            {
+                string value = Components.GetStartupTaskVariable(
+                    roleName,
+                    Resources.CacheRuntimeVersionKey,
+                    Resources.WebRoleStartupTaskCommandLine,
+                    Resources.WorkerRoleStartupTaskCommandLine);
+
+                if (!string.IsNullOrEmpty(value) && value != CacheVersion)
+                {
+                    throw new Exception(string.Format(Resources.CacheMismatchMessage, roleName, CacheVersion));
+                }
+            }
         }
 
         /// <summary>
