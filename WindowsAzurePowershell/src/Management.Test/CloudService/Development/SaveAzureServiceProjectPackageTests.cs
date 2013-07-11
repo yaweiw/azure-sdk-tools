@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
 {
+    using System;
     using System.IO;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.CloudService.Development;
@@ -117,6 +118,37 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 Assert.AreEqual<string>(string.Format(Resources.PackageCreated, packagePath), mockCommandRuntime.VerboseStream[0]);
                 Assert.AreEqual<string>(packagePath, obj.GetVariableValue<string>(Parameters.PackagePath));
                 Assert.IsTrue(File.Exists(packagePath));
+            }
+        }
+
+        [TestMethod]
+        public void ThrowsErrorForInvalidCacheVersion()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                files.CreateNewService("NEW_SERVICE");
+                string rootPath = Path.Combine(files.RootPath, "NEW_SERVICE");
+                string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
+                string cacheRoleName = "WorkerRole1";
+                AddAzureCacheWorkerRoleCommand addCacheWorkerCmdlet = new AddAzureCacheWorkerRoleCommand()
+                {
+                    CommandRuntime = mockCommandRuntime
+                };
+                EnableAzureMemcacheRoleCommand enableCacheCmdlet = new EnableAzureMemcacheRoleCommand()
+                {
+                    CacheRuntimeVersion = "1.8.0",
+                    CommandRuntime = mockCommandRuntime
+                };
+
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                addCacheWorkerCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
+                enableCacheCmdlet.EnableAzureMemcacheRoleProcess("WebRole1", cacheRoleName, rootPath);
+
+                Testing.AssertThrows<Exception>(
+                    () => cmdlet.ExecuteCmdlet(),
+                    string.Format(Resources.CacheMismatchMessage, "WebRole1", "2.0.0"));
             }
         }
     }

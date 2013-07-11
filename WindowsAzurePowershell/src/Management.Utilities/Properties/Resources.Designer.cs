@@ -395,6 +395,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please upgrade the cache runtime of role &apos;{0}&apos; to &apos;{1}&apos; using Set-AzureServiceProjectRole -RoleName {0} -Runtime Cache -Version {1}.
+        /// </summary>
+        internal static string CacheMismatchMessage {
+            get {
+                return ResourceManager.GetString("CacheMismatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CACHERUNTIMEURL.
         /// </summary>
         internal static string CacheRuntimeUrl {
