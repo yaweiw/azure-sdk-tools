@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
     using System;
+    using System.Linq;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
 
 
@@ -63,22 +64,29 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
 
-            // Create a regular expression based on user input.
-            var regex = PersistentVMHelper.GetRegexFromRoleName(roleName);
-
-            // Generate a list of role names matching regular expressions or
+            // Generate a list of role names matching wildcard patterns or
             // the exact name specified in the -Name parameter.
-            var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, regex);
+            var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, roleName);
 
             // Insure at least one of the role name instances can be found.
-            if (roleNames.Count == 0)
+            if ((roleNames == null) || (!roleNames.Any()))
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
 
-            var startRolesOperation = new StartRolesOperation();
-            startRolesOperation.Roles = roleNames;
-
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRoles(s, this.ServiceName, CurrentDeployment.Name, startRolesOperation));
-        
+            if (roleNames.Count == 1)
+            {
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
+            }
+            else
+            {
+                var startRolesOperation = new StartRolesOperation() { Roles = roleNames };
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.StartRoles(s, this.ServiceName, CurrentDeployment.Name, startRolesOperation));
+            }
         }
 
     }
