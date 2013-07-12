@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
     using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;
+    using System.Linq;
 
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase
@@ -275,7 +276,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests
             }
         }
 
-        private void AssertCachingEnabled(FileSystemHelper files, string serviceName, string rootPath, string webRoleName, string expectedMessage)
+        private void AssertCachingEnabled(
+            FileSystemHelper files,
+            string serviceName,
+            string rootPath,
+            string webRoleName,
+            string expectedMessage)
         {
             WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
             RoleSettings roleSettings = Testing.GetCloudRole(rootPath, webRoleName);
@@ -290,6 +296,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests
             
             Assert.AreEqual<string>(Resources.CacheRuntimeUrl, webRole.Startup.Task[2].Environment[1].name);
             Assert.AreEqual<string>(TestResources.CacheRuntimeUrl, webRole.Startup.Task[2].Environment[1].value);
+            Assert.AreEqual(1, webRole.Startup.Task.Count(t => t.commandLine.Equals(Resources.CacheStartupCommand)));
             
 
             AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
