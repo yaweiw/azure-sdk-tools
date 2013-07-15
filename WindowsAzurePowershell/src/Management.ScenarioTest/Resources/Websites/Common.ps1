@@ -137,13 +137,20 @@ The npm command to run
 
 function Npm-InstallExpress
 {
-	$command = "install -g express";
-	Start-Process npm $command -WAIT
-	"Y" | express
-	if([system.IO.File]::Exists("server.js"))
+	try
 	{
-		del server.js
+		$command = "install -g express";
+		Start-Process npm $command -WAIT
+		"Y" | express
+		if([system.IO.File]::Exists("server.js"))
+		{
+			del server.js
+		}
+		mv app.js server.js
+		npm install 
 	}
-	mv app.js server.js
-	Assert-Throws { npm install } "npm WARN package.json application-name@0.0.1 No README.md file found!"
+	catch
+	{
+		Write-Warning "Expected warning exist when npm install, ignore it"
+	}
 }

@@ -216,24 +216,26 @@ Test Kudu apps
 #>
 function Test-KuduAppsExpressApp
 {
+	$GIT_USERNAME = $env:GIT_USERNAME
+	
 	# Setup
-	$sitename = "sitename" + (Get-Random).ToString()
-	Mkdir $sitename
-	cd $sitename
+	$siteName = Get-WebsiteName
+	Mkdir $siteName
+	cd $siteName
 	
 	# Test
 	$command = "install -g express";
 	Start-Process npm $command -WAIT
 
 	express
-	$createsite = New-AzureWebSite $sitename -Git –PublishingUsername nodeqa
+	$webSite = New-AzureWebSite $siteName -Git –PublishingUsername $GIT_USERNAME
 	
 	# Assert
-	Assert-NotNull { $createsite } "Site $sitename created failed"
-	Assert-Exists "..\$sitename\iisnode.yml"
+	Assert-NotNull { $webSite } "Site $siteName created failed"
+	Assert-Exists "..\$siteName\iisnode.yml"
 	
 	# CleanUp
-	Remove-AzureWebsite -Name $sitename –Force
+	Remove-AzureWebsite -Name $siteName –Force
 }
 
 <#
