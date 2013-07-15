@@ -12,8 +12,12 @@
     <Scaffold.ReplaceParameterRule />   
   </ScaffoldFile>
 
-  <ScaffoldFile Path="Web.cloud.config" />
-  <ScaffoldFile Path="Web.config" />
+  <ScaffoldFile Path="Web.cloud.config">
+    <Scaffold.ReplaceParameterRule />   
+  </ScaffoldFile>
+  <ScaffoldFile Path="Web.config">
+    <Scaffold.ReplaceParameterRule />   
+  </ScaffoldFile>
   <ScaffoldFile Path="RoleSettings.xml" Copy="false">
     <Scaffold.ReplaceParameterRule />
     <PythonRules.AddRoleToConfig />
