@@ -38,6 +38,31 @@ function TestImportWithRequestObject
     Assert {$importedDatabase} "The database was not properly imported"
 }
 
+function TestImportCommandHelper
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [scriptblock]
+        $Command
+    )
+
+    $Request = & $Command
+    $Request = $Request[0]
+    
+    Assert {$Request} "Failed to initiate the import operation"
+    $id = ($Request.RequestGuid)
+    Write-Output "Request Id for import: $id"
+
+    GetOperationStatus $Request
+        
+    # Make sure that the database was indeed imported
+    $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
+    Assert {$importedDatabase} "The database was not properly imported"
+}
+
 function TestImportWithRequestObjectAndOptionalParameters
 {
     ####################################################
@@ -49,48 +74,27 @@ function TestImportWithRequestObjectAndOptionalParameters
     
     $BlobName = $DatabaseName1 + ".bacpac"
     Write-Output "Importing from Blob: $BlobName"
-
-    for( $i = 0; $i -ne 3; $i++)
-    {
-        Write-Output "Running test parameter set combination $i"
-        $dbName = $DatabaseName1 + "Options-$i"
-        Write-Output "Database name: $dbName"
-
-        $Request = $null
-
-        if ($i -eq 0)
-        {
-            $currEdition = "Business"
-        
-            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-                -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition
-        }
-        elseif ($i -eq 1)
-        {
-            $currMaxSize = 5
-        
-            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-                -DatabaseName $dbName -BlobName $BlobName -DatabaseMaxSize $currMaxSize
-        }
-        elseif ($i -eq 2)
-        {
-            $currEdition = "Business"
-            $currMaxSize = 20
-        
-            $Request = Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
-                -DatabaseName $dbName -BlobName $BlobName -Edition $currEdition -DatabaseMaxSize $currMaxSize
-        }
-
-        Assert {$Request} "Failed to initiate the import operation for parameter set combination: $i"
-        $id = ($Request.RequestGuid)
-        Write-Output "Request Id for import: $id"
     
-        GetOperationStatus $Request
-        
-        # Make sure that the database was indeed imported
-        $importedDatabase = Get-AzureSqlDatabase -ConnectionContext $context -DatabaseName $dbName
-        Assert {$importedDatabase} "The database was not properly imported"
-    }
+    Write-Output "Running test for import with optional edition parameter"
+    $dbName = $DatabaseName1 + "Options-edition"
+    Write-Output "Database name: $dbName"
+    TestImportCommandHelper `
+        { Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+                -DatabaseName $dbName -BlobName $BlobName -Edition "Business" }
+                
+    Write-Output "Running test for import with optional size parameter"
+    $dbName = $DatabaseName1 + "Options-size"
+    Write-Output "Database name: $dbName"
+    TestImportCommandHelper `
+        { Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+                -DatabaseName $dbName -BlobName $BlobName -DatabaseMaxSize 5 }
+                
+    Write-Output "Running test for import with optional edition and size parameter"
+    $dbName = $DatabaseName1 + "Options-edition"
+    Write-Output "Database name: $dbName"
+    TestImportCommandHelper `
+        { Start-AzureSqlDatabaseImport -SqlConnectionContext $context -StorageContainer $container `
+                -DatabaseName $dbName -BlobName $BlobName -Edition "Business" -DatabaseMaxSize 20 }
 }
 
 function TestImportWithRequestId

@@ -112,18 +112,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void Setup()
         {
             XElement root = XElement.Load("SqlDatabaseSettings.xml");
+            this.serverLocation = root.Element("ServerLocation").Value;
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
-            this.serverLocation = root.Element("ServerLocation").Value;
-            this.subscriptionId = root.Element("SubscriptionId").Value;
             this.serializedCert = root.Element("SerializedCert").Value;
+            this.subscriptionId = root.Element("SubscriptionId").Value;
             this.serverName = new Uri(manageUrl).Host.Split('.').First();
-            this.containerName = root.Element("ContainerName").Value;
-            this.storageName = root.Element("StorageName").Value;
-            this.accessKey = root.Element("AccessKey").Value;
-            this.ieServerLocation = root.Element("IEServerLocation").Value;
-            this.ieSubscriptionId = root.Element("IESubId").Value;
+
+            // Import Export parameters
+            XElement importExport = root.Element("ImportExport"); 
+            this.ieServerLocation = importExport.Element("ServerLocation").Value;
+            this.ieSubscriptionId = importExport.Element("SubscriptionId").Value;
+            this.containerName = importExport.Element("ContainerName").Value;
+            this.storageName = importExport.Element("StorageName").Value;
+            this.accessKey = importExport.Element("AccessKey").Value;
+
         }
 
         /// <summary>
