@@ -14,11 +14,8 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
     /// <summary>
     /// The information needed to connect to a SQL Azure database for the export operation
@@ -28,12 +25,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class ConnectionInfo : IExtensibleDataObject
     {
-        /// <summary>
-        /// Gets or sets the extension data for the connection info
-        /// </summary>
-        [BrowsableAttribute(false)]
-        public ExtensionDataObject ExtensionData { get; set; }
-
         /// <summary>
         /// Gets or sets the name of the database to connect to
         /// </summary>
@@ -57,5 +48,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         /// </summary>
         [DataMemberAttribute]
         public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension data for the connection info
+        /// </summary>
+        [BrowsableAttribute(false)]
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }

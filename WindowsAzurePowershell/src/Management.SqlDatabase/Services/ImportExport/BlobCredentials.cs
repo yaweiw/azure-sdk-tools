@@ -14,11 +14,8 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
     /// <summary>
     /// Base class for blob storage connection information
@@ -30,15 +27,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     public class BlobCredentials : IExtensibleDataObject
     {
         /// <summary>
-        /// Gets or sets the extension data for the blob credentials object
-        /// </summary>
-        [BrowsableAttribute(false)]
-        public ExtensionDataObject ExtensionData { get; set; }
-
-        /// <summary>
         /// Gets or sets the Uri for the blob
         /// </summary>
         [DataMemberAttribute]
         public string Uri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension data for the blob credentials object
+        /// </summary>
+        [BrowsableAttribute(false)]
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }

@@ -26,12 +26,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
     public class StatusInfo : IExtensibleDataObject
     {
         /// <summary>
-        /// Gets or sets the import/export status info extension data
-        /// </summary>
-        [BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
-
-        /// <summary>
         /// Gets or sets the blob uri
         /// </summary>
         [DataMemberAttribute]
@@ -84,5 +78,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         /// </summary>
         [DataMemberAttribute]
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the import/export status info extension data
+        /// </summary>
+        [BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
     }
 }

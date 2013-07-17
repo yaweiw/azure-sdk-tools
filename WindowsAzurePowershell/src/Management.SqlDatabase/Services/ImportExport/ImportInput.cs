@@ -14,12 +14,8 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport;
 
     /// <summary>
     /// Represents the input info necessary to send an Import request
@@ -29,12 +25,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public class ImportInput : IExtensibleDataObject
     {
-        /// <summary>
-        /// Gets or sets the import input object extension data
-        /// </summary>
-        [BrowsableAttribute(false)]
-        public ExtensionDataObject ExtensionData { get; set; }
-
         /// <summary>
         /// Gets or sets the azure edition
         /// </summary>
@@ -58,5 +48,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         /// </summary>
         [DataMemberAttribute]
         public int DatabaseSizeInGB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the import input object extension data
+        /// </summary>
+        [BrowsableAttribute(false)]
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }

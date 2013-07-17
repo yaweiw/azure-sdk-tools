@@ -172,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 switch (this.ParameterSetName)
                 {
                     case ByRequestObjectParameterSet:
-                        serverName = this.Request.ServerName.Split('.')[0];
+                        serverName = this.Request.ServerName;
                         userName = this.Request.SqlCredentials.UserName;
                         password = this.Request.SqlCredentials.Password;
                         requestId = this.Request.RequestGuid;

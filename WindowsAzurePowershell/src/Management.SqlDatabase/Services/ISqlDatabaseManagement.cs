@@ -276,6 +276,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             AsyncCallback callback,
             object state);
 
+        /// <summary>
+        /// Ends the call to BeginImportDatabase.  
+        /// </summary>
+        /// <param name="asyncResult">The result of calling BeginImportDatabase</param>
+        /// <returns>An <see cref="XmlElement"/> that contains the GUID for the import operation</returns>
         XmlElement EndImportDatabase(IAsyncResult asyncResult);
 
         /// <summary>

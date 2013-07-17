@@ -14,10 +14,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
     /// <summary>
     /// The necessary information to connect to blob storage using a primary access key.

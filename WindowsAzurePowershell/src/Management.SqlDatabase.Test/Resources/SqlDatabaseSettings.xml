@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SqlDatabaseSetting>
     <ServerLocation>Onebox</ServerLocation>
-    <SubscriptionId>1f998edc-de9b-4fc2-a87f-983aa80f99ee</SubscriptionId>
+    <SubscriptionId>2cab5796-d063-4da1-838e-f9601d91d36e</SubscriptionId>
     <ManageUrl>https://testserver.dev.mscds.com</ManageUrl>
     <SqlAuthUserName>testuser</SqlAuthUserName>
     <SqlAuthPassword>testp@ss1</SqlAuthPassword>

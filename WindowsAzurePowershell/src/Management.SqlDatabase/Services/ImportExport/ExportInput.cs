@@ -14,10 +14,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
     /// <summary>
     /// The necessary information to submit an export request to IE
@@ -27,11 +24,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         Namespace = "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")]
     public partial class ExportInput : IExtensibleDataObject
     {
-        /// <summary>
-        /// Gets or sets the extension data for the export input object
-        /// </summary>
-        public ExtensionDataObject ExtensionData { get; set; }
-
         /// <summary>
         /// Gets or sets the blob credentials for the export destination
         /// </summary>
@@ -43,5 +35,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         /// </summary>
         [DataMemberAttribute(IsRequired = true, EmitDefaultValue = false)]
         public ConnectionInfo ConnectionInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension data for the export input object
+        /// </summary>
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }

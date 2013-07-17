@@ -233,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 if (request != null)
                 {
                     request.SqlCredentials = this.SqlConnectionContext.SqlCredentials;
-                    request.ServerName = fullyQualifiedServerName;
+                    request.ServerName = this.SqlConnectionContext.ServerName;
                     this.WriteObject(request);
                 }
             }

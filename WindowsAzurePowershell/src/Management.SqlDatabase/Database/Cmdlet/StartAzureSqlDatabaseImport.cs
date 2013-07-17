@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
 
     /// <summary>
-    /// Exports a database from SQL Azure into blob storage.
+    /// Imports a database from blob storage into SQL Azure.
     /// </summary>
     [Cmdlet("Start", "AzureSqlDatabaseImport", ConfirmImpact = ConfirmImpact.Medium)]
     public class StartAzureSqlDatabaseImport : SqlDatabaseManagementCmdletBase
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public ServerDataServiceSqlAuth SqlConnectionContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the destination storage container for the blob
+        /// Gets or sets the storage container object containing the blob
         /// </summary>
         [Parameter(Mandatory = true, Position = 1,
             ParameterSetName = ByContainerObjectParameterSet,
@@ -100,26 +100,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public string StorageContainerName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the database to export
+        /// Gets or sets the name for the imported database
         /// </summary>
         [Parameter(Mandatory = true, Position = 2,
             ParameterSetName = ByContainerObjectParameterSet,
-            HelpMessage = "The name of the database to export")]
+            HelpMessage = "The name for the imported database")]
         [Parameter(Mandatory = true, Position = 3,
             ParameterSetName = ByContainerNameParameterSet,
-            HelpMessage = "The name of the database to export")]
+            HelpMessage = "The name for the imported database")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the blob to use for the export
+        /// Gets or sets name of the blob to use for the import
         /// </summary>
         [Parameter(Mandatory = true, Position = 3,
             ParameterSetName = ByContainerObjectParameterSet,
-            HelpMessage = "The name of the blob to use for the export")]
+            HelpMessage = "The name of the blob to use for the import")]
         [Parameter(Mandatory = true, Position = 4,
             ParameterSetName = ByContainerNameParameterSet,
-            HelpMessage = "The name of the blob to use for the export")]
+            HelpMessage = "The name of the blob to use for the import")]
         [ValidateNotNullOrEmpty]
         public string BlobName { get; set; }
 
@@ -141,12 +141,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
-        /// Performs the call to export database using the server data service context channel.
+        /// Performs the call to import database using the server data service context channel.
         /// </summary>
         /// <param name="serverName">The name of the server to connect to.</param>
-        /// <param name="input">The <see cref="ExportInput"/> object that contains 
+        /// <param name="input">The <see cref="ImportInput"/> object that contains 
         /// all the connection information</param>
-        /// <returns>The result of export request.  Upon success the <see cref="ImportExportRequest"/>
+        /// <returns>The result of the import request.  Upon success the <see cref="ImportExportRequest"/>
         /// for the request</returns>
         internal ImportExportRequest ImportSqlAzureDatabaseProcess(string serverName, ImportInput input)
         {
@@ -176,11 +176,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Process the export request
+        /// Process the import request
         /// </summary>
         protected override void ProcessRecord()
         {
-            this.WriteVerbose("Starting to process the record");
             try
             {
                 base.ProcessRecord();
@@ -249,7 +248,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 if (request != null)
                 {
                     request.SqlCredentials = this.SqlConnectionContext.SqlCredentials;
-                    request.ServerName = fullyQualifiedServerName;
+                    request.ServerName = this.SqlConnectionContext.ServerName;
                     this.WriteObject(request);
                 }
             }
