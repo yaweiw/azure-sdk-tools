@@ -661,7 +661,7 @@ function Test-AzureWebSiteListAll
 
 	# Cleanup
 	Remove-AzureWebsite $name1 -Force
-   	Remove-AzureWebsite $name2 -Force
+	Remove-AzureWebsite $name2 -Force
 	Remove-AzureWebsite $name3 -Force
 }
 
@@ -709,42 +709,26 @@ function Test-NewAzureWebSiteMultipleCreds
 	
 	# Test
 	New-AzureWebsite $siteName -Git -PublishingUsername $GIT_USERNAME
-	
 	$webSite = Get-AzureWebsite -Name $siteName
 	
-	$repositorySiteName = $webSite.RepositorySiteName
-	$publishingUsername1 = $webSite.PublishingUsername
-	$publishingPassword1 = $webSite.PublishingPassword
+	# Verify publishingusername & publishingpassword in git remote
+	$webSite = Get-AzureWebsite -Name $siteName
+	$gitRemoteList = git remote -v
+	$expectedRemoteUri = "https://" + $GIT_USERNAME + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
+	Assert-True { $gitRemoteList[0].Contains($expectedRemoteUri)}
 
-	$properties = $webSite.SiteProperties.Properties
-	$publishingUsername2 = $properties[$properties.Name.IndexOf("PublishingUsername")].Value
-	$publishingPassword2 = $properties[$properties.Name.IndexOf("PublishingPassword")].Value
-	
-	Assert-AreEqual $siteName $repositorySiteName
-	Assert-AreEqual $publishingUsername1 $publishingUsername2
-	Assert-AreEqual $publishingPassword1 $publishingPassword2
-	
 	# Install express
 	Npm-InstallExpress
-	
-	# Push local git to website
-	$expectedWarning = "warning: LF will be replaced by CRLF in node_modules/.bin/express."
-	Assert-Throws { git add -A } $expectedWarning
-	$commitString = "Add the express app to the repository"
-	Assert-Throws { git commit -m $commitString } $expectedWarning
 
-	$remoteAlias = "azureins"
-	$repositoryUri = $properties[$properties.Name.IndexOf("RepositoryUri")].Value
-	$remoteUri = $repositoryUri.Insert($repositoryUri.IndexOf($repositoryUri.Split('//')[-1]),"$GIT_USERNAME"+":$GIT_PASSWORD@") + "/$siteName.git"
-	git remote add $remoteAlias $remoteUri
-	Assert-Throws { git push $remoteAlias master }
+	# Push local git to website
+	Git-PushLocalGitToWebSite $siteName
 	
 	# Verify browse website
 	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
 	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
-		$url = "http://" + (Get-Azurewebsite $siteName).EnabledHostNames[0]
+		$url = "http://" + $webSite.EnabledHostNames[0]
 		$expectedString = "Welcome to Express"
 		Assert-True { Test-ValidateResultInBrowser ($url) $expectedString }
 	}
@@ -766,9 +750,9 @@ Tests New azure web site with git hub.
 #>
 function Test-NewAzureWebSiteGitHubAllParms
 {
-	$GitHub_REPO = "IIS-WeiSheng/WebChatDefault-0802"
-	$GitHub_USERNAME = "IIS-WeiSheng"
-	$GitHub_PASSWORD = "1qaz2wsx"
+	$GitHub_USERNAME = $env:GITHub_USERNAME
+	$GitHub_PASSWORD = $env:GITHub_USERNAME
+	$GitHub_REPO = $env:GITHub_USERNAME + "/WebChatDefault-0802"
 	
 	# Setup
 	$siteName = Get-WebsiteName
@@ -815,48 +799,30 @@ function Test-NewAzureWebSiteUpdateGit
 
 	# Test
 	New-AzureWebSite $siteName
-	
+	# Set the ErrorActionPreference as "SilentlyContinue" to work around "The website already exist" exception
 	$oldErrorActionPreferenceValue = $ErrorActionPreference
 	$ErrorActionPreference = "SilentlyContinue"
 	New-AzureWebSite $siteName -Git -Publishingusername:$GIT_USERNAME
 	$ErrorActionPreference = $oldErrorActionPreferenceValue
 
-	# Verify site name and publishingusername & publishingpassword
+	# Verify publishingusername & publishingpassword in git remote
 	$webSite = Get-AzureWebsite -Name $siteName
-	
-	$repositorySiteName = $webSite.RepositorySiteName
-	$publishingUsername1 = $webSite.PublishingUsername
-	$publishingPassword1 = $webSite.PublishingPassword
-	
-	$properties = $webSite.SiteProperties.Properties
-	$publishingUsername2 = $properties[$Properties.Name.IndexOf("PublishingUsername")].Value
-	$publishingPassword2 = $properties[$Properties.Name.IndexOf("PublishingPassword")].Value
-	
-	Assert-AreEqual $siteName $repositorySiteName
-	Assert-AreEqual $publishingUsername1 $publishingUsername2
-	Assert-AreEqual $publishingPassword1 $publishingPassword2
+	$gitRemoteList = git remote -v
+	$expectedRemoteUri = "https://" + $GIT_USERNAME + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
+	Assert-True { $gitRemoteList[0].Contains($expectedRemoteUri)}
 
 	# Install express
 	Npm-InstallExpress
 
 	# Push local git to website
-	$expectedWarning = "warning: LF will be replaced by CRLF in node_modules/.bin/express."
-	Assert-Throws { git add -A } $expectedWarning
-	$commitString = "Update azurewebsite with local git"
-	Assert-Throws { git commit -m $commitString } $expectedWarning
-
-	$remoteAlias = "azureins"
-	$repositoryUri = $properties[$properties.Name.IndexOf("RepositoryUri")].Value
-	$remoteUri = $repositoryUri.Insert($repositoryUri.IndexOf($repositoryUri.Split('//')[-1]),"$GIT_USERNAME"+":$GIT_PASSWORD@") + "/$siteName.git"
-	git remote add $remoteAlias $remoteUri
-	Assert-Throws { git push $remoteAlias master }
+	Git-PushLocalGitToWebSite $siteName
 
 	# Verify browse website
 	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
 	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
-		$url = "http://" + (Get-Azurewebsite $siteName).EnabledHostNames[0]
+		$url = "http://" + $webSite.EnabledHostNames[0]
 		$expectedString = "Welcome to Express"
 		Assert-True { Test-ValidateResultInBrowser ($url) $expectedString }
 	}
