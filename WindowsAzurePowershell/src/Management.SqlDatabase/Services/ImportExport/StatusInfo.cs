@@ -83,6 +83,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.ImportExport
         /// Gets or sets the import/export status info extension data
         /// </summary>
         [BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData { get; set; }
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }
