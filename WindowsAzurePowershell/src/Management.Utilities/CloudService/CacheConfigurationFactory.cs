@@ -233,14 +233,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     roleName, parameters);
             }
 
-            // Add startup task to install memcache shim on the client side.
-            string cacheRuntimeUri = CloudRuntimeCollection.GetRuntimeUrl(Resources.CacheRuntimeValue, CurrentVersion);
-            Debug.Assert(!string.IsNullOrEmpty(cacheRuntimeUri));
-            Variable emulated = new Variable { name = Resources.EmulatedKey, RoleInstanceValue = new RoleInstanceValueElement { xpath = "/RoleEnvironment/Deployment/@emulated" } };
-            Variable[] env = { emulated, new Variable { name = Resources.CacheRuntimeUrl, value = cacheRuntimeUri } };
-            Task shimStartupTask = new Task { Environment = env, commandLine = Resources.CacheStartupCommand, executionContext = ExecutionContext.elevated };
-            startup.Task = General.ExtendArray<Task>(startup.Task, shimStartupTask);
-
             // Add default memcache internal endpoint.
             InternalEndpoint memcacheEndpoint = new InternalEndpoint
             {
