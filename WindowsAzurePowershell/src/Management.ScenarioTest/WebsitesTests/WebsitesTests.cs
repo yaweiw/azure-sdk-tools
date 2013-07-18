@@ -305,6 +305,73 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-GetAzureWebsiteLocation");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestKuduAppsExpressApp()
+        {
+            RunPowerShellTest("Test-KuduAppsExpressApp");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestGetAzureWebSiteListNone()
+        {
+            RunPowerShellTest("Test-GetAzureWebSiteListNone");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestAzureWebSiteListAll()
+        {
+            RunPowerShellTest("Test-AzureWebSiteListAll");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestAzureWebSiteShowSingleSite()
+        {
+            RunPowerShellTest("Test-AzureWebSiteShowSingleSite");
+        }
+
         #endregion
+
+        #region AzureWebSiteGitHubAllParms Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestNewAzureWebSiteMultipleCreds()
+        {
+            RunPowerShellTest("Test-NewAzureWebSiteMultipleCreds");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestNewAzureWebSiteGitHubAllParms()
+        {
+            RunPowerShellTest("Test-NewAzureWebSiteGitHubAllParms");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestNewAzureWebSiteUpdateGit()
+        {
+            RunPowerShellTest("Test-NewAzureWebSiteUpdateGit");
+        }
+        #endregion
+
     }
 }
