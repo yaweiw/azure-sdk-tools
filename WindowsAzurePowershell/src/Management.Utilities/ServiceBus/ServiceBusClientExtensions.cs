@@ -225,6 +225,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             using (HttpClient client = CreateServiceBusHttpClient())
             {
+                client.DefaultRequestHeaders.Add("x-process-at", "servicebus");
                 return client.GetJson<List<ConnectionDetail>>(
                     UriElement.ConnectionStringUri(namespaceName, entityName, entityType),
                     Logger);
