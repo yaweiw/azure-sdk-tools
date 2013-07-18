@@ -179,5 +179,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             return CallRestApiWithJsonPayload<T>(client, requestUri, json, logger, WebRequestMethods.Http.Put);
         }
+
+        public static void Delete(this HttpClient client, string requestUri, Action<string> logger)
+        {
+            AddUserAgent(client);
+            LogRequest(
+                HttpMethod.Delete.Method,
+                client.BaseAddress + requestUri,
+                client.DefaultRequestHeaders,
+                string.Empty,
+                logger);
+            HttpResponseMessage response = client.DeleteAsync(requestUri).Result;
+            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+            LogResponse(response.StatusCode.ToString(), response.Headers, content, logger);
+        }
     }
 }

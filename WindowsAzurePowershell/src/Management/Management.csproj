@@ -195,6 +195,7 @@
     <Compile Include="Environment\RemoveAzureEnvironment.cs" />
     <Compile Include="Environment\SetAzureEnvironment.cs" />
     <Compile Include="Environment\GetAzureEnvironment.cs" />
+    <Compile Include="ServiceBus\RemoveAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\SetAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\NewAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocation.cs" />
