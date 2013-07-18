@@ -160,7 +160,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscription
         private static HttpRequestMessage CreateRequest(HttpMethod method, string path)
         {
             var request = new HttpRequestMessage(method, new Uri(path, UriKind.Relative));
-            request.Headers.Add(ApiConstants.VersionHeaderName, ApiConstants.ResourceRegistrationApiVersion);
+            request.Headers.Add(
+                ServiceManagement.Constants.VersionHeaderName,
+                ApiConstants.ResourceRegistrationApiVersion);
             request.Headers.Accept.Add(HttpConstants.XmlMediaType);
             return request;
         }

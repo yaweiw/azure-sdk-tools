@@ -61,13 +61,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public static class ApiConstants
     {
-        public static string DefaultApiVersion = "2011-03-01";
-        public static string ResourceRegistrationApiVersion = "2012-08-01";
-
-        public const string VersionHeaderName = "x-ms-version";
-        public const string RequestHeaderName = "x-ms-request-id";
-        public const string MarkerHeaderName = "x-ms-continuation-Marker";
-        public const string TracingHeaderName = "x-ms-tracing";
+        public const string ResourceRegistrationApiVersion = "2012-08-01";
+        public const string LatestApiVersion = ServiceManagement.Constants.VersionHeaderContentLatest;
+        public const string VersionHeaderName = ServiceManagement.Constants.VersionHeaderName;
 
         public const string AuthorizationHeaderName = "Authorization";
 

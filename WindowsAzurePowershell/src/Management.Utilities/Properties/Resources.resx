@@ -1292,4 +1292,10 @@ Please follow these steps in the portal:
   <data name="CacheMismatchMessage" xml:space="preserve">
     <value>Please upgrade the cache runtime of role '{0}' to '{1}' using Set-AzureServiceProjectRole -RoleName {0} -Runtime Cache -Version {1}</value>
   </data>
+  <data name="InvalidParameterSetName" xml:space="preserve">
+    <value>'{0}' is an invalid parameter set name.</value>
+  </data>
+  <data name="ServiceBusEntityTypeNotFound" xml:space="preserve">
+    <value>The service bus entity '{0}' is not found.</value>
+  </data>
 </root>
