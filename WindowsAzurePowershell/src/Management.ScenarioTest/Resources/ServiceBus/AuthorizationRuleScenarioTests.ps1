@@ -385,7 +385,7 @@ function Test-RemovesRelayAuthorizationRule
 	$ruleName = $namespaceName
 	$entityType = "Relay"
 	$client = New-ServiceBusClientExtensions
-	$client.CreateRelay($namespaceName, $entityName)
+	$client.CreateRelay($namespaceName, $entityName, "Http")
 	New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
 		-EntityType $entityType -Permission $("Manage", "Send", "Listen")
 
