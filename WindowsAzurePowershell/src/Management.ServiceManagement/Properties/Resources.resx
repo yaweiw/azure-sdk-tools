@@ -496,7 +496,7 @@
     <value>{0} - Create VM {1}</value>
   </data>
   <data name="ServiceExtensionCannotFindServiceName" xml:space="preserve">
-    <value>Cannot find cloud servcie: {0}.</value>
+    <value>Cannot find cloud service: {0}.</value>
   </data>
   <data name="ServiceExtensionCannotFindStorageAccountKey" xml:space="preserve">
     <value>Cannot find storage keys for the account name: {0}.</value>
