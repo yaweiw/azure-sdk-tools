@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 }
             };
 
-            Guid testGuid = Guid.NewGuid().ToString()
+            Guid testGuid = Guid.NewGuid();
 
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
