@@ -8,9 +8,9 @@
     <DeploymentItem filename="Management.CloudService\Resources\" />
     <DeploymentItem filename="Management.Test.Utilities\Resources\" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
-	<DeploymentItem filename="..\..\Package\Debug\Microsoft.WindowsAzure.Management.dll" />
-	<DeploymentItem filename="..\..\Package\Debug\Microsoft.WindowsAzure.Management.Storage.dll" />
-	<DeploymentItem filename="..\..\Package\Debug\startup.ps1" />
+    <DeploymentItem filename="..\..\Package\Debug\Microsoft.WindowsAzure.Management.dll" />
+    <DeploymentItem filename="..\..\Package\Debug\Microsoft.WindowsAzure.Management.Storage.dll" />
+    <DeploymentItem filename="..\..\Package\Debug\startup.ps1" />
   </Deployment>
   <Execution>
     <Timeouts testTimeout="3000000" />
