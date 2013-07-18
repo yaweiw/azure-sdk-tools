@@ -13,6 +13,7 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using System;
     using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
@@ -60,6 +61,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 }
             };
 
+            Guid testGuid = Guid.NewGuid().ToString()
+
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
             channel.ImportDatabaseThunk = ar =>
@@ -92,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         "guid", 
                         "http://schemas.microsoft.com/2003/10/Serialization/");
 
-                operationResult.InnerText = "00000000-0000-0000-0000-000000000000";
+                operationResult.InnerText = testGuid.ToString();
                 return operationResult;
             };
 
@@ -101,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             importAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             importAzureSqlDatabase.CommandRuntime = commandRuntime;
             var result = importAzureSqlDatabase.ImportSqlAzureDatabaseProcess(serverName, input);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", result.RequestGuid);
+            Assert.AreEqual(testGuid.ToString(), result.RequestGuid);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }

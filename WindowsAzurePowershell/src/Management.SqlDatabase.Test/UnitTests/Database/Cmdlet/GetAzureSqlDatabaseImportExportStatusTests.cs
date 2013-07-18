@@ -14,10 +14,6 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
@@ -49,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             string serverName = "TestServer";
             string userName = "testUser";
             string password = "testPassword";
-            string requestId = "00000000-0000-0000-0000-000000000000";
+            string requestId = Guid.NewGuid().ToString();
             string blobUri = "test.dummy.blob/container/blob.bacpac";
             string databaseName = "dummyDB";
             DateTime lastModified = DateTime.UtcNow;
