@@ -198,6 +198,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         }
 
         /// <summary>
+        /// Gets all existing role names.
+        /// </summary>
+        /// <returns>All roles in the cloud service project</returns>
+        public IEnumerable<string> GetRoles()
+        {
+            if (CloudConfig.Role != null)
+            {
+                return CloudConfig.Role.Select(r => r.name);
+            }
+
+            return Enumerable.Empty<string>();
+        }
+
+        /// <summary>
         /// Gets all worker roles that matches given predicate.
         /// </summary>
         /// <param name="predicate">The matching predicate</param>
@@ -421,21 +435,49 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             Task task = GetStartupTask(roleName, commandLines);
             bool found = false;
 
-            for (int i = 0; i < task.Environment.Length; i++)
+            if (task != null && task.Environment != null)
             {
-                if (task.Environment[i].name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                for (int i = 0; i < task.Environment.Length; i++)
                 {
-                    task.Environment[i].value = value;
-                    found = true;
-                    break;
+                    if (task.Environment[i].name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        task.Environment[i].value = value;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Variable var = new Variable() { name = name, value = value };
+                    task.Environment = General.ExtendArray<Variable>(task.Environment, var);
                 }
             }
+        }
 
-            if (!found)
+        /// <summary>
+        /// Gets startup task variable with the specified name.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="name">The variable name</param>
+        /// <param name="commandLines">The startup task command line arguments</param>
+        /// <returns></returns>
+        public string GetStartupTaskVariable(string roleName, string name, params string[] commandLines)
+        {
+            Task task = GetStartupTask(roleName, commandLines);
+            Variable variable = null;
+
+            if (task != null && task.Environment != null)
             {
-                Variable var = new Variable() { name = name, value = value };
-                task.Environment = General.ExtendArray<Variable>(task.Environment, var);
+                variable = task.Environment.FirstOrDefault(v => v.name.Equals(name, StringComparison.OrdinalIgnoreCase));
             }
+
+            if (variable != null)
+            {
+                return variable.value;
+            }
+
+            return null;
         }
     }
 }
