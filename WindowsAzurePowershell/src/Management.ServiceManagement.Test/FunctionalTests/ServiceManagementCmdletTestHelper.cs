@@ -196,6 +196,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureAvailabilitySet
 
+        public PersistentVM SetAzureAvailabilitySet(string availabilitySetName, PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
+        }
+
         public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
         {
             if (!string.IsNullOrEmpty(availabilitySetName))
@@ -269,7 +274,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<DataVirtualHardDisk>(new GetAzureDataDiskCmdletInfo(vmRolectx.VM));
         }
 
-        private PersistentVM RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
+        public Collection<DataVirtualHardDisk> GetAzureDataDisk(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnAll<DataVirtualHardDisk>(new GetAzureDataDiskCmdletInfo(vm));
+        }
+        public PersistentVM RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureDataDiskCmdletInfo(discCfg));            
         }
@@ -448,6 +457,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<InputEndpointContext>(new GetAzureEndpointCmdletInfo(vmRoleCtxt));            
         }
 
+        public Collection<InputEndpointContext> GetAzureEndPoint(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnAll<InputEndpointContext>(new GetAzureEndpointCmdletInfo(vm));
+        }
+
         public void SetEndPoint(string vmName, string serviceName, AzureEndPointConfigInfo endPointConfig)
         {
             endPointConfig.Vm = GetAzureVM(vmName, serviceName).VM;
@@ -483,6 +497,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public PersistentVMRoleContext RemoveAzureEndPoint(string epName, PersistentVMRoleContext vmRoleCtxt)
         {
             return RunPSCmdletAndReturnFirst<PersistentVMRoleContext>(new RemoveAzureEndpointCmdletInfo(epName, vmRoleCtxt));            
+        }
+
+        public PersistentVM RemoveAzureEndPoint(string epName, PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureEndpointCmdletInfo(epName, vm));
         }
 
         public void RemoveEndPoint(string vmName, string serviceName, string [] epNames)
@@ -556,12 +575,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return null;
         }
 
-        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
+        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
 
-        public PersistentVMRoleContext NewAzureQuickLinuxVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
+        public PersistentVMRoleContext NewAzureQuickLinuxVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName);
         }
@@ -853,16 +872,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureVM
         
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null)
         {
-            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, null);                        
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
         }
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings, string affinityGroup,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
         {
             return RunPSCmdletAndReturnAll<ManagementOperationContext>(
-                new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, affinityGroup, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location));
+                new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup));
         }
 
         public PersistentVMRoleContext GetAzureVM(string vmName, string serviceName)
@@ -1147,7 +1166,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             UpdateAzureVM(vmName, serviceName, vmRolectx.VM);
         }
 
-        private PersistentVM SetAzureVMSize(SetAzureVMSizeConfig sizeCfg)
+        public PersistentVM SetAzureVMSize(SetAzureVMSizeConfig sizeCfg)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMSizeCmdletInfo(sizeCfg));            
         }
