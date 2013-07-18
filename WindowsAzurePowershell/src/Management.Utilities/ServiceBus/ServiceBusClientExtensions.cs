@@ -629,6 +629,80 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
             return CreateExtendedExtendedAuthorizationRule(newRule, namespaceName, entityName, entityType);
         }
+
+        /// <summary>
+        /// Removes shared access signature authorization for the service bus namespace.
+        /// </summary>
+        /// <param name="namespaceName">The service bus namespace name</param>
+        /// <param name="ruleName">The SAS authorization rule name</param>
+        public virtual void RemoveSharedAccessAuthorization(
+            string namespaceName,
+            string ruleName)
+        {
+            using (HttpClient client = CreateServiceBusHttpClient())
+            {
+                client.Delete(UriElement.GetAuthorizationRulePath(namespaceName, ruleName), Logger);
+            }
+        }
+
+        /// <summary>
+        /// Removed shared access signature authorization for the service bus entity.
+        /// </summary>
+        /// <param name="namespaceName">The service bus namespace name</param>
+        /// <param name="entityName">The fully qualified service bus entity name</param>
+        /// <param name="entityType">The service bus entity type (e.g. Queue)</param>
+        /// <param name="ruleName">The SAS authorization rule name</param>
+        public void RemoveSharedAccessAuthorization(
+            string namespaceName,
+            string entityName,
+            ServiceBusEntityType entityType,
+            string ruleName)
+        {
+            bool removed = false;
+            SharedAccessAuthorizationRule rule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
+                namespaceName,
+                entityName,
+                entityType,
+                ruleName).Rule;
+
+            // Create namespace manager
+            NamespaceManager namespaceManager = CreateNamespaceManager(namespaceName);
+
+            // Add the SAS rule and update the entity
+            switch (entityType)
+            {
+                case ServiceBusEntityType.Queue:
+                    QueueDescription queue = namespaceManager.GetQueue(entityName);
+                    removed = queue.Authorization.Remove(rule);
+                    Debug.Assert(removed);
+                    namespaceManager.UpdateQueue(queue);
+                    break;
+
+                case ServiceBusEntityType.Topic:
+                    TopicDescription topic = namespaceManager.GetTopic(entityName);
+                    removed = topic.Authorization.Remove(rule);
+                    Debug.Assert(removed);
+                    namespaceManager.UpdateTopic(topic);
+                    break;
+
+                case ServiceBusEntityType.Relay:
+                    RelayDescription relay = namespaceManager.GetRelayAsync(entityName).Result;
+                    removed = relay.Authorization.Remove(rule);
+                    Debug.Assert(removed);
+                    namespaceManager.UpdateRelayAsync(relay).Wait();
+                    break;
+
+                case ServiceBusEntityType.NotificationHub:
+                    NotificationHubDescription notificationHub = namespaceManager.GetNotificationHub(entityName);
+                    removed = notificationHub.Authorization.Remove(rule);
+                    Debug.Assert(removed);
+                    namespaceManager.UpdateNotificationHub(notificationHub);
+                    break;
+
+                default:
+                    throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
+            }
+        }
     }
 
     public enum ServiceBusEntityType

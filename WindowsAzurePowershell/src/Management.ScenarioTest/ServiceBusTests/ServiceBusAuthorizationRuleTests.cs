@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         #region Set-AzureSBAuthorizationRule Scenario Tests
 
         /// <summary>
-        /// Test Sets-AzureSBAuthorizationRule when creating queue and renewing primary key.
+        /// Test Set-AzureSBAuthorizationRule when creating queue and renewing primary key.
         /// </summary>
         [TestMethod]
         [TestCategory(Category.All)]
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         /// <summary>
-        /// Test Sets-AzureSBAuthorizationRule when creating topic and setting secondary key.
+        /// Test Set-AzureSBAuthorizationRule when creating topic and setting secondary key.
         /// </summary>
         [TestMethod]
         [TestCategory(Category.All)]
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         /// <summary>
-        /// Test Sets-AzureSBAuthorizationRule when creating notification hub and changing the permissions.
+        /// Test Set-AzureSBAuthorizationRule when creating notification hub and changing the permissions.
         /// </summary>
         [TestMethod]
         [TestCategory(Category.All)]
@@ -132,6 +132,65 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
             RunPowerShellTest("Test-SetsAuthorizationRuleOnNamespace");
         }
          
+        #endregion
+
+        #region Remove-AzureSBNamespaceAuthoorizationRule Scenario Tests
+
+        /// <summary>
+        /// Tests removing a namespace level authorization rule.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void RemovesNamespaceAuthorizationRule()
+        {
+            RunPowerShellTest("Test-RemovesNamespaceAuthorizationRule");
+        }
+
+        /// <summary>
+        /// Tests removing a queue entity authorization rule.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void RemovesQueueAuthorizationRule()
+        {
+            RunPowerShellTest("Test-RemovesQueueAuthorizationRule");
+        }
+
+        /// <summary>
+        /// Tests removing a topic entity authorization rule.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void RemovesTopicAuthorizationRule()
+        {
+            RunPowerShellTest("Test-RemovesTopicAuthorizationRule");
+        }
+
+        /// <summary>
+        /// Tests removing a relay entity authorization rule.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void RemovesRelayAuthorizationRule()
+        {
+            RunPowerShellTest("Test-RemovesRelayAuthorizationRule");
+        }
+
+        /// <summary>
+        /// Tests removing a notification hub entity authorization rule.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void RemovesNotificationHubAuthorizationRule()
+        {
+            RunPowerShellTest("Test-RemovesNotificationHubAuthorizationRule");
+        }
+
         #endregion
     }
 }

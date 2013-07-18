@@ -23,10 +23,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
-    /// Updates new service bus authorization rule.
+    /// Removes new service bus authorization rule.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule))]
-    public class SetAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
+    [Cmdlet(VerbsCommon.Remove, "AzureSBAuthorizationRule"), OutputType(typeof(bool))]
+    public class RemoveAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         public const string EntitySASParameterSet = "EntitySAS";
 
@@ -38,65 +38,44 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The rule name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The access permission")]
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The access permission")]
-        public Microsoft.ServiceBus.Messaging.AccessRights[] Permission { get; set; }
-
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true,
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true,
         ParameterSetName = EntitySASParameterSet, HelpMessage = "The namespace name")]
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true,
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true,
         ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The namespace name")]
         public string Namespace { get; set; }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity name")]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity name")]
         public string EntityName { get; set; }
 
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity type")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity type")]
         public ServiceBusEntityType EntityType { get; set; }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The primary key")]
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The primary key")]
-        public string PrimaryKey { get; set; }
-
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The secondary key")]
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The secondary key")]
-        public string SecondaryKey { get; set; }
+        [Parameter(Mandatory = false, ParameterSetName = NamespaceSASParameterSet)]
+        [Parameter(Mandatory = false, ParameterSetName = EntitySASParameterSet)]
+        public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
             Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription, WriteDebug);
-            AuthorizationRule rule = null;
-            PSObject output = null;
 
             switch (ParameterSetName)
             {
                 case NamespaceSASParameterSet:
-                    rule = Client.UpdateSharedAccessAuthorization(Namespace, Name, PrimaryKey, SecondaryKey, Permission);
-                    output = ConstructPSObject(
-                        typeof(AuthorizationRule).FullName,
-                        "Name", rule.Name,
-                        "ConnectionString", rule.ConnectionString,
-                        "Permission", rule.Permission,
-                        "Rule", rule.Rule);
+                    Client.RemoveSharedAccessAuthorization(Namespace, Name);
                     break;
 
                 case EntitySASParameterSet:
-                    rule = Client.UpdateSharedAccessAuthorization(
-                        Namespace,
-                        EntityName,
-                        EntityType,
-                        Name,
-                        PrimaryKey,
-                        SecondaryKey,
-                        Permission);
-                    output = new PSObject(rule);
+                    Client.RemoveSharedAccessAuthorization(Namespace, EntityName, EntityType, Name);
                     break;
 
                 default:
                     throw new ArgumentException(string.Format(Resources.InvalidParameterSetName, ParameterSetName));
             }
 
-            WriteObject(output);
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
         }
     }
 }
