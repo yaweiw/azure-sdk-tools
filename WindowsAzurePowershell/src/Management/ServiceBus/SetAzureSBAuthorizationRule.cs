@@ -25,8 +25,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
     /// <summary>
     /// Creates new service bus authorization rule.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule))]
-    public class NewAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
+    [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule))]
+    public class SetAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         public const string EntitySASParameterSet = "EntitySAS";
 
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             switch (ParameterSetName)
             {
                 case NamespaceSASParameterSet:
-                    rule = Client.CreateSharedAccessAuthorization(Namespace, Name, PrimaryKey, SecondaryKey, Permission);
+                    rule = Client.UpdateSharedAccessAuthorization(Namespace, Name, PrimaryKey, SecondaryKey, Permission);
                     output = ConstructPSObject(
                         typeof(AuthorizationRule).FullName,
                         "Name", rule.Name,
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                     break;
 
                 case EntitySASParameterSet:
-                    rule = Client.CreateSharedAccessAuthorization(
+                    rule = Client.UpdateSharedAccessAuthorization(
                         Namespace,
                         EntityName,
                         EntityType,

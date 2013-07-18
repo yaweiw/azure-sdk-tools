@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
     using System.Threading.Tasks;
     using ExtendedAuthorizationRule = Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel.AuthorizationRule;
     using AuthorizationRule = Microsoft.ServiceBus.Messaging.AuthorizationRule;
+    using System.Diagnostics;
 
     public class ServiceBusClientExtensions
     {
@@ -267,7 +268,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
             using (HttpClient client = CreateServiceBusHttpClient())
             {
-                rule = client.PostAsJsonAsync(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
+                rule = client.PostJson(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
             }
 
             return rule;
@@ -298,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
             using (HttpClient client = CreateServiceBusHttpClient())
             {
-                rule = client.PostAsJsonAsync(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
+                rule = client.PostJson(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
             }
 
             return CreateExtendedExtendedAuthorizationRule(rule, namespaceName);
@@ -507,6 +508,126 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 r => r.KeyName.Equals(ruleName, StringComparison.OrdinalIgnoreCase));
 
             return match.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Updates shared access signature authorization for the service bus namespace. This authorization works on
+        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// </summary>
+        /// <param name="namespaceName">The service bus namespace name</param>
+        /// <param name="ruleName">The SAS authorization rule name</param>
+        /// <param name="primaryKey">The SAS primary key. It'll be generated if empty</param>
+        /// <param name="secondaryKey">The SAS secondary key</param>
+        /// <param name="permissions">Set of permissions given to the rule</param>
+        /// <returns>The created Shared Access Signature authorization rule</returns>
+        public virtual ExtendedAuthorizationRule UpdateSharedAccessAuthorization(
+            string namespaceName,
+            string ruleName,
+            string primaryKey,
+            string secondaryKey,
+            params AccessRights[] permissions)
+        {
+            SharedAccessAuthorizationRule rule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
+                namespaceName,
+                ruleName,
+                AuthorizationType.SharedAccessAuthorization).Rule;
+
+            // Update the rule
+            rule.Rights = permissions ?? rule.Rights;
+            rule.PrimaryKey = string.IsNullOrEmpty(primaryKey) ? rule.PrimaryKey : primaryKey;
+            rule.SecondaryKey = string.IsNullOrEmpty(secondaryKey) ? rule.SecondaryKey : secondaryKey;
+
+            // In case that there's nothing to update then assume user asks for primary key renewal
+            if (permissions == null && string.IsNullOrEmpty(secondaryKey) && string.IsNullOrEmpty(primaryKey))
+            {
+                rule.PrimaryKey = SharedAccessAuthorizationRule.GenerateRandomKey();
+            }
+
+            using (HttpClient client = CreateServiceBusHttpClient())
+            {
+                rule = client.PutJson(UriElement.GetAuthorizationRulePath(namespaceName, ruleName), rule, Logger);
+            }
+
+            return CreateExtendedExtendedAuthorizationRule(rule, namespaceName);
+        }
+
+        /// <summary>
+        /// Updates shared access signature authorization for the service bus entity. This authorization works on
+        /// public Windows Azure environments and Windows Azure Pack on prim as well.
+        /// </summary>
+        /// <param name="namespaceName">The service bus namespace name</param>
+        /// <param name="entityName">The fully qualified service bus entity name</param>
+        /// <param name="entityType">The service bus entity type (e.g. Queue)</param>
+        /// <param name="ruleName">The SAS authorization rule name</param>
+        /// <param name="primaryKey">The SAS primary key. It'll be generated if empty</param>
+        /// <param name="secondaryKey">The SAS secondary key</param>
+        /// <param name="permissions">Set of permissions given to the rule</param>
+        /// <returns>The created Shared Access Signature authorization rule</returns>
+        public ExtendedAuthorizationRule UpdateSharedAccessAuthorization(
+            string namespaceName,
+            string entityName,
+            ServiceBusEntityType entityType,
+            string ruleName,
+            string primaryKey,
+            string secondaryKey,
+            params AccessRights[] permissions)
+        {
+            bool removed = false;
+            SharedAccessAuthorizationRule oldRule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
+                namespaceName,
+                entityName,
+                entityType,
+                ruleName).Rule;
+
+            SharedAccessAuthorizationRule newRule = new SharedAccessAuthorizationRule(
+                ruleName,
+                string.IsNullOrEmpty(primaryKey) ? SharedAccessAuthorizationRule.GenerateRandomKey() : primaryKey,
+                secondaryKey,
+                permissions ?? oldRule.Rights);
+
+            // Create namespace manager
+            NamespaceManager namespaceManager = CreateNamespaceManager(namespaceName);
+
+            // Add the SAS rule and update the entity
+            switch (entityType)
+            {
+                case ServiceBusEntityType.Queue:
+                    QueueDescription queue = namespaceManager.GetQueue(entityName);
+                    removed = queue.Authorization.Remove(oldRule);
+                    Debug.Assert(removed);
+                    queue.Authorization.Add(newRule);
+                    namespaceManager.UpdateQueue(queue);
+                    break;
+
+                case ServiceBusEntityType.Topic:
+                    TopicDescription topic = namespaceManager.GetTopic(entityName);
+                    removed = topic.Authorization.Remove(oldRule);
+                    Debug.Assert(removed);
+                    topic.Authorization.Add(newRule);
+                    namespaceManager.UpdateTopic(topic);
+                    break;
+
+                case ServiceBusEntityType.Relay:
+                    RelayDescription relay = namespaceManager.GetRelayAsync(entityName).Result;
+                    removed = relay.Authorization.Remove(oldRule);
+                    Debug.Assert(removed);
+                    relay.Authorization.Add(newRule);
+                    namespaceManager.UpdateRelayAsync(relay).Wait();
+                    break;
+
+                case ServiceBusEntityType.NotificationHub:
+                    NotificationHubDescription notificationHub = namespaceManager.GetNotificationHub(entityName);
+                    removed = notificationHub.Authorization.Remove(oldRule);
+                    Debug.Assert(removed);
+                    notificationHub.Authorization.Add(newRule);
+                    namespaceManager.UpdateNotificationHub(notificationHub);
+                    break;
+
+                default:
+                    throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
+            }
+
+            return CreateExtendedExtendedAuthorizationRule(newRule, namespaceName, entityName, entityType);
         }
     }
 

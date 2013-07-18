@@ -111,19 +111,19 @@ function Assert-False
 function Assert-False
 {
     param([ScriptBlock] $script, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed: " + $script
-	}
-	
+    
+    if (!$message)
+    {
+        $message = "Assertion failed: " + $script
+    }
+    
     $result = &$script
-	if ($result) 
-	{
-	    throw $message
-	}
-	
-	return $true
+    if ($result) 
+    {
+        throw $message
+    }
+    
+    return $true
 }
 
 ###################
@@ -232,6 +232,31 @@ function Assert-Null
   }
   
   if ($actual -ne $null) 
+  {
+      throw $message
+  }
+  
+  return $true
+}
+
+###################
+#
+# Verify that two given objects are not equal
+#
+#    param [object] $expected : The expected object
+#    param [object] $actual   : The actual object
+#    param [string] $message  : The message to return if the given objects are equal
+####################
+function Assert-AreNotEqual
+{
+    param([object] $expected, [object] $actual, [string] $message)
+  
+  if (!$message)
+  {
+      $message = "Assertion failed because expected '$expected' does match actual '$actual'"
+  }
+  
+  if ($expected -eq $actual) 
   {
       throw $message
   }

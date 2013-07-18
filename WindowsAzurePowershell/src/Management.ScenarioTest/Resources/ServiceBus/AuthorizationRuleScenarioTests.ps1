@@ -167,3 +167,126 @@ function Test-CreatesAuthorizationRuleForNamespace
 	Assert-AreEqual $expectedConnectionString $actual.ConnectionString
 	Assert-AreEqual 1 $actual.Permission.Count
 }
+
+########################################################################### Set-AzureSBAuthorizationRule Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Test Set-AzureSBAuthorizationRule when creating queue and renewing primary key.
+#>
+function Test-SetsAuthorizationRuleRenewPrimaryKey
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = "myentity"
+	$ruleName = "myrule"
+	$permission = $("Manage", "Send", "Listen")
+	$entityType = "Queue"
+	$client = New-ServiceBusClientExtensions
+	$client.CreateQueue($namespaceName, $entityName)
+	$actual = New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $permission
+	$oldPrimaryKey = $actual.Rule.PrimaryKey
+
+	# Test
+	Set-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType
+
+	# Assert
+	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $actual.Name)
+	Assert-AreEqual $ruleName $actual.Name
+	Assert-AreNotEqual $oldPrimaryKey $actual.Rule.PrimaryKey
+	Assert-AreEqualArray $permission $actual.Permission
+}
+
+<#
+.SYNOPSIS
+Test Set-AzureSBAuthorizationRule when creating topic and setting secondary key.
+#>
+function Test-SetsAuthorizationRuleSecondaryKey
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = "myentity"
+	$ruleName = "myrule"
+	$entityType = "Topic"
+	$permission = $("Manage", "Send", "Listen")
+	$client = New-ServiceBusClientExtensions
+	$client.CreateTopic($namespaceName, $entityName)
+	$actual = New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $permission
+	$oldSecondaryKey = $actual.Rule.SecondaryKey
+	$newSecondaryKey = [Microsoft.ServiceBus.Messaging.SharedAccessAuthorizationRule]::GenerateRandomKey()
+
+	# Test
+	Set-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -SecondaryKey $newSecondaryKey
+
+	# Assert
+	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $actual.Name)
+	Assert-AreEqual $ruleName $actual.Name
+	Assert-AreEqual $newSecondaryKey $actual.Rule.SecondaryKey
+	Assert-AreEqualArray $permission $actual.Permission
+}
+
+<#
+.SYNOPSIS
+Test Set-AzureSBAuthorizationRule when creating notification hub and changing the permissions.
+#>
+function Test-SetsAuthorizationRuleForPermission
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = "myentity"
+	$ruleName = "myrule"
+	$permission = $("Manage", "Send", "Listen")
+	$entityType = "NotificationHub"
+	$client = New-ServiceBusClientExtensions
+	$client.CreateNotificationHub($namespaceName, $entityName)
+	$actual = New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $permission
+	$newPermission = $("Send")
+
+	# Test
+	Set-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $newPermission
+
+	# Assert
+	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $actual.Name)
+	$actualPermission = $actual.Permission
+	Assert-AreEqual $ruleName $actual.Name
+	Assert-AreNotEqual $oldPrimaryKey $actual.Rule.PrimaryKey
+	Assert-AreEqualArray $newPermission $actualPermission
+}
+
+<#
+.SYNOPSIS
+Test Set-AzureSBAuthorizationRule on namespace level.
+#>
+function Test-SetsAuthorizationRuleOnNamespace
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$ruleName = "myrule"
+	$permission = $("Manage", "Send", "Listen")
+	$client = New-ServiceBusClientExtensions
+	$actual = New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -Permission $permission
+	$newPermission = $("Send")
+
+	# Test
+	Set-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -Permission $newPermission
+
+	# Assert
+	$actual = $client.GetAuthorizationRule($namespaceName, $actual.Name, "SharedAccessAuthorization")
+	Assert-AreEqual $ruleName $actual.Name
+	Assert-AreNotEqual $oldPrimaryKey $actual.Rule.PrimaryKey
+	Assert-AreEqualArray $newPermission $actual.Permission
+}

@@ -85,5 +85,53 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         #endregion
+
+        #region Set-AzureSBAuthorizationRule Scenario Tests
+
+        /// <summary>
+        /// Test Sets-AzureSBAuthorizationRule when creating queue and renewing primary key.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void SetsAuthorizationRuleRenewPrimaryKey()
+        {
+            RunPowerShellTest("Test-SetsAuthorizationRuleRenewPrimaryKey");
+        }
+
+        /// <summary>
+        /// Test Sets-AzureSBAuthorizationRule when creating topic and setting secondary key.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void SetsAuthorizationRuleSecondaryKey()
+        {
+            RunPowerShellTest("Test-SetsAuthorizationRuleSecondaryKey");
+        }
+
+        /// <summary>
+        /// Test Sets-AzureSBAuthorizationRule when creating notification hub and changing the permissions.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void SetsAuthorizationRuleForPermission()
+        {
+            RunPowerShellTest("Test-SetsAuthorizationRuleForPermission");
+        }
+
+        /// <summary>
+        /// Test Set-AzureSBAuthorizationRule on namespace level.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void SetsAuthorizationRuleOnNamespace()
+        {
+            RunPowerShellTest("Test-SetsAuthorizationRuleOnNamespace");
+        }
+         
+        #endregion
     }
 }

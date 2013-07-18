@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.IO;
+    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Xml.Serialization;
@@ -106,6 +107,41 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return content;
         }
 
+        private static T CallRestApiWithJsonPayload<T>(
+            this HttpClient client,
+            string requestUri,
+            T json,
+            Action<string> logger,
+            string method)
+        {
+            AddUserAgent(client);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            LogRequest(
+                method,
+                client.BaseAddress + requestUri,
+                client.DefaultRequestHeaders,
+                JsonConvert.SerializeObject(json, Formatting.Indented),
+                logger);
+            HttpResponseMessage response;
+
+            switch (method.ToUpper())
+            {
+                case WebRequestMethods.Http.Post: response = client.PostAsJsonAsync(requestUri, json).Result; break;
+                case WebRequestMethods.Http.Put: response = client.PutAsJsonAsync(requestUri, json).Result; break;
+                default: throw new InvalidOperationException();
+            }
+
+            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+            LogResponse(
+                response.StatusCode.ToString(),
+                response.Headers,
+                General.TryFormatJson(content),
+                logger);
+
+            return JsonConvert.DeserializeObject<T>(content);
+        }
+
         public static T GetJson<T>(this HttpClient client, string requestUri, Action<string> logger)
             where T : class, new()
         {
@@ -126,30 +162,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return GetFormat<T>(client, requestUri, logger, General.FormatXml, General.DeserializeXmlString<T>);
         }
 
-        public static T PostAsJsonAsync<T>(
+        public static T PostJson<T>(
             this HttpClient client,
             string requestUri,
             T json,
             Action<string> logger)
         {
-            AddUserAgent(client);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            return CallRestApiWithJsonPayload<T>(client, requestUri, json, logger, WebRequestMethods.Http.Post);
+        }
 
-            LogRequest(
-                HttpMethod.Post.Method,
-                client.BaseAddress + requestUri,
-                client.DefaultRequestHeaders,
-                JsonConvert.SerializeObject(json, Formatting.Indented),
-                logger);
-            HttpResponseMessage response = client.PostAsJsonAsync(requestUri, json).Result;
-            string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
-            LogResponse(
-                response.StatusCode.ToString(),
-                response.Headers,
-                General.TryFormatJson(content),
-                logger);
-
-            return JsonConvert.DeserializeObject<T>(content);
+        public static T PutJson<T>(
+            this HttpClient client,
+            string requestUri,
+            T json,
+            Action<string> logger)
+        {
+            return CallRestApiWithJsonPayload<T>(client, requestUri, json, logger, WebRequestMethods.Http.Put);
         }
     }
 }

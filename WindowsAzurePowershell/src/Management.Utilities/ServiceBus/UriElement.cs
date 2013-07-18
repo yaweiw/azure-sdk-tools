@@ -39,5 +39,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             return namespaceName + "/AuthorizationRules/";
         }
+
+        public static string GetAuthorizationRulePath(string namespaceName, string ruleName)
+        {
+            return string.Format("{0}/AuthorizationRules/{1}", namespaceName, ruleName);
+        }
     }
 }
