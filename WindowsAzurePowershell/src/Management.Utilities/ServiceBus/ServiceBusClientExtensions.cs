@@ -43,7 +43,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
         public IServiceBusManagement ServiceBusManagementChannel { get; internal set; }
 
-        public const string ACSConnectionStringKeyName = "ACSOwnerKey";
+        public const string NamespaceACSConnectionStringKeyName = "ACSOwnerKey";
+
+        public const string NamespaceSASConnectionStringKeyName = "RootManageSharedAccessKey";
 
         private HttpClient CreateServiceBusHttpClient()
         {
@@ -65,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             return NamespaceManager.CreateFromConnectionString(GetConnectionString(
                 namespaceName,
-                ACSConnectionStringKeyName));
+                NamespaceSASConnectionStringKeyName));
         }
 
         private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
@@ -268,7 +270,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         }
 
         /// <summary>
-        /// Creates new instance from ServiceBusManager
+        /// Creates new instance from ServiceBusClientExtensions
         /// </summary>
         /// <param name="subscription"></param>
         /// <param name="logger">The logger action</param>

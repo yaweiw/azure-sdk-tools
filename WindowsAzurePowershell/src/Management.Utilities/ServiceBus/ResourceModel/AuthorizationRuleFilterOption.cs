@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel
 
     public class AuthorizationRuleFilterOption
     {
-        #region Filtring Level
+        #region Filtering Level
 
         /// <summary>
         /// Must be specified. This option restricts the search on namespace level.
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel
 
         #endregion
 
-        #region Filtring options
+        #region Filtering options
 
         /// <summary>
         /// If specified gets the rule that matches this name.
