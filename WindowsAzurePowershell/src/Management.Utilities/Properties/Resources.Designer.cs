@@ -395,6 +395,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please upgrade the cache runtime of role &apos;{0}&apos; to &apos;{1}&apos; using Set-AzureServiceProjectRole -RoleName {0} -Runtime Cache -Version {1}.
+        /// </summary>
+        internal static string CacheMismatchMessage {
+            get {
+                return ResourceManager.GetString("CacheMismatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CACHERUNTIMEURL.
         /// </summary>
         internal static string CacheRuntimeUrl {
@@ -1751,7 +1760,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml.
         /// </summary>
         internal static string ManifestUri {
             get {
@@ -1769,7 +1778,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MaxSupportAzureSdkVersion {
             get {
@@ -1796,7 +1805,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MinSupportAzureSdkVersion {
             get {

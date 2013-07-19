@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
             string standardOutput;
             string standardError;
 
-            AzureService service = new AzureService();
+            CloudServiceProject service = new CloudServiceProject();
             WriteVerbose(Resources.StopEmulatorMessage);
             service.StopEmulator(out standardOutput, out standardError);
             

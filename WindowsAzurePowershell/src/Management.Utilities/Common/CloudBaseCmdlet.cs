@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new ArgumentException(Resources.InvalidCurrentSuscriptionCertificate);
             }
 
-            if (String.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
+            if (string.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscriptionId);
             }

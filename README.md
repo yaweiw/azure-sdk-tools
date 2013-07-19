@@ -39,7 +39,9 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage storage table.
   * Manage storage queue.
 * SQL Azure
-  * CRUD support for database server, database and firewall rule
+  * CRUD support for database server, database and firewall rule.
+  * Get database server quota.
+  * Get/Set database server service objective.
 * Service Bus
   * Manage service bus namespaces.
 * VM
@@ -75,10 +77,7 @@ For detail descriptions and examples of the cmdlets, type
 
 * [Windows Azure](http://www.windowsazure.com/)
 * [Windows Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
-
-<!--
-  [Windows Azure China](http://www.windowsazure.cn/)
--->
+* [Windows Azure China](http://www.windowsazure.cn/)
 
 # Getting Started
 
@@ -128,7 +127,6 @@ Import-AzurePublishSettingsFile "<file location>"
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "West US"
 ```
-<!--
 ## Windows Azure China
 
 ```powershell
@@ -148,7 +146,6 @@ Import-AzurePublishSettingsFile "<file location>"
 # Use the cmdlets to manage your services/applications
 New-AzureWebsite -Name mywebsite -Location "China East"
 ```
--->
 
 ## Windows Azure Pack
 

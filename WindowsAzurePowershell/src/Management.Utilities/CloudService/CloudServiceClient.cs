@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         private void PrepareCloudServicePackagesRuntime(PublishContext context)
         {
-            AzureService cloudServiceProject = new AzureService(context.RootPath, null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
             string warning = cloudServiceProject.ResolveRuntimePackageUrls();
 
             if (!string.IsNullOrEmpty(warning))
@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         private void UpdateCacheWorkerRolesCloudConfiguration(PublishContext context)
         {
             string connectionString = GetStorageServiceConnectionString(context.ServiceSettings.StorageServiceName);
-            AzureService cloudServiceProject = new AzureService(context.RootPath, null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
 
             ConfigConfigurationSetting connectionStringConfig = new ConfigConfigurationSetting
             {
@@ -197,7 +197,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         private void AddCertificates(CertificateList uploadedCertificates, PublishContext context)
         {
             string name = context.ServiceName;
-            AzureService cloudServiceProject = new AzureService(context.RootPath, null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
             if (cloudServiceProject.Components.CloudConfig.Role != null)
             {
                 foreach (ConfigCertificate certElement in cloudServiceProject.Components.CloudConfig.Role.
@@ -435,9 +435,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
-        private AzureService GetCurrentServiceProject()
+        private CloudServiceProject GetCurrentServiceProject()
         {
-            return new AzureService(General.GetServiceRootPath(GetCurrentDirectory()), null);
+            return new CloudServiceProject(General.GetServiceRootPath(GetCurrentDirectory()), null);
         }
 
         private PublishContext CreatePublishContext(
@@ -449,7 +449,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             string deploymentName)
         {
             string serviceName;
-            AzureService cloudServiceProject = GetCurrentServiceProject();
+            CloudServiceProject cloudServiceProject = GetCurrentServiceProject();
 
             // If the name provided is different than existing name change it
             if (!string.IsNullOrEmpty(name) && name != cloudServiceProject.ServiceName)
@@ -619,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             {
                 File.Delete(context.PackagePath);
             }
-            AzureService cloudServiceProject = new AzureService(context.RootPath, null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
             string unused;
             cloudServiceProject.CreatePackage(DevEnv.Cloud, out unused, out unused);
 

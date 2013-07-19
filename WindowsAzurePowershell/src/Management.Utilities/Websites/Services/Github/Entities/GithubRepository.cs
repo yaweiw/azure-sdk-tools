@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.E
 
         public int CompareTo(object obj)
         {
-            return String.Compare(Name, ((GithubRepository) obj).Name, StringComparison.InvariantCultureIgnoreCase);
+            return string.Compare(Name, ((GithubRepository) obj).Name, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

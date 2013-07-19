@@ -26,19 +26,24 @@ Param
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [String]
-    $serverLocation
+    $serverLocation,
+    [Parameter(Mandatory=$true, Position=3)]
+    [ValidateNotNullOrEmpty()]
+    [String]
+    $Endpoint
 )
 
 Write-Output "`$subscriptionID=$subscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$serverLocation=$serverLocation"
+Write-Output "`$Endpoint=$Endpoint"
 
 . .\CommonFunctions.ps1
 
 Try
 {
 	Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription $subscriptionID $SerializedCert $Endpoint
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     $isTestPass = $False

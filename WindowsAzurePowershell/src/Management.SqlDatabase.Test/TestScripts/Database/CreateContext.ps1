@@ -26,7 +26,15 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Password
+    $Password,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SubscriptionID,
+    [Parameter(Mandatory=$true, Position=5)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SerializedCert
 )
 
 # Assuming $ManageUrl is in the following format: https://servername.domainname.com/
@@ -43,28 +51,69 @@ Write-Output "`$Password=$Password"
 Try
 {
 	Init-TestEnvironment
-    $securePassword = ConvertTo-SecureString $Password -AsPlainText -Force
-    $credential = New-Object System.Management.Automation.PSCredential ($UserName, $securePassword)
+	Init-AzureSubscription $SubscriptionId $SerializedCert
+	$sub = Get-AzureSubscription -Current
 
     $IsTestPass = $False
 
+	###############################################################################
+	#	Test the connection context creation using the current subscription
+	###############################################################################
+	# Test ByManageUrlWithCertAuth with Optional Parameters
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
+	# Test ByFullyQualifiedServerNameWithCertAuth
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -UseSubscription
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
+	Remove-AzureSubscription $sub.SubscriptionName -Force
+
+	###############################################################################
+	#	Test the connection context creation using subscription data
+	###############################################################################
+	# Test ByManageUrlWithCertAuth with Optional Parameters
+    $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName `
+		-UseSubscription -SubscriptionData $sub
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+
+	# Test ByFullyQualifiedServerNameWithCertAuth
+    $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN `
+		-UseSubscription -SubscriptionData $sub
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+	
+	###############################################################################
+	#	Test the connection context creation using sql authentication
+	###############################################################################
+    $securePassword = ConvertTo-SecureString $Password -AsPlainText -Force
+    $credential = New-Object System.Management.Automation.PSCredential ($UserName, $securePassword)
+
 	# Test ByManageUrlWithSqlAuth
     $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential
-	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
-
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+	
 	# Test ByManageUrlWithSqlAuth with Optional Parameters
-    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential -ServerName $ServerName
-	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl `
+		-Credential $credential -ServerName $ServerName
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
 	# Test ByFullyQualifiedServerNameWithSqlAuth
     $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN -Credential $credential
-	Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+	Assert {$context.ServerName -eq $ServerName} `
+		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
 	If ($ManageUrl.Host.EndsWith(".database.windows.net", [StringComparison]::InvariantCultureIgnoreCase))
 	{
 		# Test ByServerNameWithSqlAuth iff the ManageUrl specified is a production server
 		$context = New-AzureSqlDatabaseServerContext -ServerName $ServerName -Credential $credential
-		Assert {$context.ServerName -eq $ServerName} "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
+		Assert {$context.ServerName -eq $ServerName} `
+			"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 	}
     
     $IsTestPass = $True

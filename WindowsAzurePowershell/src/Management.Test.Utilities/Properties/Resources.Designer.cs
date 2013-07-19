@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Properties
-{
-
-
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/cache/1.8.0.exe.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/cache/2.0.0.exe.
         /// </summary>
         internal static string CacheRuntimeUrl {
             get {
