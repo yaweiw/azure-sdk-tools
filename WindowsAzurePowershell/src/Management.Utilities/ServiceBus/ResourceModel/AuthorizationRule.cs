@@ -25,6 +25,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel
 
         public string ConnectionString { get; set; }
 
+        public string Namespace { get; set; }
+
         public string EntityName { get; set; }
 
         public ServiceBusEntityType EntityType { get; set; }

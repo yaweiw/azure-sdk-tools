@@ -57,20 +57,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         public override void ExecuteCmdlet()
         {
             Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription, WriteDebug);
-
-            switch (ParameterSetName)
+            AuthorizationRuleFilterOption options = new AuthorizationRuleFilterOption()
             {
-                case NamespaceSASParameterSet:
-                    Client.RemoveSharedAccessAuthorization(Namespace, Name);
-                    break;
+                Namespace = Namespace,
+                EntityName = EntityName,
+                EntityType = EntityType,
+                Name = Name
+            };
 
-                case EntitySASParameterSet:
-                    Client.RemoveSharedAccessAuthorization(Namespace, EntityName, EntityType, Name);
-                    break;
-
-                default:
-                    throw new ArgumentException(string.Format(Resources.InvalidParameterSetName, ParameterSetName));
-            }
+            Client.RemoveAuthorizationRule(options);
 
             if (PassThru)
             {

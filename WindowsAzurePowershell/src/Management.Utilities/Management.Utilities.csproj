@@ -196,6 +196,7 @@
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
@@ -235,6 +236,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ServiceBus\Contract\Namespace.cs" />
+    <Compile Include="ServiceBus\ResourceModel\AuthorizationRuleFilterOption.cs" />
+    <Compile Include="ServiceBus\ServiceBusPowerShellUtility.cs" />
     <Compile Include="ServiceBus\ResourceModel\AuthorizationRule.cs" />
     <Compile Include="ServiceBus\ServiceBusClientExtensions.cs" />
     <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />

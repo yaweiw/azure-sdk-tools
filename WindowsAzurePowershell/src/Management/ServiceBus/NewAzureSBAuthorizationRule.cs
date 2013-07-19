@@ -72,12 +72,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             {
                 case NamespaceSASParameterSet:
                     rule = Client.CreateSharedAccessAuthorization(Namespace, Name, PrimaryKey, SecondaryKey, Permission);
-                    output = ConstructPSObject(
-                        typeof(AuthorizationRule).FullName,
-                        "Name", rule.Name,
-                        "ConnectionString", rule.ConnectionString,
-                        "Permission", rule.Permission,
-                        "Rule", rule.Rule);
+                    output = ServiceBusPowerShellUtility.GetNamespacePSObject(rule);
                     break;
 
                 case EntitySASParameterSet:
@@ -89,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                         PrimaryKey,
                         SecondaryKey,
                         Permission);
-                    output = new PSObject(rule);
+                    output = ServiceBusPowerShellUtility.GetEntityPSObject(rule);
                     break;
 
                 default:

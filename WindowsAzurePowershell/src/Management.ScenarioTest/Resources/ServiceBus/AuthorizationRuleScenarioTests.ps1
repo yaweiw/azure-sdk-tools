@@ -41,7 +41,7 @@ function Test-CreatesAuthorizationRuleWithoutKeys
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Queue"
 	$client = New-ServiceBusClientExtensions
@@ -68,7 +68,7 @@ function Test-CreatesAuthorizationRuleWithPrimaryKey
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Topic"
 	$client = New-ServiceBusClientExtensions
@@ -97,7 +97,7 @@ function Test-CreatesAuthorizationRuleWithPrimaryAndSecondaryKey
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Relay"
 	$client = New-ServiceBusClientExtensions
@@ -128,7 +128,7 @@ function Test-CreatesAuthorizationRuleForNotificationHub
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "NotificationHub"
 	$client = New-ServiceBusClientExtensions
@@ -180,7 +180,7 @@ function Test-SetsAuthorizationRuleRenewPrimaryKey
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$permission = $("Manage", "Send", "Listen")
 	$entityType = "Queue"
@@ -211,7 +211,7 @@ function Test-SetsAuthorizationRuleSecondaryKey
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Topic"
 	$permission = $("Manage", "Send", "Listen")
@@ -243,7 +243,7 @@ function Test-SetsAuthorizationRuleForPermission
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$permission = $("Manage", "Send", "Listen")
 	$entityType = "NotificationHub"
@@ -285,7 +285,7 @@ function Test-SetsAuthorizationRuleOnNamespace
 	Set-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -Permission $newPermission
 
 	# Assert
-	$actual = $client.GetAuthorizationRule($namespaceName, $actual.Name, "SharedAccessAuthorization")
+	$actual = $client.GetAuthorizationRule($namespaceName, $actual.Name)
 	Assert-AreEqual $ruleName $actual.Name
 	Assert-AreNotEqual $oldPrimaryKey $actual.Rule.PrimaryKey
 	Assert-AreEqualArray $newPermission $actual.Permission
@@ -311,7 +311,7 @@ function Test-RemovesNamespaceAuthorizationRule
 	$removed = Remove-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -PassThru
 
 	# Assert
-	Assert-Throws { $client.GetAuthorizationRule($namespaceName, $ruleName, "SharedAccessAuthorization") }
+	Assert-Null $client.GetAuthorizationRule($namespaceName, $ruleName)
 	Assert-True { $removed }
 }
 
@@ -325,7 +325,7 @@ function Test-RemovesQueueAuthorizationRule
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Queue"
 	$client = New-ServiceBusClientExtensions
@@ -339,7 +339,7 @@ function Test-RemovesQueueAuthorizationRule
 
 	# Assert
 	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $ruleName)
-	Assert-AreEqual $null $actual
+	Assert-Null $actual
 	Assert-True { $removed }
 }
 
@@ -353,7 +353,7 @@ function Test-RemovesTopicAuthorizationRule
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Topic"
 	$client = New-ServiceBusClientExtensions
@@ -367,7 +367,7 @@ function Test-RemovesTopicAuthorizationRule
 
 	# Assert
 	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $ruleName)
-	Assert-AreEqual $null $actual
+	Assert-Null $actual
 	Assert-True { $removed }
 }
 
@@ -381,7 +381,7 @@ function Test-RemovesRelayAuthorizationRule
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "Relay"
 	$client = New-ServiceBusClientExtensions
@@ -395,7 +395,7 @@ function Test-RemovesRelayAuthorizationRule
 
 	# Assert
 	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $ruleName)
-	Assert-AreEqual $null $actual
+	Assert-Null $actual
 	Assert-True { $removed }
 }
 
@@ -409,7 +409,7 @@ function Test-RemovesNotificationHubAuthorizationRule
 	Initialize-NamespaceTest
 	New-Namespace 1
 	$namespaceName = $createdNamespaces[0]
-	$entityName = "myentity"
+	$entityName = $namespaceName
 	$ruleName = $namespaceName
 	$entityType = "NotificationHub"
 	$client = New-ServiceBusClientExtensions
@@ -423,6 +423,6 @@ function Test-RemovesNotificationHubAuthorizationRule
 
 	# Assert
 	$actual = $client.GetAuthorizationRule($namespaceName, $entityName, $entityType, $ruleName)
-	Assert-AreEqual $null $actual
+	Assert-Null $actual
 	Assert-True { $removed }
 }

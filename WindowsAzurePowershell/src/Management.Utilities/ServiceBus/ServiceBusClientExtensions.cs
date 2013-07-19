@@ -61,25 +61,149 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
             return client;
         }
 
-        private List<T> GetAuthorizationRuleCore<T>(string namespaceName) where T : class
-        {
-            List<T> rules = null;
-
-            using (HttpClient client = CreateServiceBusHttpClient())
-            {
-                rules = client.GetJson<List<T>>(
-                    UriElement.GetNamespaceAuthorizationRulesPath(namespaceName),
-                    Logger);
-            }
-
-            return rules;
-        }
-
         private NamespaceManager CreateNamespaceManager(string namespaceName)
         {
             return NamespaceManager.CreateFromConnectionString(GetConnectionString(
                 namespaceName,
                 ACSConnectionStringKeyName));
+        }
+
+        private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
+            AuthorizationRule rule,
+            string namespaceName)
+        {
+            return new ExtendedAuthorizationRule()
+            {
+                Rule = rule,
+                Name = rule.KeyName,
+                Namespace = namespaceName,
+                Permission = rule.Rights.ToList(),
+                ConnectionString = GetConnectionString(namespaceName, rule.KeyName)
+            };
+        }
+
+        private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
+            AuthorizationRule rule,
+            string namespaceName,
+            string entityName,
+            ServiceBusEntityType entityType)
+        {
+            return new ExtendedAuthorizationRule()
+            {
+                Rule = rule,
+                Name = rule.KeyName,
+                Permission = rule.Rights.ToList(),
+                ConnectionString = GetConnectionString(namespaceName, entityName, entityType, rule.KeyName),
+                Namespace = namespaceName,
+                EntityName = entityName,
+                EntityType = entityType
+            };
+        }
+
+        private List<ExtendedAuthorizationRule> FilterAuthorizationRules(AuthorizationRuleFilterOption options)
+        {
+            List<ExtendedAuthorizationRule> rules = GetAuthorizationRulesToFilter(options);
+            List<ExtendedAuthorizationRule> result = new List<ExtendedAuthorizationRule>();
+
+            if (!string.IsNullOrEmpty(options.Name))
+            {
+                result.Add(rules.FirstOrDefault(r => r.Name.Equals(options.Name,StringComparison.OrdinalIgnoreCase)));
+            }
+            else
+            {
+                List<ExtendedAuthorizationRule> permissionMatch = new List<ExtendedAuthorizationRule>();
+                List<ExtendedAuthorizationRule> ruleTypeMatch = new List<ExtendedAuthorizationRule>();
+
+                if (options.Permission != null && options.Permission.Count > 0)
+                {
+                    permissionMatch
+                        .AddRange(rules.FindAll(r => r.Permission.Any(p => options.Permission.Any(m => m.Equals(p)))));
+                }
+
+                if (options.AuthorizationType != null && options.AuthorizationType.Count > 0)
+                {
+                    ruleTypeMatch.AddRange(
+                        rules.FindAll(r => r.Rule.ClaimType.Any(t => options.AuthorizationType.Any(m => m.Equals(t)))));
+                }
+
+                result = permissionMatch.Count > 0 ? permissionMatch : rules;
+                result = ruleTypeMatch.Count> 0 ? result.Union(ruleTypeMatch).ToList() : result;
+            }
+
+            return result;
+        }
+
+        private List<ExtendedAuthorizationRule> GetAuthorizationRulesToFilter(AuthorizationRuleFilterOption options)
+        {
+            if (!string.IsNullOrEmpty(options.EntityName))
+            {
+                return GetAuthorizationRuleCore(
+                    options.Namespace,
+                    options.EntityName,
+                    options.EntityType,
+                    r => true);
+            }
+            else if (options.EntityTypes != null && options.EntityTypes.Count > 0)
+            {
+                NamespaceManager namespaceManager = CreateNamespaceManager(options.Namespace);
+                List<ExtendedAuthorizationRule> rules = new List<ExtendedAuthorizationRule>();
+                options.EntityTypes = options.EntityTypes.Distinct().ToList();
+                
+                foreach (ServiceBusEntityType type in options.EntityTypes)
+                {
+                    switch (type)
+                    {
+                        case ServiceBusEntityType.Queue:
+                            rules.AddRange(namespaceManager.GetQueues()
+                                .SelectMany(e => e.Authorization
+                                    .Select(r => CreateExtendedAuthorizationRule(
+                                        r,
+                                        options.Namespace,
+                                        e.Path,
+                                        ServiceBusEntityType.Queue))));
+                            break;
+
+                        case ServiceBusEntityType.Topic:
+                            rules.AddRange(namespaceManager.GetTopics()
+                                .SelectMany(e => e.Authorization
+                                    .Select(r => CreateExtendedAuthorizationRule(
+                                        r,
+                                        options.Namespace,
+                                        e.Path,
+                                        ServiceBusEntityType.Topic))));
+                            break;
+
+                        case ServiceBusEntityType.Relay:
+                            rules.AddRange(namespaceManager.GetRelaysAsync().Result
+                                .SelectMany(e => e.Authorization
+                                    .Select(r => CreateExtendedAuthorizationRule(
+                                        r,
+                                        options.Namespace,
+                                        e.Path,
+                                        ServiceBusEntityType.Relay))));
+                            break;
+
+                        case ServiceBusEntityType.NotificationHub:
+                            rules.AddRange(namespaceManager.GetNotificationHubs()
+                                .SelectMany(e => e.Authorization
+                                    .Select(r => CreateExtendedAuthorizationRule(
+                                        r,
+                                        options.Namespace,
+                                        e.Path,
+                                        ServiceBusEntityType.NotificationHub))));
+                            break;
+
+                        default: throw new InvalidOperationException();
+                    }
+                }
+
+                return rules;
+            }
+            else
+            {
+                return GetAuthorizationRuleCore<SharedAccessAuthorizationRule>(options.Namespace)
+                    .Select(r => CreateExtendedAuthorizationRule(r, options.Namespace)).ToList();
+            }
         }
 
         private List<ExtendedAuthorizationRule> GetAuthorizationRuleCore(
@@ -113,41 +237,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                     throw new InvalidOperationException();
             }
 
-            return rules.Select(r => CreateExtendedExtendedAuthorizationRule(
+            return rules.Select(r => CreateExtendedAuthorizationRule(
                 r,
                 namespaceName,
                 entityName,
                 entityType)).ToList();
         }
 
-        private ExtendedAuthorizationRule CreateExtendedExtendedAuthorizationRule(
-            AuthorizationRule rule,
-            string namespaceName)
+        private List<T> GetAuthorizationRuleCore<T>(string namespaceName) where T : class
         {
-            return new ExtendedAuthorizationRule()
-            {
-                Rule = rule,
-                Name = rule.KeyName,
-                Permission = rule.Rights.ToList(),
-                ConnectionString = GetConnectionString(namespaceName, rule.KeyName)
-            };
-        }
+            List<T> rules = null;
 
-        private ExtendedAuthorizationRule CreateExtendedExtendedAuthorizationRule(
-            AuthorizationRule rule,
-            string namespaceName,
-            string entityName,
-            ServiceBusEntityType entityType)
-        {
-            return new ExtendedAuthorizationRule()
+            using (HttpClient client = CreateServiceBusHttpClient())
             {
-                Rule = rule,
-                Name = rule.KeyName,
-                Permission = rule.Rights.ToList(),
-                ConnectionString = GetConnectionString(namespaceName, entityName, entityType, rule.KeyName),
-                EntityName = entityName,
-                EntityType = entityType
-            };
+                rules = client.GetJson<List<T>>(
+                    UriElement.GetNamespaceAuthorizationRulesPath(namespaceName),
+                    Logger);
+            }
+
+            return rules;
         }
 
         /// <summary>
@@ -303,7 +411,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 rule = client.PostJson(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
             }
 
-            return CreateExtendedExtendedAuthorizationRule(rule, namespaceName);
+            return CreateExtendedAuthorizationRule(rule, namespaceName);
         }
 
         /// <summary>
@@ -368,7 +476,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                     throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
             }
             
-            return CreateExtendedExtendedAuthorizationRule(rule, namespaceName, entityName, entityType);
+            return CreateExtendedAuthorizationRule(rule, namespaceName, entityName, entityType);
         }
 
         /// <summary>
@@ -418,100 +526,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         }
 
         /// <summary>
-        /// Gets all available SAS authorization rules for given namespace on namespace scope.
-        /// </summary>
-        /// <param name="namespaceName">The namespace name</param>
-        /// <returns>The collection of authorization rules</returns>
-        public List<SharedAccessAuthorizationRule> GetSharedAccessAuthorizationRule(string namespaceName)
-        {
-            return GetAuthorizationRuleCore<SharedAccessAuthorizationRule>(namespaceName);
-        }
-
-        /// <summary>
-        /// Gets all available Windows authorization rules for given namespace on namespace scope.
-        /// </summary>
-        /// <param name="namespaceName">The namespace name</param>
-        /// <returns>The collection of authorization rules</returns>
-        public List<AllowRule> GetWindowsAuthorizationRule(string namespaceName)
-        {
-            return GetAuthorizationRuleCore<AllowRule>(namespaceName);
-        }
-
-        /// <summary>
-        /// Gets all available SAS authorization rules for given entity.
-        /// </summary>
-        /// <param name="namespaceName">The namespace name</param>
-        /// <param name="entityName">The entity name</param>
-        /// <param name="entityType">The entity type</param>
-        /// <returns>The list of SAS authorization rules</returns>
-        public List<ExtendedAuthorizationRule> GetSharedAccessAuthorizationRule(
-            string namespaceName,
-            string entityName,
-            ServiceBusEntityType entityType)
-        {
-            return GetAuthorizationRuleCore(
-                namespaceName,
-                entityName,
-                entityType,
-                r => r is SharedAccessAuthorizationRule);
-        }
-
-        /// <summary>
-        /// Gets the specified authorization rule name on namespace scope.
-        /// </summary>
-        /// <param name="namespaceName">The namespace name</param>
-        /// <param name="name">The authorization rule name</param>
-        /// <param name="type">The authorization rule type</param>
-        /// <returns></returns>
-        public ExtendedAuthorizationRule GetAuthorizationRule(string namespaceName, string name, AuthorizationType type)
-        {
-            AuthorizationRule rule = null;
-
-            switch (type)
-            {
-                case AuthorizationType.WindowsAuthorization:
-                    rule = GetWindowsAuthorizationRule(namespaceName).FirstOrDefault(r => r.KeyName.Equals(
-                        name,
-                        StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case AuthorizationType.SharedAccessAuthorization:
-                    rule = GetSharedAccessAuthorizationRule(namespaceName).FirstOrDefault(r => r.KeyName.Equals(
-                        name,
-                        StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-            }
-
-            return CreateExtendedExtendedAuthorizationRule(rule, namespaceName);
-        }
-
-        /// <summary>
-        /// Gets authorization rule with the specified name.
-        /// </summary>
-        /// <param name="namespaceName">The namespace name</param>
-        /// <param name="entityName">The entity name</param>
-        /// <param name="entityType">The</param>
-        /// <param name="ruleName"></param>
-        /// <returns></returns>
-        public ExtendedAuthorizationRule GetAuthorizationRule(
-            string namespaceName,
-            string entityName,
-            ServiceBusEntityType entityType,
-            string ruleName)
-        {
-            List<ExtendedAuthorizationRule> match = GetAuthorizationRuleCore(
-                namespaceName,
-                entityName,
-                entityType,
-                r => r.KeyName.Equals(ruleName, StringComparison.OrdinalIgnoreCase));
-
-            return match.FirstOrDefault();
-        }
-
-        /// <summary>
         /// Updates shared access signature authorization for the service bus namespace. This authorization works on
         /// public Windows Azure environments and Windows Azure Pack on prim as well.
         /// </summary>
@@ -530,8 +544,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             SharedAccessAuthorizationRule rule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
                 namespaceName,
-                ruleName,
-                AuthorizationType.SharedAccessAuthorization).Rule;
+                ruleName).Rule;
 
             // Update the rule
             rule.Rights = permissions ?? rule.Rights;
@@ -549,7 +562,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 rule = client.PutJson(UriElement.GetAuthorizationRulePath(namespaceName, ruleName), rule, Logger);
             }
 
-            return CreateExtendedExtendedAuthorizationRule(rule, namespaceName);
+            return CreateExtendedAuthorizationRule(rule, namespaceName);
         }
 
         /// <summary>
@@ -628,7 +641,28 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                     throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
             }
 
-            return CreateExtendedExtendedAuthorizationRule(newRule, namespaceName, entityName, entityType);
+            return CreateExtendedAuthorizationRule(newRule, namespaceName, entityName, entityType);
+        }
+
+        /// <summary>
+        /// Removes set of authorization rules that matches filter options.
+        /// </summary>
+        /// <param name="options">The filter options</param>
+        public virtual void RemoveAuthorizationRule(AuthorizationRuleFilterOption options)
+        {
+            List<ExtendedAuthorizationRule> rules = GetAuthorizationRule(options);
+
+            foreach (ExtendedAuthorizationRule rule in rules)
+            {
+                if (!string.IsNullOrEmpty(rule.EntityName))
+                {
+                    RemoveAuthorizationRule(rule.Namespace, rule.EntityName, rule.EntityType, rule.Name);
+                }
+                else
+                {
+                    RemoveAuthorizationRule(rule.Namespace, rule.Name);
+                }
+            }
         }
 
         /// <summary>
@@ -636,9 +670,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         /// </summary>
         /// <param name="namespaceName">The service bus namespace name</param>
         /// <param name="ruleName">The SAS authorization rule name</param>
-        public virtual void RemoveSharedAccessAuthorization(
-            string namespaceName,
-            string ruleName)
+        public virtual void RemoveAuthorizationRule(string namespaceName, string ruleName)
         {
             using (HttpClient client = CreateServiceBusHttpClient())
             {
@@ -653,7 +685,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         /// <param name="entityName">The fully qualified service bus entity name</param>
         /// <param name="entityType">The service bus entity type (e.g. Queue)</param>
         /// <param name="ruleName">The SAS authorization rule name</param>
-        public void RemoveSharedAccessAuthorization(
+        public void RemoveAuthorizationRule(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType,
@@ -703,6 +735,60 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 default:
                     throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
             }
+        }
+
+        /// <summary>
+        /// Gets authorization rules based on the passed filter options.
+        /// </summary>
+        /// <param name="filterOptions">The filter options</param>
+        /// <returns>The filtered authorization rules</returns>
+        public List<ExtendedAuthorizationRule> GetAuthorizationRule(AuthorizationRuleFilterOption filterOptions)
+        {
+            return FilterAuthorizationRules(filterOptions);
+        }
+
+        /// <summary>
+        /// Gets the authorization rule with the specified name in the namespace level.
+        /// </summary>
+        /// <param name="namespaceName">The namespace name</param>
+        /// <param name="ruleName">The rule name</param>
+        /// <returns>The authorization rule that matches the specified name</returns>
+        public ExtendedAuthorizationRule GetAuthorizationRule(
+            string namespaceName,
+            string ruleName)
+        {
+            AuthorizationRuleFilterOption options = new AuthorizationRuleFilterOption()
+            {
+                Namespace = namespaceName,
+                Name = ruleName
+            };
+
+            return FilterAuthorizationRules(options).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the authorization rule with the specified name in the entity level.
+        /// </summary>
+        /// <param name="namespaceName">The namespace name</param>
+        /// <param name="entityName">The entity name</param>
+        /// <param name="entityType">The entity type</param>
+        /// <param name="ruleName">The rule name</param>
+        /// <returns>The authorization rule that matches the specified name</returns>
+        public ExtendedAuthorizationRule GetAuthorizationRule(
+            string namespaceName,
+            string entityName,
+            ServiceBusEntityType entityType,
+            string ruleName)
+        {
+            AuthorizationRuleFilterOption options = new AuthorizationRuleFilterOption()
+            {
+                Namespace = namespaceName,
+                Name = ruleName,
+                EntityName = entityName,
+                EntityType = entityType
+            };
+
+            return FilterAuthorizationRules(options).FirstOrDefault();
         }
     }
 
