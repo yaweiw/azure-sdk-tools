@@ -117,7 +117,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 if (options.Permission != null && options.Permission.Count > 0)
                 {
                     permissionMatch
-                        .AddRange(rules.FindAll(r => r.Permission.Any(p => options.Permission.Any(m => m.Equals(p)))));
+                    .AddRange(
+                    rules.FindAll(r => r.Permission.OrderBy(a => a).SequenceEqual(options.Permission.OrderBy(a => a))));
                 }
 
                 if (options.AuthorizationType != null && options.AuthorizationType.Count > 0)
@@ -130,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 result = ruleTypeMatch.Count> 0 ? result.Union(ruleTypeMatch).ToList() : result;
             }
 
-            return result;
+            return result == null ? new List<ExtendedAuthorizationRule>() : result;
         }
 
         private List<ExtendedAuthorizationRule> GetAuthorizationRulesToFilter(AuthorizationRuleFilterOption options)

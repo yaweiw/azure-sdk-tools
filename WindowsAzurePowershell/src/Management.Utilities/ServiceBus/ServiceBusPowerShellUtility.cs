@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             return PowerShellUtility.ConstructPSObject(
                 typeof(AuthorizationRule).FullName,
+                "Namespace", rule.Namespace,
                 "Name", rule.Name,
                 "ConnectionString", rule.ConnectionString,
                 "Permission", rule.Permission,
