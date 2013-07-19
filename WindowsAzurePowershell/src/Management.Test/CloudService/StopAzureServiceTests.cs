@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 stopServiceCmdlet.ExecuteCmdlet();
 
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);

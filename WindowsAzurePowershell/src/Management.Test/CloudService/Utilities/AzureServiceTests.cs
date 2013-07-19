@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
-                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+                CloudServiceProject service = new CloudServiceProject(Path.Combine(files.RootPath, serviceName), null);
 
                 WebRoleInfo[] webRoles = null;
                 if (webRole > 0)
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
-                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+                CloudServiceProject service = new CloudServiceProject(Path.Combine(files.RootPath, serviceName), null);
 
                 WebRoleInfo[] webRoles = null;
                 if (webRole > 0)
@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName);
             }
         }
@@ -214,13 +214,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         [TestMethod]
         public void AzureServiceCreateNewEmptyParentDirectoryFail()
         {
-            Testing.AssertThrows<ArgumentException>(() => new AzureService(string.Empty, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
+            Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(string.Empty, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
         }
 
         [TestMethod]
         public void AzureServiceCreateNewNullParentDirectoryFail()
         {
-            Testing.AssertThrows<ArgumentException>(() => new AzureService(null, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
+            Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(null, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
         }
 
         [TestMethod]
@@ -228,14 +228,14 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             foreach (string invalidName in Data.InvalidFileName)
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(string.Empty, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(string.Empty, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
             }
         }
 
         [TestMethod]
         public void AzureServiceCreateNewDoesNotExistParentDirectoryFail()
         {
-            Testing.AssertThrows<FileNotFoundException>(() => new AzureService("DoesNotExist", serviceName, null), string.Format(Resources.PathDoesNotExistForElement, Resources.ServiceParentDirectory, "DoesNotExist"));
+            Testing.AssertThrows<FileNotFoundException>(() => new CloudServiceProject("DoesNotExist", serviceName, null), string.Format(Resources.PathDoesNotExistForElement, Resources.ServiceParentDirectory, "DoesNotExist"));
         }
 
         [TestMethod]
@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, string.Empty, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Name"));
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, string.Empty, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Name"));
             }
         }
 
@@ -252,7 +252,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, null, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Name"));
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, null, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Name"));
             }
         }
 
@@ -263,7 +263,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {
-                    Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, invalidFileName, null), string.Format(Resources.InvalidFileName, "Name"));
+                    Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, invalidFileName, null), string.Format(Resources.InvalidFileName, "Name"));
                 }
             }
         }
@@ -280,7 +280,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
                     // This case is handled in AzureServiceCreateNewInvalidDnsServiceNameFail test
                     //
                     if (invalidFileNameChars.Any(c => invalidFileNameChars.Contains<char>(c))) continue;
-                    Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, invalidDnsName, null), string.Format(Resources.InvalidDnsName, invalidDnsName, "Name"));
+                    Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, invalidDnsName, null), string.Format(Resources.InvalidDnsName, invalidDnsName, "Name"));
                 }
             }
         }
@@ -290,8 +290,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, serviceName, null), string.Format(Resources.ServiceAlreadyExistsOnDisk, serviceName, Path.Combine(files.RootPath, serviceName)));
+                new CloudServiceProject(files.RootPath, serviceName, null);
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, serviceName, null), string.Format(Resources.ServiceAlreadyExistsOnDisk, serviceName, Path.Combine(files.RootPath, serviceName)));
             }
         }
         
@@ -380,7 +380,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRole = service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "MyWebRole", 10);
 
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: new WebRoleInfo[] { (WebRoleInfo)webRole }, webScaff: Path.Combine(Resources.NodeScaffolding, Resources.WebRole), roles: new RoleInfo[] { webRole });
@@ -392,7 +392,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRole = service.AddWebRole(Data.PHPWebRoleScaffoldingPath, "MyWebRole", 10);
 
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: new WebRoleInfo[] { (WebRoleInfo)webRole }, webScaff: Path.Combine(Resources.PHPScaffolding, Resources.WebRole), roles: new RoleInfo[] { webRole });
@@ -404,7 +404,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo workerRole = service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, "MyWorkerRole", 10);
 
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, workerRoles: new WorkerRoleInfo[] { (WorkerRoleInfo)workerRole }, workerScaff: Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole), roles: new RoleInfo[] { workerRole });
@@ -416,7 +416,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo workerRole = service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, "MyWorkerRole", 10);
 
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, workerRoles: new WorkerRoleInfo[] { (WorkerRoleInfo)workerRole }, workerScaff: Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole), roles: new RoleInfo[] { workerRole });
@@ -428,7 +428,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, serviceName, null).AddWebRole(Data.NodeWebRoleScaffoldingPath, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, serviceName, null).AddWebRole(Data.NodeWebRoleScaffoldingPath, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
             }
         }
 
@@ -437,7 +437,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, serviceName, null).AddWebRole(Data.PHPWebRoleScaffoldingPath, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
+                Testing.AssertThrows<ArgumentException>(() => new CloudServiceProject(files.RootPath, serviceName, null).AddWebRole(Data.PHPWebRoleScaffoldingPath, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
             }
         }
 
@@ -446,7 +446,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole");
                 Testing.AssertThrows<ArgumentException>(() => service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole"), string.Format(Resources.AddRoleMessageRoleExists, "WebRole"));
             }
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, "WebRole");
                 Testing.AssertThrows<ArgumentException>(() => service.AddWebRole(Data.PHPWebRoleScaffoldingPath, "WebRole"), string.Format(Resources.AddRoleMessageRoleExists, "WebRole"));
             }
@@ -471,7 +471,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
                 NewAzureServiceProjectCommand newServiceCmdlet = new NewAzureServiceProjectCommand();
                 newServiceCmdlet.CommandRuntime = new MockCommandRuntime();
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
-                Assert.AreEqual<string>(serviceName, new AzureService(Path.Combine(files.RootPath, serviceName), null).ServiceName);
+                Assert.AreEqual<string>(serviceName, new CloudServiceProject(Path.Combine(files.RootPath, serviceName), null).ServiceName);
             }
         }
 
@@ -482,7 +482,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.ChangeServiceName(newName, service.Paths);
                 Assert.AreEqual<string>(newName, service.Components.CloudConfig.serviceName);
                 Assert.AreEqual<string>(newName, service.Components.LocalConfig.serviceName);
@@ -497,7 +497,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole", 1);
                 service.SetRoleInstances(service.Paths, "WebRole", newInstances);
                 Assert.AreEqual<int>(service.Components.CloudConfig.Role[0].Instances.count, newInstances);
@@ -512,7 +512,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, "WebRole", 1);
                 service.SetRoleInstances(service.Paths, "WebRole", newInstances);
                 Assert.AreEqual<int>(service.Components.CloudConfig.Role[0].Instances.count, newInstances);
@@ -568,7 +568,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
                 AddAzureNodeWebRoleCommand addAzureWebRole = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = cacheWebRoleName };
                 addAzureWebRole.ExecuteCmdlet();
 
-                AzureService testService = new AzureService(rootPath, null);
+                CloudServiceProject testService = new CloudServiceProject(rootPath, null);
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
@@ -579,7 +579,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
                 // Get the publishing process started by creating the package
                 testService.ResolveRuntimePackageUrls(RuntimePackageHelper.GetTestManifest(files));
 
-                AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
+                CloudServiceProject updatedService = new CloudServiceProject(testService.Paths.RootPath, null);
 
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://cdn/node/default.exe;http://cdn/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://cdn/node/default.exe", null);

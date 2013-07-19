@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase
@@ -41,6 +42,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         {
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
+            // Make sure that server name to Manage Url conversion is working
             contextCmdlet.ServerName = "server0001";
             Assert.AreEqual(
                 new Uri("https://server0001.database.windows.net"),
@@ -48,6 +50,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ServerNameWithSqlAuthParamSet));
+
+            // Make sure that fully qualified server name name to Manage Url conversion is working
             contextCmdlet.FullyQualifiedServerName = "server0003.database.windows.net";
             Assert.AreEqual(
                 new Uri("https://server0003.database.windows.net"),
@@ -55,6 +59,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithSqlAuthParamSet));
+            
+            // Make sure that Manage Url to Manage Url conversion is working properly
             contextCmdlet.ManageUrl = new Uri("https://server0005.database.windows.net");
             Assert.AreEqual(
                 new Uri("https://server0005.database.windows.net"),
@@ -62,6 +68,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ManageUrlWithSqlAuthParamSet));
+
+
+            // Make sure that server name to Manage Url conversion is working
+            contextCmdlet.ServerName = "server0001";
+            Assert.AreEqual(
+                new Uri("https://server0001.database.windows.net"),
+                UnitTestHelper.InvokePrivate(
+                    contextCmdlet,
+                    "GetManageUrl",
+                    NewAzureSqlDatabaseServerContext.ServerNameWithCertAuthParamSet));
+
+            // Make sure that fully qualified server name name to Manage Url conversion is working
+            contextCmdlet.FullyQualifiedServerName = "server0003.database.windows.net";
+            Assert.AreEqual(
+                new Uri("https://server0003.database.windows.net"),
+                UnitTestHelper.InvokePrivate(
+                    contextCmdlet,
+                    "GetManageUrl",
+                    NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithCertAuthParamSet));
 
             try
             {
@@ -125,6 +150,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         "Expecting a ServerDataServiceSqlAuth object");
                 }
             }
+        }
+
+        /// <summary>
+        /// Create a new server context using certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void NewAzureSqlDatabaseServerContextWithCertAuth()
+        {
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext serverContext = new NewAzureSqlDatabaseServerContext();
+            ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth(
+                "testServer", 
+                subscriptionData);
+
+            Assert.IsNotNull(service, "The ServerDataServiceCertAuth object returned from "
+                + "NewAzureSqlDatabaseServerContext.GetServerDataServiceByCertAuth is null");
         }
 
         [TestMethod]
@@ -262,7 +305,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 });
 
             UnitTestHelper.ImportSqlDatabaseModule(powershell);
-            UnitTestHelper.CreateTestCredential(powershell);
+            UnitTestHelper.CreateTestCredential(
+                powershell,
+                testSession.SessionProperties["Username"],
+                testSession.SessionProperties["Password"]);
 
             Collection<PSObject> serverContext;
             using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
@@ -276,11 +322,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         string.Format(
                             CultureInfo.InvariantCulture,
                             @"{1} = New-AzureSqlDatabaseServerContext " +
-                            @"-ServerName testserver " +
+                            @"-ServerName {2} " +
                             @"-ManageUrl {0} " +
                             @"-Credential $credential",
                             MockHttpServer.DefaultServerPrefixUri.AbsoluteUri,
-                            contextVariable),
+                            contextVariable,
+                            testSession.SessionProperties["Servername"]),
                         contextVariable);
                 }
             }

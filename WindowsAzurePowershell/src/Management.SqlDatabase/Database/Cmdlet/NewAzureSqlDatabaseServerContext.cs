@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// A cmdlet to Connect to a SQL server administration data service.
@@ -32,12 +33,37 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region ParameterSet Names
 
+        /// <summary>
+        /// The name of the parameter set for creating a context with SQL authentication by Server Name
+        /// </summary>
         internal const string ServerNameWithSqlAuthParamSet =
             "ByServerNameWithSqlAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with SQL authentication by FQSN
+        /// </summary>
         internal const string FullyQualifiedServerNameWithSqlAuthParamSet =
             "ByFullyQualifiedServerNameWithSqlAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with SQL authentication by Manage Url
+        /// </summary>
         internal const string ManageUrlWithSqlAuthParamSet =
             "ByManageUrlWithSqlAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with certificate
+        /// authentication by Server Name
+        /// </summary>
+        internal const string ServerNameWithCertAuthParamSet =
+            "ByServerNameWithCertAuth";
+
+        /// <summary>
+        /// The name of the parameter set for creating a context with certificate
+        /// authentication by FQSN
+        /// </summary>
+        internal const string FullyQualifiedServerNameWithCertAuthParamSet =
+            "ByFullyQualifiedServerNameWithCertAuth";
 
         #endregion
 
@@ -52,13 +78,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ManageUrlWithSqlAuthParamSet,
             HelpMessage = "The short server name")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ServerNameWithCertAuthParamSet,
+            HelpMessage = "The short server name")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the management site data connection fully qualified server name.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 0, 
+            ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
+            HelpMessage = "The fully qualified server name")]
+        [Parameter(Mandatory = true, Position = 0, 
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
             HelpMessage = "The fully qualified server name")]
         [ValidateNotNull]
         public string FullyQualifiedServerName { get; set; }
@@ -74,24 +107,49 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server credentials
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ServerNameWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ManageUrlWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ManageUrlWithSqlAuthParamSet,
             HelpMessage = "The credentials for the server")]
         [ValidateNotNull]
         public PSCredential Credential { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether or not the current subscription should be used for authentication
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = ServerNameWithCertAuthParamSet,
+            HelpMessage = "Use certificate authentication")]
+        [Parameter(Mandatory = true, Position = 1, 
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+            HelpMessage = "Use certificate authentication")]
+        public SwitchParameter UseSubscription { get; set; }
+
+        /// <summary>
+        /// Gets or sets the server credentials
+        /// </summary>
+        [Parameter(Mandatory = false, Position = 2, 
+            ParameterSetName = ServerNameWithCertAuthParamSet,
+            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
+        [Parameter(Mandatory = false, Position = 2,
+            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
+        public SubscriptionData SubscriptionData { get; set; }
+
         #endregion
 
         /// <summary>
-        /// Connect to a Azure Sql Server with the given ManagementService Uri using
-        /// Sql Authentication credentials.
+        /// Connect to a Azure SQL Server with the given ManagementService Uri using
+        /// SQL authentication credentials.
         /// </summary>
         /// <param name="serverName">The server name.</param>
         /// <param name="managementServiceUri">The server's ManagementService Uri.</param>
-        /// <param name="credentials">The Sql Authentication credentials for the server.</param>
+        /// <param name="credentials">The SQL Authentication credentials for the server.</param>
         /// <returns>A new <see cref="ServerDataServiceSqlAuth"/> context,
         /// or <c>null</c> if an error occurred.</returns>
         internal ServerDataServiceSqlAuth GetServerDataServiceBySqlAuth(
@@ -110,7 +168,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     credentials,
                     serverName);
 
-                // Retrieve $metadata to verify model version compativility
+                // Retrieve $metadata to verify model version compatibility
                 XDocument metadata = context.RetrieveMetadata();
                 XDocument filteredMetadata = DataConnectionUtility.FilterMetadataDocument(metadata);
                 string metadataHash = DataConnectionUtility.GetDocumentHash(filteredMetadata);
@@ -130,6 +188,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                 // The context is not in an valid state because of the error, set the context 
                 // back to null.
+                context = null;
+            }
+
+            return context;
+        }
+
+        /// <summary>
+        /// Connect to Azure SQL Server using certificate authentication.
+        /// </summary>
+        /// <param name="serverName">The name of the server to connect to</param>
+        /// <param name="subscriptionData">The subscription data to use for authentication</param>
+        /// <returns>A new <see cref="ServerDataServiceCertAuth"/> context,
+        /// or <c>null</c> if an error occurred.</returns>
+        internal ServerDataServiceCertAuth GetServerDataServiceByCertAuth(
+            string serverName,
+            SubscriptionData subscriptionData)
+        {
+            ServerDataServiceCertAuth context = null;
+
+            try
+            {
+                context = ServerDataServiceCertAuth.Create(serverName, subscriptionData);
+            }
+            catch (ArgumentException e)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(this, string.Empty, e);
+
                 context = null;
             }
 
@@ -157,13 +242,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                         serverName,
                         managementServiceUri,
                         credentials);
+
+                case FullyQualifiedServerNameWithCertAuthParamSet:
+                case ServerNameWithCertAuthParamSet:
+                    // Get the current subscription data.
+                    SubscriptionData subscriptionData = this.GetSubscriptionData();
+
+                    // Create a context using the subscription datat
+                    return this.GetServerDataServiceByCertAuth(
+                       serverName,
+                       subscriptionData);
+
                 default:
                     throw new InvalidOperationException(Resources.UnknownParameterSet);
             }
         }
 
         /// <summary>
-        /// Execute the command.
+        /// Process the command.
         /// </summary>
         protected override void ProcessRecord()
         {
@@ -179,6 +275,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 // Creates a new Server Data Service Context for the service
                 IServerDataServiceContext operationContext =
                     this.CreateServerDataServiceContext(serverName, managementServiceUri);
+
                 if (operationContext != null)
                 {
                     this.WriteObject(operationContext);
@@ -202,12 +299,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             switch (parameterSetName)
             {
                 case ServerNameWithSqlAuthParamSet:
+                case ServerNameWithCertAuthParamSet:
                     // Only the server name was specified, eg. 'server001'. Prepend the Uri schema
                     // and append the azure database DNS suffix.
                     return new Uri(
                         Uri.UriSchemeHttps + Uri.SchemeDelimiter +
                         this.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix);
                 case FullyQualifiedServerNameWithSqlAuthParamSet:
+                case FullyQualifiedServerNameWithCertAuthParamSet:
                     // The fully qualified server name was specified, 
                     // eg. 'server001.database.windows.net'. Prepend the Uri schema.
                     return new Uri(
@@ -243,7 +342,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Obtain the SqlAuthentication Credentials based on the Cmdlet's parameter set.
+        /// Obtain the SQL Authentication Credentials based on the Cmdlet's parameter set.
         /// </summary>
         /// <returns>The Credentials based on the Cmdlet's parameter set.</returns>
         private SqlAuthenticationCredentials GetSqlAuthCredentials()
@@ -257,6 +356,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             else
             {
                 throw new ArgumentException(Resources.CredentialNotSpecified);
+            }
+        }
+
+        /// <summary>
+        /// Obtain the SubscriptionData based on the Cmdlet's parameter set.
+        /// </summary>
+        /// <returns>The SubscriptionData to use based on the Cmdlet's parameter set.</returns>
+        private SubscriptionData GetSubscriptionData()
+        {
+            if (this.MyInvocation.BoundParameters.ContainsKey("SubscriptionData"))
+            {
+                // SubscriptionData is specified as a parameter. Use it as is.
+                return this.SubscriptionData;
+            }
+            else
+            {
+                // SubscriptionData is not specified, use the current subscription.
+                return this.GetCurrentSubscription();
             }
         }
 

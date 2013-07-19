@@ -35,6 +35,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         string ServerName { get; }
 
         /// <summary>
+        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// </summary>
+        /// <param name="obj">The object that contains the property to load.</param>
+        /// <param name="propertyName">The name of the property to load.</param>
+        void LoadProperty(object obj, string propertyName);
+
+        #region Database Operations
+
+        /// <summary>
         /// Retrieves the list of all databases on the server.
         /// </summary>
         /// <returns>An array of all databases on the server.</returns>
@@ -74,17 +83,56 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="databaseEdition">
         /// The new database edition, or <c>null</c> to not update.
         /// </param>
+        /// <param name="serviceObjective">
+        /// The new service objective, or <c>null</c> to not update.
+        /// </param>
         /// <returns>The updated database object.</returns>
         Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSize,
-            DatabaseEdition? databaseEdition);
+            DatabaseEdition? databaseEdition,
+            ServiceObjective serviceObjective);
 
         /// <summary>
         /// Removes the database with the name <paramref name="databaseName"/>.
         /// </summary>
         /// <param name="databaseName">The database to remove.</param>
         void RemoveDatabase(string databaseName);
+
+        #endregion
+
+        #region Service Objective Operations
+
+        /// <summary>
+        /// Retrieves the list of all service objectives on the server.
+        /// </summary>
+        /// <returns>An array of all service objectives on the server.</returns>
+        ServiceObjective[] GetServiceObjectives();
+
+        /// <summary>
+        /// Retrieve information on service objective with the name
+        /// <paramref name="serviceObjectivesName"/>.
+        /// </summary>
+        /// <param name="serviceObjectiveName">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        ServiceObjective GetServiceObjective(string serviceObjectiveName);
+
+        /// <summary>
+        /// Get a specific quota for a server
+        /// </summary>
+        /// <param name="quotaName">The name of the quota to retrieve</param>
+        /// <returns>A quota object.</returns>
+        ServerQuota GetQuota(string quotaName);
+
+        /// <summary>
+        /// Get a list of all quotas for a server
+        /// </summary>
+        /// <returns>An array of server quota objects</returns>
+        ServerQuota[] GetQuotas();
+
+        #endregion
     }
 }

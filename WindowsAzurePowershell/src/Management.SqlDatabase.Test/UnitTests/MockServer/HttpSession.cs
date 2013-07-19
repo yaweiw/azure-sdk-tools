@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -47,8 +48,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
 
         /// <summary>
         /// The real service's base Uri. If specifed the requests will be forwarded to a
-        /// real service.</param>
+        /// real service.
         /// </summary>
         public Uri ServiceBaseUri { get; set; }
+
+        /// <summary>
+        /// A dictionary to store extra session properties.
+        /// </summary>
+        public Dictionary<string, string> SessionProperties { get; set; }
     }
 }

@@ -29,31 +29,49 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private string subscriptionID;
         private string serializedCert;
         private string serverLocation;
+        private string manageUrl;
+        private string serverName;
+        private string username;
+        private string password;
 
         private const string ServerTestScript = @"Server\CreateGetDeleteServer.ps1";
         private const string FirewallTestScript = @"Server\CreateGetDropFirewall.ps1";
         private const string ResetPasswordScript = @"Server\ResetPassword.ps1";
         private const string FormatValidationScript = @"Server\FormatValidation.ps1";
 
+        /// <summary>
+        /// The path to the script for testing get server quota
+        /// </summary>
+        private const string GetQuotaScript = @"Server\GetServerQuota.ps1";
+
+        /// <summary>
+        /// The end point to use for the tests
+        /// </summary>
+        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
+         
         [TestInitialize]
         public void Setup()
         {
-
-            PublishData publishData = General.DeserializeXmlFile<PublishData>("Azure.publishsettings");
-            PublishDataPublishProfile publishProfile = publishData.Items[0];
-            this.serializedCert = publishProfile.ManagementCertificate;
-            this.subscriptionID = publishProfile.Subscription[0].Id;
-
             XElement root = XElement.Load("SqlDatabaseSettings.xml");
+            this.subscriptionID = root.Element("SubscriptionID").Value;
+            this.serializedCert = root.Element("SerializedCert").Value;
             this.serverLocation = root.Element("ServerLocation").Value;
-
-            new NewAzureSqlDatabaseServerFirewallRule();
+            this.manageUrl = root.Element("ManageUrl").Value;
+            this.username = root.Element("SqlAuthUserName").Value;
+            this.password = root.Element("SqlAuthPassword").Value;
+            this.serverName = new Uri(this.manageUrl).Host.Split('.')[0];
         }
 
         [TestMethod]
         [TestCategory("Functional")]
         public void CreateGetDeleteServerTest()
-        {            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+        {            
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -Endpoint \"{3}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ServerTestScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -62,7 +80,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void FirewallTest()
         {
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -Endpoint \"{3}\"", 
+                this.subscriptionID, 
+                this.serializedCert,
+                this.serverLocation,
+                LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FirewallTestScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -71,8 +94,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void ResetServerPassword()
         {
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ResetPasswordScript, arguments);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation);
+            bool testResult = 
+                PSScriptExecutor.ExecuteScript(ServerTest.ResetPasswordScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -82,12 +110,37 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void OutputObjectFormatValidation()
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", this.subscriptionID, this.serializedCert, this.serverLocation, outputFile);
-            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FormatValidationScript, arguments);
+            string arguments = string.Format(
+                "-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", 
+                this.subscriptionID, 
+                this.serializedCert, 
+                this.serverLocation, outputFile);
+            bool testResult = 
+                PSScriptExecutor.ExecuteScript(ServerTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
 
             OutputFormatValidator.ValidateOutputFormat(outputFile, @"Server\ExpectedFormat.txt");
         }
 
+        /// <summary>
+        /// Test for getting a servers quota
+        /// </summary>
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void GetServerQuotaTest()
+        {
+            string arguments = string.Format(
+                "-SloManageUrl \"{0}\" -subscriptionID \"{1}\" -serializedCert \"{2}\" -serverLocation \"{3}\" "
+                + " -Endpoint \"{4}\" -Username \"{5}\" -Password \"{6}\"",
+                this.manageUrl,
+                this.subscriptionID,
+                this.serializedCert,
+                this.serverLocation,
+                LocalRdfeEndpoint,
+                this.username,
+                this.password);
+            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.GetQuotaScript, arguments);
+            Assert.IsTrue(testResult);
+        }
     }
 }

@@ -26,25 +26,32 @@ Param
     [Parameter(Mandatory=$true, Position=2)]
     [ValidateNotNullOrEmpty()]
     [String]
-    $serverLocation
+    $serverLocation,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
+
 Write-Output "`$subscriptionID=$subscriptionID"
 Write-Output "`$SerializedCert=$SerializedCert"
 Write-Output "`$serverLocation=$serverLocation"
+Write-Output "`$Endpoint=$Endpoint"
 
 . .\CommonFunctions.ps1
 
 Try
 {
     Init-TestEnvironment
-    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription -SubscriptionID $subscriptionID -SerializedCert $SerializedCert $Endpoint
     $isTestPass = $False
     
     # Create Server
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     Write-Output "Creating server"
-    $server = New-AzureSqlDatabaseServer -AdministratorLogin $loginName -AdministratorLoginPassword $loginPassword -Location $serverLocation
+    $server = New-AzureSqlDatabaseServer -AdministratorLogin $loginName -AdministratorLoginPassword `
+		$loginPassword -Location $serverLocation
     Assert {$server} "Server is not created"
     Write-Output "Server $($server.ServerName) created"
     
@@ -54,8 +61,11 @@ Try
     $rule1StartIP="1.0.0.0"
     $rule1EndIP="2.0.0.0"
     Write-Output "Creating Firewall rule $rule1Name ..."
-    $rule = New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName $rule1Name -StartIpAddress $rule1StartIP -EndIpAddress $rule1EndIP
-    Validate-SqlDatabaseServerFirewallRuleContext -Actual $rule -ExpectedRuleName $rule1Name -ExpectedStartIpAddress $rule1StartIP -ExpectedEndIpAddress $rule1EndIP -ExpectedServerName $server.ServerName -ExpectedOperationDescription "New-AzureSqlDatabaseServerFirewallRule"
+    $rule = New-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName -RuleName $rule1Name `
+		-StartIpAddress $rule1StartIP -EndIpAddress $rule1EndIP
+    Validate-SqlDatabaseServerFirewallRuleContext -Actual $rule -ExpectedRuleName $rule1Name `
+		-ExpectedStartIpAddress $rule1StartIP -ExpectedEndIpAddress $rule1EndIP -ExpectedServerName `
+			$server.ServerName -ExpectedOperationDescription "New-AzureSqlDatabaseServerFirewallRule"
     Write-Output "created"
     
     $rule2Name="rule2"

@@ -62,5 +62,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
+
+        /// <summary>
+        /// Tests the attributes of the Get-AzureSqlDatabaseServerQuota Cmdlet
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabaseServerQuotaAttributeTest()
+        {
+            Type cmdlet = typeof(GetAzureSqlDatabaseServerQuota);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+        }
     }
 }

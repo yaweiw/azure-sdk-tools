@@ -30,7 +30,23 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Password
+    $Password,
+    [Parameter(Mandatory=$true, Position=1)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $ServerName,
+    [Parameter(Mandatory=$true, Position=2)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SubscriptionID,
+    [Parameter(Mandatory=$true, Position=3)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -38,65 +54,88 @@ Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
 Write-Output "`$UserName=$UserName"
 Write-Output "`$Password=$Password"
+Write-Output "`$ServerName=$ServerName"
+Write-Output "`$SubscriptionID=$SubscriptionID"
+Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
+
 . .\CommonFunctions.ps1
+. .\Database\UpdateDatabase-ScenarioFunctions.ps1
 
 Try
 {
 	Init-TestEnvironment
-    $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
-    $edition = "Business"
-    $maxSizeGB = "10"
-
-    # Update with database object
-    Write-Output "Updating Database $Name edition to $edition and maxSizeGB to $maxSizeGB ..."
-    Set-AzureSqlDatabase $context $database -Edition $edition -MaxSizeGB $maxSizeGB -Force
-    Write-Output "Done"
-
-    $updatedDatabase = Get-AzureSqlDatabase $context $database.Name
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
     
-    # Update with database name
-    $edition = "Web"
-    $maxSizeGB = "5"
+	# Update with Sql Auth
+	try
+	{
+		$context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName `
+			-Password $Password
+			
+		$database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
 
-    Write-Output "Updating Database $Name edition Back to $edition ..."
-    Set-AzureSqlDatabase $context $database.Name -Edition $edition -MaxSizeGB $maxSizeGB -Force
-    Write-Output "Done"
+		Scenario1-UpdateWithObject -Context $context
 
-    $updatedDatabase = Get-AzureSqlDatabase $context $database
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $database.Name -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
-    
-    #Rename a database
-    $NewName = $Name + "-updated"
+		Scenario2-UpdateWithName -Context $context
+		
+		Scenario3-RenameDatabase -Context $context
+	}
+	finally
+	{
+		# Drop Database
+		Drop-Databases $Context $Name
+		$context = $null
+	}
 
-    Write-Output "Renaming a database from $Name to $NewName..."
-    $updatedDatabase = Set-AzureSqlDatabase $context $database -NewName $NewName -PassThr -Force
-    Write-Output "Done"
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
+	# Update with Cert Auth
+    try
+	{
+		
+		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+		$sub = Get-AzureSubscription -Current
+		$context = Get-ServerContextByServerNameWithCertAuth $ServerName	
+			
+		$database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
 
-    $updatedDatabase = Get-AzureSqlDatabase $context -DatabaseName $NewName
-    Validate-SqlDatabase -Actual $updatedDatabase -ExpectedName $NewName -ExpectedCollationName $database.CollationName `
-            -ExpectedEdition $edition -ExpectedMaxSizeGB $maxSizeGB -ExpectedIsReadOnly $database.IsReadOnly `
-            -ExpectedIsFederationRoot $database.IsFederationRoot -ExpectedIsSystemObject $database.IsSystemObject
-    
-    $getDroppedDatabase = Get-AzureSqlDatabase $context | Where-Object {$_.Name -eq $Name}
-    Assert {!$getDroppedDatabase} "Database is not Renamed"
-    
+		Scenario1-UpdateWithObject -Context $context
+
+		Scenario2-UpdateWithName -Context $context
+		
+		Scenario3-RenameDatabase -Context $context
+	}
+	finally
+	{
+		# Drop Database
+		Drop-Databases $Context $Name
+		$context = $null
+	}
+
+	
+	# Update with Cert Auth with Server Name
+    try
+	{
+		Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+		$sub = Get-AzureSubscription -Current
+
+		$database = New-AzureSqlDatabase -ServerName $ServerName -DatabaseName $Name
+
+		Scenario1-UpdateWithObject -ServerName $ServerName
+
+		Scenario2-UpdateWithName -ServerName $ServerName
+		
+		Scenario3-RenameDatabase -ServerName $ServerName
+	}
+	finally
+	{
+		# Drop Database
+		Drop-DatabasesWithServerName $ServerName $Name
+		Remove-AzureSubscription $sub.SubscriptionName -Force
+	}
+
     $IsTestPass = $True
 }
-Finally
+finally
 {
-    if($database)
-    {
-        # Drop Database
-        Drop-Databases $Context $Name
-    }
 }
+
 Write-TestResult $IsTestPass

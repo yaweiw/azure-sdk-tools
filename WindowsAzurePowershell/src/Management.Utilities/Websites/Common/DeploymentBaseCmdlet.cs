@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
         private Repository GetRepository(string websiteName)
         {
             Site site = null;
-            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSite(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
+            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSiteWithCache(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
             if (site != null)
             {
                 return new Repository(site);

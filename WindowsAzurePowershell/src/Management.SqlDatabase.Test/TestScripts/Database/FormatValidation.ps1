@@ -84,7 +84,7 @@ Try
     $context | fl >> $OutputFile
 
     $database.GetType().Name >> $OutputFile
-    $Database | ft -Wrap -AutoSize >> $OutputFile
+    $Database | ft -AutoSize | Out-String -Width 160 >> $OutputFile
     $database | fl >> $OutputFile
     
     $isTestPass = $True
