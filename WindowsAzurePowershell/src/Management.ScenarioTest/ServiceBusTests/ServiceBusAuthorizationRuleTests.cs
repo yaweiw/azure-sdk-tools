@@ -192,5 +192,53 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         #endregion
+
+        #region Get-AzureSBAuthorizationRules Scenario Tests
+
+        /// <summary>
+        /// Tests getting all authorization rules on a given namespace.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void GetsNamespaceAuthorizationRules()
+        {
+            RunPowerShellTest("Test-GetsNamespaceAuthorizationRules");
+        }
+
+        /// <summary>
+        /// Tests getting specific authorization rules on a queue.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void GetsQueueSpecificAuthorizationRule()
+        {
+            RunPowerShellTest("Test-GetsQueueSpecificAuthorizationRule");
+        }
+
+        /// <summary>
+        /// Tests getting all authorization rules on a notification hub filtered by Permission.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void FilterAuthorizationRulesByPermission()
+        {
+            RunPowerShellTest("Test-FilterAuthorizationRulesByPermission");
+        }
+
+        /// <summary>
+        /// Tests getting authorization rules on a topic that does not have any authorization rules.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void GetsEmptyListForTopic()
+        {
+            RunPowerShellTest("Test-GetsEmptyListForTopic");
+        }
+
+        #endregion
     }
 }

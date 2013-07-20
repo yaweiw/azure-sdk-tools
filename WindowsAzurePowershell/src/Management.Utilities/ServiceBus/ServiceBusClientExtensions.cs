@@ -43,7 +43,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
         public IServiceBusManagement ServiceBusManagementChannel { get; internal set; }
 
-        public const string ACSConnectionStringKeyName = "ACSOwnerKey";
+        public const string NamespaceACSConnectionStringKeyName = "ACSOwnerKey";
+
+        public const string NamespaceSASConnectionStringKeyName = "RootManageSharedAccessKey";
 
         private HttpClient CreateServiceBusHttpClient()
         {
@@ -65,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             return NamespaceManager.CreateFromConnectionString(GetConnectionString(
                 namespaceName,
-                ACSConnectionStringKeyName));
+                NamespaceACSConnectionStringKeyName));
         }
 
         private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
@@ -117,7 +119,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 if (options.Permission != null && options.Permission.Count > 0)
                 {
                     permissionMatch
-                        .AddRange(rules.FindAll(r => r.Permission.Any(p => options.Permission.Any(m => m.Equals(p)))));
+                    .AddRange(
+                    rules.FindAll(r => r.Permission.OrderBy(a => a).SequenceEqual(options.Permission.OrderBy(a => a))));
                 }
 
                 if (options.AuthorizationType != null && options.AuthorizationType.Count > 0)
@@ -130,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
                 result = ruleTypeMatch.Count> 0 ? result.Union(ruleTypeMatch).ToList() : result;
             }
 
-            return result;
+            return result == null ? new List<ExtendedAuthorizationRule>() : result;
         }
 
         private List<ExtendedAuthorizationRule> GetAuthorizationRulesToFilter(AuthorizationRuleFilterOption options)
@@ -267,7 +270,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         }
 
         /// <summary>
-        /// Creates new instance from ServiceBusManager
+        /// Creates new instance from ServiceBusClientExtensions
         /// </summary>
         /// <param name="subscription"></param>
         /// <param name="logger">The logger action</param>

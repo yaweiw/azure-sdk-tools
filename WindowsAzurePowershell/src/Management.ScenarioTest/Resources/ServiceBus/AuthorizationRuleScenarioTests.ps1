@@ -426,3 +426,107 @@ function Test-RemovesNotificationHubAuthorizationRule
 	Assert-Null $actual
 	Assert-True { $removed }
 }
+
+########################################################################### Get-AzureSBAuthorizationRule Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests getting all authorization rules on a given namespace.
+#>
+function Test-GetsNamespaceAuthorizationRules
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$ruleName = $namespaceName
+	$client = New-ServiceBusClientExtensions
+	New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -Permission $("Manage", "Send", "Listen")
+	New-AzureSBAuthorizationRule -Name "onesdktestrule21" -Namespace $namespaceName -Permission $("Manage", "Send", "Listen")
+
+	# Test
+	$actual = Get-AzureSBAuthorizationRule -Namespace $namespaceName
+
+	# Assert
+	Assert-AreEqual 3 $actual.Count
+}
+
+<#
+.SYNOPSIS
+Tests getting specific authorization rules on a queue.
+#>
+function Test-GetsQueueSpecificAuthorizationRule
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = $namespaceName
+	$ruleName = $namespaceName
+	$entityType = "NotificationHub"
+	$client = New-ServiceBusClientExtensions
+	$client.CreateNotificationHub($namespaceName, $entityName)
+	New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $("Manage", "Send", "Listen")
+
+	# Test
+	$actual = Get-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType
+
+	# Assert
+	Assert-AreEqual $ruleName $actual.Name
+}
+
+<#
+.SYNOPSIS
+Tests getting all authorization rules on a notification hub filtered by Permission.
+#>
+function Test-FilterAuthorizationRulesByPermission
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = $namespaceName
+	$ruleName = $namespaceName
+	$entityType = "NotificationHub"
+	$client = New-ServiceBusClientExtensions
+	$client.CreateNotificationHub($namespaceName, $entityName)
+	New-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $("Send", "Listen")
+	New-AzureSBAuthorizationRule -Name "onesdkrulehub1" -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $("Listen")
+	New-AzureSBAuthorizationRule -Name "onesdkrulehub2" -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $("Send")
+
+	# Test
+	$actual = Get-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType -Permission $("Send")
+
+	# Assert
+	Assert-AreEqual 1 $actual.Count
+}
+
+<#
+.SYNOPSIS
+Tests getting authorization rules on a topic that does not have any authorization rules.
+#>
+function Test-GetsEmptyListForTopic
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 1
+	$namespaceName = $createdNamespaces[0]
+	$entityName = $namespaceName
+	$ruleName = $namespaceName
+	$entityType = "Topic"
+	$client = New-ServiceBusClientExtensions
+	$client.CreateTopic($namespaceName, $entityName)
+
+	# Test
+	$actual = Get-AzureSBAuthorizationRule -Name $ruleName -Namespace $namespaceName -EntityName $entityName `
+		-EntityType $entityType
+
+	# Assert
+	Assert-AreEqual 0 $actual.Count
+}
