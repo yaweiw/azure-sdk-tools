@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
         {
             return NamespaceManager.CreateFromConnectionString(GetConnectionString(
                 namespaceName,
-                NamespaceSASConnectionStringKeyName));
+                NamespaceACSConnectionStringKeyName));
         }
 
         private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
