@@ -1472,6 +1472,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is an invalid parameter set name..
+        /// </summary>
+        internal static string InvalidParameterSetName {
+            get {
+                return ResourceManager.GetString("InvalidParameterSetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} doesn&apos;t exist in {1} or you&apos;ve not passed valid value for it.
         /// </summary>
         internal static string InvalidPath {
@@ -2853,6 +2862,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string ServiceAlreadyExistsOnDisk {
             get {
                 return ResourceManager.GetString("ServiceAlreadyExistsOnDisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service bus entity &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string ServiceBusEntityTypeNotFound {
+            get {
+                return ResourceManager.GetString("ServiceBusEntityTypeNotFound", resourceCulture);
             }
         }
         
