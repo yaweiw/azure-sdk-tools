@@ -34,8 +34,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
 
         public ServiceBusClientExtensions Client { get; set; }
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The rule name")]
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The rule name")]
+        [Parameter(Position = 0, Mandatory = true, ParameterSetName = EntitySASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The rule name")]
+        [Parameter(Position = 0, Mandatory = true, ParameterSetName = NamespaceSASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The rule name")]
         public string Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true,
@@ -44,10 +46,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The namespace name")]
         public string Namespace { get; set; }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity name")]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = EntitySASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The entity name")]
         public string EntityName { get; set; }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = EntitySASParameterSet, HelpMessage = "The entity type")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = EntitySASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The entity type")]
         public ServiceBusEntityType EntityType { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = NamespaceSASParameterSet)]

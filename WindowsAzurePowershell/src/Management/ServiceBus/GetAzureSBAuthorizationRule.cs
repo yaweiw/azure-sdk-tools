@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
@@ -23,10 +25,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
-    /// Updates new service bus authorization rule.
+    /// Creates new service bus authorization rule.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule))]
-    public class SetAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
+    [Cmdlet(VerbsCommon.Get, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule), typeof(List<AuthorizationRule>))]
+    public class GetAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         public const string EntitySASParameterSet = "EntitySAS";
 
@@ -34,14 +36,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
 
         public ServiceBusClientExtensions Client { get; set; }
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = EntitySASParameterSet,
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = EntitySASParameterSet,
             ValueFromPipelineByPropertyName = true, HelpMessage = "The rule name")]
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = NamespaceSASParameterSet,
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = NamespaceSASParameterSet,
             ValueFromPipelineByPropertyName = true, HelpMessage = "The rule name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The access permission")]
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The access permission")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = EntitySASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The access permission")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = NamespaceSASParameterSet,
+            ValueFromPipelineByPropertyName = true, HelpMessage = "The access permission")]
         public Microsoft.ServiceBus.Messaging.AccessRights[] Permission { get; set; }
 
         [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true,
@@ -58,44 +62,44 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             ValueFromPipelineByPropertyName = true, HelpMessage = "The entity type")]
         public ServiceBusEntityType EntityType { get; set; }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The primary key")]
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The primary key")]
-        public string PrimaryKey { get; set; }
-
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = NamespaceSASParameterSet, HelpMessage = "The secondary key")]
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = EntitySASParameterSet, HelpMessage = "The secondary key")]
-        public string SecondaryKey { get; set; }
-
         public override void ExecuteCmdlet()
         {
             Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription, WriteDebug);
-            AuthorizationRule rule = null;
-            PSObject output = null;
+            List<AuthorizationRule> rules = null;
+            List<PSObject> output = new List<PSObject>();
+            AuthorizationRuleFilterOption options = new AuthorizationRuleFilterOption()
+            {
+                EntityName = EntityName,
+                EntityType = EntityType,
+                Name = Name,
+                Namespace = Namespace,
+                Permission = Permission != null ? Permission.ToList() : null
+            };
 
             switch (ParameterSetName)
             {
                 case NamespaceSASParameterSet:
-                    rule = Client.UpdateSharedAccessAuthorization(Namespace, Name, PrimaryKey, SecondaryKey, Permission);
-                    output = ServiceBusPowerShellUtility.GetNamespacePSObject(rule);
+                    rules = Client.GetAuthorizationRule(options);
+                    rules.ForEach(r => output.Add(ServiceBusPowerShellUtility.GetNamespacePSObject(r)));
                     break;
 
                 case EntitySASParameterSet:
-                    rule = Client.UpdateSharedAccessAuthorization(
-                        Namespace,
-                        EntityName,
-                        EntityType,
-                        Name,
-                        PrimaryKey,
-                        SecondaryKey,
-                        Permission);
-                    output = ServiceBusPowerShellUtility.GetEntityPSObject(rule);
+                    rules = Client.GetAuthorizationRule(options);
+                    rules.ForEach(r => output.Add(ServiceBusPowerShellUtility.GetEntityPSObject(r)));
                     break;
 
                 default:
                     throw new ArgumentException(string.Format(Resources.InvalidParameterSetName, ParameterSetName));
             }
 
-            WriteObject(output);
+            if (output.Count == 1)
+            {
+                WriteObject(output[0]);
+            }
+            else
+            {
+                WriteObject(output, true);
+            }
         }
     }
 }
