@@ -135,6 +135,58 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void StopAzureVMsStayProvisionedTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                // starting the test.
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForStartingState(svcName, vmName1);
+                WaitForStartingState(svcName, vmName2);
+
+                vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
 
         /// <summary>
         /// This test covers Stop-AzureVM with both parameter sets.
@@ -213,6 +265,99 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         /// <summary>
+        ///
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void StopAzureVMsDeprovisonedTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                // starting the test.
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
+
+                // Stop and deallocate the VMs
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                // Start the VMs
+                vmPowershellCmdlets.StartAzureVM("*", svcName);
+
+                WaitForStartedState(svcName, vmName1);
+                WaitForStartedState(svcName, vmName2);
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState, provisioningState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { readyState, provisioningState }));
+
+                try
+                {
+                    // Try to Stop and deallocate VM2 without Force.  Should fail and give a warning message.
+                    vmPowershellCmdlets.StopAzureVM("*", svcName);
+                    Assert.Fail();
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState, provisioningState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { readyState, provisioningState }));
+
+                // Stop and deallocate VMs
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
+
+        /// <summary>
         /// This test covers Stop-AzureVM -Force with both parameter sets
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
@@ -264,6 +409,95 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Stop the VM with Force option.   Should deallocate the VM.
                 vmPowershellCmdlets.StopAzureVM(vmName1, svcName, false, true);
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void StopAzureVMsOnStoppedVMTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                // Configure VM1
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                // Configure VM2
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForStartingState(svcName, vmName1);
+                WaitForStartingState(svcName, vmName2);
+
+                // Stop the VMs with StayProvisioned
+                vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
+
+                // Try to stop again.  Should not change the state.
+                vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
+
+                try
+                {
+                    // Try to stop without any option.  Should fail with a warning message.
+                    vmPowershellCmdlets.StopAzureVM("*", svcName);
+                    Assert.Fail();
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
+
+                // Stop the VM with Force option.   Should deallocate the VM.
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
                 pass = true;
             }
@@ -368,6 +602,116 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         ///
         /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void StopAzureVMsOnDeallocatedVMTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                // Configure VM1
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                // Configure VM2
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
+
+                // Stop and deallocate the VMs
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                try
+                {
+                    // Try to stop the VMs with StayProvisioned.  Should fail.
+                    vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+                    Assert.Fail();
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                try
+                {
+                    // Try to stop the VMs without any option.  Should fail and give a warning message.
+                    vmPowershellCmdlets.StopAzureVM("*", svcName);
+                    Assert.Fail();
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                // Try to stop and deallocate the VM again.
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM)")]
         public void RestartAzureVMTest()
         {
@@ -408,6 +752,81 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 WaitForReadyState(svcName, vmName1);
                 Utilities.RecordTimeTaken(ref prevTime);
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void RestartAzureVMsTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                DateTime prevTime = DateTime.Now;
+
+                // Configure VM1
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                // Configure VM2
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+
+                Utilities.RecordTimeTaken(ref prevTime);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForStartingState(svcName, vmName1);
+                WaitForStartingState(svcName, vmName2);
+
+                Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
+                Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
+
+                Utilities.RecordTimeTaken(ref prevTime);
+                vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
+
+                Utilities.RecordTimeTaken(ref prevTime);
+                vmPowershellCmdlets.StartAzureVM("*", svcName);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
+                Utilities.RecordTimeTaken(ref prevTime);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { readyState }));
 
                 pass = true;
             }
@@ -498,6 +917,95 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
+
+        /// <summary>
+        ///
+        /// </summary>
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Stop-AzureVM) using wildcard syntax")]
+        public void RestartAzureVMsAfterDeallocateTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                // starting the test.
+                DateTime prevTime = DateTime.Now;
+
+                // Configure VM1
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+                // Configure VM2
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
+
+                PersistentVM[] VMs = { persistentVM1, persistentVM2 };
+
+                Utilities.RecordTimeTaken(ref prevTime);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                Console.WriteLine("The VM is successfully created: {0}", vmName1);
+                Console.WriteLine("The VM is successfully created: {0}", vmName2);
+
+                WaitForStartingState(svcName, vmName1);
+                WaitForStartingState(svcName, vmName2);
+
+                Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
+                Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
+
+                Utilities.RecordTimeTaken(ref prevTime);
+                vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
+                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
+
+                for (int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        Utilities.RecordTimeTaken(ref prevTime);
+                        vmPowershellCmdlets.StartAzureVM("*", svcName);
+                        Utilities.RecordTimeTaken(ref prevTime);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        Thread.Sleep(60 * 1000);
+                        continue;
+                    }
+                }
+
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
+                Utilities.RecordTimeTaken(ref prevTime);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { readyState }));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+                {
+                    vmPowershellCmdlets.RemoveAzureService(svcName);
+                }
+            }
+        }
 
         /// <summary>
         ///
