@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             }
 
             WebSpaces webspaceList = null;
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
             if (Git && webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -249,7 +249,17 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 webspace = webspaceList.FirstOrDefault();
                 if (webspace == null)
                 {
-                    string defaultLocation = WebsitesClient.GetDefaultLocation();
+                    string defaultLocation;
+
+                    try
+                    {
+                        defaultLocation = WebsitesClient.GetDefaultLocation();
+                    }
+                    catch
+                    {
+                        throw new Exception(Resources.CreateWebsiteFailed);
+                    }
+                    
                     webspace = new WebSpace
                     {
                         Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
@@ -295,15 +305,9 @@ namespace Microsoft.WindowsAzure.Management.Websites
             {
                 InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
 
-                // If operation succeeded try to update cache with new webspace if that's the case
-                if (webspaceList.FirstOrDefault(ws => ws.Name.Equals(webspace.Name)) == null)
-                {
-                    Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
-                }
-
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
                 SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() => 
+                InvokeInOperationContext(() =>
                 {
                     websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
                     WaitForOperation(CommandRuntime.ToString());

@@ -173,23 +173,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -225,23 +211,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -291,7 +263,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          PS C:\&gt; Add-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+          PS C:\&gt; Add-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageEndpoint "core.windows.net"
         </dev:code>
         <dev:remarks>
           <maml:para>This example adds a new environment called MyEnvironment.</maml:para>
@@ -360,23 +332,9 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
           <maml:description>
-            <maml:para>The blob endpoint format.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageQueueEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The queue endpoint format</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-          <maml:name>StorageTableEndpointFormat</maml:name>
-          <maml:description>
-            <maml:para>The table endpoint format</maml:para>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -412,23 +370,113 @@
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageBlobEndpointFormat</maml:name>
+          <maml:name>StorageEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The storage endpoint. Must be valid URI</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
         <maml:description>
-          <maml:para>The blob endpoint format.</maml:para>
+          <maml:para></maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageQueueEndpointFormat</maml:name>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
         <maml:description>
-          <maml:para>The queue endpoint format</maml:para>
+          <maml:para></maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Set-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageEndpoint "core.windows.net"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example Sets an existing environment called MyEnvironment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureEnvironment</maml:linkText>
+        <maml:linkText>Add-AzureEnvironment</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-AzureEnvironment</command:name>
+      <maml:description>
+        <maml:para>Removes Windows Azure environment</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureEnvironment</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+        Removes Windows Azure environment
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureEnvironment</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The environment name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-        <maml:name>StorageTableEndpointFormat</maml:name>
+        <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>The table endpoint format</maml:para>
+          <maml:para>The environment name</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
@@ -478,10 +526,10 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          PS C:\&gt; Set-AzureEnvironment -Name MyEnvironment -PublishSettingsFileUrl "http://microsoft.com" -StorageBlobEndpointFormat "{0}://{1}.blob.core.windows.net/"
+          PS C:\&gt; Remove-AzureEnvironment -Name MyEnvironment
         </dev:code>
         <dev:remarks>
-          <maml:para>This example Sets an existing environment called MyEnvironment.</maml:para>
+          <maml:para>This example removes an environment called MyEnvironment</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -492,7 +540,6 @@
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Get-AzureEnvironment</maml:linkText>
         <maml:linkText>Add-AzureEnvironment</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
@@ -3658,13 +3705,6 @@
       <command:syntaxItem>
         <maml:name>Publish-AzureServiceProject</maml:name>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>Subscription</maml:name>
-          <maml:description>
-            <maml:para>The Windows Azure subscription name to be used while deploying this service. If no Subscription parameter is specified, the value will be taken from the last Set-AzureServiceProject command issued for this service, or, if no subscription was ever specified, it will default to the first subscription listed in the current windows Azure publish profile.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>The name to be used for the service when publishing to the cloud. The name determines the subdomain label in the cloudapp.net subdomain that will be used to address the service when hosted in Azure (that is, &lt;Name&gt;.cloudapp.net). Any name specified while publishing the service will override the name given when creating the service (see the New-AzureServiceProject commandlet).</maml:para>
@@ -3699,33 +3739,22 @@
           </maml:description>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>TimeoutSeconds</maml:name>
+          <maml:name>AffinityGroup</maml:name>
           <maml:description>
-            <maml:para>The timeout in seconds for service deployment operations</maml:para>
+            <maml:para>The affinity group name</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>Force</maml:name>
+          <maml:name>DeploymentName</maml:name>
           <maml:description>
-            <maml:para>Publish service without confirmation prompts</maml:para>
+            <maml:para>The deployment name</maml:para>
           </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Subscription</maml:name>
-        <maml:description>
-          <maml:para>The Windows Azure subscription name to be used while deploying this service. If no Subscription parameter is specified, the value will be taken from the last Set-AzureServiceProject command issued for this service, or, if no subscription was ever specified, it will default to the first subscription listed in the current windows Azure publish profile.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue>value taken from current service settings or the current publish profile</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
@@ -3785,28 +3814,19 @@
         </dev:type>
         <dev:defaultValue>Off</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>TimeoutSeconds</maml:name>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+        <maml:name>AffinityGroup</maml:name>
         <maml:description>
-          <maml:para>The timeout in seconds for service deployment operations</maml:para>
+          <maml:para>The affinity group name</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Force</maml:name>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+        <maml:name>DeploymentName</maml:name>
         <maml:description>
-          <maml:para>Publish service without confirmation prompts</maml:para>
+          <maml:para>The deployment name</maml:para>
         </maml:description>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -5909,6 +5929,9 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  
+  <!-- Service Bus -->
+  <!-- Namespace -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <!--Generated by Help Cmdlet Editor-->
     <command:details>
@@ -6345,6 +6368,833 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  
+  <!-- Authorization Rule -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>New-AzureSBAuthorizationRule</command:name>
+      <maml:description>
+        <maml:para>Creates new Service Bus authorization rule</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureSBAuthorizationRule</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Creates new Service Bus authorization rule</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureSBAuthorizationRule</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions (Send, Manage, Listen)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>PrimaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature primary key. Will be generated if not provided</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>SecondaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature secondary key</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions (Send, Manage, Listen)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>PrimaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature primary key. Will be generated if not provided</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>SecondaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature secondary key</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------- Creates new authorization rule with generated primary key --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace -Permission $("Send")</dev:code>
+        <dev:remarks>
+          <maml:para>Creates new authorization rule on namespace level with Send permission</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Creates new authorization rule providing primary key --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace -Permission $("Manage", "Listen", "Send") -EntityName MyEntity -EntityType Queue -PrimaryKey P+lL/Mnd2Z9sj5hwMrRyAxQDdX8RHfbdqU2eIAqs1rc=</dev:code>
+        <dev:remarks>
+          <maml:para>Creates new authorization rule on MyEntity Queue level with all permissions</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>Set-AzureSBAuthorizationRule</command:name>
+      <maml:description>
+        <maml:para>Updates existing Service Bus authorization rule</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureSBAuthorizationRule</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Updates existing Service Bus authorization rule</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureSBAuthorizationRule</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions (Send, Manage, Listen)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>PrimaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature primary key. Will be generated if not provided</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>SecondaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature secondary key</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions (Send, Manage, Listen)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>PrimaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature primary key. Will be generated if not provided</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>SecondaryKey</maml:name>
+          <maml:description>
+            <maml:para>The Shared Access Signature secondary key</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------- Renew primary key for authorization rule at namespace level --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace -Permission $("Send")</dev:code>
+        <dev:remarks>
+          <maml:para>The primary key is renewed</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Update authorization rule permission --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace -Permission $("Listen", "Send") -EntityName MyEntity -EntityType Queue</dev:code>
+        <dev:remarks>
+          <maml:para>Updates the permissions</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>Remove-AzureSBAuthorizationRule</command:name>
+      <maml:description>
+        <maml:para>Removes existing Service Bus authorization rule</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureSBAuthorizationRule</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Removes existing Service Bus authorization rule</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureSBAuthorizationRule</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to apply rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------- Remove authorization rule at namespace level --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Remove-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace</dev:code>
+        <dev:remarks>
+          <maml:para>Removes authorization rule MyRule from MyNamespace</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Remove authorization rule for a Queue --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Remove-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace -EntityName MyEntity -EntityType Queue</dev:code>
+        <dev:remarks>
+          <maml:para>Removes authorization rule called MyRule for a MyEntity Queue on MyNamespace</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>Get-AzureSBAuthorizationRule</command:name>
+      <maml:description>
+        <maml:para>Gets Service bus authorization rules</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSBAuthorizationRule</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Gets Service bus authorization rules</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSBAuthorizationRule</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The unique authorization rule name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Namespace</maml:name>
+          <maml:description>
+            <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the search will be on the namespace level</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityName</maml:name>
+          <maml:description>
+            <maml:para>The entity name to search for rule at.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>EntityType</maml:name>
+          <maml:description>
+            <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions to filter (Send, Manage, Listen). This uses exact match</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The unique authorization rule name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+        <maml:name>Namespace</maml:name>
+        <maml:description>
+          <maml:para>The namespace name to apply the authorization rule. If no EntityName provided the rule will be on the namespace level</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+        <maml:name>EntityName</maml:name>
+        <maml:description>
+          <maml:para>The entity name to apply rule at.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+        <maml:name>EntityType</maml:name>
+        <maml:description>
+          <maml:para>The entity type (Queue, Topic, Relay, NotificationHub).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >ServiceBusEntityType</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "Named" >
+          <maml:name>Permission</maml:name>
+          <maml:description>
+            <maml:para>The authorization permissions to filter (Send, Manage, Listen). This uses exact match</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >AccessRights[]</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------- Get authorization rule at namespace level --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSBAuthorizationRule -Namespace MyNamespace</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all available authorization rules at MyNamespace</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Get authorization rule for a Queue --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSBAuthorizationRule -Namespace MyNamespace -EntityName MyEntity -EntityType Queue</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all available authorization rules a MyEntity Queue on MyNamespace</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Get authorization rule by name --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSBAuthorizationRule -Name MyRule -Namespace MyNamespace</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an authorization rule called MyRule on MyNamespace level</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------- Get authorization rule by permisssion --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSBAuthorizationRule -Namespace MyNamespace -Permission $("Send")</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all authorization rules that have send permission on namespace level</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureSBAuthorizationRule</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <!--Generated by Help Cmdlet Editor-->
     <command:details>

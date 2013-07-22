@@ -38,26 +38,18 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string ManagementPortalUrl { get; set; }
 
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        public string StorageBlobEndpointFormat { get; set; }
-
-        [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        public string StorageQueueEndpointFormat { get; set; }
-
-        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        public string StorageTableEndpointFormat { get; set; }
+        [Parameter(Position = 4, Mandatory = false, HelpMessage = "The storage endpoint")]
+        public string StorageEndpoint { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            WriteObject(GlobalSettingsManager.Instance.ChangeEnvironment(
+            WriteObject(GlobalSettingsManager.Instance.ChangeEnvironmentStorageEndpoint(
                 Name,
                 PublishSettingsFileUrl,
                 ServiceEndpoint,
                 ManagementPortalUrl,
-                StorageBlobEndpointFormat,
-                StorageQueueEndpointFormat,
-                StorageTableEndpointFormat));
+                StorageEndpoint));
         }
     }
 }

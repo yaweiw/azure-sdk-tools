@@ -121,7 +121,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         public static string GetTestResourcePath(string relativePath)
         {
             string path = Path.Combine(Environment.CurrentDirectory, relativePath);
-            EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
+            try
+            {
+                EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
+            }
+            catch
+            {
+                Console.WriteLine(path);
+                throw;
+            }
             Assert.IsTrue(File.Exists(path));
             return path;
         }
@@ -203,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// <returns>The worker role object</returns>
         internal static WorkerRole GetWorkerRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             return service.Components.GetWorkerRole(name);
         }
 
@@ -214,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// <returns>The web role object</returns>
         internal static WebRole GetWebRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             return service.Components.GetWebRole(name);
         }
 
@@ -225,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// <returns>The role settings object</returns>
         internal static RoleSettings GetCloudRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
         }
 
@@ -236,7 +244,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// <returns>The role settings object</returns>
         internal static RoleSettings GetLocalRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
             return service.Components.GetLocalConfigRole(name);
         }
     }

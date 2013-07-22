@@ -326,6 +326,7 @@ namespace Management.Storage.ScenarioTest.BVT
         public void DownloadBlobTest()
         {
             string downloadDirPath = Test.Data.Get("DownloadDir");
+            FileUtil.CreateDirIfNotExits(downloadDirPath);
             DownloadBlobTest(new PowerShellAgent(), CommonBlockFilePath, downloadDirPath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
             DownloadBlobTest(new PowerShellAgent(), CommonPageFilePath, downloadDirPath, Microsoft.WindowsAzure.Storage.Blob.BlobType.PageBlob);
         }

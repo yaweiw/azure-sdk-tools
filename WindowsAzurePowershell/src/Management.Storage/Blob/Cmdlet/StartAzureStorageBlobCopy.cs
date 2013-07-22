@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
     [Cmdlet(VerbsLifecycle.Start, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
-    public class StartAzureStorageBlobCopy : StorageDataMovementCmdletBase, IModuleAssemblyInitializer
+    public class StartAzureStorageBlobCopy : StorageDataMovementCmdletBase
     {
         /// <summary>
         /// Blob Pipeline parameter set name
@@ -411,17 +411,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             currentCopyId = copyId; //Make sure set the copy id before task finish
             OnTaskFinish(userData, e);
-        }
-
-        /// <summary>
-        /// add alias "Start-CopyAzureStorageBlob" for this cmdlet to keep compatibility
-        /// </summary>
-        public void OnImport()
-        {
-            PowerShell invoker = null;
-            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
-            invoker.AddCommand(Resources.NewAlias).AddParameter(Resources.NewAliasName, String.Format(Resources.CmdletFormat, VerbsLifecycle.Start, StorageNouns.CopyBlobDeprecatedName)).AddParameter(Resources.NewAliasValue, String.Format(Resources.CmdletFormat, VerbsLifecycle.Start, StorageNouns.CopyBlob));
-            invoker.Invoke();
         }
     }
 }

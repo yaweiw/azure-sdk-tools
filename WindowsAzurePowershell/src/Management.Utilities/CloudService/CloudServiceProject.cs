@@ -32,15 +32,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     /// <summary>
     /// Class that encapsulates all of the info about a service, to which we can add roles.  This is all in memory, so no disk operations occur.
     /// </summary>
-    public class AzureService
+    public class CloudServiceProject
     {
         public ServicePathInfo Paths { get; private set; }
+
         public ServiceComponents Components { get; private set; }
+        
         private string scaffoldingFolderPath;
 
         public string ServiceName { get { return this.Components.Definition.name; } }
 
-        public AzureService(string serviceParentDirectory, string name, string scaffoldingPath)
+        public CloudServiceProject(string serviceParentDirectory, string name, string scaffoldingPath)
             : this()
         {
             Validate.ValidateDirectoryFull(serviceParentDirectory, Resources.ServiceParentDirectory);
@@ -62,11 +64,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         }
 
         //for stopping the emulator none of the path info is required
-        public AzureService()
+        public CloudServiceProject()
         {
         }
 
-        public AzureService(string rootPath, string scaffoldingPath)
+        public CloudServiceProject(string rootPath, string scaffoldingPath)
         {
             SetScaffolding(scaffoldingPath);
             Paths = new ServicePathInfo(rootPath);
@@ -187,20 +189,34 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             return parameters;
         }
 
-        public RoleInfo AddWebRole(string scaffolding, string name = null, int instanceCount = 1)
+        public RoleInfo AddWebRole(
+            string scaffolding,
+            string name = null,
+            int instanceCount = 1)
         {
-            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new String[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
+            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? 
+                new string[0] : 
+                Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
+            
             WebRoleInfo role = new WebRoleInfo(name, instanceCount);
+            
             AddRoleCore(scaffolding, role);
 
             return role;
         }
 
-        public RoleInfo AddWorkerRole(string Scaffolding, string name = null, int instanceCount = 1)
+        public RoleInfo AddWorkerRole(
+            string scaffolding,
+            string name = null,
+            int instanceCount = 1)
         {
-            name = GetRoleName(name, Resources.WorkerRole, Components.Definition.WorkerRole == null ? new String[0] : Components.Definition.WorkerRole.Select(wr => wr.name.ToLower()));
+            name = GetRoleName(name, Resources.WorkerRole, Components.Definition.WorkerRole == null ? 
+                new string[0] : 
+                Components.Definition.WorkerRole.Select(wr => wr.name.ToLower()));
+            
             WorkerRoleInfo role = new WorkerRoleInfo(name, instanceCount);
-            AddRoleCore(Scaffolding, role);
+            
+            AddRoleCore(scaffolding, role);
 
             return role;
         }
@@ -219,7 +235,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         public RoleInfo AddDjangoWebRole(string name = null, int instanceCount = 1)
         {
-            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new String[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
+            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new string[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
             WebRoleInfo role = new WebRoleInfo(name, instanceCount);
             AddPythonRoleCore(role, RoleType.WebRole);
 
@@ -239,8 +255,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void CreatePackage(DevEnv type, out string standardOutput, out string standardError)
         {
-            var packageTool = new CsPack();
+            VerifyCloudServiceProjectComponents();
+            CsPack packageTool = new CsPack();
             packageTool.CreatePackage(Components.Definition, Paths.RootPath, type, out standardOutput, out standardError);
+        }
+
+        private void VerifyCloudServiceProjectComponents()
+        {
+            const string CacheVersion = "2.0.0";
+
+            // Verify caching version is 2.0
+            foreach (string roleName in Components.GetRoles())
+            {
+                string value = Components.GetStartupTaskVariable(
+                    roleName,
+                    Resources.CacheRuntimeVersionKey,
+                    Resources.WebRoleStartupTaskCommandLine,
+                    Resources.WorkerRoleStartupTaskCommandLine);
+
+                if (!string.IsNullOrEmpty(value) && value != CacheVersion)
+                {
+                    throw new Exception(string.Format(Resources.CacheMismatchMessage, roleName, CacheVersion));
+                }
+            }
         }
 
         /// <summary>
@@ -340,6 +377,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     WebRole web = (this.Components.Definition.WebRole == null ? null :
                         this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
                             StringComparison.OrdinalIgnoreCase)));
+                    desiredRuntime.CloudServiceProject = this;
                     if (worker != null)
                     {
                         desiredRuntime.ApplyRuntime(foundPackage, worker);
@@ -386,6 +424,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
+                        runtime.CloudServiceProject = this;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                         {
                             string warning;
@@ -414,6 +453,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
+                        runtime.CloudServiceProject = this;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                         {
                             string warning;
@@ -432,6 +472,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             this.Components.Save(this.Paths);
 
             return warningText.ToString();
+        }
+
+        /// <summary>
+        /// Reloads the cloud service project configuration from the disk.
+        /// </summary>
+        public void Reload()
+        {
+            Paths = new ServicePathInfo(Paths.RootPath);
+            Components = new ServiceComponents(Paths);
         }
     }
 }

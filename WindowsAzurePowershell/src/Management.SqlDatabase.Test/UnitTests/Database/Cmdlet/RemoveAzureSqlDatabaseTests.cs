@@ -18,8 +18,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class RemoveAzureSqlDatabaseTests : TestBase
@@ -40,6 +44,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
@@ -54,22 +59,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         {
                             Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                             Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                            switch (expected.Index)
+                            if (expected.Index < 8)
                             {
-                                // Request 0-3: Remove database requests
-                                case 0:
-                                case 1:
-                                case 2:
-                                case 3:
-                                // Request 4: Get all database request
-                                case 4:
-                                    DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                        expected.RequestInfo,
-                                        actual);
-                                    break;
-                                default:
-                                    Assert.Fail("No more requests expected.");
-                                    break;
+                                // Request 0-5: Remove database requests
+                                // Request 6-7: Get all database request
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                            }
+                            else
+                            {
+                                Assert.Fail("No more requests expected.");
                             }
                         });
 
@@ -105,6 +105,74 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(1, databases.Count, "Expecting only master database object");
                 }
             }
+        }
+
+        /// <summary>
+        /// Test removing a database using certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void RemoveAzureSqlDatabaseWithCertAuth()
+        {
+            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
+            
+            // This is needed because RemoveDatabases calls GetDatabases in order to 
+            // get the necessary database information for the delete.
+            channel.GetDatabaseThunk = ar =>
+            {
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName did not match the expected");
+
+                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
+                db1.CollationName = "Japanese_CI_AS";
+                db1.Edition = "Web";
+                db1.Id = "1";
+                db1.MaxSizeGB = "1";
+                db1.Name = "testdb1";
+                db1.CreationDate = DateTime.Now.ToString();
+                db1.IsFederationRoot = true.ToString();
+                db1.IsSystemObject = true.ToString();
+                db1.MaxSizeBytes = "1073741824";
+
+                return db1;
+            };
+
+            channel.RemoveDatabaseThunk = ar =>
+            {
+                Assert.AreEqual(
+                    ar.Values["databaseName"], 
+                    "testdb1", 
+                    "The input databaseName did not match the expected");
+
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Name, 
+                    "testdb1",
+                    "The database Name input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB, 
+                    "1",
+                    "The database MaxSizeGB input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
+                    "Japanese_CI_AS",
+                    "The database CollationName input parameter does not match");
+                Assert.AreEqual(
+                    ((SqlDatabaseInput)ar.Values["input"]).Edition, 
+                    "Web",
+                    "The database Edition input parameter does not match");
+            };
+
+            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
+            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+
+            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
+
+            ServerDataServiceCertAuth service = 
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+            service.Channel = channel;
+
+            service.RemoveDatabase("testdb1");
         }
     }
 }
