@@ -303,34 +303,13 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
             try
             {
-                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
-
-                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() =>
-                {
-                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
-                WriteObject(new SiteWithConfig(website, websiteConfiguration));
+                CreateSite(webspace, website);
             }
-            catch (ProtocolException ex)
+            catch (EndpointNotFoundException)
             {
-                // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && (Git || GitHub))
-                {
-                    WriteWarning(message);
-                }
-                else if (message.Equals(Resources.DefaultHostnamesValidation))
-                {
-                    WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
-                }
-                else
-                {
-                    WriteExceptionError(new Exception(message));
-                }
+                // Create webspace with VirtualPlan failed, try with subscription id
+                webspace.Plan = CurrentSubscription.SubscriptionId;
+                CreateSite(webspace, website);
             }
 
             if (Git || GitHub)
@@ -369,6 +348,41 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
                 linkedRevisionControl.Deploy(updatedWebsite);
                 linkedRevisionControl.Dispose();
+            }
+        }
+
+        private void CreateSite(WebSpace webspace, SiteWithWebSpace website)
+        {
+            try
+            {
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() =>
+                {
+                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
+                    WaitForOperation(CommandRuntime.ToString());
+                });
+                WriteObject(new SiteWithConfig(website, websiteConfiguration));
+            }
+            catch (ProtocolException ex)
+            {
+                // Handle site creating indepently so that cmdlet is idempotent.
+                string message = ProcessException(ex, false);
+                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
+                                                 Name)) && (Git || GitHub))
+                {
+                    WriteWarning(message);
+                }
+                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                {
+                    WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
+                }
+                else
+                {
+                    WriteExceptionError(new Exception(message));
+                }
             }
         }
 
