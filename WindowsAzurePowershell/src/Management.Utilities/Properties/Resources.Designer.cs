@@ -395,6 +395,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please upgrade the cache runtime of role &apos;{0}&apos; to &apos;{1}&apos; using Set-AzureServiceProjectRole -RoleName {0} -Runtime Cache -Version {1}.
+        /// </summary>
+        internal static string CacheMismatchMessage {
+            get {
+                return ResourceManager.GetString("CacheMismatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CACHERUNTIMEURL.
         /// </summary>
         internal static string CacheRuntimeUrl {
@@ -602,6 +611,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changing/Removing public environment &apos;{0}&apos; is not allowed..
+        /// </summary>
+        internal static string ChangePublicEnvironmentMessage {
+            get {
+                return ResourceManager.GetString("ChangePublicEnvironmentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service {0} is set to value {1}.
         /// </summary>
         internal static string ChangeSettingsElementMessage {
@@ -697,6 +715,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string ConfigurationFileName {
             get {
                 return ResourceManager.GetString("ConfigurationFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead..
+        /// </summary>
+        internal static string CreateWebsiteFailed {
+            get {
+                return ResourceManager.GetString("CreateWebsiteFailed", resourceCulture);
             }
         }
         
@@ -1445,6 +1472,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is an invalid parameter set name..
+        /// </summary>
+        internal static string InvalidParameterSetName {
+            get {
+                return ResourceManager.GetString("InvalidParameterSetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} doesn&apos;t exist in {1} or you&apos;ve not passed valid value for it.
         /// </summary>
         internal static string InvalidPath {
@@ -1733,7 +1769,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml.
         /// </summary>
         internal static string ManifestUri {
             get {
@@ -1751,7 +1787,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MaxSupportAzureSdkVersion {
             get {
@@ -1778,7 +1814,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.8.
+        ///   Looks up a localized string similar to v2.0.
         /// </summary>
         internal static string MinSupportAzureSdkVersion {
             get {
@@ -2826,6 +2862,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         internal static string ServiceAlreadyExistsOnDisk {
             get {
                 return ResourceManager.GetString("ServiceAlreadyExistsOnDisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service bus entity &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string ServiceBusEntityTypeNotFound {
+            get {
+                return ResourceManager.GetString("ServiceBusEntityTypeNotFound", resourceCulture);
             }
         }
         

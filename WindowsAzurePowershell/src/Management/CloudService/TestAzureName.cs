@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService
             {
                 if (serviceBusChannel == null)
                 {
-                    serviceBusChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceBusManagement>(
+                    serviceBusChannel = ChannelHelper.CreateServiceManagementChannel<IServiceBusManagement>(
                         ServiceBinding,
                         new Uri(ServiceEndpoint),
                         CurrentSubscription.Certificate,

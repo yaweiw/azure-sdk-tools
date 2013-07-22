@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -168,9 +168,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -182,9 +182,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -196,9 +196,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -210,9 +210,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -224,9 +224,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -239,9 +239,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -254,11 +254,11 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -270,11 +270,11 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
@@ -286,7 +286,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole[0].Endpoints.InputEndpoint = null;
                 service.Components.Save(service.Paths);
@@ -303,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 int expectedPort = int.Parse(Resources.DefaultPort) + 1;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service = new AzureServiceWrapper(service.Paths.RootPath, null);

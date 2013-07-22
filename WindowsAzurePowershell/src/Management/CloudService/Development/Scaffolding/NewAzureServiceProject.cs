@@ -25,18 +25,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceProject"), OutputType(typeof(AzureService))]
+    [Cmdlet(VerbsCommon.New, "AzureServiceProject"), OutputType(typeof(CloudServiceProject))]
     public class NewAzureServiceProjectCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the cloud project")]
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        internal AzureService NewAzureServiceProcess(string parentDirectory, string serviceName)
+        internal CloudServiceProject NewAzureServiceProcess(string parentDirectory, string serviceName)
         {
             // Create scaffolding structure
             //
-            AzureService newService = new AzureService(parentDirectory, serviceName, null);
+            CloudServiceProject newService = new CloudServiceProject(parentDirectory, serviceName, null);
 
             SafeWriteOutputPSObject(
                 newService.GetType().FullName,

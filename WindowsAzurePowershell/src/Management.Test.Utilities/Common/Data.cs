@@ -273,12 +273,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             char[] invalidPathNameChars = Path.GetInvalidPathChars();
 
             for (int i = 0, j = 0; i < invalidPathNameChars.Length; i++)
-			{
+            {
                 StringBuilder invalidPath = new StringBuilder(ValidServiceRootNames[j]);
                 invalidPath[invalidPath.Length / 2] = invalidPathNameChars[i];
                 j %= ValidServiceRootNames.Count;
                 InvalidServiceRootName.Add(invalidPath.ToString());
-			}
+            }
         }
 
         private static void InitializeValidStorageNameData()

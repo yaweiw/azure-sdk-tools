@@ -27,6 +27,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
     public abstract class CloudRuntime
     {
+        public CloudServiceProject CloudServiceProject { get; set; }
+
         public string Version
         {
             get;
@@ -297,6 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             if (startupTask != null)
             {
                 ClearEnvironmentValue(startupTask.Environment, Resources.RuntimeUrlKey);
+                ClearEnvironmentValue(startupTask.Environment, Resources.CacheRuntimeUrl);
             }
         }
 
@@ -306,6 +309,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
              if (startupTask != null)
              {
                  ClearEnvironmentValue(startupTask.Environment, Resources.RuntimeUrlKey);
+                 ClearEnvironmentValue(startupTask.Environment, Resources.CacheRuntimeUrl);
              }
         }
 
@@ -362,7 +366,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         }
 
         protected abstract void Configure(Dictionary<string, string> environment);
+
         protected abstract string GenerateWarningText(CloudRuntimePackage package);
+
         protected virtual bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
         {
             changes = new Dictionary<string, string>();
@@ -569,6 +575,43 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                 changes[Resources.CacheRuntimeVersionKey] = package.Version;
 
                 return true;
+            }
+
+            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
+            {
+                string rootPath = General.GetServiceRootPath(FilePath);
+
+                if (CloudServiceProject.Components.StartupTaskExists(RoleName, Resources.CacheStartupCommand))
+                {
+                    CloudServiceProject.Components.SetStartupTaskVariable(
+                        RoleName,
+                        Resources.CacheRuntimeUrl,
+                        package.PackageUri.ToString(),
+                        Resources.CacheStartupCommand);
+                }
+                else
+                {
+                    Variable emulated = new Variable
+                    {
+                        name = Resources.EmulatedKey,
+                        RoleInstanceValue = new RoleInstanceValueElement
+                        {
+                            xpath = "/RoleEnvironment/Deployment/@emulated"
+                        }
+                    };
+                    Variable cacheRuntimeUrl = new Variable
+                    {
+                        name = Resources.CacheRuntimeUrl,
+                        value = package.PackageUri.ToString()
+                    };
+
+                    CloudServiceProject.Components.AddStartupTask(
+                        RoleName,
+                        Resources.CacheStartupCommand,
+                        ExecutionContext.elevated,
+                        emulated,
+                        cacheRuntimeUrl);
+                }
             }
         }
 

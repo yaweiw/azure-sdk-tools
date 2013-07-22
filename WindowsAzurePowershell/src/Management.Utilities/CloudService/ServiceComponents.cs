@@ -198,6 +198,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         }
 
         /// <summary>
+        /// Gets all existing role names.
+        /// </summary>
+        /// <returns>All roles in the cloud service project</returns>
+        public IEnumerable<string> GetRoles()
+        {
+            if (CloudConfig.Role != null)
+            {
+                return CloudConfig.Role.Select(r => r.name);
+            }
+
+            return Enumerable.Empty<string>();
+        }
+
+        /// <summary>
         /// Gets all worker roles that matches given predicate.
         /// </summary>
         /// <param name="predicate">The matching predicate</param>
@@ -221,6 +235,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
+        /// <summary>
+        /// Gets the next available port, starts from 80.
+        /// </summary>
+        /// <returns>The port number</returns>
         public int GetNextPort()
         {
             if (Definition.WebRole == null && Definition.WorkerRole == null)
@@ -256,6 +274,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
+        /// <summary>
+        /// Adds the given role settings to the specified configuration file.
+        /// </summary>
+        /// <param name="role">The role settings instance</param>
+        /// <param name="env">The environment</param>
         public void AddRoleToConfiguration(RoleSettings role, DevEnv env)
         {
             Validate.ValidateNullArgument(role, string.Format(Resources.NullRoleSettingsMessage, "ServiceConfiguration"));
@@ -341,6 +364,120 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             WebRole webRole = GetWebRole(roleName);
             WorkerRole workerRole = GetWorkerRole(roleName);
             return webRole != null ? true : false;
+        }
+
+        /// <summary>
+        /// Checks if a startup task exists with specified command line.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="commandLines">The possible command line for the task</param>
+        /// <returns>True if exists, false otherwise</returns>
+        public bool StartupTaskExists(string roleName, params string[] commandLines)
+        {
+            return GetStartupTask(roleName, commandLines) != null;
+        }
+
+        /// <summary>
+        /// Adds new startup task to the given role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="commandLine">The startup task command line</param>
+        /// <param name="context">The execution context</param>
+        /// <param name="variables">The environment variables</param>
+        public void AddStartupTask(
+            string roleName,
+            string commandLine,
+            ExecutionContext context,
+            params Variable[] variables)
+        {
+            Startup roleStartup = GetRoleStartup(roleName) ?? new Startup();
+            Task newTask = new Task
+            {
+                Environment = variables,
+                commandLine = commandLine,
+                executionContext = context
+            };
+
+            roleStartup.Task = General.ExtendArray<Task>(roleStartup.Task, newTask);
+        }
+
+        /// <summary>
+        /// Searches for a startup task that matches one of the given command lines for the specified role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="commandLines">The command line to match</param>
+        /// <returns>The startup task object</returns>
+        public Task GetStartupTask(string roleName, params string[] commandLines)
+        {
+            Startup startup = GetRoleStartup(roleName);
+
+            foreach (string commandLine in commandLines)
+            {
+                Task task = startup.Task.FirstOrDefault(t => t.commandLine.Equals(commandLine));
+                if (task != null)
+                {
+                    return task;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Sets a startup task environment variable.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="name">The environment variable name</param>
+        /// <param name="value">The environment variable value</param>
+        /// <param name="commandLines">The command line to match task.</param>
+        public void SetStartupTaskVariable(string roleName, string name, string value, params string[] commandLines)
+        {
+            Task task = GetStartupTask(roleName, commandLines);
+            bool found = false;
+
+            if (task != null && task.Environment != null)
+            {
+                for (int i = 0; i < task.Environment.Length; i++)
+                {
+                    if (task.Environment[i].name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        task.Environment[i].value = value;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Variable var = new Variable() { name = name, value = value };
+                    task.Environment = General.ExtendArray<Variable>(task.Environment, var);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets startup task variable with the specified name.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="name">The variable name</param>
+        /// <param name="commandLines">The startup task command line arguments</param>
+        /// <returns></returns>
+        public string GetStartupTaskVariable(string roleName, string name, params string[] commandLines)
+        {
+            Task task = GetStartupTask(roleName, commandLines);
+            Variable variable = null;
+
+            if (task != null && task.Environment != null)
+            {
+                variable = task.Environment.FirstOrDefault(v => v.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (variable != null)
+            {
+                return variable.value;
+            }
+
+            return null;
         }
     }
 }

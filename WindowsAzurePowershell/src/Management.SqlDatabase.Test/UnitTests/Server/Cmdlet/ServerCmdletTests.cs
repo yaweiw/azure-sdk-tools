@@ -14,9 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
+    using System;
+    using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Services;
@@ -261,6 +267,84 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("NewPassword", password);
 
             Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
+        }
+
+        
+        [TestMethod]
+        public void GetAzureSqlDatabaseServerQuotaSqlAuthTest()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Issue another create testdb1, causing a failure
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTest.GetAzureSqlDatabaseServerQuotaSqlAuthTest");
+
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
+
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-1: Create testdb1
+                            case 0:
+                            case 1:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    Services.Server.ServerDataServiceSqlAuth context;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        Collection<PSObject> ctxPsObject = powershell.InvokeBatchScript("$context");
+
+                        context =
+                            (Services.Server.ServerDataServiceSqlAuth)ctxPsObject.First().BaseObject;
+
+                        Collection<PSObject> q1, q2;
+                        q1 = powershell.InvokeBatchScript(
+                            @"$context | Get-AzureSqlDatabaseServerQuota");
+
+                        q2 = powershell.InvokeBatchScript(
+                            @"$context | Get-AzureSqlDatabaseServerQuota -QuotaName ""Premium_Databases""");
+
+                        ServerQuota quota1 = q1.FirstOrDefault().BaseObject as ServerQuota;
+                        ServerQuota quota2 = q2.FirstOrDefault().BaseObject as ServerQuota;
+
+                        Assert.AreEqual(
+                            "premium_databases",
+                            quota1.Name,
+                            "Unexpected quota name");
+                        Assert.AreEqual(
+                            "premium_databases",
+                            quota2.Name,
+                            "Unexpected quota name");
+                    }
+                }
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "There were errors while running the tests!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "There were warnings while running the tests!");
+            }
         }
     }
 }

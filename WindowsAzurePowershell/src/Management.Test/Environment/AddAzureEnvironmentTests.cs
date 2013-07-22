@@ -52,11 +52,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = "Katal",
                 PublishSettingsFileUrl = "http://microsoft.com",
-                ServiceEndpoint = "endpoint",
+                ServiceEndpoint = "endpoint.net",
                 ManagementPortalUrl = "management portal url",
-                StorageBlobEndpointFormat = "blob format",
-                StorageQueueEndpointFormat = "queue format",
-                StorageTableEndpointFormat = "table format"
+                StorageEndpoint = "endpoint.net"
             };
 
             cmdlet.ExecuteCmdlet();
@@ -67,9 +65,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
             Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
             Assert.AreEqual(env.ServiceEndpoint, cmdlet.ServiceEndpoint);
             Assert.AreEqual(env.ManagementPortalUrl, cmdlet.ManagementPortalUrl);
-            Assert.AreEqual(env.StorageBlobEndpointFormat, cmdlet.StorageBlobEndpointFormat);
-            Assert.AreEqual(env.StorageQueueEndpointFormat, cmdlet.StorageQueueEndpointFormat);
-            Assert.AreEqual(env.StorageTableEndpointFormat, cmdlet.StorageTableEndpointFormat);
+            Assert.AreEqual(env.StorageBlobEndpointFormat, "{0}://{1}.blob.endpoint.net/");
+            Assert.AreEqual(env.StorageQueueEndpointFormat, "{0}://{1}.queue.endpoint.net/");
+            Assert.AreEqual(env.StorageTableEndpointFormat, "{0}://{1}.table.endpoint.net/");
         }
 
         [TestMethod]
@@ -100,11 +98,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = "Katal",
                 PublishSettingsFileUrl = "http://microsoft.com",
-                ServiceEndpoint = "endpoint",
+                ServiceEndpoint = "endpoint.net",
                 ManagementPortalUrl = "management portal url",
-                StorageBlobEndpointFormat = "blob format",
-                StorageQueueEndpointFormat = "queue format",
-                StorageTableEndpointFormat = "table format"
+                StorageEndpoint = "endpoint.net"
             };
             cmdlet.ExecuteCmdlet();
             int count = GlobalSettingsManager.Instance.GetEnvironments().Count;

@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRoleInfo = service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRoleInfo = service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             {
                 string standardOutput;
                 string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);

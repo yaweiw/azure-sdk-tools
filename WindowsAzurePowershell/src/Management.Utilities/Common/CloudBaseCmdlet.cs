@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 throw new ArgumentException(Resources.InvalidCurrentSuscriptionCertificate);
             }
 
-            if (String.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
+            if (string.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscriptionId);
             }
@@ -201,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 return Channel;
             }
             
-            return ServiceManagementHelper.CreateServiceManagementChannel<T>(
+            return ChannelHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,

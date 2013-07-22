@@ -49,12 +49,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
@@ -69,11 +69,11 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 
                 Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, RoleSize.Medium.ToString()), string.Format(Resources.RoleNotFoundMessage, roleName));
             }
         }
@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, string.Empty, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, null, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, "Gigantic"), string.Format(Resources.InvalidVMSize, roleName));
             }
         }
@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, string.Empty), string.Format(Resources.InvalidVMSize, roleName));
             }
         }
@@ -202,12 +202,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WeBrolE1", newRoleVMSize, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
                 
                 Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
@@ -224,12 +224,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
-                service = new AzureService(service.Paths.RootPath, null);
+                service = new CloudServiceProject(service.Paths.RootPath, null);
 
 
                 Assert.AreEqual<string>(newRoleVMSize.ToLower(), service.Components.Definition.WebRole[0].vmsize.ToString().ToLower());

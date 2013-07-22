@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             InvokeInOperationContext(() =>
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
+                Site websiteObject = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
