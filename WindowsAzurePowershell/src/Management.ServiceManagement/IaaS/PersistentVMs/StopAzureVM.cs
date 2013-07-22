@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 else
                 {
                     shutdownRolesOperation.PostShutdownAction = PostShutdownAction.StoppedDeallocated;
-                    if (IsLastVmInDeployment(shutdownRolesOperation.Roles.Count))
+                    if (!Force.IsPresent && IsLastVmInDeployment(shutdownRolesOperation.Roles.Count))
                     {
                         ConfirmAction(false,
                             Resources.DeploymentVIPLossWarning,
