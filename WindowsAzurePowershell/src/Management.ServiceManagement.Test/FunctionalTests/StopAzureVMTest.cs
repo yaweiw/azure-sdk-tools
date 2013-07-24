@@ -669,9 +669,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
 
-                WaitForStoppedState(svcName, vmName1);
-                WaitForStoppedState(svcName, vmName2);
-
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
@@ -692,9 +689,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         Console.WriteLine(e.ToString());
                     }
                 }
-
-                WaitForStoppedState(svcName, vmName1);
-                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -832,9 +826,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
 
-                Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.StartAzureVM("*", svcName);
-                Utilities.RecordTimeTaken(ref prevTime);
+                for (int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        Utilities.RecordTimeTaken(ref prevTime);
+                        vmPowershellCmdlets.StartAzureVM("*", svcName);
+                        Utilities.RecordTimeTaken(ref prevTime);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        Thread.Sleep(60 * 1000);
+                        continue;
+                    }
+                }
 
                 WaitForReadyState(svcName, vmName1);
                 WaitForReadyState(svcName, vmName2);
