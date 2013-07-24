@@ -166,8 +166,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
@@ -297,14 +297,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Stop and deallocate the VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
                 // Start the VMs
-                vmPowershellCmdlets.StartAzureVM("*", svcName);
+                for (int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        vmPowershellCmdlets.StartAzureVM("*", svcName);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        Thread.Sleep(60 * 1000);
+                        continue;
+                    }
+                }
 
                 WaitForStartedState(svcName, vmName1);
                 WaitForStartedState(svcName, vmName2);
@@ -335,8 +348,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Stop and deallocate VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -459,8 +472,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Stop the VMs with StayProvisioned
                 vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
@@ -493,8 +506,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Stop the VM with Force option.   Should deallocate the VM.
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -631,8 +644,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 // Stop and deallocate the VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -655,8 +669,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -679,16 +693,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
                 // Try to stop and deallocate the VM again.
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -812,8 +826,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedProvisionedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedProvisionedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
@@ -824,6 +838,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 WaitForReadyState(svcName, vmName1);
                 WaitForReadyState(svcName, vmName2);
+
                 Utilities.RecordTimeTaken(ref prevTime);
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { readyState }));
@@ -962,8 +977,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
-                WaitForStatus(svcName, vmName1, new string[] { stoppedDeallocatedState });
-                WaitForStatus(svcName, vmName2, new string[] { stoppedDeallocatedState });
+                WaitForStoppedState(svcName, vmName1);
+                WaitForStoppedState(svcName, vmName2);
 
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
@@ -1097,6 +1112,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private void WaitForStartingState(string svc, string vm, int interval = 10, int maxTry = 100)
         {
             WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, new string[] { unknownState });
+        }
+
+        private void WaitForStoppedState(string svc, string vm, int interval = 10, int maxTry = 100)
+        {
+            WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState }, interval, maxTry);
         }
     }
 }
