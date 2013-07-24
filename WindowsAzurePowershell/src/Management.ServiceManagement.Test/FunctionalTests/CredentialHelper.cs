@@ -229,7 +229,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string srcSasUri = Utilities.GenerateSasUri(CredentialHelper.CredentialBlobUriFormat, storageAccount, storageAccountKey, srcContainer, srcBlob);
 
             vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
-            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcUri \"{0}\" -DestContainer {1} -DestBlob {2} -Force", srcSasUri, destContainer, destBlob));
 
             for (int i = 0; i < 60; i++)
             {
