@@ -52,9 +52,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 if (string.IsNullOrEmpty(imageName))
                 {
-                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "WS2008", "Windows", "testvmimage" }, false);
+                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
                 }
-                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "Ubuntu", "testvmimage" }, false);
+                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
 
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, windowsVMName, serviceName, imageName, username, password, locationName);
 
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 string newAzureVMName = Utilities.GetUniqueShortName(vmNamePrefix);
                 if (string.IsNullOrEmpty(imageName))
                 {
-                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false);
+                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
                 }
 
                 RecordTimeTaken(ref prevTime);

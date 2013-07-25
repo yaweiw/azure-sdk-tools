@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 SetDefaultStorage();
             }
 
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
+            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false); // Get-AzureVMImage
             if (String.IsNullOrEmpty(imageName))
             {
                 Console.WriteLine("No image is selected!");

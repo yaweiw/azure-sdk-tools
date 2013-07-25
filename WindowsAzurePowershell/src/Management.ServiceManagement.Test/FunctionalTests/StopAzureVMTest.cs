@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             if (string.IsNullOrEmpty(imageName))
             {
-                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false);
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
             }
         }
 
