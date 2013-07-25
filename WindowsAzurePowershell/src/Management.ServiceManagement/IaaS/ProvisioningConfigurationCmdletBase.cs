@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using System;
     using System.Security.Cryptography.X509Certificates;
+    using WindowsAzure.ServiceManagement;
+    using Helpers;
     
     public class ProvisioningConfigurationCmdletBase : PSCmdlet
     {
@@ -46,6 +47,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "Do not create an SSH Endpoint.")]
         public SwitchParameter NoSSHEndpoint
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "Allow to create passwordless VM")]
+        public SwitchParameter NoSSHPassword
         {
             get;
             set;
@@ -90,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Administrator password to use for the role.")]
         [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Administrator password to use for the role.")]
-        [Parameter(Mandatory = true, ParameterSetName = "Linux", HelpMessage = "Default password for linux user created.")]
+        [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "Default password for linux user created.")]
         [ValidateNotNullOrEmpty]
         public string Password
         {
@@ -241,8 +249,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         {
             provisioningConfiguration.UserName = LinuxUser;
             provisioningConfiguration.UserPassword = Password;
+            if (NoSSHPassword.IsPresent)
+            {
+                provisioningConfiguration.UserPassword = String.Empty;
+            }
 
-            if (DisableSSH.IsPresent)
+            if (DisableSSH.IsPresent || NoSSHPassword.IsPresent)
             {
                 provisioningConfiguration.DisableSshPasswordAuthentication = true;
             }

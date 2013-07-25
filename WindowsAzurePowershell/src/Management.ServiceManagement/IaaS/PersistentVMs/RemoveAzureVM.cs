@@ -12,12 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -47,13 +49,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 return;
             }
 
-            int roleCount = 0;
-
             Deployment deployment = null;
             InvokeInOperationContext(() => deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production)));
-            roleCount = deployment.RoleInstanceList.Count;
 
-            if (roleCount > 1)
+            if (deployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
+            {
+                throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
+            }
+
+            if (deployment.RoleInstanceList.Count > 1)
             {
                 ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name));
             }
