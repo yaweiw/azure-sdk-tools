@@ -298,6 +298,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private PersistentVMRole CreatePersistenVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
+            if (!string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName) && !NetworkConfigurationSetBuilder.HasNetworkConfigurationSet(persistentVM.ConfigurationSets))
+            {
+                var networkConfigurationSetBuilder = new NetworkConfigurationSetBuilder(persistentVM.ConfigurationSets);
+
+                Disk disk = this.Channel.GetDisk(CurrentSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
+                if (disk.OS == "Windows" && !persistentVM.NoRDPEndpoint)
+                {
+                    networkConfigurationSetBuilder.AddRdpEndpoint();
+                }
+                else if (disk.OS == "Linux" && !persistentVM.NoSSHEndpoint)
+                {
+                    networkConfigurationSetBuilder.AddSshEndpoint();
+                }
+            }
+
             var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
 
             if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))

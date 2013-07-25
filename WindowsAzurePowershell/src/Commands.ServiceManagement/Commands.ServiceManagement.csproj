@@ -307,6 +307,7 @@
     <Compile Include="IaaS\Network\SetAzureVNetGateway.cs" />
     <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\PersistentVMs\AddAzureProvisioningConfig.cs" />
+    <Compile Include="IaaS\PersistentVMs\ConfigurationSetsBuilder.cs" />
     <Compile Include="IaaS\PersistentVMs\ExportAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureOSDisk.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureRemoteDesktopFile.cs" />
