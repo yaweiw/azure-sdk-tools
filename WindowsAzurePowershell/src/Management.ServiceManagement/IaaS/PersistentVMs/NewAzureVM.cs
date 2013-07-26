@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            var persistentVMs = this.VMs.Select(vm => CreatePersistenVMRole(vm, currentStorage)).ToList();
+            var persistentVMs = this.VMs.Select(vm => CreatePersistentVMRole(vm, currentStorage)).ToList();
 
             // If the current deployment doesn't exist set it create it
             if (CurrentDeployment == null)
@@ -296,18 +296,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             }
         }
 
-        private PersistentVMRole CreatePersistenVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
+        private PersistentVMRole CreatePersistentVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
             if (!string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName) && !NetworkConfigurationSetBuilder.HasNetworkConfigurationSet(persistentVM.ConfigurationSets))
             {
                 var networkConfigurationSetBuilder = new NetworkConfigurationSetBuilder(persistentVM.ConfigurationSets);
 
                 Disk disk = this.Channel.GetDisk(CurrentSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
-                if (disk.OS == "Windows" && !persistentVM.NoRDPEndpoint)
+                if (disk.OS == OS.Windows && !persistentVM.NoRDPEndpoint)
                 {
                     networkConfigurationSetBuilder.AddRdpEndpoint();
                 }
-                else if (disk.OS == "Linux" && !persistentVM.NoSSHEndpoint)
+                else if (disk.OS == OS.Linux && !persistentVM.NoSSHEndpoint)
                 {
                     networkConfigurationSetBuilder.AddSshEndpoint();
                 }
