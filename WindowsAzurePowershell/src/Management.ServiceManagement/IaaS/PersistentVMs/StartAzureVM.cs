@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
+                    s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0]));
             }
             else
             {
