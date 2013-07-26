@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         string vmName1;
         string vmName2;
 
+        const string prefixVMName = "PSTestVM";
+
         const string unknownState = "RoleStateUnknown";
         const string creatingState = "CreatingVM";
         const string provisioningState = "Provisioning";
@@ -61,11 +63,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Service Name: {0}", svcName);
 
             // Create a unique VM name
-            vmName1 = Utilities.GetUniqueShortName("PSTestVM");
+            vmName1 = Utilities.GetUniqueShortName(prefixVMName);
             Console.WriteLine("VM Name: {0}", vmName1);
 
             // Create a unique VM name
-            vmName2 = Utilities.GetUniqueShortName("PSTestVM");
+            vmName2 = Utilities.GetUniqueShortName(prefixVMName);
             Console.WriteLine("VM Name: {0}", vmName2);
 
             // Create a service
@@ -304,20 +306,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
                 // Start the VMs
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        vmPowershellCmdlets.StartAzureVM("*", svcName);
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        Thread.Sleep(60 * 1000);
-                        continue;
-                    }
-                }
+                StartAzureVMs("*", svcName);
 
                 WaitForStartedState(svcName, vmName1);
                 WaitForStartedState(svcName, vmName2);
@@ -816,8 +805,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
 
+                // Stop VM1 one only using wildcard name
+                string vm1WildcardName = vmName1.Replace(prefixVMName, "*");
                 Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.StopAzureVM("*", svcName, true, true);
+                StopAzureVMs(vm1WildcardName, svcName, true, true);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForStoppedState(svcName, vmName1);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
+
+                // Start VM1 one only using wildcard name
+                Utilities.RecordTimeTaken(ref prevTime);
+                StartAzureVMs(vm1WildcardName, svcName);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForReadyState(svcName, vmName1);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+                
+                // Stop all VM's
+                Utilities.RecordTimeTaken(ref prevTime);
+                StopAzureVMs("*", svcName, true, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
                 WaitForStoppedState(svcName, vmName1);
@@ -826,22 +833,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedProvisionedState }));
 
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        Utilities.RecordTimeTaken(ref prevTime);
-                        vmPowershellCmdlets.StartAzureVM("*", svcName);
-                        Utilities.RecordTimeTaken(ref prevTime);
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        Thread.Sleep(60 * 1000);
-                        continue;
-                    }
-                }
+                //Start all VM's
+                Utilities.RecordTimeTaken(ref prevTime);
+                StartAzureVMs("*", svcName);
+                Utilities.RecordTimeTaken(ref prevTime);
 
                 WaitForReadyState(svcName, vmName1);
                 WaitForReadyState(svcName, vmName2);
@@ -980,6 +975,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
 
+                // Stop VM1 one only using wildcard name
+                string vm1WildcardName = vmName1.Replace(prefixVMName, "*");
+                Utilities.RecordTimeTaken(ref prevTime);
+                StopAzureVMs(vm1WildcardName, svcName, false, true);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForStoppedState(svcName, vmName1);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
+
+                // Start VM1 one only using wildcard name
+                Utilities.RecordTimeTaken(ref prevTime);
+                StartAzureVMs(vm1WildcardName, svcName);
+                Utilities.RecordTimeTaken(ref prevTime);
+
+                WaitForReadyState(svcName, vmName1);
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+
                 Utilities.RecordTimeTaken(ref prevTime);
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
                 Utilities.RecordTimeTaken(ref prevTime);
@@ -990,22 +1002,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedDeallocatedState }));
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName2, new string[] { stoppedDeallocatedState }));
 
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        Utilities.RecordTimeTaken(ref prevTime);
-                        vmPowershellCmdlets.StartAzureVM("*", svcName);
-                        Utilities.RecordTimeTaken(ref prevTime);
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        Thread.Sleep(60 * 1000);
-                        continue;
-                    }
-                }
+                Utilities.RecordTimeTaken(ref prevTime);
+                StartAzureVMs("*", svcName);
+                Utilities.RecordTimeTaken(ref prevTime);
 
                 WaitForReadyState(svcName, vmName1);
                 WaitForReadyState(svcName, vmName2);
@@ -1123,7 +1122,61 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         private void WaitForStoppedState(string svc, string vm, int interval = 10, int maxTry = 100)
         {
-            WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState }, interval, maxTry);
+            WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState, readyState }, interval, maxTry);
+        }
+
+        private void StartAzureVMs(string vmWildcardName, string svcName)
+        {
+            // This retry logic is necessary for HTTP 409 (conflict) results
+            // that can occur when calling Start-AzureVM using wildcard syntax.
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    vmPowershellCmdlets.StartAzureVM(vmWildcardName, svcName);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    if ((e.InnerException != null) && e.InnerException.Message.Contains("HTTP Status Code: 409"))
+                    {
+                        Console.WriteLine(e.ToString());
+                        Thread.Sleep(60 * 1000);
+                        continue;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private void StopAzureVMs(string vmWildcardName, string svcName, bool stayProvisioned = false, bool force = false)
+        {
+            // This retry logic is necessary for HTTP 409 (conflict) results
+            // that can occur when calling Stop-AzureVM using wildcard syntax.
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    vmPowershellCmdlets.StopAzureVM(vmWildcardName, svcName, stayProvisioned, force);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    if ((e.InnerException != null) && e.InnerException.Message.Contains("HTTP Status Code: 409"))
+                    {
+                        Console.WriteLine(e.ToString());
+                        Thread.Sleep(60 * 1000);
+                        continue;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
     }
 }

@@ -89,8 +89,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
             }
 
-            // Insure the Force switch is specified for wildcard operations
-            if ((roleNames.Count > 1) && (!Force.IsPresent))
+            // Insure the Force switch is specified for wildcard operations when StayProvisioned is not specified.
+            if (WildcardPattern.ContainsWildcardCharacters(roleName) && (!StayProvisioned.IsPresent) && (!Force.IsPresent))
             {
                 throw new ArgumentException(Resources.MustSpecifyForceParameterWhenUsingWildcards);
             }
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     ExecuteClientActionInOCS(
                         null,
                         CommandRuntime.ToString(),
-                        s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.Stopped));
+                        s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.Stopped));
                 }
                 else
                 {
@@ -115,14 +115,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                             () => ExecuteClientActionInOCS(
                                 null,
                                 CommandRuntime.ToString(),
-                                s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated)));
+                                s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.StoppedDeallocated)));
                     }
                     else
                     {
                         ExecuteClientActionInOCS(
                             null,
                             CommandRuntime.ToString(),
-                            s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName, PostShutdownAction.StoppedDeallocated));
+                            s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.StoppedDeallocated));
                     }
                 }
 
