@@ -1298,4 +1298,7 @@ Please follow these steps in the portal:
   <data name="ServiceBusEntityTypeNotFound" xml:space="preserve">
     <value>The service bus entity '{0}' is not found.</value>
   </data>
+  <data name="ServiceBusAuthorizationRuleNotFound" xml:space="preserve">
+    <value>No ServiceBus authorization rule with the given characteristics was found</value>
+  </data>
 </root>
