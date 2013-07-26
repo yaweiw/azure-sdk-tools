@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using Properties;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase

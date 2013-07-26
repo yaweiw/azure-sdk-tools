@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     /// <summary>
     /// Updates a persistent VM object with a provisioning configuration.
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureProvisioningConfig", DefaultParameterSetName = "Windows"), OutputType(typeof(IPersistentVM))]
+    [Cmdlet(VerbsCommon.Add, "AzureProvisioningConfig", DefaultParameterSetName = WindowsParameterSetName), OutputType(typeof(IPersistentVM))]
     public class AddAzureProvisioningConfigCommand : ProvisioningConfigurationCmdletBase
     {
         [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
@@ -45,8 +45,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             if (Linux.IsPresent)
             {
                 role.NoSSHEndpoint = NoSSHEndpoint.IsPresent;
-                SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.LinuxProvisioning);
-                configSetbuilder.LinuxConfigurationBuilder.LinuxProvisioning.HostName = role.RoleName;
+                SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.Provisioning);
+                configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
 
                 if (DisableSSH.IsPresent == false || NoSSHEndpoint.IsPresent)
                 {
@@ -56,8 +56,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             else
             {
                 role.NoRDPEndpoint = NoRDPEndpoint.IsPresent;
-                SetProvisioningConfiguration(configSetbuilder.WindowsConfigurationBuilder.WindowsProvisioning);
-                configSetbuilder.WindowsConfigurationBuilder.WindowsProvisioning.ComputerName = role.RoleName;
+                SetProvisioningConfiguration(configSetbuilder.WindowsConfigurationBuilder.Provisioning);
+                configSetbuilder.WindowsConfigurationBuilder.Provisioning.ComputerName = role.RoleName;
 
                 if (!NoRDPEndpoint.IsPresent)
                 {
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     }
                     builder.AddHttpsListener(this.WinRMCertificate);
 
-                    configSetbuilder.WindowsConfigurationBuilder.WindowsProvisioning.WinRM = builder.Configuration;
+                    configSetbuilder.WindowsConfigurationBuilder.Provisioning.WinRM = builder.Configuration;
     
                     if(!this.NoWinRMEndpoint.IsPresent)
                     {
@@ -110,24 +110,40 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         {
             PersistentVM vm = (PersistentVM)this.VM;
             
-            if (string.Compare(ParameterSetName, "Linux", StringComparison.OrdinalIgnoreCase) == 0 && !this.NoSSHPassword && ValidationHelpers.IsLinuxPasswordValid(Password) == false)
-            {
-                throw new ArgumentException(Resources.PasswordNotComplexEnough);
-            }
+            ValidateLinuxParameterSetParameters(vm);
+            ValidateWindowsParameterSetParameters(vm);
+        }
 
-            if ((string.Compare(ParameterSetName, "Windows", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(ParameterSetName, "WindowsDomain", StringComparison.OrdinalIgnoreCase) == 0) && ValidationHelpers.IsWindowsPasswordValid(Password) == false)
+        private void ValidateLinuxParameterSetParameters(PersistentVM vm)
+        {
+            if (LinuxParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException(Resources.PasswordNotComplexEnough);
-            }
+                if (!this.NoSSHPassword && ValidationHelpers.IsLinuxPasswordValid(Password) == false)
+                {
+                    throw new ArgumentException(Resources.PasswordNotComplexEnough);
+                }
 
-            if (string.Compare(ParameterSetName, "Linux", StringComparison.OrdinalIgnoreCase) == 0 && ValidationHelpers.IsLinuxHostNameValid(vm.RoleName) == false)
-            {
-                throw new ArgumentException(Resources.InvalidHostName);
+                if (ValidationHelpers.IsLinuxHostNameValid(vm.RoleName) == false)
+                {
+                    throw new ArgumentException(Resources.InvalidHostName);
+                }
             }
+        }
 
-            if ((string.Compare(ParameterSetName, "Windows", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(ParameterSetName, "WindowsDomain", StringComparison.OrdinalIgnoreCase) == 0) && ValidationHelpers.IsWindowsComputerNameValid(vm.RoleName) == false)
+        private void ValidateWindowsParameterSetParameters(PersistentVM vm)
+        {
+            if (WindowsParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase) || 
+                WindowsDomainParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException(Resources.InvalidComputerName);
+                if (ValidationHelpers.IsWindowsPasswordValid(Password) == false)
+                {
+                    throw new ArgumentException(Resources.PasswordNotComplexEnough);
+                }
+
+                if (ValidationHelpers.IsWindowsComputerNameValid(vm.RoleName) == false)
+                {
+                    throw new ArgumentException(Resources.InvalidComputerName);
+                }
             }
         }
     }
