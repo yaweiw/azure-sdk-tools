@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             AzureEndPointConfigInfo ep1Info = new AzureEndPointConfigInfo(
-                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
+                AzureEndPointConfigInfo.ParameterSet.CustomProbe,
                 ProtocolInfo.tcp,
                 ep1LocalPort,
                 ep1PublicPort,
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 ep1DirectServerReturn);
 
             AzureEndPointConfigInfo ep2Info = new AzureEndPointConfigInfo(
-                AzureEndPointConfigInfo.ParameterSet.CustonProbe,
+                AzureEndPointConfigInfo.ParameterSet.CustomProbe,
                 ProtocolInfo.tcp,
                 ep2LocalPort,
                 ep2PublicPort,
@@ -259,7 +259,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string newAzureVM1Name = Utilities.GetUniqueShortName(vmNamePrefix);
             string newAzureVM2Name = Utilities.GetUniqueShortName(vmNamePrefix);
             if (string.IsNullOrEmpty(imageName))
-                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false);
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
             vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
@@ -299,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
             string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false);
+            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
 
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);

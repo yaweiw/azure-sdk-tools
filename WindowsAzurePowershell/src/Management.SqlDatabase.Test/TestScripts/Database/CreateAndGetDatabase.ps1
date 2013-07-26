@@ -30,7 +30,23 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Password
+    $Password,
+    [Parameter(Mandatory=$true, Position=1)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $ServerName,
+    [Parameter(Mandatory=$true, Position=2)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SubscriptionID,
+    [Parameter(Mandatory=$true, Position=3)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $SerializedCert,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Endpoint
 )
 
 $IsTestPass = $False
@@ -39,66 +55,92 @@ Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
 Write-Output "`$UserName=$UserName"
 Write-Output "`$Password=$Password"
+Write-Output "`$ServerName=$ServerName"
+Write-Output "`$SubscriptionID=$SubscriptionID"
+Write-Output "`$SerializedCert=$SerializedCert"
+Write-Output "`$Endpoint=$Endpoint"
 $NameStartWith = $Name
-. .\CommonFunctions.ps1
 
+. .\Database\CreateAndGetDatabase-ScenarioFunctions.ps1
+. .\CommonFunctions.ps1
 
 Try
 {
-	Init-TestEnvironment
-    $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
-
+    Init-TestEnvironment
+    
+    $database = $null
+    $database2 = $null
     $defaultCollation = "SQL_Latin1_General_CP1_CI_AS"
     $defaultEdition = "Web"
     $defaultMaxSizeGB = "1"
     $defaultIsReadOnly = $false
     $defaultIsFederationRoot = $false
     $defaultIsSystemObject = $false
-    
-    # Create Database with only required parameters
-    Write-Output "Creating Database $Name ..."
-    $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Write-Output "Done"
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
-    
-    #Get Database by database name
-    $database = Get-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Validate-SqlDatabase -Actual $database -ExpectedName $Name -ExpectedCollationName $defaultCollation -ExpectedEdition `
-            $defaultEdition -ExpectedMaxSizeGB $defaultMaxSizeGB -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
-    
-    # Create Database with all optional parameters
-    $Name = $Name + "1"
-    Write-Output "Creating Database $Name ..."
-    $database2 = New-AzureSqlDatabase $context $Name -Collation "SQL_Latin1_General_CP1_CS_AS" -Edition "Business" `
-            -MaxSizeGB 20 -Force
-    Write-Output "Done"
-    
-    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS" `
-            -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
 
-    #Get Database by database object
-    $database2 = Get-AzureSqlDatabase -Context $context -Database $database2
-    Validate-SqlDatabase -Actual $database2 -ExpectedName $Name -ExpectedCollationName "SQL_Latin1_General_CP1_CS_AS" `
-            -ExpectedEdition "Business" -ExpectedMaxSizeGB "20" -ExpectedIsReadOnly $defaultIsReadOnly `
-            -ExpectedIsFederationRoot $defaultIsFederationRoot -ExpectedIsSystemObject $defaultIsSystemObject
-            
-    #Get Databases with no filter
-    $databases = Get-AzureSqlDatabase -Context $context | Where-Object {$_.Name.StartsWith($NameStartWith)}
-    Assert {$databases.Count -eq 2} "Get database should have returned 2 database, but returned $databases.Count"
+    # Using Sql Auth
+    try
+    {    
+        Write-Output "Test 1: Using Sql Auth"
+
+        $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
+
+        Scenerio1-CreateWithRequiredParameters -Context $context
     
-    $IsTestPass = $True
-}
-Finally
-{
-    if($database)
+        Scenerio2-CreateWithOptionalParameters -Context $context
+    }
+    finally
     {
         # Drop Database
         Drop-Databases $Context $NameStartWith
     }
+    
+    # Using Cert Auth
+    try
+    {    
+        Write-Output "Test 2: Using Cert Auth"
+
+        Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+        $sub = Get-AzureSubscription -Current
+
+        $context = Get-ServerContextByServerNameWithCertAuth $ServerName
+        Scenerio1-CreateWithRequiredParameters -Context $context
+    
+        Scenerio2-CreateWithOptionalParameters -Context $context
+    }
+    finally
+    {
+        # Drop Database
+        Drop-Databases $Context $NameStartWith
+        Remove-AzureSubscription $sub.SubscriptionName -Force
+    }
+
+    # Using Cert Auth with server name
+    try
+    {    
+        Write-Output "Test 3: Using Cert Auth with Server Name"
+
+        Init-AzureSubscription $SubscriptionId $SerializedCert $Endpoint
+        $sub = Get-AzureSubscription -Current
+
+        Scenerio1-CreateWithRequiredParameters -ServerName $ServerName
+    
+        Scenerio2-CreateWithOptionalParameters -ServerName $ServerName
+    
+    }
+    finally
+    {
+        # Drop Database
+        Drop-Databases $Context $NameStartWith
+        Remove-AzureSubscription $sub.SubscriptionName -Force
+    }
+
+    $IsTestPass = $True
+}
+Finally
+{
+    Drop-Databases $Context $NameStartWith
 }
 
 Write-TestResult $IsTestPass
+
+

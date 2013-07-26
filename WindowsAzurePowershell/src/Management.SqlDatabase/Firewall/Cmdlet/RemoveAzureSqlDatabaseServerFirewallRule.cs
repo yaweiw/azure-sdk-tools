@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         }
 
         /// <summary>
-        /// Execute the command.
+        /// Process the command.
         /// </summary>
         protected override void ProcessRecord()
         {

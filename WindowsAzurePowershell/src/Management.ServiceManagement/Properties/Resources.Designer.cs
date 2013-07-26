@@ -1105,11 +1105,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find cloud servcie: {0}..
+        ///   Looks up a localized string similar to Cannot find cloud service: {0}..
         /// </summary>
         internal static string ServiceExtensionCannotFindServiceName {
             get {
                 return ResourceManager.GetString("ServiceExtensionCannotFindServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage account for the account name: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindStorageAccount {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindStorageAccount", resourceCulture);
             }
         }
         
@@ -1137,6 +1146,51 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         internal static string ServiceExtensionNoExistingExtensionsEnabledOnRoles {
             get {
                 return ResourceManager.GetString("ServiceExtensionNoExistingExtensionsEnabledOnRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing default {0} configuration for all roles from Cloud Service {1}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingFromAllRoles {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingFromAllRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing {0} configuration for {1} from Cloud Service {2}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingFromSpecificRoles {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingFromSpecificRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default {0} configuration exists applying default configuration to {1}..
+        /// </summary>
+        internal static string ServiceExtensionRemovingSpecificAndApplyingDefault {
+            get {
+                return ResourceManager.GetString("ServiceExtensionRemovingSpecificAndApplyingDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting default {0} configuration for all roles..
+        /// </summary>
+        internal static string ServiceExtensionSettingForDefaultRole {
+            get {
+                return ResourceManager.GetString("ServiceExtensionSettingForDefaultRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting {0} configuration for {1}..
+        /// </summary>
+        internal static string ServiceExtensionSettingForSpecificRole {
+            get {
+                return ResourceManager.GetString("ServiceExtensionSettingForSpecificRole", resourceCulture);
             }
         }
         

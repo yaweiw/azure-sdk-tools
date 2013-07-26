@@ -114,3 +114,68 @@ function Retry-DownloadString
 	}
 	while ($retry)
 }
+
+<#
+.SYNOPSIS
+Get downloadString and verify expected string
+#>
+function Test-ValidateResultInBrowser
+{
+       param([string] $uri, [string] $expectedString)
+       $client = New-Object System.Net.WebClient
+       $resultString = $client.DownloadString($uri)
+       return $resultString.ToUpper().Contains($expectedString.ToUpper())
+}
+
+<#
+.SYNOPSIS
+Runs npm and verifies the results.
+
+.PARAMETER command
+The npm command to run
+#>
+
+function Npm-InstallExpress
+{
+	try
+	{
+		$command = "install -g express";
+		Start-Process npm $command -WAIT
+		"Y" | express
+		if([system.IO.File]::Exists("server.js"))
+		{
+			del server.js
+		}
+		mv app.js server.js
+		npm install 
+	}
+	catch
+	{
+		Write-Warning "Expected warning exist when npm install, ignore it"
+	}
+}
+
+<#
+.SYNOPSIS
+Push local git repo to website.
+
+.PARAMETER command
+Target site name to push
+#>
+
+function Git-PushLocalGitToWebSite
+{
+	param([string] $siteName)
+	$webSite = Get-AzureWebsite -Name $siteName
+
+	# Expected warning: LF will be replaced by CRLF in node_modules/.bin/express." when run git command
+	Assert-Throws { git add -A } 
+	$commitString = "Update azurewebsite with local git"
+	Assert-Throws { git commit -m $commitString }
+
+	$remoteAlias = "azureins"
+	$remoteUri = "https://" + $env:GIT_USERNAME + ":" + $env:GIT_PASSWORD + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
+	git remote add $remoteAlias $remoteUri
+	# Expected message "remote: Updating branch 'master'"
+	Assert-Throws { git push $remoteAlias master }
+}

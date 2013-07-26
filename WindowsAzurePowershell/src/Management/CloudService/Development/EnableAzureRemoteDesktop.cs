@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
                 throw new ArgumentException(Resources.EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword);
             }
 
-            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
+            CloudServiceProject service = new CloudServiceProject(General.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
             }
         }
 
-        private void UpdateServiceConfigurations(AzureService service, string forwarderName, Certificate certElement, string encryptedPassword)
+        private void UpdateServiceConfigurations(CloudServiceProject service, string forwarderName, Certificate certElement, string encryptedPassword)
         {
             foreach (ServiceConfiguration config in new[] { service.Components.LocalConfig, service.Components.CloudConfig })
             {

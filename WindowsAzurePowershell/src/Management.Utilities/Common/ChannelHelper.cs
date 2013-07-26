@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Xml;
     using Microsoft.WindowsAzure.ServiceManagement;
 
-    public static class ServiceManagementHelper
+    public static class ChannelHelper
     {
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
         public static T CreateServiceManagementChannel<T>(X509Certificate2 cert)
@@ -172,6 +172,21 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return channel;
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert, params IEndpointBehavior[] behaviors)
+            where T : class
+        {
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(binding, remoteUri);
+            factory.Credentials.ClientCertificate.Certificate = cert;
+            foreach (IEndpointBehavior behavior in behaviors)
+            {
+                factory.Endpoint.Behaviors.Add(behavior);
+            }
+
+            var channel = factory.CreateChannel();
+            return channel;
+        }
+
         public static bool TryGetExceptionDetails(CommunicationException exception, out ServiceManagementError errorDetails)
         {
             HttpStatusCode httpStatusCode;
@@ -281,7 +296,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public class ServiceManagementClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
-        public const string UserAgentHeaderName = "User-Agent";
+        public const string UserAgentHeaderName = ApiConstants.UserAgentHeaderName;
         public const string UserAgentHeaderContent = ApiConstants.UserAgentHeaderValue;
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
 

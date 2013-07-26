@@ -190,11 +190,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
         public static void CreateTestCredential(PowerShell powershell)
         {
+            CreateTestCredential(powershell, "testuser", "testp@ss1");
+        }
+
+        /// <summary>
+        /// Creates the $credential object in the given <paramref name="powershell"/> instance with
+        /// the given user name and password.
+        /// </summary>
+        /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
+        public static void CreateTestCredential(PowerShell powershell, string username, string password)
+        {
             // Create the test credential
             powershell.InvokeBatchScript(
-@"$user = ""testuser""",
-@"$pass = ""testp@ss1"" | ConvertTo-SecureString -asPlainText -Force",
-@"$credential = New-Object System.Management.Automation.PSCredential($user, $pass)");
+                string.Format(@"$user = ""{0}""", username),
+                string.Format(@"$pass = ""{0}"" | ConvertTo-SecureString -asPlainText -Force", password),
+                @"$credential = New-Object System.Management.Automation.PSCredential($user, $pass)");
             Assert.IsTrue(powershell.Streams.Error.Count == 0);
         }
     }

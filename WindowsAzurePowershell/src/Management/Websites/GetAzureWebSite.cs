@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, "repositoryuri,publishingpassword,publishingusername"));
+                Site websiteObject = RetryCall(s => Channel.GetSiteWithCache(s, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));

@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database in the given server context.
@@ -28,30 +29,89 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.High)]
     public class RemoveAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter sets
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by name with a connection context
+        /// </summary>
+        internal const string ByNameWithConnectionContext =
+            "ByNameWithConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by name using azure subscription
+        /// </summary>
+        internal const string ByNameWithServerName =
+            "ByNameWithServerName";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by input
+        /// object with a connection context
+        /// </summary>
+        internal const string ByObjectWithConnectionContext =
+            "ByObjectWithConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for removing a database by input
+        /// object using azure subscription
+        /// </summary>
+        internal const string ByObjectWithServerName =
+            "ByObjectWithServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0,
             ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByNameWithConnectionContext,
+            HelpMessage = "The connection context to the specified server.")]
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByObjectWithConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the server to connect to
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByNameWithServerName,
+            HelpMessage = "The name of the server to connect to")]
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByObjectWithServerName,
+            HelpMessage = "The name of the server to connect to")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the database.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
-            ValueFromPipeline = true)]
-        [ValidateNotNull]
         [Alias("InputObject")]
+        [Parameter(Mandatory = true, Position = 1, ValueFromPipeline = true, 
+            ParameterSetName = ByObjectWithConnectionContext,
+            HelpMessage = "The database object you want to remove")]
+        [Parameter(Mandatory = true, Position = 1, ValueFromPipeline = true,
+            ParameterSetName = ByObjectWithServerName,
+            HelpMessage = "The database object you want to remove")]
+        [ValidateNotNull]
         public Database Database { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByName")]
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByNameWithConnectionContext,
+            HelpMessage = "The name of the database to remove")]
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByNameWithServerName,
+            HelpMessage = "The name of the database to remove")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
 
@@ -64,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
-        /// Execute the command.
+        /// Process the command.
         /// </summary>
         protected override void ProcessRecord()
         {
@@ -79,18 +139,32 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            // Do nothing if force is not specified and user cancelled the operation
+            // Determine the name of the server we are connecting to
+            string serverName = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
+            {
+                serverName = this.ServerName;
+            }
+            else
+            {
+                serverName = this.ConnectionContext.ServerName;
+            }
+
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.RemoveAzureSqlDatabaseDescription,
-                this.Context.ServerName,
+                serverName,
                 databaseName);
+
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.RemoveAzureSqlDatabaseWarning,
-                this.Context.ServerName,
+                serverName,
                 databaseName);
+
             this.WriteVerbose(actionDescription);
+
+            // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
                 !this.ShouldProcess(
                 actionDescription,
@@ -100,16 +174,66 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 return;
             }
 
+            switch (this.ParameterSetName)
+            {
+                case ByNameWithConnectionContext:
+                case ByObjectWithConnectionContext:
+                    this.ProcessWithConnectionContext(databaseName);
+                    break;
+
+                case ByNameWithServerName:
+                case ByObjectWithServerName:
+                    this.ProcessWithServerName(databaseName);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the request using a temporary connection context.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to remove</param>
+        private void ProcessWithServerName(string databaseName)
+        {
+            string clientRequestId = string.Empty;
             try
             {
+                // Get the current subscription data.
+                SubscriptionData subscriptionData = this.GetCurrentSubscription();
+
+                // Create a temporary context
+                ServerDataServiceCertAuth context =
+                    ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+
+                clientRequestId = context.ClientRequestId;
+
                 // Remove the database with the specified name
-                this.Context.RemoveDatabase(databaseName);
+                context.RemoveDatabase(databaseName);
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    clientRequestId,
+                    ex);
+            }
+        }
+
+        /// <summary>
+        /// Process the request with the connection context
+        /// </summary>
+        /// <param name="databaseName">The name of the database to remove</param>
+        private void ProcessWithConnectionContext(string databaseName)
+        {
+            try
+            {
+                // Remove the database with the specified name
+                this.ConnectionContext.RemoveDatabase(databaseName);
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }

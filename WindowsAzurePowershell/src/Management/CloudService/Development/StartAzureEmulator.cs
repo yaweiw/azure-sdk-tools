@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(AzureService))]
+    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(CloudServiceProject))]
     public class StartAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
@@ -34,37 +34,38 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
         public SwitchParameter Launch { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public AzureService StartAzureEmulatorProcess(string rootPath)
+        public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
             string standardError;
 
             StringBuilder message = new StringBuilder();
-            AzureService service = new AzureService(rootPath ,null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
 
-            if (Directory.Exists(service.Paths.LocalPackage))
+            if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                service.StopEmulator(out standardOutput, out standardError);
+                cloudServiceProject.StopEmulator(out standardOutput, out standardError);
                 WriteVerbose(Resources.StoppedEmulatorMessage);
-                WriteVerbose(string.Format(Resources.RemovePackage, service.Paths.LocalPackage));
-                Directory.Delete(service.Paths.LocalPackage, true);
+                WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
+                Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
             }
             
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
-            service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+            cloudServiceProject.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
             
             WriteVerbose(Resources.StartingEmulator);
-            service.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
+            cloudServiceProject.ResolveRuntimePackageUrls();
+            cloudServiceProject.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
             
             WriteVerbose(standardOutput);
             WriteVerbose(Resources.StartedEmulator);
             SafeWriteOutputPSObject(
-                service.GetType().FullName,
-                Parameters.ServiceName, service.ServiceName,
-                Parameters.RootPath, service.Paths.RootPath);
+                cloudServiceProject.GetType().FullName,
+                Parameters.ServiceName, cloudServiceProject.ServiceName,
+                Parameters.RootPath, cloudServiceProject.Paths.RootPath);
 
-            return service;
+            return cloudServiceProject;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

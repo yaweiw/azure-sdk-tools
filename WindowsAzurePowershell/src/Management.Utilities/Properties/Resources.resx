@@ -640,13 +640,13 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml</value>
   </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.8</value>
+    <value>v2.0</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -655,7 +655,7 @@
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.8</value>
+    <value>v2.0</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
@@ -1282,5 +1282,20 @@ Please follow these steps in the portal:
   </data>
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
+  </data>
+  <data name="CreateWebsiteFailed" xml:space="preserve">
+    <value>Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead.</value>
+  </data>
+  <data name="ChangePublicEnvironmentMessage" xml:space="preserve">
+    <value>Changing/Removing public environment '{0}' is not allowed.</value>
+  </data>
+  <data name="CacheMismatchMessage" xml:space="preserve">
+    <value>Please upgrade the cache runtime of role '{0}' to '{1}' using Set-AzureServiceProjectRole -RoleName {0} -Runtime Cache -Version {1}</value>
+  </data>
+  <data name="InvalidParameterSetName" xml:space="preserve">
+    <value>'{0}' is an invalid parameter set name.</value>
+  </data>
+  <data name="ServiceBusEntityTypeNotFound" xml:space="preserve">
+    <value>The service bus entity '{0}' is not found.</value>
   </data>
 </root>
