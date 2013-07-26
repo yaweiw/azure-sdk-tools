@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Scaffo
             ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(pyInstall, "python.exe"),
-                        String.Format("-m django.bin.django-admin")
+                        string.Format("-m django.bin.django-admin")
                     ),
                     out stdOut,
                     out stdErr

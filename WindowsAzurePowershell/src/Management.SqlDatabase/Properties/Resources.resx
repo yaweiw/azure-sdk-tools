@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CredentialNotSpecified" xml:space="preserve">
     <value>The Sql Authenticate Credential was not specified.</value>
@@ -162,6 +162,9 @@ Error Code: {0}</value>
   <data name="InvalidExceptionMessageFormat" xml:space="preserve">
     <value>Invalid exception message format.</value>
     <comment>Bad operation workflow or sequencing</comment>
+  </data>
+  <data name="InvalidParameterCombination" xml:space="preserve">
+    <value>Invalid Parameter combination: {0} and {1} parameters cannot be used together.</value>
   </data>
   <data name="NewAzureSqlDatabaseDescription" xml:space="preserve">
     <value>Creating a new Windows Azure Sql Database.</value>
@@ -211,6 +214,9 @@ Error Code: {0}</value>
     <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="ServiceObjectiveNotFound" xml:space="preserve">
+    <value>Service objective '{1}' was not found on server '{0}'.</value>
+  </data>
   <data name="SetAzureSqlDatabaseDescription" xml:space="preserve">
     <value>Updating database "{1}" for Windows Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
@@ -231,6 +237,10 @@ Error Code: {0}</value>
     <value>Are you sure you want to update the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="SetAzureSqlDatabaseServiceObjectiveWarning" xml:space="preserve">
+    <value>Are you sure you want to change the service objective for database "{1}" in Windows Azure Sql Database server "{0}"? A change to the service objective will significantly change the cost of this database.</value>
+    <comment>Process workflow</comment>
+  </data>
   <data name="SetAzureSqlDatabaseWarning" xml:space="preserve">
     <value>Are you sure you want to update database "{1}" for Windows Azure Sql Database server "{0}"?</value>
     <comment>Process workflow</comment>
@@ -248,7 +258,7 @@ Error Code: {0}</value>
     <comment>Generic</comment>
   </data>
   <data name="WarningModelOutOfDate" xml:space="preserve">
-    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recomended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility.</value>
+    <value>The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recommended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility.</value>
   </data>
   <data name="WrongAsyncResultForCreate" xml:space="preserve">
     <value>The asyncResult object was not created by a preceding call of the BeginCreate method from the same control.</value>

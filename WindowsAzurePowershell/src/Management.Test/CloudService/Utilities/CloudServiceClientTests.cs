@@ -301,7 +301,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 				// Setup
 				string rootPath = files.CreateNewService(serviceName);
 				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				AzureService cloudServiceProject = new AzureService(rootPath, null);
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
 
@@ -325,7 +325,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 				// Setup
 				string rootPath = files.CreateNewService(serviceName);
 				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				AzureService cloudServiceProject = new AzureService(rootPath, null);
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 				cloudService.Deployments.Add(deployment);
 
@@ -349,7 +349,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 				// Setup
 				string rootPath = files.CreateNewService(serviceName);
 				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				AzureService cloudServiceProject = new AzureService(rootPath, null);
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 				cloudService.Deployments.Add(deployment);
 				serviceManagementChannelMock.Setup(f => f.EndGetStorageService(It.IsAny<IAsyncResult>()))
@@ -376,7 +376,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 				// Setup
 				string rootPath = files.CreateNewService(serviceName);
 				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				AzureService cloudServiceProject = new AzureService(rootPath, null);
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 				subscription.CurrentStorageAccount = storageName;
 
@@ -399,7 +399,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 				// Setup
 				string rootPath = files.CreateNewService(serviceName);
 				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				AzureService cloudServiceProject = new AzureService(rootPath, null);
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 				serviceManagementChannelMock.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
 					.Returns(new LocationList() { new Location() { Name = "East US" } });

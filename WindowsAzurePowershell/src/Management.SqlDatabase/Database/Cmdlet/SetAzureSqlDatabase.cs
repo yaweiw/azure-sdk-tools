@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database in the given server context.
@@ -28,21 +29,73 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.Medium)]
     public class SetAzureSqlDatabase : PSCmdlet
     {
+        #region Parameter sets
+
+        /// <summary>
+        /// Parameter set name for updating by name with a connection context
+        /// </summary>
+        internal const string ByNameWithConnectionContext =
+            "ByNameWithConnectionContext";
+
+        /// <summary>
+        /// Parameter set name for updating by name using azure subscription
+        /// </summary>
+        internal const string ByNameWithServerName =
+            "ByNameWithServerName";
+
+        /// <summary>
+        /// Parameter set name for updating by input object with a connection context
+        /// </summary>
+        internal const string ByObjectWithConnectionContext =
+            "ByObjectWithConnectionContext";
+
+        /// <summary>
+        /// Parameter set name for updating by input object with a azure subscription
+        /// </summary>
+        internal const string ByObjectWithServerName =
+            "ByObjectWithServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0,
             ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByNameWithConnectionContext,
+            HelpMessage = "The connection context to the specified server.")]
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByObjectWithConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the server to connect to
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByNameWithServerName,
+            HelpMessage = "The name of the server to connect to")]
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByObjectWithServerName,
+            HelpMessage = "The name of the server to connect to")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the database.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByObjectWithConnectionContext,
+            ValueFromPipeline = true)]
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByObjectWithServerName,
             ValueFromPipeline = true)]
         [ValidateNotNull]
         public Database Database { get; set; }
@@ -50,16 +103,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the database name.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByName")]
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByNameWithConnectionContext)]
+        [Parameter(Mandatory = true, Position = 1,
+            ParameterSetName = ByNameWithServerName)]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
 
         /// <summary>
         /// Gets or sets the new name for the database.
         /// </summary>
+        [Alias("NewName")]
         [Parameter(Mandatory = false, HelpMessage = "The new name for the database.")]
         [ValidateNotNullOrEmpty]
-        public string NewName { get; set; }
+        public string NewDatabaseName { get; set; }
 
         /// <summary>
         /// Gets or sets the new Edition value for the database.
@@ -72,6 +129,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in GB.")]
         public int MaxSizeGB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new ServiceObjective for this database.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new ServiceObjective for the database.")]
+        [ValidateNotNull]
+        public ServiceObjective ServiceObjective { get; set; }
 
         /// <summary>
         /// Gets or sets the switch to output the target object to the pipeline.
@@ -88,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         #endregion
 
         /// <summary>
-        /// Execute the command.
+        /// Process the command.
         /// </summary>
         protected override void ProcessRecord()
         {
@@ -103,52 +167,168 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            // Do nothing if force is not specified and user cancelled the operation
+            // Obtain the name of the server 
+            string serverName = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("ServerName"))
+            {
+                serverName = this.ServerName;
+            }
+            else
+            {
+                serverName = this.ConnectionContext.ServerName;
+            }
+
+            // Determine the max size of the db
+            int? maxSizeGb = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB"))
+            {
+                maxSizeGb = this.MaxSizeGB;
+            }
+
+            // Determine the edition for the db
+            DatabaseEdition? edition = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
+            {
+                edition = this.Edition;
+            }
+
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.SetAzureSqlDatabaseDescription,
-                this.Context.ServerName,
+                serverName,
                 databaseName);
+
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.SetAzureSqlDatabaseWarning,
-                this.Context.ServerName,
+                serverName,
                 databaseName);
+
             this.WriteVerbose(actionDescription);
+
+            // Do nothing if force is not specified and user cancelled the operation
             if (!this.Force.IsPresent &&
-                !this.ShouldProcess(
-                    actionDescription,
-                    actionWarning,
-                    Resources.ShouldProcessCaption))
+                !this.ShouldProcess(actionDescription, actionWarning, Resources.ShouldProcessCaption))
             {
                 return;
             }
 
+            // If service objective is specified, ask the user to confirm the change
+            if (!this.Force.IsPresent &&
+                this.ServiceObjective != null)
+            {
+                string serviceObjectiveWarning = string.Format(
+                    CultureInfo.InvariantCulture,
+                    Resources.SetAzureSqlDatabaseServiceObjectiveWarning,
+                    this.ConnectionContext.ServerName,
+                    databaseName);
+                if (!this.ShouldContinue(
+                    serviceObjectiveWarning,
+                    Resources.ShouldProcessCaption))
+                {
+                    return;
+                }
+            }
+
+            switch (this.ParameterSetName)
+            {
+                case ByNameWithConnectionContext:
+                case ByObjectWithConnectionContext:
+                    this.ProcessWithConnectionContext(databaseName, maxSizeGb, edition);
+                    break;
+
+                case ByNameWithServerName:
+                case ByObjectWithServerName:
+                    this.ProcessWithServerName(databaseName, maxSizeGb, edition);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the request using a temporary connection context using certificate authentication
+        /// </summary>
+        /// <param name="databaseName">The name of the database to update</param>
+        /// <param name="maxSizeGb">the new size for the database or null</param>
+        /// <param name="edition">the new edition for the database or null</param>
+        private void ProcessWithServerName(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
+        {
+            string clientRequestId = null;
             try
             {
-                int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
-                    (int?)this.MaxSizeGB : null;
-                DatabaseEdition? edition = this.MyInvocation.BoundParameters.ContainsKey("Edition") ?
-                    (DatabaseEdition?)this.Edition : null;
+                // Get the current subscription data.
+                SubscriptionData subscriptionData = this.GetCurrentSubscription();
 
-                // Update the database with the specified name
-                Database database = this.Context.UpdateDatabase(
-                    databaseName,
-                    this.NewName,
-                    maxSizeGb,
-                    edition);
+                // Create a temporary context
+                ServerDataServiceCertAuth context =
+                    ServerDataServiceCertAuth.Create(this.ServerName, subscriptionData);
+                
+                clientRequestId = context.ClientRequestId;
 
+                // Remove the database with the specified name
+                Database database = context.UpdateDatabase(
+                    databaseName, 
+                    this.NewDatabaseName, 
+                    maxSizeGb, 
+                    edition,
+                    this.ServiceObjective);
+                
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)
                 {
                     this.WriteObject(database);
+                }
+
+                if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+                {
+                    this.Database.CopyFields(database);
                 }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    clientRequestId,
+                    ex);
+            }
+        }
+
+        /// <summary>
+        /// process the request using the connection context.
+        /// </summary>
+        /// <param name="databaseName">the name of the database to alter</param>
+        /// <param name="maxSizeGb">the new maximum size for the database</param>
+        /// <param name="edition">the new edition for the database</param>
+        private void ProcessWithConnectionContext(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
+        {
+            try
+            {
+                // Update the database with the specified name
+                Database database = this.ConnectionContext.UpdateDatabase(
+                    databaseName,
+                    this.NewDatabaseName,
+                    maxSizeGb,
+                    edition,
+                    this.ServiceObjective);
+
+                // If PassThru was specified, write back the updated object to the pipeline
+                if (this.PassThru.IsPresent)
+                {
+                    this.WriteObject(database);
+                }
+
+                if (this.ConnectionContext.GetType() == typeof(ServerDataServiceCertAuth))
+                {
+                    if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+                    {
+                        this.Database.CopyFields(database);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }

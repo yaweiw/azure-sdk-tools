@@ -496,7 +496,7 @@
     <value>{0} - Create VM {1}</value>
   </data>
   <data name="ServiceExtensionCannotFindServiceName" xml:space="preserve">
-    <value>Cannot find cloud servcie: {0}.</value>
+    <value>Cannot find cloud service: {0}.</value>
   </data>
   <data name="ServiceExtensionCannotFindStorageAccountKey" xml:space="preserve">
     <value>Cannot find storage keys for the account name: {0}.</value>
@@ -533,5 +533,23 @@
   </data>
   <data name="NoCorrespondingRoleCanBeFoundInDeployment" xml:space="preserve">
     <value>No role can be found in the deployment with '{0}' name</value>
+  </data>
+  <data name="ServiceExtensionCannotFindStorageAccount" xml:space="preserve">
+    <value>Cannot find storage account for the account name: {0}.</value>
+  </data>
+  <data name="ServiceExtensionSettingForSpecificRole" xml:space="preserve">
+    <value>Setting {0} configuration for {1}.</value>
+  </data>
+  <data name="ServiceExtensionSettingForDefaultRole" xml:space="preserve">
+    <value>Setting default {0} configuration for all roles.</value>
+  </data>
+  <data name="ServiceExtensionRemovingFromAllRoles" xml:space="preserve">
+    <value>Removing default {0} configuration for all roles from Cloud Service {1}.</value>
+  </data>
+  <data name="ServiceExtensionRemovingSpecificAndApplyingDefault" xml:space="preserve">
+    <value>Default {0} configuration exists applying default configuration to {1}.</value>
+  </data>
+  <data name="ServiceExtensionRemovingFromSpecificRoles" xml:space="preserve">
+    <value>Removing {0} configuration for {1} from Cloud Service {2}.</value>
   </data>
 </root>

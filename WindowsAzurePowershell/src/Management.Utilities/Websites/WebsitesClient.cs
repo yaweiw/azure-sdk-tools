@@ -50,6 +50,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         public Action<string> Logger { get; set; }
 
+        public HeadersInspector HeadersInspector { get; set; }
+
         /// <summary>
         /// Creates new WebsitesClient.
         /// </summary>
@@ -60,13 +62,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
             Logger = logger;
-            WebsiteChannel = ServiceManagementHelper.CreateServiceManagementChannel<IWebsitesServiceManagement>(
+            HeadersInspector = new HeadersInspector();
+            HeadersInspector.RequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
+            HeadersInspector.RequestHeaders.Add(ApiConstants.UserAgentHeaderName, ApiConstants.UserAgentHeaderValue);
+            HeadersInspector.RemoveHeaders.Add(ApiConstants.VSDebuggerCausalityDataHeaderName);
+            WebsiteChannel = ChannelHelper.CreateChannel<IWebsitesServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
+                HeadersInspector,
                 new HttpRestMessageInspector(logger));
 
-            ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
@@ -86,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
+            Site site = WebsiteChannel.GetSiteWithCache(
                 subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
@@ -100,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         private Repository TryGetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSite(
+            Site site = WebsiteChannel.GetSiteWithCache(
                 subscriptionId,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername");
@@ -202,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                     new JProperty(UriElements.AzureDriveTraceLevel, diagnosticsSettings.AzureDriveTraceLevel.ToString()),
                     new JProperty(UriElements.AzureTableTraceEnabled, diagnosticsSettings.AzureTableTraceEnabled),
                     new JProperty(UriElements.AzureTableTraceLevel, diagnosticsSettings.AzureTableTraceLevel.ToString()));
-                client.PostAsJsonAsync(UriElements.DiagnosticsSettings, json, Logger);
+                client.PostJson(UriElements.DiagnosticsSettings, json, Logger);
             }
         }
 
@@ -371,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
-            Site website = WebsiteChannel.GetSite(subscriptionId, name, null);
+            Site website = WebsiteChannel.GetSiteWithCache(subscriptionId, name, null);
 
             if (website == null)
             {

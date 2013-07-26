@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
             disableRDCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
-        private static void VerifyDisableRoleSettings(AzureService service)
+        private static void VerifyDisableRoleSettings(CloudServiceProject service)
         {
             IEnumerable<RoleSettings> settings =
                 Enumerable.Concat(
@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 disableRDCmdlet.DisableRemoteDesktop();
                 // Verify the role has been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 EnableAzureRemoteDesktopCommandTest.VerifyWebRole(service.Components.Definition.WebRole[0], true);
                 VerifyDisableRoleSettings(service);
             }
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 disableRDCmdlet.DisableRemoteDesktop();
                 // Verify the roles have been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 EnableAzureRemoteDesktopCommandTest.VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 EnableAzureRemoteDesktopCommandTest.VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyDisableRoleSettings(service);
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
                 // Verify the roles have been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, null);
                 EnableAzureRemoteDesktopCommandTest.VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 EnableAzureRemoteDesktopCommandTest.VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 EnableAzureRemoteDesktopCommandTest.VerifyRoleSettings(service);

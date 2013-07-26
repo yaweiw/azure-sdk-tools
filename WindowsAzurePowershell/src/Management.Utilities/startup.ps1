@@ -24,6 +24,7 @@ New-Alias Test-WAPackName Test-AzureName
 New-Alias Get-WAPackEnvironment Get-AzureEnvironment
 New-Alias Add-WAPackEnvironment Add-AzureEnvironment
 New-Alias Set-WAPackEnvironment Set-AzureEnvironment
+New-Alias Remove-WAPackEnvironment Remove-AzureEnvironment
 
 # Websites alias
 New-Alias New-WAPackWebsite New-AzureWebsite
@@ -47,3 +48,8 @@ New-Alias Get-WAPackSBLocation Get-AzureSBLocation
 New-Alias Get-WAPackSBNamespace Get-AzureSBNamespace
 New-Alias New-WAPackSBNamespace New-AzureSBNamespace
 New-Alias Remove-WAPackSBNamespace Remove-AzureSBNamespace
+
+# Storage alias
+New-Alias Get-AzureStorageContainerAcl Get-AzureStorageContainer
+New-Alias Start-CopyAzureStorageBlob Start-AzureStorageBlobCopy
+New-Alias Stop-CopyAzureStorageBlob Stop-AzureStorageBlobCopy

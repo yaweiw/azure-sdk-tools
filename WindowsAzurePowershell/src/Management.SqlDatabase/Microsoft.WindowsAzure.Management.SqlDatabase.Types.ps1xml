@@ -50,6 +50,8 @@
               <Name>CollationName</Name>
               <Name>Edition</Name>
               <Name>MaxSizeGB</Name>
+              <Name>ServiceObjectiveName</Name>
+              <Name>ServiceObjectiveAssignmentStateDescription</Name>
               <Name>CreationDate</Name>
             </ReferencedProperties>
           </PropertySet>
@@ -71,6 +73,44 @@
               <Name>ClientSessionId</Name>
               <Name>ClientRequestId</Name>
               <Name>Databases</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.ServiceObjective</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>IsDefault</Name>
+              <Name>IsSystem</Name>
+              <Name>Enabled</Name>
+              <Name>DimensionSettings</Name>
+              <Name>Description</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.ServerQuota</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>Value</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
