@@ -320,6 +320,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         }
 
-    }
+        [TestCleanup]
+        public virtual void CleanUp()
+        {
+            Console.WriteLine("Test {0}", pass ? "passed" : "failed");
 
+            // Cleanup
+            if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
+            {
+                Console.WriteLine("Starting to clean up created VM and service.");
+
+                try
+                {
+                    vmPowershellCmdlets.RemoveAzureService(serviceName);
+                    Console.WriteLine("Service, {0}, is deleted", serviceName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error during removing VM: {0}", e.ToString());
+                }
+            }
+        }
+    }
 }
