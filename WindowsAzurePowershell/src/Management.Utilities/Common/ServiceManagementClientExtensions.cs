@@ -294,6 +294,21 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                 null));
         }
 
+        public static void ShutdownRoles(this IServiceManagement proxy,
+            string subscriptionId,
+            string serviceName,
+            string deploymentName,
+            ShutdownRolesOperation shutdownRolesOperation)
+        {
+            proxy.EndExecuteRoleSetOperation(proxy.BeginExecuteRoleSetOperation(
+                subscriptionId,
+                serviceName,
+                deploymentName,
+                shutdownRolesOperation,
+                null,
+                null));
+        }
+
         public static void StartRole(this IServiceManagement proxy,
             string subscriptionId,
             string serviceName,
@@ -306,6 +321,21 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                 deploymentName,
                 roleInstanceName,
                 new StartRoleOperation(),
+                null,
+                null));
+        }
+
+        public static void StartRoles(this IServiceManagement proxy,
+            string subscriptionId,
+            string serviceName,
+            string deploymentName,
+            StartRolesOperation startRolesOperation)
+        {
+            proxy.EndExecuteRoleSetOperation(proxy.BeginExecuteRoleSetOperation(
+                subscriptionId,
+                serviceName,
+                deploymentName,
+                startRolesOperation,
                 null,
                 null));
         }

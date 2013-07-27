@@ -552,4 +552,7 @@
   <data name="ServiceExtensionRemovingFromSpecificRoles" xml:space="preserve">
     <value>Removing {0} configuration for {1} from Cloud Service {2}.</value>
   </data>
+  <data name="MustSpecifyForceParameterWhenUsingWildcards" xml:space="preserve">
+    <value>Must provide the Force switch when using wildcard syntax.</value>
+  </data>
 </root>
