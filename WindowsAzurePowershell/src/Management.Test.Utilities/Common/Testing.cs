@@ -121,7 +121,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         public static string GetTestResourcePath(string relativePath)
         {
             string path = Path.Combine(Environment.CurrentDirectory, relativePath);
-            EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
+            try
+            {
+                EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
+            }
+            catch
+            {
+                Console.WriteLine(path);
+                throw;
+            }
             Assert.IsTrue(File.Exists(path));
             return path;
         }
