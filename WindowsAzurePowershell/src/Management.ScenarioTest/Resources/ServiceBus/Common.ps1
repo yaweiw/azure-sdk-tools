@@ -141,3 +141,15 @@ function Initialize-NamespaceTest
 	try { Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -Force }
 	catch { <# Succeed #> }
 }
+
+<#
+.SYNOPSIS
+Creates a ServiceBusExtensionClient instance.
+#>
+function New-ServiceBusClientExtensions
+{
+	$client = New-Object Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ServiceBusClientExtensions `
+		-ArgumentList $(Get-AzureSubscription -Default)
+
+	return $client
+}

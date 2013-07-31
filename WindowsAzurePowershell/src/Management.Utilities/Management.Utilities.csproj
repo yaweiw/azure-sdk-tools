@@ -120,8 +120,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.2.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
@@ -192,6 +196,7 @@
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
@@ -231,6 +236,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ServiceBus\Contract\Namespace.cs" />
+    <Compile Include="ServiceBus\ResourceModel\AuthorizationRuleFilterOption.cs" />
+    <Compile Include="ServiceBus\ServiceBusPowerShellUtility.cs" />
+    <Compile Include="ServiceBus\ResourceModel\AuthorizationRule.cs" />
+    <Compile Include="ServiceBus\ServiceBusClientExtensions.cs" />
     <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
     <Compile Include="ServiceBus\ServiceBusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,6 +248,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
     </Compile>
+    <Compile Include="ServiceBus\UriElement.cs" />
     <Compile Include="Store\AddOnSearchOptions.cs" />
     <Compile Include="Store\Constants.cs" />
     <Compile Include="Store\Contract\IStoreManagement.cs" />
