@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                     new JProperty(UriElements.AzureDriveTraceLevel, diagnosticsSettings.AzureDriveTraceLevel.ToString()),
                     new JProperty(UriElements.AzureTableTraceEnabled, diagnosticsSettings.AzureTableTraceEnabled),
                     new JProperty(UriElements.AzureTableTraceLevel, diagnosticsSettings.AzureTableTraceLevel.ToString()));
-                client.PostAsJsonAsync(UriElements.DiagnosticsSettings, json, Logger);
+                client.PostJson(UriElements.DiagnosticsSettings, json, Logger);
             }
         }
 
