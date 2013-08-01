@@ -25,7 +25,7 @@ function EnsureTestAccountExists
 			return
 		}
 	}
-	New-AzureMediaServices -MediaServicesAccountName $MediaServicesAccountName -Location $Region -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
+	New-AzureMediaServices -MediaServicesAccountName $MediaServicesAccountName -Location $Location -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
 }
 
 <#

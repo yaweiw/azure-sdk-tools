@@ -22,20 +22,20 @@ using Microsoft.WindowsAzure.Management.Utilities.Properties;
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
     /// <summary>
-    ///     Gets an azure website.
+    /// Remove an Azure Media Services account
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureMediaServicesAccount", SupportsShouldProcess = true), OutputType(typeof (bool))]
     public class RemoveAzureMediaServicesAccountCommand : MediaServiceBaseCmdlet
     {
         /// <summary>
-        ///     Initializes a new instance of the GetAzureWebsiteCommand class.
+        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
         /// </summary>
         public RemoveAzureMediaServicesAccountCommand() : this(null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the GetAzureWebsiteCommand class.
+        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
         /// </summary>
         /// <param name="channel">
         ///     Channel used for communication with Azure's service management APIs.
