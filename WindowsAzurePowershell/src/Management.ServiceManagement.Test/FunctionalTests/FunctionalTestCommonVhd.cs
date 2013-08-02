@@ -233,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 // New-AzureQuickVM test for VM size
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, InstanceSize.A6);
-                result = vmPowershellCmdlets.GetAzureVM(serviceName, vmName);
+                result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
                 Assert.AreEqual(InstanceSize.A6.ToString(), result.InstanceSize);
                 Console.WriteLine("VM size, {0}, is verified for New-AzureQuickVM", InstanceSize.A6.ToString());
                 vmPowershellCmdlets.RemoveAzureService(serviceName);
