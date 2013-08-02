@@ -46,7 +46,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            SetTestSettings();
+            //SetTestSettings();
+            //ReImportSubscription();
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
             testStartTime = DateTime.Now;
@@ -695,7 +696,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 }
 
-                Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
+                //Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
+                Utilities.RetryActionUntilSuccess(() => vmPowershellCmdlets.RemoveAzureVNetConfig(), "in use", 10, 30);
 
                 pass = true;
 
@@ -710,7 +712,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         vmPowershellCmdlets.RemoveAzureVNetGateway(vnet1);
                     }
                     catch { }
-                    Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
+                    Utilities.RetryActionUntilSuccess(() => vmPowershellCmdlets.RemoveAzureVNetConfig(), "in use", 10, 30);
+                    //Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
                 }
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
