@@ -421,7 +421,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
             return new BlobHandle(blobPath, key);
         }
-        public static bool RetryUntilSuccess <T> (Func<T> fn, string errorMessage, int maxTry, int intervalSeconds)
+        public static bool RetryFunctionUntilSuccess <T> (Func<T> fn, string errorMessage, int maxTry, int intervalSeconds)
         {
             int i = 0;
             while (i < maxTry)
@@ -447,6 +447,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
             }
             return false;            
+        }
+
+        public static void RetryActionUntilSuccess(Action act, string errorMessage, int maxTry, int intervalSeconds)
+        {
+            int i = 0;
+            while (i < maxTry)
+            {
+                try
+                {
+
+                    act();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    if (e.ToString().Contains(errorMessage))
+                    {
+                        Console.WriteLine("{0} error occurs! retrying ...", errorMessage);
+                        Console.WriteLine(e.InnerException.ToString());
+                        Thread.Sleep(intervalSeconds * 1000);
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.InnerException.ToString());
+                        throw;
+                    }
+                }
+            }
         }
 
         public static X509Certificate2 InstallCert(string certFile, StoreLocation location = StoreLocation.CurrentUser, StoreName name = StoreName.My)

@@ -370,7 +370,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
@@ -445,7 +445,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -528,7 +528,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
@@ -618,7 +618,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -719,7 +719,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 DateTime prevTime = DateTime.Now;
 
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
@@ -732,7 +732,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
 
-                WaitForStartingState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName1);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
 
@@ -785,7 +785,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -799,8 +799,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
 
-                WaitForStartingState(svcName, vmName1);
-                WaitForStartingState(svcName, vmName2);
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
@@ -874,7 +874,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 DateTime prevTime = DateTime.Now;
 
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
@@ -887,7 +887,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
 
-                WaitForStartingState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName1);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
 
@@ -955,7 +955,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -969,8 +969,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
 
-                WaitForStartingState(svcName, vmName1);
-                WaitForStartingState(svcName, vmName2);
+                WaitForReadyState(svcName, vmName1);
+                WaitForReadyState(svcName, vmName2);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
