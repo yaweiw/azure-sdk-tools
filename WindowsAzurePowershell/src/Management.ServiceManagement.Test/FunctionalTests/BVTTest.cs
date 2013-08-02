@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(windowsVMName, serviceName);
                 Assert.AreEqual(windowsVMName, vmRoleCtxt.Name, true);
 
-                vmPowershellCmdlets.NewAzureQuickLinuxVM(OS.Linux, linuxVMName, serviceName, linuxImageName, "user", password);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Linux, linuxVMName, serviceName, linuxImageName, "user", password);
 
                 // Verify
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(linuxVMName, serviceName);

@@ -45,6 +45,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Collection<PSObject> result = azurePowershellCmdlet.Run();
             if (result.Count == 1)
             {
+                try
+                {
+                    var operation = (ManagementOperationContext)result[0].BaseObject;
+                    Console.WriteLine("Operation ID: {0}", operation.OperationId);
+                }
+                catch
+                {
+                }
+
                 return (T) result[0].BaseObject;
             }
             return default(T);
@@ -65,6 +74,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 resultCollection.Add((T)re.BaseObject);
             }
+
+            try
+            {
+                var operation = (ManagementOperationContext)result[0].BaseObject;
+                Console.WriteLine("Operation ID: {0}", operation.OperationId);
+            }
+            catch
+            {
+            }
+
             return resultCollection;
         }
 
@@ -547,42 +566,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureQuickVM
 
-        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize)
         {
-            NewAzureQuickVMCmdletInfo newAzureQuickVMCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(newAzureQuickVMCmdlet);
-
-            SubscriptionData currentSubscription;
-            if ((currentSubscription = GetCurrentAzureSubscription()) == null)
+            ManagementOperationContext result = new ManagementOperationContext();
+            try
             {
-                ImportAzurePublishSettingsFile();
-                currentSubscription = GetCurrentAzureSubscription();
+                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize));
             }
-            if (string.IsNullOrEmpty(currentSubscription.CurrentStorageAccount))
+            catch (Exception e)
             {
-                StorageServicePropertiesOperationContext storageAccount = NewAzureStorageAccount(Utilities.GetUniqueShortName("storage"), locationName);
-                if (storageAccount != null)
+                if (e.ToString().Contains("409"))
                 {
-                    SetAzureSubscription(currentSubscription.SubscriptionName, storageAccount.StorageAccountName);
-                    currentSubscription = GetCurrentAzureSubscription();
+                    Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)), "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
                 }
             }
-            if (!string.IsNullOrEmpty(currentSubscription.CurrentStorageAccount))
-            {
-                azurePowershellCmdlet.Run();
-                return GetAzureVM(name, serviceName);
-            }
-            return null;
+            return result;
         }
 
-        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
-        }
-
-        public PersistentVMRoleContext NewAzureQuickLinuxVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
-        {
-            return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName);
         }
 
         #endregion
@@ -752,12 +760,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Collection<PSObject> result = newAzureServiceCmdlet.Run();
         }
 
-        public void RemoveAzureService(string serviceName)
+        public bool RemoveAzureService(string serviceName)
         {
-            RemoveAzureServiceCmdletInfo removeAzureServiceCmdletInfo = new RemoveAzureServiceCmdletInfo(serviceName);
-            WindowsAzurePowershellCmdlet removeAzureServiceCmdlet = new WindowsAzurePowershellCmdlet(removeAzureServiceCmdletInfo);
-
-            var result = removeAzureServiceCmdlet.Run();
+            bool result = false;
+            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)), "ConflictError", 3, 60);
+            return result;
         }
 
         public HostedServiceDetailedContext GetAzureService(string serviceName)
@@ -880,8 +887,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
         {
-            return RunPSCmdletAndReturnAll<ManagementOperationContext>(
-                new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup));
+            Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
+            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)), "409", 5, 60);
+            return result;
         }
 
         public PersistentVMRoleContext GetAzureVM(string vmName, string serviceName)
@@ -928,7 +936,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM));
+            ManagementOperationContext result = new ManagementOperationContext();
+            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM)), "409", 3, 60);
+            return result;
         }
 
         #endregion
@@ -973,6 +983,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public string GetAzureVMImageName(string[] keywords, bool exactMatch = true)
         {
             Collection<OSImageContext> vmImages = GetAzureVMImage();
+            foreach (OSImageContext image in vmImages)
+            {
+                if (Utilities.MatchKeywords(image.ImageName, keywords, exactMatch) >= 0)
+                    return image.ImageName;
+            }
             foreach (OSImageContext image in vmImages)
             {
                 if (Utilities.MatchKeywords(image.OS, keywords, exactMatch) >= 0)

@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSLinuxVM");
             string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
 
-            vmPowershellCmdlets.NewAzureQuickLinuxVM(OS.Linux, newAzureQuickVMName, serviceName, linuxImageName, "user", password, locationName);
+            vmPowershellCmdlets.NewAzureQuickVM(OS.Linux, newAzureQuickVMName, serviceName, linuxImageName, "user", password, locationName);
 
             // Verify
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
@@ -695,7 +695,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 }
 
-                Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
+                Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
 
                 pass = true;
 
@@ -710,7 +710,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         vmPowershellCmdlets.RemoveAzureVNetGateway(vnet1);
                     }
                     catch { }
-                    Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
+                    Utilities.RetryFunctionUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
                 }
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
