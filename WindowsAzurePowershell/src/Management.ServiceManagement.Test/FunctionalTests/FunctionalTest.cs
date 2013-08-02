@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            SetTestSettings();
+            //SetTestSettings();
 
             if (defaultAzureSubscription.Equals(null))
             {
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {            
-            ReImportSubscription();
+            //ReImportSubscription();
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             pass = false;

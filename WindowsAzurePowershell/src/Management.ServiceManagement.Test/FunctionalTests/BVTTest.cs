@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            SetTestSettings();
+            //ReImportSubscription();
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
             testStartTime = DateTime.Now;
@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         /// <summary>
         /// </summary>
-        [TestMethod(), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("BVT test for New-AzureQuickVM")]
+        [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("BVT test for New-AzureQuickVM")]
         public void AzureQuickVMBVT()
         {
             try
@@ -417,7 +417,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Remove the service
             if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {
-                vmPowershellCmdlets.RemoveAzureService(serviceName);
+                try
+                {
+                    vmPowershellCmdlets.RemoveAzureService(serviceName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error occurred while deleting service: {0}", e.ToString());
+
+                }
                 try
                 {
                     vmPowershellCmdlets.GetAzureService(serviceName);

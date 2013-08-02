@@ -472,7 +472,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Console.WriteLine(e.InnerException.ToString());
+                        Console.WriteLine(e.ToString());
+                        if (e.InnerException != null)
+                        {
+                            Console.WriteLine(e.InnerException.ToString());
+                        }
                         throw;
                     }
                 }

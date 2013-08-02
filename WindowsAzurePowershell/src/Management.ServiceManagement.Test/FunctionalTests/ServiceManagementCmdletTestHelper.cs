@@ -577,7 +577,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 if (e.ToString().Contains("409"))
                 {
-                    Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)), "409", 4, 60);
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)),
+                        "409", 4, 60);
                 }
                 else
                 {
@@ -724,9 +726,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public void RemoveAzureStorageAccount(string storageAccountName)
         {
-            var removeAzureStorageAccountCmdletInfo = new RemoveAzureStorageAccountCmdletInfo(storageAccountName);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(removeAzureStorageAccountCmdletInfo);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
+            Utilities.RetryActionUntilSuccess(
+                () => RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureStorageAccountCmdletInfo(storageAccountName)),
+                "409", 3, 60);
         }
 
         #endregion
@@ -763,7 +765,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public bool RemoveAzureService(string serviceName)
         {
             bool result = false;
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)), "ConflictError", 3, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)),
+                "ConflictError", 3, 60);
             return result;
         }
 
@@ -888,7 +892,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)), "409", 5, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)),
+                "409", 5, 60);
             return result;
         }
 
@@ -937,7 +943,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
         {
             ManagementOperationContext result = new ManagementOperationContext();
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM)), "409", 3, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM)),
+                "409", 3, 60);
             return result;
         }
 

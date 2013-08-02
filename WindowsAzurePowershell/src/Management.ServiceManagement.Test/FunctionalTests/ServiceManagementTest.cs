@@ -78,6 +78,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
         {
+            SetTestSettings();
         }
 
         public static void SetDefaultStorage()
