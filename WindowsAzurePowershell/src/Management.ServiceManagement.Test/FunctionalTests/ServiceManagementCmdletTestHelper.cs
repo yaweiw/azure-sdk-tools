@@ -380,7 +380,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         // Add-AzureDisk
         public DiskContext AddAzureDisk(string diskName, string mediaPath, string label, string os)
         {
-            return RunPSCmdletAndReturnFirst<DiskContext>(new AddAzureDiskCmdletInfo(diskName, mediaPath, label, os));
+            DiskContext result = new DiskContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<DiskContext>(new AddAzureDiskCmdletInfo(diskName, mediaPath, label, os)),
+                "409", 3, 60);
+            return result;
         }
 
         // Get-AzureDisk
@@ -955,12 +959,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, string label = null)
         {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label));
+            OSImageContext result = new OSImageContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label)),
+                "409", 3, 60);
+            return result;
         }
 
         public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, InstanceSize recommendedSize)
         {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize));
+            OSImageContext result = new OSImageContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize)),
+                "409", 3, 60);
+            return result;
         }
 
         public OSImageContext UpdateAzureVMImage(string imageName, string label)
@@ -975,7 +987,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public ManagementOperationContext RemoveAzureVMImage(string imageName, bool deleteVhd = false)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMImageCmdletInfo(imageName, deleteVhd));
+            ManagementOperationContext result = new ManagementOperationContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMImageCmdletInfo(imageName, deleteVhd)),
+                "409", 3, 60);
+            return result;
         }
 
         public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName = null)
