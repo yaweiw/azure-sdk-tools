@@ -1032,32 +1032,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, false, null));
+            return AddAzureVhd(localFile, destination, null);
         }
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, string baseImage)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, false, baseImage));
+            return AddAzureVhd(localFile, destination, null, false, baseImage);
         }
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, bool overwrite)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, overwrite, null));
+            return AddAzureVhd(localFile, destination, null, overwrite);
         }
 
-        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int numberOfUploaderThreads)
+        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int? numberOfUploaderThreads, bool overWrite = false, string baseImage = null)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, false, null));
-        }
-
-        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int? numberOfUploaderThreads, bool overWrite)
-        {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, overWrite, null));
+            VhdUploadContext result = new VhdUploadContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, overWrite, baseImage)),
+                "pipeline is already running", 3, 30);
+            return result;
         }
 
         public VhdDownloadContext SaveAzureVhd(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite)
         {
-            return RunPSCmdletAndReturnFirst<VhdDownloadContext>(new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite));
+            VhdDownloadContext result = new VhdDownloadContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<VhdDownloadContext>(new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite)),
+                "pipeline is already running", 3, 30);
+            return result;
         }
 
         public string SaveAzureVhdStop(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite, int ms)
