@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.Internal.Common</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.ConsoleAppUtils</AssemblyName>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.ConsoleAppUtils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

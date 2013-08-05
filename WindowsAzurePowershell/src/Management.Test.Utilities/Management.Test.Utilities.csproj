@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.Test.Utilities</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.Test.Utilities</AssemblyName>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.Test.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

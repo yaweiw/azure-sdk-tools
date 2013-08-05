@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.ScenarioTest</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.ScenarioTest</AssemblyName>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.ScenarioTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
