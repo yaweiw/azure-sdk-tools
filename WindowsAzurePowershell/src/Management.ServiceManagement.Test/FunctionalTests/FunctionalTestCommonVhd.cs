@@ -87,7 +87,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            //ReImportSubscription();
             vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
             CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
             pass = false;

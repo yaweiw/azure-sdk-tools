@@ -65,7 +65,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            //ReImportSubscription();
             pass = false;
             testStartTime = DateTime.Now;
         }
