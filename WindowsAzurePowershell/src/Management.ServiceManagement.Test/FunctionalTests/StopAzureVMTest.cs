@@ -1076,7 +1076,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
         }
 
-        private void WaitForStatus(string svcName, string vmName, string[] expStatus, string[] skipStatus = null, int interval = 10, int maxTry = 100)
+        private void WaitForStatus(string svcName, string vmName, string[] expStatus, string[] skipStatus, int interval, int maxTry)
         {
             string vmStatus = string.Empty;
 
@@ -1092,15 +1092,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 vmStatus = vmPowershellCmdlets.GetAzureVM(vmName, svcName).InstanceStatus;
 
-                if (skips != null && skips.Contains(vmStatus))
-                {
-                    Console.WriteLine("Current VM state is {0}.  Keep waiting...", vmStatus);
-                    Thread.Sleep(interval * 1000);
-                }
-                else if (exps.Contains(vmStatus))
+                if (exps.Contains(vmStatus))
                 {
                     Console.WriteLine("The VM is in {0} state after {1} seconds", vmStatus, i * interval);
                     return;
+                }
+                else if (skips == null || skips.Contains(vmStatus))
+                {
+                    Console.WriteLine("Current VM state is {0}.  Keep waiting...", vmStatus);
+                    Thread.Sleep(interval * 1000);
                 }
                 else
                 {
@@ -1113,78 +1113,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.Fail("The VM does not become ready within a given time.");
         }
 
-        private void WaitForReadyState(string svc, string vm, int interval = 10, int maxTry = 100)
+        private void WaitForReadyState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
-            WaitForStatus(svc, vm, new string[] { readyState }, new string[] { unknownState, creatingState, provisioningState, startingState }, interval, maxTry);
+            //WaitForStatus(svc, vm, new string[] { readyState }, new string[] { unknownState, creatingState, provisioningState, startingState }, interval, maxTry);
+            WaitForStatus(svc, vm, new string[] { readyState }, null, interval, maxTry);
         }
 
-        private void WaitForStartedState(string svc, string vm, int interval = 10, int maxTry = 100)
+        private void WaitForStartedState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
-            WaitForStatus(svc, vm, new string[] { readyState, provisioningState }, new string[] { unknownState, creatingState, startingState }, interval, maxTry);
+            //WaitForStatus(svc, vm, new string[] { readyState, provisioningState }, new string[] { unknownState, creatingState, startingState }, interval, maxTry);
+            WaitForStatus(svc, vm, new string[] { readyState, provisioningState }, null, interval, maxTry);
         }
 
-        private void WaitForStartingState(string svc, string vm, int interval = 10, int maxTry = 100)
+        private void WaitForStartingState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
-            WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, new string[] { unknownState });
+            //WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, new string[] { unknownState }, interval, maxTry);
+            WaitForStatus(svc, vm, new string[] { creatingState, provisioningState, readyState, startingState }, null, interval, maxTry);
         }
 
-        private void WaitForStoppedState(string svc, string vm, int interval = 10, int maxTry = 100)
+        private void WaitForStoppedState(string svc, string vm, int interval = 20, int maxTry = 30)
         {
-            WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState, readyState }, interval, maxTry);
+            //WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, new string[] { unknownState, provisioningState, readyState }, interval, maxTry);
+            WaitForStatus(svc, vm, new string[] { stoppedDeallocatedState, stoppedProvisionedState }, null, interval, maxTry);
         }
-
-        //private void StartAzureVMs(string vmWildcardName, string svcName)
-        //{
-        //    // This retry logic is necessary for HTTP 409 (conflict) results
-        //    // that can occur when calling Start-AzureVM using wildcard syntax.
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        try
-        //        {
-        //            vmPowershellCmdlets.StartAzureVM(vmWildcardName, svcName);
-        //            break;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            if ((e.InnerException != null) && e.InnerException.Message.Contains("HTTP Status Code: 409"))
-        //            {
-        //                Console.WriteLine(e.ToString());
-        //                Thread.Sleep(60 * 1000);
-        //                continue;
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void StopAzureVMs(string vmWildcardName, string svcName, bool stayProvisioned = false, bool force = false)
-        //{
-        //    // This retry logic is necessary for HTTP 409 (conflict) results
-        //    // that can occur when calling Stop-AzureVM using wildcard syntax.
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        try
-        //        {
-        //            vmPowershellCmdlets.StopAzureVM(vmWildcardName, svcName, stayProvisioned, force);
-        //            break;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            if ((e.InnerException != null) && e.InnerException.Message.Contains("HTTP Status Code: 409"))
-        //            {
-        //                Console.WriteLine(e.ToString());
-        //                Thread.Sleep(60 * 1000);
-        //                continue;
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
