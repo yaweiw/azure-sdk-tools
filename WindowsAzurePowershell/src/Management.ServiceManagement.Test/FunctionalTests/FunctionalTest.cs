@@ -52,8 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestInitialize]
         public void Initialize()
-        {            
-            //ReImportSubscription();
+        {
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             pass = false;

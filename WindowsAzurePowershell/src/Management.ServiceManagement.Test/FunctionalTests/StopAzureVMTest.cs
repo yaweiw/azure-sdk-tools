@@ -43,8 +43,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            //SetTestSettings();
-
             if (string.IsNullOrEmpty(imageName))
             {
                 imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
@@ -54,7 +52,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            //ReImportSubscription();
             pass = false;
             testStartTime = DateTime.Now;
 
