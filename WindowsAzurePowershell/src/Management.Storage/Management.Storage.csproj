@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.Storage</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.Storage</AssemblyName>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.Storage</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

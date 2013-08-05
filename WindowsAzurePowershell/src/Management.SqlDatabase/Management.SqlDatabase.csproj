@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.SqlDatabase</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.SqlDatabase</AssemblyName>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.SqlDatabase</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
