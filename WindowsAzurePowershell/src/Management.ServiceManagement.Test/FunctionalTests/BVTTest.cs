@@ -42,6 +42,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// <summary>
         /// </summary>
         [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("BVT test for New-AzureQuickVM")]
+        [Ignore]
         public void AzureQuickVMBVT()
         {
             try
