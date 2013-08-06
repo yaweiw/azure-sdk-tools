@@ -164,11 +164,11 @@
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.Utilities\Commands.Utilities.csproj">
+    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management\Commands.csproj">
+    <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
