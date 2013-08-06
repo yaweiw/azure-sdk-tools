@@ -164,13 +164,13 @@
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
-      <Name>Management.Utilities</Name>
+      <Name>Commands.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management\Management.csproj">
+    <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
-      <Name>Management</Name>
+      <Name>Commands</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
