@@ -36,25 +36,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     [TestClass]
     public class FunctionalTestCommonVhd : ServiceManagementTest
     {
-        private const string vhdName = "os.vhd";
+        private const string vhdNamePrefix = "os.vhd";
+        private string vhdName;
         protected static string vhdBlobLocation;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            SetTestSettings();
+            //SetTestSettings();
 
             if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
+            vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdNamePrefix);
             if (string.IsNullOrEmpty(localFile))
             {
                 try
                 {
-                    CredentialHelper.CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdName);
+                    CredentialHelper.CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdNamePrefix);
                 }
                 catch (Exception e)
                 {
@@ -86,7 +87,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            ReImportSubscription();
+            vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
+            CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
             pass = false;
             testStartTime = DateTime.Now;
         }
@@ -139,6 +141,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 Assert.Fail("Exception occurs: {0}", e.ToString());
             }
+        }
+
+        private void CopyCommonVhd(string vhdContainerName, string vhdName, string myVhdName)
+        {
+            vmPowershellCmdlets.RunPSScript(string.Format("Start-AzureStorageBlobCopy -SrcContainer {0} -SrcBlob {1} -DestContainer {2} -DestBlob {3}", vhdContainerName, vhdName, vhdContainerName, myVhdName));
         }
 
         [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]

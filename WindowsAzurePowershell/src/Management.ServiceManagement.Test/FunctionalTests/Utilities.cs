@@ -421,33 +421,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
             return new BlobHandle(blobPath, key);
         }
-        public static bool RetryFunctionUntilSuccess <T> (Func<T> fn, string errorMessage, int maxTry, int intervalSeconds)
-        {
-            int i = 0;
-            while (i < maxTry)
-            {
-                try
-                {
-
-                    fn();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    if (e.ToString().Contains(errorMessage))
-                    {
-                        Thread.Sleep(intervalSeconds * 1000);
-                        i++;
-                        continue;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-            return false;            
-        }
 
         public static void RetryActionUntilSuccess(Action act, string errorMessage, int maxTry, int intervalSeconds)
         {
@@ -472,7 +445,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Console.WriteLine(e.InnerException.ToString());
+                        Console.WriteLine(e.ToString());
+                        if (e.InnerException != null)
+                        {
+                            Console.WriteLine(e.InnerException.ToString());
+                        }
                         throw;
                     }
                 }
