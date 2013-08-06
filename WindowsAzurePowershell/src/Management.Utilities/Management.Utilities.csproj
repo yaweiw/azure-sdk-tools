@@ -599,7 +599,7 @@
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Microsoft.WindowsAzure.Management.dll-Help.xml">
+    <Content Include="Microsoft.WindowsAzure.Commands.dll-Help.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
