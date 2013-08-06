@@ -380,7 +380,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         // Add-AzureDisk
         public DiskContext AddAzureDisk(string diskName, string mediaPath, string label, string os)
         {
-            return RunPSCmdletAndReturnFirst<DiskContext>(new AddAzureDiskCmdletInfo(diskName, mediaPath, label, os));
+            DiskContext result = new DiskContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<DiskContext>(new AddAzureDiskCmdletInfo(diskName, mediaPath, label, os)),
+                "409", 3, 60);
+            return result;
         }
 
         // Get-AzureDisk
@@ -577,7 +581,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 if (e.ToString().Contains("409"))
                 {
-                    Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)), "409", 4, 60);
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)),
+                        "409", 4, 60);
                 }
                 else
                 {
@@ -724,9 +730,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public void RemoveAzureStorageAccount(string storageAccountName)
         {
-            var removeAzureStorageAccountCmdletInfo = new RemoveAzureStorageAccountCmdletInfo(storageAccountName);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(removeAzureStorageAccountCmdletInfo);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
+            Utilities.RetryActionUntilSuccess(
+                () => RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureStorageAccountCmdletInfo(storageAccountName)),
+                "409", 3, 60);
         }
 
         #endregion
@@ -763,7 +769,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public bool RemoveAzureService(string serviceName)
         {
             bool result = false;
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)), "ConflictError", 3, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)),
+                "ConflictError", 3, 60);
             return result;
         }
 
@@ -888,7 +896,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)), "409", 5, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)),
+                "409", 5, 60);
             return result;
         }
 
@@ -937,7 +947,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
         {
             ManagementOperationContext result = new ManagementOperationContext();
-            Utilities.RetryActionUntilSuccess(() => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM)), "409", 3, 60);
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM)),
+                "409", 3, 60);
             return result;
         }
 
@@ -947,12 +959,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, string label = null)
         {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label));
+            OSImageContext result = new OSImageContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label)),
+                "409", 3, 60);
+            return result;
         }
 
         public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, InstanceSize recommendedSize)
         {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize));
+            OSImageContext result = new OSImageContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize)),
+                "409", 3, 60);
+            return result;
         }
 
         public OSImageContext UpdateAzureVMImage(string imageName, string label)
@@ -967,7 +987,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public ManagementOperationContext RemoveAzureVMImage(string imageName, bool deleteVhd = false)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMImageCmdletInfo(imageName, deleteVhd));
+            ManagementOperationContext result = new ManagementOperationContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMImageCmdletInfo(imageName, deleteVhd)),
+                "409", 3, 60);
+            return result;
         }
 
         public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName = null)
@@ -1008,32 +1032,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, false, null));
+            return AddAzureVhd(localFile, destination, null);
         }
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, string baseImage)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, false, baseImage));
+            return AddAzureVhd(localFile, destination, null, false, baseImage);
         }
 
         public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, bool overwrite)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, overwrite, null));
+            return AddAzureVhd(localFile, destination, null, overwrite);
         }
 
-        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int numberOfUploaderThreads)
+        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int? numberOfUploaderThreads, bool overWrite = false, string baseImage = null)
         {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, false, null));
-        }
-
-        public VhdUploadContext AddAzureVhd(FileInfo localFile, string destination, int? numberOfUploaderThreads, bool overWrite)
-        {
-            return RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, overWrite, null));
+            VhdUploadContext result = new VhdUploadContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<VhdUploadContext>(new AddAzureVhdCmdletInfo(destination, localFile.FullName, numberOfUploaderThreads, overWrite, baseImage)),
+                "pipeline is already running", 3, 30);
+            return result;
         }
 
         public VhdDownloadContext SaveAzureVhd(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite)
         {
-            return RunPSCmdletAndReturnFirst<VhdDownloadContext>(new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite));
+            VhdDownloadContext result = new VhdDownloadContext();
+            Utilities.RetryActionUntilSuccess(
+                () => result = RunPSCmdletAndReturnFirst<VhdDownloadContext>(new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite)),
+                "pipeline is already running", 3, 30);
+            return result;
         }
 
         public string SaveAzureVhdStop(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite, int ms)
