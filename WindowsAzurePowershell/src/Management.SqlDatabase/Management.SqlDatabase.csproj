@@ -217,7 +217,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml">
+    <Content Include="Microsoft.WindowsAzure.Commands.SqlDatabase.dll-Help.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

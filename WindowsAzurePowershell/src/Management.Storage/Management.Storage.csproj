@@ -142,7 +142,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Management.Storage.dll-Help.xml">
+    <Content Include="Microsoft.WindowsAzure.Commands.Storage.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

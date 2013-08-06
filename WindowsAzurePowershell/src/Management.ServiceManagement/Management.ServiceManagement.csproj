@@ -353,7 +353,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
