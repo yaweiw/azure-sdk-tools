@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using XmlSchema;
 

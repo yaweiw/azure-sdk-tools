@@ -14,8 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Common.XmlSchema.ServiceDefinitionSchema;
 
     /// <summary>
     /// Used to delay application of runtime until the user has acknowledged she wants the change

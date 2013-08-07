@@ -29,8 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     using System.Text;
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Certificate = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;

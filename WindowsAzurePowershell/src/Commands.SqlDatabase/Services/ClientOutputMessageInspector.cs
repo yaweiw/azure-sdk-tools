@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     internal class ClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {

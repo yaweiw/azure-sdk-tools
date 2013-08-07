@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using Commands.Utilities.Common;
     using Helpers;
     using Properties;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceExtensionCmdlet : ServiceManagementBaseCmdlet

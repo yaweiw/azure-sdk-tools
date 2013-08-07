@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System.IO;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Sync;
     using Sync.Download;
 

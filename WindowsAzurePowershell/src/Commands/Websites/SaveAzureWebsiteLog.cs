@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
 {
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
     
     /// <summary>
     /// Gets the azure logs.

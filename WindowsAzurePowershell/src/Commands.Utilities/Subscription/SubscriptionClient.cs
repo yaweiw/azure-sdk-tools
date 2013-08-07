@@ -11,7 +11,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Subscription
+namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscription
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using Commands.Utilities.Common;
-    using Common;
     using Contract;
 
     /// <summary>

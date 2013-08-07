@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using Commands.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
-    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class AddAzureVMImage : ServiceManagementBaseCmdlet

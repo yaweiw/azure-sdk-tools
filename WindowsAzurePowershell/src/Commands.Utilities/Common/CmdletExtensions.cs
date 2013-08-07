@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Runtime.Serialization;
     using System.Xml;
     using System.Xml.Linq;
-    using Management.Utilities.Common;
 
     public static class CmdletExtensions
     {

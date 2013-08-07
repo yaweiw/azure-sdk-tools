@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Text;
     using System.Web.Script.Serialization;
     using Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
 

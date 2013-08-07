@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Commands.Utilities.Websites;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.DeploymentEntities;
+    using Commands.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;

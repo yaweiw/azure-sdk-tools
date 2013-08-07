@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
     using Newtonsoft.Json;
     using Management.Test.Utilities.Common;

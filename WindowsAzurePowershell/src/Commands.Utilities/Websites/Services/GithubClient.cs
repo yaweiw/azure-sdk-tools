@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System;
     using System.Collections.Generic;
@@ -26,10 +26,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using Commands.Utilities.Common;
+    using Common;
     using Github;
     using Github.Entities;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using WebEntities;
 

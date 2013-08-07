@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using System;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class WindowsAzureEnvironmentTests

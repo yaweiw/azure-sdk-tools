@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using System.Diagnostics;
     using System.IO;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Resources;
     using VisualStudio.TestTools.UnitTesting;
 

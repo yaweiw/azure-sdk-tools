@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

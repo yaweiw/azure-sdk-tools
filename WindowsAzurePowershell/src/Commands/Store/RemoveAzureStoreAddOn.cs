@@ -18,9 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Store
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Commands.Utilities.Store;
 
     /// <summary>
     /// Removes all purchased Add-Ons or specific Add-On

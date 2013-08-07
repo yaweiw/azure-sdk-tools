@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud

@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store.Contract
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store.Contract
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
+    using ResourceModel;
 
     public static class StoreExtensionMethods
     {

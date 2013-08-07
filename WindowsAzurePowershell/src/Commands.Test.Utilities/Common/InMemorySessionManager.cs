@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using System.Collections.Generic;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class InMemorySessionManager : ISessionManager
     {

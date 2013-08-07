@@ -19,9 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Store
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Commands.Utilities.Store;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>

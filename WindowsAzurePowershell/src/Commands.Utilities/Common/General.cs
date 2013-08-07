@@ -33,7 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Newtonsoft.Json;
     using XmlSchema.ServiceConfigurationSchema;

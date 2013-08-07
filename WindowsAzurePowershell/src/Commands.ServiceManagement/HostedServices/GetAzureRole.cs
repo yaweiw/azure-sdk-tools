@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Management.Automation;
     using System.ServiceModel;
     using Commands.Utilities.Common;
-    using Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;

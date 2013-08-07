@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     using System.Security.Permissions;
     using System.Text;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>

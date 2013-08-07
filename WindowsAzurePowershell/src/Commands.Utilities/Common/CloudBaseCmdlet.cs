@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
     using System.Threading;
-    using Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ServiceManagement;
 

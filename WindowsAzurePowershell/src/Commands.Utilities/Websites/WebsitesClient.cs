@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
@@ -25,16 +25,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Web;
     using System.Xml.Linq;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json.Linq;
+    using Services;
+    using Services.DeploymentEntities;
+    using Services.GeoEntities;
+    using Services.WebEntities;
 
     public class WebsitesClient : IWebsitesClient
     {

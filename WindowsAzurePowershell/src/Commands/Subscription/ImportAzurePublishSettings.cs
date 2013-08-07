@@ -24,10 +24,9 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
-    using Utilities.Common;
     using Commands.Utilities.Properties;
-    using Utilities.Subscription;
-    using Utilities.Subscription.Contract;
+    using Commands.Utilities.Subscription;
+    using Commands.Utilities.Subscription.Contract;
 
     /// <summary>
     /// Imports publish profiles.

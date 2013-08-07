@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using WindowsAzure.Management.ServiceManagement.Extensions;
     using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
-    using Utilities.Common;
     using Properties;
 
     /// <summary>

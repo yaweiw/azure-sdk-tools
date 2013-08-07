@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     using System.Security.Permissions;
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances

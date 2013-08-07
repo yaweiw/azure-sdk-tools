@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Adds a new Windows Azure environment.

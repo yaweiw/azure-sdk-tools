@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Properties;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>

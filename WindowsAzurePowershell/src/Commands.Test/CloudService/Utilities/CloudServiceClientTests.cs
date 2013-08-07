@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 	using Commands.Utilities.Common;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-	using Microsoft.WindowsAzure.Management.Utilities.Common;
 	using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 	using Microsoft.WindowsAzure.ServiceManagement;
 	using Microsoft.WindowsAzure.Storage.Blob;

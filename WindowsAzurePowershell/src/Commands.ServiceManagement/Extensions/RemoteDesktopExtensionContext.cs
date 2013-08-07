@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using Commands.Utilities.Common;
-    using Utilities.Common;
 
     public class RemoteDesktopExtensionContext : ManagementOperationContext
     {

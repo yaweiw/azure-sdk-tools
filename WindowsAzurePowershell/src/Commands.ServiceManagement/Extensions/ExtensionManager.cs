@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Text;
     using Commands.Utilities.Common;
     using Properties;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public class ExtensionManager

@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
