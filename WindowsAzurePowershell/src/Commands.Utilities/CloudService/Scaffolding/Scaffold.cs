@@ -12,18 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
+using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
-    using System.Text.RegularExpressions;
-    using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-
-    public delegate void ScaffoldRule(string path, Dictionary<string, object> parameters);
-
     public class Scaffold
     {
         public List<ScaffoldFile> Files { get; private set; }
@@ -179,4 +178,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
             return value;
         }
     }
+}
+
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
+{
+    using System.Collections.Generic;
+
+    public delegate void ScaffoldRule(string path, Dictionary<string, object> parameters);
 }

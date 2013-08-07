@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
     using ServiceManagement;
-    using Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {

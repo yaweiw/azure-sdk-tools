@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
+
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 {
     using System.IO;

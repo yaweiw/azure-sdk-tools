@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public static class CmdletSubscriptionExtensions
     {

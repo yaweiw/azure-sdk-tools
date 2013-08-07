@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public sealed class ValidateCountryLengthAttribute : ValidateEnumeratedArgumentsAttribute

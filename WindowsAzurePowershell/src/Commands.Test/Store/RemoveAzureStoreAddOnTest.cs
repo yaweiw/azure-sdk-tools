@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Store
     using Microsoft.WindowsAzure.Management.Store;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Store;
     using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
     using Moq;

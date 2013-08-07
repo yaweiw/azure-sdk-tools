@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Store;
 
     [TestClass]

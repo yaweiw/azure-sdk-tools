@@ -12,11 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class PublishContext
     {

@@ -12,7 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System;
     using System.Collections.Generic;
@@ -24,12 +26,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Security.Permissions;
     using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 

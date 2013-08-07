@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Management.Automation;
     using System.ServiceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ServiceManagement;
 
     /// <summary>

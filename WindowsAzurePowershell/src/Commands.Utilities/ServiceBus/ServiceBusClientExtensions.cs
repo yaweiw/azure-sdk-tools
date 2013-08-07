@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
     using Microsoft.ServiceBus.Messaging;
     using Microsoft.ServiceBus.Notifications;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement;

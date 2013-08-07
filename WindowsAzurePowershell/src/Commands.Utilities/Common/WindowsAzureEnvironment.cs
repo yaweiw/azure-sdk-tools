@@ -15,7 +15,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [Serializable]
     public class WindowsAzureEnvironment
