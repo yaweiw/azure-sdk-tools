@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
     using System.Collections.Generic;
     using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
 
     public static class NodeRules
