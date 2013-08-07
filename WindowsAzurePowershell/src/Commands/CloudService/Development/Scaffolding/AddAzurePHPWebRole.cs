@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
 {
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

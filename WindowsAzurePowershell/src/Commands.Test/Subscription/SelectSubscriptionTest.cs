@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
     using System.Linq;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

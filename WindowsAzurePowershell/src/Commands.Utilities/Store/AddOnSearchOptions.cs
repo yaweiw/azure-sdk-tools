@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Store
 {
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>

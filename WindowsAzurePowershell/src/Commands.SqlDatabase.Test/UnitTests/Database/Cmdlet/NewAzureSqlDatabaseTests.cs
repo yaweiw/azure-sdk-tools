@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;

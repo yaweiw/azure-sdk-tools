@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class ServiceBusConstants

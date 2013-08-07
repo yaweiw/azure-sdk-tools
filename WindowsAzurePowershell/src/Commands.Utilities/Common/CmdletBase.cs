@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
+    using Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters

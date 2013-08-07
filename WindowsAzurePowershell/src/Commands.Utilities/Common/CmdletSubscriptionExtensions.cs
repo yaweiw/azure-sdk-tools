@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public static class CmdletSubscriptionExtensions

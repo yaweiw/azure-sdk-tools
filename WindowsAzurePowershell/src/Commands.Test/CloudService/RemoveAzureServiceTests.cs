@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
     using Microsoft.WindowsAzure.Management.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Moq;
     using ServiceManagement;

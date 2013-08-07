@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;

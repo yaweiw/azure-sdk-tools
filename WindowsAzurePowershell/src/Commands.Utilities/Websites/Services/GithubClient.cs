@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.ServiceModel.Web;
+    using Commands.Utilities.Common;
     using Github;
     using Github.Entities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

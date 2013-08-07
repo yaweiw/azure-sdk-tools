@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System.Management.Automation;
+    using Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class SetSettings : CmdletBase

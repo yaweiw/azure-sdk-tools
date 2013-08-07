@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using Commands.Utilities.Common;
     using Utilities.Common;
     using Storage;
 

@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 	using System.IO;
 	using System.Security.Cryptography.X509Certificates;
 	using System.ServiceModel;
+	using Commands.Utilities.Common;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-	using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 	using Microsoft.WindowsAzure.Management.Utilities.Common;
 	using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 	using Microsoft.WindowsAzure.ServiceManagement;

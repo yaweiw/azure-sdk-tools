@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
     using System.IO;
+    using Commands.Utilities.Common;
     using Utilities.Common;
     using Properties;
 

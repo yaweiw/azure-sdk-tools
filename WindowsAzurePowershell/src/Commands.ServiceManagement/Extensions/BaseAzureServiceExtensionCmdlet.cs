@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
+    using Commands.Utilities.Common;
     using Helpers;
     using Properties;
-    using Utilities.CloudService;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 

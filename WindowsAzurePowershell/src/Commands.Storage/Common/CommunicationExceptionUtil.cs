@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using System.ServiceModel;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>

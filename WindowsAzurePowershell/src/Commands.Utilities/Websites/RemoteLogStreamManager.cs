@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class RemoteLogStreamManager : KuduRemoteClientBase

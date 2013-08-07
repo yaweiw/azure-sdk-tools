@@ -21,6 +21,8 @@ using Microsoft.WindowsAzure.Management.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using Common;
+
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {
         Dictionary<RuntimeType, List<CloudRuntimePackage>> packages = new Dictionary<RuntimeType, List<CloudRuntimePackage>>();

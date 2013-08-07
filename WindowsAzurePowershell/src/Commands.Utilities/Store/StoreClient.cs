@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

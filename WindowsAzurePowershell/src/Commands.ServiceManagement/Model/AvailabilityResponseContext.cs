@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class AvailabilityResponseContext : ManagementOperationContext

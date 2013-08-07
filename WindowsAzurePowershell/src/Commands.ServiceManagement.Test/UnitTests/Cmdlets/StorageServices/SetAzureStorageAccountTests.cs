@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.IO;
     using System.Text;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
