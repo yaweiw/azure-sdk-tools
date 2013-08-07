@@ -34,9 +34,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml.Linq;
     using System.Xml.Serialization;
     using Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Newtonsoft.Json;
+    using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
 
     public static class General

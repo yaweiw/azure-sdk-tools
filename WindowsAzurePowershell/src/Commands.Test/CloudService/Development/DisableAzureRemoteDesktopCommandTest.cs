@@ -19,11 +19,11 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
     using System.Collections.Generic;
     using System.Linq;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Development;
     using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
