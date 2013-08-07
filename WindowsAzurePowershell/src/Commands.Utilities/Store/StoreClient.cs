@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
     using System;
     using System.Collections.Generic;
@@ -22,12 +22,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
     using System.Text;
     using System.Threading;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Contract;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using ResourceModel;
     using ServiceManagementConstants = Microsoft.WindowsAzure.ServiceManagement.Constants;
 
     public class StoreClient

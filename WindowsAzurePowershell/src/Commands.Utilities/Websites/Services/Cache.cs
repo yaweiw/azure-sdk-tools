@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Web.Script.Serialization;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WebEntities;
 
     public static class Cache

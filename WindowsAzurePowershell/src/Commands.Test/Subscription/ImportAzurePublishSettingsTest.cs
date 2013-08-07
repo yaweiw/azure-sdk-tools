@@ -21,10 +21,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.Linq;
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
-    using Management.Utilities.Subscription.Contract;
+    using Commands.Utilities.Subscription.Contract;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;

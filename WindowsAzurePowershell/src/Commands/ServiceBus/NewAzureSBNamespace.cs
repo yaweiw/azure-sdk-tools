@@ -20,11 +20,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
     using System.Management.Automation;
     using System.Text.RegularExpressions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Commands.Utilities.ServiceBus;
+    using Commands.Utilities.ServiceBus.Contract;
+    using Commands.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Creates new service bus namespace.

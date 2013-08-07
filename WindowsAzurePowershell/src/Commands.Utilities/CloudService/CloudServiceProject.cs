@@ -27,8 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Security.Principal;
     using System.Text;
     using Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>

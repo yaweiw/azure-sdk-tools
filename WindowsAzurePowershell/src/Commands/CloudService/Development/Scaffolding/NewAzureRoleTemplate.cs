@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
     using System.Reflection;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>

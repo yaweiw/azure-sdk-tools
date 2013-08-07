@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class RemoveAzurePublishSettingsCommand
     {

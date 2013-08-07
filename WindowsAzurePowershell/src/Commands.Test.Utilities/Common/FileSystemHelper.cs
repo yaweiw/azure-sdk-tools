@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using System.Diagnostics;
     using System.IO;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Utility used to create files and directories and clean them up when

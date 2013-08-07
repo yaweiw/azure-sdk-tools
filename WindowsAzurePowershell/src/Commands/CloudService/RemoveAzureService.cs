@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>

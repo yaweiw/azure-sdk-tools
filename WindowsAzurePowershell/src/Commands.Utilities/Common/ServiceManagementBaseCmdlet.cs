@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
-    using Management.Utilities.Common;
     using ServiceManagement;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 

@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>

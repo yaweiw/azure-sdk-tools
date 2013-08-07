@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>

@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using IaasCmdletInfo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using PaasCmdletInfo;
     using WindowsAzure.ServiceManagement;

@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
-    using Management.Utilities.Common;
 
     public interface ISubscriptionsManager
     {

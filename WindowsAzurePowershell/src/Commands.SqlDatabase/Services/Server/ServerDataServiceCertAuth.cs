@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.

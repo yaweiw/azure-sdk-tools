@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Threading;
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage;

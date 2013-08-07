@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

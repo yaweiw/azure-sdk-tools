@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Selects a subscription from the previously imported ones.

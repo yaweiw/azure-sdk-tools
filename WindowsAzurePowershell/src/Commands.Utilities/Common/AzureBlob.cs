@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Globalization;
     using System.IO;
-    using Management.Utilities.Common;
     using ServiceManagement;
     using Storage;
     using Storage.Auth;

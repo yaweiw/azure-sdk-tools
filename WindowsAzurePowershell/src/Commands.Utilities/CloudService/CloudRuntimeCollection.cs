@@ -17,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-using Microsoft.WindowsAzure.Management.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {

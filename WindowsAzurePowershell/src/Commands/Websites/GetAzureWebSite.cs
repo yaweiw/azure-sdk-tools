@@ -18,11 +18,11 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Commands.Utilities.Websites;
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.DeploymentEntities;
+    using Commands.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.

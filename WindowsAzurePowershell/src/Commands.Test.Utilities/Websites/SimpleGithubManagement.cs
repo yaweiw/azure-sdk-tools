@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
+    using Commands.Utilities.Websites.Services.Github;
+    using Commands.Utilities.Websites.Services.Github.Entities;
 
     public class SimpleGithubManagement : IGithubServiceManagement
     {
