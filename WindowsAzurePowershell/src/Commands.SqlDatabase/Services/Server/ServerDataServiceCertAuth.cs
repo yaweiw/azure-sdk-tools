@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System;
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>

@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System.Security.Permissions;
     using System.Text;
     using System.Text.RegularExpressions;
+    using Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 

@@ -18,7 +18,6 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
 using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
@@ -178,11 +177,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
             return value;
         }
     }
-}
-
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
-{
-    using System.Collections.Generic;
 
     public delegate void ScaffoldRule(string path, Dictionary<string, object> parameters);
 }

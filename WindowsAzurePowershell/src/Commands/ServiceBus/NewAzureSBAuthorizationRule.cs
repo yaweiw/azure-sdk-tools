@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus;

@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Net.Security;
     using System.Security.Permissions;
     using System.Threading.Tasks;
+    using Commands.Utilities.Common;
     using Utilities.Common;
     using Commands.Utilities.Properties;
     using Utilities.Subscription;

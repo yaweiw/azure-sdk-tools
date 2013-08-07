@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
+    using Commands.Utilities.Common;
     using Sync.Download;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System.ServiceModel;
     using System.ServiceModel.Channels;

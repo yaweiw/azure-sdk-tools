@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using System;
     using System.Diagnostics;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>

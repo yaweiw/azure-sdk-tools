@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Serialization;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

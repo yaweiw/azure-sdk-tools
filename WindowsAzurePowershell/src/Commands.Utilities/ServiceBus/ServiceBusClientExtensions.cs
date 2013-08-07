@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
+    using Commands.Utilities.Common;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Management;
     using Microsoft.ServiceBus.Messaging;

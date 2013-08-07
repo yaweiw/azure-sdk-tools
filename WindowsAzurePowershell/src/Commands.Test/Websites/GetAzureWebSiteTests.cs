@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;

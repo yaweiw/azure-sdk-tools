@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
 

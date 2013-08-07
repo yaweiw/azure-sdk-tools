@@ -14,7 +14,6 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
-using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
@@ -27,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Security.Permissions;
     using System.Security.Principal;
     using System.Text;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
+    using Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

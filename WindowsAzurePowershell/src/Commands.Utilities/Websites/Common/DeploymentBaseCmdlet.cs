@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
 {
     using System;
     using System.ServiceModel;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;

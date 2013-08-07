@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscription
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Xml.Linq;
+    using Commands.Utilities.Common;
     using Common;
     using Contract;
 

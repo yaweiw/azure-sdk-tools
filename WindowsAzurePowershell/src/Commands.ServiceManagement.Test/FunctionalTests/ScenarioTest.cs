@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
+    using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Service.Gateway;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;

@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.IO;
     using System.Linq;
     using System.Web.Script.Serialization;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WebEntities;
 

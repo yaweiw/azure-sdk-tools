@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System.Text;
     using System.Web;
     using System.Xml.Linq;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
@@ -34,7 +35,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     public class WebsitesClient : IWebsitesClient
     {

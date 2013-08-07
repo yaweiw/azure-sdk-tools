@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Globalization;
     using System.IO;
+    using Management.Utilities.Common;
     using ServiceManagement;
     using Storage;
     using Storage.Auth;

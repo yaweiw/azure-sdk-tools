@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
     using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;

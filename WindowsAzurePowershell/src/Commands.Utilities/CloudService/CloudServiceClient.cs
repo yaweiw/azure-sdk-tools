@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
@@ -26,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.Threading;
+    using Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

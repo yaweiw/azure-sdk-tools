@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using ServiceManagement;
@@ -47,9 +46,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         /// <returns>The current storage account</returns>
         public CloudStorageAccount GetCurrentStorageAccount()
         {
-            Binding serviceBinding = Microsoft.WindowsAzure.Management.Utilities.Common.ConfigurationConstants.WebHttpBinding(0);
+            Binding serviceBinding = ConfigurationConstants.WebHttpBinding(0);
             string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
-                Microsoft.WindowsAzure.Management.Utilities.Common.ConfigurationConstants.ServiceManagementEndpoint :
+                ConfigurationConstants.ServiceManagementEndpoint :
                 ServiceEndpoint;
             IServiceManagement channel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
                 serviceBinding,

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.ServiceBus
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;

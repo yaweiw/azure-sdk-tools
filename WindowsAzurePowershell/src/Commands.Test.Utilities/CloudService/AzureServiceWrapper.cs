@@ -17,7 +17,6 @@ using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
 {
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     public class AzureServiceWrapper : CloudServiceProject
     {

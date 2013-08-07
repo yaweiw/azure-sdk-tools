@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
     using System.Collections.Generic;

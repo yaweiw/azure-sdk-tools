@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
     using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
