@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Security.Cryptography.X509Certificates;
     using Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using XmlSchema;
 
     public class SubscriptionsManager : ISubscriptionsManager
     {

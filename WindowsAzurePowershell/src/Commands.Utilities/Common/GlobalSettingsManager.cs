@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Subscription;
+    using XmlSchema;
 
     public class GlobalSettingsManager
     {

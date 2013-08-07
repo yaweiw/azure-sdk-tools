@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using System.IO;
     using System.Linq;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
