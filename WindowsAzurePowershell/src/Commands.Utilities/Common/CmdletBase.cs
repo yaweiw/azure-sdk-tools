@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {

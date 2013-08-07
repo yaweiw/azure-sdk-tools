@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using Github.Entities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using WebEntities;
 
     public static class SecureStringExtensionMethods

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
+
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Scaffolding
 {
     using System;
@@ -23,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Scaffo
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;

@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
     using System.Text;
     using System.Threading;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Store.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement;

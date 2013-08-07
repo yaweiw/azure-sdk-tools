@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;

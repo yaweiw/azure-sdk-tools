@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites;

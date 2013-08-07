@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
     using System;
     using System.Diagnostics;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools
     using System.Security.Permissions;
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class CsEncrypt : AzureTool
     {

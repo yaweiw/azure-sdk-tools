@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Text;
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Subscription;
 
     public class GlobalSettingsManager

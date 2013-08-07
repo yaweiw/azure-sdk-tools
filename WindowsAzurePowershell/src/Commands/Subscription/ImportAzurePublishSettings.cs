@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Utilities.Common;
-    using Utilities.Properties;
+    using Commands.Utilities.Properties;
     using Utilities.Subscription;
     using Utilities.Subscription.Contract;
 

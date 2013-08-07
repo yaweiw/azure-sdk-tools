@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;

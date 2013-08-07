@@ -9,18 +9,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Xml;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
 
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
+{
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {
         Dictionary<RuntimeType, List<CloudRuntimePackage>> packages = new Dictionary<RuntimeType, List<CloudRuntimePackage>>();
