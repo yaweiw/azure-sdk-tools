@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Test.Websites.Services
 {
     using System;
     using System.Collections.Generic;

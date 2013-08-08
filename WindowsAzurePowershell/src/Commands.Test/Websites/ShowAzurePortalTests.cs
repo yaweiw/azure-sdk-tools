@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Websites
+namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
 {
     using System;
     using System.Collections.Generic;

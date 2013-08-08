@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService
 {
     using Commands.Utilities.Common;
     using Commands.CloudService;

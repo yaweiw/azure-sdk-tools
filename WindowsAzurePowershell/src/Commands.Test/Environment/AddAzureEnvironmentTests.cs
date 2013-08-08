@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Environment
+namespace Microsoft.WindowsAzure.Commands.Test.Environment
 {
     using System;
     using System.Collections.Generic;
