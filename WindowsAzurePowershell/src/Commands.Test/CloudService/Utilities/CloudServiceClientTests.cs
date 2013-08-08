@@ -12,20 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
-	using System;
-	using System.IO;
-	using System.Security.Cryptography.X509Certificates;
-	using System.ServiceModel;
-	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-	using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-	using Microsoft.WindowsAzure.Management.Utilities.Common;
-	using Microsoft.WindowsAzure.Management.Utilities.Properties;
-	using Microsoft.WindowsAzure.ServiceManagement;
-	using Microsoft.WindowsAzure.Storage.Blob;
-	using Moq;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Moq;
+    using ServiceManagement;
+    using Storage.Blob;
+    using System;
+    using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
+    using Test.Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
 	[TestClass]
 	public class CloudServiceClientTests : TestBase

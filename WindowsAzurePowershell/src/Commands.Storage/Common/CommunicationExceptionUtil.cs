@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
 
     /// <summary>
     /// Communication exception utility

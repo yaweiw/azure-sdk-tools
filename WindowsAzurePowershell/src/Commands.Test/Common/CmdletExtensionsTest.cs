@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Test.Common
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

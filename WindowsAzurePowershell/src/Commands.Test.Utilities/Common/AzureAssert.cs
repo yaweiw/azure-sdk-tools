@@ -12,20 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Commands.Utilities.Properties;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.CloudService.Scaffolding;
     using VisualStudio.TestTools.UnitTesting;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 
     public static class AzureAssert
     {
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         public static void AzureServiceExists(string serviceRootPath, string scaffoldFilePath, string serviceName, ServiceSettings settings = null, WebRoleInfo[] webRoles = null, WorkerRoleInfo[] workerRoles = null, string webScaff = null, string workerScaff = null, RoleInfo[] roles = null)
         {
-            ServiceComponents components = new Microsoft.WindowsAzure.Management.Utilities.CloudService.ServiceComponents(new Microsoft.WindowsAzure.Management.Utilities.CloudService.ServicePathInfo(serviceRootPath));
+            ServiceComponents components = new ServiceComponents(new ServicePathInfo(serviceRootPath));
 
             ScaffoldingExists(serviceRootPath, scaffoldFilePath);
 

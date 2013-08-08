@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
     using System.IO;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Utilities.CloudService;
+    using Utilities.Common;
+    using Utilities.Properties;
 
     /// <summary>
     /// Creates new azure template for web/worker role.

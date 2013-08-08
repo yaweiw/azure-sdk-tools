@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store
+namespace Microsoft.WindowsAzure.Commands.Store
 {
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Store;
 
     /// <summary>
     /// Removes all purchased Add-Ons or specific Add-On

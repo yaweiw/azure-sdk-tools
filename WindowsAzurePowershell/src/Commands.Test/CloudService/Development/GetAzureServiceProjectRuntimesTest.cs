@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cmdlet
 {
+    using Commands.CloudService.Development;
+    using Commands.Utilities.CloudService;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Test.Utilities.CloudService;
+    using Test.Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureServiceProjectRuntimesTests : TestBase

@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites
+namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// Opens the azure portal.

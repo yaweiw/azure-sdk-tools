@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
     public static class ScaffoldParams
     {

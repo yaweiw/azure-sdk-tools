@@ -22,7 +22,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema
 {
     using System.Xml.Serialization;
 

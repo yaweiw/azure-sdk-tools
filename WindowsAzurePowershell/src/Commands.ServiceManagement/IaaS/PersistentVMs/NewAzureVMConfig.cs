@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
     using Model;
-    using Utilities.Common;
     using Properties;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]

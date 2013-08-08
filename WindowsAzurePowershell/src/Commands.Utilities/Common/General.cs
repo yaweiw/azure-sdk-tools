@@ -12,8 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using CloudService;
+    using Newtonsoft.Json;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -31,10 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Newtonsoft.Json;
+    using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
 
     public static class General

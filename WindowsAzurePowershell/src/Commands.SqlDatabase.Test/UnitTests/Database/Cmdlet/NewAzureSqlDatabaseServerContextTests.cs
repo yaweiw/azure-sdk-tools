@@ -19,14 +19,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Test.Utilities.Common;
 
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase

@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.Common;
+    using Utilities.Properties;
 
     /// <summary>
     /// Runs the service in the emulator

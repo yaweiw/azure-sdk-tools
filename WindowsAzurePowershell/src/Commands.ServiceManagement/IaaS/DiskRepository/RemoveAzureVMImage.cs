@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
+    using Commands.Utilities.Common;
     using Helpers;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]

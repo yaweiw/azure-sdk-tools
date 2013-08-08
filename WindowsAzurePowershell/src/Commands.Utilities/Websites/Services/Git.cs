@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public static class Git
     {

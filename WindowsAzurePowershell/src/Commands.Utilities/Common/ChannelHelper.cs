@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Web;
     using System.Text;
     using System.Xml;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     public static class ChannelHelper
     {

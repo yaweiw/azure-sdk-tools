@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using ServiceModel = System.ServiceModel;
 

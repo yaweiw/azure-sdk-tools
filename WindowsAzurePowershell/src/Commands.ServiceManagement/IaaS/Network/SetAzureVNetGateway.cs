@@ -16,7 +16,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
     using Service.Gateway;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetGateway", DefaultParameterSetName = "Connect"), OutputType(typeof(ManagementOperationContext))]

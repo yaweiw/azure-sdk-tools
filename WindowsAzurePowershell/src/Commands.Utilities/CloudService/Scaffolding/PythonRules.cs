@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Common.XmlSchema.ServiceDefinitionSchema;
 
     public static class PythonRules
     {

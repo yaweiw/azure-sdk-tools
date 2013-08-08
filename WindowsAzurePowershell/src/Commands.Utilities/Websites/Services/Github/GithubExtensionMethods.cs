@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.Github
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
+    using Entities;
 
     public static class GithubExtensionMethods
     {

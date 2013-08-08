@@ -11,6 +11,10 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Helpers;
+    using Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
@@ -19,10 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
-    using Helpers;
-    using Properties;
-    using Utilities.CloudService;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceExtensionCmdlet : ServiceManagementBaseCmdlet

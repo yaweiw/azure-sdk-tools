@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation.Host;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class PowerShellCustomConfirmation
     {

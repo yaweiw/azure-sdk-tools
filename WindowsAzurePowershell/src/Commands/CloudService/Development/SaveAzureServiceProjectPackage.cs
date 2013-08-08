@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
+    using Utilities.Common;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.Properties;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>
     /// Packages the service project into cloud or local package.

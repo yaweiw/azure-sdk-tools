@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Subscription
+namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using Microsoft.WindowsAzure.Management.Subscription;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema;
+    using Commands.Subscription;
+    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

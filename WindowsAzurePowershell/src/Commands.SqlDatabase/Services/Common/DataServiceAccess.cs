@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System.Net;
     using System.Text;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
 
     /// <summary>
     /// Defines the implementation of the <see cref="DataServiceAccess"/> utility class.

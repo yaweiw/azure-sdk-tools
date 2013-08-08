@@ -12,26 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Common.XmlSchema.ServiceDefinitionSchema;
+    using Properties;
+    using Scaffolding;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security;
-    using System.Security.Permissions;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using DefinitionConfigurationSetting = Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 
     static class CacheConfigurationFactory
     {

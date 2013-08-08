@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Utilities.Common;
+    using Commands.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;

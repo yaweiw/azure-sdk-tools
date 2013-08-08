@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Auth;
 
     [TestClass]

@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Subscription
+namespace Microsoft.WindowsAzure.Commands.Subscription
 {
     using System;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// Removes a previously imported subscription.

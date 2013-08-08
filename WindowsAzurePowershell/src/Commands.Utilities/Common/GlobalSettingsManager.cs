@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
@@ -22,9 +22,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Web.Script.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Subscription;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Subscription;
+    using XmlSchema;
 
     public class GlobalSettingsManager
     {

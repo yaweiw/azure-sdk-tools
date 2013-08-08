@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Globalization;
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
     using System.Threading;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ServiceManagement;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase

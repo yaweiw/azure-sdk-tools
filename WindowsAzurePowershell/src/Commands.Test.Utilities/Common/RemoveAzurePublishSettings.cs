@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
 
     public class RemoveAzurePublishSettingsCommand
     {

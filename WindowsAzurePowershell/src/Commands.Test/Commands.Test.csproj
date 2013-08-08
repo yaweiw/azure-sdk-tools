@@ -9,7 +9,7 @@
     <ProjectGuid>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.Test</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.Test</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Commands.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

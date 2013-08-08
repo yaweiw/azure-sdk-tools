@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.Github
 {
     using System;
     using System.ServiceModel.Channels;

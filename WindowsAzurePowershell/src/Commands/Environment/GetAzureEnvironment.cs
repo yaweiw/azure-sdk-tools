@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Subscription
+namespace Microsoft.WindowsAzure.Commands.Subscription
 {
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
+    using Utilities.CloudService;
 
     /// <summary>
     /// Gets the available Windows Azure environments.

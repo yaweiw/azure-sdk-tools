@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
 {
     using System;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Utilities.Common;
     using Model;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]

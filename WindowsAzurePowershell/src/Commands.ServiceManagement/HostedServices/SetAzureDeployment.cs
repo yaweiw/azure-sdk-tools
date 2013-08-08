@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
+    using Commands.Utilities.Common;
     using WindowsAzure.Management.ServiceManagement.Extensions;
     using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
-    using Utilities.Common;
     using Properties;
 
     /// <summary>

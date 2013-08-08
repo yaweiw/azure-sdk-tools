@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites
+namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Commands.Utilities.Websites;
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.DeploymentEntities;
 
     [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
     public class EnableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet

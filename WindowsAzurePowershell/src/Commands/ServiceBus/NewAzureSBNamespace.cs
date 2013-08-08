@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.ServiceBus
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.ServiceBus;
+    using Commands.Utilities.ServiceBus.Contract;
+    using Commands.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Creates new service bus namespace.

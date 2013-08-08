@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System;
     using System.Collections.Generic;
@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class ServiceSettings

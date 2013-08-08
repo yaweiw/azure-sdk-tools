@@ -20,11 +20,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
+    using Commands.Utilities.Common;
     using ConfigDataInfo;
     using IaasCmdletInfo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using PaasCmdletInfo;
     using WindowsAzure.ServiceManagement;
