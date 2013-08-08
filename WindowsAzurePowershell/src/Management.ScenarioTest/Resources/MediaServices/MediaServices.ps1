@@ -16,7 +16,7 @@
 
 function EnsureTestAccountExists
 {
-	$accounts = Get-AzureMediaService
+	$accounts = Get-AzureMediaServicesAccount
 
 	Foreach($account in $accounts)
 	{
@@ -25,7 +25,7 @@ function EnsureTestAccountExists
 			return
 		}
 	}
-	New-AzureMediaServicesAccount -Name $MediaServicesAccountName -Location $Location -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
+	New-AzureMediaServicesAccount -Name $MediaAccountName -Location $Region -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
 }
 
 <#
@@ -36,9 +36,9 @@ function Test-NewAzureMediaServicesKey
 {
 	EnsureTestAccountExists
 
-	$key = New-AzureMediaServicesKey -Name $MediaServicesAccountName Secondary -Force
+	$key = New-AzureMediaServicesKey -Name $MediaAccountName Secondary -Force
 
-	$account = Get-AzureMediaServicesAccount -Name $MediaServicesAccountName
+	$account = Get-AzureMediaServicesAccount -Name $MediaAccountName
 
 	Assert-AreEqual $key $account.SecondaryAccountKey
 }
@@ -51,7 +51,18 @@ function Test-RemoveAzureMediaServicesAccount
 {
 	EnsureTestAccountExists
 
-	Remove-AzureMediaServicesAccount -Name $MediaServicesAccountName -Force
+	Remove-AzureMediaServicesAccount -Name $MediaAccountName -Force
 
-	#Assert-Throws {Get-AzureMediaServices -Name $MediaServicesAccountName}
+	#Assert-Throws {Get-AzureMediaServicesAccount -Name $MediaAccountName}
+}
+
+function Test-GetAzureMediaServicesAccount
+{
+	$accounts = Get-AzureMediaServicesAccount
+}
+
+function Test-GetAzureMediaServicesAccountByName 
+{
+	$account = Get-AzureMediaServicesAccount -Name $MediaAccountName
+	#Assert-Throws {Get-AzureMediaServicesAccount -Name $MediaAccountName}
 }
