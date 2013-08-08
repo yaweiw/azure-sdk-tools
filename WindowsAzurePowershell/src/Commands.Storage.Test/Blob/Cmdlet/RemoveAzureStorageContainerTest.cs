@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
 
     /// <summary>
     /// unit test for RemoveAzureStorageContainer

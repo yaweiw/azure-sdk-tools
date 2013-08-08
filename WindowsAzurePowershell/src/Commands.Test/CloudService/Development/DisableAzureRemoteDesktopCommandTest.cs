@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Commands.CloudService.Development;
     using Commands.CloudService.Development.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

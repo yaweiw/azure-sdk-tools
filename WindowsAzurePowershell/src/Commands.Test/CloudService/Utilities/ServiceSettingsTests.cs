@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using TestBase = Test.Utilities.Common.TestBase;
+    using Testing = Test.Utilities.Common.Testing;
 
     [TestClass]
     public class ServiceSettingsTests : TestBase

@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using System.Collections.Generic;
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;
+    using Utilities.Common;
+    using Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;

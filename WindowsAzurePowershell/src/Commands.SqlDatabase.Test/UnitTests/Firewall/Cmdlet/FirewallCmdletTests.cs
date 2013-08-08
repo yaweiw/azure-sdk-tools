@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
     using System.Linq;
     using System.ServiceModel;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using Services;
     using SqlDatabase.Firewall.Cmdlet;
     using VisualStudio.TestTools.UnitTesting;

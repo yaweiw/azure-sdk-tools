@@ -25,11 +25,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Commands.CloudService.Development;
     using Commands.CloudService.Development.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using MockCommandRuntime = Test.Utilities.Common.MockCommandRuntime;
+    using TestBase = Test.Utilities.Common.TestBase;
+    using Testing = Test.Utilities.Common.Testing;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.

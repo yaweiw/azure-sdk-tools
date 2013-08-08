@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.Certificates
 {
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.CloudService;
+    using Commands.Test.Utilities.Common;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
 

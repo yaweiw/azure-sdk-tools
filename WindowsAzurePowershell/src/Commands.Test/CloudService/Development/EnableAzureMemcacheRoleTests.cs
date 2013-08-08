@@ -24,12 +24,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Commands.CloudService.Development;
     using Commands.CloudService.Development.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
-    using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;
+    using TestResources = Microsoft.WindowsAzure.Commands.Test.Utilities.Properties.Resources;
     using System.Linq;
 
     [TestClass]

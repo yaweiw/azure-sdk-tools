@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
     using System.Management.Automation;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;

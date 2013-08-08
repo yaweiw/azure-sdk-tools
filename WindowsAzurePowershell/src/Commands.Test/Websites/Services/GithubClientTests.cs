@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites.Services
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Host;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
+    using Utilities.Websites;
     using Commands.Utilities.Websites.Common;
     using Commands.Utilities.Websites.Services;
     using Commands.Utilities.Websites.Services.Github;

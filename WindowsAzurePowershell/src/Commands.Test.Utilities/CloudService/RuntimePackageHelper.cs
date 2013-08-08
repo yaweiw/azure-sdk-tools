@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
     using System;
     using System.Collections.Generic;
@@ -23,9 +23,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
     using System.Xml;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;
+    using TestResources = Microsoft.WindowsAzure.Commands.Test.Utilities.Properties.Resources;
 
     public class RuntimePackageHelper
     {

@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
     using System.Collections.Generic;
     using Commands.Utilities.Common;
     using Commands.CloudService.Development;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;

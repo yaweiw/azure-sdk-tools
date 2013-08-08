@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Commands.Store;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.Store;
     using Commands.Utilities.Store.ResourceModel;
