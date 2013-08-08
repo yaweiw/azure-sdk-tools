@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Store
+namespace Microsoft.WindowsAzure.Commands.Test.Store
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;

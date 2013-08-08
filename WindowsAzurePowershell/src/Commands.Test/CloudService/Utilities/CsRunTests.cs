@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;

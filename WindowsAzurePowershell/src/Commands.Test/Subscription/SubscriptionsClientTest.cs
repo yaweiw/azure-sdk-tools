@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Subscription
+namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 {
     using System;
     using System.Collections.Generic;
