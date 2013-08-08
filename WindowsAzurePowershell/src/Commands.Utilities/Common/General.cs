@@ -12,10 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using CloudService;
+    using Newtonsoft.Json;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -33,8 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Newtonsoft.Json;
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
 

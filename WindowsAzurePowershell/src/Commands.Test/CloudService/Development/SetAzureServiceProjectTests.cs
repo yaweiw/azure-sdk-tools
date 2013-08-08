@@ -12,17 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cmdlet
 {
-    using System;
-    using System.Collections.Generic;
-    using Commands.Utilities.Common;
     using Commands.CloudService.Development;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Properties;
+    using ServiceManagement;
+    using System;
     using Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

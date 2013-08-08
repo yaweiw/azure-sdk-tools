@@ -12,10 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System;
@@ -24,13 +20,15 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Security;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.CloudService.Scaffolding;
+    using Utilities.Properties;
     using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 

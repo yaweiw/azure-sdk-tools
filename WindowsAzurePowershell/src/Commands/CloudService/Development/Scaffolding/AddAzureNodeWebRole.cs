@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.CloudService;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Utilities.Properties;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role

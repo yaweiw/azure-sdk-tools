@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
 {
+    using Commands.CloudService.Development;
+    using Commands.CloudService.Development.Scaffolding;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security;
-    using Commands.Utilities.Common;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.CloudService.Development;
-    using Commands.CloudService.Development.Scaffolding;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using MockCommandRuntime = Test.Utilities.Common.MockCommandRuntime;

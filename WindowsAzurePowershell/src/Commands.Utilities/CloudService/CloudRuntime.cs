@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using AzureTools;
+    using Common;
+    using Common.XmlSchema.ServiceDefinitionSchema;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using Common;
-    using Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public abstract class CloudRuntime
     {

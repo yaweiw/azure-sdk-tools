@@ -12,12 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Utilities.CloudService;
 
     /// <summary>
     /// Adjusts the service configuration.

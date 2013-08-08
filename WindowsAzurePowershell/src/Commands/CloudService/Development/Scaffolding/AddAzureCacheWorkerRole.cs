@@ -12,21 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.Properties;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
-    using System.Security;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Adds dedicated caching node worker role.

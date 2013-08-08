@@ -12,10 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using AzureTools;
+    using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Properties;
+    using ServiceManagement;
+    using Storage;
+    using Storage.Auth;
+    using Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -25,13 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.Threading;
-    using Common;
-    using Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 

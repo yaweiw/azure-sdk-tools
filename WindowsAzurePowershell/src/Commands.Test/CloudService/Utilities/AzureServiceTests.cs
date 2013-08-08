@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System;
@@ -24,7 +22,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.CloudService.Development.Scaffolding;
     using Test.Utilities.CloudService;
     using Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Properties;
+    using Commands.Utilities.CloudService;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
