@@ -13,15 +13,15 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using ConfigDataInfo;
+    using Model;
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using System.Threading;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using System.Collections.Generic;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class StopAzureVMTest : ServiceManagementTest

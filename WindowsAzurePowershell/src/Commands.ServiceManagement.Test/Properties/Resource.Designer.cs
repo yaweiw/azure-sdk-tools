@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
     using System;
     
     

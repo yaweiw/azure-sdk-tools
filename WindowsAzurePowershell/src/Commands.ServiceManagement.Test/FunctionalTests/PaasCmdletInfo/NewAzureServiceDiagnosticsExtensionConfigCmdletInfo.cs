@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
-{    
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
+{
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
+    using PowershellCore;
 
     public class NewAzureServiceDiagnosticsExtensionConfigCmdletInfo : CmdletsInfo
     {
