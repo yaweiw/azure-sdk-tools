@@ -49,12 +49,12 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
                 });
 
             // Test
-            var command = new NewAzureMediaServicesKeyCommand(channel)
+            var command = new NewAzureMediaServiceKeyCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }, 
-                MediaServicesAccountName = "unittestaccount", 
+                Name = "unittestaccount", 
                 KeyType = MediaService.KeyType.Primary,
             };
 

@@ -17,50 +17,39 @@ using System.Management.Automation;
 using System.Net;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
-using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
-    public enum KeyType
-    {
-        Primary,
-        Secondary
-    }
-
     /// <summary>
-    ///     Gets an azure website.
+    /// Remove an Azure Media Services account
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureMediaServicesAccountKey", SupportsShouldProcess = true), OutputType(typeof (string))]
-    public class NewAzureMediaServicesKeyCommand : MediaServiceBaseCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureMediaServiceAccount", SupportsShouldProcess = true), OutputType(typeof (bool))]
+    public class RemoveAzureMediaServiceCommand : MediaServiceBaseCmdlet
     {
         /// <summary>
-        ///     Initializes a new instance of the NewAzureMediaServicesKeyCommand class.
+        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
         /// </summary>
-        public NewAzureMediaServicesKeyCommand() : this(null)
+        public RemoveAzureMediaServiceCommand() : this(null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the NewAzureMediaServicesKeyCommand class.
+        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
         /// </summary>
         /// <param name="channel">
         ///     Channel used for communication with Azure's service management APIs.
         /// </param>
-        public NewAzureMediaServicesKeyCommand(IMediaServiceManagement channel)
+        public RemoveAzureMediaServiceCommand(IMediaServiceManagement channel)
         {
             Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services account name.")]
         [ValidateNotNullOrEmpty]
-        public string MediaServicesAccountName { get; set; }
+        public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services key type <Primary|Secondary>.")]
-        [ValidateNotNullOrEmpty]
-        public KeyType KeyType { get; set; }
-
-        [Parameter(Position = 2, HelpMessage = "Do not confirm regeneration of the key.")]
+        [Parameter(Position = 1, HelpMessage = "Do not confirm deletion of account.")]
         public SwitchParameter Force { get; set; }
 
         public IMediaServicesClient MediaServicesClient { get; set; }
@@ -68,8 +57,8 @@ namespace Microsoft.WindowsAzure.Management.MediaService
         public override void ExecuteCmdlet()
         {
             ConfirmAction(Force.IsPresent,
-                          string.Format(Resources.RegenerateKeyWarning),
-                          Resources.RegenerateKeyWhatIfMessage,
+                          string.Format(Resources.RemoveMediaAccountWarning),
+                          Resources.RemoveMediaAccountWhatIfMessage,
                           string.Empty,
                           () =>
                               {
@@ -79,26 +68,24 @@ namespace Microsoft.WindowsAzure.Management.MediaService
                                               {
                                                   try
                                                   {
-                                                      Channel.RegenerateMediaServicesAccount(s, MediaServicesAccountName, KeyType.ToString());
+                                                      Channel.DeleteMediaServicesAccount(s, Name);
                                                   }
                                                   catch (Exception x)
                                                   {
                                                       var webx = x.InnerException as WebException;
                                                       if (webx != null && ((HttpWebResponse) webx.Response).StatusCode == HttpStatusCode.NotFound)
                                                       {
-                                                          throw new Exception(string.Format(Resources.InvalidMediaServicesAccount, MediaServicesAccountName));
+                                                          throw new Exception(string.Format(Resources.InvalidMediaServicesAccount, Name));
                                                       }
                                                       else
                                                       {
                                                           throw;
                                                       }
                                                   }
-
-                                                  MediaServiceAccountDetails details = Channel.GetMediaService(s, MediaServicesAccountName);
-                                                  string result = KeyType == KeyType.Primary ? details.AccountKeys.Primary : details.AccountKeys.Secondary;
-                                                  WriteObject(result);
                                               });
                                       });
+
+                                  WriteObject(true);
                               });
         }
     }

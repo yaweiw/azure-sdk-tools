@@ -42,12 +42,12 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             channelMock.Setup(f => f.EndDeleteMediaServicesAccount(null)).Verifiable();
 
             // Test
-            var command = new RemoveAzureMediaServicesAccountCommand(channel)
+            var command = new RemoveAzureMediaServiceCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
-                MediaServicesAccountName = "unittestaccount",
+                Name = "unittestaccount",
             };
 
             command.ExecuteCmdlet();

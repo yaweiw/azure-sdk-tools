@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
-using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
 {
@@ -29,13 +27,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
         [TestMethod]
         public void TestNewAzureMediaServicesKey()
         {
-            RunPowerShellTest("Test-NewAzureMediaServicesKey");
+            RunPowerShellTest("Test-NewAzureMediaServiceKey");
         }
 
         [TestMethod]
         public void TestRemoveAzureMediaServicesAccount()
         {
-            RunPowerShellTest("Test-RemoveAzureMediaServicesAccount");
+            RunPowerShellTest("Test-RemoveAzureMediaServiceAccount");
         }
     }
 }

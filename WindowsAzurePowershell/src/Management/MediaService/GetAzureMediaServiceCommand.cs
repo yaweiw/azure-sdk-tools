@@ -20,14 +20,14 @@ using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaSer
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
     /// <summary>
-    ///     Gets an azure website.
+    ///     Gets an azure media service account 
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureMediaServices"), OutputType(typeof (MediaServiceAccount), typeof (IEnumerable<MediaServiceAccount>))]
-    public class GetAzureMediaServicesCommand : AzureMediaServicesHttpClientCommandBase
+    [Cmdlet(VerbsCommon.Get, "AzureMediaService"), OutputType(typeof (MediaServiceAccount), typeof (IEnumerable<MediaServiceAccount>))]
+    public class GetAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service account name.")]
         [ValidateNotNullOrEmpty]
-        public string MediaServicesAccountName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         ///     Gets or sets the media services client.
@@ -49,10 +49,10 @@ namespace Microsoft.WindowsAzure.Management.MediaService
         {
             MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-            if (!string.IsNullOrEmpty(MediaServicesAccountName))
+            if (!string.IsNullOrEmpty(Name))
             {
                 MediaServiceAccountDetails account = null;
-                CatchAggregatedExceptionFlattenAndRethrow(() => { account = MediaServicesClient.GetMediaServiceAsync(MediaServicesAccountName).Result;});
+                CatchAggregatedExceptionFlattenAndRethrow(() => { account = MediaServicesClient.GetMediaServiceAsync(Name).Result;});
                 WriteObject(account, false);
             }
             else

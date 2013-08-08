@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         private readonly string _subscriptionId;
 
         /// <summary>
-        ///     Creates new WebsitesClient.
+        ///     Creates new MediaServicesClient.
         /// </summary>
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
@@ -71,9 +71,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Gets the media service accounts async.
         /// </summary>
         /// <returns></returns>
-        public Task<List<MediaServiceAccount>> GetMediaServiceAccountsAsync()
+        public Task<IEnumerable<MediaServiceAccount>> GetMediaServiceAccountsAsync()
         {
-            return _httpClient.GetAsync(MediaServicesUriElements.Accounts, Logger).ContinueWith(tr => ProcessResponse<List<MediaServiceAccount>>(tr));
+            return _httpClient.GetAsync(MediaServicesUriElements.Accounts, Logger).ContinueWith(tr => ProcessResponse<IEnumerable<MediaServiceAccount>>(tr));
         }
 
         /// <summary>

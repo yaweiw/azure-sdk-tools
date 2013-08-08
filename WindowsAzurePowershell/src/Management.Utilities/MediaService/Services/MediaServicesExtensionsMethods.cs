@@ -19,24 +19,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services
 {
     public static class MediaServicesExtensionsMethods
     {
-        public static MediaServiceAccounts GetMediaServices(this IMediaServiceManagement proxy, string subscriptionName)
+        public static MediaServiceAccounts GetMediaServices(this IMediaServiceManagement proxy, string subscriptionId)
         {
-            return proxy.EndGetMediaServices(proxy.BeginGetMediaServices(subscriptionName, null, null));
+            return proxy.EndGetMediaServices(proxy.BeginGetMediaServices(subscriptionId, null, null));
         }
 
-        public static MediaServiceAccountDetails GetMediaService(this IMediaServiceManagement proxy, string subscriptionName, string name)
+        public static MediaServiceAccountDetails GetMediaService(this IMediaServiceManagement proxy, string subscriptionId, string name)
         {
-            return proxy.EndGetMediaService(proxy.BeginGetMediaService(subscriptionName, name, null, null));
+            return proxy.EndGetMediaService(proxy.BeginGetMediaService(subscriptionId, name, null, null));
         }
 
-        public static void DeleteMediaServicesAccount(this IMediaServiceManagement proxy, string subscriptionName, string accountName)
+        public static void DeleteMediaServicesAccount(this IMediaServiceManagement proxy, string subscriptionId, string accountName)
         {
-            proxy.EndDeleteMediaServicesAccount(proxy.BeginDeleteMediaServicesAccount(subscriptionName, accountName, null, null));
+            proxy.EndDeleteMediaServicesAccount(proxy.BeginDeleteMediaServicesAccount(subscriptionId, accountName, null, null));
         }
 
-        public static void RegenerateMediaServicesAccount(this IMediaServiceManagement proxy, string subscriptionName, string accountName, string keyType)
+        public static void RegenerateMediaServicesAccount(this IMediaServiceManagement proxy, string subscriptionId, string accountName, string keyType)
         {
-            proxy.EndRegenerateMediaServicesAccount(proxy.BeginRegenerateMediaServicesAccount(subscriptionName, accountName, keyType, null, null));
+            proxy.EndRegenerateMediaServicesAccount(proxy.BeginRegenerateMediaServicesAccount(subscriptionId, accountName, keyType, null, null));
         }
     }
 }

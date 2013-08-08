@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaSer
 
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
-    [Cmdlet(VerbsCommon.New, "AzureMediaServices"), OutputType(typeof (AccountCreationResult))]
+    [Cmdlet(VerbsCommon.New, "AzureMediaService"), OutputType(typeof (AccountCreationResult))]
     public class NewAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
         public IMediaServicesClient MediaServicesClient { get; set; }
@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.MediaService
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service account name.")]
         [ValidateNotNullOrEmpty]
-        public string MediaServicesAccountName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service region.")]
         [ValidateNotNullOrEmpty]
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.MediaService
 
             AccountCreationResult result = null;
             var request = new AccountCreationRequest {
-                AccountName = MediaServicesAccountName,
+                AccountName = Name,
                 BlobStorageEndpointUri = BlobStorageEndpointUri,
                 Region = Location,
                 StorageAccountKey = StorageAccountKey,

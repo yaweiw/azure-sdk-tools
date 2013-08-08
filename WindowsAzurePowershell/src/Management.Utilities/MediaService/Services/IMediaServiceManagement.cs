@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services
         [Description("Returns all the mediaservices for a given subscription.")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = MediaServicesUriElements.MediaServiceRoot)]
-        IAsyncResult BeginGetMediaServices(string subscriptionName, AsyncCallback callback, object state);
+        IAsyncResult BeginGetMediaServices(string subscriptionId, AsyncCallback callback, object state);
 
         MediaServiceAccounts EndGetMediaServices(IAsyncResult asyncResult);
 
@@ -42,21 +42,21 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services
         [Description("Returns a mediaservices by a name for a given subscription.")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = MediaServicesUriElements.MediaServiceAccountDetails)]
-        IAsyncResult BeginGetMediaService(string subscriptionName, string name, AsyncCallback callback, object state);
+        IAsyncResult BeginGetMediaService(string subscriptionId, string name, AsyncCallback callback, object state);
 
         MediaServiceAccountDetails EndGetMediaService(IAsyncResult asyncResult);
 
         [Description("Deletes the account for a given subscription.")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "DELETE", UriTemplate = MediaServicesUriElements.MediaServiceRoot + "/{accountName}")]
-        IAsyncResult BeginDeleteMediaServicesAccount(string subscriptionName, string accountName, AsyncCallback callback, object state);
+        IAsyncResult BeginDeleteMediaServicesAccount(string subscriptionId, string accountName, AsyncCallback callback, object state);
 
         void EndDeleteMediaServicesAccount(IAsyncResult asyncResult);
 
         [Description("Regenerates an account for a given subscription.")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", UriTemplate = MediaServicesUriElements.MediaServiceRoot + "/{accountName}/AccountKeys/{keyType}/Regenerate")]
-        IAsyncResult BeginRegenerateMediaServicesAccount(string subscriptionName, string accountName, string keyType, AsyncCallback callback, object state);
+        IAsyncResult BeginRegenerateMediaServicesAccount(string subscriptionId, string accountName, string keyType, AsyncCallback callback, object state);
 
         void EndRegenerateMediaServicesAccount(IAsyncResult asyncResult);
 

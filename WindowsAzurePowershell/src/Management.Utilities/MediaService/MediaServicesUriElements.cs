@@ -23,8 +23,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         public const string AccountDetailsNamespace = "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models";
         public const string ServiceNamespace = "http://schemas.microsoft.com/windowsazure";
         // Service resources
-        public const string MediaServiceRoot = "{subscriptionName}/services/mediaservices/Accounts";
-        public const string MediaServiceAccountDetails = "{subscriptionName}/services/mediaservices/Accounts/{name}";
+        public const string MediaServiceRoot = "{subscriptionId}/services/mediaservices/Accounts";
+        public const string MediaServiceAccountDetails = "{subscriptionId}/services/mediaservices/Accounts/{name}";
         public const string Accounts = "Accounts";
     }
 }

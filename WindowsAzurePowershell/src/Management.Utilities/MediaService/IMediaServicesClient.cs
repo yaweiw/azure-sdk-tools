@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Gets the media service accounts async.
         /// </summary>
         /// <returns></returns>
-        Task<List<MediaServiceAccount>> GetMediaServiceAccountsAsync();
+        Task<IEnumerable<MediaServiceAccount>> GetMediaServiceAccountsAsync();
 
         /// <summary>
         ///     Gets the media service account details async.

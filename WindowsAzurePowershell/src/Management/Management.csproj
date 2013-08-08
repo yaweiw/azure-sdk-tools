@@ -196,10 +196,10 @@
     <Compile Include="Environment\SetAzureEnvironment.cs" />
     <Compile Include="Environment\GetAzureEnvironment.cs" />
     <Compile Include="MediaService\AzureMediaServicesHttpClientCommandBase.cs" />
-    <Compile Include="MediaService\GetAzureMediaServicesCommand.cs" />
+    <Compile Include="MediaService\GetAzureMediaServiceCommand.cs" />
     <Compile Include="MediaService\NewAzureMediaServiceCommand.cs" />
-    <Compile Include="MediaService\NewAzureMediaServicesKeyCommand.cs" />
-    <Compile Include="MediaService\RemoveAzureMediaServicesAccountCommand.cs" />
+    <Compile Include="MediaService\NewAzureMediaServiceKeyCommand.cs" />
+    <Compile Include="MediaService\RemoveAzureMediaServiceCommand.cs" />
     <Compile Include="ServiceBus\GetAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\RemoveAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\SetAzureSBAuthorizationRule.cs" />
