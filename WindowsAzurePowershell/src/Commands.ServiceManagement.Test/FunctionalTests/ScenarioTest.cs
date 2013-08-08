@@ -29,9 +29,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Xml.Linq;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Service.Gateway;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Commands.Service.Gateway;
+    using Commands.ServiceManagement.Extensions;
+    using Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;

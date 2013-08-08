@@ -29,6 +29,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.LunSlot = lunSlot;
         }
 
-        public Model.PersistentVM Vm { get; set; }
+        public Commands.ServiceManagement.Model.PersistentVM Vm { get; set; }
     }
 }

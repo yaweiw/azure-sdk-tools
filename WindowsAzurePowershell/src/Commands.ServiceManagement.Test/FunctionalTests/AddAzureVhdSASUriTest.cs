@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Reflection;
     using System.Security.Cryptography;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Sync.Download;
+    using Commands.Sync.Download;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
     [TestClass]

@@ -25,12 +25,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Threading;
     using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
-    using Sync.Download;
+    using Commands.Sync.Download;
 
     internal class Utilities 
     {

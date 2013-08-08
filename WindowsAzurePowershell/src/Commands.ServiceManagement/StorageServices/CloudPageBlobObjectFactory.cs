@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System;
     using Storage.Blob;

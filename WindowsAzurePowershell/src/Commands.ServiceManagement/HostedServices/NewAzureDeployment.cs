@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Collections.Generic;
@@ -23,8 +23,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.ServiceModel;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Extensions;
-    using Helpers;
+    using Commands.ServiceManagement.Extensions;
+    using Commands.ServiceManagement.Helpers;
     using Properties;
 
     /// <summary>

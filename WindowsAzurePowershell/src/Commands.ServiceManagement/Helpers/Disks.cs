@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System;
     using System.ServiceModel;

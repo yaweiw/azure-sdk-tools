@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using Properties;
     using WindowsAzure.ServiceManagement;
 
     public static class CertUtils
@@ -60,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             {
                 Data = Convert.ToBase64String(certificateData),
                 Password = password,
-                CertificateFormat = Properties.Resources.Pfx_CertificateFormat
+                CertificateFormat = Resources.Pfx_CertificateFormat
             };
             return certificateFile;
         }

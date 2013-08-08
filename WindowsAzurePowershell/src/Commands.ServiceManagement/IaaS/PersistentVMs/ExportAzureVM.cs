@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Linq;
     using System.Globalization;
     using System.Management.Automation;
-    using Helpers;
+    using Commands.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
     using Properties;
     using Model;

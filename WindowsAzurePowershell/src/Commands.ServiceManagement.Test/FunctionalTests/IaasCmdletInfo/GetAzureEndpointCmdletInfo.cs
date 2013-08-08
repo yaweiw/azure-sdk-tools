@@ -1,4 +1,4 @@
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 // ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation

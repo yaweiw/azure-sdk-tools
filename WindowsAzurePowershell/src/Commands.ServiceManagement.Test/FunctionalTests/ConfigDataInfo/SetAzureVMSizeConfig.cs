@@ -23,6 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.instanceSize = instanceSize;
         }
 
-        public Model.PersistentVM Vm { get; set; }
+        public Commands.ServiceManagement.Model.PersistentVM Vm { get; set; }
     }
 }
