@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Environment
     using System.IO;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Subscription;
+    using Commands.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;

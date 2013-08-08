@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store
+namespace Microsoft.WindowsAzure.Commands.Store
 {
     using System.Collections.Generic;
     using System.Management.Automation;

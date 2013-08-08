@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
 {
     using System.Management.Automation;
     using System.Net;
-    using Microsoft.WindowsAzure.Management.CloudService;
+    using Commands.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Moq;

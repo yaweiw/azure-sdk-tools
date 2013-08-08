@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Commands.Utilities.Subscription.Contract;
-    using Microsoft.WindowsAzure.Management.Subscription;
+    using Commands.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;

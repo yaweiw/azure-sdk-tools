@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
     using System.Linq;
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Subscription;
+    using Commands.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Services.DeploymentEntities;
     using Commands.Utilities.Websites.Services.WebEntities;
-    using Microsoft.WindowsAzure.Management.Websites;
+    using Commands.Websites;
     using Moq;
 
     [TestClass]
