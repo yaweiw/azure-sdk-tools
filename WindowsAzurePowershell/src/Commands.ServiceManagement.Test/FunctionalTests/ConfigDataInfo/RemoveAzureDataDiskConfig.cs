@@ -12,15 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
+    using WindowsAzure.Commands.ServiceManagement.Model;
+
     public class RemoveAzureDataDiskConfig
     {
 
-        public readonly Commands.ServiceManagement.Model.PersistentVM Vm;
+        public readonly PersistentVM Vm;
         public readonly int lun;
 
-        public RemoveAzureDataDiskConfig(int lun, Commands.ServiceManagement.Model.PersistentVM vm)
+        public RemoveAzureDataDiskConfig(int lun, PersistentVM vm)
         {
             this.Vm = vm;
             this.lun = lun;

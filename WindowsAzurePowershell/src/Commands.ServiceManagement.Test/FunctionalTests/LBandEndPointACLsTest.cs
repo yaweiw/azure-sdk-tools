@@ -11,13 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using ConfigDataInfo;
+    using Model;
     using System;
     using System.Reflection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class LBandEndPointACLsTest : ServiceManagementTest

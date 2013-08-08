@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
     using System.IO;
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Commands.Sync.Download;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using WindowsAzure.Commands.ServiceManagement.Test.Properties;
 
     [TestClass]
     public class AddAzureVhdTest : AzureVhdTest
