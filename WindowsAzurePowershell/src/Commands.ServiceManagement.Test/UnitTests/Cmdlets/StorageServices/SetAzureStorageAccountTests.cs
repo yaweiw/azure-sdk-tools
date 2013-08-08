@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
     using Newtonsoft.Json;
-    using Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using ServiceManagement.StorageServices;
-    using Management.Test.Utilities.CloudService;
+    using Commands.Test.Utilities.CloudService;
 
     [TestClass]
     public class SetAzureStorageAccountTests : TestBase

@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
 
     [TestClass]
     public class GetAzureSqlDatabaseTests : TestBase

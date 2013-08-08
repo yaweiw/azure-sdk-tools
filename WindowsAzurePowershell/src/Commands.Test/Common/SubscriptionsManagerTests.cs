@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     using System.Linq;
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
 

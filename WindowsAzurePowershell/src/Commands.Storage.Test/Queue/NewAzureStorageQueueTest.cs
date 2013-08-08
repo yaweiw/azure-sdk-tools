@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Storage.Queue;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;

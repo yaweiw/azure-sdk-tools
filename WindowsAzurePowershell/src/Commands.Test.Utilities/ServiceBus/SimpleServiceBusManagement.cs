@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.ServiceBus
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using Commands.Utilities.ServiceBus.Contract;
     using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;

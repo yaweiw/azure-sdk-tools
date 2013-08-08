@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
     using System.Collections.Generic;

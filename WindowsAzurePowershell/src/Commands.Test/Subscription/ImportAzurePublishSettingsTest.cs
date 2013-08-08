@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     using Commands.Utilities.Common;
     using Commands.Utilities.Subscription.Contract;
     using Commands.Subscription;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;

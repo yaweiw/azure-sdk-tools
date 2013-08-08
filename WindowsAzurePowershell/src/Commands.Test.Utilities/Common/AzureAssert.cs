@@ -15,7 +15,7 @@
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
     using System.IO;

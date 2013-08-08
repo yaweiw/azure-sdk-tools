@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Collections.Generic;
