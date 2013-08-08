@@ -9,18 +9,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Xml;
-using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using Common;
+    using Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {

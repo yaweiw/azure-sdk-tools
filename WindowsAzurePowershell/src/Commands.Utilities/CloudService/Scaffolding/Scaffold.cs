@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
+    using Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using System.Xml.Linq;
+
     public class Scaffold
     {
         public List<ScaffoldFile> Files { get; private set; }
