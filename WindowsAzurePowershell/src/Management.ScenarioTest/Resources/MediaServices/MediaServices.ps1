@@ -25,7 +25,7 @@ function EnsureTestAccountExists
 			return
 		}
 	}
-	New-AzureMediaServices -Name $MediaServicesAccountName -Location $Location -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
+	New-AzureMediaServicesAccount -Name $MediaServicesAccountName -Location $Location -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
 }
 
 <#
@@ -36,9 +36,9 @@ function Test-NewAzureMediaServicesKey
 {
 	EnsureTestAccountExists
 
-	$key = New-AzureMediaServiceKey -Name $MediaServicesAccountName Secondary -Force
+	$key = New-AzureMediaServicesKey -Name $MediaServicesAccountName Secondary -Force
 
-	$account = Get-AzureMediaService -Name $MediaServicesAccountName
+	$account = Get-AzureMediaServicesAccount -Name $MediaServicesAccountName
 
 	Assert-AreEqual $key $account.SecondaryAccountKey
 }

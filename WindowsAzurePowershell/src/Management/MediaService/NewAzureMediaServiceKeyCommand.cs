@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.MediaService
     /// <summary>
     ///     Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureMediaServiceKey", SupportsShouldProcess = true), OutputType(typeof (string))]
+    [Cmdlet(VerbsCommon.New, "AzureMediaServicesKey", SupportsShouldProcess = true), OutputType(typeof(string))]
     public class NewAzureMediaServiceKeyCommand : MediaServiceBaseCmdlet
     {
         /// <summary>

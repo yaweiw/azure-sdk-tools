@@ -183,7 +183,9 @@
     <None Include="Resources\Emulatortests.ps1" />
     <None Include="Resources\GenerateCredstests.ps1" />
     <None Include="Resources\GenerateEmulatortests.ps1" />
-    <None Include="Resources\MediaServices\MediaServices.ps1" />
+    <None Include="Resources\MediaServices\MediaServices.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
     <None Include="Resources\Scaffolding.ps1" />

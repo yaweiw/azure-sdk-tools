@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaSer
 
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
-    [Cmdlet(VerbsCommon.New, "AzureMediaService"), OutputType(typeof (AccountCreationResult))]
+    [Cmdlet(VerbsCommon.New, "AzureMediaServicesAccount"), OutputType(typeof(AccountCreationResult))]
     public class NewAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
         public IMediaServicesClient MediaServicesClient { get; set; }

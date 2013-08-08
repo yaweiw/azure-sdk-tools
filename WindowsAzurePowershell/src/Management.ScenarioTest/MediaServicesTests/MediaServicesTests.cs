@@ -7,7 +7,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
     public class MediaServicesTests : WindowsAzurePowerShellTest
     {
         public MediaServicesTests()
-            : base("MediaServices\\MediaServices.ps1")
+            : base("Resources\\MediaServices\\MediaServices.ps1")
         {
 
         }
@@ -27,13 +27,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
         [TestMethod]
         public void TestNewAzureMediaServicesKey()
         {
-            RunPowerShellTest("Test-NewAzureMediaServiceKey");
+            RunPowerShellTest("Test-NewAzureMediaServicesKey");
         }
 
         [TestMethod]
         public void TestRemoveAzureMediaServicesAccount()
         {
-            RunPowerShellTest("Test-RemoveAzureMediaServiceAccount");
+            RunPowerShellTest("Test-RemoveAzureMediaServicesAccount");
         }
     }
 }
