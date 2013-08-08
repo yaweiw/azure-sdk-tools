@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
-
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using Commands.Utilities.CloudService.AzureTools;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 

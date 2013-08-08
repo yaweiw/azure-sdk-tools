@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
+    using Utilities.Common;
+    using Utilities.CloudService;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud

@@ -12,15 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService
 {
-    using System;
-    using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ServiceManagement;
+    using System.Management.Automation;
+    using Utilities.CloudService;
+    using Utilities.Common;
 
     /// <summary>
     /// Starts the deployment of specified slot in the azure service

@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService
 {
+    using ServiceManagement;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Utilities.CloudService;
+    using Utilities.Common;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

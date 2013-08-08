@@ -12,18 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cmdlet
 {
+    using Commands.CloudService.Development;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.CloudService.Development;
     using Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class SetAzureInstancesTests : TestBase

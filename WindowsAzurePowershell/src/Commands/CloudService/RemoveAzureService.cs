@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.CloudService
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.CloudService;
+    using Utilities.Common;
+    using Utilities.Properties;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.

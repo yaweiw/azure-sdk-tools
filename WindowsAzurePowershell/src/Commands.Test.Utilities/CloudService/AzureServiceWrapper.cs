@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
     using System.IO;
+    using Commands.Utilities.CloudService;
 
     public class AzureServiceWrapper : CloudServiceProject
     {

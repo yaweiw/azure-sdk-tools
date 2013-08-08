@@ -12,28 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Linq;
-    using System.Text;
-    using System.Web;
-    using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
+    using CloudService;
     using Newtonsoft.Json.Linq;
+    using Properties;
+    using ServiceManagement;
     using Services;
     using Services.DeploymentEntities;
     using Services.GeoEntities;
     using Services.WebEntities;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Web;
+    using System.Xml.Linq;
+    using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
     {
