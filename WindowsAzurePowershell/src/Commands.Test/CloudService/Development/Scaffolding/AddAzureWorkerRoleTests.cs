@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Scaffo
     using System.IO;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
+    using Commands.CloudService.Development.Scaffolding;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;

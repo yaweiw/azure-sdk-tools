@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService
+namespace Microsoft.WindowsAzure.Commands.CloudService
 {
     using System;
     using System.Management.Automation;

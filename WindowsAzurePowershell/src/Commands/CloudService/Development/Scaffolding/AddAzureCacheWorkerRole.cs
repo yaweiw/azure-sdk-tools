@@ -15,7 +15,7 @@
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools;
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
     using System;
     using System.Collections.Generic;

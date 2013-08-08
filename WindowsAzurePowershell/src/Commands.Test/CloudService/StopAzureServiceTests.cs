@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 namespace Microsoft.WindowsAzure.Management.Test.CloudService
 {
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.CloudService;
+    using Commands.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Moq;

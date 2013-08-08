@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
     using System.Management.Automation;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
+    using Commands.CloudService.Development;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;

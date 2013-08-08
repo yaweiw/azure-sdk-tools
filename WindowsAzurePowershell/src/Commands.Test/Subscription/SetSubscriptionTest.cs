@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Subscription;
+    using Commands.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 

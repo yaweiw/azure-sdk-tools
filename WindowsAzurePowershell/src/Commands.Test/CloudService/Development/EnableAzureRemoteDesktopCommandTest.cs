@@ -23,8 +23,8 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
-    using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
+    using Commands.CloudService.Development;
+    using Commands.CloudService.Development.Scaffolding;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;

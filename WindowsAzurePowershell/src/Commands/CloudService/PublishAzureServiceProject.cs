@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
-namespace Microsoft.WindowsAzure.Management.CloudService
+namespace Microsoft.WindowsAzure.Commands.CloudService
 {
     using System.Management.Automation;
     using System.Security.Permissions;

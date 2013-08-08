@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
-namespace Microsoft.WindowsAzure.Management.Subscription
+namespace Microsoft.WindowsAzure.Commands.Subscription
 {
     using System.Collections.Generic;
     using System.Management.Automation;
