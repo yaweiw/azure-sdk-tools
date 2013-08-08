@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
+
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
+    using Commands.Utilities.CloudService;
 
     class ServiceSettingsTestData
     {

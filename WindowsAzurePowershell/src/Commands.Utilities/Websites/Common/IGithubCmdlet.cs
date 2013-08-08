@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
     using System;
     using System.Management.Automation;

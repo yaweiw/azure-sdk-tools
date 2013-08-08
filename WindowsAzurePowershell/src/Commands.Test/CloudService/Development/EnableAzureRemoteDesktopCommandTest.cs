@@ -12,23 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
 {
+    using Commands.CloudService.Development;
+    using Commands.CloudService.Development.Scaffolding;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
-    using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using MockCommandRuntime = Test.Utilities.Common.MockCommandRuntime;
+    using TestBase = Test.Utilities.Common.TestBase;
+    using Testing = Test.Utilities.Common.Testing;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.

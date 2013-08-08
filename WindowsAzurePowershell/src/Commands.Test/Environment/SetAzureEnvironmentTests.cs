@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Environment
+namespace Microsoft.WindowsAzure.Commands.Test.Environment
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Subscription;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Commands.Utilities.Common;
+    using Commands.Subscription;
+    using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 

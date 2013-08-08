@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store.ResourceModel
 {
     using System.Runtime.Serialization;
     using Microsoft.WindowsAzure.ServiceManagement;

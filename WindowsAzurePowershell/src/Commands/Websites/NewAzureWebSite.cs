@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites
+namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
@@ -22,14 +22,13 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using GitClass = Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Git;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Websites;
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.Github;
+    using Commands.Utilities.Websites.Services.WebEntities;
+    using GitClass = Commands.Utilities.Websites.Services.Git;
 
     /// <summary>
     /// Creates a new azure website.

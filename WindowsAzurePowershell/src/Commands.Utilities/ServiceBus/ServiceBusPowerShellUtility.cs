@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Commands.Utilities.Common;
+    using ResourceModel;
 
     public static class ServiceBusPowerShellUtility
     {

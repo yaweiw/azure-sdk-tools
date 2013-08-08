@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.Text;
+    using Commands.Utilities.Common;
     using Properties;
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public class ExtensionManager

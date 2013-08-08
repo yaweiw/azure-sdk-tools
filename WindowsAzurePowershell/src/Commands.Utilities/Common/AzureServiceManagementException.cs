@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Diagnostics;
@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// Exception used to wrap Azure Service Management errors before

@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 {
     using System;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Commands.Test.Utilities.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.GeoEntities;
+    using Commands.Utilities.Websites.Services.WebEntities;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

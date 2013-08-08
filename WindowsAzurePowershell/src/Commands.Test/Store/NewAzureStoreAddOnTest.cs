@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Store
+namespace Microsoft.WindowsAzure.Commands.Test.Store
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Store;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Commands.Utilities.Common;
+    using Commands.Store;
+    using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Store;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 

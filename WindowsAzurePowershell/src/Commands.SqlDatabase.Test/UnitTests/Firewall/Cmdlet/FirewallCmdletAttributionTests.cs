@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Commands.Test.Utilities.Common;
     using SqlDatabase.Firewall.Cmdlet;
     using VisualStudio.TestTools.UnitTesting;
 

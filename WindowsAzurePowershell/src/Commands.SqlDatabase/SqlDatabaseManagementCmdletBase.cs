@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
     using ServiceManagement;
     using Services;
     using Services.Common;

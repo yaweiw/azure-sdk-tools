@@ -12,24 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
+    using Commands.Utilities.Common;
+    using Contract;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Management;
     using Microsoft.ServiceBus.Messaging;
     using Microsoft.ServiceBus.Notifications;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
     using System.Linq;
     using System.Threading.Tasks;
-    using ExtendedAuthorizationRule = Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel.AuthorizationRule;
+    using ResourceModel;
+    using ExtendedAuthorizationRule = ResourceModel.AuthorizationRule;
     using AuthorizationRule = Microsoft.ServiceBus.Messaging.AuthorizationRule;
     using System.Diagnostics;
 

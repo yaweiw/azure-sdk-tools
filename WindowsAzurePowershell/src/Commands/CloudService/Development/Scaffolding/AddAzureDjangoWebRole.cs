@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
-    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Utilities.CloudService;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Utilities.Properties;
     using Win32;
 
     /// <summary>

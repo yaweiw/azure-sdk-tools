@@ -22,9 +22,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema
 {
-
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
     [System.SerializableAttribute()]

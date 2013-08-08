@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
     internal static class UriElement
     {

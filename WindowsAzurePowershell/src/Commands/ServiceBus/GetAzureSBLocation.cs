@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceBus
+namespace Microsoft.WindowsAzure.Commands.ServiceBus
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.ServiceBus.Contract;
+    using Commands.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.

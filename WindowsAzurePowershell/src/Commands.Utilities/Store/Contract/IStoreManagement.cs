@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store.Contract
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store.Contract
 {
     using System;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
+    using ResourceModel;
 
     [ServiceContract]
     public interface IStoreManagement

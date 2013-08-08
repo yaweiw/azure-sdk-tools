@@ -12,23 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Scaffolding
+namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffolding
 {
+    using Commands.CloudService.Development.Scaffolding;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Commands.Utilities.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using MockCommandRuntime = Test.Utilities.Common.MockCommandRuntime;
+    using TestBase = Test.Utilities.Common.TestBase;
+    using Testing = Test.Utilities.Common.Testing;
 
     [TestClass]
     public class AddAzureCacheWorkerRoleTests : TestBase

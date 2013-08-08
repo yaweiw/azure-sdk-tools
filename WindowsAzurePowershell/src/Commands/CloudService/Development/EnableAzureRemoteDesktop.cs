@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Development
+namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System;
     using System.Collections.Generic;
@@ -24,14 +24,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Text;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
-    using ConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.Properties;
+    using Certificate = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
+    using ConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to

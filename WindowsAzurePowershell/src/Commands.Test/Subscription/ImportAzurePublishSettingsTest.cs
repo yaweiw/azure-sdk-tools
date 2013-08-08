@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Subscription
+namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 {
     using System;
     using System.Collections;
@@ -20,11 +20,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Management.Utilities.Subscription.Contract;
-    using Microsoft.WindowsAzure.Management.Subscription;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Subscription.Contract;
+    using Commands.Subscription;
+    using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 

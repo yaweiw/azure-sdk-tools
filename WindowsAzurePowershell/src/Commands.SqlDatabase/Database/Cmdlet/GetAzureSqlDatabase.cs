@@ -15,10 +15,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.

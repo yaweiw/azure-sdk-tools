@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
 
     public class WindowsAzureOffer
     {

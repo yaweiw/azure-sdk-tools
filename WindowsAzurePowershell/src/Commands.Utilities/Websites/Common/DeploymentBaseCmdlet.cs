@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
     using System;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using Properties;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Services;
+    using Services.WebEntities;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {

@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Service.Gateway;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    
+
     public class VirtualNetworkGatewayContext : ManagementOperationContext
     {
         public string LastEventData { get; set; }

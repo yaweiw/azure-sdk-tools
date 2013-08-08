@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using Utilities.Common;
+    using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>

@@ -12,8 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using AzureTools;
+    using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Properties;
+    using ServiceManagement;
+    using Storage;
+    using Storage.Auth;
+    using Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -23,16 +31,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.Threading;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using ConfigCertificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
+    using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     public class CloudServiceClient : ICloudServiceClient
     {

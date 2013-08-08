@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService
+namespace Microsoft.WindowsAzure.Commands.CloudService
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.ServiceBus.Contract;
+    using Commands.Utilities.ServiceBus.ResourceModel;
     using ServiceManagement;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]

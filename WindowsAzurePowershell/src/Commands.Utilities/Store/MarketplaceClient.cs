@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store
+namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Services.Client;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class MarketplaceClient
     {

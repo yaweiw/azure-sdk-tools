@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Subscription
+namespace Microsoft.WindowsAzure.Commands.Subscription
 {
     using System;
     using System.Collections.Generic;
@@ -23,10 +23,10 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Net.Security;
     using System.Security.Permissions;
     using System.Threading.Tasks;
-    using Utilities.Common;
-    using Utilities.Properties;
-    using Utilities.Subscription;
-    using Utilities.Subscription.Contract;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Properties;
+    using Commands.Utilities.Subscription;
+    using Commands.Utilities.Subscription.Contract;
 
     /// <summary>
     /// Imports publish profiles.

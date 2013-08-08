@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Store;
 
     [TestClass]
     [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184

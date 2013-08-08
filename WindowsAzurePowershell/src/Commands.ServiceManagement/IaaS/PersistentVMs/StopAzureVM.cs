@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Globalization;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Utilities.Common;
     using Model;
     using Properties;
 

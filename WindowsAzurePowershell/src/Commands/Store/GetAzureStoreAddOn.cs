@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store
+namespace Microsoft.WindowsAzure.Commands.Store
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Store;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Store
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = ListAvailableParameterSet, HelpMessage = "Country code")]
-        [ValidateCountryLengthAttribute()]
+        [ValidateCountryLength()]
         public string Country { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, 

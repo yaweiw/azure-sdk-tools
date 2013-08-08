@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
     using System;
     using System.IO;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Win32;
 
     public class AzureTool

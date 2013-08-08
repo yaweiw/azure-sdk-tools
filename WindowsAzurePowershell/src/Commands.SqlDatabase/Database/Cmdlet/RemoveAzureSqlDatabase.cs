@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using System;
     using System.Globalization;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database in the given server context.

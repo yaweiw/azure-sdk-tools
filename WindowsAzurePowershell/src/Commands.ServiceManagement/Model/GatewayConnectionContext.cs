@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Commands.Utilities.Common;
 
     public class GatewayConnectionContext : ManagementOperationContext
     {

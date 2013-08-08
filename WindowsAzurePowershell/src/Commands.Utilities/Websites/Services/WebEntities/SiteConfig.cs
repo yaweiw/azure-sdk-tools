@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using DeploymentEntities;
 
     public interface ISiteConfig
     {

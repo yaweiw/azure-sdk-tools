@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System.Management.Automation;
     using WebEntities;
