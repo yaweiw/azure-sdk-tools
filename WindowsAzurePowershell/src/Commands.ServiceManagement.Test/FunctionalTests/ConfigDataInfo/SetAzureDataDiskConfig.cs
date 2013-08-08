@@ -26,6 +26,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.lun = lun;
         }
 
-        public Model.PersistentVM Vm { get; set; }
+        public Commands.ServiceManagement.Model.PersistentVM Vm { get; set; }
     }
 }

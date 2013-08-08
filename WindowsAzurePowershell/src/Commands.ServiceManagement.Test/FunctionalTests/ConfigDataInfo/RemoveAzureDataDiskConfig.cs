@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     public class RemoveAzureDataDiskConfig
     {
 
-        public readonly Model.PersistentVM Vm;
+        public readonly Commands.ServiceManagement.Model.PersistentVM Vm;
         public readonly int lun;
 
-        public RemoveAzureDataDiskConfig(int lun, Model.PersistentVM vm)
+        public RemoveAzureDataDiskConfig(int lun, Commands.ServiceManagement.Model.PersistentVM vm)
         {
             this.Vm = vm;
             this.lun = lun;

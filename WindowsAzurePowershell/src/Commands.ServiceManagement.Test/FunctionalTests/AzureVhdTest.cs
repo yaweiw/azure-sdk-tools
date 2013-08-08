@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.IO;    
     using System.Security.Cryptography;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;    
-    using Sync.Download;
+    using Commands.ServiceManagement.Model;    
+    using Commands.Sync.Download;
     
     [TestClass]
     public class AzureVhdTest : ServiceManagementTest

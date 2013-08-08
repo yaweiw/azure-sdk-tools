@@ -79,6 +79,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
 
-        public Model.PersistentVM Vm { get; set; }
+        public Commands.ServiceManagement.Model.PersistentVM Vm { get; set; }
     }
 }

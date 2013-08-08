@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System;
     using Commands.Utilities.Common;
     using Sync.Download;
     using WindowsAzure.ServiceManagement;
     using Storage.Auth;
-    using Properties;
+    using Commands.ServiceManagement.Properties;
 
     public class StorageCredentialsFactory
     {

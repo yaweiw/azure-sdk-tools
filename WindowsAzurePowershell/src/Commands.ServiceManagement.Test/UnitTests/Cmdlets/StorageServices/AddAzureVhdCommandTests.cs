@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Reflection;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices;
+    using Commands.ServiceManagement.StorageServices;
     using Commands.Test.Utilities.Common;
 
     [TestClass]

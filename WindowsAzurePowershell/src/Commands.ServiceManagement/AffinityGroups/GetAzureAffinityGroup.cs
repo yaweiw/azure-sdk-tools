@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System;
     using System.Collections.Generic;

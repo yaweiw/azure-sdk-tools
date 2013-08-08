@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.IO;
     using System.Reflection;    
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Sync.Download;
+    using Commands.Sync.Download;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
     

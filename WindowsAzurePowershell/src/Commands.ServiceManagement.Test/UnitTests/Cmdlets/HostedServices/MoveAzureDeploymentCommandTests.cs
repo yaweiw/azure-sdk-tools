@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Reflection;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices;
+    using Commands.ServiceManagement.HostedServices;
     using Commands.Test.Utilities.CloudService;
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;

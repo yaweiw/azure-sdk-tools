@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class GetAzureDataDiskCmdletInfo : CmdletsInfo
     {
-        public GetAzureDataDiskCmdletInfo(Model.PersistentVM vM)
+        public GetAzureDataDiskCmdletInfo(Commands.ServiceManagement.Model.PersistentVM vM)
         {
             this.cmdletName = Utilities.GetAzureDataDiskCmdletName;
             this.cmdletParams.Add(new CmdletParam("VM", vM));

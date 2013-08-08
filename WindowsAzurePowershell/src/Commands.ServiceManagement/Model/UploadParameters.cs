@@ -13,10 +13,10 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System.IO;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices;
+    using StorageServices;
     using Sync.Download;
 
     public class UploadParameters

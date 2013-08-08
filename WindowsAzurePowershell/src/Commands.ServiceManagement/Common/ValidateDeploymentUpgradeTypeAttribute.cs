@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Common
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Common
 {
     using System;
     using System.Collections.Generic;

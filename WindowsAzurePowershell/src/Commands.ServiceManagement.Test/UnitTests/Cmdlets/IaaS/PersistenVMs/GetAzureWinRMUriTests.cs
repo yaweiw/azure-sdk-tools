@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using WindowsAzure.ServiceManagement;
     using System.Collections.Generic;
     using System.Linq;
-    using ServiceManagement.IaaS;
+    using Commands.ServiceManagement.IaaS;
 
     [TestClass]
     public class GetAzureWinRMUriTests : TestBase

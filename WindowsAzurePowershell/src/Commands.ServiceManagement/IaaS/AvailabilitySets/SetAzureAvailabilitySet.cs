@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.AvailabilitySets
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySets
 {
     using System;
     using System.Management.Automation;
