@@ -58,7 +58,7 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-	'Microsoft.WindowsAzure.Management.Websites.Types.ps1xml',
+	'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
 	'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
 )
 
