@@ -12,13 +12,13 @@
 // limitations under the License.
 // -----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Model.Contract;
 
     /// <summary>
     /// Mock blob management

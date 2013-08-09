@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
 
     /// <summary>

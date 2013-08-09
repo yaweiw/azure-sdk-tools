@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
+    using Model.ResourceModel;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>

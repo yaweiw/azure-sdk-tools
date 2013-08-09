@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Queue;
     using Commands.Test.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Model.Contract;
+    using Storage.Common;
+    using Storage.Queue;
 
     [TestClass]
     public class RemoveAzureStorageQueueTest : StorageQueueTestBase

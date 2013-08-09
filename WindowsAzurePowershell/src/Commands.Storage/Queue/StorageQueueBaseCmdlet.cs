@@ -12,11 +12,11 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;
+    using Model.Contract;
 
     /// <summary>
     /// base class for azure queue cmdlet
