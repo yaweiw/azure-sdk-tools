@@ -12,7 +12,7 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
+namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
 {
     using Microsoft.WindowsAzure.Storage.Table;
     using System;

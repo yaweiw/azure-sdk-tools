@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
 {
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet;
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Auth;
+    using Storage.Common;
+    using Storage.Common.Cmdlet;
 
     [TestClass]
     public class NewAzureStorageContextTest : StorageTestBase

@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
 {
-    using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Model.Contract;
+    using Storage.Blob.Cmdlet;
 
     internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
     {

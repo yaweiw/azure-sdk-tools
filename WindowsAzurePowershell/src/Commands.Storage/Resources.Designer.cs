@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage {
+namespace Microsoft.WindowsAzure.Commands.Storage {
     using System;
     
     

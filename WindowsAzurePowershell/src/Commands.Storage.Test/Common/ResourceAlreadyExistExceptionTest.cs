@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Storage.Common;
 
     /// <summary>
     /// unit test for ResourceAlreadyExistException

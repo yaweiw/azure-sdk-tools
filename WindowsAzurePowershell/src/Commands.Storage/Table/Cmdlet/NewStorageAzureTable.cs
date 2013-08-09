@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
     using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Model.Contract;
+    using Model.ResourceModel;
 
     /// <summary>
     /// create an new azure table

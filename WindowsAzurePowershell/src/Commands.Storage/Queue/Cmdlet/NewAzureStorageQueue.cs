@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Queue
+namespace Microsoft.WindowsAzure.Commands.Storage.Queue
 {
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
     using Microsoft.WindowsAzure.Storage.Queue;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Model.Contract;
+    using Model.ResourceModel;
 
     [Cmdlet(VerbsCommon.New, "AzureStorageQueue"),
         OutputType(typeof(AzureStorageQueue))]

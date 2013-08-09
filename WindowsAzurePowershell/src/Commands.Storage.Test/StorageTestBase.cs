@@ -12,7 +12,7 @@
 // limitations under the License.
 // -----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test
+namespace Microsoft.WindowsAzure.Commands.Storage.Test
 {
     using System;
     using System.Diagnostics;

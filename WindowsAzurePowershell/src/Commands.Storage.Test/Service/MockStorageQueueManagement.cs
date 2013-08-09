@@ -12,9 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
 {
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Microsoft.WindowsAzure.Storage.Queue.Protocol;
@@ -22,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Model.Contract;
 
     /// <summary>
     /// Mocked queue management
