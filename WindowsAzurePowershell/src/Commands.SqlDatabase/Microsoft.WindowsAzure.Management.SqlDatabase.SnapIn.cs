@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.PowerShell
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.PowerShell
 {
     using System.ComponentModel;
     using System.Management.Automation;

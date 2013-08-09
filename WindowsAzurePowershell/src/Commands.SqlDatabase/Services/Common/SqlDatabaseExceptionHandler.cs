@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
     using System;
     using System.Data.Services.Client;
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
+    using Properties;
 
     /// <summary>
     /// The handler for all Sql Database exceptions.

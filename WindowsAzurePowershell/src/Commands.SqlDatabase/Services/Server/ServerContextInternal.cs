@@ -10,7 +10,7 @@
 
 // Original file name: ServerContextInternal.cs
 // Generation date: 6/17/2013 4:02:56 PM
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     
     /// <summary>
@@ -4884,7 +4884,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         private Server _Server;
     }
 }
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     public abstract partial class ServerContextInternal
     {

@@ -11,7 +11,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     using System;
     using System.Collections.Generic;

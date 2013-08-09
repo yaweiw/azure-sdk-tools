@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<HttpSessionCollection xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer">
+<HttpSessionCollection xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer">
     <HttpSession>
         <Name>UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName</Name>
         <Messages>

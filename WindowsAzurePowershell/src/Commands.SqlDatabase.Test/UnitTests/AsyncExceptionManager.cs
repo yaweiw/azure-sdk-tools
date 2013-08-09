@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Collections.Generic;

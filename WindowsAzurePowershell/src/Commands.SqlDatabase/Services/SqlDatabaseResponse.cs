@@ -11,7 +11,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------﻿
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services
 {
     using System.Runtime.Serialization;
 
