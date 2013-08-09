@@ -12,17 +12,17 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
 {
     using System;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Model.Contract;
+    using Model.ResourceModel;
+    using Storage.Blob.Cmdlet;
+    using Storage.Common;
 
     [TestClass]
     public class GetAzureStorageBlobContentTest : StorageBlobTestBase

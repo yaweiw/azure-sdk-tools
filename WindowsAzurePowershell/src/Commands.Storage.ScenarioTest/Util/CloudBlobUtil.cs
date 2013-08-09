@@ -24,7 +24,7 @@ using System.Threading;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 using StorageType = Microsoft.WindowsAzure.Storage.Blob.BlobType;
 
-namespace Management.Storage.ScenarioTest.Util
+namespace Commands.Storage.ScenarioTest.Util
 {
     public class CloudBlobUtil
     {

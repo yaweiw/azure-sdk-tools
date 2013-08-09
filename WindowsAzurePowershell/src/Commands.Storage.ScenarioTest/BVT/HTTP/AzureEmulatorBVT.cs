@@ -22,7 +22,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
     /// <summary>
     /// bvt tests using Azure Emulator and local development storage account

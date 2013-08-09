@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
@@ -24,8 +24,10 @@ using System.Diagnostics;
 using System.IO;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Management.Storage.ScenarioTest
+namespace Commands.Storage.ScenarioTest
 {
+    using Util;
+
     /// <summary>
     /// this class contains all the account related functional test cases for PowerShell cmdlets
     /// </summary>

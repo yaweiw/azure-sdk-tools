@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob
+namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
     using System;
     using System.Management.Automation;

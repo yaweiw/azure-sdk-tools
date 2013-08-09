@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.Functional.Queue
+namespace Commands.Storage.ScenarioTest.Functional.Queue
 {
-    using Management.Storage.ScenarioTest.Common;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Queue;
     using MS.Test.Common.MsTestLib;

@@ -13,12 +13,12 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
+    using Storage.Common;
 
     /// <summary>
     /// unit test for StorageExceptionUtil

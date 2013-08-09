@@ -18,16 +18,19 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 
-namespace Management.Storage.ScenarioTest
+namespace Commands.Storage.ScenarioTest
 {
+    using Common;
+    using Util;
+
     /// <summary>
     /// this class contains all the functional test cases for PowerShell container cmdlets
     /// </summary>

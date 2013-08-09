@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Queue
+namespace Microsoft.WindowsAzure.Commands.Storage.Queue
 {
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Common;
     using Microsoft.WindowsAzure.Storage.Queue;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Model.Contract;
 
     [Cmdlet(VerbsCommon.Remove, "AzureStorageQueue", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
         OutputType(typeof(Boolean))]

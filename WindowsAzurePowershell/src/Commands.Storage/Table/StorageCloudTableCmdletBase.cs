@@ -12,12 +12,12 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Table
+namespace Microsoft.WindowsAzure.Commands.Storage.Table
 {
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
+    using Model.Contract;
 
     /// <summary>
     /// base class for table cmdlet

@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
+    using Model.ResourceModel;
+    using Storage.Common;
 
     /// <summary>
     /// unit test for StorageCloudCmdletBase

@@ -15,14 +15,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace Management.Storage.ScenarioTest.Functional.Blob
+namespace Commands.Storage.ScenarioTest.Functional.Blob
 {
+    using Common;
+
     /// <summary>
     /// functional test for Get-AzureStorageBlob
     /// </summary>

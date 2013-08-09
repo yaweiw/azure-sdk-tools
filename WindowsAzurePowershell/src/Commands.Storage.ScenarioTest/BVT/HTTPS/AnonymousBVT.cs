@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Common;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
@@ -23,8 +23,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTPS
+namespace Commands.Storage.ScenarioTest.BVT.HTTPS
 {
+    using Common;
+    using Util;
+
     /// <summary>
     /// bvt cases for anonymous storage account
     /// </summary>

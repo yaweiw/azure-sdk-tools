@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
+namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
     using System;
     using System.Collections.Generic;

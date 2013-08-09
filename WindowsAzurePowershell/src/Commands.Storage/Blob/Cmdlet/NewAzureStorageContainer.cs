@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 {
     using System;
     using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Model.Contract;
+    using Model.ResourceModel;
 
     /// <summary>
     /// create a new azure container
