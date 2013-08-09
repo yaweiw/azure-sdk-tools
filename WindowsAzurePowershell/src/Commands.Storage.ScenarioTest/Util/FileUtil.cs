@@ -19,7 +19,7 @@ using System.Linq;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace Management.Storage.ScenarioTest.Util
+namespace Commands.Storage.ScenarioTest.Util
 {
     class FileUtil
     {

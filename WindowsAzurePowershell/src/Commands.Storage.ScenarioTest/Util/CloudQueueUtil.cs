@@ -18,7 +18,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 
-namespace Management.Storage.ScenarioTest.Util
+namespace Commands.Storage.ScenarioTest.Util
 {
     public class CloudQueueUtil
     {

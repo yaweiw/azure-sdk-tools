@@ -14,14 +14,16 @@
 
 using System;
 using System.Collections.Generic;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Queue;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace Management.Storage.ScenarioTest.Functional.Queue
+namespace Commands.Storage.ScenarioTest.Functional.Queue
 {
+    using Common;
+
     /// <summary>
     /// general settings for queue related tests
     /// </summary>

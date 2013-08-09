@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Common;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -25,8 +25,11 @@ using System.Linq;
 using System.Threading;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Management.Storage.ScenarioTest.Functional.Blob
+namespace Commands.Storage.ScenarioTest.Functional.Blob
 {
+    using Common;
+    using Util;
+
     /// <summary>
     /// functional tests for Get-CopyState
     /// </summary>
