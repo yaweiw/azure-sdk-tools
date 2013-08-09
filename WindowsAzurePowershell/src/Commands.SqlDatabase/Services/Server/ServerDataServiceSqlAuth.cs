@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     using System;
     using System.Collections.Generic;
@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System.Net;
     using System.Xml.Linq;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
+    using Common;
+    using Properties;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.

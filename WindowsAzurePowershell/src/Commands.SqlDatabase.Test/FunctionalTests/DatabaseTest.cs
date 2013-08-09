@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
 {
     using System;
     using System.Globalization;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
     using System.Linq;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
+    using Utilities;
 
     /// <summary>
     /// Functional tests for Database CRUD operations

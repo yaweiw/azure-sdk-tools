@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
     using System;
     using System.Data.Services.Client;
@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     using System.Management.Automation;
     using System.Xml.Linq;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Properties;
+    using Services.Common;
+    using Services.Server;
 
     /// <summary>
     /// A cmdlet to Connect to a SQL server administration data service.

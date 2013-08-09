@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     using System;
     using System.Collections.ObjectModel;
@@ -20,12 +20,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+    using SqlDatabase.Properties;
+    using SqlDatabase.Server.Cmdlet;
+    using SqlDatabase.Services.Common;
+    using SqlDatabase.Services.Server;
     using Commands.Test.Utilities.Common;
+    using MockServer;
 
     [TestClass]
     public class GetAzureSqlDatabaseServiceObjectiveTests : TestBase

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
     using System;
     using System.Runtime.InteropServices;
