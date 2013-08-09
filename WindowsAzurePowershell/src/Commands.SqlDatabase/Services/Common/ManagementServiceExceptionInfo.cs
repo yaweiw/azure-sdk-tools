@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
     using System;
     using System.Collections;
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System.Text.RegularExpressions;
     using System.Xml;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
+    using Properties;
 
     /// <summary>
     /// Struct that parse and store exception information from the Management Service.

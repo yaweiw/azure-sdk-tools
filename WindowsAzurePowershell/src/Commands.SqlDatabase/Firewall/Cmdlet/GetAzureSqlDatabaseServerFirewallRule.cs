@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
 {
     using System;
     using System.Collections.Generic;

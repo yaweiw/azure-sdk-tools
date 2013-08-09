@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
     using System;
     using System.Management.Automation;
     using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
     using Commands.Test.Utilities.Common;
+    using MockServer;
+    using Services;
+    using Services.Common;
 
     [TestClass]
     public class ExceptionHandlerTests : TestBase

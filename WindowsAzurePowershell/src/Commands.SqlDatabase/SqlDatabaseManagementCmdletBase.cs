@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase
 {
     using System.ServiceModel;
     using Commands.Utilities.Common;

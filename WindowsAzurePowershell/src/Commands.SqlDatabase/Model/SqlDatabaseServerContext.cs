@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Model
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
     public class SqlDatabaseServerContext : SqlDatabaseServerOperationContext
     {

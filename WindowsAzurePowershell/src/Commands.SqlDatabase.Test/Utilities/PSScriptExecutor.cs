@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities
 {
     using System;
     using System.Diagnostics;

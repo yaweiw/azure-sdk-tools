@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
 {
     using System;
     using System.IO;

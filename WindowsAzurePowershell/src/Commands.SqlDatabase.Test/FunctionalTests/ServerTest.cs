@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
 {
     using System;
     using System.IO;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
+    using SqlDatabase.Firewall.Cmdlet;
+    using Utilities;
 
     [TestClass]
     public class ServerTest
