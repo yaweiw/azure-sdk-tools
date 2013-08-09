@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
-    using Management.Storage.ScenarioTest.Common;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MS.Test.Common.MsTestLib;
     using System;
@@ -23,7 +23,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
     using System.Text;
 
     [TestClass]
-    class AzureEnvironment : Management.Storage.ScenarioTest.BVT.HTTPS.AzureEnvironment
+    class AzureEnvironment : HTTPS.AzureEnvironment
     {
         [ClassInitialize()]
         public static void AzureEnvironmentHTTPBVTClassInitialize(TestContext testContext)

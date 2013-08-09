@@ -20,10 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTPS
+namespace Commands.Storage.ScenarioTest.BVT.HTTPS
 {
+    using Common;
+
     /// <summary>
     /// bvt tests using Azure subscription
     /// </summary>

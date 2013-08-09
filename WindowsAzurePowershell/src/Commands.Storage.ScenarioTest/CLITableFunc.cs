@@ -22,10 +22,12 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 
-namespace Management.Storage.ScenarioTest
+namespace Commands.Storage.ScenarioTest
 {
+    using Common;
+
     /// <summary>
     /// this class contains all the functional test cases for PowerShell Table cmdlets
     /// </summary>

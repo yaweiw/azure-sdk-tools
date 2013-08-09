@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob
+namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
+    using Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Model.Contract;
 
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
         OutputType(typeof(Boolean))]

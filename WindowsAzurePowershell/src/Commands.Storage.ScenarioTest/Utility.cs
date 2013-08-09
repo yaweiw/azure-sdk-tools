@@ -24,7 +24,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Management.Storage.ScenarioTest
+namespace Commands.Storage.ScenarioTest
 {
     class Utility
     {

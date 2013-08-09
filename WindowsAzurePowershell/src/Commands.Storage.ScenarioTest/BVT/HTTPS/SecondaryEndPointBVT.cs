@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.BVT.HTTPS
+namespace Commands.Storage.ScenarioTest.BVT.HTTPS
 {
-    using Management.Storage.ScenarioTest.Common;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MS.Test.Common.MsTestLib;
     using System;

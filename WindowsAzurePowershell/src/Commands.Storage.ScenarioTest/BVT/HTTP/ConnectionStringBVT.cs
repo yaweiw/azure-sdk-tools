@@ -21,15 +21,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
+    using Common;
+
     /// <summary>
     /// bvt tests using connection string
     /// </summary>
     [TestClass]
-    class ConnectionStringBVT : Management.Storage.ScenarioTest.BVT.HTTPS.ConnectionStringBVT
+    class ConnectionStringBVT : HTTPS.ConnectionStringBVT
     {
         [ClassInitialize()]
         public static void ConnectionStringHTTPBVTClassInitialize(TestContext testContext)

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob
+namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
     using System;
     using System.Collections;
@@ -20,12 +20,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using System.Globalization;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
+    using Model.Contract;
+    using Model.ResourceModel;
 
     /// <summary>
     /// download blob from azure

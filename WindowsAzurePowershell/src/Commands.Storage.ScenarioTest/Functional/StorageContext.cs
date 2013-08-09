@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Text;
-using Management.Storage.ScenarioTest.BVT;
-using Management.Storage.ScenarioTest.Common;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.BVT;
+using Commands.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -26,8 +26,12 @@ using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 using System.Collections.ObjectModel;
 
-namespace Management.Storage.ScenarioTest.Functional
+namespace Commands.Storage.ScenarioTest.Functional
 {
+    using BVT;
+    using Common;
+    using Util;
+
     /// <summary>
     /// function test for storage context
     /// </summary>

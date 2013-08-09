@@ -12,18 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Common;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MS.Test.Common.MsTestLib;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
+    using Common;
+    using Util;
+
     /// <summary>
     /// bvt cases for anonymous storage account
     /// </summary>
     [TestClass]
-    class AnonymousBVT : Management.Storage.ScenarioTest.BVT.HTTPS.AnonymousBVT
+    class AnonymousBVT : HTTPS.AnonymousBVT
     {
         [ClassInitialize()]
         public static void AnonymousHTTPBVTClassInitialize(TestContext testContext)

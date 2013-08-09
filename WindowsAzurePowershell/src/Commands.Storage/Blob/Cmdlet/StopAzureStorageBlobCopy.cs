@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 {
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
+    using Model.ResourceModel;
 
     [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
+namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;

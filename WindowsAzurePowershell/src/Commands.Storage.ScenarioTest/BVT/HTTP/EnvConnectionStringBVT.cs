@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using MS.Test.Common.MsTestLib;
@@ -21,13 +21,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
+    using Common;
+
     /// <summary>
     /// bvt tests using  environment variable "AZURE_STORAGE_CONNECTION_STRING"
     /// </summary>
     [TestClass]
-    class EnvConnectionStringBVT : Management.Storage.ScenarioTest.BVT.HTTPS.EnvConnectionStringBVT
+    class EnvConnectionStringBVT : HTTPS.EnvConnectionStringBVT
     {
         [ClassInitialize()]
         public static void EnvConnectionStringHTTPBVTClassInitialize(TestContext testContext)
