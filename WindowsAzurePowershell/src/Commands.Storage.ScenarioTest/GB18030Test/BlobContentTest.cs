@@ -17,13 +17,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Management.Storage.ScenarioTest;
-using Management.Storage.ScenarioTest.Common;
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest;
+using Commands.Storage.ScenarioTest.Common;
+using Commands.Storage.ScenarioTest.Util;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Management.Storage.ScenarioTest.GB18030Test.Blob
+namespace Commands.Storage.ScenarioTest.GB18030Test.Blob
 {
+    using Common;
+    using Util;
+
     /// <summary>
     /// Functional tests for blob content with GB18030 encoding
     /// </summary>

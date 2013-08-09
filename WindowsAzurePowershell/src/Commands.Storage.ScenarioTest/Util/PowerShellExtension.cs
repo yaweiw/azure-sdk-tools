@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.Util
+namespace Commands.Storage.ScenarioTest.Util
 {
     using System;
     using System.Collections.Generic;

@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Management.Storage.ScenarioTest
+namespace Commands.Storage.ScenarioTest
 {
     /// <summary>
     /// powershell test tags

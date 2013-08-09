@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Management.Storage.ScenarioTest.Util;
+using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -27,8 +27,10 @@ using System.Diagnostics;
 using System.IO;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Management.Storage.ScenarioTest.BVT
+namespace Commands.Storage.ScenarioTest.BVT
 {
+    using Util;
+
     /// <summary>
     /// this class contain all the bvt cases for the full functional storage context such as local/connectionstring/namekey, anonymous and sas token are excluded.
     /// </summary>

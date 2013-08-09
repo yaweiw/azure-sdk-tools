@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.Functional.Table
+namespace Commands.Storage.ScenarioTest.Functional.Table
 {
-    using Management.Storage.ScenarioTest.Common;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Table;
     using MS.Test.Common.MsTestLib;

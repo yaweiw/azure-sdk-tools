@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.Storage.ScenarioTest.BVT.HTTP
+namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {
-    using Management.Storage.ScenarioTest.Common;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MS.Test.Common.MsTestLib;
     using System;
@@ -26,7 +26,7 @@ namespace Management.Storage.ScenarioTest.BVT.HTTP
     /// BVT test case for secondary end point with http protocol
     /// </summary>
     [TestClass]
-    class SecondaryEndPointBVT : Management.Storage.ScenarioTest.BVT.HTTPS.SecondaryEndPointBVT
+    class SecondaryEndPointBVT : HTTPS.SecondaryEndPointBVT
     {
         [ClassInitialize()]
         public static void SecondaryEndPointHTTPBVTClassInitialize(TestContext testContext)
