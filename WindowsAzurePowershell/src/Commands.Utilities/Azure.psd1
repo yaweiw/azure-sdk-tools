@@ -66,7 +66,7 @@ TypesToProcess = @(
 FormatsToProcess = @(
 	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
 	'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
-	'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
 	'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.Store.format.ps1xml'
 )
