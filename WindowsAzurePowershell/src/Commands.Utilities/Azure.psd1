@@ -64,7 +64,7 @@ TypesToProcess = @(
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
 	'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
 	'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
 	'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
