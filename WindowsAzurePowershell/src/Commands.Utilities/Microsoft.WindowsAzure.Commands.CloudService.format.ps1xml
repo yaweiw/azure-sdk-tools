@@ -68,9 +68,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureService</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureService</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureService</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureService</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -90,9 +90,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.WorkerRole</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.WorkerRole</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.WorkerRole</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.WorkerRole</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -112,9 +112,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.CloudService.ServiceSettings</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.CloudService.ServiceSettings</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.CloudService.ServiceSettings</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.CloudService.ServiceSettings</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -142,9 +142,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.CloudService.CloudRuntimePackage</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.CloudService.CloudRuntimePackage</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.CloudService.CloudRuntimePackage</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.CloudService.CloudRuntimePackage</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -172,9 +172,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.RoleSettings</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.RoleSettings</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.RoleSettings</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.RoleSettings</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
