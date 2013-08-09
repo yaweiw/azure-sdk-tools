@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Network
 {
     using System;
     using System.Management.Automation;

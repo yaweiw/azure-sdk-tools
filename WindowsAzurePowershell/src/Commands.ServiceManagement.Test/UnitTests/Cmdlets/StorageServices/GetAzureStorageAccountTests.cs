@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using Commands.Utilities.Common;
     using Commands.Test.Utilities.Common;

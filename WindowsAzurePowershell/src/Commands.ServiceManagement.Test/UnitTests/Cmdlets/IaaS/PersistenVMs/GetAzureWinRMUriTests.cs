@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.IaaS.PersistentVMs
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.IaaS.PersistentVMs
 {
     using System;
     using VisualStudio.TestTools.UnitTesting;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using WindowsAzure.ServiceManagement;
     using System.Collections.Generic;
     using System.Linq;
-    using ServiceManagement.IaaS;
+    using Commands.ServiceManagement.IaaS;
 
     [TestClass]
     public class GetAzureWinRMUriTests : TestBase

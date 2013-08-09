@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using System.Collections.Generic;

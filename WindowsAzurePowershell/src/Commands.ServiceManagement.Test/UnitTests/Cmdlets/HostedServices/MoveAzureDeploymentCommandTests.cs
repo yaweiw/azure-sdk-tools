@@ -13,14 +13,14 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using System;
     using System.Net;
     using System.Reflection;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices;
+    using Commands.ServiceManagement.HostedServices;
     using Commands.Test.Utilities.CloudService;
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;

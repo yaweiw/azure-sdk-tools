@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
     using System.Net;
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using Commands.Utilities.Common;
     using Model;
     using Storage;
-    using Helpers;
+    using Commands.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
     using Properties;
 

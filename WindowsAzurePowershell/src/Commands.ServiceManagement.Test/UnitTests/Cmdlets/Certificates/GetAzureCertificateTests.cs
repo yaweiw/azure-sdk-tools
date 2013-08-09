@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.Certificates
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.Certificates
 {
     using System.Collections;
     using System.Linq;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Commands.Utilities.Common;
     using Commands.Test.Utilities.CloudService;
     using Commands.Test.Utilities.Common;
-    using ServiceManagement.Certificates;
+    using Commands.ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
 

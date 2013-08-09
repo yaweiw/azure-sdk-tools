@@ -12,8 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Model;
+    using Security.Cryptography;
+    using Security.Cryptography.X509Certificates;
+    using Storage.Auth;
+    using Storage.Blob;
+    using Sync.Download;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -24,13 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Xml;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Security.Cryptography;
-    using Security.Cryptography.X509Certificates;
-    using Sync.Download;
+    using VisualStudio.TestTools.UnitTesting;
 
     internal class Utilities 
     {

@@ -11,8 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Commands.Utilities.Common;
+    using ConfigDataInfo;
+    using Extensions;
+    using IaasCmdletInfo;
+    using Model;
+    using PaasCmdletInfo;
+    using Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -20,15 +27,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using Commands.Utilities.Common;
-    using ConfigDataInfo;
-    using IaasCmdletInfo;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Model;
-    using PaasCmdletInfo;
+    using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
 
     public class ServiceManagementCmdletTestHelper 

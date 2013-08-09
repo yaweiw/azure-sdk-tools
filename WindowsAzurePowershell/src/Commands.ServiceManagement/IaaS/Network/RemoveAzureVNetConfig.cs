@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.IO;
     using System.Management.Automation;

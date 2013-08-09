@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
     using System.Net;
@@ -23,10 +23,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.ServiceModel;
     using System.Linq;
     using Commands.Utilities.Common;
-    using Common;
+    using Commands.ServiceManagement.Common;
     using Storage;
     using WindowsAzure.ServiceManagement;
-    using Helpers;
+    using Commands.ServiceManagement.Helpers;
     using Properties;
 
     /// <summary>

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     public static class WinRMConstants
     {

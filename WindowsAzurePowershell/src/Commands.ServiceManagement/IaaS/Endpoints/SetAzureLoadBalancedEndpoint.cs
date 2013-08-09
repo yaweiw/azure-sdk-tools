@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 {
     using System;
     using System.Collections.Generic;
@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using IaaS;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
+    using Model;
+    using Properties;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]

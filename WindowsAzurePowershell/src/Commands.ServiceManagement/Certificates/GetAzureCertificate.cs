@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
     using System;
     using System.Collections.Generic;

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 if (this.DeleteVHD.IsPresent)
                 {
                     // Remove the underlying VHD from the blob storage
-                    Helpers.Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
+                    Commands.ServiceManagement.Helpers.Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
                 }
             }
             catch (ServiceManagementClientException ex)

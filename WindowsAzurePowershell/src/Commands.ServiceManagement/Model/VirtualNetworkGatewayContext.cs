@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Service.Gateway;
+    using Service.Gateway;
 
     public class VirtualNetworkGatewayContext : ManagementOperationContext
     {

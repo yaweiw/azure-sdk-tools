@@ -9,7 +9,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
+using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;

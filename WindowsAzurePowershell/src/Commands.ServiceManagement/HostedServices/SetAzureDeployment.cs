@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
     using Commands.Utilities.Common;
-    using WindowsAzure.Management.ServiceManagement.Extensions;
-    using WindowsAzure.Management.ServiceManagement.Helpers;
+    using Commands.ServiceManagement.Extensions;
+    using Commands.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
     using Properties;
 

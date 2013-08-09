@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Sync.Download;
     using System;
     using System.IO;
-    using System.Reflection;    
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Sync.Download;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using System.Reflection;
+    using VisualStudio.TestTools.UnitTesting;
 
-    
+
     [TestClass]
     public class SaveAzureVhdTest : AzureVhdTest
     {
