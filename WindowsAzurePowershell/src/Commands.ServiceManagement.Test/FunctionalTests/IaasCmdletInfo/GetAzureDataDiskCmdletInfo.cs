@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using PowershellCore;
+    using WindowsAzure.Commands.ServiceManagement.Model;
 
     public class GetAzureDataDiskCmdletInfo : CmdletsInfo
     {
-        public GetAzureDataDiskCmdletInfo(Model.PersistentVM vM)
+        public GetAzureDataDiskCmdletInfo(PersistentVM vM)
         {
             this.cmdletName = Utilities.GetAzureDataDiskCmdletName;
             this.cmdletParams.Add(new CmdletParam("VM", vM));

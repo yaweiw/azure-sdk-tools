@@ -13,8 +13,12 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using ConfigDataInfo;
+    using Extensions;
+    using Model;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -25,13 +29,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Text;
     using System.Threading;
     using System.Xml;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    
+    using VisualStudio.TestTools.UnitTesting;
+    using WindowsAzure.ServiceManagement;
+
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
     using System.Collections;
     using System.Linq;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Commands.Utilities.Common;
     using Commands.Test.Utilities.CloudService;
     using Commands.Test.Utilities.Common;
-    using ServiceManagement.AffinityGroups;
+    using Commands.ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
 

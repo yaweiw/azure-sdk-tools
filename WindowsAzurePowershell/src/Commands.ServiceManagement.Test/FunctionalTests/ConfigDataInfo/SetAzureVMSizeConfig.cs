@@ -12,8 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
+    using WindowsAzure.Commands.ServiceManagement.Model;
+
     public class SetAzureVMSizeConfig
     {
         public readonly InstanceSize instanceSize;
@@ -23,6 +25,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.instanceSize = instanceSize;
         }
 
-        public Model.PersistentVM Vm { get; set; }
+        public PersistentVM Vm { get; set; }
     }
 }

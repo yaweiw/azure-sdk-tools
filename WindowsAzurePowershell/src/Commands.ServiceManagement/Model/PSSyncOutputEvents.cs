@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
     using Tools.Vhd.Model;
     using Storage;
     using System.Globalization;
-    using ProgressRecord = Microsoft.WindowsAzure.Management.Sync.ProgressRecord;
+    using ProgressRecord = Sync.ProgressRecord;
     using Properties;
 
     public class PSSyncOutputEvents : ISyncOutputEvents, IDisposable

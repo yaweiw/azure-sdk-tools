@@ -8,7 +8,7 @@
     <ProjectGuid>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.Service</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.Service</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Commands.Service</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

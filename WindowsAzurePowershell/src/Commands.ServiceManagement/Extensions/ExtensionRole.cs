@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using WindowsAzure.ServiceManagement;
 

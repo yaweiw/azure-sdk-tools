@@ -11,12 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
+    using PowershellCore;
+
     public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
     {
         public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)

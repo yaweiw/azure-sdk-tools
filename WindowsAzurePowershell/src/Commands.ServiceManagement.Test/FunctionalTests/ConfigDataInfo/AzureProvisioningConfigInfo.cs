@@ -12,9 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {    
     using Microsoft.WindowsAzure.ServiceManagement;
+    using WindowsAzure.Commands.ServiceManagement.Model;
 
     public class AzureProvisioningConfigInfo
     {
@@ -79,6 +80,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
 
-        public Model.PersistentVM Vm { get; set; }
+        public PersistentVM Vm { get; set; }
     }
 }

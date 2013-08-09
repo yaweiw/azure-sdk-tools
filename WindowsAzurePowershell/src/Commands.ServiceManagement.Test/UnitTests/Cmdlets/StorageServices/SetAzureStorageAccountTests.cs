@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using System.IO;
     using System.Text;
@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using WindowsAzure.ServiceManagement;
     using Newtonsoft.Json;
     using Commands.Test.Utilities.Common;
-    using ServiceManagement.StorageServices;
+    using Commands.ServiceManagement.StorageServices;
     using Commands.Test.Utilities.CloudService;
 
     [TestClass]
