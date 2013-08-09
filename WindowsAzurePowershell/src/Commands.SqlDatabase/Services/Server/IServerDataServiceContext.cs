@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     /// <summary>
     /// Common interface for all server based operations.

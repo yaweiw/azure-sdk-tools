@@ -11,12 +11,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
+    using Services.Common;
+    using Services.Server;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database server quotas for the selected server.

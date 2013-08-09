@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Types>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerContext</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerContext</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
@@ -19,7 +19,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerFirewallRuleContext</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerFirewallRuleContext</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
@@ -38,7 +38,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
@@ -60,7 +60,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.ServerDataServiceSqlAuth</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServerDataServiceSqlAuth</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
@@ -80,7 +80,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.ServiceObjective</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServiceObjective</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
@@ -101,7 +101,7 @@
     </Members>
   </Type>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.ServerQuota</Name>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServerQuota</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
