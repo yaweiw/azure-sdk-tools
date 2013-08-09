@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// Manifest file for SqlDatabase Tests
         /// </summary>
         private static readonly string SqlDatabaseTestManifest =
-            "Microsoft.WindowsAzure.Management.SqlDatabase.Test.psd1";
+            "Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1";
 
         public static void CheckConfirmImpact(Type cmdlet, ConfirmImpact confirmImpact)
         {
