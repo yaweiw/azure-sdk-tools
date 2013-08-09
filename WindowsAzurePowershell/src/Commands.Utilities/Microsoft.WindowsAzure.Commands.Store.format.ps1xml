@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.Store.WindowsAzureOffer</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.Store.WindowsAzureOffer</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.Store.WindowsAzureOffer</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.Store.WindowsAzureOffer</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -61,9 +61,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Utilities.Store.WindowsAzureAddOn</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.Store.WindowsAzureAddOn</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Utilities.Store.WindowsAzureAddOn</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.Store.WindowsAzureAddOn</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
