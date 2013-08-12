@@ -56,10 +56,21 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         private static void WriteToDisk(string filePath, Stream resourceStream)
         {
+            EnsureDirectoryExists(Path.GetDirectoryName(filePath));
             using (Stream outputStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 resourceStream.CopyTo(outputStream);
             }
+        }
+
+        private static void EnsureDirectoryExists(string directoryPath)
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                return;
+            }
+            EnsureDirectoryExists(Path.GetDirectoryName(directoryPath));
+            Directory.CreateDirectory(directoryPath);
         }
     }
 }
