@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Properties;
@@ -101,15 +102,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepos
             var locations = this.Channel.ListLocations(CurrentSubscription.SubscriptionId);
             if (this.ReplicaLocations != null)
             {
-                var invalidValues = (from l in locations
-                                     from t in ReplicaLocations
-                                     where !l.Name.Equals(t, StringComparison.InvariantCultureIgnoreCase)
-                                     select t).ToList();
+                var invalidValues = ReplicaLocations.Except(locations.Select(l => l.Name), StringComparer.OrdinalIgnoreCase).ToList();
 
                 if (invalidValues.Any())
                 {
-                    var validValuesMessage = string.Format(Resources.SetAzurePlatformVMImage_Valid_Values, locations.Aggregate(String.Empty, (s, l) => s + ", '" + l.Name + "'"));
-                    var invalidValuesMessage = string.Format(Resources.SetAzurePlatformVMImage_Invalid_Values, invalidValues.Aggregate(String.Empty, (s, l) => s + ", '" + l + "'"));
+                    var validValuesMessage = string.Format(Resources.SetAzurePlatformVMImage_Valid_Values, String.Join(", ", locations.Select(l => "'" + l.Name + "'")));
+                    var invalidValuesMessage = string.Format(Resources.SetAzurePlatformVMImage_Invalid_Values, String.Join(", ", invalidValues.Select(l => "'" + l + "'")));
 
                     throw new ArgumentOutOfRangeException("Location", String.Format(Resources.SetAzurePlatformVMImage_Expected_Found, validValuesMessage, invalidValuesMessage));
                 }
