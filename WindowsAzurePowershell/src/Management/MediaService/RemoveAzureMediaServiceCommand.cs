@@ -17,6 +17,7 @@ using System.Management.Automation;
 using System.Net;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
+using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
 namespace Microsoft.WindowsAzure.Management.MediaService
@@ -25,26 +26,8 @@ namespace Microsoft.WindowsAzure.Management.MediaService
     /// Remove an Azure Media Services account
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureMediaServicesAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureMediaServiceCommand : MediaServiceBaseCmdlet
+    public class RemoveAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
-        /// <summary>
-        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
-        /// </summary>
-        public RemoveAzureMediaServiceCommand() : this(null)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the RemoveAzureMediaServicesAccountCommand class.
-        /// </summary>
-        /// <param name="channel">
-        ///     Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public RemoveAzureMediaServiceCommand(IMediaServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services account name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -62,30 +45,13 @@ namespace Microsoft.WindowsAzure.Management.MediaService
                           string.Empty,
                           () =>
                               {
-                                  InvokeInOperationContext(() =>
-                                      {
-                                          RetryCall(s =>
-                                              {
-                                                  try
-                                                  {
-                                                      Channel.DeleteMediaServicesAccount(s, Name);
-                                                  }
-                                                  catch (Exception x)
-                                                  {
-                                                      var webx = x.InnerException as WebException;
-                                                      if (webx != null && ((HttpWebResponse) webx.Response).StatusCode == HttpStatusCode.NotFound)
-                                                      {
-                                                          throw new Exception(string.Format(Resources.InvalidMediaServicesAccount, Name));
-                                                      }
-                                                      else
-                                                      {
-                                                          throw;
-                                                      }
-                                                  }
-                                              });
-                                      });
+                                  MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-                                  WriteObject(true);
+                                  bool result = false;
+
+                                  CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.DeleteAzureMediaServiceAccountAsync(Name).Result; });
+
+                                  WriteObject(result);
                               });
         }
     }
