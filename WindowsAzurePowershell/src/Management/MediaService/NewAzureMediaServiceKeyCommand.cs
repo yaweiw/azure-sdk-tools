@@ -32,26 +32,8 @@ namespace Microsoft.WindowsAzure.Management.MediaService
     ///     Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureMediaServicesKey", SupportsShouldProcess = true), OutputType(typeof(string))]
-    public class NewAzureMediaServiceKeyCommand : MediaServiceBaseCmdlet
+    public class NewAzureMediaServiceKeyCommand : AzureMediaServicesHttpClientCommandBase
     {
-        /// <summary>
-        ///     Initializes a new instance of the NewAzureMediaServicesKeyCommand class.
-        /// </summary>
-        public NewAzureMediaServiceKeyCommand() : this(null)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the NewAzureMediaServicesKeyCommand class.
-        /// </summary>
-        /// <param name="channel">
-        ///     Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureMediaServiceKeyCommand(IMediaServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services account name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -73,32 +55,16 @@ namespace Microsoft.WindowsAzure.Management.MediaService
                           string.Empty,
                           () =>
                               {
-                                  InvokeInOperationContext(() =>
-                                      {
-                                          RetryCall(s =>
-                                              {
-                                                  try
-                                                  {
-                                                      Channel.RegenerateMediaServicesAccount(s, Name, KeyType.ToString());
-                                                  }
-                                                  catch (Exception x)
-                                                  {
-                                                      var webx = x.InnerException as WebException;
-                                                      if (webx != null && ((HttpWebResponse) webx.Response).StatusCode == HttpStatusCode.NotFound)
-                                                      {
-                                                          throw new Exception(string.Format(Resources.InvalidMediaServicesAccount, Name));
-                                                      }
-                                                      else
-                                                      {
-                                                          throw;
-                                                      }
-                                                  }
+                                  MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-                                                  MediaServiceAccountDetails details = Channel.GetMediaService(s, Name);
-                                                  string result = KeyType == KeyType.Primary ? details.AccountKeys.Primary : details.AccountKeys.Secondary;
-                                                  WriteObject(result);
-                                              });
-                                      });
+                                  bool result;
+                                  CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.RegenerateMediaServicesAccountAsync(Name, KeyType.ToString()).Result; });
+
+                                  MediaServiceAccountDetails account = null;
+                                  CatchAggregatedExceptionFlattenAndRethrow(() => { account = MediaServicesClient.GetMediaServiceAsync(Name).Result; });
+                                  string newKey = KeyType == KeyType.Primary ? account.AccountKeys.Primary : account.AccountKeys.Secondary;
+
+                                  WriteObject(newKey);
                               });
         }
     }

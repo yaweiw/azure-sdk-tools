@@ -41,5 +41,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <param name="request">The request.</param>
         /// <returns></returns>
         Task<AccountCreationResult> CreateNewAzureMediaServiceAsync(AccountCreationRequest request);
+
+        /// <summary>
+        ///     Deletes azure media service account async.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        Task<bool> DeleteAzureMediaServiceAccountAsync(string name);
+
+        /// <summary>
+        ///     Regenerates azure media service account key async.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType);
     }
 }

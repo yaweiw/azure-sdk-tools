@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -97,6 +98,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         }
 
         /// <summary>
+        ///     Deletes azure media service account async.
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> DeleteAzureMediaServiceAccountAsync(string name)
+        {
+            string url = String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name);
+            return _httpClient.DeleteAsync(url).ContinueWith(tr => ProcessResponse(tr));
+        }
+
+        /// <summary>
+        ///     Deletes azure media service account async.
+        /// </summary>
+        public Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType)
+        {
+            string url = String.Format("{0}/{1}/AccountKeys/{2}/Regenerate", MediaServicesUriElements.Accounts, name, keyType);
+            return _httpClient.PostAsync(url, null).ContinueWith(tr => ProcessResponse(tr));
+        }
+
+        /// <summary>
         ///     Processes the response and handle error cases.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -114,18 +134,47 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
             }
             else
             {
-                var doc = new XmlDocument();
-                doc.LoadXml(content);
-                content = doc.InnerText;
-                var serviceError = JsonConvert.DeserializeObject(content, typeof (ServiceError)) as ServiceError;
-                throw new ServiceManagementClientException(message.StatusCode,
-                                                           new ServiceManagementError
-                                                               {
-                                                                   Code = message.StatusCode.ToString(),
-                                                                   Message = serviceError.Message
-                                                               },
-                                                           string.Empty);
+                ServiceManagementClientException exception = CreateException(message.StatusCode, content);
+                throw exception;
             }
+        }
+
+        /// <summary>
+        ///     Processes the response and handle error cases.
+        /// </summary>
+        /// <param name="responseMessage">The response message.</param>
+        /// <exception cref="Microsoft.WindowsAzure.ServiceManagement.ServiceManagementClientException"></exception>
+        /// <exception cref="ServiceManagementError"></exception>
+        private static bool ProcessResponse(Task<HttpResponseMessage> responseMessage)
+        {
+            HttpResponseMessage message = responseMessage.Result;
+            string content = message.Content.ReadAsStringAsync().Result;
+            if (!message.IsSuccessStatusCode)
+            {
+                ServiceManagementClientException exception = CreateException(message.StatusCode, content);
+                throw exception;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Unwraps error message and creates ServiceManagementClientException.
+        /// </summary>
+        private static ServiceManagementClientException CreateException(HttpStatusCode statusCode, string content)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(content);
+            content = doc.InnerText;
+            var serviceError = JsonConvert.DeserializeObject(content, typeof(ServiceError)) as ServiceError;
+            var exception = new ServiceManagementClientException(statusCode,
+                                                       new ServiceManagementError
+                                                       {
+                                                           Code = statusCode.ToString(),
+                                                           Message = serviceError.Message
+                                                       },
+                                                       string.Empty);
+            return exception;
         }
 
         /// <summary>

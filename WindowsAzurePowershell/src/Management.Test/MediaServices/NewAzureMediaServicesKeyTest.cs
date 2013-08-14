@@ -36,26 +36,32 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         public void RegenerateMediaServicesAccountTest()
         {
             // Setup
-            var channelMock = new Mock<IMediaServiceManagement>();
-            IMediaServiceManagement channel = channelMock.Object;
+            var clientMock = new Mock<IMediaServicesClient>();
 
             string newKey = "newkey";
+            string expectedName = "testacc";
 
-            channelMock.Setup(f => f.EndRegenerateMediaServicesAccount(null)).Verifiable();
-            channelMock.Setup(f => f.EndGetMediaService(null))
-                .Returns(new MediaServiceAccountDetails
+            clientMock.Setup(f => f.RegenerateMediaServicesAccountAsync(expectedName, "Primary")).Returns(Task.Factory.StartNew(() => true));
+
+            MediaServiceAccountDetails detail = new MediaServiceAccountDetails
+            {
+                AccountName = expectedName,
+                AccountKeys = new AccountKeys { Primary = newKey }
+            };
+
+            clientMock.Setup(f => f.GetMediaServiceAsync(expectedName)).Returns(Task.Factory.StartNew(() =>
                 {
-                    AccountKeys = new AccountKeys { Primary = newKey }
-                });
+                    return detail;
+                }));
 
             // Test
-            var command = new NewAzureMediaServiceKeyCommand(channel)
+            var command = new NewAzureMediaServiceKeyCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }, 
-                Name = "unittestaccount", 
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                Name = expectedName, 
                 KeyType = MediaService.KeyType.Primary,
+                MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();
