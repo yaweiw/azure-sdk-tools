@@ -36,17 +36,22 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         public void ProcessRemoveMediaServicesAccountTest()
         {
             // Setup
-            var channelMock = new Mock<IMediaServiceManagement>();
-            IMediaServiceManagement channel = channelMock.Object;
+            var clientMock = new Mock<IMediaServicesClient>();
 
-            channelMock.Setup(f => f.EndDeleteMediaServicesAccount(null)).Verifiable();
+            string expectedName = "testacc";
+
+            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(Task.Factory.StartNew(() =>
+            {
+                return true;
+            }));
 
             // Test
             var command = new RemoveAzureMediaServiceCommand()
             {
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
-                Name = "unittestaccount",
+                Name = expectedName,
+                MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();
