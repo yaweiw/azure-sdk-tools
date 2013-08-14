@@ -43,12 +43,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// </summary>
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
-        public MediaServicesClient(SubscriptionData subscription, Action<string> logger)
+        public MediaServicesClient(SubscriptionData subscription, Action<string> logger, HttpClient httpClient)
         {
             _subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
             Logger = logger;
-            _httpClient = CreateIMediaServicesHttpClient();
+            _httpClient = httpClient;
+        }
+
+        /// <summary>
+        ///     Creates new MediaServicesClient.
+        /// </summary>
+        /// <param name="subscription">The Windows Azure subscription data object</param>
+        /// <param name="logger">The logger action</param>
+        public MediaServicesClient(SubscriptionData subscription, Action<string> logger)
+            : this(subscription, logger, CreateIMediaServicesHttpClient(subscription))
+        {
         }
 
         /// <summary>
@@ -66,6 +76,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     The logger.
         /// </value>
         public Action<string> Logger { get; set; }
+
+
 
 
         /// <summary>
@@ -148,9 +160,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         private static bool ProcessResponse(Task<HttpResponseMessage> responseMessage)
         {
             HttpResponseMessage message = responseMessage.Result;
-            string content = message.Content.ReadAsStringAsync().Result;
             if (!message.IsSuccessStatusCode)
             {
+                string content = message.Content.ReadAsStringAsync().Result;
                 ServiceManagementClientException exception = CreateException(message.StatusCode, content);
                 throw exception;
             }
@@ -181,12 +193,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Creates and initialise instance of HttpClient
         /// </summary>
         /// <returns></returns>
-        private HttpClient CreateIMediaServicesHttpClient()
+        private static HttpClient CreateIMediaServicesHttpClient(SubscriptionData subscription)
         {
             var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(Subscription.Certificate);
-            var endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
-            endpoint.Append(_subscriptionId);
+            requestHandler.ClientCertificates.Add(subscription.Certificate);
+            var endpoint = new StringBuilder(General.EnsureTrailingSlash(subscription.ServiceEndpoint));
+            endpoint.Append(subscription.SubscriptionId);
 
             //Please note that / is nessesary here
             endpoint.Append("/services/mediaservices/");

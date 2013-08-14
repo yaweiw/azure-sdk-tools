@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
     using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
 
     [TestClass]
-    public class RemoveMediaServicesAccountTests : WebsitesTestBase
+    public class RemoveMediaServicesAccountTests : TestBase
     {
         [TestMethod]
         public void ProcessRemoveMediaServicesAccountTest()
@@ -49,7 +49,6 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             var command = new RemoveAzureMediaServiceCommand()
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = expectedName,
                 MediaServicesClient = clientMock.Object,
             };

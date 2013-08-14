@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
     using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
 
     [TestClass]
-    public class RegenerateMediaServicesAccountTests : WebsitesTestBase
+    public class RegenerateMediaServicesAccountTests : TestBase
     {
         [TestMethod]
         public void RegenerateMediaServicesAccountTest()
@@ -58,7 +58,6 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             var command = new NewAzureMediaServiceKeyCommand()
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = expectedName, 
                 KeyType = MediaService.KeyType.Primary,
                 MediaServicesClient = clientMock.Object,
