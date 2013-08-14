@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.StorageTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StorageTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+    using Commands.ScenarioTest.Common;
 
     [TestClass]
     public class StorageContainerTest : WindowsAzurePowerShellTest

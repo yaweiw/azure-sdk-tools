@@ -16,7 +16,7 @@ Param(
 $metadataFile = "ServerDataService.csdl"
 $clientModelClassFile = "ServerContextInternal.cs"
 $clientModelClassVersionFile = "ServerContextInternalVersion.cs"
-$clientModelNamespace = "Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server";
+$clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server";
 $clientModelBaseContext = "ServerContextInternal";
 
 ######## Import Server module from the build
@@ -42,8 +42,8 @@ if ($metadataDoc -eq $null)
 Write-Host "Updating checked-in model metadata at $metadataFile"
 $metadataDoc.Save($metadataFile)
 
-$filteredDoc=[Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common.DataConnectionUtility]::FilterMetadataDocument($metadataDoc);
-$metadataHash=[Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common.DataConnectionUtility]::GetDocumentHash($filteredDoc)
+$filteredDoc=[Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common.DataConnectionUtility]::FilterMetadataDocument($metadataDoc);
+$metadataHash=[Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common.DataConnectionUtility]::GetDocumentHash($filteredDoc)
 
 ######## Use DataSvcUtil to generate the model client class
 Write-Host "Generating model class file at $clientModelClassFile"

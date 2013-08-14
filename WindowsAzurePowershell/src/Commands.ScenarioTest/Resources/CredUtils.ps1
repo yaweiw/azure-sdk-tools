@@ -71,7 +71,7 @@ function Remove-AllSubscriptions
 function Format-Subscription 
 {
     [CmdletBinding()]
-    param([Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$false)] [Microsoft.WindowsAzure.Management.Utilities.Common.SubscriptionData] $subscription)
+    param([Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$false)] [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $subscription)
 	PROCESS
 	{
 	    Select-Object -InputObject $subscription -Property SubscriptionName,SubscriptionId,ServiceEndpoint,IsDefault | Format-List | Out-String
@@ -81,7 +81,7 @@ function Format-Subscription
 
 function Check-SubscriptionMatch
 {
-    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Management.Utilities.Common.SubscriptionData] $checkedSubscription)
+    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $checkedSubscription)
 	Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.SubscriptionName)+ "'")
 	Format-Subscription $checkedSubscription | Write-Log
 	if ($baseSubscriptionName -ne $checkedSubscription.SubscriptionName) 
@@ -99,7 +99,7 @@ function Check-SubscriptionMatch
 ##########################
 function Find-Subscription
 {
-    param( [Microsoft.WindowsAzure.Management.Utilities.Common.SubscriptionData] $subscription, [array] $subscriptions)
+    param( [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $subscription, [array] $subscriptions)
     $subscriptions | Where-Object {$_.Name -eq $subscription.SubscriptionName}
 }
 ############################################

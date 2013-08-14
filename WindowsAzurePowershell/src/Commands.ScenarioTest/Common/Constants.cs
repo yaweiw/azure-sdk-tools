@@ -1,5 +1,5 @@
 ﻿
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     public class Category
     {

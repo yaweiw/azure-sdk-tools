@@ -7,7 +7,7 @@
     <ProjectGuid>{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.Storage</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.Storage</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Commands.Storage</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

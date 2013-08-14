@@ -7,7 +7,7 @@
     <ProjectGuid>{A3965B66-5A3E-4B8C-9574-28E5958D4828}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.ScenarioTest</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.ScenarioTest</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Commands.ScenarioTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

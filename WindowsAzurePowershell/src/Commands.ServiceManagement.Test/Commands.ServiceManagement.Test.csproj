@@ -6,7 +6,7 @@
     <ProjectGuid>{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.ServiceManagement.Test</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.ServiceManagement.Test</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Commands.ServiceManagement.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
