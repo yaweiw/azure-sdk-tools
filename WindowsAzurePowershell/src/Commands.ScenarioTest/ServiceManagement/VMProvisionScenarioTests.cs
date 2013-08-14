@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceManagemenet
 {
-    using System.Management.Automation;
     using Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Commands.ServiceManagement.Test.Properties;
-    using Commands.ServiceManagement.Test.FunctionalTests;
-    using Commands.ServiceManagement.Model;
-    using Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using VisualStudio.TestTools.UnitTesting;
+    using ServiceManagement.Test.Properties;
+    using ServiceManagement.Test.FunctionalTests;
+    using ServiceManagement.Model;
+    using ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     [TestClass]
     public class VMProvisionScenarioTests : WindowsAzurePowerShellTest

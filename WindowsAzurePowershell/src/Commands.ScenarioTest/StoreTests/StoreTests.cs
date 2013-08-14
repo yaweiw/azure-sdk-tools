@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
 {
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
-    using Common;
+    using Commands.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
+    using Commands.ScenarioTest.Common.CustomPowerShell;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.Store;
 

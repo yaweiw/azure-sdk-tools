@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-# Loads Microsoft.WindowsAzure.Management module
+# Loads Microsoft.WindowsAzure.Commands module
 # Selects a subscription id to be used by the test
 
 function Init-TestEnvironment
@@ -28,7 +28,7 @@ function Init-TestEnvironment
     # Setting to continue because WA sets a bunch of aliases which ask for 
     # confirmation when running the functional tests.
     $ConfirmPreference = "Continue"
-    $moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Management"
+    $moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Commands"
     if(!$moduleLoaded)
     {
         Import-Module .\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1
@@ -175,7 +175,7 @@ function Validate-SqlDatabaseServerOperationContext
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerOperationContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerOperationContext]
         $Actual, 
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
@@ -203,7 +203,7 @@ function Validate-SqlDatabaseServerContext
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerContext]
         $Actual,
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
@@ -238,7 +238,7 @@ function Validate-SqlDatabaseServerFirewallRuleContext
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerFirewallRuleContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerFirewallRuleContext]
         $Actual,
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
@@ -279,7 +279,7 @@ function Validate-SqlDatabase
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
         $Actual,
         [Parameter(Mandatory=$true, Position=1)]
         [ValidateNotNullOrEmpty()]
@@ -338,7 +338,7 @@ function Drop-Server
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerOperationContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerOperationContext]
         $Server
     )
 
@@ -357,10 +357,10 @@ function Drop-Database
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
         [Parameter(Mandatory=$true, Position=1)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
         $Database
     )
 
@@ -382,7 +382,7 @@ function Drop-DatabaseWithServerName
         [string]
         $ServerName,
         [Parameter(Mandatory=$true, Position=1)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
         $Database
     )
 
@@ -401,7 +401,7 @@ function Drop-Databases
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
         [Parameter(Mandatory=$true, Position=1)]
         [String]

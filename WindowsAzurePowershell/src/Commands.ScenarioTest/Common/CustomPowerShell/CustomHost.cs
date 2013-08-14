@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common.CustomPowerShell
 {
     using System;
     using System.Globalization;

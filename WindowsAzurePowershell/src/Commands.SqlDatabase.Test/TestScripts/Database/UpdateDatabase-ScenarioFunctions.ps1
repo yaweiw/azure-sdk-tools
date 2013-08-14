@@ -18,7 +18,7 @@ function Scenario1-UpdateWithObject
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
@@ -65,7 +65,7 @@ function Scenario2-UpdateWithName
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
@@ -112,7 +112,7 @@ function Scenario3-RenameDatabase
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
