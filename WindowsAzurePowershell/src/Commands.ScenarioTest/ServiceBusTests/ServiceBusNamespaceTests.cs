@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+    using Commands.ScenarioTest.Common;
 
     [TestClass]
     public class ServiceBusNamespaceTests : WindowsAzurePowerShellTest

@@ -35,10 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
-        public const string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Management.Storage.dll";
-        public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
-        public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
-        public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
+        public const string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Commands.Storage.dll";
+        public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Commands.dll";
+        public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Commands.Service.dll";
+        public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";

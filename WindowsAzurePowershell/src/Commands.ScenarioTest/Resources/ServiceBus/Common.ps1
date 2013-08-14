@@ -148,7 +148,7 @@ Creates a ServiceBusExtensionClient instance.
 #>
 function New-ServiceBusClientExtensions
 {
-	$client = New-Object Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ServiceBusClientExtensions `
+	$client = New-Object Microsoft.WindowsAzure.Commands.Utilities.ServiceBus.ServiceBusClientExtensions `
 		-ArgumentList $(Get-AzureSubscription -Default)
 
 	return $client

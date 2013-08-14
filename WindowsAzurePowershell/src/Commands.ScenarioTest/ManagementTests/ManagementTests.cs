@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.ManagementTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagementTests
 {
     using Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ManagementTests : WindowsAzurePowerShellTest

@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.WindowsAzure.Management.Storage.Test")]
+[assembly: AssemblyTitle("Microsoft.WindowsAzure.Commands.Storage.Test")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("Windows Azure Powershell")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2012")]

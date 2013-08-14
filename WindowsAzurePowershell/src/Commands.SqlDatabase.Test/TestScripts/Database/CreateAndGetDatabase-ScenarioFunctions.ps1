@@ -19,7 +19,7 @@ function Scenerio1-CreateWithRequiredParameters
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
@@ -92,7 +92,7 @@ function Scenerio2-CreateWithOptionalParameters
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
