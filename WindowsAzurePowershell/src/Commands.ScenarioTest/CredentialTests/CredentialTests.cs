@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.CredentialTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CredentialTests
 {
 
     class CredentialTests

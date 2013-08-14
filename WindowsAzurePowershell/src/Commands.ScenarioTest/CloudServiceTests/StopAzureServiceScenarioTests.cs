@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
 {
     using Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class StopAzureServiceScenarioTests : WindowsAzurePowerShellTest

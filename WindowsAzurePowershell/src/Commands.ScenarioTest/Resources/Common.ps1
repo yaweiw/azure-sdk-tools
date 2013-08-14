@@ -124,7 +124,7 @@ function Write-Log
 
 function Check-SubscriptionMatch
 {
-    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Management.Utilities.Common.SubscriptionData] $checkedSubscription)
+    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $checkedSubscription)
     Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.SubscriptionName)+ "'")
     Format-Subscription $checkedSubscription | Write-Log
     if ($baseSubscriptionName -ne $checkedSubscription.SubscriptionName) 

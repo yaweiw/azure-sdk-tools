@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 {
     using System.IO;
-    using Common;
+    using Commands.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

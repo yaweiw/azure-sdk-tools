@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
 {
     using System.Management.Automation;
     using Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class EmulatorTests : WindowsAzurePowerShellTest
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
             }
             catch (RuntimeException runtimeException)
             {
-                Assert.AreEqual<string>(TrueIsNotFalseException, runtimeException.Message,
+                Assert.AreEqual(TrueIsNotFalseException, runtimeException.Message,
                     string.Format(ExceptionMatchFailedException, TrueIsNotFalseException, runtimeException.Message));
             }
         }

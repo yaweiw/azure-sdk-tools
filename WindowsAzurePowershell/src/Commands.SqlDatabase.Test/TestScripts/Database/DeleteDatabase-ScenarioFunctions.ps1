@@ -19,7 +19,7 @@ function Scenerio1-DeleteByName
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]
@@ -73,7 +73,7 @@ function Scenerio2-DeleteByObject
 	(
 		[Parameter(Mandatory=$false, Position=0)]
         [ValidateNotNullOrEmpty()]
-        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.IServerDataServiceContext]
         $Context,
 
 		[Parameter(Mandatory=$false, Position=1)]

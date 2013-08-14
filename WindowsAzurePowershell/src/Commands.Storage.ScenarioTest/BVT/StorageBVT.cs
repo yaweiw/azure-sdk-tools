@@ -14,7 +14,7 @@
 
 using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -82,7 +82,7 @@ namespace Commands.Storage.ScenarioTest.BVT
             Test.Info("Clean storage context in PowerShell");
             PowerShellAgent.CleanStorageContext();
 
-            PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Management.Storage.dll");
+            PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Commands.Storage.dll");
             
 
             // import module
