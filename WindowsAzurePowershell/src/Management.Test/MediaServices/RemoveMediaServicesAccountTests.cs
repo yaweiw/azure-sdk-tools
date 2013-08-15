@@ -10,24 +10,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Net;
 using Microsoft.WindowsAzure.Management.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
-using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
-using Microsoft.WindowsAzure.ServiceManagement;
 using Moq;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Utilities.Common;
     using Utilities.Websites;
     using Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
 
     [TestClass]
     public class RemoveMediaServicesAccountTests : WebsitesTestBase
@@ -36,18 +30,22 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         public void ProcessRemoveMediaServicesAccountTest()
         {
             // Setup
-            var channelMock = new Mock<IMediaServiceManagement>();
-            IMediaServiceManagement channel = channelMock.Object;
+            var clientMock = new Mock<IMediaServicesClient>();
 
-            channelMock.Setup(f => f.EndDeleteMediaServicesAccount(null)).Verifiable();
+            string expectedName = "testacc";
+
+            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(Task.Factory.StartNew(() =>
+            {
+                return true;
+            }));
 
             // Test
-            var command = new RemoveAzureMediaServiceCommand(channel)
+            var command = new RemoveAzureMediaServiceCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
-                Name = "unittestaccount",
+                Name = expectedName,
+                MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();

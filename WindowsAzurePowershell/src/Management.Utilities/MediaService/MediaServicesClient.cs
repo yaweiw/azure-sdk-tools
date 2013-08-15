@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization;
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         public Task<StorageService> GetStorageServiceKeys(string storageAccountName)
         {
             //Storage service returng xml as output format
-            return _storageClient.GetAsync(String.Format("{0}/keys", storageAccountName), Logger).ContinueWith(tr => ProcessXMLResponse<StorageService>(tr));
+            return _storageClient.GetAsync(String.Format("{0}/keys", storageAccountName), Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <returns></returns>
         public Task<StorageService> GetStorageServiceProperties(string storageAccountName)
         {
-            return _storageClient.GetAsync(storageAccountName, Logger).ContinueWith(tr => ProcessXMLResponse<StorageService>(tr));
+            return _storageClient.GetAsync(storageAccountName, Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
         }
 
         /// <summary>
@@ -124,6 +125,25 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         }
 
         /// <summary>
+        /// Deletes azure media service account async.
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> DeleteAzureMediaServiceAccountAsync(string name)
+        {
+            string url = String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name);
+            return _httpClient.DeleteAsync(url).ContinueWith(tr => ProcessJsonResponse<bool>(tr));
+        }
+
+        /// <summary>
+        ///  Deletes azure media service account async.
+        /// </summary>
+        public Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType)
+        {
+            string url = String.Format("{0}/{1}/AccountKeys/{2}/Regenerate", MediaServicesUriElements.Accounts, name, keyType);
+            return _httpClient.PostAsync(url, null).ContinueWith(tr => ProcessJsonResponse<bool>(tr));
+        }
+
+        /// <summary>
         ///     Processes the response and handle error cases.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -135,27 +155,21 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         {
             HttpResponseMessage message = responseMessage.Result;
             string content = message.Content.ReadAsStringAsync().Result;
+            if (typeof (T) == typeof (bool) )
+            {
+                return (T) (object) message.IsSuccessStatusCode;
+            }
             if (message.IsSuccessStatusCode)
             {
                 return (T) JsonConvert.DeserializeObject(content, typeof (T));
             }
-            else
-            {
-                var doc = new XmlDocument();
-                doc.LoadXml(content);
-                content = doc.InnerText;
-                var serviceError = JsonConvert.DeserializeObject(content, typeof (ServiceError)) as ServiceError;
-                throw new ServiceManagementClientException(message.StatusCode,
-                                                           new ServiceManagementError
-                                                               {
-                                                                   Code = message.StatusCode.ToString(),
-                                                                   Message = serviceError.Message
-                                                               },
-                                                           string.Empty);
-            }
+            
+            throw CreateExceptionFromJson(message.StatusCode, content);
+            
+
         }
 
-        private static T ProcessXMLResponse<T>(Task<HttpResponseMessage> responseMessage)
+        private static T ProcessXmlResponse<T>(Task<HttpResponseMessage> responseMessage)
         {
             HttpResponseMessage message = responseMessage.Result;
             string content = message.Content.ReadAsStringAsync().Result;
@@ -165,31 +179,48 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
                 using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(content)))
                 {
                     stream.Position = 0;
-                    using (var reader = XmlDictionaryReader.CreateTextReader(stream, new XmlDictionaryReaderQuotas()))
-                    {
-                        var myContact = (T) ser.ReadObject(reader, true);
-                        return myContact;
-                    }
+                    var reader = XmlDictionaryReader.CreateTextReader(stream, new XmlDictionaryReaderQuotas());
+                    return (T)ser.ReadObject(reader, true);
                 }
             }
-            else
+
+            throw CreateExceptionFromXml(content, message);
+        }
+
+        private static ServiceManagementClientException CreateExceptionFromXml(string content, HttpResponseMessage message)
+        {
+            using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(content)))
             {
-                using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(content)))
-                {
-                    stream.Position = 0;
-                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
-                    ServiceError serviceError = (ServiceError)serializer.Deserialize(stream);
-                    throw new ServiceManagementClientException(message.StatusCode,
+                stream.Position = 0;
+                XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
+                ServiceError serviceError = (ServiceError) serializer.Deserialize(stream);
+                return  new ServiceManagementClientException(message.StatusCode,
+                    new ServiceManagementError
+                    {
+                        Code = message.StatusCode.ToString(),
+                        Message = serviceError.Message
+                    },
+                    string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Unwraps error message and creates ServiceManagementClientException.
+        /// </summary>
+        private static ServiceManagementClientException CreateExceptionFromJson(HttpStatusCode statusCode, string content)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(content);
+            content = doc.InnerText;
+            var serviceError = JsonConvert.DeserializeObject(content, typeof(ServiceError)) as ServiceError;
+            var exception = new ServiceManagementClientException(statusCode,
                                                        new ServiceManagementError
                                                        {
-                                                           Code = message.StatusCode.ToString(),
+                                                           Code = statusCode.ToString(),
                                                            Message = serviceError.Message
                                                        },
                                                        string.Empty);
-                   
-                }
-                
-            }
+            return exception;
         }
 
         /// <summary>

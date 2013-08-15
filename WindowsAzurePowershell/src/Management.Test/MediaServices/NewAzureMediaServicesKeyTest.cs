@@ -10,24 +10,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Net;
 using Microsoft.WindowsAzure.Management.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
-using Microsoft.WindowsAzure.ServiceManagement;
 using Moq;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Utilities.Common;
     using Utilities.Websites;
     using Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services;
 
     [TestClass]
     public class RegenerateMediaServicesAccountTests : WebsitesTestBase
@@ -36,26 +31,32 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         public void RegenerateMediaServicesAccountTest()
         {
             // Setup
-            var channelMock = new Mock<IMediaServiceManagement>();
-            IMediaServiceManagement channel = channelMock.Object;
+            var clientMock = new Mock<IMediaServicesClient>();
 
             string newKey = "newkey";
+            string expectedName = "testacc";
 
-            channelMock.Setup(f => f.EndRegenerateMediaServicesAccount(null)).Verifiable();
-            channelMock.Setup(f => f.EndGetMediaService(null))
-                .Returns(new MediaServiceAccountDetails
+            clientMock.Setup(f => f.RegenerateMediaServicesAccountAsync(expectedName, "Primary")).Returns(Task.Factory.StartNew(() => true));
+
+            MediaServiceAccountDetails detail = new MediaServiceAccountDetails
+            {
+                Name = expectedName,
+                AccountKeys = new AccountKeys { Primary = newKey }
+            };
+
+            clientMock.Setup(f => f.GetMediaServiceAsync(expectedName)).Returns(Task.Factory.StartNew(() =>
                 {
-                    AccountKeys = new AccountKeys { Primary = newKey }
-                });
+                    return detail;
+                }));
 
             // Test
-            var command = new NewAzureMediaServiceKeyCommand(channel)
+            var command = new NewAzureMediaServiceKeyCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }, 
-                Name = "unittestaccount", 
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                Name = expectedName, 
                 KeyType = MediaService.KeyType.Primary,
+                MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();

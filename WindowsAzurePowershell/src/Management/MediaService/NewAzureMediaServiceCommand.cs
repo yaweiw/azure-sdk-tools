@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.MediaService
             
             if (String.IsNullOrEmpty(StorageAccountKey))
             {
-                StorageService storage = ((MediaServicesClient)MediaServicesClient).GetStorageServiceKeys(StorageAccountName).Result;
+                StorageService storage = MediaServicesClient.GetStorageServiceKeys(StorageAccountName).Result;
                 StorageAccountKey = storage.StorageServiceKeys.Primary;
             }
 
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.MediaService
                 try
                 {
                     StorageService storage = null;
-                     CatchAggregatedExceptionFlattenAndRethrow(() => { storage = ((MediaServicesClient) MediaServicesClient).GetStorageServiceProperties(StorageAccountName).Result; });
+                     CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceProperties(StorageAccountName).Result; });
 
                     if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
                     {
