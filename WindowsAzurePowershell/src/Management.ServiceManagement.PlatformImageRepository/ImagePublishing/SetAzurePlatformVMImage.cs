@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepos
             set;
         }
 
-        [Parameter(Position = 1, ParameterSetName = ReplicateParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the locations that image will be replicated.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = ReplicateParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the locations that image will be replicated.")]
         [ValidateNotNullOrEmpty]
         public string[] ReplicaLocations
         {
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepos
             set;
         }
 
-        [Parameter(Position = 1, ParameterSetName = ShareParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the sharing permission of replicated image.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = ShareParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the sharing permission of replicated image.")]
         [ValidateSet("Public", "Private")]
         public string Permission
         {
