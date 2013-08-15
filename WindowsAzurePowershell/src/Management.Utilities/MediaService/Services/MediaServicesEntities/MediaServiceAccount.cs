@@ -28,16 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.Medi
         [DataMember(EmitDefaultValue = false, Order = 0)]
         public string Name { get; set; }
 
-        [DataMember(EmitDefaultValue = false, Order = 4)]
-        public Uri ParentLink { get; set; }
-
-        [DataMember(EmitDefaultValue = false, Order = 3)]
-        public Uri SelfLink { get; set; }
-
         [DataMember(EmitDefaultValue = false, Order = 2)]
         public string State { get; set; }
-
-        [DataMember(EmitDefaultValue = false, Order = 1)]
-        public string Type { get; set; }
     }
 }

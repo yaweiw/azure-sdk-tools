@@ -14,11 +14,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
@@ -36,6 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         public const string MediaServiceVersion = "2013-03-01";
         private readonly HttpClient _httpClient;
         private readonly string _subscriptionId;
+        private HttpClient _storageClient;
 
         /// <summary>
         ///     Creates new MediaServicesClient.
@@ -48,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
             Subscription = subscription;
             Logger = logger;
             _httpClient = CreateIMediaServicesHttpClient();
+            _storageClient = CreateStorageServiceHttpClient();
         }
 
         /// <summary>
@@ -73,7 +78,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <returns></returns>
         public Task<IEnumerable<MediaServiceAccount>> GetMediaServiceAccountsAsync()
         {
-            return _httpClient.GetAsync(MediaServicesUriElements.Accounts, Logger).ContinueWith(tr => ProcessResponse<IEnumerable<MediaServiceAccount>>(tr));
+            return _httpClient.GetAsync(MediaServicesUriElements.Accounts, Logger).ContinueWith(tr => ProcessJsonResponse<IEnumerable<MediaServiceAccount>>(tr));
+        }
+
+
+        /// <summary>
+        /// Gets the storage service key.
+        /// </summary>
+        /// <param name="storageAccountName">Name of the storage account.</param>
+        /// <returns></returns>
+        public Task<StorageService> GetStorageServiceKeys(string storageAccountName)
+        {
+            //Storage service returng xml as output format
+            return _storageClient.GetAsync(String.Format("{0}/keys", storageAccountName), Logger).ContinueWith(tr => ProcessXMLResponse<StorageService>(tr));
+        }
+
+        /// <summary>
+        /// Gets the storage service properties.
+        /// </summary>
+        /// <param name="storageAccountName">Name of the storage account.</param>
+        /// <returns></returns>
+        public Task<StorageService> GetStorageServiceProperties(string storageAccountName)
+        {
+            return _storageClient.GetAsync(storageAccountName, Logger).ContinueWith(tr => ProcessXMLResponse<StorageService>(tr));
         }
 
         /// <summary>
@@ -83,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <returns></returns>
         public Task<MediaServiceAccountDetails> GetMediaServiceAsync(string name)
         {
-            return _httpClient.GetAsync(String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name), Logger).ContinueWith(tr => ProcessResponse<MediaServiceAccountDetails>(tr));
+            return _httpClient.GetAsync(String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name), Logger).ContinueWith(tr => ProcessJsonResponse<MediaServiceAccountDetails>(tr));
         }
 
         /// <summary>
@@ -93,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <returns></returns>
         public Task<AccountCreationResult> CreateNewAzureMediaServiceAsync(AccountCreationRequest request)
         {
-            return _httpClient.PostAsJsonAsyncWithoutEnsureSuccessStatusCode(MediaServicesUriElements.Accounts, JObject.FromObject(request), Logger).ContinueWith(tr => ProcessResponse<AccountCreationResult>(tr));
+            return _httpClient.PostAsJsonAsyncWithoutEnsureSuccessStatusCode(MediaServicesUriElements.Accounts, JObject.FromObject(request), Logger).ContinueWith(tr => ProcessJsonResponse<AccountCreationResult>(tr));
         }
 
         /// <summary>
@@ -104,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// <returns></returns>
         /// <exception cref="Microsoft.WindowsAzure.ServiceManagement.ServiceManagementClientException"></exception>
         /// <exception cref="ServiceManagementError"></exception>
-        private static T ProcessResponse<T>(Task<HttpResponseMessage> responseMessage)
+        private static T ProcessJsonResponse<T>(Task<HttpResponseMessage> responseMessage)
         {
             HttpResponseMessage message = responseMessage.Result;
             string content = message.Content.ReadAsStringAsync().Result;
@@ -128,6 +155,63 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
             }
         }
 
+        private static T ProcessXMLResponse<T>(Task<HttpResponseMessage> responseMessage)
+        {
+            HttpResponseMessage message = responseMessage.Result;
+            string content = message.Content.ReadAsStringAsync().Result;
+            if (message.IsSuccessStatusCode)
+            {
+                DataContractSerializer ser = new DataContractSerializer(typeof(T));
+                using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(content)))
+                {
+                    stream.Position = 0;
+                    using (var reader = XmlDictionaryReader.CreateTextReader(stream, new XmlDictionaryReaderQuotas()))
+                    {
+                        var myContact = (T) ser.ReadObject(reader, true);
+                        return myContact;
+                    }
+                }
+            }
+            else
+            {
+                using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(content)))
+                {
+                    stream.Position = 0;
+                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
+                    ServiceError serviceError = (ServiceError)serializer.Deserialize(stream);
+                    throw new ServiceManagementClientException(message.StatusCode,
+                                                       new ServiceManagementError
+                                                       {
+                                                           Code = message.StatusCode.ToString(),
+                                                           Message = serviceError.Message
+                                                       },
+                                                       string.Empty);
+                   
+                }
+                
+            }
+        }
+
+        /// <summary>
+        ///     Creates and initialise instance of HttpClient
+        /// </summary>
+        /// <returns></returns>
+        private HttpClient CreateStorageServiceHttpClient()
+        {
+            var requestHandler = new WebRequestHandler();
+            requestHandler.ClientCertificates.Add(Subscription.Certificate);
+            var endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
+            endpoint.Append(_subscriptionId);
+
+            //Please note that / is nessesary here
+            endpoint.Append("/services/storageservices/");
+            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
+            client.DefaultRequestHeaders.Add(Constants.VersionHeaderName, MediaServiceVersion);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            return client;
+        }
+
         /// <summary>
         ///     Creates and initialise instance of HttpClient
         /// </summary>
@@ -147,5 +231,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
+
+       
     }
 }

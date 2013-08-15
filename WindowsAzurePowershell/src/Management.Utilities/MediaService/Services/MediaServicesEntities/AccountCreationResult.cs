@@ -35,7 +35,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.Medi
         /// <value>
         ///     The name of the account.
         /// </value>
-        public string AccountName { get; set; }
+        [JsonProperty(PropertyName = "AccountName")]
+        public string Name { get; set; }
 
         /// <summary>
         ///     Gets or sets the subscription.
