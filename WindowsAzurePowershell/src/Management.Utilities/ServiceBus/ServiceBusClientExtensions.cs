@@ -545,9 +545,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
             string secondaryKey,
             params AccessRights[] permissions)
         {
-            SharedAccessAuthorizationRule rule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
-                namespaceName,
-                ruleName).Rule;
+            ExtendedAuthorizationRule oldRule = GetAuthorizationRule(namespaceName, ruleName);
+            if (null == oldRule)
+            {
+                throw new ArgumentException(Resources.ServiceBusAuthorizationRuleNotFound);
+            }
+
+            SharedAccessAuthorizationRule rule = (SharedAccessAuthorizationRule)oldRule.Rule;
 
             // Update the rule
             rule.Rights = permissions ?? rule.Rights;
@@ -590,11 +594,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
             params AccessRights[] permissions)
         {
             bool removed = false;
-            SharedAccessAuthorizationRule oldRule = (SharedAccessAuthorizationRule)GetAuthorizationRule(
-                namespaceName,
-                entityName,
-                entityType,
-                ruleName).Rule;
+            ExtendedAuthorizationRule rule = GetAuthorizationRule( namespaceName, entityName, entityType, ruleName);
+            if (null == rule)
+            {
+                throw new ArgumentException(Resources.ServiceBusAuthorizationRuleNotFound);
+            }
+
+            SharedAccessAuthorizationRule oldRule = (SharedAccessAuthorizationRule)rule.Rule;
 
             SharedAccessAuthorizationRule newRule = new SharedAccessAuthorizationRule(
                 ruleName,
@@ -657,7 +663,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
 
             foreach (ExtendedAuthorizationRule rule in rules)
             {
-                if (!string.IsNullOrEmpty(rule.EntityName))
+                if (null == rule)
+                {
+                    throw new ArgumentException(Resources.ServiceBusAuthorizationRuleNotFound);
+                }
+                else if (!string.IsNullOrEmpty(rule.EntityName))
                 {
                     RemoveAuthorizationRule(rule.Namespace, rule.EntityName, rule.EntityType, rule.Name);
                 }
