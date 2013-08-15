@@ -14,8 +14,53 @@
 
 ########################################################################### General Scenario Tests ###########################################################################
 
+
+# Initilizing variables
+$pseudorandomInput = "a","b","c","d","e","f","g","1","2","3","4","5","6","7"
+$mediaPrefix = "psmediatest"
+$MediaAccountName = $MediaAccountName
+$StorageAccountName = $StorageAccountName
+
+function GetPseudoRandomName
+{  
+	$returnValue = $mediaPrefix + (Get-Random -input $pseudorandomInput) + (Get-Random -input $pseudorandomInput) + (Get-Random -input $pseudorandomInput)
+	return $returnValue
+}
+
+# Generating accounts names if variables are not defined
+if([string]::IsNullOrEmpty($StorageAccountName))
+{
+	$StorageAccountName = GetPseudoRandomName
+}
+
+if([string]::IsNullOrEmpty($MediaAccountName))
+{
+	$MediaAccountName = GetPseudoRandomName
+}
+
+
+
+function EnsureStorageAccountExists
+{
+	
+
+	$accounts = Get-AzureStorageAccount
+	
+	Foreach($account in $accounts)
+	{
+		if ($account.StorageAccountName -eq $StorageAccountName) 
+		{ 
+			return
+		}
+	}
+	
+	New-AzureStorageAccount -StorageAccountName $StorageAccountName -Location $Region
+
+}
+
 function EnsureTestAccountExists
 {
+
 	$accounts = Get-AzureMediaServicesAccount
 
 	Foreach($account in $accounts)
@@ -25,7 +70,10 @@ function EnsureTestAccountExists
 			return
 		}
 	}
-	New-AzureMediaServicesAccount -Name $MediaAccountName -Location $Region -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey -BlobStorageEndpointUri $BlobStorageEndpointUri
+
+	EnsureStorageAccountExists
+	
+	New-AzureMediaServicesAccount -Name $MediaAccountName -Location $Region -StorageAccountName $StorageAccountName
 }
 
 <#
@@ -36,12 +84,13 @@ function Test-NewAzureMediaServicesKey
 {
 	EnsureTestAccountExists
 
-	$key = New-AzureMediaServicesKey -Name $MediaAccountName Secondary -Force
+	$key = New-AzureMediaServicesKey -Name $MediaAccountName -KeyType Secondary -Force
 
 	$account = Get-AzureMediaServicesAccount -Name $MediaAccountName
 
-	Assert-AreEqual $key $account.SecondaryAccountKey
+	Assert-AreEqual $key $account.MediaServicesSecondaryAccountKey
 }
+	
 
 <#
 .SYNOPSIS
@@ -52,8 +101,6 @@ function Test-RemoveAzureMediaServicesAccount
 	EnsureTestAccountExists
 
 	Remove-AzureMediaServicesAccount -Name $MediaAccountName -Force
-
-	#Assert-Throws {Get-AzureMediaServicesAccount -Name $MediaAccountName}
 }
 
 function Test-GetAzureMediaServicesAccount
@@ -63,6 +110,47 @@ function Test-GetAzureMediaServicesAccount
 
 function Test-GetAzureMediaServicesAccountByName 
 {
+	EnsureTestAccountExists
+
 	$account = Get-AzureMediaServicesAccount -Name $MediaAccountName
-	#Assert-Throws {Get-AzureMediaServicesAccount -Name $MediaAccountName}
+}
+
+function Test-NewAzureMediaServicesAccountWithStorageKey
+{
+	
+	EnsureStorageAccountExists
+
+	$NewMediaAccountName = GetPseudoRandomName	
+
+	$keysresponse = Get-AzureStorageKey -StorageAccountName $StorageAccountName
+
+	New-AzureMediaServicesAccount -Name $NewMediaAccountName -Location $Region -StorageAccountName $StorageAccountName -StorageAccountKey $keysresponse.Primary -StorageEndpoint $StorageEndpoint
+	
+	Remove-AzureMediaServicesAccount -Name $NewMediaAccountName -Force
+
+}
+
+function MediaServicesTest-Cleanup
+{
+	$accounts = Get-AzureMediaServicesAccount
+
+	Foreach($account in $accounts)
+	{
+		if($account.Name.StartsWith($mediaPrefix)) 
+		{
+
+			Remove-AzureMediaServicesAccount -Name $account.Name -Force
+		}
+	}
+	
+	
+	$accounts = Get-AzureStorageAccount
+	
+	Foreach($account in $accounts)
+	{
+		if ($account.StorageAccountName.StartsWith($mediaPrefix)) 
+		{ 
+			Remove-AzureStorageAccount -StorageAccountName $account.StorageAccountName
+		}
+	}
 }

@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
         [TestCleanup]
         public override void TestCleanup()
         {
+            powershell.AddScript("MediaServicesTest-Cleanup");
+            powershell.Invoke();
             base.TestCleanup();
         }
 
@@ -45,6 +47,11 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.MediaServicesTests
         public void TestGetAzureMediaServicesAccountByName()
         {
             RunPowerShellTest("Test-GetAzureMediaServicesAccountByName");
+        }
+
+        public void TestNewAzureMediaServiceAccountPassingStorageKey()
+        {
+            RunPowerShellTest("NewAzureMediaServicesAccountWithStorageKey");
         }
     }
 }

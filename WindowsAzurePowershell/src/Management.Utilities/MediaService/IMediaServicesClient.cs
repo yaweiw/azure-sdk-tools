@@ -14,6 +14,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
+using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
 {
@@ -53,7 +54,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Regenerates azure media service account key async.
         /// </summary>
         /// <param name="name">The name.</param>
+        /// <param name="keyType">Key Type</param>
         /// <returns></returns>
         Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType);
+
+        /// <summary>
+        /// Gets the storage service keys.
+        /// </summary>
+        /// <param name="storageAccountName">Name of the storage account.</param>
+        /// <returns></returns>
+        Task<StorageService> GetStorageServiceKeys(string storageAccountName);
+
+        /// <summary>
+        /// Gets the storage service properties.
+        /// </summary>
+        /// <param name="storageAccountName">Name of the storage account.</param>
+        /// <returns></returns>
+        Task<StorageService> GetStorageServiceProperties(string storageAccountName);
     }
 }

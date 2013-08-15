@@ -91,10 +91,10 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 
             string expectedName = "WAMS Account 1";
             MediaServiceAccountDetails detail =new MediaServiceAccountDetails {
-               AccountName = expectedName
+               Name = expectedName
            };
 
-            clientMock.Setup(f => f.GetMediaServiceAsync(detail.AccountName)).Returns(Task.Factory.StartNew(() =>
+            clientMock.Setup(f => f.GetMediaServiceAsync(detail.Name)).Returns(Task.Factory.StartNew(() =>
                 {
                     return detail;
                 }));
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
             var accounts = (MediaServiceAccountDetails)((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(accounts);
-            Assert.AreEqual(expectedName,accounts.AccountName);
+            Assert.AreEqual(expectedName,accounts.Name);
 
         }
 

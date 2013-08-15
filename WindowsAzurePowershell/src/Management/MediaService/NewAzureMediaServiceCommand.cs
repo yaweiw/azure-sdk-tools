@@ -12,9 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Management.Automation;
+using System.Net;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
+using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Management.MediaService
 {
@@ -24,35 +28,65 @@ namespace Microsoft.WindowsAzure.Management.MediaService
         public IMediaServicesClient MediaServicesClient { get; set; }
 
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service account name.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service account name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service region.")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service location.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure blobstorage endpoint uri.")]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The URLs that are used to perform a retrieval of a public blob")]
         [ValidateNotNullOrEmpty]
-        public string BlobStorageEndpointUri { get; set; }
+        public Uri StorageEndPoint { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure storage account name")]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account name")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure storage account key")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account key")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
+
+
 
 
         public override void ExecuteCmdlet()
         {
             MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
+            
+            if (String.IsNullOrEmpty(StorageAccountKey))
+            {
+                StorageService storage = MediaServicesClient.GetStorageServiceKeys(StorageAccountName).Result;
+                StorageAccountKey = storage.StorageServiceKeys.Primary;
+            }
+
+            if (StorageEndPoint == null)
+            {
+                try
+                {
+                    StorageService storage = null;
+                     CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceProperties(StorageAccountName).Result; });
+
+                    if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
+                    {
+                        StorageEndPoint = new Uri(storage.StorageServiceProperties.Endpoints[0]);
+                    }
+                }
+                catch (ServiceManagementClientException ex)
+                {
+                    if (ex.HttpStatus == HttpStatusCode.NotFound)
+                    {
+                        StorageEndPoint = GlobalSettingsManager.Instance.DefaultEnvironment.GetStorageBlobEndpoint(StorageAccountName);
+                    }
+                }
+
+            }
 
             AccountCreationResult result = null;
             var request = new AccountCreationRequest {
                 AccountName = Name,
-                BlobStorageEndpointUri = BlobStorageEndpointUri,
+                BlobStorageEndpointUri = StorageEndPoint.ToString(),
                 Region = Location,
                 StorageAccountKey = StorageAccountKey,
                 StorageAccountName = StorageAccountName

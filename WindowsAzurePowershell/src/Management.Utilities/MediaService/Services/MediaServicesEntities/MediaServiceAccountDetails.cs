@@ -28,20 +28,22 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.Medi
         internal AccountKeys AccountKeys { get; set; }
 
         [DataMember]
-        public string AccountName { get; set; }
+        [JsonProperty(PropertyName = "AccountName")]
+        public string Name { get; set; }
 
         [DataMember]
-        public string AccountRegion { get; set; }
+        [JsonProperty(PropertyName = "AccountRegion")]
+        public string Location { get; set; }
 
         [DataMember]
         public string StorageAccountName { get; set; }
 
-        public string PrimaryAccountKey
+        public string MediaServicesPrimaryAccountKey
         {
             get { return AccountKeys.Primary; }
         }
 
-        public string SecondaryAccountKey
+        public string MediaServicesSecondaryAccountKey
         {
             get { return AccountKeys.Secondary; }
         }
