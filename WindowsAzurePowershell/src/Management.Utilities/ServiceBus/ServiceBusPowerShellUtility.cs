@@ -22,18 +22,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus
     {
         public static PSObject GetNamespacePSObject(AuthorizationRule rule)
         {
-            return PowerShellUtility.ConstructPSObject(
+            return (null == rule? null : PowerShellUtility.ConstructPSObject(
                 typeof(AuthorizationRule).FullName,
                 "Namespace", rule.Namespace,
                 "Name", rule.Name,
                 "ConnectionString", rule.ConnectionString,
                 "Permission", rule.Permission,
-                "Rule", rule.Rule);
+                "Rule", rule.Rule));
         }
 
         public static PSObject GetEntityPSObject(AuthorizationRule rule)
         {
-            return new PSObject(rule);
+            return (null == rule? null : new PSObject(rule));
         }
     }
 }
