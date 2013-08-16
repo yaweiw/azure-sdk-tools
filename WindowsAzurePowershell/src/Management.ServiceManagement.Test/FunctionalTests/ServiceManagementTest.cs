@@ -144,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             Console.WriteLine("Location Name: {0}", locationName);
 
-            if (defaultAzureSubscription.CurrentStorageAccount == null && !string.IsNullOrEmpty(CredentialHelper.DefaultSubscriptionName))
+            if (defaultAzureSubscription.CurrentStorageAccount == null && !string.IsNullOrEmpty(CredentialHelper.DefaultStorageName))
             {
                 SetDefaultStorage();
             }
