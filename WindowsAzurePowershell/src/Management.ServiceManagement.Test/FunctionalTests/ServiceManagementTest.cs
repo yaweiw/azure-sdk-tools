@@ -43,7 +43,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const bool deleteDefaultStorageAccount = false; // Temporarily set to false
         protected bool cleanupIfPassed = true;
         protected bool cleanupIfFailed = true;
-        protected bool serviceCreated = false;
         protected const string vhdContainerName = "vhdstore";
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
@@ -145,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             Console.WriteLine("Location Name: {0}", locationName);
 
-            if (defaultAzureSubscription.CurrentStorageAccount == null)
+            if (defaultAzureSubscription.CurrentStorageAccount == null && !string.IsNullOrEmpty(CredentialHelper.DefaultSubscriptionName))
             {
                 SetDefaultStorage();
             }
