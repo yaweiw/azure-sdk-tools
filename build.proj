@@ -26,7 +26,7 @@
     <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>"!Functional&#x26;!Scenario&#x26;!LongRunningTest&#x26;!Sequential"</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario&#x26;!LongRunningTest&#x26;!Sequential&#x26;!PIRTest"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
 	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>

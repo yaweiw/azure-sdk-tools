@@ -21,14 +21,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using ConfigDataInfo;
-    using IaasCmdletInfo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using PaasCmdletInfo;
     using WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
+
+    using IaasCmdletInfo;
+    using PaasCmdletInfo;
+    using PIRCmdletInfo;
+
+    using Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model;
 
 
     public class ServiceManagementCmdletTestHelper
@@ -601,6 +605,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #endregion
 
+        #region AzurePlatformVMImage
+
+
+        internal ManagementOperationContext SetAzurePlatformVMImageReplicate(string imageName, string[] locations)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new  SetAzurePlatformVMImageCmdletInfo(imageName, null, locations));
+        }
+
+        internal ManagementOperationContext SetAzurePlatformVMImagePublic(string imageName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzurePlatformVMImageCmdletInfo(imageName, "Public", null));
+        }
+
+        internal ManagementOperationContext SetAzurePlatformVMImagePrivate(string imageName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzurePlatformVMImageCmdletInfo(imageName, "Private", null));
+        }
+
+        internal OSImageDetailsContext GetAzurePlatformVMImage(string imageName)
+        {
+            return RunPSCmdletAndReturnFirst<OSImageDetailsContext>(new GetAzurePlatformVMImageCmdletInfo(imageName));
+        }
+
+        internal ManagementOperationContext RemoveAzurePlatformVMImage(string imageName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzurePlatformVMImageCmdletInfo(imageName));
+        }
+
+        #endregion
+
         #region AzurePublishSettingsFile
 
         internal void ImportAzurePublishSettingsFile()
@@ -671,6 +705,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
             }
             return null;
+        }
+
+        public bool SelectAzureSubscription(string subscriptionName, bool clear = false, string subscriptionDataFile = null)
+        {
+            return RunPSCmdletAndReturnFirst<bool>(new SelectAzureSubscriptionCmdletInfo(subscriptionName, clear, subscriptionDataFile));
         }
 
         #endregion
