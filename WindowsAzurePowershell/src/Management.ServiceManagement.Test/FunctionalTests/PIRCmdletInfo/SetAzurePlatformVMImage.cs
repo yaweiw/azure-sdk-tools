@@ -12,23 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PIRCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
-    public class SelectAzureSubscriptionCmdletInfo : CmdletsInfo
+
+    public class SetAzurePlatformVMImageCmdletInfo : CmdletsInfo
     {
-        public SelectAzureSubscriptionCmdletInfo(string subscriptionName, bool clear, string subscriptionDataFile)
+        public SetAzurePlatformVMImageCmdletInfo(string imageName, string permission, string [] locations)
         {
-            cmdletName = "Select-AzureSubscription";
-            cmdletParams.Add(new CmdletParam("SubscriptionName", subscriptionName));
-            if (clear)
+            this.cmdletName = Utilities.SetAzurePlatformVMImageCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ImageName", imageName));
+            if (permission != null)
             {
-                cmdletParams.Add(new CmdletParam("Clear"));
+                this.cmdletParams.Add(new CmdletParam("Permission", permission));
             }
-            if (subscriptionDataFile != null)
+            if (locations != null)
             {
-                cmdletParams.Add(new CmdletParam("SubscriptionDataFile", subscriptionDataFile));
+                this.cmdletParams.Add(new CmdletParam("ReplicaLocations", locations));
             }
         }
     }
