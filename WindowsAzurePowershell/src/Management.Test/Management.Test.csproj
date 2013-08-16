@@ -184,6 +184,7 @@
     <Compile Include="MediaServices\FakeHttpMessageHandler.cs" />
     <Compile Include="MediaServices\GetAzureMediaServicesTests.cs" />
     <Compile Include="MediaServices\NewAzureMediaServicesKeyTest.cs" />
+    <Compile Include="MediaServices\NewMediaServicesAccountTests.cs" />
     <Compile Include="MediaServices\RemoveMediaServicesAccountTests.cs" />
     <Compile Include="MediaServices\MediaServicesClientTests.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocationTest.cs" />

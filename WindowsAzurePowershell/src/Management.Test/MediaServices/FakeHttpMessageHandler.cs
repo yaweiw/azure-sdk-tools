@@ -11,11 +11,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -25,16 +22,13 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
     public class FakeHttpMessageHandler : HttpMessageHandler
     {
         /// <summary>
-        /// Send stub
+        ///     Send stub
         /// </summary>
         public Func<HttpRequestMessage, HttpResponseMessage> Send { get; set; }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return Task.Factory.StartNew(
-                () => Send != null ?
-                    Send(request) :
-                    new HttpResponseMessage(HttpStatusCode.OK));
+            return Task.Factory.StartNew(() => Send != null ? Send(request) : new HttpResponseMessage(HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -46,5 +40,4 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             return HttpClientHelper.CreateClient("http://test/services/mediaservices/", handler: this);
         }
     }
-
 }

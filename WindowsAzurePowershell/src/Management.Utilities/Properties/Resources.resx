@@ -1316,4 +1316,7 @@ Please follow these steps in the portal:
   <data name="RemoveMediaAccountWhatIfMessage" xml:space="preserve">
     <value>Account removed.</value>
   </data>
+  <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
+    <value>EndPoint can't be retrieved for storage account</value>
+  </data>
 </root>

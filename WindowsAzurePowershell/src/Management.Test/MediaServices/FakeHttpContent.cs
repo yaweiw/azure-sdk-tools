@@ -10,26 +10,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 {
-    class FakeHttpContent : HttpContent
+    internal class FakeHttpContent : HttpContent
     {
-        private string _content;
+        private readonly string _content;
 
         public FakeHttpContent(string content)
         {
             _content = content;
         }
 
-        public FakeHttpContent() : this("") { }
-
-        protected override Task SerializeToStreamAsync(System.IO.Stream stream, TransportContext context)
+        public FakeHttpContent() : this("")
         {
-            var bytes = new System.Text.UTF8Encoding().GetBytes(_content);
+        }
+
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+        {
+            byte[] bytes = new UTF8Encoding().GetBytes(_content);
             return Task.Factory.StartNew(() => stream.Write(bytes, 0, bytes.Length));
         }
 

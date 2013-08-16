@@ -14,8 +14,6 @@
 
 using System;
 using System.Management.Automation;
-using System.Net;
-using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.ServiceManagement;
@@ -36,17 +34,9 @@ namespace Microsoft.WindowsAzure.Management.MediaService
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The URLs that are used to perform a retrieval of a public blob")]
-        [ValidateNotNullOrEmpty]
-        public Uri StorageEndPoint { get; set; }
-
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account name")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
-
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account key")]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountKey { get; set; }
 
 
 
@@ -54,41 +44,34 @@ namespace Microsoft.WindowsAzure.Management.MediaService
         public override void ExecuteCmdlet()
         {
             MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
-            
-            if (String.IsNullOrEmpty(StorageAccountKey))
+
+
+            StorageService storage = null; 
+            Uri storageEndPoint = null;
+            string storageAccountKey = null;
+
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceKeys(StorageAccountName).Result; });
+            storageAccountKey = storage.StorageServiceKeys.Primary;
+           
+
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceProperties(StorageAccountName).Result; });
+
+            if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
             {
-                StorageService storage = MediaServicesClient.GetStorageServiceKeys(StorageAccountName).Result;
-                StorageAccountKey = storage.StorageServiceKeys.Primary;
+                storageEndPoint = new Uri(storage.StorageServiceProperties.Endpoints[0]);
             }
-
-            if (StorageEndPoint == null)
+            else
             {
-                try
-                {
-                    StorageService storage = null;
-                     CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceProperties(StorageAccountName).Result; });
-
-                    if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
-                    {
-                        StorageEndPoint = new Uri(storage.StorageServiceProperties.Endpoints[0]);
-                    }
-                }
-                catch (ServiceManagementClientException ex)
-                {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound)
-                    {
-                        StorageEndPoint = GlobalSettingsManager.Instance.DefaultEnvironment.GetStorageBlobEndpoint(StorageAccountName);
-                    }
-                }
-
+                throw new Exception(string.Format(Utilities.Properties.Resources.EndPointNotFoundForBlobStorage, Name));
             }
 
             AccountCreationResult result = null;
-            var request = new AccountCreationRequest {
+            var request = new AccountCreationRequest
+            {
                 AccountName = Name,
-                BlobStorageEndpointUri = StorageEndPoint.ToString(),
+                BlobStorageEndpointUri = storageEndPoint.ToString(),
                 Region = Location,
-                StorageAccountKey = StorageAccountKey,
+                StorageAccountKey = storageAccountKey,
                 StorageAccountName = StorageAccountName
             };
             CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.CreateNewAzureMediaServiceAsync(request).Result; });

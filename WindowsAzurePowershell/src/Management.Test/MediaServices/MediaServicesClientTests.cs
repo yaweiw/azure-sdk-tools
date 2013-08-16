@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
+using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
@@ -13,16 +13,18 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
     [TestClass]
     public class MediaServicesClientTests
     {
-        private string _subscriptionId = "foo";
         private string _accountName = "testacc";
+        private string _subscriptionId = "foo";
 
         [TestMethod]
         public void TestDeleteAzureMediaServiceAccountAsync()
         {
-            var fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
+            HttpClient fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
 
-            var target = new MediaServicesClient(
-                new SubscriptionData { SubscriptionId = _subscriptionId },
+            var target = new MediaServicesClient(new SubscriptionData
+            {
+                SubscriptionId = _subscriptionId
+            },
                 null,
                 fakeHttpClient,
                 fakeHttpClient);
@@ -46,10 +48,12 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
 
-            var target = new MediaServicesClient(
-                new SubscriptionData { SubscriptionId = _subscriptionId },
+            var target = new MediaServicesClient(new SubscriptionData
+            {
+                SubscriptionId = _subscriptionId
+            },
                 null,
                 fakeHttpClient,
                 fakeHttpClient);
@@ -60,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             }
             catch (AggregateException ax)
             {
-                ServiceManagementClientException x = (ServiceManagementClientException)ax.InnerExceptions.Single();
+                var x = (ServiceManagementClientException) ax.InnerExceptions.Single();
                 Assert.AreEqual("NotFound", x.ErrorDetails.Code);
                 return;
             }
@@ -71,10 +75,12 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         [TestMethod]
         public void TestRegenerateMediaServicesAccountAsync()
         {
-            var fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
+            HttpClient fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
 
-            var target = new MediaServicesClient(
-                new SubscriptionData { SubscriptionId = _subscriptionId },
+            var target = new MediaServicesClient(new SubscriptionData
+            {
+                SubscriptionId = _subscriptionId
+            },
                 null,
                 fakeHttpClient,
                 fakeHttpClient);
@@ -99,15 +105,17 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
 
-            var target = new MediaServicesClient(
-                new SubscriptionData { SubscriptionId = _subscriptionId },
+            var target = new MediaServicesClient(new SubscriptionData
+            {
+                SubscriptionId = _subscriptionId
+            },
                 null,
                 fakeHttpClient,
                 fakeHttpClient);
 
-            var result = target.GetMediaServiceAsync(_accountName).Result;
+            MediaServiceAccountDetails result = target.GetMediaServiceAsync(_accountName).Result;
             Assert.AreEqual("primarykey", result.MediaServicesPrimaryAccountKey);
             Assert.AreEqual("secondarykey", result.MediaServicesSecondaryAccountKey);
             Assert.AreEqual("testps", result.Name);
@@ -118,7 +126,8 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         {
             var fakeHttpHandler = new FakeHttpMessageHandler();
 
-            string responseText = "[{\"Name\":\"testps\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"E0658294-5C96-4B0F-AD55-F7446CE4F788\"},{\"Name\":\"test2\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"C92B17C8-5422-4CD1-8D3C-61E576E861DD\"}]";
+            string responseText =
+                "[{\"Name\":\"testps\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"E0658294-5C96-4B0F-AD55-F7446CE4F788\"},{\"Name\":\"test2\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"C92B17C8-5422-4CD1-8D3C-61E576E861DD\"}]";
 
 
             var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -128,15 +137,17 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
 
-            var target = new MediaServicesClient(
-                new SubscriptionData { SubscriptionId = _subscriptionId },
+            var target = new MediaServicesClient(new SubscriptionData
+            {
+                SubscriptionId = _subscriptionId
+            },
                 null,
                 fakeHttpClient,
                 fakeHttpClient);
 
-            var result = target.GetMediaServiceAccountsAsync().Result.ToArray();
+            MediaServiceAccount[] result = target.GetMediaServiceAccountsAsync().Result.ToArray();
             Assert.AreEqual(Guid.Parse("E0658294-5C96-4B0F-AD55-F7446CE4F788"), result[0].AccountId);
             Assert.AreEqual(Guid.Parse("C92B17C8-5422-4CD1-8D3C-61E576E861DD"), result[1].AccountId);
         }
