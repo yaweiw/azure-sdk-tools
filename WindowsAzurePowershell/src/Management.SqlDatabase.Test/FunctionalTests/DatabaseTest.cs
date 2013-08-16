@@ -30,8 +30,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
     {
         #region Test Script Locations
         private string serverLocation;
-        private string subscriptionId;
-        private string serializedCert;
         private string containerName;
         private string storageName;
         private string accessKey;
