@@ -39,6 +39,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
+        public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository =
+            "Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.dll";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";
@@ -111,6 +113,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         // AzureQuickVM
         public const string NewAzureQuickVMCmdletName = "New-AzureQuickVM";
+
+        // AzurePlatformVMImage
+        public const string SetAzurePlatformVMImageCmdletName = "Set-AzurePlatformVMImage";
+        public const string GetAzurePlatformVMImageCmdletName = "Get-AzurePlatformVMImage";
+        public const string RemoveAzurePlatformVMImageCmdletName = "Remove-AzurePlatformVMImage";
 
         // AzureRemoteDesktopFile
         public const string GetAzureRemoteDesktopFileCmdletName = "Get-AzureRemoteDesktopFile";
@@ -352,6 +359,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 fn(name);
+                Console.WriteLine("{0} still exists!", name);
                 return false;
             }
             catch (Exception e)
@@ -375,6 +383,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 fn(name1, name2);
+                Console.WriteLine("{0}, {1} still exist!", name1, name2);
                 return false;
             }
             catch (Exception e)
@@ -398,6 +407,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             try
             {
                 fn(name1, name2, name3);
+                Console.WriteLine("{0}, {1}, {2} still exist!", name1, name2, name3);
                 return false;
             }
             catch (Exception e)
