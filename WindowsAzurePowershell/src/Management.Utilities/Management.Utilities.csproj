@@ -238,7 +238,6 @@
     <Compile Include="MediaService\Services\MediaServicesEntities\AccountKeys.cs" />
     <Compile Include="MediaService\Services\MediaServicesEntities\MediaServiceAccount.cs" />
     <Compile Include="MediaService\Services\MediaServicesEntities\MediaServiceAccountDetails.cs" />
-    <Compile Include="MediaService\Services\MediaServicesEntities\MediaServiceAccounts.cs" />
     <Compile Include="MediaService\Services\MediaServicesEntities\PagedSites.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

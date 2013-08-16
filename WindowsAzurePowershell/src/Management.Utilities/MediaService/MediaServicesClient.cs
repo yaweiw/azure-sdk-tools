@@ -47,13 +47,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         /// </summary>
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
-        public MediaServicesClient(SubscriptionData subscription, Action<string> logger)
+        public MediaServicesClient(
+            SubscriptionData subscription, 
+            Action<string> logger, 
+            HttpClient httpClient,
+            HttpClient storageClient)
         {
             _subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
             Logger = logger;
-            _httpClient = CreateIMediaServicesHttpClient();
-            _storageClient = CreateStorageServiceHttpClient();
+            _httpClient = httpClient;
+            _storageClient = storageClient;
+        }
+
+        /// <summary>
+        ///     Creates new MediaServicesClient.
+        /// </summary>
+        /// <param name="subscription">The Windows Azure subscription data object</param>
+        /// <param name="logger">The logger action</param>
+        public MediaServicesClient(SubscriptionData subscription, Action<string> logger)
+            : this(subscription, logger, CreateIMediaServicesHttpClient(subscription), CreateStorageServiceHttpClient(subscription))
+        {
         }
 
         /// <summary>
@@ -154,11 +168,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         private static T ProcessJsonResponse<T>(Task<HttpResponseMessage> responseMessage)
         {
             HttpResponseMessage message = responseMessage.Result;
-            string content = message.Content.ReadAsStringAsync().Result;
-            if (typeof (T) == typeof (bool) )
+            if (typeof (T) == typeof (bool) && message.IsSuccessStatusCode)
             {
-                return (T) (object) message.IsSuccessStatusCode;
+                return (T) (object) true;
             }
+
+            string content = message.Content.ReadAsStringAsync().Result;
+
             if (message.IsSuccessStatusCode)
             {
                 return (T) JsonConvert.DeserializeObject(content, typeof (T));
@@ -227,12 +243,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Creates and initialise instance of HttpClient
         /// </summary>
         /// <returns></returns>
-        private HttpClient CreateStorageServiceHttpClient()
+        private static HttpClient CreateStorageServiceHttpClient(SubscriptionData subscription)
         {
             var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(Subscription.Certificate);
-            var endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
-            endpoint.Append(_subscriptionId);
+            requestHandler.ClientCertificates.Add(subscription.Certificate);
+            var endpoint = new StringBuilder(General.EnsureTrailingSlash(subscription.ServiceEndpoint));
+            endpoint.Append(subscription.SubscriptionId);
 
             //Please note that / is nessesary here
             endpoint.Append("/services/storageservices/");
@@ -247,12 +263,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.MediaService
         ///     Creates and initialise instance of HttpClient
         /// </summary>
         /// <returns></returns>
-        private HttpClient CreateIMediaServicesHttpClient()
+        private static HttpClient CreateIMediaServicesHttpClient(SubscriptionData subscription)
         {
             var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(Subscription.Certificate);
-            var endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
-            endpoint.Append(_subscriptionId);
+            requestHandler.ClientCertificates.Add(subscription.Certificate);
+            var endpoint = new StringBuilder(General.EnsureTrailingSlash(subscription.ServiceEndpoint));
+            endpoint.Append(subscription.SubscriptionId);
 
             //Please note that / is nessesary here
             endpoint.Append("/services/mediaservices/");
