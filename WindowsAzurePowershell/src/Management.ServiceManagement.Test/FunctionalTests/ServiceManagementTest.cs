@@ -154,8 +154,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 Console.WriteLine("No image is selected!");
             }
-            Console.WriteLine("Image Name: {0}", imageName);
-
+            else
+            {
+                Console.WriteLine("Image Name: {0}", imageName);
+            }
         }
 
         protected void StartTest(string testname, DateTime testStartTime)
