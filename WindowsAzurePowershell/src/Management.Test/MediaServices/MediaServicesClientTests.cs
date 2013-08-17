@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
@@ -157,11 +158,14 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             var fakeHttpHandler = new FakeHttpMessageHandler();
 
             string responseText = "<StorageService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Url>https://management.core.windows.net/f7190519-c29e-47f2-9019-c5a94c8e75f9/services/storageservices/nimbusivshapo</Url><StorageServiceKeys><Primary>PrimaryKey</Primary><Secondary>SecondaryKey</Secondary></StorageServiceKeys></StorageService>";
-
+           
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new FakeHttpContent(responseText)
+                Content = new FakeHttpContent(responseText),
+                
             };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+            response.Content.Headers.ContentType.CharSet = "utf-8";
 
             fakeHttpHandler.Send = request => response;
 
@@ -189,6 +193,8 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
             {
                 Content = new FakeHttpContent(responseText)
             };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+            response.Content.Headers.ContentType.CharSet = "utf-8";
 
             fakeHttpHandler.Send = request => response;
 
