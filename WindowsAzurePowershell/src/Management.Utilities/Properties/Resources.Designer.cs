@@ -1071,6 +1071,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EndPoint can&apos;t be retrieved for storage account.
+        /// </summary>
+        internal static string EndPointNotFoundForBlobStorage {
+            get {
+                return ResourceManager.GetString("EndPointNotFoundForBlobStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} end processing..
         /// </summary>
         internal static string EndProcessingLog {

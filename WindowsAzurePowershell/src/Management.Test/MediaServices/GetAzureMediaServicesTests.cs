@@ -11,8 +11,14 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.MediaService;
+using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService.Services.MediaServicesEntities;
 using Microsoft.WindowsAzure.ServiceManagement;
@@ -20,17 +26,9 @@ using Moq;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Utilities.Common;
-    using Management.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
-    using System.Threading.Tasks;
-
     [TestClass]
     public class GetAzureMediaServicesTests : TestBase
     {
-
         protected string SubscriptionId = "foo";
 
         [TestInitialize]
@@ -44,117 +42,116 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
         public void ProcessGetMediaServicesTest()
         {
             // Setup
-            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
+            var clientMock = new Mock<IMediaServicesClient>();
 
-            var id1 = Guid.NewGuid();
-            var id2 = Guid.NewGuid();
-            IEnumerable<MediaServiceAccount> accountsForMock = new List<MediaServiceAccount>() {
-                new MediaServiceAccount()
+            Guid id1 = Guid.NewGuid();
+            Guid id2 = Guid.NewGuid();
+            IEnumerable<MediaServiceAccount> accountsForMock = new List<MediaServiceAccount>
+            {
+                new MediaServiceAccount
                 {
                     AccountId = id1,
                     Name = "WAMS Account 1"
                 },
-             new MediaServiceAccount()
+                new MediaServiceAccount
                 {
                     AccountId = id2,
                     Name = "WAMS Account 2"
-                }};
-            clientMock.Setup(f => f.GetMediaServiceAccountsAsync()).Returns(Task.Factory.StartNew(() =>
-                {
-                    return accountsForMock;
-                }));
+                }
+            };
+            clientMock.Setup(f => f.GetMediaServiceAccountsAsync()).Returns(Task.Factory.StartNew(() => { return accountsForMock; }));
 
             // Test
-            GetAzureMediaServiceCommand getAzureMediaServiceCommand = new GetAzureMediaServiceCommand()
+            var getAzureMediaServiceCommand = new GetAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = SubscriptionId }
+                CurrentSubscription = new SubscriptionData
+                {
+                    SubscriptionId = SubscriptionId
+                }
             };
 
             getAzureMediaServiceCommand.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
-            var accounts = (IEnumerable<MediaServiceAccount>)((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.AreEqual(1, ((MockCommandRuntime) getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
+            var accounts = (IEnumerable<MediaServiceAccount>) ((MockCommandRuntime) getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(accounts);
             Assert.IsTrue(accounts.Any(mediaservice => (mediaservice).AccountId == id1));
             Assert.IsTrue(accounts.Any(mediaservice => (mediaservice).AccountId == id2));
             Assert.IsTrue(accounts.Any(mediaservice => (mediaservice).Name.Equals("WAMS Account 1")));
             Assert.IsTrue(accounts.Any(mediaservice => (mediaservice).Name.Equals("WAMS Account 2")));
-           
         }
 
         [TestMethod]
         public void ProcessGetMediaServiceByNameShouldReturnOneMatchingEntry()
         {
-            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
+            var clientMock = new Mock<IMediaServicesClient>();
 
 
             string expectedName = "WAMS Account 1";
-            MediaServiceAccountDetails detail =new MediaServiceAccountDetails {
-               Name = expectedName
-           };
+            var detail = new MediaServiceAccountDetails
+            {
+                Name = expectedName
+            };
 
-            clientMock.Setup(f => f.GetMediaServiceAsync(detail.Name)).Returns(Task.Factory.StartNew(() =>
-                {
-                    return detail;
-                }));
+            clientMock.Setup(f => f.GetMediaServiceAsync(detail.Name)).Returns(Task.Factory.StartNew(() => { return detail; }));
 
             // Test
-            GetAzureMediaServiceCommand getAzureMediaServiceCommand = new GetAzureMediaServiceCommand()
+            var getAzureMediaServiceCommand = new GetAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = SubscriptionId }
+                CurrentSubscription = new SubscriptionData
+                {
+                    SubscriptionId = SubscriptionId
+                }
             };
             getAzureMediaServiceCommand.Name = expectedName;
             getAzureMediaServiceCommand.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
-            var accounts = (MediaServiceAccountDetails)((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.AreEqual(1, ((MockCommandRuntime) getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
+            var accounts = (MediaServiceAccountDetails) ((MockCommandRuntime) getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(accounts);
-            Assert.AreEqual(expectedName,accounts.Name);
-
+            Assert.AreEqual(expectedName, accounts.Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ServiceManagementClientException))]
+        [ExpectedException(typeof (ServiceManagementClientException))]
         public void ProcessGetMediaServiceByNameShouldNotReturnEntriesForNoneMatchingName()
         {
-            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
+            var clientMock = new Mock<IMediaServicesClient>();
             string mediaServicesAccountName = Guid.NewGuid().ToString();
 
 
             clientMock.Setup(f => f.GetMediaServiceAsync(mediaServicesAccountName)).Returns(Task.Factory.StartNew(() =>
+            {
+                if (String.IsNullOrEmpty(mediaServicesAccountName))
                 {
-                    if (String.IsNullOrEmpty(mediaServicesAccountName))
+                    return new MediaServiceAccountDetails();
+                }
+                throw new ServiceManagementClientException(HttpStatusCode.NotFound,
+                    new ServiceManagementError
                     {
-                        return new MediaServiceAccountDetails();
-                    }
-                    else
-                    {
-                        throw new ServiceManagementClientException(HttpStatusCode.NotFound,
-                                                                   new ServiceManagementError
-                                                                       {
-                                                                           Code = HttpStatusCode.NotFound.ToString(),
-                                                                           Message = "Account not found"
-                                                                       },
-                                                                   string.Empty);
-                    }
-                }));
+                        Code = HttpStatusCode.NotFound.ToString(),
+                        Message = "Account not found"
+                    },
+                    string.Empty);
+            }));
 
             // Test
-            GetAzureMediaServiceCommand getAzureMediaServiceCommand = new GetAzureMediaServiceCommand()
+            var getAzureMediaServiceCommand = new GetAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = SubscriptionId }
+                CurrentSubscription = new SubscriptionData
+                {
+                    SubscriptionId = SubscriptionId
+                }
             };
 
-            
+
             getAzureMediaServiceCommand.Name = mediaServicesAccountName;
             getAzureMediaServiceCommand.ExecuteCmdlet();
-            Assert.AreEqual(0, ((MockCommandRuntime)getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
-
+            Assert.AreEqual(0, ((MockCommandRuntime) getAzureMediaServiceCommand.CommandRuntime).OutputPipeline.Count);
         }
-         
     }
 }

@@ -115,20 +115,7 @@ function Test-GetAzureMediaServicesAccountByName
 	$account = Get-AzureMediaServicesAccount -Name $MediaAccountName
 }
 
-function Test-NewAzureMediaServicesAccountWithStorageKey
-{
-	
-	EnsureStorageAccountExists
 
-	$NewMediaAccountName = GetPseudoRandomName	
-
-	$keysresponse = Get-AzureStorageKey -StorageAccountName $StorageAccountName
-
-	New-AzureMediaServicesAccount -Name $NewMediaAccountName -Location $Region -StorageAccountName $StorageAccountName -StorageAccountKey $keysresponse.Primary -StorageEndpoint $StorageEndpoint
-	
-	Remove-AzureMediaServicesAccount -Name $NewMediaAccountName -Force
-
-}
 
 function MediaServicesTest-Cleanup
 {

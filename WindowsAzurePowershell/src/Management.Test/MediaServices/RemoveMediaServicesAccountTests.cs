@@ -10,21 +10,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.MediaService;
+using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Utilities.MediaService;
 using Moq;
 
 namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 {
-    using System.Linq;
-    using Utilities.Common;
-    using Utilities.Websites;
-    using Management.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
-    using System.Threading.Tasks;
-
     [TestClass]
-    public class RemoveMediaServicesAccountTests : WebsitesTestBase
+    public class RemoveMediaServicesAccountTests : TestBase
     {
         [TestMethod]
         public void ProcessRemoveMediaServicesAccountTest()
@@ -34,25 +31,20 @@ namespace Microsoft.WindowsAzure.Management.Test.MediaServices
 
             string expectedName = "testacc";
 
-            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(Task.Factory.StartNew(() =>
-            {
-                return true;
-            }));
+            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(Task.Factory.StartNew(() => { return true; }));
 
             // Test
-            var command = new RemoveAzureMediaServiceCommand()
+            var command = new RemoveAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = expectedName,
                 MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            var deleted = (bool)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.AreEqual(1, ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.Count);
+            var deleted = (bool) ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsTrue(deleted);
-
         }
     }
 }
