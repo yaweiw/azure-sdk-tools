@@ -12874,14 +12874,14 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>Protocol</maml:name>
           <maml:description>
             <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
           <maml:name>LocalPort</maml:name>
           <maml:description>
             <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
@@ -12919,7 +12919,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>LocalPort</maml:name>
         <maml:description>
           <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
@@ -12943,7 +12943,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>Protocol</maml:name>
         <maml:description>
           <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>

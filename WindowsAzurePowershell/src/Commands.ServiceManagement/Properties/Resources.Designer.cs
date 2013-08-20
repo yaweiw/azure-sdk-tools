@@ -547,6 +547,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must provide the Force switch when using wildcard syntax..
+        /// </summary>
+        internal static string MustSpecifyForceParameterWhenUsingWildcards {
+            get {
+                return ResourceManager.GetString("MustSpecifyForceParameterWhenUsingWildcards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must specify MediaLocation or set a current storage account using Set-AzureSubscription..
         /// </summary>
         internal static string MustSpecifyMediaLocationOrHaveCurrentStorageAccount {
@@ -1105,7 +1114,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find cloud servcie: {0}..
+        ///   Looks up a localized string similar to Cannot find cloud service: {0}..
         /// </summary>
         internal static string ServiceExtensionCannotFindServiceName {
             get {
