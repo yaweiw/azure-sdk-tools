@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class AzureEndPointConfigInfo
     {        
-        public enum ParameterSet { NoLB, LoadBalancedNoProbe, CustonProbe, DefaultProbe };
+        public enum ParameterSet { NoLB, LoadBalancedNoProbe, CustomProbe, DefaultProbe };
 
         public ProtocolInfo EndpointProtocol { get; set; }
         public int EndpointLocalPort { get; set; }
@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
 
 
-            if (ParamSet == ParameterSet.CustonProbe) 
+            if (ParamSet == ParameterSet.CustomProbe)
             {
                 ret = ret && context.LBSetName == this.LBSetName
                     && context.ProbePort == this.ProbePort
