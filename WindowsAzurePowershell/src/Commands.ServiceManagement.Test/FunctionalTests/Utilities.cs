@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Commands.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
         public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository =
-            "Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.dll";
+            "Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";
