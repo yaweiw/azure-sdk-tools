@@ -21,11 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Reflection;
     using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using System.Collections.Generic;
+    using Model;
+    using ConfigDataInfo;
+    using PlatformImageRepository.Model;
 
-    using Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model;
 
     [TestClass]
     public class PIRTest : ServiceManagementTest

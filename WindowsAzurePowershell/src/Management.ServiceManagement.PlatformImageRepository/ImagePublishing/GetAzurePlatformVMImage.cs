@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Management.ServiceManagement.PlatformImageRepository.Model;
     using Model;
     using WindowsAzure.ServiceManagement;
 

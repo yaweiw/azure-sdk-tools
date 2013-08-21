@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
     using System.Collections.Generic;
     using Commands.ServiceManagement.Model;
