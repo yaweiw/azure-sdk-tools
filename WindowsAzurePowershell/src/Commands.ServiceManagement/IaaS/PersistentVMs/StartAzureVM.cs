@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Helpers;
     using WindowsAzure.ServiceManagement;
     using Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
     using System;
-    using System.Linq;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Properties;
-
+    using Properties;
 
     [Cmdlet(VerbsLifecycle.Start, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StartAzureVMCommand : IaaSDeploymentManagementCmdletBase

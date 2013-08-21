@@ -12,15 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
-    using System.Collections.Generic;
-    using Commands.ServiceManagement.Model;
-
-    public class OSImageDetailsContext : OSImageContext
+    public class OS
     {
-        public bool IsCorrupted { get; set; }
-        public List<ReplicationProgressContext> ReplicationProgress { get; set; }
-    }
+        public const string Windows = "Windows";
+        public const string Linux = "Linux";
+    };
 }

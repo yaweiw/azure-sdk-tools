@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using PaasCmdletInfo;
+    using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
 
     using IaasCmdletInfo;

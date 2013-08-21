@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PIRCmdletInfo
 {
-    using System.Collections.Generic;
-    using Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
-    public class OSImageDetailsContext : OSImageContext
+    public class RemoveAzurePlatformVMImageCmdletInfo : CmdletsInfo
     {
-        public bool IsCorrupted { get; set; }
-        public List<ReplicationProgressContext> ReplicationProgress { get; set; }
+        public RemoveAzurePlatformVMImageCmdletInfo(string imageName)
+        {
+            this.cmdletName = Utilities.RemoveAzurePlatformVMImageCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ImageName", imageName));
+        }
     }
 }

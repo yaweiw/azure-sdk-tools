@@ -408,9 +408,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.ServiceManagement.PlatformImageRepository\Management.ServiceManagement.PlatformImageRepository.csproj">
+    <ProjectReference Include="..\Management.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj">
       <Project>{6478fa8b-3801-4863-8591-87f0855d5c82}</Project>
-      <Name>Management.ServiceManagement.PlatformImageRepository</Name>
+      <Name>Commands.ServiceManagement.PlatformImageRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
