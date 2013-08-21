@@ -197,7 +197,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Microsoft.WindowsAzure.Management.Utilities.Common.ManagementOperationContext</maml:name>
+          <maml:name>Microsoft.WindowsAzure.Commands.Utilities.Common.ManagementOperationContext</maml:name>
           <maml:uri />
           <maml:description />
         </dev:type>
