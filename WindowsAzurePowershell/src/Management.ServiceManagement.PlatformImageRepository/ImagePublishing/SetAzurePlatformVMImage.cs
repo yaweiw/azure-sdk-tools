@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.ImagePublishing
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Properties;
     using Utilities.Common;
+    using Properties;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzurePlatformVMImage", DefaultParameterSetName = ReplicateParameterSetName), OutputType(typeof(ManagementOperationContext))]

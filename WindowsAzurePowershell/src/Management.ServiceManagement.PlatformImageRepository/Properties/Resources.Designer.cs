@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Properties {
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Properties {
     using System;
     
     
@@ -39,8 +39,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepos
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Prope" +
-                            "rties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Propert" +
+                            "ies.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
