@@ -15,6 +15,7 @@
 using Microsoft.WindowsAzure.Management;
 using Microsoft.WindowsAzure.Management.Compute;
 using Microsoft.WindowsAzure.Management.Compute.Models;
+using Microsoft.WindowsAzure.Management.Storage;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
@@ -45,6 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         internal CloudBlobUtility CloudBlobUtility { get; set; }
 
         internal ManagementClient ManagementClient { get; set; }
+
+        internal StorageManagementClient StorageClient { get; set; }
 
         internal ComputeManagementClient ComputeClient { get; set; }
 
@@ -595,6 +598,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
                 new Uri(subscription.ServiceEndpoint));
 
+            StorageClient = CloudContext.Clients.CreateStorageManagementClient(
+                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
+                new Uri(subscription.ServiceEndpoint));
+
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
                 new Uri(subscription.ServiceEndpoint));
@@ -898,6 +905,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The storage service instance</returns>
         public StorageService GetStorageService(string name)
         {
+
+
             StorageService storageService = null;
 
             try
