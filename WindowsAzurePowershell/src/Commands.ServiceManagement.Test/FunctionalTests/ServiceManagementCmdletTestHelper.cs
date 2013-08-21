@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using IaasCmdletInfo;
     using Model;
     using PaasCmdletInfo;
+    using PlatformImageRepository.Model;
     using Storage.Blob;
     using System;
     using System.Collections.Generic;
@@ -27,16 +28,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using PaasCmdletInfo;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
 
-    using IaasCmdletInfo;
-    using PaasCmdletInfo;
     using PIRCmdletInfo;
-
-    using Microsoft.WindowsAzure.Management.ServiceManagement.PlatformImageRepository.Model;
-
 
     public class ServiceManagementCmdletTestHelper
     {
