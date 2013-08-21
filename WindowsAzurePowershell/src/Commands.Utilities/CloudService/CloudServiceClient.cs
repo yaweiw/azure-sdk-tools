@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management;
 using Microsoft.WindowsAzure.Management.Compute;
 using Microsoft.WindowsAzure.Management.Compute.Models;
 
@@ -42,6 +43,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private string subscriptionId;
 
         internal CloudBlobUtility CloudBlobUtility { get; set; }
+
+        internal ManagementClient ManagementClient { get; set; }
 
         internal ComputeManagementClient ComputeClient { get; set; }
 
@@ -588,6 +591,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 HeadersInspector);
             CloudBlobUtility = new CloudBlobUtility();
 
+            ManagementClient = CloudContext.Clients.CreateManagementClient(
+                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
+                new Uri(subscription.ServiceEndpoint));
+
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
                 new Uri(subscription.ServiceEndpoint));
@@ -612,7 +619,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="slot">The deployment slot</param>
         public void StopCloudService(string name = null, string slot = null)
         {
-            DeploymentSlot deploymentSlot = GetSmSlot(slot); 
+            DeploymentSlot deploymentSlot = GetSmSlot(slot);
             SetSmCloudServiceState(name, deploymentSlot, CloudServiceState.Stop);
         }
 
@@ -624,10 +631,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>Flag indicating the deployment exists or not</returns>
         public bool DeploymentExists(string name = null, string slot = null)
         {
-            HostedService cloudService = GetCloudService(name);
+            DeploymentSlot deploymentSlot = GetSmSlot(slot); 
+            HostedServiceGetDetailedResponse cloudService = GetSmCloudService(name);
             try
             {
-                VerifyDeploymentExists(cloudService, slot);
+                VerifySmDeploymentExists(cloudService, deploymentSlot);
                 return true;
             }
             catch (Exception)
@@ -743,18 +751,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>True if exists, false otherwise</returns>
         public bool CloudServiceExists(string name)
         {
-            HostedService cloudService = null;
-
             try
             {
-                cloudService = ServiceManagementChannel.GetHostedServiceWithDetails(subscriptionId, name, true);
+                return ComputeClient.HostedServices.GetDetailed(name) != null;
             }
             catch
             {
                 return false;
             }
-
-            return cloudService != null;
         }
 
         /// <summary>
@@ -837,8 +841,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The location name</returns>
         public string GetDefaultLocation()
         {
-            LocationList locations = ServiceManagementChannel.ListLocations(subscriptionId);
-            return locations.First().Name;
+            return ManagementClient.Locations.List().Locations.First().Name;   
         }
 
         /// <summary>
