@@ -898,7 +898,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// Waits for the given operation id until it's done.
         /// </summary>
         /// <param name="operationId">The operation id</param>
-        public void WaitForOperation(string operationId)
+        private void WaitForOperation(string operationId)
         {
             Operation operation = new Operation();
             do

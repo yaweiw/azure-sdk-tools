@@ -87,12 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         bool StorageServiceExists(string name);
 
         /// <summary>
-        /// Waits for the given operation id until it's done.
-        /// </summary>
-        /// <param name="operationId">The operation id</param>
-        void WaitForOperation(string operationId);
-
-        /// <summary>
         /// Gets connection string of the given storage service name.
         /// </summary>
         /// <param name="name">The storage service name</param>
