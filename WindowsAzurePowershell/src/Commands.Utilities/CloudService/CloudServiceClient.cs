@@ -17,6 +17,7 @@ using Microsoft.WindowsAzure.Management.Compute;
 using Microsoft.WindowsAzure.Management.Compute.Models;
 using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Management.Storage.Models;
+using OperationStatus = Microsoft.WindowsAzure.Management.Compute.Models.OperationStatus;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
@@ -171,6 +172,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 HeadersInspector.ResponseHeaders.GetValues(headerKey).Length == 1)
             {
                 WaitForOperation(HeadersInspector.ResponseHeaders[headerKey]);
+            }
+        }
+
+        private void CallSync(Func<OperationResponse> func)
+        {
+            string requestId = func().RequestId;
+            ComputeOperationStatusResponse operation = ComputeClient.GetOperationStatus(requestId);
+            while (operation.Status == OperationStatus.InProgress)
+            {
+                Thread.Sleep(SleepDuration);
+                operation = ComputeClient.GetOperationStatus(requestId);
+            }
+
+            if (operation.Status == OperationStatus.Failed)
+            {
+                throw new Exception(string.Format(
+                    Resources.OperationFailedMessage,
+                    operation.Error.Message,
+                    operation.Error.Code));
             }
         }
 
@@ -388,6 +408,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 throw new InvalidOperationException(
                     string.Format(Resources.CannotFindDeployment, context.ServiceName, context.ServiceSettings.Slot));
             }
+        }
+
+        private void DeleteSmDeploymentIfExists(string name, DeploymentSlot slot)
+        {
+            if (DeploymentExists(name, slot))
+            {
+                WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
+                CallSync(() => ComputeClient.Deployments.BeginDeletingBySlot(name, slot));
+            }   
         }
 
         private void DeleteDeploymentIfExists(string name, string slot)
@@ -639,11 +668,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>Flag indicating the deployment exists or not</returns>
         public bool DeploymentExists(string name = null, string slot = null)
         {
-            DeploymentSlot deploymentSlot = GetSmSlot(slot); 
+            DeploymentSlot deploymentSlot = GetSmSlot(slot);
+            return DeploymentExists(name, deploymentSlot);
+        }
+
+        private bool DeploymentExists(string name, DeploymentSlot slot)
+        {
             HostedServiceGetDetailedResponse cloudService = GetSmCloudService(name);
             try
             {
-                VerifySmDeploymentExists(cloudService, deploymentSlot);
+                VerifySmDeploymentExists(cloudService, slot);
                 return true;
             }
             catch (Exception)
@@ -942,13 +976,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="name">The cloud service name</param>
         public void RemoveCloudService(string name)
         {
-            HostedService cloudService = GetCloudService(name);
+            var cloudService = GetSmCloudService(name);
 
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlotType.Production);
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlotType.Staging);
+            DeleteSmDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production);
+            DeleteSmDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
-            CallSync(() => ServiceManagementChannel.DeleteHostedService(subscriptionId, cloudService.ServiceName));
+            CallSync(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
         }
     }
 }
