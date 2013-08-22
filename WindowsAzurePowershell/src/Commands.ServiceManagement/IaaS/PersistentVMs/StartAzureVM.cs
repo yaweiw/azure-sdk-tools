@@ -14,11 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Helpers;
     using WindowsAzure.ServiceManagement;
     using Model;
-
+    using System;
+    using Properties;
 
     [Cmdlet(VerbsLifecycle.Start, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StartAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -59,7 +62,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
+
+            // Generate a list of role names matching wildcard patterns or
+            // the exact name specified in the -Name parameter.
+            var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, roleName);
+
+            // Insure at least one of the role name instances can be found.
+            if ((roleNames == null) || (!roleNames.Any()))
+                throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
+
+            if (roleNames.Count == 1)
+            {
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0]));
+            }
+            else
+            {
+                var startRolesOperation = new StartRolesOperation() { Roles = roleNames };
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.StartRoles(s, this.ServiceName, CurrentDeployment.Name, startRolesOperation));
+            }
         }
 
     }

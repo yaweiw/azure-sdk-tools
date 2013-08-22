@@ -25,5 +25,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.cmdletName = Utilities.GetAzureEndpointCmdletName;
             this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
         }
+
+        public GetAzureEndpointCmdletInfo(PersistentVM vm)
+        {
+            this.cmdletName = Utilities.GetAzureEndpointCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
+        }
     }
 }

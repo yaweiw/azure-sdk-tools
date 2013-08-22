@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             switch (paramset)
             {
-                case AzureEndPointConfigInfo.ParameterSet.CustonProbe :
+                case AzureEndPointConfigInfo.ParameterSet.CustomProbe :
                     switch (endPointConfig.ProbeProtocol.ToString())
                     {
                         case "tcp":

@@ -44,7 +44,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public DateTime? PublishedDate { get; set; }
      
         public bool? IsPremium { get; set; }
-        
+
+        public Uri IconUri { get; set; }
+
         public Uri PrivacyUri { get; set; }
 
         public string RecommendedVMSize { get; set; }
