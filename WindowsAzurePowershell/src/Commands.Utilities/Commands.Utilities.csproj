@@ -222,6 +222,16 @@
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
+    <Compile Include="CloudService\Model\ConfigurationSet.cs" />
+    <Compile Include="CloudService\Model\Deployment.cs" />
+    <Compile Include="CloudService\Model\DeploymentStatus.cs" />
+    <Compile Include="CloudService\Model\DnsSettings.cs" />
+    <Compile Include="CloudService\Model\InstanceEndpoint.cs" />
+    <Compile Include="CloudService\Model\PersistentVMDowntimeInfo.cs" />
+    <Compile Include="CloudService\Model\Role.cs" />
+    <Compile Include="CloudService\Model\RoleInstance.cs" />
+    <Compile Include="CloudService\Model\UpgradeStatus.cs" />
+    <Compile Include="CloudService\Model\VirtualIP.cs" />
     <Compile Include="CloudService\PublishContext.cs" />
     <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
