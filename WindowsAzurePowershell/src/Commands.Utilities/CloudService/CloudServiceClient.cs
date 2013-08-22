@@ -16,6 +16,7 @@ using Microsoft.WindowsAzure.Management;
 using Microsoft.WindowsAzure.Management.Compute;
 using Microsoft.WindowsAzure.Management.Compute.Models;
 using Microsoft.WindowsAzure.Management.Storage;
+using Microsoft.WindowsAzure.Management.Storage.Models;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
@@ -899,51 +900,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         }
 
         /// <summary>
-        /// Gets complete information of a storage service.
-        /// </summary>
-        /// <param name="name">The storage service name</param>
-        /// <returns>The storage service instance</returns>
-        public StorageService GetStorageService(string name)
-        {
-
-
-            StorageService storageService = null;
-
-            try
-            {
-                storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
-                StorageService storageServiceKeys = ServiceManagementChannel.GetStorageKeys(subscriptionId, name);
-                storageService.StorageServiceKeys = storageServiceKeys.StorageServiceKeys;
-            }
-            catch
-            {
-                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
-            }
-
-            return storageService;
-        }
-
-        /// <summary>
         /// Gets connection string of the given storage service name.
         /// </summary>
         /// <param name="name">The storage service name</param>
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            StorageService storageService = GetStorageService(name);
+            StorageServiceGetResponse storageService;
+            StorageAccountGetKeysResponse storageKeys;
 
-            Debug.Assert(storageService.StorageServiceKeys != null);
+            try
+            {
+                storageService = StorageClient.StorageAccounts.Get(name);
+                storageKeys = StorageClient.StorageAccounts.GetKeys(name);
+            }
+            catch
+            {
+                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
+            }
+
             Debug.Assert(storageService.ServiceName != null);
+            Debug.Assert(storageKeys != null);
 
             StorageCredentials credentials = new StorageCredentials(
                 storageService.ServiceName,
-                storageService.StorageServiceKeys.Primary);
+                storageKeys.PrimaryKey);
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2])
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
                 );
 
             return cloudStorageAccount.ToString(true);
