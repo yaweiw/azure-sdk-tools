@@ -807,23 +807,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
-                CreateHostedServiceInput cloudServiceInput = new CreateHostedServiceInput
-                {
-                    ServiceName = name,
-                    Label = string.IsNullOrEmpty(label) ? name : label
-                };
+                var createParameters = new HostedServiceCreateParameters {ServiceName = name, Label = label};
 
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
-                    cloudServiceInput.AffinityGroup = affinityGroup;
+                    createParameters.AffinityGroup = affinityGroup;
                 }
                 else
                 {
                     location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
-                    cloudServiceInput.Location = location;
+                    createParameters.Location = location;
                 }
 
-                ServiceManagementChannel.CreateHostedService(subscriptionId, cloudServiceInput);
+                ComputeClient.HostedServices.Create(createParameters);
 
                 WriteVerboseWithTimestamp(Resources.PublishCreatedServiceMessage, name);
             }
@@ -844,23 +840,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             if (!StorageServiceExists(name))
             {
-                CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
-                {
-                    ServiceName = name,
-                    Label = label,
-                };
-
+                var createParameters = new StorageAccountCreateParameters {ServiceName = name, Label = label};
+             
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
-                    storageServiceInput.AffinityGroup = affinityGroup;
+                    createParameters.AffinityGroup = affinityGroup;
                 }
                 else
                 {
                     location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
-                    storageServiceInput.Location = location;
+                    createParameters.Location = location;
                 }
 
-                CallSync(() => ServiceManagementChannel.CreateStorageService(subscriptionId, storageServiceInput));
+                CallSync(() => StorageClient.StorageAccounts.BeginCreating(createParameters));
             }
         }
 
