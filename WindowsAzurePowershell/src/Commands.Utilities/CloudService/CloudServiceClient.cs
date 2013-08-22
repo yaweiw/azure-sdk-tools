@@ -15,9 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using System.Net;
     using AzureTools;
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
+    using Model;
     using Microsoft.WindowsAzure.Management;
     using Microsoft.WindowsAzure.Management.Compute;
     using Microsoft.WindowsAzure.Management.Compute.Models;
@@ -40,10 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using OperationStatus = Microsoft.WindowsAzure.Management.Compute.Models.OperationStatus;
+    using RoleInstanceStatus = Management.Compute.Models.RoleInstanceStatus;
+
     // Temporary aliases until old service management is gone
-    using RoleInstance = Microsoft.WindowsAzure.ServiceManagement.RoleInstance;
-    using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
-    using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
+    using Deployment = Model.Deployment;
+    using DeploymentStatus = Model.DeploymentStatus;
+    using RoleInstance = Model.RoleInstance;
 
     public class CloudServiceClient : ICloudServiceClient
     {
@@ -317,10 +321,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 Deployment deployment = new Deployment();
                 do
                 {
-                    deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                        subscriptionId,
-                        context.ServiceName,
-                        context.ServiceSettings.Slot);
+                    deployment = new Deployment(
+                        ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSmSlot(context.ServiceSettings.Slot)));
 
                     // The goal of this loop is to output a message whenever the status of a role 
                     // instance CHANGES. To do that, we have to remember the last status of all role instances
@@ -385,7 +387,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     // doesn't reply with a "too many requests" error
                     Thread.Sleep(SleepDuration);
                 }
-                while (deployment.RoleInstanceList.Any(r => r.InstanceStatus != RoleInstanceStatus.ReadyRole));
+                while (deployment.RoleInstanceList.Any(r => r.InstanceStatus != Management.Compute.Models.RoleInstanceStatus.ReadyRole));
 
                 WriteVerboseWithTimestamp(Resources.PublishCreatedWebsiteMessage, deployment.Url);
 
@@ -428,14 +430,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
                 try
                 {
-                    deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                        subscriptionId,
-                        context.ServiceName,
-                        context.ServiceSettings.Slot);
+                    deployment = new Deployment(
+                        ComputeClient.Deployments.GetBySlot(context.ServiceName,
+                        GetSmSlot(context.ServiceSettings.Slot)));
                 }
-                catch (Exception e)
+                catch (CloudException ex)
                 {
-                    if (e.Message != Resources.InternalServerErrorMessage)
+                    if (ex.Response.StatusCode != HttpStatusCode.InternalServerError)
                     {
                         throw;
                     }
@@ -760,17 +761,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             VerifyDeployment(context);
 
             // Get object of the published deployment
-            Deployment deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot);
+            DeploymentGetResponse deployment = ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSmSlot(context.ServiceSettings.Slot));
 
             if (launch)
             {
-                General.LaunchWebPage(deployment.Url.ToString());
+                General.LaunchWebPage(deployment.Uri.ToString());
             }
 
-            return deployment;
+            return new Deployment(deployment);
         }
 
         /// <summary>

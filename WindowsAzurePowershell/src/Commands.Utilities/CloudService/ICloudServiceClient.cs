@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using ServiceManagement;
+    using Model;
 
     public interface ICloudServiceClient
     {
