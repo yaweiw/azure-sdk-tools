@@ -880,12 +880,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>True if exists, false otherwise</returns>
         public bool StorageServiceExists(string name)
         {
-            StorageService storageService = null;
-
             try
             {
-                storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
+                return StorageClient.StorageAccounts.Get(name) != null;
             }
+            // TODO: Update this catch to the correct exception type once I find out what it is
             catch (EndpointNotFoundException)
             {
                 // Don't write error message.  This catch block is used to
@@ -893,8 +892,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 // the storage account doesn't exist.
                 return false;
             }
-
-            return storageService != null;
         }
 
         /// <summary>
