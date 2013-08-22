@@ -12,18 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management;
-using Microsoft.WindowsAzure.Management.Compute;
-using Microsoft.WindowsAzure.Management.Compute.Models;
-using Microsoft.WindowsAzure.Management.Storage;
-using Microsoft.WindowsAzure.Management.Storage.Models;
-using OperationStatus = Microsoft.WindowsAzure.Management.Compute.Models.OperationStatus;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using AzureTools;
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management;
+    using Microsoft.WindowsAzure.Management.Compute;
+    using Microsoft.WindowsAzure.Management.Compute.Models;
+    using Microsoft.WindowsAzure.Management.Storage;
+    using Microsoft.WindowsAzure.Management.Storage.Models;
     using Properties;
     using ServiceManagement;
     using Storage;
@@ -40,6 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Threading;
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using OperationStatus = Microsoft.WindowsAzure.Management.Compute.Models.OperationStatus;
+    // Temporary aliases until old service management is gone
+    using RoleInstance = Microsoft.WindowsAzure.ServiceManagement.RoleInstance;
+    using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
+    using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
 
     public class CloudServiceClient : ICloudServiceClient
     {
@@ -123,23 +127,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 });
         }
         
-
-        private void SetCloudServiceState(string name, string slot, CloudServiceState state)
-        {
-            HostedService cloudService = GetCloudService(name);
-            slot = GetSlot(slot);
-            VerifyDeploymentExists(cloudService, slot);
-            ServiceManagementChannel.UpdateDeploymentStatusBySlot(
-                subscriptionId,
-                cloudService.ServiceName,
-                slot,
-                new UpdateDeploymentStatusInput()
-                {
-                    Status = state == CloudServiceState.Start ? DeploymentStatus.Running : DeploymentStatus.Suspended
-                }
-            );
-        }
-
         private void WriteToStream(Action<string> stream, string format, params object[] args)
         {
             if (stream != null)
