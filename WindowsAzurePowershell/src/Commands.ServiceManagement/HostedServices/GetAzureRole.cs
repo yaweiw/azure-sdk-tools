@@ -15,14 +15,18 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;
+    using Role = Management.Compute.Models.Role;
 
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
     public class GetAzureRoleCommand : ServiceManagementBaseCmdlet
@@ -67,32 +71,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void GetRoleProcess()
         {
-            Operation getDeploymentOperation;
+            OperationStatusResponse getDeploymentOperation;
             var currentDeployment = this.GetCurrentDeployment(out getDeploymentOperation);
             if (currentDeployment != null)
             {
                 if (this.InstanceDetails.IsPresent == false)
                 {
                     var roleContexts = new Collection<RoleContext>();
-                    RoleList roles = null;
+                    IList<Role> roles = null;
                     if (string.IsNullOrEmpty(this.RoleName))
                     {
-                        roles = currentDeployment.RoleList;
+                        roles = currentDeployment.Roles;
                     }
                     else
                     {
-                        roles = new RoleList(currentDeployment.RoleList.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
+                        roles = new List<Role>(currentDeployment.Roles.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
                     }
 
                     foreach (var r in roles.Select(role => new RoleContext
                         {
-                            InstanceCount = currentDeployment.RoleInstanceList.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)), 
+                            InstanceCount = currentDeployment.Roles.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)), 
                             RoleName = role.RoleName, 
                             OperationDescription = this.CommandRuntime.ToString(), 
-                            OperationStatus = getDeploymentOperation.Status, 
-                            OperationId = getDeploymentOperation.OperationTrackingId, 
+                            OperationStatus = getDeploymentOperation.Status.ToString(), 
+                            OperationId = getDeploymentOperation.Id, 
                             ServiceName = this.ServiceName, 
-                            DeploymentID = currentDeployment.PrivateID
+                            DeploymentID = currentDeployment.PrivateId
                         }))
                     {
                         roleContexts.Add(r);
@@ -103,35 +107,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 else
                 {
                     Collection<RoleInstanceContext> instanceContexts = new Collection<RoleInstanceContext>();
-                    RoleInstanceList roleInstances = null;
+                    IList<Management.Compute.Models.RoleInstance> roleInstances = null;
 
                     if (string.IsNullOrEmpty(this.RoleName))
                     {
-                        roleInstances = currentDeployment.RoleInstanceList;
+                        roleInstances = currentDeployment.RoleInstances;
                     }
                     else
                     {
-                        roleInstances = new RoleInstanceList(currentDeployment.RoleInstanceList.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
+                        roleInstances = new List<Management.Compute.Models.RoleInstance>(currentDeployment.RoleInstances.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
                     }
 
-                    foreach (RoleInstance role in roleInstances)
+                    foreach (var role in roleInstances)
                     {
                         var context = new RoleInstanceContext()
                         {
                             ServiceName = this.ServiceName,
-                            OperationId = getDeploymentOperation.OperationTrackingId,
+                            OperationId = getDeploymentOperation.Id,
                             OperationDescription = this.CommandRuntime.ToString(),
-                            OperationStatus = getDeploymentOperation.Status,
+                            OperationStatus = getDeploymentOperation.Status.ToString(),
                             InstanceErrorCode = role.InstanceErrorCode,
-                            InstanceFaultDomain = role.InstanceFaultDomain,
+                            //TODO: Talk to AzureSDK, type mismatch
+//                            InstanceFaultDomain = role.InstanceFaultDomain,
                             InstanceName = role.InstanceName,
                             InstanceSize = role.InstanceSize,
                             InstanceStateDetails = role.InstanceStateDetails,
                             InstanceStatus = role.InstanceStatus,
-                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                            //TODO: Talk to AzureSDK, type mismatch
+//                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                             RoleName = role.RoleName,
-                            DeploymentID = currentDeployment.PrivateID,
-                            InstanceEndpoints = role.InstanceEndpoints
+                            DeploymentID = currentDeployment.PrivateId,
+                            //TODO: Old SM client library types are exposed to customer
+                            //      We'll need to declare the copy of these types here not to break any customer code.
+//                            InstanceEndpoints = role.EndInstanceEndpoints
                         };
 
                         instanceContexts.Add(context);
@@ -147,18 +155,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             this.GetRoleProcess();
         }
 
-        private Deployment GetCurrentDeployment(out Operation operation)
+        private DeploymentGetResponse GetCurrentDeployment(out OperationStatusResponse operation)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            DeploymentSlot slot;
+            if (!Enum.TryParse(this.Slot, out slot))
             {
-                WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
-
-                var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = GetOperation();
-
-                WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
-                return currentDeployment;
+                throw new ArgumentOutOfRangeException("Slot");
             }
+
+            WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
+            DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot);
+            operation = GetOperationNewSM(deploymentGetResponse.RequestId);
+            WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
+
+            return deploymentGetResponse;
         }
     }
 }

@@ -16,7 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Management;
+    using Management.Models;
     using WindowsAzure.ServiceManagement;
+    using AutoMapper;
 
     /// <summary>
     /// Updates the label and/or the description for an affinity group for the specified subscription.
@@ -69,14 +72,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         internal void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
 
-            var upaginput = new UpdateAffinityGroupInput
+            var parameters = new AffinityGroupUpdateParameters
             {
                 Label = this.Label,
                 Description = this.Description ?? null
             };
-
-            ExecuteClientActionInOCS(upaginput, CommandRuntime.ToString(), s => this.Channel.UpdateAffinityGroup(s, this.Name, upaginput));
+            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), () => this.ManagementClient.AffinityGroups.Update(this.Name, parameters), 
+                (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(s));
         }
 
         protected override void OnProcessRecord()

@@ -16,8 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
     using Commands.ServiceManagement.Model;
+    using Management.Storage;
+    using Management.Storage.Models;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -47,33 +50,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, StorageService, object> func = (operation, storageService) =>
-            {
-                if (storageService != null)
-                {
-                    return new StorageServiceKeyOperationContext
-                    {
-                        StorageAccountName = this.StorageAccountName,
-                        Primary = storageService.StorageServiceKeys.Primary,
-                        Secondary = storageService.StorageServiceKeys.Secondary,
-                        OperationDescription = this.CommandRuntime.ToString(),
-                        OperationId = operation.OperationTrackingId,
-                        OperationStatus = operation.Status
-                    };
-                }
-                return new StorageServiceKeyOperationContext
-                {
-                    OperationDescription = this.CommandRuntime.ToString(),
-                    OperationId = operation.OperationTrackingId,
-                    OperationStatus = operation.Status
-                };
-            };
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
 
-            ExecuteClientActionInOCS(
+            ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.GetStorageKeys(s, this.StorageAccountName),
-                func);
+                () => this.StorageClient.StorageAccounts.GetKeys(this.StorageAccountName),
+                (s, response) =>
+                    {
+                        var context = ContextFactory<StorageAccountGetKeysResponse, StorageServiceKeyOperationContext>(response, s);
+                        ((StorageServiceKeyOperationContext) context).StorageAccountName = this.StorageAccountName;
+                        return context;
+                    });
         }
     }
 }

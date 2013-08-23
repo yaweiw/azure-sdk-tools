@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;
@@ -87,6 +89,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                     CommandRuntime.ToString(),
                     s => this.Channel.GetCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint),
                     (operation, certificate) => func(operation, new[] { certificate }));
+//                var parameters = new ServiceCertificateGetParameters
+//                {
+//                    ServiceName =  ServiceName,
+//                    Thumbprint =  Thumbprint,
+//                    ThumbprintAlgorithm =  ThumbprintAlgorithm
+//                };
+//                ExecuteClientActionNewSM(
+//                    null,
+//                    CommandRuntime.ToString(),
+//                    () => this.ComputeClient.ServiceCertificates.Get(parameters),
+//                    (s, response) => new int[1].Select(i => ContextFactory<ServiceCertificateGetResponse, CertificateContext>(response, s)));
             }
             else
             {
@@ -95,6 +108,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                      CommandRuntime.ToString(),
                      s => this.Channel.ListCertificates(s, this.ServiceName),
                      (operation, certificates) => func(operation, certificates));
+//                ExecuteClientActionNewSM(
+//                    null,
+//                    CommandRuntime.ToString(),
+//                    () => this.ComputeClient.ServiceCertificates.List(this.ServiceName),
+//                    (s, response) => response.Certificates.Select(c => ContextFactory<ServiceCertificateListResponse.Certificate, CertificateContext>(c, s)));
             }
         }
 

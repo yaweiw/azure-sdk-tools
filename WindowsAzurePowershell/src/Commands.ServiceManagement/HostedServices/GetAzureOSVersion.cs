@@ -17,7 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -38,23 +41,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
+            ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListOperatingSystems(s),
-                (operation, operatingSystems) => operatingSystems.Select(os => new OSVersionsContext
-                {
-                    OperationId = operation.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = operation.Status,
-                    Family = os.Family,
-                    FamilyLabel = string.IsNullOrEmpty(os.FamilyLabel) ? null : os.FamilyLabel,
-                    IsActive = os.IsActive,
-                    IsDefault = os.IsDefault,
-                    Version = os.Version,
-                    Label = string.IsNullOrEmpty(os.Label) ? null : os.Label
-                })
-                );
+                () => this.ComputeClient.OperatingSystems.List(),
+                (op, oSes) => oSes.OperatingSystems.Select(os => ContextFactory<OperatingSystemListResponse.OperatingSystem, OSVersionsContext>(os, op)));
         }
     }
 }

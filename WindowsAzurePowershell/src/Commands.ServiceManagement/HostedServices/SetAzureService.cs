@@ -16,7 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using WindowsAzure.ServiceManagement;
     using Properties;
 
@@ -61,6 +64,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             if (this.Label == null && this.Description == null)
             {
                 ThrowTerminatingError(new ErrorRecord(
@@ -71,13 +76,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                                                null));
             }
 
-            var updateHostedServiceInput = new UpdateHostedServiceInput
+            var parameters = new HostedServiceUpdateParameters
             {
                 Label = this.Label ?? null,
-                Description =  this.Description
+                Description = this.Description
             };
-
-            ExecuteClientActionInOCS(updateHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.UpdateHostedService(s, this.ServiceName, updateHostedServiceInput));
+            ExecuteClientActionNewSM(parameters, 
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.HostedServices.Update(this.ServiceName, parameters),
+                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+            
         }
     }
 }

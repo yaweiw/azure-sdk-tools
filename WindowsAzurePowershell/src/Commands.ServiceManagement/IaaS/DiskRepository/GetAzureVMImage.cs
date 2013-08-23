@@ -18,7 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using WindowsAzure.ServiceManagement;
     using Model;
 
@@ -35,6 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
             {
                 AffinityGroup = d.AffinityGroup,
@@ -72,6 +77,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     CommandRuntime.ToString(),
                     s => this.Channel.ListOSImages(s),
                     (operation, images) => func(operation, images));
+//                ExecuteClientActionNewSM(
+//                    null,
+//                    CommandRuntime.ToString(),
+//                    () => this.ComputeClient.VirtualMachineImages.List(),
+//                    (s,response) => response.Images.Select(r => ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(r, s)));
 
             }
         }

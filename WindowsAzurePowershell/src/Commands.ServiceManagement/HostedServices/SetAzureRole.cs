@@ -14,11 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
     using System.Xml.Linq;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using WindowsAzure.ServiceManagement;
     using Properties;
 
@@ -71,60 +75,57 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void SetRoleInstanceCountProcess()
         {
-            Operation operation;
+            OperationStatusResponse operation;
             var currentDeployment = this.GetCurrentDeployment(out operation);
             if (currentDeployment == null)
             {
                 return;
             }
 
-            using (new OperationContextScope(this.Channel.ToContextChannel()))
+            XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
+            var configuration = XDocument.Parse(currentDeployment.Configuration);
+            var role = configuration.Root.Elements(ns + "Role").SingleOrDefault(p => string.Compare(p.Attribute("name").Value, this.RoleName, true) == 0);
+
+            if (role != null)
             {
-                try
-                {
-                    XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
-                    var configuration = XDocument.Parse(currentDeployment.Configuration);
-                    var role = configuration.Root.Elements(ns + "Role").SingleOrDefault(p => string.Compare(p.Attribute("name").Value, this.RoleName, true) == 0);
-
-                    if (role != null)
-                    {
-                        role.Element(ns + "Instances").SetAttributeValue("count", this.Count);
-                    }
-
-                    using (new OperationContextScope(Channel.ToContextChannel()))
-                    {
-                        var updatedConfiguration = new ChangeConfigurationInput
-                        {
-                            Configuration = configuration.ToString()
-                        };
-
-                        ExecuteClientAction(configuration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, updatedConfiguration));
-                    }
-                }
-                catch (ServiceManagementClientException ex)
-                {
-                    this.WriteErrorDetails(ex);
-                }
+                role.Element(ns + "Instances").SetAttributeValue("count", this.Count);
             }
+
+            var updatedConfigurationParameter = new DeploymentChangeConfigurationParameters
+            {
+                Configuration = configuration.ToString()
+            };
+            DeploymentSlot slot;
+            if (!Enum.TryParse(this.Slot, out slot))
+            {
+                throw new ArgumentOutOfRangeException("Slot");
+            }
+            ExecuteClientActionNewSM(configuration, 
+                CommandRuntime.ToString(), 
+                () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(this.ServiceName, slot, updatedConfigurationParameter),
+                (s,response)=>ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response));
         }
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
             this.SetRoleInstanceCountProcess();
         }
 
-        private Deployment GetCurrentDeployment(out Operation operation)
+        private DeploymentGetResponse GetCurrentDeployment(out OperationStatusResponse operation)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            DeploymentSlot slot;
+            if (!Enum.TryParse(this.Slot, out slot))
             {
-                WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
-
-                var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = GetOperation();
-
-                WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
-                return currentDeployment;
+                throw new ArgumentOutOfRangeException("Slot");
             }
+
+            WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
+            DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot);
+            operation = GetOperationNewSM(deploymentGetResponse.RequestId);
+            WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
+
+            return deploymentGetResponse;
         }
     }
 }

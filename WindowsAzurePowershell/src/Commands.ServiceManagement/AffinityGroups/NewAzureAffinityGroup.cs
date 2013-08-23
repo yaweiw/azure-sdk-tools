@@ -15,7 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management;
+    using Management.Models;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -80,19 +83,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         public void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            
             if (string.IsNullOrEmpty(Label))
             {
                 Label = Name;
             }
-            var aginput = new CreateAffinityGroupInput
-            {
-                Description = this.Description,
-                Label = this.Label,
-                Location = this.Location,
-                Name = this.Name
-            };
 
-            ExecuteClientActionInOCS(aginput, CommandRuntime.ToString(), s => this.Channel.CreateAffinityGroup(s, aginput));
+            var input = new AffinityGroupCreateParameters
+                        {
+                            Description = this.Description,
+                            Label = this.Label,
+                            Location = this.Location,
+                            Name = this.Name
+                        };
+
+            ExecuteClientActionNewSM(
+                null, 
+                CommandRuntime.ToString(), 
+                () => this.ManagementClient.AffinityGroups.Create(input),
+                (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(s));
         }
 
         protected override void OnProcessRecord()
