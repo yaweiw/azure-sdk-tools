@@ -20,6 +20,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
     public class AffinityGroupContext : ManagementOperationContext
     {
+        public AffinityGroupContext()
+        {
+            this.HostedServices = new List<Service>();
+            this.StorageServices = new List<Service>();
+        }
+
         public string Name { get; set; }
 
         public string Label { get; set; }

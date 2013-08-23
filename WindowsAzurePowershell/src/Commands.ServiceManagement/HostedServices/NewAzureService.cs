@@ -15,7 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -78,20 +82,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void ExecuteCommand()
         {
-            var createHostedServiceInput = new CreateHostedServiceInput
+            var parameter = new HostedServiceCreateParameters()
             {
                 ServiceName = this.ServiceName,
                 Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
                 Description = this.Description,
-                AffinityGroup = this.AffinityGroup,
+                AffinityGroup =  this.AffinityGroup,
                 Location = this.Location
             };
-
-            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput));
+            ExecuteClientActionNewSM(null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.HostedServices.Create(parameter),
+                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
             this.ExecuteCommand();
         }
     }

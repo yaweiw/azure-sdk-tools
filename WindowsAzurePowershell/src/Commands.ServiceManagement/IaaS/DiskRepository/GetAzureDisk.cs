@@ -19,7 +19,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using WindowsAzure.ServiceManagement;
     using Model;
 
@@ -36,6 +39,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             Func<Operation, IEnumerable<Disk>, object> func = (operation, disks) => disks.Select(d => new DiskContext
             {
                 OperationId = operation.OperationTrackingId,
@@ -67,6 +72,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     CommandRuntime.ToString(),
                     s => this.Channel.ListDisks(s),
                     (operation, disks) => func(operation, disks));
+//                ExecuteClientActionNewSM(
+//                    null,
+//                    CommandRuntime.ToString(),
+//                    () => this.ComputeClient.VirtualMachineDisks.ListDisks(),
+//                    (s, response) => response.Disks.Select(disk => ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
 
             }
         }

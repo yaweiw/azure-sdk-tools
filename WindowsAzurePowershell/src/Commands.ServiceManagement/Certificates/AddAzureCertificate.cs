@@ -14,14 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
+    using AutoMapper;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Helpers;
-    using Properties;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Microsoft.WindowsAzure.Management.Compute;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
@@ -67,18 +69,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
             var certData = GetCertificateData();
 
-            var certificateFile = new CertificateFile
+            var parameters = new ServiceCertificateCreateParameters
             {
-                Data = Convert.ToBase64String(certData),
+                Data = certData,
                 Password = Password,
-                CertificateFormat = Resources.Pfx_CertificateFormat
+                CertificateFormat = CertificateFormat.Pfx
             };
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+            ExecuteClientActionNewSM(
+                null, 
+                CommandRuntime.ToString(), 
+                () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters), 
+                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
             this.ExecuteCommand();
         }
 

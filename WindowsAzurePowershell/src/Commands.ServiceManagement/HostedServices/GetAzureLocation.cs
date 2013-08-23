@@ -14,9 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management;
+    using Management.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -37,23 +42,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void GetLocationsProcess()
         {
-
-            ExecuteClientActionInOCS(null,
+            ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
-                (op, locations) => locations.Select(location => new LocationsContext
-                {
-                    OperationId = op.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = op.Status,
-                    DisplayName = location.DisplayName,
-                    Name = location.Name,
-                    AvailableServices = location.AvailableServices
-                }));
+                () => this.ManagementClient.Locations.List(),
+                (op, locations) => locations.Locations.Select(location => ContextFactory<LocationsListResponse.Location, LocationsContext>(location, op)));
         }
 
         protected override void OnProcessRecord()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
             this.GetLocationsProcess();
         }
     }
