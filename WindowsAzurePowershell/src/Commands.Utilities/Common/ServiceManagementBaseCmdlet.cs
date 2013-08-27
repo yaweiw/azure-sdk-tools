@@ -37,8 +37,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
         private IList<IDisposable> clientsToDispose = new List<IDisposable>();
-        private Runspace runspace;
+        private Lazy<Runspace> runspace;
 
+        protected ServiceManagementBaseCmdlet()
+        {
+            runspace = new Lazy<Runspace>(() => {
+                var localRunspace = RunspaceFactory.CreateRunspace(this.Host);
+                localRunspace.Open();
+                return localRunspace;
+            });
+            client = new Lazy<ManagementClient>(CreateClient);
+            computeClient = new Lazy<ComputeManagementClient>(CreateComputeClient);
+            storageClient = new Lazy<StorageManagementClient>(CreateStorageClient);
+        }
         public ManagementClient CreateClient()
         {
             var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
@@ -50,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             clientsToDispose.Add(restMH);
             clientsToDispose.Add(userAgentMH);
 
-            return userAgentMH;
+            return restMH;
         }
 
         public ComputeManagementClient CreateComputeClient()
@@ -64,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             clientsToDispose.Add(restMH);
             clientsToDispose.Add(userAgentMH);
 
-            return userAgentMH;
+            return restMH;
         }
 
         public StorageManagementClient CreateStorageClient()
@@ -78,41 +89,36 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             clientsToDispose.Add(restMH);
             clientsToDispose.Add(userAgentMH);
 
-            return userAgentMH;
+            return restMH;
         }
 
         private void LogDebug(string message)
         {
-            if (this.runspace == null)
-            {
-                this.runspace = RunspaceFactory.CreateRunspace(this.Host);
-                this.runspace.Open();
-            }
             var debugMessage = String.Format("Write-Debug -Message '{0}'", message);
             using (var ps = PowerShell.Create())
             {
-                ps.Runspace = runspace;
+                ps.Runspace = runspace.Value;
                 ps.AddScript(debugMessage);
                 ps.Invoke();
             }
         }
 
-        private ManagementClient client;
+        private Lazy<ManagementClient> client;
         public ManagementClient ManagementClient 
         { 
-            get { return client ?? (client = CreateClient()); }
+            get { return client.Value; }
         }
 
-        private ComputeManagementClient computeClient;
+        private Lazy<ComputeManagementClient> computeClient;
         public ComputeManagementClient ComputeClient 
         {
-            get { return computeClient ?? (computeClient = CreateComputeClient()); }
+            get { return computeClient.Value; }
         }
 
-        private StorageManagementClient storageClient;
+        private Lazy<StorageManagementClient> storageClient;
         public StorageManagementClient StorageClient 
         {
-            get { return storageClient ?? (storageClient = CreateStorageClient()); }
+            get { return storageClient.Value; }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the client would also dispose the channel we are returning.")]

@@ -41,12 +41,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string body = String.Empty;
             if (request.Content != null)
             {
+                var contentHeaders = request.Content.Headers;
                 var stream = new MemoryStream();
                 request.Content.CopyToAsync(stream).Wait();
                 stream.Position = 0;
                 body = XElement.Load(stream).ToString();
                 stream.Position = 0;
                 request.Content = new StreamContent(stream);
+                contentHeaders.ForEach(kv => request.Content.Headers.Add(kv.Key, kv.Value));
             }
             logger(General.GetHttpRequestLog(request.Method.ToString(), request.RequestUri.AbsoluteUri, request.Headers, body));
 
@@ -58,14 +60,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string body = String.Empty;
             if(response.Content != null)
             {
+                var contentHeaders = response.Content.Headers;
                 var stream = new MemoryStream();
                 response.Content.CopyToAsync(stream).Wait();
                 stream.Position = 0;
                 body = XElement.Load(stream).ToString();
                 stream.Position = 0;
                 response.Content = new StreamContent(stream);
+                contentHeaders.ForEach(kv => response.Content.Headers.Add(kv.Key, kv.Value));
             }
             logger(General.GetHttpResponseLog(response.StatusCode.ToString(), response.Headers, body));
+            
             return response;
         }
     }
