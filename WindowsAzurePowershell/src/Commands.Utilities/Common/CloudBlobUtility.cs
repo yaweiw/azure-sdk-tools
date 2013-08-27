@@ -17,6 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Globalization;
     using System.IO;
+    using Management;
+    using Management.Compute;
+    using Management.Storage;
+    using Management.Storage.Models;
     using ServiceManagement;
     using Storage;
     using Storage.Auth;
@@ -86,6 +90,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return UploadFile(
                 storageName,
                 General.CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
+        }
+
+        public virtual Uri UploadPackageToBlob(
+            StorageManagementClient storageClient,
+            string storageName,
+            string packagePath,
+            BlobRequestOptions blobRequestOptions)
+        {
+            StorageAccountGetKeysResponse keys = storageClient.StorageAccounts.GetKeys(storageName);
+            string storageKey = keys.PrimaryKey;
+            var storageService = storageClient.StorageAccounts.Get(storageName);
+            Uri blobEndpointUri = storageService.Properties.Endpoints[0];
+            return UploadFile(storageName,
+                General.CreateHttpsEndpoint(blobEndpointUri.ToString()),
+                storageKey, packagePath, blobRequestOptions);
         }
     }
 }

@@ -18,16 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Net;
     using AzureTools;
     using Common;
-    using Common.XmlSchema.ServiceConfigurationSchema;
-    using Management.Models;
-    using Model;
     using Microsoft.WindowsAzure.Management;
     using Microsoft.WindowsAzure.Management.Compute;
     using Microsoft.WindowsAzure.Management.Compute.Models;
     using Microsoft.WindowsAzure.Management.Storage;
     using Microsoft.WindowsAzure.Management.Storage.Models;
     using Properties;
-    using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
@@ -61,10 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         internal StorageManagementClient StorageClient { get; set; }
 
         internal ComputeManagementClient ComputeClient { get; set; }
-
-        internal IServiceManagement ServiceManagementChannel { get; set; }
-
-        internal HeadersInspector HeadersInspector { get; set; }
 
         public SubscriptionData Subscription { get; set; }
 
@@ -182,61 +174,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             cloudServiceProject.Components.ForEachRoleSettings(
                 r => Array.Exists(r.ConfigurationSettings, c => c.Equals(connectionStringConfig)),
-            delegate(RoleSettings r)
-            {
-                int index = Array.IndexOf<ConfigConfigurationSetting>(r.ConfigurationSettings, connectionStringConfig);
-                r.ConfigurationSettings[index] = new ConfigConfigurationSetting
-                {
-                    name = Resources.CachingConfigStoreConnectionStringSettingName,
-                    value = connectionString
-                };
-            });
+                r =>
+                    {
+                        int index = Array.IndexOf<ConfigConfigurationSetting>(r.ConfigurationSettings,
+                            connectionStringConfig);
+                        r.ConfigurationSettings[index] = new ConfigConfigurationSetting
+                        {
+                            name = Resources.CachingConfigStoreConnectionStringSettingName,
+                            value = connectionString
+                        };
+                    });
 
             cloudServiceProject.Components.Save(cloudServiceProject.Paths);
         }
 
-        private void CreateDeployment(PublishContext context)
+        private void CreateSmDeployment(PublishContext context)
         {
-            CreateDeploymentInput deploymentInput = new CreateDeploymentInput
+            var deploymentParams = new DeploymentCreateParameters()
             {
-                PackageUrl = UploadPackage(context),
+                PackageUri = UploadPackage(context),
                 Configuration = General.GetConfiguration(context.ConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
-                StartDeployment = true,
+                StartDeployment = true
             };
 
             WriteVerboseWithTimestamp(Resources.PublishStartingMessage);
 
-            CertificateList uploadedCertificates = ServiceManagementChannel.ListCertificates(
-                subscriptionId,
-                context.ServiceName);
-            AddCertificates(uploadedCertificates, context);
+            ServiceCertificateListResponse uploadedCertificates = ComputeClient.ServiceCertificates.List(context.ServiceName);
+            AddSmCertificates(uploadedCertificates, context);
 
-            ServiceManagementChannel.CreateOrUpdateDeployment(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot,
-                deploymentInput);
-        }
-
-        private void AddCertificates(CertificateList uploadedCertificates, PublishContext context)
-        {
-            string name = context.ServiceName;
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
-            if (cloudServiceProject.Components.CloudConfig.Role != null)
-            {
-                foreach (ConfigCertificate certElement in cloudServiceProject.Components.CloudConfig.Role.
-                    SelectMany(r => r.Certificates ?? new ConfigCertificate[0]).Distinct())
-                {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count(c => c.Thumbprint.Equals(
-                        certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
-                    {
-                        X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
-                        UploadCertificate(cert, certElement, name);
-                    }
-                }
-            }
+            ComputeClient.Deployments.Create(context.ServiceName, GetSlot(context.ServiceSettings.Slot),
+                deploymentParams);
         }
 
         private void AddSmCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
@@ -276,30 +245,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     Resources.CertificatePrivateKeyAccessError,
                     certElement.name), ex);                
             }
-        }
-
-        private void UpgradeDeployment(PublishContext context)
-        {
-            UpgradeDeploymentInput upgradeDeploymentInput = new UpgradeDeploymentInput
-            {
-                PackageUrl = UploadPackage(context),
-                Configuration = General.GetConfiguration(context.ConfigPath),
-                Label = context.ServiceName,
-                Mode = UpgradeType.Auto
-            };
-
-            WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
-
-            CertificateList uploadedCertificates = ServiceManagementChannel.ListCertificates(
-                subscriptionId,
-                context.ServiceName);
-            AddCertificates(uploadedCertificates, context);
-
-            ServiceManagementChannel.UpgradeDeploymentBySlot(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot,
-                upgradeDeploymentInput);
         }
 
         private void UpgradeSmDeployment(PublishContext context)
@@ -404,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 WriteVerboseWithTimestamp(Resources.PublishCreatedWebsiteMessage, deployment.Url);
 
             }
-            catch (ServiceManagementClientException)
+            catch (CloudException)
             {
                 throw new InvalidOperationException(
                     string.Format(Resources.CannotFindDeployment, context.ServiceName, context.ServiceSettings.Slot));
@@ -489,9 +434,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     context.ServiceSettings.StorageServiceName);
 
             return CloudBlobUtility.UploadPackageToBlob(
-                ServiceManagementChannel,
+                StorageClient,
                 context.ServiceSettings.StorageServiceName,
-                subscriptionId,
                 context.PackagePath,
                 new BlobRequestOptions());
         }
@@ -505,7 +449,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
             catch
             {
-
                 throw new Exception(string.Format(Resources.ServiceDoesNotExist, name));
             }
         }
@@ -587,13 +530,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             DebugStream = debugStream;
             VerboseStream = verboseStream;
             WarningStream = warningStream;
-            HeadersInspector = new HeadersInspector();
-            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
-                ConfigurationConstants.WebHttpBinding(),
-                new Uri(subscription.ServiceEndpoint),
-                subscription.Certificate,
-                new HttpRestMessageInspector(DebugStream),
-                HeadersInspector);
+
             CloudBlobUtility = new CloudBlobUtility();
 
             ManagementClient = CloudContext.Clients.CreateManagementClient(
@@ -607,6 +544,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
                 new Uri(subscription.ServiceEndpoint));
+        }
+
+        internal CloudServiceClient(
+            SubscriptionData subscription,
+            ManagementClient managementClient,
+            StorageManagementClient storageManagementClient,
+            ComputeManagementClient computeManagementClient)
+        {
+            Subscription = subscription;
+            subscriptionId = subscription.SubscriptionId;
+            CurrentDirectory = null;
+            DebugStream = null;
+            VerboseStream = null;
+            WarningStream = null;
+
+            CloudBlobUtility = new CloudBlobUtility();
+            ManagementClient = managementClient;
+            StorageClient = storageManagementClient;
+            ComputeClient = computeManagementClient;
         }
 
         /// <summary>
@@ -730,12 +686,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
             {
                 // Upgrade the deployment
-                UpgradeDeployment(context);
+                UpgradeSmDeployment(context);
             }
             else
             {
                 // Create new deployment
-                CreateDeployment(context);
+                CreateSmDeployment(context);
             }
 
             // Get the deployment id and show it.

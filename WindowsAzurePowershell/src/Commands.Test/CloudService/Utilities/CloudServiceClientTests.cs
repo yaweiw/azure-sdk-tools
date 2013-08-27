@@ -16,6 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
+    using Management;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Storage;
     using Moq;
     using ServiceManagement;
     using Storage.Blob;
@@ -24,13 +28,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using System.ServiceModel;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
+    using DeploymentStatus = ServiceManagement.DeploymentStatus;
+    using RoleInstance = ServiceManagement.RoleInstance;
+    using RoleInstanceStatus = ServiceManagement.RoleInstanceStatus;
 
-	[TestClass]
+    [TestClass]
 	public class CloudServiceClientTests : TestBase
 	{
 		private SubscriptionData subscription;
 
 		private Mock<IServiceManagement> serviceManagementChannelMock;
+
+        private ClientMocks clientMocks;
 
 		private Mock<CloudBlobUtility> cloudBlobUtilityMock;
 
@@ -115,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 				IsDefault = true,
 				ServiceEndpoint = "https://www.azure.com",
 				SubscriptionId = Guid.NewGuid().ToString(),
-				SubscriptionName = Data.Subscription1
+				SubscriptionName = Data.Subscription1,
 			};
 
 			serviceManagementChannelMock = new Mock<IServiceManagement>();
@@ -130,17 +139,21 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
 			cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
 			cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
-				serviceManagementChannelMock.Object,
-				It.IsAny<string>(),
+                It.IsAny<StorageManagementClient>(),
 				It.IsAny<string>(),
 				It.IsAny<string>(),
 				It.IsAny<BlobRequestOptions>())).Returns(new Uri("http://www.packageurl.azure.com"));
 
-			client = new CloudServiceClient(subscription)
-			{ 
-				ServiceManagementChannel = serviceManagementChannelMock.Object,
-				CloudBlobUtility = cloudBlobUtilityMock.Object
-			};
+		    clientMocks = new ClientMocks(subscription.SubscriptionId);
+
+		    client = new CloudServiceClient(subscription,
+		        clientMocks.ManagementClientMock.Object,
+		        clientMocks.StorageManagementClientMock.Object,
+		        clientMocks.ComputeManagementClientMock.Object
+		        )
+		    {
+		        CloudBlobUtility = cloudBlobUtilityMock.Object
+		    };
 		}
 
 		[TestMethod]
@@ -163,6 +176,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 					object state) => actual = input);
 
 			serviceManagementChannelMock.Setup(f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()));
+
+            
+
 
 			// Test
 			client.StartCloudService(serviceName);
