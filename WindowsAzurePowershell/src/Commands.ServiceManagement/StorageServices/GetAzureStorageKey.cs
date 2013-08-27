@@ -57,11 +57,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                 CommandRuntime.ToString(),
                 () => this.StorageClient.StorageAccounts.GetKeys(this.StorageAccountName),
                 (s, response) =>
-                    {
-                        var context = ContextFactory<StorageAccountGetKeysResponse, StorageServiceKeyOperationContext>(response, s);
-                        ((StorageServiceKeyOperationContext) context).StorageAccountName = this.StorageAccountName;
-                        return context;
-                    });
+                {
+                    var context = ContextFactory<StorageAccountGetKeysResponse, StorageServiceKeyOperationContext>(response, s);
+                    ((StorageServiceKeyOperationContext) context).StorageAccountName = this.StorageAccountName;
+                    return context;
+                });
         }
     }
 }

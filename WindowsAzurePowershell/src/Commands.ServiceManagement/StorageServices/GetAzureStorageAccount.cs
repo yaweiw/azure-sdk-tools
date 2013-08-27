@@ -59,11 +59,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                     CommandRuntime.ToString(),
                     () => this.StorageClient.StorageAccounts.Get(this.StorageAccountName),
                     (s, response) =>
-                        {
-                            var context = ContextFactory<StorageServiceGetResponse, StorageServicePropertiesOperationContext>(response, s);
-                            Mapper.Map(response.Properties, context);
-                            return context;
-                        });
+                    {
+                        var context = ContextFactory<StorageServiceGetResponse, StorageServicePropertiesOperationContext>(response, s);
+                        Mapper.Map(response.Properties, context);
+                        return context;
+                    });
             }
             else
             {
@@ -71,12 +71,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                     null,
                     CommandRuntime.ToString(),
                     () => this.StorageClient.StorageAccounts.List(),
-                    (s, storageServices) => storageServices.StorageServices.Select(r =>
-                                                            {
-                                                                var context = ContextFactory<StorageServiceListResponse.StorageService, StorageServicePropertiesOperationContext>(r, s);
-                                                                Mapper.Map(r.Properties, context);
-                                                                return context;
-                                                            }));
+                    (s, storageServices) => 
+                        storageServices.StorageServices.Select(r =>
+                        {
+                            var context = ContextFactory<StorageServiceListResponse.StorageService, StorageServicePropertiesOperationContext>(r, s);
+                            Mapper.Map(r.Properties, context);
+                            return context;
+                        }));
             }
         }
     }

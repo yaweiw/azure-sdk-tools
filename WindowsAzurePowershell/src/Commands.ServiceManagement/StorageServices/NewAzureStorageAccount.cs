@@ -15,7 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Storage;
+    using Management.Storage.Models;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -78,20 +81,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         internal void ExecuteCommand()
         {
-            if (string.IsNullOrEmpty(Label))
+            //            if (string.IsNullOrEmpty(Label))
+//            {
+//                Label = StorageAccountName;
+//            }
+//            var createStorageServiceInput = new CreateStorageServiceInput()
+//            {
+//                ServiceName = this.StorageAccountName,
+//                Label = this.Label,
+//                Description = this.Description,
+//                AffinityGroup = this.AffinityGroup,
+//                Location = this.Location
+//            };
+//
+//            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
+
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
+            var parameters = new StorageAccountCreateParameters
             {
-                Label = StorageAccountName;
-            }
-            var createStorageServiceInput = new CreateStorageServiceInput()
-            {
-                ServiceName = this.StorageAccountName,
-                Label = this.Label,
+                ServiceName =  this.StorageAccountName,
+                Label =  this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location
             };
-
-            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
+            ExecuteClientActionNewSM(
+                parameters,
+                CommandRuntime.ToString(),
+                () => this.StorageClient.StorageAccounts.Create(parameters),
+                (s, response) => ContextFactory<StorageOperationStatusResponse, ManagementOperationContext>(response, s));
         }
 
         protected override void OnProcessRecord()
