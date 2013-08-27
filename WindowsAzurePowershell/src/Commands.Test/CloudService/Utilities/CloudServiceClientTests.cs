@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Management.Compute.Models;
+    using Management.Models;
     using Management.Storage;
     using Management.Storage.Models;
     using Moq;
@@ -36,74 +37,74 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using StorageServiceProperties = ServiceManagement.StorageServiceProperties;
 
     [TestClass]
-	public class CloudServiceClientTests : TestBase
-	{
-		private SubscriptionData subscription;
+    public class CloudServiceClientTests : TestBase
+    {
+        private SubscriptionData subscription;
 
-		private Mock<IServiceManagement> serviceManagementChannelMock;
+        private Mock<IServiceManagement> serviceManagementChannelMock;
 
         private ClientMocks clientMocks;
 
-		private Mock<CloudBlobUtility> cloudBlobUtilityMock;
+        private Mock<CloudBlobUtility> cloudBlobUtilityMock;
 
-		private ICloudServiceClient client;
+        private ICloudServiceClient client;
 
-		private string serviceName = "cloudService";
+        private string serviceName = "cloudService";
 
-		private string storageName = "storagename";
+        private string storageName = "storagename";
 
-		private HostedService cloudService;
+        private HostedService cloudService;
 
-		private StorageService storageService;
+        private StorageService storageService;
 
         private StorageServiceGetResponse storageServiceGetResponse;
         private StorageAccountGetKeysResponse storageAccountGetKeysResponse;
 
-		private Deployment deployment;
+        private Deployment deployment;
 
-		private void ExecuteInTempCurrentDirectory(string path, Action action)
-		{
-			string currentDirectory = Environment.CurrentDirectory;
+        private void ExecuteInTempCurrentDirectory(string path, Action action)
+        {
+            string currentDirectory = Environment.CurrentDirectory;
 
-			try
-			{
-				Environment.CurrentDirectory = path;
-				action();
-			}
-			catch
-			{
-				Environment.CurrentDirectory = currentDirectory;
-				throw;
-			}
-		}
+            try
+            {
+                Environment.CurrentDirectory = path;
+                action();
+            }
+            catch
+            {
+                Environment.CurrentDirectory = currentDirectory;
+                throw;
+            }
+        }
 
-		[TestInitialize]
-		public void TestSetup()
-		{
-			GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-			CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-			
-			storageService = new StorageService()
-			{
-				ServiceName = storageName,
-				StorageServiceKeys = new StorageServiceKeys()
-				{
-					Primary = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
-					Secondary = "secondaryKey"
-				},
-				StorageServiceProperties = new StorageServiceProperties()
-				{
-					Endpoints = new EndpointList()
+        [TestInitialize]
+        public void TestSetup()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+
+            storageService = new StorageService()
+            {
+                ServiceName = storageName,
+                StorageServiceKeys = new StorageServiceKeys()
+                {
+                    Primary = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
+                    Secondary = "secondaryKey"
+                },
+                StorageServiceProperties = new StorageServiceProperties()
+                {
+                    Endpoints = new EndpointList()
 					{
 						"http://awesome.blob.core.windows.net/",
 						"http://awesome.queue.core.windows.net/",
 						"http://awesome.table.core.windows.net/"
 					}
-				}
-			};
+                }
+            };
 
-		    storageServiceGetResponse = new StorageServiceGetResponse
-		    {
+            storageServiceGetResponse = new StorageServiceGetResponse
+            {
                 ServiceName = storageName,
                 Properties = new Management.Storage.Models.StorageServiceProperties
                 {
@@ -116,19 +117,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 }
             };
 
-		    storageAccountGetKeysResponse = new StorageAccountGetKeysResponse()
-		    {
-		        PrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
-		        SecondaryKey = "secondaryKey"
-		    };
+            storageAccountGetKeysResponse = new StorageAccountGetKeysResponse()
+            {
+                PrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
+                SecondaryKey = "secondaryKey"
+            };
 
-			deployment = new Deployment()
-			{
-				DeploymentSlot = DeploymentSlotType.Production,
-				Name = "mydeployment",
-				PrivateID = "privateId",
-				Status = DeploymentStatus.Starting,
-				RoleInstanceList = new RoleInstanceList()
+            deployment = new Deployment()
+            {
+                DeploymentSlot = DeploymentSlotType.Production,
+                Name = "mydeployment",
+                PrivateID = "privateId",
+                Status = DeploymentStatus.Starting,
+                RoleInstanceList = new RoleInstanceList()
 				{
 					new RoleInstance()
 					{
@@ -137,51 +138,58 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 						InstanceName = "Instance_Role1"
 					}
 				}
-			};
+            };
 
-			cloudService = new HostedService()
-			{
-				ServiceName = serviceName,
-				Deployments = new DeploymentList()
-			};
-			subscription = new SubscriptionData()
-			{
-				Certificate = It.IsAny<X509Certificate2>(),
-				IsDefault = true,
-				ServiceEndpoint = "https://www.azure.com",
-				SubscriptionId = Guid.NewGuid().ToString(),
-				SubscriptionName = Data.Subscription1,
-			};
+            cloudService = new HostedService()
+            {
+                ServiceName = serviceName,
+                Deployments = new DeploymentList()
+            };
+            subscription = new SubscriptionData()
+            {
+                Certificate = It.IsAny<X509Certificate2>(),
+                IsDefault = true,
+                ServiceEndpoint = "https://www.azure.com",
+                SubscriptionId = Guid.NewGuid().ToString(),
+                SubscriptionName = Data.Subscription1,
+            };
 
-			serviceManagementChannelMock = new Mock<IServiceManagement>();
-			serviceManagementChannelMock.Setup(f => f.EndGetHostedServiceWithDetails(It.IsAny<IAsyncResult>()))
-				.Returns(cloudService);
-			serviceManagementChannelMock.Setup(f => f.EndGetStorageService((It.IsAny<IAsyncResult>())))
-				.Returns(storageService);
-			serviceManagementChannelMock.Setup(f => f.EndGetStorageKeys(It.IsAny<IAsyncResult>()))
-				.Returns(storageService);
-			serviceManagementChannelMock.Setup(f => f.EndGetDeploymentBySlot(It.IsAny<IAsyncResult>()))
-				.Returns(deployment);
+            serviceManagementChannelMock = new Mock<IServiceManagement>();
+            serviceManagementChannelMock.Setup(f => f.EndGetHostedServiceWithDetails(It.IsAny<IAsyncResult>()))
+                .Returns(cloudService);
+            serviceManagementChannelMock.Setup(f => f.EndGetStorageService((It.IsAny<IAsyncResult>())))
+                .Returns(storageService);
+            serviceManagementChannelMock.Setup(f => f.EndGetStorageKeys(It.IsAny<IAsyncResult>()))
+                .Returns(storageService);
+            serviceManagementChannelMock.Setup(f => f.EndGetDeploymentBySlot(It.IsAny<IAsyncResult>()))
+                .Returns(deployment);
 
-			cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
-			cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
+            cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
+            cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
                 It.IsAny<StorageManagementClient>(),
-				It.IsAny<string>(),
-				It.IsAny<string>(),
-				It.IsAny<BlobRequestOptions>())).Returns(new Uri("http://www.packageurl.azure.com"));
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<BlobRequestOptions>())).Returns(new Uri("http://www.packageurl.azure.com"));
 
-		    clientMocks = new ClientMocks(subscription.SubscriptionId);
+            clientMocks = new ClientMocks(subscription.SubscriptionId);
 
-		    client = new CloudServiceClient(subscription,
-		        clientMocks.ManagementClientMock.Object,
-		        clientMocks.StorageManagementClientMock.Object,
-		        clientMocks.ComputeManagementClientMock.Object
-		        )
-		    {
-		        CloudBlobUtility = cloudBlobUtilityMock.Object,
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageServiceGetResponse));
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
+            clientMocks.ComputeManagementClientMock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult<ServiceCertificateListResponse>(null));
+
+            client = new CloudServiceClient(subscription,
+                clientMocks.ManagementClientMock.Object,
+                clientMocks.StorageManagementClientMock.Object,
+                clientMocks.ComputeManagementClientMock.Object
+                )
+            {
+                CloudBlobUtility = cloudBlobUtilityMock.Object,
                 StatusRetriever = clientMocks.StatusRetriverMock.Object
-		    };
-		}
+            };
+        }
 
         [TestMethod]
         public void TestStartCloudService()
@@ -238,12 +246,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 .Verifiable();
 
             client.StartCloudService(serviceName);
-        
+
             Assert.AreEqual(UpdatedDeploymentStatus.Running, actualUpdateParameters.Status);
             clientMocks.Verify();
         }
 
-		[TestMethod]
+        [TestMethod]
         public void TestStopCloudService()
         {
             DeploymentUpdateStatusParameters actualUpdateParameters = null;
@@ -301,7 +309,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             Assert.AreEqual(UpdatedDeploymentStatus.Suspended, actualUpdateParameters.Status);
             clientMocks.Verify();
-                
+
         }
 
         [TestMethod]
@@ -408,7 +416,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Verify(
                 c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
-            
+
         }
 
         [TestMethod]
@@ -447,152 +455,165 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Verify(
                 c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
-            
+
         }
-
-		[TestMethod]
-		public void TestPublishNewCloudService()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-
-
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
-
-				serviceManagementChannelMock.Verify(f => f.BeginCreateOrUpdateDeployment(
-					subscription.SubscriptionId,
-					serviceName,
-					DeploymentSlotType.Production,
-					It.IsAny<CreateDeploymentInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
 
         [TestMethod]
-        public void TestPublishNewCloudServiceSm()
+        public void TestPublishNewCloudService()
         {
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentCreateParameters>()))
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
+                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                {
+                    Configuration = "config",
+                    DeploymentSlot = DeploymentSlot.Production,
+                    Status = Management.Compute.Models.DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime()
+                    {
+                        EndTime = DateTime.Now,
+                        StartTime = DateTime.Now,
+                        Status = "",
+                    },
+                    LastModifiedTime = DateTime.Now.ToString()
+                }));
+
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginCreateOrUpdateDeployment(
-					subscription.SubscriptionId,
-					serviceName,
-					DeploymentSlotType.Production,
-					It.IsAny<CreateDeploymentInput>(),
-					null,
-					null), Times.Once());
-			}
-            
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.CreateAsync(
+                    serviceName, DeploymentSlot.Production, It.IsAny<DeploymentCreateParameters>()), Times.Once);
+            }
+
         }
 
-		[TestMethod]
-		public void TestUpgradeCloudService()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				cloudService.Deployments.Add(deployment);
+        [TestMethod]
+        public void TestUpgradeCloudService()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                cloudService.Deployments.Add(deployment);
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginUpgradeDeploymentBySlot(
-					subscription.SubscriptionId,
-					serviceName,
-					DeploymentSlotType.Production,
-					It.IsAny<UpgradeDeploymentInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
+                serviceManagementChannelMock.Verify(f => f.BeginUpgradeDeploymentBySlot(
+                    subscription.SubscriptionId,
+                    serviceName,
+                    DeploymentSlotType.Production,
+                    It.IsAny<UpgradeDeploymentInput>(),
+                    null,
+                    null), Times.Once());
+            }
+        }
 
-		[TestMethod]
-		public void TestCreateStorageServiceWithPublish()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				cloudService.Deployments.Add(deployment);
-				serviceManagementChannelMock.Setup(f => f.EndGetStorageService(It.IsAny<IAsyncResult>()))
-					.Callback(() => serviceManagementChannelMock.Setup(f => f.EndGetStorageService(
-						It.IsAny<IAsyncResult>()))
-						.Returns(storageService))
-					.Throws(new EndpointNotFoundException());
+        [TestMethod]
+        public void TestCreateStorageServiceWithPublish()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                cloudService.Deployments.Add(deployment);
+                serviceManagementChannelMock.Setup(f => f.EndGetStorageService(It.IsAny<IAsyncResult>()))
+                    .Callback(() => serviceManagementChannelMock.Setup(f => f.EndGetStorageService(
+                        It.IsAny<IAsyncResult>()))
+                        .Returns(storageService))
+                    .Throws(new EndpointNotFoundException());
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginCreateStorageService(
-					subscription.SubscriptionId,
-					It.IsAny<CreateStorageServiceInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
+                serviceManagementChannelMock.Verify(f => f.BeginCreateStorageService(
+                    subscription.SubscriptionId,
+                    It.IsAny<CreateStorageServiceInput>(),
+                    null,
+                    null), Times.Once());
+            }
+        }
 
-		[TestMethod]
-		public void TestPublishWithCurrentStorageAccount()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				subscription.CurrentStorageAccount = storageName;
+        [TestMethod]
+        public void TestPublishWithCurrentStorageAccount()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                subscription.CurrentStorageAccount = storageName;
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				cloudBlobUtilityMock.Verify(f => f.UploadPackageToBlob(
-					serviceManagementChannelMock.Object,
-					subscription.CurrentStorageAccount,
-					subscription.SubscriptionId,
-					It.IsAny<string>(),
-					It.IsAny<BlobRequestOptions>()), Times.Once());
-			}
-		}
+                cloudBlobUtilityMock.Verify(f => f.UploadPackageToBlob(
+                    serviceManagementChannelMock.Object,
+                    subscription.CurrentStorageAccount,
+                    subscription.SubscriptionId,
+                    It.IsAny<string>(),
+                    It.IsAny<BlobRequestOptions>()), Times.Once());
+            }
+        }
 
-		[TestMethod]
-		public void TestPublishWithDefaultLocation()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				serviceManagementChannelMock.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
-					.Returns(new LocationList() { new Location() { Name = "East US" } });
+        [TestMethod]
+        public void TestPublishWithDefaultLocation()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                serviceManagementChannelMock.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
+                    .Returns(new LocationList() { new Location() { Name = "East US" } });
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
 
-				serviceManagementChannelMock.Verify(f => f.BeginListLocations(
-					subscription.SubscriptionId,
-					null,
-					null), Times.Once());
-			}
-		}
-	}
+                serviceManagementChannelMock.Verify(f => f.BeginListLocations(
+                    subscription.SubscriptionId,
+                    null,
+                    null), Times.Once());
+            }
+        }
+    }
 }
