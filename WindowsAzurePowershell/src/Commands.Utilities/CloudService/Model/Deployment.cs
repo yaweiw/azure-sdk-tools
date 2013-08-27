@@ -35,7 +35,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         internal Deployment(DeploymentGetResponse response)
             : this()
         {
-            PersistentVMDowntime = new PersistentVMDowntimeInfo(response.PersistentVMDowntime);
+            if (response.PersistentVMDowntime != null)
+            {
+                PersistentVMDowntime = new PersistentVMDowntimeInfo(response.PersistentVMDowntime);
+            }
+
             Name = response.Name;
             DeploymentSlot = response.DeploymentSlot == Management.Compute.Models.DeploymentSlot.Staging ? "Staging" : "Production";
             PrivateID = response.PrivateId;
@@ -48,13 +52,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
                 RoleInstanceList.Add(roleInstance);
             }
 
-            UpgradeStatus = new UpgradeStatus(response.UpgradeStatus);
-            UpgradeDomainCount = response.UpgradeDomainCount;
-            foreach (var role in response.Roles.Select(r => new Role(r)))
+            if (response.UpgradeStatus != null)
             {
-                RoleList.Add(role);
+                UpgradeStatus = new UpgradeStatus(response.UpgradeStatus);
             }
 
+            UpgradeDomainCount = response.UpgradeDomainCount;
+            if (response.Roles != null)
+            {
+                foreach (var role in response.Roles.Select(r => new Role(r)))
+                {
+                    RoleList.Add(role);
+                }
+            }
             SdkVersion = response.SdkVersion;
             Locked = response.Locked;
             RollbackAllowed = string.Compare(response.RollbackAllowed, "true", StringComparison.InvariantCultureIgnoreCase) == 0;
@@ -62,15 +72,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             CreatedTime = response.CreatedTime;
             LastModifiedTime = DateTime.Parse(response.LastModifiedTime);
 
-            foreach (var prop in response.ExtendedProperties.Keys)
+            if (response.ExtendedProperties != null)
             {
-                ExtendedProperties[prop] = response.ExtendedProperties[prop];
+                foreach (var prop in response.ExtendedProperties.Keys)
+                {
+                    ExtendedProperties[prop] = response.ExtendedProperties[prop];
+                }
             }
 
-            Dns = new DnsSettings(response.DnsSettings);
-            foreach (var vip in response.VirtualIPAddresses.Select(v => new VirtualIP(v)))
+            if (response.DnsSettings != null)
             {
-                VirtualIPs.Add(vip);
+                Dns = new DnsSettings(response.DnsSettings);
+            }
+            if (response.VirtualIPAddresses != null)
+            {
+                foreach (var vip in response.VirtualIPAddresses.Select(v => new VirtualIP(v)))
+                {
+                    VirtualIPs.Add(vip);
+                }
             }
         }
 
