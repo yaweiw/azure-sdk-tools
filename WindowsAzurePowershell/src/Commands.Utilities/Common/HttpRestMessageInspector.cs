@@ -44,8 +44,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 var contentHeaders = request.Content.Headers;
                 var stream = new MemoryStream();
                 request.Content.CopyToAsync(stream).Wait();
-                stream.Position = 0;
-                body = XElement.Load(stream).ToString();
+                if (stream.Length > 0)
+                {
+                    stream.Position = 0;
+                    body = XElement.Load(stream).ToString();
+                }
                 stream.Position = 0;
                 request.Content = new StreamContent(stream);
                 contentHeaders.ForEach(kv => request.Content.Headers.Add(kv.Key, kv.Value));
@@ -63,8 +66,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 var contentHeaders = response.Content.Headers;
                 var stream = new MemoryStream();
                 response.Content.CopyToAsync(stream).Wait();
-                stream.Position = 0;
-                body = XElement.Load(stream).ToString();
+                if (stream.Length > 0)
+                {
+                    stream.Position = 0;
+                    body = XElement.Load(stream).ToString();
+                }
                 stream.Position = 0;
                 response.Content = new StreamContent(stream);
                 contentHeaders.ForEach(kv => response.Content.Headers.Add(kv.Key, kv.Value));
