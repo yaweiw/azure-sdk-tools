@@ -252,6 +252,8 @@
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\IOperationStatusRetriever.cs" />
+    <Compile Include="Common\OperationStatusRetriever.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\Tasks.cs" />
