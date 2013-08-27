@@ -58,6 +58,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         internal ComputeManagementClient ComputeClient { get; set; }
 
+        internal IOperationStatusRetriever StatusRetriever { get; set; }
+
         public SubscriptionData Subscription { get; set; }
 
         public Action<string> DebugStream { get; set; }
@@ -133,11 +135,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private void CallSync(Func<OperationResponse> func)
         {
             string requestId = func().RequestId;
-            ComputeOperationStatusResponse operation = ComputeClient.GetOperationStatus(requestId);
+            ComputeOperationStatusResponse operation = StatusRetriever.GetComputeOperationStatus(requestId);
             while (operation.Status == OperationStatus.InProgress)
             {
                 Thread.Sleep(SleepDuration);
-                operation = ComputeClient.GetOperationStatus(requestId);
+                operation = StatusRetriever.GetComputeOperationStatus(requestId);
             }
 
             if (operation.Status == OperationStatus.Failed)
@@ -544,6 +546,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
                 new Uri(subscription.ServiceEndpoint));
+
+            StatusRetriever = new OperationStatusRetriever(ComputeClient);
         }
 
         internal CloudServiceClient(
@@ -563,6 +567,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ManagementClient = managementClient;
             StorageClient = storageManagementClient;
             ComputeClient = computeManagementClient;
+            StatusRetriever = new OperationStatusRetriever(ComputeClient);
         }
 
         /// <summary>

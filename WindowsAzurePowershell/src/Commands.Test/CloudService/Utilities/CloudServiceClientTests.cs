@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using System.Collections.Generic;
+    using System.Net;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
-    using Management;
-    using Management.Compute;
     using Management.Compute.Models;
     using Management.Storage;
+    using Management.Storage.Models;
     using Moq;
     using ServiceManagement;
     using Storage.Blob;
@@ -29,8 +30,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using DeploymentStatus = ServiceManagement.DeploymentStatus;
+    using OperationStatus = Management.Compute.Models.OperationStatus;
     using RoleInstance = ServiceManagement.RoleInstance;
     using RoleInstanceStatus = ServiceManagement.RoleInstanceStatus;
+    using StorageServiceProperties = ServiceManagement.StorageServiceProperties;
 
     [TestClass]
 	public class CloudServiceClientTests : TestBase
@@ -52,6 +55,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 		private HostedService cloudService;
 
 		private StorageService storageService;
+
+        private StorageServiceGetResponse storageServiceGetResponse;
+        private StorageAccountGetKeysResponse storageAccountGetKeysResponse;
 
 		private Deployment deployment;
 
@@ -95,6 +101,26 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 					}
 				}
 			};
+
+		    storageServiceGetResponse = new StorageServiceGetResponse
+		    {
+                ServiceName = storageName,
+                Properties = new Management.Storage.Models.StorageServiceProperties
+                {
+                    Endpoints =
+                    {
+                        new Uri("http://awesome.blob.core.windows.net/"),
+				        new Uri("http://awesome.queue.core.windows.net/"),
+				        new Uri("http://awesome.table.core.windows.net/")
+                    },
+                }
+            };
+
+		    storageAccountGetKeysResponse = new StorageAccountGetKeysResponse()
+		    {
+		        PrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
+		        SecondaryKey = "secondaryKey"
+		    };
 
 			deployment = new Deployment()
 			{
@@ -152,160 +178,277 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 		        clientMocks.ComputeManagementClientMock.Object
 		        )
 		    {
-		        CloudBlobUtility = cloudBlobUtilityMock.Object
+		        CloudBlobUtility = cloudBlobUtilityMock.Object,
+                StatusRetriever = clientMocks.StatusRetriverMock.Object
 		    };
 		}
 
+        [TestMethod]
+        public void TestStartCloudService()
+        {
+            DeploymentUpdateStatusParameters actualUpdateParameters = null;
+
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                    {
+                        ServiceName = s,
+                        StatusCode = HttpStatusCode.OK,
+                        Deployments =
+                        {
+                            new HostedServiceGetDetailedResponse.Deployment()
+                            {
+                                DeploymentSlot = DeploymentSlot.Production,
+                                Name = "mydeployment",
+                                Roles =
+                                {
+                                    new Management.Compute.Models.Role()
+                                    {
+                                        RoleName = "Role1",
+                                    }
+                                }
+                            }
+                        }
+                    }));
+
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageServiceGetResponse));
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse()
+                {
+                    Name = name,
+                    DeploymentSlot = slot,
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.UpdateStatusByDeploymentSlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
+                                                                It.IsAny<DeploymentUpdateStatusParameters>()))
+                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters parameters) =>
+                {
+                    actualUpdateParameters = parameters;
+                })
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                {
+                    Status = OperationStatus.InProgress
+                }))
+                .Verifiable();
+
+            client.StartCloudService(serviceName);
+        
+            Assert.AreEqual(UpdatedDeploymentStatus.Running, actualUpdateParameters.Status);
+            clientMocks.Verify();
+        }
+
 		[TestMethod]
-		public void TestStartCloudService()
-		{
-			// Setup
-            cloudService.Deployments.Add(deployment);
-			UpdateDeploymentStatusInput actual = null;
-			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				It.IsAny<UpdateDeploymentStatusInput>(), null, null))
-				.Callback((
-					string s,
-					string name,
-					string slot,
-					UpdateDeploymentStatusInput input,
-					AsyncCallback callback,
-					object state) => actual = input);
+        public void TestStopCloudService()
+        {
+            DeploymentUpdateStatusParameters actualUpdateParameters = null;
 
-			serviceManagementChannelMock.Setup(f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()));
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                    Deployments =
+                        {
+                            new HostedServiceGetDetailedResponse.Deployment()
+                            {
+                                DeploymentSlot = DeploymentSlot.Production,
+                                Name = "mydeployment",
+                                Roles =
+                                {
+                                    new Management.Compute.Models.Role()
+                                    {
+                                        RoleName = "Role1",
+                                    }
+                                }
+                            }
+                        }
+                }));
 
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageServiceGetResponse));
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse()
+                {
+                    Name = name,
+                    DeploymentSlot = slot,
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.UpdateStatusByDeploymentSlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
+                                                                It.IsAny<DeploymentUpdateStatusParameters>()))
+                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters parameters) =>
+                {
+                    actualUpdateParameters = parameters;
+                })
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                {
+                    Status = OperationStatus.InProgress
+                }))
+                .Verifiable();
+
+            client.StopCloudService(serviceName);
+
+            Assert.AreEqual(UpdatedDeploymentStatus.Suspended, actualUpdateParameters.Status);
+            clientMocks.Verify();
+                
+        }
+
+        [TestMethod]
+        public void TestRemoveCloudService()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                    Deployments =
+                                    {
+                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        {
+                                            DeploymentSlot = DeploymentSlot.Production,
+                                            Name = "mydeployment",
+                                            Roles =
+                                            {
+                                                new Management.Compute.Models.Role()
+                                                {
+                                                    RoleName = "Role1",
+                                                }
+                                            }
+                                        }
+                                    }
+                }));
+
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "req0",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            // Test
+            client.RemoveCloudService(serviceName);
+
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.BeginDeletingBySlotAsync(serviceName, DeploymentSlot.Production), Times.Once);
+
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
+        }
+
+        [TestMethod]
+        public void TestRemoveCloudServiceWithStaging()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                    Deployments =
+                                    {
+                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        {
+                                            DeploymentSlot = DeploymentSlot.Staging,
+                                            Name = "mydeployment",
+                                            Roles =
+                                            {
+                                                new Management.Compute.Models.Role()
+                                                {
+                                                    RoleName = "Role1",
+                                                }
+                                            }
+                                        }
+                                    }
+                }));
+
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "req0",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            // Test
+            client.RemoveCloudService(serviceName);
+
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.BeginDeletingBySlotAsync(serviceName, DeploymentSlot.Staging), Times.Once);
+
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
             
+        }
+
+        [TestMethod]
+        public void TestRemoveCloudServiceWithoutDeployments()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                }));
 
 
-			// Test
-			client.StartCloudService(serviceName);
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "req0",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-			// Assert
-			Assert.AreEqual<string>(DeploymentStatus.Running, actual.Status);
-			serviceManagementChannelMock.Verify(
-				f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()),
-				Times.Once());
-		}
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-		[TestMethod]
-		public void TestStopCloudService()
-		{
-			// Setup
-            cloudService.Deployments.Add(deployment);
-			UpdateDeploymentStatusInput actual = null;
-			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				It.IsAny<UpdateDeploymentStatusInput>(), null, null))
-				.Callback((
-					string s,
-					string name,
-					string slot,
-					UpdateDeploymentStatusInput input,
-					AsyncCallback callback,
-					object state) => actual = input);
+            // Test
+            client.RemoveCloudService(serviceName);
 
-			serviceManagementChannelMock.Setup(f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()));
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.BeginDeletingBySlotAsync(serviceName, DeploymentSlot.Production), Times.Never);
 
-			// Test
-			client.StopCloudService(serviceName);
-
-			// Assert
-			Assert.AreEqual<string>(DeploymentStatus.Suspended, actual.Status);
-			serviceManagementChannelMock.Verify(
-				f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()),
-				Times.Once());
-		}
-
-		[TestMethod]
-		public void TestRemoveCloudService()
-		{
-			// Setup
-			cloudService.Deployments.Add(deployment);
-
-			// Test
-			client.RemoveCloudService(serviceName);
-
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null), Times.Once());
-
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
-
-		[TestMethod]
-		public void TestRemoveCloudServiceWithStaging()
-		{
-			// Setup
-			deployment.DeploymentSlot = DeploymentSlotType.Staging;
-			cloudService.Deployments.Add(deployment);
-
-			// Test
-			client.RemoveCloudService(serviceName);
-
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Staging,
-				null,
-				null), Times.Once());
-
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
-
-		[TestMethod]
-		public void TestRemoveCloudServiceWithoutDeployments()
-		{
-			// Setup
-			cloudService.Deployments.Clear();
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteDeploymentBySlot(It.IsAny<IAsyncResult>()));
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteHostedService(It.IsAny<IAsyncResult>()));
-
-			// Test
-			client.RemoveCloudService(serviceName);
-
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null), Times.Never());
-
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
+            
+        }
 
 		[TestMethod]
 		public void TestPublishNewCloudService()
@@ -330,6 +473,31 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 					null), Times.Once());
 			}
 		}
+
+        [TestMethod]
+        public void TestPublishNewCloudServiceSm()
+        {
+			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+			{
+				// Setup
+				string rootPath = files.CreateNewService(serviceName);
+				files.CreateAzureSdkDirectoryAndImportPublishSettings();
+				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+
+
+				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+
+				serviceManagementChannelMock.Verify(f => f.BeginCreateOrUpdateDeployment(
+					subscription.SubscriptionId,
+					serviceName,
+					DeploymentSlotType.Production,
+					It.IsAny<CreateDeploymentInput>(),
+					null,
+					null), Times.Once());
+			}
+            
+        }
 
 		[TestMethod]
 		public void TestUpgradeCloudService()
