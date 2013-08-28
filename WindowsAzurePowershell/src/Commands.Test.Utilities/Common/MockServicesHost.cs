@@ -63,6 +63,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public IList<ServiceData> Services { get; private set; }
 
+        public UpdatedDeploymentStatus? LastDeploymentStatusUpdate { get; set; }
+
         public MockServicesHost()
         {
             Services = new List<ServiceData>();
@@ -98,6 +100,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                     (string name, DeploymentSlot slot, DeploymentCreateParameters createParameters) =>
                     CreateDeployment(name, slot, createParameters))
                 .Returns(CreateDeploymentCreateResponse);
+
+            mock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult<ServiceCertificateListResponse>(null));
+
+            mock.Setup(c => c.Deployments.UpdateStatusByDeploymentSlotAsync(
+                It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<DeploymentUpdateStatusParameters>()))
+                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters p) =>
+                {
+                    LastDeploymentStatusUpdate = p.Status;
+                })
+                .Returns(CreateUpdateStatusResponse);
         }
 
         private Task<HostedServiceGetDetailedResponse> CreateGetDetailedResponse(string serviceName)
@@ -200,6 +213,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             {
                 RequestId = "someid",
                 StatusCode = HttpStatusCode.OK
+            });
+        }
+
+        private Task<ComputeOperationStatusResponse> CreateUpdateStatusResponse()
+        {
+            return Tasks.FromResult(new ComputeOperationStatusResponse
+            {
+                Status = OperationStatus.InProgress
             });
         }
 

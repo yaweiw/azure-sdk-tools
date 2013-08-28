@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
-    using System.Globalization;
     using System.Net;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
@@ -120,9 +119,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks = new ClientMocks(subscription.SubscriptionId);
 
-            clientMocks.ComputeManagementClientMock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult<ServiceCertificateListResponse>(null));
-
             services.InitializeMocks(clientMocks.ComputeManagementClientMock);
             storageService.InitializeMocks(clientMocks.StorageManagementClientMock);
 
@@ -140,52 +136,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestStartCloudService()
         {
-            DeploymentUpdateStatusParameters actualUpdateParameters = null;
-
-            clientMocks.ComputeManagementClientMock.Setup(
-                c =>
-                c.Deployments.UpdateStatusByDeploymentSlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
-                                                                It.IsAny<DeploymentUpdateStatusParameters>()))
-                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters parameters) =>
-                {
-                    actualUpdateParameters = parameters;
-                })
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
-                {
-                    Status = OperationStatus.InProgress
-                }))
-                .Verifiable();
-
             client.StartCloudService(serviceName);
 
-            Assert.AreEqual(UpdatedDeploymentStatus.Running, actualUpdateParameters.Status);
-            clientMocks.Verify();
+            Assert.IsTrue(services.LastDeploymentStatusUpdate.HasValue);
+            Assert.AreEqual(UpdatedDeploymentStatus.Running, services.LastDeploymentStatusUpdate.Value);
         }
 
         [TestMethod]
         public void TestStopCloudService()
         {
-            DeploymentUpdateStatusParameters actualUpdateParameters = null;
-
-            clientMocks.ComputeManagementClientMock.Setup(
-                c =>
-                c.Deployments.UpdateStatusByDeploymentSlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
-                                                                It.IsAny<DeploymentUpdateStatusParameters>()))
-                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters parameters) =>
-                {
-                    actualUpdateParameters = parameters;
-                })
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
-                {
-                    Status = OperationStatus.InProgress
-                }))
-                .Verifiable();
-
             client.StopCloudService(serviceName);
 
-            Assert.AreEqual(UpdatedDeploymentStatus.Suspended, actualUpdateParameters.Status);
-            clientMocks.Verify();
-
+            Assert.IsTrue(services.LastDeploymentStatusUpdate.HasValue);
+            Assert.AreEqual(UpdatedDeploymentStatus.Suspended, services.LastDeploymentStatusUpdate.Value);
         }
 
         [TestMethod]
@@ -371,8 +334,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestCreateStorageServiceWithPublish()
         {
             RemoveDeployments();
-
-
+            
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
