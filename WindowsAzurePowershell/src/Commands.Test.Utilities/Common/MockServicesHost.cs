@@ -75,9 +75,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             return this;
         }
 
-        public void Clear()
+        public MockServicesHost Clear()
         {
             Services.Clear();
+            return this;
         }
 
         public void InitializeMocks(Mock<ComputeManagementClient> mock)
@@ -120,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         {
             if (d != null)
             {
-                return new HostedServiceGetDetailedResponse.Deployment()
+                return new HostedServiceGetDetailedResponse.Deployment
                 {
                     DeploymentSlot = d.Slot,
                     Name = d.Name,
