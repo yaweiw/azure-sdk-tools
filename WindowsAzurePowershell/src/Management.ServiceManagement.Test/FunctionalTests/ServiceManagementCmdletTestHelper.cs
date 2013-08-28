@@ -926,17 +926,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureVM
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null, bool waitForBoot = false)
         {
-            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location, null, waitForBoot);
         }
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
+        internal Collection<ManagementOperationContext> NewAzureVM(
+            string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
+            string serviceLabel = null, string serviceDescription = null, string deploymentLabel = null, string deploymentDescription =null,
+            string location = null, string affinityGroup = null, bool waitForBoot = false)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)),
+                () => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup, waitForBoot)),
                 "409", 5, 60);
             return result;
         }
