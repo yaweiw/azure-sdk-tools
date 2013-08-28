@@ -582,7 +582,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                cloudService.Deployments.Add(deployment);
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
@@ -658,7 +657,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                cloudService.Deployments.Add(deployment);
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
