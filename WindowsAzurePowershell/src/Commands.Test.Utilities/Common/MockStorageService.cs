@@ -33,12 +33,49 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     {
         public class StorageAccountData
         {
+            private string blobEndpoint;
+            private string queueEndpoint;
+            private string tableEndpoint;
+            private string primaryKey;
+            private string secondaryKey;
+
+            private const string defaultPrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==";
+            private const string defaultSecondaryKey = "secondaryKey";
+
             public string Name { get; set; }
-            public string BlobEndpoint { get; set; }
-            public string QueueEndpoint { get; set; }
-            public string TableEndpoint { get; set; }
-            public string PrimaryKey { get; set; }
-            public string SecondaryKey { get; set; }
+
+            public string BlobEndpoint
+            {
+                get
+                {
+                    return blobEndpoint ?? "http://awesome.blob.windows.core.net/";
+                }
+                set { blobEndpoint = value; }
+            }
+
+            public string QueueEndpoint
+            {
+                get { return queueEndpoint ?? "http://awesome.queue.windows.core.net/"; }
+                set { queueEndpoint = value; }
+            }
+
+            public string TableEndpoint
+            {
+                get { return tableEndpoint ?? "http://awesome.table.windows.core.net"; }
+                set { tableEndpoint = value; }
+            }
+
+            public string PrimaryKey
+            {
+                get { return primaryKey ?? defaultPrimaryKey; }
+                set { primaryKey = value; }
+            }
+
+            public string SecondaryKey
+            {
+                get { return secondaryKey ?? defaultSecondaryKey; }
+                set { secondaryKey = value; }
+            }
         }
 
         private readonly List<StorageAccountData> accounts = new List<StorageAccountData>();
@@ -51,6 +88,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             return this;
         }
 
+        public void Clear()
+        {
+            accounts.Clear();
+        }
+
         public void InitializeMocks(Mock<StorageManagementClient> mock)
         {
             mock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
@@ -58,6 +100,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
             mock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
                 .Returns((string serviceName) => CreateGetKeysResponse(serviceName));
+
+            mock.Setup(c => c.StorageAccounts.BeginCreatingAsync(It.IsAny<StorageAccountCreateParameters>()))
+                .Callback((StorageAccountCreateParameters createParameters) => AddService(createParameters))
+                .Returns(CreateBeginCreatingResponse);
         }
 
         private Task<StorageServiceGetResponse> CreateGetResponse(string serviceName)
@@ -107,6 +153,22 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                 resultTask = Tasks.FromException<StorageAccountGetKeysResponse>(Make404Exception());
             }
             return resultTask;
+        }
+
+        private void AddService(StorageAccountCreateParameters createParameters)
+        {
+            Add(a =>
+            {
+                a.Name = createParameters.ServiceName;
+            });
+        }
+        private Task<OperationResponse> CreateBeginCreatingResponse()
+        {
+            return Tasks.FromResult(new OperationResponse
+            {
+                RequestId = "unused",
+                StatusCode = HttpStatusCode.OK
+            });
         }
 
         private CloudException Make404Exception()
