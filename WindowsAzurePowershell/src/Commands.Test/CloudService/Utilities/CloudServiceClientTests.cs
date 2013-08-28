@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using System.Globalization;
     using System.Net;
     using System.Net.Http;
     using Commands.Utilities.CloudService;
@@ -41,9 +42,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
         private ICloudServiceClient client;
 
-        private string serviceName = "cloudService";
+        private const string serviceName = "cloudService";
 
-        private string storageName = "storagename";
+        private const string storageName = "storagename";
 
         private StorageServiceGetResponse storageServiceGetResponse;
 
@@ -74,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             storageServiceGetResponse = new StorageServiceGetResponse
             {
                 ServiceName = storageName,
-                Properties = new Management.Storage.Models.StorageServiceProperties
+                Properties = new StorageServiceProperties
                 {
                     Endpoints =
                     {
@@ -85,13 +86,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 }
             };
 
-            storageAccountGetKeysResponse = new StorageAccountGetKeysResponse()
+            storageAccountGetKeysResponse = new StorageAccountGetKeysResponse
             {
                 PrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
                 SecondaryKey = "secondaryKey"
             };
 
-            subscription = new SubscriptionData()
+            subscription = new SubscriptionData
             {
                 Certificate = It.IsAny<X509Certificate2>(),
                 IsDefault = true,
@@ -133,19 +134,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             DeploymentUpdateStatusParameters actualUpdateParameters = null;
 
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                     {
                         ServiceName = s,
                         StatusCode = HttpStatusCode.OK,
                         Deployments =
                         {
-                            new HostedServiceGetDetailedResponse.Deployment()
+                            new HostedServiceGetDetailedResponse.Deployment
                             {
                                 DeploymentSlot = DeploymentSlot.Production,
                                 Name = "mydeployment",
                                 Roles =
                                 {
-                                    new Management.Compute.Models.Role()
+                                    new Role
                                     {
                                         RoleName = "Role1",
                                     }
@@ -161,7 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
-                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse()
+                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse
                 {
                     Name = name,
                     DeploymentSlot = slot,
@@ -175,7 +176,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 {
                     actualUpdateParameters = parameters;
                 })
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     Status = OperationStatus.InProgress
                 }))
@@ -193,19 +194,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             DeploymentUpdateStatusParameters actualUpdateParameters = null;
 
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
                     Deployments =
                         {
-                            new HostedServiceGetDetailedResponse.Deployment()
+                            new HostedServiceGetDetailedResponse.Deployment
                             {
                                 DeploymentSlot = DeploymentSlot.Production,
                                 Name = "mydeployment",
                                 Roles =
                                 {
-                                    new Management.Compute.Models.Role()
+                                    new Role
                                     {
                                         RoleName = "Role1",
                                     }
@@ -221,7 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
-                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse()
+                .Returns((string name, DeploymentSlot slot) => Tasks.FromResult(new DeploymentGetResponse
                 {
                     Name = name,
                     DeploymentSlot = slot,
@@ -235,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 {
                     actualUpdateParameters = parameters;
                 })
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     Status = OperationStatus.InProgress
                 }))
@@ -252,19 +253,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestRemoveCloudService()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
                     Deployments =
                                     {
-                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        new HostedServiceGetDetailedResponse.Deployment
                                         {
                                             DeploymentSlot = DeploymentSlot.Production,
                                             Name = "mydeployment",
                                             Roles =
                                             {
-                                                new Management.Compute.Models.Role()
+                                                new Role
                                                 {
                                                     RoleName = "Role1",
                                                 }
@@ -276,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
-                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "req0",
                     StatusCode = HttpStatusCode.OK
@@ -284,7 +285,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request000",
                     StatusCode = HttpStatusCode.OK
@@ -305,19 +306,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestRemoveCloudServiceWithStaging()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
                     Deployments =
                                     {
-                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        new HostedServiceGetDetailedResponse.Deployment
                                         {
                                             DeploymentSlot = DeploymentSlot.Staging,
                                             Name = "mydeployment",
                                             Roles =
                                             {
-                                                new Management.Compute.Models.Role()
+                                                new Role
                                                 {
                                                     RoleName = "Role1",
                                                 }
@@ -329,7 +330,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
-                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "req0",
                     StatusCode = HttpStatusCode.OK
@@ -337,7 +338,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request000",
                     StatusCode = HttpStatusCode.OK
@@ -359,7 +360,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestRemoveCloudServiceWithoutDeployments()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
@@ -368,7 +369,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse()
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "req0",
                     StatusCode = HttpStatusCode.OK
@@ -376,7 +377,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request000",
                     StatusCode = HttpStatusCode.OK
@@ -398,7 +399,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestPublishNewCloudService()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
@@ -408,7 +409,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
                                                  It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -417,7 +418,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -425,26 +426,26 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                .Returns(Tasks.FromResult(new DeploymentGetResponse
                 {
                     Configuration = "config",
                     DeploymentSlot = DeploymentSlot.Production,
-                    Status = Management.Compute.Models.DeploymentStatus.Starting,
-                    PersistentVMDowntime = new PersistentVMDowntime()
+                    Status = DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime
                     {
                         EndTime = DateTime.Now,
                         StartTime = DateTime.Now,
                         Status = "",
                     },
-                    LastModifiedTime = DateTime.Now.ToString()
+                    LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
 
@@ -460,19 +461,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestUpgradeCloudService()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
                     Deployments =
                                     {
-                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        new HostedServiceGetDetailedResponse.Deployment
                                         {
                                             DeploymentSlot = DeploymentSlot.Production,
                                             Name = "mydeployment",
                                             Roles =
                                             {
-                                                new Management.Compute.Models.Role()
+                                                new Role
                                                 {
                                                     RoleName = "Role1",
                                                 }
@@ -486,7 +487,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
                                                  It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -495,7 +496,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -503,18 +504,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                .Returns(Tasks.FromResult(new DeploymentGetResponse
                 {
                     Configuration = "config",
                     DeploymentSlot = DeploymentSlot.Production,
-                    Status = Management.Compute.Models.DeploymentStatus.Starting,
-                    PersistentVMDowntime = new PersistentVMDowntime()
+                    Status = DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime
                     {
                         EndTime = DateTime.Now,
                         StartTime = DateTime.Now,
                         Status = "",
                     },
-                    LastModifiedTime = DateTime.Now.ToString()
+                    LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
             clientMocks.ComputeManagementClientMock.Setup(
@@ -523,12 +524,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                                                  It.IsAny<DeploymentUpgradeParameters>()))
                 .Returns(Tasks.FromResult(CreateComputeOperationResponse("req002")));
 
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
@@ -542,7 +543,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestCreateStorageServiceWithPublish()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
@@ -552,7 +553,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
                                                  It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -561,7 +562,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -569,18 +570,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                .Returns(Tasks.FromResult(new DeploymentGetResponse
                 {
                     Configuration = "config",
                     DeploymentSlot = DeploymentSlot.Production,
-                    Status = Management.Compute.Models.DeploymentStatus.Starting,
-                    PersistentVMDowntime = new PersistentVMDowntime()
+                    Status = DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime
                     {
                         EndTime = DateTime.Now,
                         StartTime = DateTime.Now,
                         Status = "",
                     },
-                    LastModifiedTime = DateTime.Now.ToString()
+                    LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
             clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
@@ -598,12 +599,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c => c.StorageAccounts.BeginCreatingAsync(It.IsAny<StorageAccountCreateParameters>()))
                 .Returns(Tasks.FromResult(CreateOperationResponse("request003")));
 
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
@@ -616,7 +617,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestPublishWithCurrentStorageAccount()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
@@ -626,7 +627,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
                                                  It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -635,7 +636,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -643,29 +644,29 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                .Returns(Tasks.FromResult(new DeploymentGetResponse
                 {
                     Configuration = "config",
                     DeploymentSlot = DeploymentSlot.Production,
-                    Status = Management.Compute.Models.DeploymentStatus.Starting,
-                    PersistentVMDowntime = new PersistentVMDowntime()
+                    Status = DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime
                     {
                         EndTime = DateTime.Now,
                         StartTime = DateTime.Now,
                         Status = "",
                     },
-                    LastModifiedTime = DateTime.Now.ToString()
+                    LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
             clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
                 .Returns(() => Tasks.FromResult(storageServiceGetResponse));
 
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 subscription.CurrentStorageAccount = storageName;
 
@@ -683,7 +684,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestPublishWithDefaultLocation()
         {
             clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
                 {
                     ServiceName = s,
                     StatusCode = HttpStatusCode.OK,
@@ -693,7 +694,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
                                                  It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -702,7 +703,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
-                .Returns(Tasks.FromResult(new OperationResponse()
+                .Returns(Tasks.FromResult(new OperationResponse
                 {
                     RequestId = "request001",
                     StatusCode = HttpStatusCode.OK
@@ -710,38 +711,38 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
-                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                .Returns(Tasks.FromResult(new DeploymentGetResponse
                 {
                     Configuration = "config",
                     DeploymentSlot = DeploymentSlot.Production,
-                    Status = Management.Compute.Models.DeploymentStatus.Starting,
-                    PersistentVMDowntime = new PersistentVMDowntime()
+                    Status = DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime
                     {
                         EndTime = DateTime.Now,
                         StartTime = DateTime.Now,
                         Status = "",
                     },
-                    LastModifiedTime = DateTime.Now.ToString()
+                    LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
             clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
                 .Returns(() => Tasks.FromResult(storageServiceGetResponse));
 
             clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync())
-                .Returns(Tasks.FromResult(new LocationsListResponse()
+                .Returns(Tasks.FromResult(new LocationsListResponse
                 {
                     Locations =
                     {
-                        new LocationsListResponse.Location() {DisplayName = "East US", Name = "EastUS"}
+                        new LocationsListResponse.Location {DisplayName = "East US", Name = "EastUS"}
                     }
                 }));
 
-            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
@@ -753,7 +754,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         private OperationResponse CreateOperationResponse(string requestId,
                                                           HttpStatusCode status = HttpStatusCode.OK)
         {
-            return new OperationResponse()
+            return new OperationResponse
             {
                 RequestId = requestId,
                 StatusCode = status
@@ -762,7 +763,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
         private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
         {
-            return new ComputeOperationStatusResponse()
+            return new ComputeOperationStatusResponse
             {
                 Error = null,
                 HttpStatusCode = HttpStatusCode.OK,
