@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             VerifyDeploymentExists(cloudService, slot);
             ComputeClient.Deployments.UpdateStatusByDeploymentSlot(cloudService.ServiceName,
-                slot, new DeploymentUpdateStatusParameters()
+                slot, new DeploymentUpdateStatusParameters
                 {
                     Status =
                         state == CloudServiceState.Start
@@ -129,17 +129,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(format, args)));
         }
 
-        private void CallSync(Func<OperationResponse> func)
+        private void ThrowOnFailed(OperationResponse operation)
         {
-            string requestId = func().RequestId;
-            ComputeOperationStatusResponse operation = StatusRetriever.GetComputeOperationStatus(requestId);
-            while (operation.Status == OperationStatus.InProgress)
+            if (((int) operation.StatusCode) > 299)
             {
-                Thread.Sleep(SleepDuration);
-                operation = StatusRetriever.GetComputeOperationStatus(requestId);
+                throw new Exception(string.Format(
+                    Resources.OperationFailedMessage,
+                    operation.RequestId,
+                    operation.StatusCode));
             }
+        }
 
+        private void ThrowOnFailed(ComputeOperationStatusResponse operation)
+        {
             if (operation.Status == OperationStatus.Failed)
+            {
+                throw new Exception(string.Format(
+                    Resources.OperationFailedMessage,
+                    operation.Error.Message,
+                    operation.Error.Code));
+            }
+        }
+
+        private void ThrowOnFailed(StorageOperationStatusResponse operation)
+        {
+            if (operation.Status == Management.Storage.Models.OperationStatus.Failed)
             {
                 throw new Exception(string.Format(
                     Resources.OperationFailedMessage,
@@ -175,8 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 r => Array.Exists(r.ConfigurationSettings, c => c.Equals(connectionStringConfig)),
                 r =>
                     {
-                        int index = Array.IndexOf<ConfigConfigurationSetting>(r.ConfigurationSettings,
-                            connectionStringConfig);
+                        int index = Array.IndexOf(r.ConfigurationSettings, connectionStringConfig);
                         r.ConfigurationSettings[index] = new ConfigConfigurationSetting
                         {
                             name = Resources.CachingConfigStoreConnectionStringSettingName,
@@ -189,7 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void CreateDeployment(PublishContext context)
         {
-            var deploymentParams = new DeploymentCreateParameters()
+            var deploymentParams = new DeploymentCreateParameters
             {
                 PackageUri = UploadPackage(context),
                 Configuration = General.GetConfiguration(context.ConfigPath),
@@ -236,7 +249,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     Password = string.Empty,
                     CertificateFormat = CertificateFormat.Pfx
                 };
-                CallSync(() => ComputeClient.ServiceCertificates.BeginCreating(name, createParams));
+                ThrowOnFailed(ComputeClient.ServiceCertificates.Create(name, createParams));
+
             }
             catch (CryptographicException ex)
             {
@@ -360,7 +374,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(name, slot))
             {
                 WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
-                CallSync(() => ComputeClient.Deployments.BeginDeletingBySlot(name, slot));
+                ThrowOnFailed(ComputeClient.Deployments.DeleteBySlot(name, slot));
             }   
         }
 
@@ -792,7 +806,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     createParameters.Location = location;
                 }
 
-                CallSync(() => StorageClient.StorageAccounts.BeginCreating(createParameters));
+                ThrowOnFailed(StorageClient.StorageAccounts.Create(createParameters));
             }
         }
 
@@ -880,7 +894,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
-            CallSync(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
+            ThrowOnFailed(ComputeClient.HostedServices.Delete(cloudService.ServiceName));
         }
     }
 }

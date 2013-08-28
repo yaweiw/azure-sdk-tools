@@ -101,9 +101,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             mock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
                 .Returns((string serviceName) => CreateGetKeysResponse(serviceName));
 
-            mock.Setup(c => c.StorageAccounts.BeginCreatingAsync(It.IsAny<StorageAccountCreateParameters>()))
+            mock.Setup(c => c.StorageAccounts.CreateAsync(It.IsAny<StorageAccountCreateParameters>()))
                 .Callback((StorageAccountCreateParameters createParameters) => AddService(createParameters))
-                .Returns(CreateBeginCreatingResponse);
+                .Returns(CreateCreateResponse);
         }
 
         private Task<StorageServiceGetResponse> CreateGetResponse(string serviceName)
@@ -162,12 +162,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                 a.Name = createParameters.ServiceName;
             });
         }
-        private Task<OperationResponse> CreateBeginCreatingResponse()
+        private Task<StorageOperationStatusResponse> CreateCreateResponse()
         {
-            return Tasks.FromResult(new OperationResponse
+            return Tasks.FromResult(new StorageOperationStatusResponse
             {
                 RequestId = "unused",
-                StatusCode = HttpStatusCode.OK
+                StatusCode = HttpStatusCode.OK,
+                Status = OperationStatus.Succeeded
             });
         }
 
