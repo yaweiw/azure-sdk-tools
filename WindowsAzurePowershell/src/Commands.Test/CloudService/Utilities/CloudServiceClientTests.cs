@@ -523,6 +523,70 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestUpgradeCloudService()
         {
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                    Deployments =
+                                    {
+                                        new HostedServiceGetDetailedResponse.Deployment()
+                                        {
+                                            DeploymentSlot = DeploymentSlot.Production,
+                                            Name = "mydeployment",
+                                            Roles =
+                                            {
+                                                new Management.Compute.Models.Role()
+                                                {
+                                                    RoleName = "Role1",
+                                                }
+                                            }
+                                        }
+                                    }
+                }));
+
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentCreateParameters>()))
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
+                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                {
+                    Configuration = "config",
+                    DeploymentSlot = DeploymentSlot.Production,
+                    Status = Management.Compute.Models.DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime()
+                    {
+                        EndTime = DateTime.Now,
+                        StartTime = DateTime.Now,
+                        Status = "",
+                    },
+                    LastModifiedTime = DateTime.Now.ToString()
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.UpgradeBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentUpgradeParameters>()))
+                .Returns(Tasks.FromResult(CreateStatusResponse("req002")));
+
             using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
@@ -534,14 +598,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-                serviceManagementChannelMock.Verify(f => f.BeginUpgradeDeploymentBySlot(
-                    subscription.SubscriptionId,
-                    serviceName,
-                    DeploymentSlotType.Production,
-                    It.IsAny<UpgradeDeploymentInput>(),
-                    null,
-                    null), Times.Once());
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.UpgradeBySlotAsync(serviceName, DeploymentSlot.Production, It.IsAny<DeploymentUpgradeParameters>()), Times.Once);
             }
+
         }
 
         [TestMethod]
@@ -614,6 +673,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     null,
                     null), Times.Once());
             }
+        }
+
+        private ComputeOperationStatusResponse CreateStatusResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        {
+            return new ComputeOperationStatusResponse()
+            {
+                Error = null,
+                HttpStatusCode = HttpStatusCode.OK,
+                Id = "id",
+                RequestId = requestId,
+                Status = status,
+                StatusCode = HttpStatusCode.OK
+            };
         }
     }
 }
