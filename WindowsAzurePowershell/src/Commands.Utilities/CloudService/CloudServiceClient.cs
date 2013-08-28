@@ -127,36 +127,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(format, args)));
         }
 
-        private void ThrowOnFailed(OperationResponse operation)
+        private void TranslateException(Action a)
         {
-            if (((int) operation.StatusCode) > 299)
+            try
             {
-                throw new Exception(string.Format(
-                    Resources.OperationFailedMessage,
-                    operation.RequestId,
-                    operation.StatusCode));
+                a();
             }
-        }
-
-        private void ThrowOnFailed(ComputeOperationStatusResponse operation)
-        {
-            if (operation.Status == OperationStatus.Failed)
+            catch (CloudException ex)
             {
                 throw new Exception(string.Format(
                     Resources.OperationFailedMessage,
-                    operation.Error.Message,
-                    operation.Error.Code));
-            }
-        }
-
-        private void ThrowOnFailed(StorageOperationStatusResponse operation)
-        {
-            if (operation.Status == Management.Storage.Models.OperationStatus.Failed)
-            {
-                throw new Exception(string.Format(
-                    Resources.OperationFailedMessage,
-                    operation.Error.Message,
-                    operation.Error.Code));
+                    ex.Message,
+                    ex.Response.StatusCode), ex);
             }
         }
 
@@ -247,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     Password = string.Empty,
                     CertificateFormat = CertificateFormat.Pfx
                 };
-                ThrowOnFailed(ComputeClient.ServiceCertificates.Create(name, createParams));
+                TranslateException(() => ComputeClient.ServiceCertificates.Create(name, createParams));
 
             }
             catch (CryptographicException ex)
@@ -372,7 +354,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(name, slot))
             {
                 WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
-                ThrowOnFailed(ComputeClient.Deployments.DeleteBySlot(name, slot));
+                TranslateException(() => ComputeClient.Deployments.DeleteBySlot(name, slot));
             }   
         }
 
@@ -801,7 +783,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     createParameters.Location = location;
                 }
 
-                ThrowOnFailed(StorageClient.StorageAccounts.Create(createParameters));
+                TranslateException(() => StorageClient.StorageAccounts.Create(createParameters));
             }
         }
 
@@ -889,7 +871,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
-            ThrowOnFailed(ComputeClient.HostedServices.Delete(cloudService.ServiceName));
+            TranslateException(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
         }
     }
 }
