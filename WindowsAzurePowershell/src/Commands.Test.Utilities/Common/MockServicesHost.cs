@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -85,6 +86,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         {
             mock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
                 .Returns((string s) => CreateGetDetailedResponse(s));
+
+            mock.Setup(c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string serviceName, DeploymentSlot slot) => CreateDeploymentGetResponse(serviceName, slot));
+
+            mock.Setup(
+                c =>
+                c.Deployments.CreateAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
+                                          It.IsAny<DeploymentCreateParameters>()))
+                .Callback(
+                    (string name, DeploymentSlot slot, DeploymentCreateParameters createParameters) =>
+                    CreateDeployment(name, slot, createParameters))
+                .Returns(CreateDeploymentCreateResponse);
         }
 
         private Task<HostedServiceGetDetailedResponse> CreateGetDetailedResponse(string serviceName)
@@ -135,6 +148,59 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                 };
             }
             return null;
+        }
+
+        private Task<DeploymentGetResponse> CreateDeploymentGetResponse(string serviceName, DeploymentSlot slot)
+        {
+            var service = Services.FirstOrDefault(s => s.Name == serviceName);
+            var failedResponse = Tasks.FromException<DeploymentGetResponse>(Make404Exception());
+            if (service == null)
+            {
+                return failedResponse;
+            }
+
+            if (slot == DeploymentSlot.Production && service.ProductionDeployment == null ||
+                slot == DeploymentSlot.Staging && service.StagingDeployment == null)
+            {
+                return failedResponse;
+            }
+
+            var response = new DeploymentGetResponse
+            {
+                Name = serviceName,
+                Configuration = "config",
+                DeploymentSlot = slot,
+                Status = DeploymentStatus.Starting,
+                PersistentVMDowntime = new PersistentVMDowntime
+                {
+                    EndTime = DateTime.Now,
+                    StartTime = DateTime.Now,
+                    Status = "",
+                },
+                LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+            };
+
+            return Tasks.FromResult(response);
+        }
+
+        private void CreateDeployment(string serviceName, DeploymentSlot slot,
+                                      DeploymentCreateParameters createParameters)
+        {
+            var service = Services.First(s => s.Name == serviceName);
+            service.AddDeployment(d =>
+            {
+                d.Name = createParameters.Name;
+                d.Slot = slot;
+            });
+        }
+
+        private Task<ComputeOperationStatusResponse> CreateDeploymentCreateResponse()
+        {
+            return Tasks.FromResult(new ComputeOperationStatusResponse
+            {
+                RequestId = "someid",
+                StatusCode = HttpStatusCode.OK
+            });
         }
 
         private CloudException Make404Exception()
