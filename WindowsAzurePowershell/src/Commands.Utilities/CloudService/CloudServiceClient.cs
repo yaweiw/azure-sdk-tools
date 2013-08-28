@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             
         }
 
-        private void SetSmCloudServiceState(string name, DeploymentSlot slot, CloudServiceState state)
+        private void SetCloudServiceState(string name, DeploymentSlot slot, CloudServiceState state)
         {
             HostedServiceGetDetailedResponse cloudService = GetCloudService(name);
 
@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             cloudServiceProject.Components.Save(cloudServiceProject.Paths);
         }
 
-        private void CreateSmDeployment(PublishContext context)
+        private void CreateDeployment(PublishContext context)
         {
             var deploymentParams = new DeploymentCreateParameters()
             {
@@ -204,13 +204,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerboseWithTimestamp(Resources.PublishStartingMessage);
 
             ServiceCertificateListResponse uploadedCertificates = ComputeClient.ServiceCertificates.List(context.ServiceName);
-            AddSmCertificates(uploadedCertificates, context);
+            AddCertificates(uploadedCertificates, context);
 
             ComputeClient.Deployments.Create(context.ServiceName, GetSlot(context.ServiceSettings.Slot),
                 deploymentParams);
         }
 
-        private void AddSmCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
+        private void AddCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
         {
             string name = context.ServiceName;
             CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
@@ -249,7 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void UpgradeSmDeployment(PublishContext context)
+        private void UpgradeDeployment(PublishContext context)
         {
             var upgradeParams = new DeploymentUpgradeParameters
             {
@@ -262,7 +262,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
 
             var uploadedCertificates = ComputeClient.ServiceCertificates.List(context.ServiceName);
-            AddSmCertificates(uploadedCertificates, context);
+            AddCertificates(uploadedCertificates, context);
 
             ComputeClient.Deployments.UpgradeBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot), upgradeParams);
         }
@@ -579,7 +579,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             DeploymentSlot deploymentSlot = GetSlot(slot);
 
-            SetSmCloudServiceState(name, deploymentSlot, CloudServiceState.Start);
+            SetCloudServiceState(name, deploymentSlot, CloudServiceState.Start);
         }
 
         /// <summary>
@@ -590,7 +590,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public void StopCloudService(string name = null, string slot = null)
         {
             DeploymentSlot deploymentSlot = GetSlot(slot);
-            SetSmCloudServiceState(name, deploymentSlot, CloudServiceState.Stop);
+            SetCloudServiceState(name, deploymentSlot, CloudServiceState.Stop);
         }
 
         /// <summary>
@@ -691,12 +691,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
             {
                 // Upgrade the deployment
-                UpgradeSmDeployment(context);
+                UpgradeDeployment(context);
             }
             else
             {
                 // Create new deployment
-                CreateSmDeployment(context);
+                CreateDeployment(context);
             }
 
             // Get the deployment id and show it.
