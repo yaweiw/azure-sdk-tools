@@ -23,18 +23,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Management.Storage;
     using Management.Storage.Models;
     using Moq;
-    using ServiceManagement;
     using Storage.Blob;
     using System;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using DeploymentStatus = ServiceManagement.DeploymentStatus;
     using OperationStatus = Management.Compute.Models.OperationStatus;
-    using RoleInstance = ServiceManagement.RoleInstance;
-    using RoleInstanceStatus = ServiceManagement.RoleInstanceStatus;
-    using StorageServiceProperties = ServiceManagement.StorageServiceProperties;
 
     [TestClass]
     public class CloudServiceClientTests : TestBase
@@ -51,14 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
         private string storageName = "storagename";
 
-        private HostedService cloudService;
-
-        private StorageService storageService;
-
         private StorageServiceGetResponse storageServiceGetResponse;
-        private StorageAccountGetKeysResponse storageAccountGetKeysResponse;
 
-        private Deployment deployment;
+        private StorageAccountGetKeysResponse storageAccountGetKeysResponse;
 
         private void ExecuteInTempCurrentDirectory(string path, Action action)
         {
@@ -82,25 +71,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
 
-            storageService = new StorageService()
-            {
-                ServiceName = storageName,
-                StorageServiceKeys = new StorageServiceKeys()
-                {
-                    Primary = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
-                    Secondary = "secondaryKey"
-                },
-                StorageServiceProperties = new StorageServiceProperties()
-                {
-                    Endpoints = new EndpointList()
-					{
-						"http://awesome.blob.core.windows.net/",
-						"http://awesome.queue.core.windows.net/",
-						"http://awesome.table.core.windows.net/"
-					}
-                }
-            };
-
             storageServiceGetResponse = new StorageServiceGetResponse
             {
                 ServiceName = storageName,
@@ -121,28 +91,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 SecondaryKey = "secondaryKey"
             };
 
-            deployment = new Deployment()
-            {
-                DeploymentSlot = DeploymentSlotType.Production,
-                Name = "mydeployment",
-                PrivateID = "privateId",
-                Status = DeploymentStatus.Starting,
-                RoleInstanceList = new RoleInstanceList()
-				{
-					new RoleInstance()
-					{
-						InstanceStatus = RoleInstanceStatus.ReadyRole,
-						RoleName = "Role1",
-						InstanceName = "Instance_Role1"
-					}
-				}
-            };
-
-            cloudService = new HostedService()
-            {
-                ServiceName = serviceName,
-                Deployments = new DeploymentList()
-            };
             subscription = new SubscriptionData()
             {
                 Certificate = It.IsAny<X509Certificate2>(),
