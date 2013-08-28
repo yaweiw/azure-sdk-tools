@@ -41,8 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     {
         private SubscriptionData subscription;
 
-        private Mock<IServiceManagement> serviceManagementChannelMock;
-
         private ClientMocks clientMocks;
 
         private Mock<CloudBlobUtility> cloudBlobUtilityMock;
@@ -153,16 +151,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 SubscriptionId = Guid.NewGuid().ToString(),
                 SubscriptionName = Data.Subscription1,
             };
-
-            serviceManagementChannelMock = new Mock<IServiceManagement>();
-            serviceManagementChannelMock.Setup(f => f.EndGetHostedServiceWithDetails(It.IsAny<IAsyncResult>()))
-                .Returns(cloudService);
-            serviceManagementChannelMock.Setup(f => f.EndGetStorageService((It.IsAny<IAsyncResult>())))
-                .Returns(storageService);
-            serviceManagementChannelMock.Setup(f => f.EndGetStorageKeys(It.IsAny<IAsyncResult>()))
-                .Returns(storageService);
-            serviceManagementChannelMock.Setup(f => f.EndGetDeploymentBySlot(It.IsAny<IAsyncResult>()))
-                .Returns(deployment);
 
             cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
             cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
@@ -671,11 +659,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cloudService.Deployments.Add(deployment);
-                serviceManagementChannelMock.Setup(f => f.EndGetStorageService(It.IsAny<IAsyncResult>()))
-                    .Callback(() => serviceManagementChannelMock.Setup(f => f.EndGetStorageService(
-                        It.IsAny<IAsyncResult>()))
-                        .Returns(storageService))
-                    .Throws(new EndpointNotFoundException());
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
