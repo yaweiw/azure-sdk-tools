@@ -292,16 +292,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
-                c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
-                                                 It.IsAny<DeploymentCreateParameters>()))
-                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse
-                {
-                    RequestId = "request001",
-                    StatusCode = HttpStatusCode.OK
-                }));
-
-            clientMocks.ComputeManagementClientMock.Setup(
-                c =>
                 c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
                 .Returns(Tasks.FromResult(new OperationResponse
                 {
