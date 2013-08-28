@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Management.Compute.Models;
+    using Management.Models;
     using Management.Storage;
     using Management.Storage.Models;
     using Moq;
@@ -752,6 +753,60 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestPublishWithDefaultLocation()
         {
+            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
+                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse()
+                {
+                    ServiceName = s,
+                    StatusCode = HttpStatusCode.OK,
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentCreateParameters>()))
+                .Returns(Tasks.FromResult(new ComputeOperationStatusResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse()
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
+                .Returns(Tasks.FromResult(new DeploymentGetResponse()
+                {
+                    Configuration = "config",
+                    DeploymentSlot = DeploymentSlot.Production,
+                    Status = Management.Compute.Models.DeploymentStatus.Starting,
+                    PersistentVMDowntime = new PersistentVMDowntime()
+                    {
+                        EndTime = DateTime.Now,
+                        StartTime = DateTime.Now,
+                        Status = "",
+                    },
+                    LastModifiedTime = DateTime.Now.ToString()
+                }));
+
+            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
+                .Returns(() => Tasks.FromResult(storageServiceGetResponse));
+
+            clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync())
+                .Returns(Tasks.FromResult(new LocationsListResponse()
+                {
+                    Locations =
+                    {
+                        new LocationsListResponse.Location() {DisplayName = "East US", Name = "EastUS"}
+                    }
+                }));
+
             using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
@@ -759,16 +814,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                serviceManagementChannelMock.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
-                    .Returns(new LocationList() { new Location() { Name = "East US" } });
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
 
-                serviceManagementChannelMock.Verify(f => f.BeginListLocations(
-                    subscription.SubscriptionId,
-                    null,
-                    null), Times.Once());
-            }
+                clientMocks.ManagementClientMock.Verify(c => c.Locations.ListAsync(), Times.Once);
+            }            
         }
 
         private OperationResponse CreateOperationResponse(string requestId,
