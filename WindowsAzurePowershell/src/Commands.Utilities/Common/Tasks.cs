@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -35,6 +36,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             var taskSource = new TaskCompletionSource<TResult>();
             taskSource.SetResult(result);
+            return taskSource.Task;
+        }
+
+        public static Task<TResult> FromException<TResult>(Exception ex)
+        {
+            var taskSource = new TaskCompletionSource<TResult>();
+            taskSource.SetException(ex);
             return taskSource.Task;
         }
     }
