@@ -18,11 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Net;
     using AzureTools;
     using Common;
-    using Microsoft.WindowsAzure.Management;
-    using Microsoft.WindowsAzure.Management.Compute;
-    using Microsoft.WindowsAzure.Management.Compute.Models;
-    using Microsoft.WindowsAzure.Management.Storage;
-    using Microsoft.WindowsAzure.Management.Storage.Models;
+    using Management;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Model;
     using Properties;
     using Storage;
     using Storage.Auth;
@@ -34,17 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using System.Threading;
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using DeploymentStatus = Management.Compute.Models.DeploymentStatus;
     using OperationStatus = Management.Compute.Models.OperationStatus;
+    using RoleInstance = Management.Compute.Models.RoleInstance;
     using RoleInstanceStatus = Management.Compute.Models.RoleInstanceStatus;
-
-    // Temporary aliases until old service management is gone
-    using Deployment = Model.Deployment;
-    using DeploymentStatus = Model.DeploymentStatus;
-    using RoleInstance = Model.RoleInstance;
 
     public class CloudServiceClient : ICloudServiceClient
     {
