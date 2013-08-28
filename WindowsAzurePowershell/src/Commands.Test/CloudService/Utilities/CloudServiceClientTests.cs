@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System.Globalization;
     using System.Net;
-    using System.Net.Http;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Management.Compute.Models;
@@ -46,9 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
         private const string storageName = "storagename";
 
-        private StorageServiceGetResponse storageServiceGetResponse;
-
-        private StorageAccountGetKeysResponse storageAccountGetKeysResponse;
+        private MockStorageService storageService;
 
         private void ExecuteInTempCurrentDirectory(string path, Action action)
         {
@@ -82,29 +79,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-            var storageService = new MockStorageService()
+
+            storageService = new MockStorageService()
                 .Add(a => SetupStorage(serviceName.ToLowerInvariant(), a))
                 .Add(a => SetupStorage(storageName.ToLowerInvariant(), a));
-
-            storageServiceGetResponse = new StorageServiceGetResponse
-            {
-                ServiceName = storageName,
-                Properties = new StorageServiceProperties
-                {
-                    Endpoints =
-                    {
-                        new Uri("http://awesome.blob.core.windows.net/"),
-				        new Uri("http://awesome.queue.core.windows.net/"),
-				        new Uri("http://awesome.table.core.windows.net/")
-                    },
-                }
-            };
-
-            storageAccountGetKeysResponse = new StorageAccountGetKeysResponse
-            {
-                PrimaryKey = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
-                SecondaryKey = "secondaryKey"
-            };
 
             subscription = new SubscriptionData
             {
@@ -586,20 +564,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Callback(
-                    () => clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                        .Returns(() => Tasks.FromResult(storageServiceGetResponse)))
-                .Returns(() =>
-                {
-                    var ex = new CloudException("failed", null, new HttpResponseMessage(HttpStatusCode.NotFound), "context");
-                    return Tasks.FromException<StorageServiceGetResponse>(ex);
-                })
-                ;
-
-            clientMocks.StorageManagementClientMock.Setup(
-                c => c.StorageAccounts.BeginCreatingAsync(It.IsAny<StorageAccountCreateParameters>()))
-                .Returns(Tasks.FromResult(CreateOperationResponse("request003")));
+            storageService.Clear();
 
             using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
