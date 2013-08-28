@@ -38,9 +38,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Threading;
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using DeploymentStatus = Management.Compute.Models.DeploymentStatus;
+    using DeploymentStatus = Model.DeploymentStatus;
     using OperationStatus = Management.Compute.Models.OperationStatus;
-    using RoleInstance = Management.Compute.Models.RoleInstance;
+    using RoleInstance = Model.RoleInstance;
     using RoleInstanceStatus = Management.Compute.Models.RoleInstanceStatus;
 
     public class CloudServiceClient : ICloudServiceClient
