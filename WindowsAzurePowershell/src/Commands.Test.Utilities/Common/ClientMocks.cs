@@ -14,11 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using System.Net;
-    using Commands.Utilities.Common;
     using Management;
     using Management.Compute;
-    using Management.Compute.Models;
     using Management.Storage;
     using Moq;
 
@@ -32,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         public Mock<ManagementClient> ManagementClientMock { get; private set; }
         public Mock<StorageManagementClient> StorageManagementClientMock { get; private set; }
         public Mock<ComputeManagementClient> ComputeManagementClientMock { get; private set; }
-        public Mock<IOperationStatusRetriever> StatusRetriverMock { get; private set; }
 
         public ClientMocks(string subscriptionId)
         {
@@ -42,8 +38,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             ManagementClientMock = repository.Create<ManagementClient>(creds);
             ComputeManagementClientMock = repository.Create<ComputeManagementClient>(creds);
             StorageManagementClientMock = repository.Create<StorageManagementClient>(creds);
-            StatusRetriverMock = repository.Create<IOperationStatusRetriever>();
-            SetupStatusRetriever();
         }
 
         public void Verify()
@@ -61,20 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             var mockCreds = repository.Create<SubscriptionCloudCredentials>(MockBehavior.Loose);
             mockCreds.SetupGet(c => c.SubscriptionId).Returns(subscriptionId);
             return mockCreds.Object;
-        }
-        
-        private void SetupStatusRetriever()
-        {
-            StatusRetriverMock.Setup(r => r.GetComputeOperationStatusAsync(It.IsAny<string>()))
-                .Returns((string requestId) => Tasks.FromResult(new ComputeOperationStatusResponse()
-                {
-                    Error = null,
-                    HttpStatusCode = HttpStatusCode.OK,
-                    RequestId = requestId,
-                    Id = "something",
-                    Status = OperationStatus.Succeeded,
-                    StatusCode = HttpStatusCode.OK
-                }));
         }
     }
 }
