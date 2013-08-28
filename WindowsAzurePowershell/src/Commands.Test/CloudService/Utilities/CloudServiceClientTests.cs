@@ -66,11 +66,25 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             }
         }
 
+        private void SetupStorage(string name, MockStorageService.StorageAccountData a)
+        {
+            a.Name = name;
+            a.BlobEndpoint = "http://awesome.blob.core.windows.net/";
+            a.QueueEndpoint = "http://awesome.queue.core.windows.net/";
+            a.TableEndpoint = "http://awesome.table.core.windows.net/";
+            a.PrimaryKey =
+                "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==";
+            a.SecondaryKey = "secondaryKey";
+        }
+
         [TestInitialize]
         public void TestSetup()
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            var storageService = new MockStorageService()
+                .Add(a => SetupStorage(serviceName.ToLowerInvariant(), a))
+                .Add(a => SetupStorage(storageName.ToLowerInvariant(), a));
 
             storageServiceGetResponse = new StorageServiceGetResponse
             {
@@ -110,12 +124,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             clientMocks = new ClientMocks(subscription.SubscriptionId);
 
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageServiceGetResponse));
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
             clientMocks.ComputeManagementClientMock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>()))
                 .Returns(Tasks.FromResult<ServiceCertificateListResponse>(null));
+
+            storageService.InitializeMocks(clientMocks.StorageManagementClientMock);
 
             client = new CloudServiceClient(subscription,
                 clientMocks.ManagementClientMock.Object,
@@ -154,11 +166,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                             }
                         }
                     }));
-
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageServiceGetResponse));
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
@@ -214,11 +221,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                             }
                         }
                 }));
-
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageServiceGetResponse));
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
-                .Returns(Tasks.FromResult(storageAccountGetKeysResponse));
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
@@ -658,9 +660,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
 
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns(() => Tasks.FromResult(storageServiceGetResponse));
-
             using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
                 // Setup
@@ -724,9 +723,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     },
                     LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                 }));
-
-            clientMocks.StorageManagementClientMock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns(() => Tasks.FromResult(storageServiceGetResponse));
 
             clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync())
                 .Returns(Tasks.FromResult(new LocationsListResponse
