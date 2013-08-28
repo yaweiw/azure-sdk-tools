@@ -286,12 +286,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
-
-                WaitForReadyState(svcName, vmName1);
-                WaitForReadyState(svcName, vmName2);
 
                 // Stop and deallocate the VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
@@ -622,12 +619,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
-
-                WaitForReadyState(svcName, vmName1);
-                WaitForReadyState(svcName, vmName2);
 
                 // Stop and deallocate the VMs
                 vmPowershellCmdlets.StopAzureVM("*", svcName, false, true);
@@ -725,13 +719,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM[] VMs = { persistentVM1 };
 
                 Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
-
-                WaitForReadyState(svcName, vmName1);
-
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
 
                 Utilities.RecordTimeTaken(ref prevTime);
@@ -791,14 +782,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
 
                 Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
-
-                WaitForReadyState(svcName, vmName1);
-                WaitForReadyState(svcName, vmName2);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);
@@ -884,12 +872,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM[] VMs = { persistentVM1 };
 
                 Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
-
-                WaitForReadyState(svcName, vmName1);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
 
@@ -965,14 +951,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
 
                 Utilities.RecordTimeTaken(ref prevTime);
-                vmPowershellCmdlets.NewAzureVM(svcName, VMs);
+                vmPowershellCmdlets.NewAzureVM(svcName, VMs, null, true);
                 Utilities.RecordTimeTaken(ref prevTime);
 
                 Console.WriteLine("The VM is successfully created: {0}", vmName1);
                 Console.WriteLine("The VM is successfully created: {0}", vmName2);
-
-                WaitForReadyState(svcName, vmName1);
-                WaitForReadyState(svcName, vmName2);
 
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName1, svcName).InstanceStatus);
                 Console.WriteLine(vmPowershellCmdlets.GetAzureVM(vmName2, svcName).InstanceStatus);

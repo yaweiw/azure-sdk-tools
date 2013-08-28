@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     {
 
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location, string affinityGroup)
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location, string affinityGroup, bool waitForBoot)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
@@ -59,6 +59,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (location != null)
             {
                 this.cmdletParams.Add(new CmdletParam("Location", location));
+            }
+            if (waitForBoot)
+            {
+                this.cmdletParams.Add(new CmdletParam("WaitForBoot"));
             }
         }
     }

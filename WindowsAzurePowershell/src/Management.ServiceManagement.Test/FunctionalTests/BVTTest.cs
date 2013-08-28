@@ -270,7 +270,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 //
                 // New-AzureVM
                 //
-                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, null, new[] { dns }, null, null, null, null);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, null, new[] { dns });
                 RecordTimeTaken(ref prevTime);
 
                 //
