@@ -75,6 +75,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             a.SecondaryKey = "secondaryKey";
         }
 
+        private void RemoveDeployments()
+        {
+            services.Clear()
+                .Add(s => { s.Name = serviceName; });
+        }
+
         [TestInitialize]
         public void TestSetup()
         {
@@ -231,16 +237,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestRemoveCloudServiceWithStaging()
         {
-            services.Clear();
-            services.Add(s =>
-            {
-                s.Name = serviceName;
-                s.AddDeployment(d =>
+            services.Clear()
+                .Add(s =>
                 {
-                    d.Name = "mydeployment";
-                    d.Slot = DeploymentSlot.Staging;
+                    s.Name = serviceName;
+                    s.AddDeployment(d =>
+                    {
+                        d.Name = "mydeployment";
+                        d.Slot = DeploymentSlot.Staging;
+                    });
                 });
-            });
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
@@ -273,13 +279,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestRemoveCloudServiceWithoutDeployments()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                }));
-
+            RemoveDeployments();
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
@@ -312,12 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestPublishNewCloudService()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                }));
+            RemoveDeployments();
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
@@ -374,29 +369,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestUpgradeCloudService()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                    Deployments =
-                                    {
-                                        new HostedServiceGetDetailedResponse.Deployment
-                                        {
-                                            DeploymentSlot = DeploymentSlot.Production,
-                                            Name = "mydeployment",
-                                            Roles =
-                                            {
-                                                new Role
-                                                {
-                                                    RoleName = "Role1",
-                                                }
-                                            }
-                                        }
-                                    }
-                }));
-
-
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
                 c.Deployments.CreateAsync(It.IsAny<string>(), DeploymentSlot.Production,
@@ -456,12 +428,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestCreateStorageServiceWithPublish()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                }));
+            RemoveDeployments();
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
@@ -517,12 +484,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestPublishWithCurrentStorageAccount()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                }));
+            RemoveDeployments();
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
@@ -581,12 +543,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void TestPublishWithDefaultLocation()
         {
-            clientMocks.ComputeManagementClientMock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => Tasks.FromResult(new HostedServiceGetDetailedResponse
-                {
-                    ServiceName = s,
-                    StatusCode = HttpStatusCode.OK,
-                }));
+            RemoveDeployments();
 
             clientMocks.ComputeManagementClientMock.Setup(
                 c =>
