@@ -128,8 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 clientMocks.ComputeManagementClientMock.Object
                 )
             {
-                CloudBlobUtility = cloudBlobUtilityMock.Object,
-                StatusRetriever = clientMocks.StatusRetriverMock.Object
+                CloudBlobUtility = cloudBlobUtilityMock.Object
             };
         }
 
