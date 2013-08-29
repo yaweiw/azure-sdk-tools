@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using CloudService;
     using Newtonsoft.Json.Linq;
     using Properties;
-    using ServiceManagement;
     using Services;
     using Services.DeploymentEntities;
     using Services.GeoEntities;
@@ -41,8 +40,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public const string WebsitesServiceVersion = "2012-12-01";
 
         public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
-
-        public IServiceManagement ServiceManagementChannel { get; internal set; }
 
         public SubscriptionData Subscription { get; set; }
 
@@ -69,12 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
                 HeadersInspector,
-                new HttpRestMessageInspector(logger));
-
-            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
-                ConfigurationConstants.WebHttpBinding(),
-                new Uri(subscription.ServiceEndpoint),
-                subscription.Certificate,
                 new HttpRestMessageInspector(logger));
 
             cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
