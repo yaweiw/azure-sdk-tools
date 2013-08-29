@@ -250,6 +250,7 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldFile.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
+    <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
