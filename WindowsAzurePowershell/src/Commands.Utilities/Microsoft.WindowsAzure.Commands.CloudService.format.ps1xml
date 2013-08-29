@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Deployment</Name>
+      <Name>Microsoft.WindowsAzure.Commands.Utilities.Common.CloudService.Model.Deployment</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Deployment</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.Utilities.Common.CloudService.Model.Deployment</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

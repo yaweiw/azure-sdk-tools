@@ -1301,4 +1301,7 @@ Please follow these steps in the portal:
   <data name="ServiceBusAuthorizationRuleNotFound" xml:space="preserve">
     <value>No ServiceBus authorization rule with the given characteristics was found</value>
   </data>
+  <data name="InvalidDeploymentSlot" xml:space="preserve">
+    <value>The deployment slot name {0} is invalid. Slot name must be either "Staging" or "Production".</value>
+  </data>
 </root>
