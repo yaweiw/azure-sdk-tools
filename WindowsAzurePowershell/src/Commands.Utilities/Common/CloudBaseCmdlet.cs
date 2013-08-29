@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set;
         }
 
-        protected override void CurrentSubscriptionUpdated()
+        protected override void OnCurrentSubscriptionUpdated()
         {
             // Recreate the channel if necessary
             if (!ShareChannel)

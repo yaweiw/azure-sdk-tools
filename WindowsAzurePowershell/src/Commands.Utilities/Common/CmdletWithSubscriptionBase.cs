@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     _currentSubscription = value;
 
-                    CurrentSubscriptionUpdated();
+                    OnCurrentSubscriptionUpdated();
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Override this method if you need to do processing
         /// when the current subscription changes.
         /// </summary>
-        protected virtual void CurrentSubscriptionUpdated()
+        protected virtual void OnCurrentSubscriptionUpdated()
         {
             
         }
