@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject"), OutputType(typeof(Deployment))]
-    public class PublishAzureServiceProjectCommand : ServiceManagementBaseCmdlet
+    public class PublishAzureServiceProjectCommand : CmdletWithSubscriptionBase
     {
         public ICloudServiceClient CloudServiceClient { get; set; }
 
