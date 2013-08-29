@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     public interface ICloudServiceClient
     {
@@ -49,6 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="affinityGroup">The deployment affinity group</param>
         /// <param name="storageAccount">The storage account to store the package</param>
         /// <param name="deploymentName">The deployment name</param>
+        /// <param name="launch">True to launch browser after publish is complete</param>
         /// <returns>The created deployment</returns>
         Deployment PublishCloudService(
             string name = null,
@@ -86,19 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         bool StorageServiceExists(string name);
 
         /// <summary>
-        /// Waits for the given operation id until it's done.
-        /// </summary>
-        /// <param name="operationId">The operation id</param>
-        void WaitForOperation(string operationId);
-
-        /// <summary>
-        /// Gets complete information of a storage service.
-        /// </summary>
-        /// <param name="name">The storage service name</param>
-        /// <returns>The storage service instance</returns>
-        StorageService GetStorageService(string name);
-
-        /// <summary>
         /// Gets connection string of the given storage service name.
         /// </summary>
         /// <param name="name">The storage service name</param>
@@ -110,6 +98,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="label">The cloud service label</param>
+        /// <param name="location">The cloud service location</param>
+        /// <param name="affinityGroup">The cloud service affinity group</param>
         void CreateCloudServiceIfNotExist(
             string name,
             string label = null,

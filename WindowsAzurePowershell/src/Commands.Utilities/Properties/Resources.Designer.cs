@@ -1359,6 +1359,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The deployment slot name {0} is invalid. Slot name must be either &quot;Staging&quot; or &quot;Production&quot;..
+        /// </summary>
+        public static string InvalidDeploymentSlot {
+            get {
+                return ResourceManager.GetString("InvalidDeploymentSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; is an invalid DNS name for {1}.
         /// </summary>
         public static string InvalidDnsName {

@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.CloudService
 {
-    using ServiceManagement;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Utilities.CloudService;
     using Utilities.Common;
+    using Utilities.CloudService.Model;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject"), OutputType(typeof(Deployment))]
-    public class PublishAzureServiceProjectCommand : ServiceManagementBaseCmdlet
+    public class PublishAzureServiceProjectCommand : CmdletWithSubscriptionBase
     {
         public ICloudServiceClient CloudServiceClient { get; set; }
 
