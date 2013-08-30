@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using CloudService;
     using Management.WebSites;
+    using Management.WebSites.Models;
     using Newtonsoft.Json.Linq;
     using Properties;
     using Services;
@@ -40,15 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         public const string WebsitesServiceVersion = "2012-12-01";
 
-        public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
-
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
 
         public SubscriptionData Subscription { get; set; }
 
         public Action<string> Logger { get; set; }
-
-        public HeadersInspector HeadersInspector { get; set; }
 
         /// <summary>
         /// Creates new WebsitesClient.
@@ -60,16 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
             Logger = logger;
-            HeadersInspector = new HeadersInspector();
-            HeadersInspector.RequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
-            HeadersInspector.RequestHeaders.Add(ApiConstants.UserAgentHeaderName, ApiConstants.UserAgentHeaderValue);
-            HeadersInspector.RemoveHeaders.Add(ApiConstants.VSDebuggerCausalityDataHeaderName);
-            WebsiteChannel = ChannelHelper.CreateChannel<IWebsitesServiceManagement>(
-                ConfigurationConstants.WebHttpBinding(),
-                new Uri(subscription.ServiceEndpoint),
-                subscription.Certificate,
-                HeadersInspector,
-                new HttpRestMessageInspector(logger));
 
             cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
 
@@ -89,10 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsiteChannel.GetSiteWithCache(
-                subscriptionId,
-                websiteName,
-                "repositoryuri,publishingpassword,publishingusername");
+            Site site = WebsiteManagementClient.GetSiteWithCache(websiteName);
+
             if (site != null)
             {
                 return new Repository(site);
@@ -101,25 +86,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             throw new Exception(Resources.RepositoryNotSetup);
         }
 
-        private Repository TryGetRepository(string websiteName)
-        {
-            Site site = WebsiteChannel.GetSiteWithCache(
-                subscriptionId,
-                websiteName,
-                "repositoryuri,publishingpassword,publishingusername");
-            if (site != null)
-            {
-                return new Repository(site);
-            }
-
-            return null;
-        }
-
         private HttpClient CreateDeploymentHttpClient(string websiteName)
         {
             Repository repository;
             ICredentials credentials;
-            websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
+            GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
             return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
         }
 
@@ -156,8 +127,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private void ChangeWebsiteState(string name, string webspace, WebsiteState state)
         {
-            Site siteUpdate = new Site { Name = name, State = state.ToString() };
-            WebsiteChannel.UpdateSite(subscriptionId, webspace, name, siteUpdate);
+            WebsiteManagementClient.WebSites.Update(webspace, name, new WebSiteUpdateParameters
+            {
+                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped
+            });
         }
 
         private void SetApplicationDiagnosticsSettings(
@@ -217,42 +190,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             bool setFlag)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                subscriptionId,
-                website.WebSpace,
-                website.Name);
 
-            configuration.HttpLoggingEnabled = webServerLogging ? setFlag : configuration.HttpLoggingEnabled;
-            configuration.DetailedErrorLoggingEnabled = detailedErrorMessages ? setFlag : 
-                configuration.DetailedErrorLoggingEnabled;
-            configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
-            
-            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
-        }
+            var update = WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToUpdate();
+            update.HttpLoggingEnabled = webServerLogging ? setFlag : update.HttpLoggingEnabled;
+            update.DetailedErrorLoggingEnabled = detailedErrorMessages ? setFlag : update.DetailedErrorLoggingEnabled;
+            update.RequestTracingEnabled = failedRequestTracing ? setFlag : update.RequestTracingEnabled;
 
-        /// <summary>
-        /// Gets the index of an application setting. Returns -1 if not found.
-        /// </summary>
-        /// <param name="name">The website name</param>
-        /// <param name="key">the applicationsetting key</param>
-        /// <returns>The application setting index</returns>
-        private int GetAppSettingIndex(string name, string key)
-        {
-            Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                subscriptionId,
-                website.WebSpace,
-                website.Name);
-
-            for (int i = 0; i < configuration.AppSettings.Count; i++)
-            {
-                if (configuration.AppSettings[i].Name.Equals(key, StringComparison.OrdinalIgnoreCase))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
+            WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
         }
 
         /// <summary>
@@ -374,7 +318,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
-            Site website = WebsiteChannel.GetSiteWithCache(subscriptionId, name, null);
+            Site website = WebsiteManagementClient.GetSiteWithCache(name);
 
             if (website == null)
             {
@@ -392,7 +336,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public SiteWithConfig GetWebsiteConfiguration(string name)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(subscriptionId, website.WebSpace, website.Name);
+            SiteConfig configuration =
+                WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToSiteConfig();
             DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
             SiteWithConfig siteWithConfig = new SiteWithConfig(website, configuration, diagnosticsSettings);
 
@@ -408,23 +353,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void SetAppSetting(string name, string key, string value)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                subscriptionId,
-                website.WebSpace,
-                website.Name);
-
-            int index = GetAppSettingIndex(name, key);
-
-            if (index != -1)
-            {
-                configuration.AppSettings[index].Value = value;
-            }
-            else
-            {
-                configuration.AppSettings.Add(new NameValuePair() { Name = key, Value = value });
-            }
+            var update = WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToUpdate();
             
-            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+            update.AppSettings[name] = key;
+
+            WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
         }
 
         /// <summary>
@@ -437,26 +370,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void SetConnectionString(string name, string key, string value, DatabaseType connectionStringType)
         {
             Site website = GetWebsite(name);
-            SiteConfig configuration = WebsiteChannel.GetSiteConfig(
-                subscriptionId, website.WebSpace, website.Name);
 
-            var index = configuration.ConnectionStrings.FindIndex(cs => cs.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
-            if (index == -1)
+            var update = WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToUpdate();
+
+            var csToUpdate = update.ConnectionStrings.FirstOrDefault(cs => cs.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
+            if (csToUpdate == null)
             {
-                configuration.ConnectionStrings.Add(new ConnStringInfo()
+                csToUpdate = new WebSiteUpdateConfigurationParameters.ConnectionStringInfo
                 {
+                    ConnectionString = value,
                     Name = key,
-                    ConnectionString =  value,
-                    Type = connectionStringType
-                });
+                    Type = connectionStringType.ToString()
+                };
+                update.ConnectionStrings.Add(csToUpdate);
             }
             else
             {
-                configuration.ConnectionStrings[index].ConnectionString = value;
-                configuration.ConnectionStrings[index].Type = connectionStringType;
+                csToUpdate.ConnectionString = value;
+                csToUpdate.Type = connectionStringType.ToString();
             }
 
-            WebsiteChannel.UpdateSiteConfig(subscriptionId, website.WebSpace, website.Name, configuration);
+            WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
         }
 
         /// <summary>
