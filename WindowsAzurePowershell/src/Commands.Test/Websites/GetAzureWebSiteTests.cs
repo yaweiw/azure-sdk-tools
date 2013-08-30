@@ -68,39 +68,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSiteThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
+
+            var clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.GetWebsite(It.IsAny<string>()))
+                .Returns(new Site
                 {
-                    return new Site { Name = "website1", WebSpace = "webspace1" };
-                }
+                    Name = "website1",
+                    WebSpace = "webspace1"
+                });
 
-                return new Site { Name = "website2", WebSpace = "webspace2" };
-            };
+            clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
+                .Returns(new SiteWithConfig(
+                    new Site {Name = "website1", WebSpace = "webspace1"},
+                    new SiteConfig {PublishingUsername = "user1"}));
 
-            channel.GetSiteConfigThunk = ar =>
-            {
-                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new SiteConfig
-                    {
-                        PublishingUsername = "user1"
-                    };
-                }
-
-                return null;
-            };
-
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-            };
 
             // Test
             GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
@@ -109,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Name = "website1",
-                WebsitesClient = new Mock<IWebsitesClient>().Object
+                WebsitesClient = clientMock.Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -129,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
                 Name = "WEBSiTe1",
-                WebsitesClient = new Mock<IWebsitesClient>().Object
+                WebsitesClient = clientMock.Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -184,45 +165,23 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         }
 
         [TestMethod]
-        public void TestGetAzreWebsiteWithDiagnosticsSettings()
+        public void TestGetAzureWebsiteWithDiagnosticsSettings()
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSiteThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Site { Name = "website1", WebSpace = "webspace1", State = "Running" };
-                }
-
-                return new Site { Name = "website2", WebSpace = "webspace2" };
-            };
-
-            channel.GetSiteConfigThunk = ar =>
-            {
-                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new SiteConfig
-                    {
-                        PublishingUsername = "user1"
-                    };
-                }
-
-                return null;
-            };
-
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", State = "Running" } });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2", State = "Running" } });
-            };
 
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(c => c.GetWebsite(It.IsAny<string>()))
+                .Returns(new Site
+                {
+                    Name = "website1", WebSpace = "webspace1", State = "Running"
+                });
+
+            websitesClientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
+                .Returns(new SiteWithConfig(
+                    new Site {Name = "website1", WebSpace = "webspace1", State = "running"},
+                    new SiteConfig {PublishingUsername = "user1"}));
+
             GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
