@@ -62,7 +62,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             WebsiteManagementClient =
                 CloudContext.Clients.CreateWebSiteManagementClient(new CertificateCloudCredentials(
-                    subscriptionId, Subscription.Certificate), new Uri(Subscription.ServiceEndpoint));
+                    subscriptionId, Subscription.Certificate), new Uri(Subscription.ServiceEndpoint))
+                    .WithHandler(new StandardHeadersHandler());
         }
 
         /// <summary>

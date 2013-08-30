@@ -255,6 +255,7 @@
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
+    <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\Tasks.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
