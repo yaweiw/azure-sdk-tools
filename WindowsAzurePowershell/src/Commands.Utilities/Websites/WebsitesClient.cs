@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using CloudService;
+    using Management.WebSites;
     using Newtonsoft.Json.Linq;
     using Properties;
     using Services;
@@ -40,6 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public const string WebsitesServiceVersion = "2012-12-01";
 
         public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
+
+        public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
 
         public SubscriptionData Subscription { get; set; }
 
@@ -69,6 +72,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 new HttpRestMessageInspector(logger));
 
             cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
+
+            WebsiteManagementClient =
+                CloudContext.Clients.CreateWebSiteManagementClient(new CertificateCloudCredentials(
+                    subscriptionId, Subscription.Certificate), new Uri(Subscription.ServiceEndpoint));
         }
 
         /// <summary>
@@ -503,21 +510,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>List of location names</returns>
         public List<string> ListAvailableLocations()
         {
-            List<string> locations = new List<string>();
-            WebSpaces webspaces = WebsiteChannel.GetWebSpaces(subscriptionId);
-            List<string> webspacesGeoRegions = new List<string>();
-            webspaces.ForEach(w => webspacesGeoRegions.Add(w.GeoRegion));
-            GeoRegions regions = new GeoRegions();
+            var webspacesGeoRegions = WebsiteManagementClient.WebSpaces.List()
+                .WebSpaces.Select(w => w.GeoRegion);
 
             using (HttpClient client = CreateWebsitesHttpClient())
             {
-                regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
+                var regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
+                return regions.Select(r => r.Name).Union(webspacesGeoRegions).ToList();
             }
-
-            regions.ForEach(r => locations.Add(r.Name));
-            locations = locations.Union(webspacesGeoRegions).ToList();
-
-            return locations;
         }
 
         /// <summary>
