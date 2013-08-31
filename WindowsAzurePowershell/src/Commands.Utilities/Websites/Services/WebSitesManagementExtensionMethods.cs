@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     /// </summary>
     internal static class WebSitesManagementConversionMethods
     {
-
         internal static WebSiteUpdateConfigurationParameters ToUpdate(this WebSiteGetConfigurationResponse getConfigResponse)
         {
             var update = new WebSiteUpdateConfigurationParameters
@@ -186,6 +185,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             {
                 Name = state.Name,
                 SslState = (SslState)(int)state.SslState
+            };
+        }
+
+        internal static WebSpace ToWebSpace(this WebSpacesListResponse.WebSpace webspace)
+        {
+            return new WebSpace
+            {
+                Name = webspace.Name,
+                Plan = webspace.Plan,
+                Subscription = webspace.Subscription,
+                GeoLocation = webspace.GeoLocation,
+                GeoRegion = webspace.GeoRegion,
+                ComputeMode = null, // TODO: Update
+                WorkerSize =
+                    webspace.WorkerSize.HasValue
+                        ? new WorkerSizeOptions?((WorkerSizeOptions) (int) webspace.WorkerSize.Value)
+                        : null,
+                NumberOfWorkers = webspace.CurrentNumberOfWorkers,
+                Status = (StatusOptions) (int) webspace.Status,
+                AvailabilityState = (WebEntities.WebSpaceAvailabilityState) (int) webspace.AvailabilityState
             };
         }
     }

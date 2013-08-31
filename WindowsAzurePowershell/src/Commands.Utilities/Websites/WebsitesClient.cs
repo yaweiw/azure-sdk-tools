@@ -346,6 +346,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Get the WebSpaces.
+        /// </summary>
+        /// <returns>Collection of WebSpace objects</returns>
+        public IList<WebSpace> ListWebSpaces()
+        {
+            return WebsiteManagementClient.WebSpaces.List().WebSpaces.Select(ws => ws.ToWebSpace()).ToList();
+        }
+
+        /// <summary>
+        /// Get the sites in the given webspace
+        /// </summary>
+        /// <param name="spaceName">Name of webspace</param>
+        /// <returns>The sites</returns>
+        public IList<Site> ListSitesInWebSpace(string spaceName)
+        {
+            return WebsiteManagementClient.WebSpaces.ListWebsites(spaceName).WebSites.Select(s => s.ToSite()).ToList();
+        }
+
+        /// <summary>
         /// Sets an AppSetting of a website.
         /// </summary>
         /// <param name="name">The website name</param>
