@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using Commands.Subscription;
     using Utilities.Common;
     using Utilities.Websites;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Properties;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
     using Commands.Websites;
@@ -35,24 +35,22 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void ProcessGetWebsiteTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
-                                           {
-                                               if (ar.Values["webspaceName"].Equals("webspace1"))
-                                               {
-                                                   return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" }});
-                                               }
+            var clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[] {new WebSpace {Name = "webspace1"}, new WebSpace {Name = "webspace2"}});
 
-                                               return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-                                           };
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace1"))
+                .Returns(new[] {new Site {Name = "website1", WebSpace = "webspace1"}});
+
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace2"))
+                .Returns(new[] {new Site {Name = "website2", WebSpace = "webspace2"}});
 
             // Test
-            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = subscriptionId },
+                WebsitesClient = clientMock.Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -67,8 +65,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetWebsiteProcessShowTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
             var clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(c => c.GetWebsite(It.IsAny<string>()))
                 .Returns(new Site
@@ -84,11 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
 
             // Test
-            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = subscriptionId },
                 Name = "website1",
                 WebsitesClient = clientMock.Object
             };
@@ -104,9 +99,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             Assert.AreEqual("user1", website.PublishingUsername);
 
             // Run with mixed casing
-            getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
                 Name = "WEBSiTe1",
@@ -132,8 +126,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 GlobalPathInfo.GlobalSettingsDirectory,
                 null,
                 Data.ValidPublishSettings[0]);
-            RemoveAzureSubscriptionCommand removeCmdlet = new RemoveAzureSubscriptionCommand();
-            removeCmdlet.CommandRuntime = new MockCommandRuntime();
+            var removeCmdlet = new RemoveAzureSubscriptionCommand {CommandRuntime = new MockCommandRuntime()};
+
             ICollection<string> subscriptions = globalSettingsManager.Subscriptions.Keys;
 
             foreach (string subscription in subscriptions)
@@ -141,36 +135,21 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 removeCmdlet.RemoveSubscriptionProcess(subscription ,null);
             }
 
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-            };
-
             // Test
-            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = null
             };
 
-            Testing.AssertThrows<Exception>(() => getAzureWebsiteCommand.ExecuteCmdlet(), Resources.NoDefaultSubscriptionMessage);
+            Testing.AssertThrows<Exception>(getAzureWebsiteCommand.ExecuteCmdlet, Resources.NoDefaultSubscriptionMessage);
         }
 
         [TestMethod]
         public void TestGetAzureWebsiteWithDiagnosticsSettings()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
-            Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
+            var websitesClientMock = new Mock<IWebsitesClient>();
             websitesClientMock.Setup(c => c.GetWebsite(It.IsAny<string>()))
                 .Returns(new Site
                 {
@@ -182,11 +161,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     new Site {Name = "website1", WebSpace = "webspace1", State = "running"},
                     new SiteConfig {PublishingUsername = "user1"}));
 
-            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = subscriptionId },
                 Name = "website1",
                 WebsitesClient = websitesClientMock.Object
             };

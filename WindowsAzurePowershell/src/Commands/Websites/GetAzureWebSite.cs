@@ -16,19 +16,20 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Common;
+    using Utilities.Properties;
+    using Utilities.Websites;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.DeploymentEntities;
+    using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
-    public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
+    public class GetAzureWebsiteCommand : CmdletWithSubscriptionBase
     {
         private IWebsitesClient websitesClient;
 
@@ -44,25 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteCommand class.
-        /// </summary>
-        public GetAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
         }
 
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
@@ -108,31 +90,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private void GetNoName()
         {
-            // Show websites
-            WebSpaces webspaces = null;
-            InvokeInOperationContext(() =>
-            {
-                webspaces = RetryCall(s => Channel.GetWebSpaces(s));
-                WaitForOperation(CommandRuntime.ToString());
-            });
-
-            List<Site> websites = new List<Site>();
-            foreach (var webspace in webspaces)
-            {
-                InvokeInOperationContext(() =>
+            Do(() =>
                 {
-                    websites.AddRange(
-                        RetryCall(
-                            s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
-                    WaitForOperation(CommandRuntime.ToString());
+                    var websites = WebsitesClient.ListWebSpaces()
+                        .SelectMany(space => websitesClient.ListSitesInWebSpace(space.Name))
+                        .ToList();
+                    Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
+                    WriteWebsites(websites);
                 });
-            }
-
-            // Add to cache
-            Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
-
-            // Output results
-            WriteWebsites(websites);
         }
 
         private void EnsureCurrentSubscription()
