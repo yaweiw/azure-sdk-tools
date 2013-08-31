@@ -83,6 +83,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         SiteWithConfig GetWebsiteConfiguration(string name);
 
         /// <summary>
+        /// Get the WebSpaces.
+        /// </summary>
+        /// <returns>Collection of WebSpace objects</returns>
+        IList<WebSpace> ListWebSpaces();
+
+        /// <summary>
+        /// Get the sites in the given webspace
+        /// </summary>
+        /// <param name="spaceName">Name of webspace</param>
+        /// <returns>The sites</returns>
+        IList<Site> ListSitesInWebSpace(string spaceName);
+
+        /// <summary>
         /// Enables site diagnostic.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -113,7 +126,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        /// <param name="logLevel">The log level</param>
         /// <param name="properties">The diagnostic setting properties</param>
         void EnableApplicationDiagnostic(
             string name,
