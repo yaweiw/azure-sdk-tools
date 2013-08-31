@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
 
     /// <summary>
     /// Stops an azure website.
@@ -29,25 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the StopAzureWebsiteCommand class.
-        /// </summary>
-        public StopAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StopAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public StopAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         public override void ExecuteCmdlet()
         {
