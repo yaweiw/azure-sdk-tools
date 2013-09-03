@@ -112,5 +112,119 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         {
             return this;
         }
+
+        public PersistentVMNewSM GetInstanceNewSM()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+{
+    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Xml.Serialization;
+    using PersistentVMModel;
+
+    public class PersistentVMNewSM : IPersistentVM
+    {
+        public string AvailabilitySetName
+        {
+            get;
+            set;
+        }
+
+        public Collection<ConfigurationSet> ConfigurationSets
+        {
+            get;
+            set;
+        }
+
+        public Collection<DataVirtualHardDisk> DataVirtualHardDisks
+        {
+            get;
+            set;
+        }
+
+        public string Label
+        {
+            get;
+            set;
+        }
+
+        public OSVirtualHardDisk OSVirtualHardDisk
+        {
+            get;
+            set;
+        }
+
+        public string RoleName
+        {
+            get;
+            set;
+        }
+
+        public string RoleSize
+        {
+            get;
+            set;
+        }
+
+        public string RoleType
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public X509Certificate2 WinRMCertificate
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public List<X509Certificate2> X509Certificates
+        {
+            get;
+            set;
+        }
+
+        public bool NoExportPrivateKey
+        {
+            get;
+            set;
+        }
+
+        public bool NoRDPEndpoint
+        {
+            get;
+            set;
+        }
+
+        public bool NoSSHEndpoint
+        {
+            get;
+            set;
+        }
+
+        public string DefaultWinRmCertificateThumbprint
+        {
+            get;
+            set;
+        }
+
+        public PersistentVM GetInstance()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PersistentVMNewSM GetInstanceNewSM()
+        {
+            return this;
+        }
+    }
+}
+

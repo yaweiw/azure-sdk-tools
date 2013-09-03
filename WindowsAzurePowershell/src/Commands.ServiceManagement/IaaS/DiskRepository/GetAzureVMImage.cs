@@ -64,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             });
             if (!string.IsNullOrEmpty(this.ImageName))
             {
+                //TODO:https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/106
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
@@ -72,16 +73,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             }
             else
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListOSImages(s),
-                    (operation, images) => func(operation, images));
-//                ExecuteClientActionNewSM(
-//                    null,
-//                    CommandRuntime.ToString(),
-//                    () => this.ComputeClient.VirtualMachineImages.List(),
-//                    (s,response) => response.Images.Select(r => ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(r, s)));
+                    () => this.ComputeClient.VirtualMachineImages.List(),
+                    (s,response) => response.Images.Select(r => ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(r, s)));
 
             }
         }

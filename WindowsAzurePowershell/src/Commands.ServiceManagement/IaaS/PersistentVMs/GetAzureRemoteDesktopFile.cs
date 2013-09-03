@@ -23,21 +23,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.ServiceModel;
     using Commands.Utilities.Common;
     using IaaS;
-    using WindowsAzure.ServiceManagement;
+//    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Properties;
 
 
     [Cmdlet(VerbsCommon.Get, "AzureRemoteDesktopFile", DefaultParameterSetName = "Download"), OutputType(typeof(ManagementOperationContext))]
     public class GetAzureRemoteDesktopFileCommand : IaaSDeploymentManagementCmdletBase
     {
-        public GetAzureRemoteDesktopFileCommand()
-        {
-        }
-
-        public GetAzureRemoteDesktopFileCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the Role Instance or Virtual Machine Name to create/connect via RDP")]
         [ValidateNotNullOrEmpty]
@@ -68,46 +62,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         internal override void ExecuteCommand()
         {
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 throw new ArgumentException(Resources.NoCloudServicePresent);
             }
 
-            ManagementOperationContext context = null;
-
+            ManagementOperationContext context;
             string rdpFilePath = LocalPath ?? Path.GetTempFileName();
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            WriteVerboseWithTimestamp(string.Format(Resources.AzureRemoteDesktopBeginOperation, CommandRuntime));
+            var desktopFileResponse = this.ComputeClient.VirtualMachines.GetRemoteDesktopFile(this.ServiceName, CurrentDeploymentNewSM.Name, Name + "_IN_0");
+            using (var stream = new MemoryStream(desktopFileResponse.RemoteDesktopFile))
             {
-                WriteVerboseWithTimestamp(string.Format(Resources.AzureRemoteDesktopBeginOperation, CommandRuntime.ToString()));
-
-                using (var stream = RetryCall(s => Channel.DownloadRDPFile(s, ServiceName, CurrentDeployment.Name, Name + "_IN_0")))
+                using (var file = File.Create(rdpFilePath))
                 {
-                    using (var file = File.Create(rdpFilePath))
+                    int count;
+                    byte[] buffer = new byte[1000];
+
+                    while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        int count;
-                        byte[] buffer = new byte[1000];
-
-                        while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            file.Write(buffer, 0, count);
-                        }
+                        file.Write(buffer, 0, count);
                     }
-
-                    Operation operation = GetOperation();
-
-                    WriteVerboseWithTimestamp(string.Format(Resources.AzureRemoteDesktopCompletedOperation, CommandRuntime.ToString()));
-
-                    context = new ManagementOperationContext
-                                  {
-                                      OperationDescription = CommandRuntime.ToString(),
-                                      OperationStatus = operation.Status,
-                                      OperationId = operation.OperationTrackingId
-                                  };
                 }
+
+                var operation = GetOperationNewSM(desktopFileResponse.RequestId);
+
+                WriteVerboseWithTimestamp(string.Format(Resources.AzureRemoteDesktopCompletedOperation, CommandRuntime));
+
+                context = new ManagementOperationContext
+                {
+                    OperationDescription = CommandRuntime.ToString(),
+                    OperationStatus = operation.Status.ToString(),
+                    OperationId = operation.RequestId
+                };
             }
+
             if (Launch.IsPresent)
             {
-                var startInfo = new ProcessStartInfo()
+                var startInfo = new ProcessStartInfo
                 {
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden

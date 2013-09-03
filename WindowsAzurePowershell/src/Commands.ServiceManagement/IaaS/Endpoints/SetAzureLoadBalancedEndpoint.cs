@@ -15,15 +15,21 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
     using IaaS;
+    using Management.Compute.Models;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
+    using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
+    //    using WindowsAzure.ServiceManagement;
+//    using InputEndpoint = WindowsAzure.ServiceManagement.InputEndpoint;
+//    using LoadBalancerProbe = WindowsAzure.ServiceManagement.LoadBalancerProbe;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureLoadBalancedEndpoint : IaaSDeploymentManagementCmdletBase
@@ -77,6 +83,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         internal override void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             base.ExecuteCommand();
             if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)
             {
@@ -103,28 +111,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             var endpointList = new LoadBalancedEndpointList();
             endpointList.Add(endpoint);
 
-            this.ExecuteClientActionInOCS(
-                null,
-                this.CommandRuntime.ToString(),
-                s => this.Channel.UpdateLoadBalancedEndpointSet(
-                    this.CurrentSubscription.SubscriptionId,
-                    this.ServiceName,
-                    this.CurrentDeployment.Name,
-                    endpointList));
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/131
+//            this.ExecuteClientActionInOCS(
+//                null,
+//                this.CommandRuntime.ToString(),
+//                s => this.Channel.UpdateLoadBalancedEndpointSet(
+//                    this.CurrentSubscription.SubscriptionId,
+//                    this.ServiceName,
+//                    this.CurrentDeployment.Name,
+//                    endpointList));
         }
 
-        private InputEndpoint GetEndpoint()
+        private PVM.InputEndpoint GetEndpoint()
         {
-            return (from role in this.CurrentDeployment.RoleList
-                    where role.NetworkConfigurationSet != null
-                       && role.NetworkConfigurationSet.InputEndpoints != null
-                    from endpoint in role.NetworkConfigurationSet.InputEndpoints
+            var r = from role in this.CurrentDeploymentNewSM.Roles
+                    from networkConfig in role.ConfigurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.NetworkConfigurationSet)
+                    where networkConfig.InputEndpoints != null
+                    from endpoint in networkConfig.InputEndpoints
                     where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
                       && endpoint.LoadBalancedEndpointSetName.Equals(this.LBSetName, StringComparison.InvariantCultureIgnoreCase)
-                    select endpoint).FirstOrDefault<InputEndpoint>();
+                    select endpoint;
+
+            return Mapper.Map<NSM.InputEndpoint, PVM.InputEndpoint>(r.FirstOrDefault());
+//            return (from role in this.CurrentDeploymentNewSM.Roles
+//                    where role.NetworkConfigurationSet != null
+//                       && role.NetworkConfigurationSet.InputEndpoints != null
+//                    from endpoint in role.NetworkConfigurationSet.InputEndpoints
+//                    where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
+//                      && endpoint.LoadBalancedEndpointSetName.Equals(this.LBSetName, StringComparison.InvariantCultureIgnoreCase)
+//                    select endpoint).FirstOrDefault<InputEndpoint>();
         }
 
-        private void UpdateEndpointProperties(InputEndpoint endpoint)
+        private void UpdateEndpointProperties(PVM.InputEndpoint endpoint)
         {
             if (this.ParameterSpecified("Protocol"))
             {
@@ -163,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             {
                 if (endpoint.LoadBalancerProbe == null)
                 {
-                    endpoint.LoadBalancerProbe = new LoadBalancerProbe();
+                    endpoint.LoadBalancerProbe = new PVM.LoadBalancerProbe();
                     if (!this.ParameterSpecified("ProbePort"))
                     {
                         endpoint.LoadBalancerProbe.Port = endpoint.LocalPort;

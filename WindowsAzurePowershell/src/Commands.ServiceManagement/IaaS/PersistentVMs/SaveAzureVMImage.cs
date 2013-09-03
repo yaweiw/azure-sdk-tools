@@ -12,26 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
 
     [Cmdlet(VerbsData.Save, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase
     {
-        public SaveAzureVMImageCommand()
-        {
-        }
-
-        public SaveAzureVMImageCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to export.")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -58,16 +49,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            string roleName = this.Name;
-            PostCaptureAction p = (PostCaptureAction)Enum.Parse(typeof(PostCaptureAction), "Delete");
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.CaptureRole(s, this.ServiceName, CurrentDeployment.Name, roleName, this.NewImageName, string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel, p, null));
-        }
+            var parameter = new VirtualMachineCaptureParameters
+            {
+                PostCaptureAction = PostCaptureAction.Delete,
+                TargetImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
+                TargetImageName = this.NewImageName
+            };
 
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter),
+                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+        }
     }
 }

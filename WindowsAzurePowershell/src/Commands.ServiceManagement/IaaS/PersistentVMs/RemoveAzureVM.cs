@@ -17,8 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
@@ -43,27 +46,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            Deployment deployment = null;
-            InvokeInOperationContext(() => deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production)));
-
-            if (deployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
+            DeploymentGetResponse deploymentResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+            if (deploymentResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
             {
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
             }
 
-            if (deployment.RoleInstanceList.Count > 1)
+            if (deploymentResponse.RoleInstances.Count > 1)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name),
+                    (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production),
+                    (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+
             }
         }
     }

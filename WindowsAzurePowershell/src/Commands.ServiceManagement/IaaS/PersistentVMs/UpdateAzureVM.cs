@@ -16,24 +16,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Storage;
     using Model;
-    using WindowsAzure.ServiceManagement;
     using Properties;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class UpdateAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public UpdateAzureVMCommand()
-        {
-        }
-
-        public UpdateAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -45,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public PersistentVM VM
+        public PersistentVMNewSM VM
         {
             get;
             set;
@@ -53,16 +46,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             base.ExecuteCommand();
 
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
             // Auto generate disk names based off of default storage account 
-            foreach (DataVirtualHardDisk datadisk in this.VM.DataVirtualHardDisks)
+            foreach (var datadisk in this.VM.DataVirtualHardDisks)
             {
                 if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
                 {
@@ -98,20 +93,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 }
             }
 
-            var role = new PersistentVMRole
+            VirtualMachineRoleSize roleSizeResult;
+            if (!Enum.TryParse(VM.RoleSize, true, out roleSizeResult))
+            {
+                throw new ArgumentOutOfRangeException("RoleSize:" + VM.RoleSize);
+            }
+
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/130
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/136
+            var parameters = new VirtualMachineUpdateParameters
             {
                 AvailabilitySetName = VM.AvailabilitySetName,
-                ConfigurationSets = VM.ConfigurationSets,
-                DataVirtualHardDisks = VM.DataVirtualHardDisks,
-                Label = VM.Label,
-                OSVirtualHardDisk = VM.OSVirtualHardDisk,
+//                Label = VM.Label,
+                OSVirtualHardDisk = Mapper.Map(VM.OSVirtualHardDisk, new OSVirtualHardDisk()),
                 RoleName = VM.RoleName,
-                RoleSize = VM.RoleSize,
-                RoleType = VM.RoleType
+                RoleSize = roleSizeResult,
+//                RoleType = VM.RoleType
             };
+            VM.DataVirtualHardDisks.ForEach(c => parameters.DataVirtualHardDisks.Add(Mapper.Map(c, new DataVirtualHardDisk())));
+            VM.ConfigurationSets.ForEach(c => parameters.ConfigurationSets.Add(Mapper.Map(c, new ConfigurationSet())));
 
-            ExecuteClientActionInOCS(role, CommandRuntime.ToString(), s => this.Channel.UpdateRole(s, this.ServiceName, CurrentDeployment.Name, this.Name, role));
-
+            ExecuteClientActionNewSM(
+                parameters,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters),
+                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
         }
     }
 }

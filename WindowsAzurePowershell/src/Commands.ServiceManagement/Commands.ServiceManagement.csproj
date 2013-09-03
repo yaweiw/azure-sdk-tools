@@ -205,6 +205,7 @@
     <Compile Include="AffinityGroups\GetAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
+    <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="ServiceManagementPofile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
     <Compile Include="Certificates\AddAzureCertificate.cs" />

@@ -127,17 +127,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             OperationDescription = this.CommandRuntime.ToString(),
                             OperationStatus = getDeploymentOperation.Status.ToString(),
                             InstanceErrorCode = role.InstanceErrorCode,
-                            //TODO: Talk to AzureSDK, type mismatch
+                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/133
 //                            InstanceFaultDomain = role.InstanceFaultDomain,
                             InstanceName = role.InstanceName,
                             InstanceSize = role.InstanceSize,
                             InstanceStateDetails = role.InstanceStateDetails,
                             InstanceStatus = role.InstanceStatus,
-                            //TODO: Talk to AzureSDK, type mismatch
+                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/134
 //                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                             RoleName = role.RoleName,
                             DeploymentID = currentDeployment.PrivateId,
-                            //TODO: Old SM client library types are exposed to customer
+                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/135
                             //      We'll need to declare the copy of these types here not to break any customer code.
 //                            InstanceEndpoints = role.EndInstanceEndpoints
                         };

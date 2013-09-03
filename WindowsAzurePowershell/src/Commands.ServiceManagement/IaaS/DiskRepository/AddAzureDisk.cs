@@ -65,7 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 OS = this.OS,
                 Label = string.IsNullOrEmpty(this.Label) ? this.DiskName : this.Label
             };
-
+            
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/101
             ExecuteClientActionInOCS(
                 disk, 
                 CommandRuntime.ToString(), 

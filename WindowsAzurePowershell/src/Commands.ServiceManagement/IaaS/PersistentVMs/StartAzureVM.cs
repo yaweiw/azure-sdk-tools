@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The Virtual Machine to restart.", ParameterSetName = "Input")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public PersistentVM VM
+        public PersistentVMNewSM VM
         {
             get;
             set;
@@ -61,8 +61,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/127
+            
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-
+            
             // Generate a list of role names matching wildcard patterns or
             // the exact name specified in the -Name parameter.
             var roleNames = PersistentVMHelper.GetRoleNames(CurrentDeployment.RoleInstanceList, roleName);

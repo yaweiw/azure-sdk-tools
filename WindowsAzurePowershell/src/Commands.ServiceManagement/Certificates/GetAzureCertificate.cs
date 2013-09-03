@@ -84,6 +84,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                 {
                     throw new ArgumentNullException("ThumbprintAlgorithm", Resources.MissingThumbprintAlgorithm);
                 }
+
+                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/99
+
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
@@ -103,6 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
             }
             else
             {
+                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/100
                 ExecuteClientActionInOCS(
                      null,
                      CommandRuntime.ToString(),

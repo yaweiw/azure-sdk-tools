@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using IaaS;
-    using WindowsAzure.ServiceManagement;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureEndpoint"), OutputType(typeof(IPersistentVM))]
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         protected Collection<InputEndpoint> GetInputEndpoints()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstanceNewSM();
 
             var networkConfiguration = role.ConfigurationSets
                                         .OfType<NetworkConfigurationSet>()

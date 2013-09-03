@@ -118,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 PrivacyUri = this.PrivacyUri,
                 RecommendedVMSize = this.RecommendedVMSize
             };
-
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/102
             ExecuteClientActionInOCS(
                 image,
                 CommandRuntime.ToString(),
