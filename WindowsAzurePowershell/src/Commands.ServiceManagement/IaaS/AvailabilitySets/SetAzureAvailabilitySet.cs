@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySet
 
         internal void ExecuteCommand()
         {
-            VM.GetInstanceNewSM().AvailabilitySetName = AvailabilitySetName;
+            VM.GetInstance().AvailabilitySetName = AvailabilitySetName;
             WriteObject(VM, true);
         }
 

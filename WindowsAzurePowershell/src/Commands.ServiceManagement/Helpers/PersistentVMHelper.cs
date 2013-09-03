@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 
     public static class PersistentVMHelper
     {
-        public static void SaveStateToFile(PersistentVMNewSM role, string filePath)
+        public static void SaveStateToFile(PersistentVM role, string filePath)
         {
             if (role == null)
             {
@@ -41,14 +41,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             overrides.Add(typeof(DataVirtualHardDisk), "SourceMediaLink", ignoreAttrib);
             overrides.Add(typeof(OSVirtualHardDisk), "MediaLink", ignoreAttrib);
 
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVMNewSM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
             using (TextWriter writer = new StreamWriter(filePath))
             {
                 serializer.Serialize(writer, role);
             }
         }
 
-        public static PersistentVMNewSM LoadStateFromFile(string filePath)
+        public static PersistentVM LoadStateFromFile(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -63,13 +63,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             overrides.Add(typeof(OSVirtualHardDisk), "MediaLink", ignoreAttrib);
             overrides.Add(typeof(OSVirtualHardDisk), "SourceImageName", ignoreAttrib);
 
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVMNewSM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
 
-            PersistentVMNewSM role = null;
+            PersistentVM role = null;
             
             using (var stream = new FileStream(filePath, FileMode.Open))
             {
-                role = serializer.Deserialize(stream) as PersistentVMNewSM;
+                role = serializer.Deserialize(stream) as PersistentVM;
             }
 
             return role;

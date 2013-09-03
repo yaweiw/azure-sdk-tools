@@ -80,6 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        public PersistentVM Vm { get; set; }
+        public PersistentVM  Vm { get; set; }
     }
 }

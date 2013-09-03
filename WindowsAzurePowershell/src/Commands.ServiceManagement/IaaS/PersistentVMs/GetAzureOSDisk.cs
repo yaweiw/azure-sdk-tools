@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     {
         protected override void ProcessRecord()
         {
-            var r = VM.GetInstanceNewSM();
+            var r = VM.GetInstance();
             WriteObject(r.OSVirtualHardDisk, true);
         }
     }

@@ -17,6 +17,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     public interface IPersistentVM
     {
         PersistentVM GetInstance();
-        PersistentVMNewSM GetInstanceNewSM();
     }
 }
