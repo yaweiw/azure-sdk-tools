@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected Collection<DataVirtualHardDisk> GetDataDisks()
         {
-            var role = VM.GetInstanceNewSM(); 
+            var role = VM.GetInstance(); 
 
             if (role.DataVirtualHardDisks == null)
             {

@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperation.OperationTrackingId,
                         OperationStatus = GetDeploymentOperation.Status,
-                        VM = new PersistentVMNewSM
+                        VM = new PersistentVM
                         {
                             AvailabilitySetName = vm.AvailabilitySetName,
                             ConfigurationSets = Mapper.Map(vm.ConfigurationSets, new Collection<ConfigurationSet>()),

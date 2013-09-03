@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         protected Collection<InputEndpointContext> GetInputEndpoints()
         {
-            var role = VM.GetInstanceNewSM();
+            var role = VM.GetInstance();
 
             var networkConfiguration = role.ConfigurationSets
                                         .OfType<NetworkConfigurationSet>()

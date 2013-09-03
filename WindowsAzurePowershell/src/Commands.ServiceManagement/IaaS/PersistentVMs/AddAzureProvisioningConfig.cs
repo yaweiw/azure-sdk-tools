@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstanceNewSM(); 
+            var role = VM.GetInstance(); 
             var configSetbuilder = new ConfigurationSetsBuilder(role.ConfigurationSets);
             if (Linux.IsPresent)
             {
@@ -108,13 +108,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected void ValidateParameters()
         {
-            var vm = (PersistentVMNewSM)this.VM;
+            var vm = (PersistentVM)this.VM;
             
             ValidateLinuxParameterSetParameters(vm);
             ValidateWindowsParameterSetParameters(vm);
         }
 
-        private void ValidateLinuxParameterSetParameters(PersistentVMNewSM vm)
+        private void ValidateLinuxParameterSetParameters(PersistentVM vm)
         {
             if (LinuxParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))
             {
@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        private void ValidateWindowsParameterSetParameters(PersistentVMNewSM vm)
+        private void ValidateWindowsParameterSetParameters(PersistentVM vm)
         {
             if (WindowsParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase) || 
                 WindowsDomainParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))

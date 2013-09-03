@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model.PersistentVMModel;
     using Properties;
 
-    [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVMNewSM))]
+    [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
     public class NewAzureVMConfigCommand : PSCmdlet
     {
         private const string RoleType = "PersistentVMRole";
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             Label = Label;
 
-            var role = new PersistentVMNewSM 
+            var role = new PersistentVM 
             {
                 AvailabilitySetName = AvailabilitySetName,
                 ConfigurationSets = new Collection<ConfigurationSet>(),

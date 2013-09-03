@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Disks
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstanceNewSM();
+            var role = VM.GetInstance();
 
             if (Lun == null)
             {

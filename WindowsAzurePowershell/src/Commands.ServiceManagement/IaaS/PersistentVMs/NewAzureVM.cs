@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = true, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [Parameter(Mandatory = true, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [ValidateNotNullOrEmpty]
-        public PersistentVMNewSM[] VMs
+        public PersistentVM[] VMs
         {
             get;
             set;
@@ -312,7 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             }
         }
 
-        private Management.Compute.Models.Role CreatePersistentVMRoleNewSM(PersistentVMNewSM persistentVM, CloudStorageAccount currentStorage)
+        private Management.Compute.Models.Role CreatePersistentVMRoleNewSM(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
             if (!string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName) && !NetworkConfigurationSetBuilder.HasNetworkConfigurationSet(persistentVM.ConfigurationSets))
             {

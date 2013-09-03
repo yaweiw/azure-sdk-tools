@@ -728,7 +728,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return subnets;
         }
 
-        public PersistentVM SetAzureSubnet(PersistentVM vm, string [] subnetNames)
+        public PersistentVM SetAzureSubnet(PersistentVM vm, string[] subnetNames)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureSubnetCmdletInfo(vm, subnetNames));
         }
@@ -924,7 +924,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureVM
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location = null)
         {
             return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
         }

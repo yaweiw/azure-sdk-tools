@@ -331,8 +331,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
            
-                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);           
-                
+                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
            
                 vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null);
@@ -762,7 +762,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
-                
+
                 PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName));
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 azureProvisioningConfig.Vm = vm;

@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         
         internal void ExecuteCommand()
         {
-            var role = this.VM.GetInstanceNewSM(); 
+            var role = this.VM.GetInstance(); 
 
             var networkConfiguration = role.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
 

@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstanceNewSM(); 
+            var role = VM.GetInstance(); 
             role.RoleSize = InstanceSize;
             WriteObject(VM, true);
         }
