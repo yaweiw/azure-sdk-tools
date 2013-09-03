@@ -14,14 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Common;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services.WebEntities;
+    using Utilities.Websites;
 
     /// <summary>
     /// Shows an azure website.
@@ -29,39 +27,25 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
     public class ShowAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        /// <summary>
-        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
-        /// </summary>
-        public ShowAzureWebsiteCommand()
-            : this(null)
-        {
-        }
+        private IWebsitesClient client;
 
-        /// <summary>
-        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public ShowAzureWebsiteCommand(IWebsitesServiceManagement channel)
+        IWebsitesClient WebsitesClient
         {
-            Channel = channel;
+            get
+            {
+                if (client == null)
+                {
+                    client = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return client;
+            }
+            set { client = value; }
         }
 
         public override void ExecuteCmdlet()
         {
-            InvokeInOperationContext(() =>
-            {
-                // Show website
-                Site websiteObject = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
-                if (websiteObject == null)
-                {
-                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-                }
-
-                // Show website in the portal
-                General.LaunchWebPage("http://" + websiteObject.HostNames.First());
-            });
+            Site websiteObject = WebsitesClient.GetWebsite(Name);
+            General.LaunchWebPage("http://" + websiteObject.HostNames.First());
         }
     }
 }
