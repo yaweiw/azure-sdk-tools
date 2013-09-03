@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     using System;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
-    using SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
     /// <summary>
     /// These tests prevent regression in parameter validation attributes.
@@ -69,6 +69,39 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Type cmdlet = typeof(SetAzureSqlDatabase);
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
+        }
+
+        /// <summary>
+        /// Tests the attributes of the Export-AzureSqlDatabase cmdlet
+        /// </summary>
+        [TestMethod]
+        public void ExportAzureSqlDatabaseAttributeTest()
+        {
+            Type cmdlet = typeof(StartAzureSqlDatabaseExport);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+        }
+
+        /// <summary>
+        /// Tests the attributes of the Start-AzureSqlDatabaseImport cmdlet
+        /// </summary>
+        [TestMethod]
+        public void ImportAzureSqlDatabaseAttributeTest()
+        {
+            Type cmdlet = typeof(StartAzureSqlDatabaseImport);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+        }
+
+        /// <summary>
+        /// Tests the attributes of the Get-AzureSqlDatabaseImportExport cmdlet
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabaseIEStatusAttributeTest()
+        {
+            Type cmdlet = typeof(GetAzureSqlDatabaseImportExportStatus);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
         }
     }
 }
