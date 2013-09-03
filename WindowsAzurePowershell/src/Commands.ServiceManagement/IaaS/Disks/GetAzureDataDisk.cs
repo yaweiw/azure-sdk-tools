@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Disks
 {
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Get, "AzureDataDisk"), OutputType(typeof(DataVirtualHardDisk))]
     public class GetAzureDataDisk : VirtualMachineConfigurationCmdletBase
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Disks
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstanceNewSM();
 
             if (Lun == null)
             {

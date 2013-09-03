@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Set, "AzureSubnet"), OutputType(typeof(IPersistentVM))]
     public class SetAzureSubnetCommand : VirtualMachineConfigurationCmdletBase
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstanceNewSM();
 
             var networkConfiguration = role.ConfigurationSets
                         .OfType<NetworkConfigurationSet>()

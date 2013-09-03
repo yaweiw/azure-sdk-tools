@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 Name = this.DiskName,
                 Label = this.Label
             };
-
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/108
             ExecuteClientActionInOCS(
                 disk,
                 CommandRuntime.ToString(),

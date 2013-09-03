@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using IaaS;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzureEndpoint"), OutputType(typeof(IPersistentVM))]
     public class SetAzureEndpoint : VirtualMachineConfigurationCmdletBase
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         protected Collection<InputEndpoint> GetInputEndpoints()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstanceNewSM(); 
 
             var networkConfiguration = role.ConfigurationSets
                                         .OfType<NetworkConfigurationSet>()

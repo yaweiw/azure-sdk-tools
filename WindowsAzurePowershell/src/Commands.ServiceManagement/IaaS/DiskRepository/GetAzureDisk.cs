@@ -59,6 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }).ToList();
             if (!string.IsNullOrEmpty(this.DiskName))
             {
+                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/103
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
@@ -67,17 +68,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
             else
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListDisks(s),
-                    (operation, disks) => func(operation, disks));
-//                ExecuteClientActionNewSM(
-//                    null,
-//                    CommandRuntime.ToString(),
-//                    () => this.ComputeClient.VirtualMachineDisks.ListDisks(),
-//                    (s, response) => response.Disks.Select(disk => ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
-
+                    () => this.ComputeClient.VirtualMachineDisks.ListDisks(),
+                    (s, response) => response.Disks.Select(disk => ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
             }
         }
 

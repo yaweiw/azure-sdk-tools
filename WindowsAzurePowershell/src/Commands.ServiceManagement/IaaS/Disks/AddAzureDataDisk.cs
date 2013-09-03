@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
 
     [Cmdlet(VerbsCommon.Add, "AzureDataDisk", DefaultParameterSetName = "CreateNew"), OutputType(typeof(IPersistentVM))]
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected Collection<DataVirtualHardDisk> GetDataDisks()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstanceNewSM();
 
             if (role.DataVirtualHardDisks == null)
             {

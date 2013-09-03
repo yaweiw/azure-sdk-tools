@@ -15,26 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Globalization;
     using System.Management.Automation;
-    using Commands.ServiceManagement.Helpers;
-    using WindowsAzure.ServiceManagement;
+    using AutoMapper;
+    using Helpers;
     using Properties;
     using Model;
+    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
+    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
+    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
 
     [Cmdlet(VerbsData.Export, "AzureVM")]
     public class ExportAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public ExportAzureVMCommand()
-        {
-        }
-
-        public ExportAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
@@ -60,51 +54,58 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            var role = CurrentDeployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+            var role = CurrentDeploymentNewSM.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
             if(role == null)
             {
                 throw new ApplicationException(string.Format(Resources.NoCorrespondingRoleCanBeFoundInDeployment, Name));
             }
             try
             {
-                var vm = (PersistentVMRole)role;
-                var roleInstance = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName);
+                var vm = role;
+                var roleInstance = CurrentDeploymentNewSM.RoleInstances.First(r => r.RoleName == vm.RoleName);
                 var vmContext = new PersistentVMRoleContext
                 {
                     ServiceName = ServiceName,
                     Name = vm.RoleName,
-                    DeploymentName = CurrentDeployment.Name,
+                    DeploymentName = CurrentDeploymentNewSM.Name,
                     AvailabilitySetName = vm.AvailabilitySetName,
-                    Label = vm.Label,
+                    //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
+//                    Label = vm.Label,
                     InstanceSize = vm.RoleSize,
                     InstanceStatus = roleInstance.InstanceStatus,
-                    IpAddress = roleInstance.IpAddress,
+                    IpAddress = roleInstance.IPAddress.ToString(),
                     InstanceStateDetails = roleInstance.InstanceStateDetails,
-                    PowerState = roleInstance.PowerState,
+                    PowerState = roleInstance.PowerState.ToString(),
                     InstanceErrorCode = roleInstance.InstanceErrorCode,
                     InstanceName = roleInstance.InstanceName,
-                    InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                    InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                    //TODO:https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/133
+                    //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/134
+//                    InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+//                    InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                     OperationDescription = CommandRuntime.ToString(),
                     OperationId = GetDeploymentOperation.OperationTrackingId,
                     OperationStatus = GetDeploymentOperation.Status,
-                    VM = new PersistentVM
+                    VM = new PersistentVMNewSM
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
-                        ConfigurationSets = vm.ConfigurationSets,
-                        DataVirtualHardDisks = vm.DataVirtualHardDisks,
-                        Label = vm.Label,
-                        OSVirtualHardDisk = vm.OSVirtualHardDisk,
+                        ConfigurationSets = Mapper.Map(vm.ConfigurationSets, new Collection<ConfigurationSet>()),
+                        DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
+                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
+//                        Label = vm.Label,
+                        OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
                         RoleType = vm.RoleType,
-                        DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
+                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/132
+//                        DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
                     }
                 };
                 PersistentVMHelper.SaveStateToFile(vmContext.VM, Path);

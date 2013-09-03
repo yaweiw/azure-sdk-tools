@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public string Name { get; set; }
 
-        public string Label { get; set; } 
+        public string Label { get; set; }
 
-        public PersistentVM VM { get; set; }
+        public PersistentVMNewSM VM { get; set; }
 
         public string InstanceStatus { get; set; }
 
@@ -48,6 +48,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string DNSName { get; set; }
 
         public PersistentVM GetInstance()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PersistentVMNewSM GetInstanceNewSM()
         {
             return this.VM;
         }

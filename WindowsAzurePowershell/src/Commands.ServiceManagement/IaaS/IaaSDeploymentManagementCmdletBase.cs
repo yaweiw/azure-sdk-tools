@@ -23,7 +23,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Threading;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using Properties;
+    using RoleInstance = WindowsAzure.ServiceManagement.RoleInstance;
+    using RoleInstanceStatus = WindowsAzure.ServiceManagement.RoleInstanceStatus;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
@@ -50,8 +55,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         }
 
         protected Deployment CurrentDeployment { get; set; }
+        protected DeploymentGetResponse CurrentDeploymentNewSM { get; set; }
 
         protected Operation GetDeploymentOperation { get; set; }
+        protected OperationStatusResponse GetDeploymentOperationNewSM { get; set; }
 
         protected bool CreatingNewDeployment { get; set; }
 
@@ -68,6 +75,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
                         CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
                         GetDeploymentOperation = GetOperation();
+
+                        CurrentDeploymentNewSM = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+                        GetDeploymentOperationNewSM = GetOperationNewSM(CurrentDeploymentNewSM.RequestId);
                         WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
                     }
                     catch (Exception e)

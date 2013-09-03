@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Collections.ObjectModel;
     using System.Linq;
     using IaaS;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     public class ConfigurationSetsBuilder
     {

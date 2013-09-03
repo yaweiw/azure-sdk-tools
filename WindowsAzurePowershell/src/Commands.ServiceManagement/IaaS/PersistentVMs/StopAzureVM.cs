@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The Virtual Machine to restart.", ParameterSetName = "Input")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public PersistentVM VM
+        public PersistentVMNewSM VM
         {
             get;
             set;
@@ -76,6 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 return;
             }
+
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/128
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
 
@@ -106,6 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 }
                 else
                 {
+                    //TOOD: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/129
                     if (!Force.IsPresent && IsLastVmInDeployment(roleNames.Count))
                     {
                         ConfirmAction(false,

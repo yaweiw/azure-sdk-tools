@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Helpers;
-    using WindowsAzure.ServiceManagement;
-    
+    using Model.PersistentVMModel;
+
     public class ProvisioningConfigurationCmdletBase : PSCmdlet
     {
         public const string LinuxParameterSetName = OS.Linux;
@@ -278,7 +278,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             provisioningConfiguration.AdminUsername = AdminUsername;
             provisioningConfiguration.AdminPassword = Password;            
             provisioningConfiguration.ResetPasswordOnFirstLogon = ResetPasswordOnFirstLogon.IsPresent;
-            provisioningConfiguration.StoredCertificateSettings = CertUtils.GetCertificateSettings(Certificates, X509Certificates);
+            provisioningConfiguration.StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(Certificates, X509Certificates);
             provisioningConfiguration.EnableAutomaticUpdates = !DisableAutomaticUpdates.IsPresent;
 
             if (!string.IsNullOrEmpty(TimeZone))

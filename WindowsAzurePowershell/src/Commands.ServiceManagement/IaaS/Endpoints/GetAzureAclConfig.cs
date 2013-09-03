@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using IaaS;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureAclConfig"), OutputType(typeof(NetworkAclObject))]
     public class GetAzureAclConfig : VirtualMachineConfigurationCmdletBase
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         internal void ExecuteCommand()
         {
-            var role = this.VM.GetInstance();
+            var role = this.VM.GetInstanceNewSM(); 
 
             var networkConfiguration = role.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
 

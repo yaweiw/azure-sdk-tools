@@ -7,6 +7,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using Management.Storage.Models;
     using Model;
     using Utilities.Common;
+    using PVM = Model.PersistentVMModel;
+    using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
 
     public class ServiceManagementPofile : Profile
     {
@@ -17,6 +19,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
         protected override void Configure()
         {
+            //SM to NewSM mapping
+            Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>();
+            Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>();
+            Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.EndpointAccessControlList, NSM.ConfigurationSet>();
+
+            //NewSM to SM mapping
+            Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>();
+            Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>();
+            Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.ProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.EndpointAccessControlList>();
+
             //Common mapping
             Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
@@ -63,6 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Disk mapping
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/104
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/105
             Mapper.CreateMap<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
@@ -75,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Image mapping
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/107
             Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))                  

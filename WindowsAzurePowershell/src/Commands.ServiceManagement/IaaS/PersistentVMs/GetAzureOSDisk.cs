@@ -15,14 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Get, "AzureOSDisk"), OutputType(typeof(OSVirtualHardDisk))]
     public class GetAzureOSDiskCommand : VirtualMachineConfigurationCmdletBase
     {
         protected override void ProcessRecord()
         {
-            var r = VM.GetInstance();
+            var r = VM.GetInstanceNewSM();
             WriteObject(r.OSVirtualHardDisk, true);
         }
     }

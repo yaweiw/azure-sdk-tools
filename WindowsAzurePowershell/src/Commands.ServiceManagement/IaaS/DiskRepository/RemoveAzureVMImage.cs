@@ -46,6 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 Uri mediaLink = null;
                 if (this.DeleteVHD.IsPresent)
                 {
+                    //TODO:https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/106
                     // Get the location of the underlying VHD
                     using (new OperationContextScope(Channel.ToContextChannel()))
                     {
