@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using System.Collections.Generic;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Websites;
+    using Moq;
     using Utilities.Common;
     using Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
@@ -29,37 +31,23 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void ProcessShowWebsiteTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
+            var mockClient = new Mock<IWebsitesClient>();
+            mockClient.Setup(c => c.GetWebsite("website1"))
+                .Returns(new Site
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", HostNames = new [] {"website1.cloudapp.com" } } });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2", HostNames = new[] { "website2.cloudapp.com" } } });
-            };
-            channel.GetSiteConfigThunk = ar =>
-            {
-                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new SiteConfig
-                    {
-                        PublishingUsername = "user1"
-                    };
-                }
-
-                return null;
-            };
+                    Name = "website1",
+                    WebSpace = "webspace1",
+                    HostNames = new[] {"website1.cloudapp.com"}
+                });
 
             // Test
-            ShowAzureWebsiteCommand showAzureWebsiteCommand = new ShowAzureWebsiteCommand(channel)
+            ShowAzureWebsiteCommand showAzureWebsiteCommand = new ShowAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1",
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
+                WebsitesClient = mockClient.Object
             };
 
             // Show existing website

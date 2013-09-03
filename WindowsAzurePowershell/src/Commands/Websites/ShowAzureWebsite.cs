@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     {
         private IWebsitesClient client;
 
-        IWebsitesClient WebsitesClient
+        public IWebsitesClient WebsitesClient
         {
             get
             {
