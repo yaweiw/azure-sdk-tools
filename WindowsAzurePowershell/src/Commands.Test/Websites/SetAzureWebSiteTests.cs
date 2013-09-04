@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             };
 
             // Test
-            SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
+            SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test updating site only and not configurations
             updatedSite = false;
             updatedSiteConfig = false;
-            setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
+            setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
