@@ -185,6 +185,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 Name = response.Name,
             };
 
+            // Parse any additional database information
+            if (!string.IsNullOrEmpty(response.SizeMB))
+            {
+                result.SizeMB = decimal.Parse(response.SizeMB, CultureInfo.InvariantCulture);
+            }
+
             // Parse the service objective information
             if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorCode))
             {
