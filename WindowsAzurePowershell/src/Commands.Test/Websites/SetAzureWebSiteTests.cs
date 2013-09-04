@@ -40,8 +40,32 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
+
             bool updatedSite = false;
             bool updatedSiteConfig = false;
+
+            clientMock.Setup(c => c.GetWebsite(websiteName))
+                .Returns(new Site {Name = websiteName, WebSpace = webspaceName});
+            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName))
+                .Returns(new SiteConfig {NumberOfWorkers = 1});
+            clientMock.Setup(c => c.UpdateWebsiteConfiguration(websiteName, It.IsAny<SiteConfig>()))
+                .Callback((string name, SiteConfig config) =>
+                    {
+                        Assert.IsNotNull(config);
+                        Assert.AreEqual(config.NumberOfWorkers, 3);
+                        updatedSiteConfig = true;
+                    }).Verifiable();
+
+            clientMock.Setup(c => c.UpdateWebsite(websiteName, It.IsAny<Site>()))
+                .Callback((string name, Site siteUpdate) =>
+                    {
+                        Assert.IsNotNull(siteUpdate);
+                        Assert.AreEqual(name, siteUpdate.Name);
+                        Assert.IsTrue(siteUpdate.HostNames.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
+                        Assert.IsTrue(siteUpdate.HostNames.Any(hostname => hostname.Equals("stuff.com")));
+                        updatedSite = true;
+                    });
+
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
 
             Site site = new Site {Name = websiteName, WebSpace = webspaceName};

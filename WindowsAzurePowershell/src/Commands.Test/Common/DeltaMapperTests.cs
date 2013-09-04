@@ -88,5 +88,25 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.AreEqual(1, dest.A);
             Assert.IsNull(dest.C);
         }
+
+        [TestMethod]
+        public void NullSourcePropertyIsNotAChange()
+        {
+            var src = new SourceClass
+            {
+                A = null,
+                C = "hello"
+            };
+
+            var reference = new RefClass
+            {
+                A = 4,
+                C = "hello"
+            };
+
+            var dest = new DestClass();
+            bool changes = ObjectDeltaMapper.Map(src, reference, dest);
+            Assert.IsFalse(changes);
+        }
     }
 }

@@ -330,6 +330,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Update a website instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="site">The new site information</param>
+        public void UpdateWebsite(string name, Site site)
+        {
+            WebsiteManagementClient.WebSites.Update(site.WebSpace, site.Name, new WebSiteUpdateParameters
+            {
+                State = (WebSiteState)(Enum.Parse(typeof(WebSiteState), site.State))
+            });
+        }
+
+        /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -341,6 +354,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToSiteConfig();
 
             return configuration;
+        }
+
+        /// <summary>
+        /// Update the website configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        public void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration)
+        {
+            Site website = GetWebsite(name);
+            WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, name,
+                newConfiguration.ToConfigUpdateParameters());
         }
 
         /// <summary>
