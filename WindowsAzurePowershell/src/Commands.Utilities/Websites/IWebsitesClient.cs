@@ -74,13 +74,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The website instance</returns>
         Site GetWebsite(string name);
-                
+
+        /// <summary>
+        /// Update a website instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="site">The new site information</param>
+        void UpdateWebsite(string name, Site site);
+
         /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The website configuration object</returns>
         SiteConfig GetWebsiteConfiguration(string name);
+
+        /// <summary>
+        /// Update the website configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration);
+
 
         /// <summary>
         /// Get the WebSpaces.
