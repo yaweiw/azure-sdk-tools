@@ -160,6 +160,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             };
         }
 
+        private static KeyValuePair<string, string> ToKeyValuePair(NameValuePair nvp)
+        {
+            return new KeyValuePair<string, string>(nvp.Name, nvp.Value);
+        }
+
         private static Certificate ToCertificate(WebSite.WebSiteSslCertificate certificate)
         {
             return new Certificate
@@ -206,6 +211,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 Status = (StatusOptions) (int) webspace.Status,
                 AvailabilityState = (WebEntities.WebSpaceAvailabilityState) (int) webspace.AvailabilityState
             };
+        }
+
+        internal static WebSiteUpdateConfigurationParameters ToConfigUpdateParameters(this SiteConfig config)
+        {
+            var parameters = new WebSiteUpdateConfigurationParameters
+            {
+                DetailedErrorLoggingEnabled = config.DetailedErrorLoggingEnabled,
+                HttpLoggingEnabled = config.HttpLoggingEnabled,
+                NetFrameworkVersion = config.NetFrameworkVersion,
+                NumberOfWorkers = config.NumberOfWorkers,
+                PhpVersion = config.PhpVersion,
+                PublishingPassword = config.PublishingPassword,
+                PublishingUserName = config.PublishingUsername,
+                RequestTracingEnabled = config.RequestTracingEnabled,
+            };
+            config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
+            config.ConnectionStrings.ForEach(
+                csi => parameters.ConnectionStrings.Add(new WebSiteUpdateConfigurationParameters.ConnectionStringInfo()
+                {
+                    Name = csi.Name,
+                    ConnectionString = csi.ConnectionString,
+                    Type = csi.Type.ToString()
+                }));
+
+            config.DefaultDocuments.ForEach(d => parameters.DefaultDocuments.Add(d));
+            config.HandlerMappings.ForEach(
+                hm => parameters.HandlerMappings.Add(new WebSiteUpdateConfigurationParameters.HandlerMapping
+                {
+                    Arguments = hm.Arguments,
+                    Extension = hm.Extension,
+                    ScriptProcessor = hm.ScriptProcessor
+                }));
+
+            config.Metadata.ForEach(nvp => parameters.Metadata.Add(ToKeyValuePair(nvp)));
+
+            return parameters;
         }
     }
 
