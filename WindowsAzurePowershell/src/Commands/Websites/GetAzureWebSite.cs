@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             Do(() =>
                 {
                     Site websiteObject = WebsitesClient.GetWebsite(Name);
-                    SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name).GetSiteConfig();
+                    SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name);
                     Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
                     var diagnosticSettings = new DiagnosticsSettings();
