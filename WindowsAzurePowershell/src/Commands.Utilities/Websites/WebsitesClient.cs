@@ -334,15 +334,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The website configuration object</returns>
-        public SiteWithConfig GetWebsiteConfiguration(string name)
+        public SiteConfig GetWebsiteConfiguration(string name)
         {
             Site website = GetWebsite(name);
             SiteConfig configuration =
                 WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToSiteConfig();
-            DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
-            SiteWithConfig siteWithConfig = new SiteWithConfig(website, configuration, diagnosticsSettings);
 
-            return siteWithConfig;
+            return configuration;
         }
 
         /// <summary>

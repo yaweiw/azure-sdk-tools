@@ -74,9 +74,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 });
 
             clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
-                .Returns(new SiteWithConfig(
-                    new Site {Name = "website1", WebSpace = "webspace1"},
-                    new SiteConfig {PublishingUsername = "user1"}));
+                .Returns(new SiteConfig {
+                    PublishingUsername = "user1"}
+                );
 
 
             // Test
@@ -157,9 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 });
 
             websitesClientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
-                .Returns(new SiteWithConfig(
-                    new Site {Name = "website1", WebSpace = "webspace1", State = "running"},
-                    new SiteConfig {PublishingUsername = "user1"}));
+                .Returns(new SiteConfig {PublishingUsername = "user1"});
 
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {

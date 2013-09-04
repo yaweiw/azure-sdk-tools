@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The website configuration object</returns>
-        SiteWithConfig GetWebsiteConfiguration(string name);
+        SiteConfig GetWebsiteConfiguration(string name);
 
         /// <summary>
         /// Get the WebSpaces.
