@@ -33,7 +33,21 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        private IWebsitesClient websitesClient;
+
+        public IWebsitesClient WebsitesClient
+        {
+            get
+            {
+                if (websitesClient == null)
+                {
+                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return websitesClient;
+            }
+
+            set { websitesClient = value; }
+        }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
@@ -84,46 +98,27 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the SetAzureWebsiteCommand class.
-        /// </summary>
-        public SetAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SetAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public SetAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        private SiteConfig currentSiteConfig;
 
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             string suffix = WebsitesClient.GetWebsiteDnsSuffix();
 
             Site website = null;
             SiteConfig websiteConfig = null;
 
-            InvokeInOperationContext(() =>
+            try
             {
-                try
-                {
-                    website = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
-                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
-                }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
-            });
+                website = WebsitesClient.GetWebsite(Name);
+                currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+                website = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
+                websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
+            }
+            catch (CommunicationException ex)
+            {
+                WriteErrorDetails(ex);
+            }
 
             if (website == null)
             {
