@@ -94,11 +94,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void LogDebug(string message)
         {
-            var debugMessage = String.Format("Write-Debug -Message '{0}'", message);
+//            var debugMessage = String.Format("Write-Debug -Message '{0}'", message);
             using (var ps = PowerShell.Create())
             {
                 ps.Runspace = runspace.Value;
-                ps.AddScript(debugMessage);
+                ps.AddCommand("Write-Debug");
+                ps.AddParameter("Message", message);
                 ps.Invoke();
             }
         }
