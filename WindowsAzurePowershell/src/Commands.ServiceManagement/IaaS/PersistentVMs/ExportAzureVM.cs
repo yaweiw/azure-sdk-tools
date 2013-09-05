@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             base.ExecuteCommand();
             if (CurrentDeploymentNewSM == null)
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     VM = new PersistentVM
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
-                        ConfigurationSets = Mapper.Map(vm.ConfigurationSets, new Collection<ConfigurationSet>()),
+                        ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
                         DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
                         //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
 //                        Label = vm.Label,

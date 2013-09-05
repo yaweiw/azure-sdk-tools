@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 //
 //            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
 
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             var parameters = new StorageAccountCreateParameters
             {

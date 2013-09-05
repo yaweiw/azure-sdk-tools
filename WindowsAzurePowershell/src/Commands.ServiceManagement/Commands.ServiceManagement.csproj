@@ -15,6 +15,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -206,12 +207,11 @@
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
-    <Compile Include="ServiceManagementPofile.cs" />
+    <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
-    <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">

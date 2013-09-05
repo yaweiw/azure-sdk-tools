@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             if (this.Label == null && this.Description == null)
             {

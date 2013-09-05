@@ -19,8 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;
@@ -32,15 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     [Cmdlet(VerbsCommon.Get, "AzureCertificate"), OutputType(typeof(CertificateContext))]
     public class GetAzureCertificate : ServiceManagementBaseCmdlet
     {
-        public GetAzureCertificate()
-        {
-        }
-
-        public GetAzureCertificate(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName

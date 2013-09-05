@@ -19,15 +19,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using AutoMapper;
+    using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
-    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using RoleInstance = Management.Compute.Models.RoleInstance;
 
 
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
@@ -59,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             base.ExecuteCommand();
             if (!string.IsNullOrEmpty(ServiceName) && CurrentDeploymentNewSM == null)
@@ -67,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            List<PersistentVMRoleContext> roles = new List<PersistentVMRoleContext>();
+            var roles = new List<PersistentVMRoleContext>();
             IList<Management.Compute.Models.Role> vmRoles;
 
             if (string.IsNullOrEmpty(ServiceName))
@@ -119,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         VM = new PersistentVM
                         {
                             AvailabilitySetName = vm.AvailabilitySetName,
-                            ConfigurationSets = Mapper.Map(vm.ConfigurationSets, new Collection<ConfigurationSet>()),
+                            ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
                             DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
                             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
 //                            Label = vm.Label,
@@ -153,20 +155,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             var servicesList = this.ComputeClient.HostedServices.List();
             foreach (var service in servicesList.HostedServices)
             {
-                var deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(service.ServiceName, DeploymentSlot.Production);
-                foreach (var role in deploymentGetResponse.Roles)
+                try
                 {
-                    if (role.RoleType == "PersistentVMRole")
+                    var deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(service.ServiceName, DeploymentSlot.Production);
+                    foreach (var role in deploymentGetResponse.Roles)
                     {
-                        Management.Compute.Models.RoleInstance instance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == role.RoleName);
-                        var vmContext = new PersistentVMRoleListContext
+                        if (role.RoleType == "PersistentVMRole")
                         {
-                            ServiceName = service.ServiceName,
-                            Status = instance.InstanceStatus,
-                            Name = instance.RoleName
-                        };
+                            RoleInstance instance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == role.RoleName);
+                            var vmContext = new PersistentVMRoleListContext
+                                            {
+                                                ServiceName = service.ServiceName,
+                                                Status = instance.InstanceStatus,
+                                                Name = instance.RoleName
+                                            };
 
-                        WriteObject(vmContext, true);
+                            WriteObject(vmContext, true);
+                        }
+                    }
+                }
+                catch (CloudException e)
+                {
+                    if (e.Response.StatusCode != HttpStatusCode.NotFound)
+                    {
+                        throw;
                     }
                 }
             }

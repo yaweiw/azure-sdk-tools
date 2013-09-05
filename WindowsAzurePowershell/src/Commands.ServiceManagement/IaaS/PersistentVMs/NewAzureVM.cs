@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         public void NewAzureVMProcess()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
 
@@ -354,7 +354,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 //                Label = persistentVM.Label
             };
             persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
-            persistentVM.ConfigurationSets.ForEach(c => result.ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
+            PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
 
             return result;
         }

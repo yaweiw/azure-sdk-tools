@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -64,6 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             {
                 this.Slot = DeploymentSlotType.Production;
             }
+//            var d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
 
             ExecuteClientActionInOCS(
                 null,

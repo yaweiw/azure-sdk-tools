@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Commands.ServiceManagement.Helpers;
+    using Helpers;
     using Model;
 
     [Cmdlet(VerbsData.Import, "AzureVM"), OutputType(typeof(PersistentVM))]

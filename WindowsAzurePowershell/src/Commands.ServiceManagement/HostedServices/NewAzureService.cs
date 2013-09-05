@@ -19,8 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
-    using Management.Models;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates a new hosted service in Windows Azure.
@@ -28,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.New, "AzureService", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureServiceCommand()
-        {
-        }
-
-        public NewAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "A name for the hosted service that is unique to the subscription.")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "A name for the hosted service that is unique to the subscription.")]
         [ValidateNotNullOrEmpty]
@@ -98,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
             this.ExecuteCommand();
         }
     }
