@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         public void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+            ServiceManagementProfile.Initialize();
             
             if (string.IsNullOrEmpty(Label))
             {

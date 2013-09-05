@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         public void NewAzureVMProcess()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+            ServiceManagementProfile.Initialize();
 
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
             CloudStorageAccount currentStorage = null;
