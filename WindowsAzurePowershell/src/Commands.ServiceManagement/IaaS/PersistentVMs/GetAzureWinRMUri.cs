@@ -91,6 +91,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 throw new ArgumentOutOfRangeException(Resources.RoleInstanceCanNotBeFound);
             }
+            
+            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/135
             if (roleInstance.InstanceEndpoints == null)
             {
                 throw new ArgumentOutOfRangeException(string.Format(Resources.NoEndpointFoundForVM, roleInstance.RoleName));

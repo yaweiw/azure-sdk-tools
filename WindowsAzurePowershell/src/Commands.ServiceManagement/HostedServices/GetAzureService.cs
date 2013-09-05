@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Retrieve a specified hosted account.
@@ -29,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureService"), OutputType(typeof(HostedServiceDetailedContext))]
     public class GetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureServiceCommand()
-        {
-        }
-
-        public GetAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -48,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             if (this.ServiceName != null)
             {

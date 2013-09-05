@@ -16,14 +16,24 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.IO;
     using System.Xml.Serialization;
+    using AutoMapper;
+    using Management.Compute.Models;
     using Model;
     using WindowsAzure.ServiceManagement;
     using Properties;
-    using System.Text.RegularExpressions;
     using System.Management.Automation;
+    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
+    using NetworkConfigurationSet = Model.PersistentVMModel.NetworkConfigurationSet;
+    using WindowsProvisioningConfigurationSet = Model.PersistentVMModel.WindowsProvisioningConfigurationSet;
+    using LinuxProvisioningConfigurationSet = Model.PersistentVMModel.LinuxProvisioningConfigurationSet;
+    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
+    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using RoleInstance = Management.Compute.Models.RoleInstance;
 
     public static class PersistentVMHelper
     {
@@ -90,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                     WildcardOptions wildcardOptions = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                     WildcardPattern wildcardPattern = new WildcardPattern(roleName, wildcardOptions);
 
-                    foreach (RoleInstance role in roleInstanceList)
+                    foreach (var role in roleInstanceList)
                         if (!string.IsNullOrEmpty(role.RoleName) && wildcardPattern.IsMatch(role.RoleName))
                         {
                             roleNamesCollection.Add(role.RoleName);
@@ -108,5 +118,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             }
             return roleNamesCollection;
         }
+
+        public static Collection<ConfigurationSet> MapConfigurationSets(IList<Management.Compute.Models.ConfigurationSet> configurationSets)
+        {
+            var result = new Collection<ConfigurationSet>();
+            var n = configurationSets.Where(c => c.ConfigurationSetType == "NetworkConfiguration").Select(Mapper.Map<Model.PersistentVMModel.NetworkConfigurationSet>).ToList();
+            var w = configurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.WindowsProvisioningConfiguration).Select(Mapper.Map<WindowsProvisioningConfigurationSet>).ToList();
+            var l = configurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.LinuxProvisioningConfiguration).Select(Mapper.Map<LinuxProvisioningConfigurationSet>).ToList();
+            n.ForEach(result.Add);
+            w.ForEach(result.Add);
+            l.ForEach(result.Add);
+            return result;
+        }
+
+        public static  IList<Management.Compute.Models.ConfigurationSet> MapConfigurationSets(Collection<ConfigurationSet> configurationSets)
+        {
+            var result = new Collection<Management.Compute.Models.ConfigurationSet>();
+            foreach (var networkConfig in configurationSets.OfType<NetworkConfigurationSet>())
+            {
+                result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(networkConfig));
+            }
+            foreach (var windowsConfig in configurationSets.OfType<WindowsProvisioningConfigurationSet>())
+            {
+                result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig));
+            }
+            foreach (var linuxConfig in configurationSets.OfType<LinuxProvisioningConfigurationSet>())
+            {
+                result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(linuxConfig));
+            }
+            return result;
+        }
+
     }
 }

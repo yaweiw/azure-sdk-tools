@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 var contentHeaders = response.Content.Headers;
                 var stream = new MemoryStream();
                 response.Content.CopyToAsync(stream).Wait();
-                if (stream.Length > 0)
+                if (stream.Length > 0 && response.Content.Headers.ContentType.MediaType != "application/x-rdp")
                 {
                     stream.Position = 0;
                     body = XElement.Load(stream).ToString();

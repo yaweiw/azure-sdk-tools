@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     using Commands.Utilities.Common;
     using Management;
     using Management.Models;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates and returns a new affinity group in the specified data center location.
@@ -27,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     [Cmdlet(VerbsCommon.New, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        public NewAzureAffinityGroup()
-        {
-        }
-
-        public NewAzureAffinityGroup(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         /// <summary>
         /// A name for the affinity group that is unique to the subscription. (Required)
         /// </summary>
@@ -83,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         public void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
             
             if (string.IsNullOrEmpty(Label))
             {

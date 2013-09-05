@@ -28,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Reset, "AzureRoleInstance", DefaultParameterSetName = "ParameterSetGetDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class ResetAzureRoleInstanceCommand : ServiceManagementBaseCmdlet
     {
-        public ResetAzureRoleInstanceCommand()
-        {
-        }
-
-        public ResetAzureRoleInstanceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the hosted service.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName

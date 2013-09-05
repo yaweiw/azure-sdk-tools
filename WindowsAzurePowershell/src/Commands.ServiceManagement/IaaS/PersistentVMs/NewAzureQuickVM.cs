@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
@@ -30,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Properties;
     using Storage;
     using Utilities.Common;
+    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
 
@@ -255,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         public void NewAzureVMProcess()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
             CloudStorageAccount currentStorage = null;
@@ -509,8 +511,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName});
                 }
-                vm.ConfigurationSets.Add(Mapper.Map(windowsConfig, new Management.Compute.Models.ConfigurationSet()));
-                vm.ConfigurationSets.Add(Mapper.Map(netConfig, new Management.Compute.Models.ConfigurationSet()));
+                var configurationSets = new Collection<ConfigurationSet>{windowsConfig, netConfig};
+                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
             }
             else
             {
@@ -535,8 +537,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var rdpEndpoint = new InputEndpoint {LocalPort = 22, Protocol = "tcp", Name = "SSH"};
                 netConfig.InputEndpoints.Add(rdpEndpoint);
 
-                vm.ConfigurationSets.Add(Mapper.Map(linuxConfig, new Management.Compute.Models.ConfigurationSet()));
-                vm.ConfigurationSets.Add(Mapper.Map(netConfig, new Management.Compute.Models.ConfigurationSet()));
+                var configurationSets = new Collection<ConfigurationSet> { linuxConfig, netConfig };
+                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
             }
 
             return vm;

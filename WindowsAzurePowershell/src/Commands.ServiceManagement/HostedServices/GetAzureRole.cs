@@ -31,15 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
     public class GetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureRoleCommand()
-        {
-        }
-
-        public GetAzureRoleCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the hosted service.")]
         public string ServiceName
         {
@@ -138,8 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             RoleName = role.RoleName,
                             DeploymentID = currentDeployment.PrivateId,
                             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/135
-                            //      We'll need to declare the copy of these types here not to break any customer code.
-//                            InstanceEndpoints = role.EndInstanceEndpoints
+//                            InstanceEndpoints = role.InstanceEndpoints
                         };
 
                         instanceContexts.Add(context);

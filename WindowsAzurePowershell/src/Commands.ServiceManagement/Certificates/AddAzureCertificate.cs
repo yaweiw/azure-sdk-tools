@@ -21,9 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using Commands.Utilities.Common;
     using Helpers;
     using Management.Compute.Models;
-    using Management.Models;
-    using Microsoft.WindowsAzure.Management.Compute;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
@@ -31,15 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     [Cmdlet(VerbsCommon.Add, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
     public class AddAzureCertificate : ServiceManagementBaseCmdlet
     {
-        public AddAzureCertificate()
-        {
-        }
-
-        public AddAzureCertificate(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -85,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
             this.ExecuteCommand();
         }
 

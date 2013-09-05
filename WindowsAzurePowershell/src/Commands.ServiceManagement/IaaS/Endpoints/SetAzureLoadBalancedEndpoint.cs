@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         internal override void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             base.ExecuteCommand();
             if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)

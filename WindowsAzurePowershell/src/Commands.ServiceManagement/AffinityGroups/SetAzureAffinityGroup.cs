@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     using Commands.Utilities.Common;
     using Management;
     using Management.Models;
-    using WindowsAzure.ServiceManagement;
     using AutoMapper;
 
     /// <summary>
@@ -27,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     [Cmdlet(VerbsCommon.Set, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        public SetAzureAffinityGroup()
-        {
-        }
-
-        public SetAzureAffinityGroup(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         /// <summary>
         /// The name for the affinity group. (Required)
         /// </summary>
@@ -72,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         internal void ExecuteCommand()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             var parameters = new AffinityGroupUpdateParameters
             {

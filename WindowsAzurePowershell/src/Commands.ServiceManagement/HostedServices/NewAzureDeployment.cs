@@ -34,15 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.New, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureDeploymentCommand()
-        {
-        }
-
-        public NewAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Cloud service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName

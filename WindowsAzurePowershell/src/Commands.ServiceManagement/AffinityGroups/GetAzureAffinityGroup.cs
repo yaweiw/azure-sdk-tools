@@ -14,19 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.Reflection;
     using AutoMapper;
-    using Commands.Utilities.Common;
+    using Utilities.Common;
     using Management;
     using Management.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
-
 
     /// <summary>
     /// List the properties for the specified affinity group.
@@ -34,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     [Cmdlet(VerbsCommon.Get, "AzureAffinityGroup"), OutputType(typeof(AffinityGroupContext))]
     public class GetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        public GetAzureAffinityGroup()
-        {
-        }
-
-        public GetAzureAffinityGroup(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Affinity Group name")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -58,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
 
             if (this.Name != null)
             {

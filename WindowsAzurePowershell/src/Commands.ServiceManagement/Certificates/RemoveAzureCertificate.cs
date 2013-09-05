@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using AutoMapper;
     using Commands.Utilities.Common;
     using Management.Compute.Models;
-    using WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Compute;
+    using Management.Compute;
 
     /// <summary>
     /// Deletes the specified certificate.
@@ -27,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     [Cmdlet(VerbsCommon.Remove, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureCertificate : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureCertificate()
-        {
-        }
-
-        public RemoveAzureCertificate(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -75,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementPofile>());
+            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
             this.ExecuteCommand();
         }
     }

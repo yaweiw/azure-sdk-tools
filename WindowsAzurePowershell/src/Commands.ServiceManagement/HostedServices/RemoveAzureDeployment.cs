@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Management.Compute;
     using Properties;
 
     /// <summary>
@@ -25,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Remove, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureDeploymentCommand()
-        {
-        }
-        
-        public RemoveAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
