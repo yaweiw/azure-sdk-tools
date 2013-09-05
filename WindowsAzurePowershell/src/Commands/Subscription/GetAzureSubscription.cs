@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 }
                 catch (CommunicationException ex)
                 {
-                    WriteErrorDetails(ex);
+                    WriteExceptionDetails(ex);
                 }
                 finally
                 {

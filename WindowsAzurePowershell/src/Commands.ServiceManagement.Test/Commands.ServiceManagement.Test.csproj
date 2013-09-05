@@ -344,7 +344,6 @@
     </Compile>
     <Compile Include="UnitTests\Cmdlets\IaaS\PersistenVMs\GetAzureWinRMUriTests.cs" />
     <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\IaaS\PersistenVMs\PersistentVMMappingTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\SetAzureStorageAccountTests.cs" />

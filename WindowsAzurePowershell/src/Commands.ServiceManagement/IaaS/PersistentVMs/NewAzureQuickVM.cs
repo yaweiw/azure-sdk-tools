@@ -319,7 +319,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                 catch (CloudException ex)
                 {
-                    this.WriteErrorDetails(ex);
+                    this.WriteExceptionDetails(ex);
                     return;
                 }
             }
@@ -406,7 +406,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     {
                         throw new Exception(Resources.ServiceDoesNotExistSpecifyLocationOrAffinityGroup);
                     }
-                    this.WriteErrorDetails(ex);
+                    this.WriteExceptionDetails(ex);
                     return;
                 }
 
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
                 catch (CloudException ex)
                 {
-                    this.WriteErrorDetails(ex);
+                    this.WriteExceptionDetails(ex);
                     return;
                 }
             }
@@ -603,7 +603,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     return false;
                 }
-                this.WriteErrorDetails(ex);
+                this.WriteExceptionDetails(ex);
             }
 
             return false;

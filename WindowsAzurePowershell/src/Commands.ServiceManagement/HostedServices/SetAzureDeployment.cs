@@ -267,7 +267,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     }
                     catch (ServiceManagementClientException ex)
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                 }
             }
