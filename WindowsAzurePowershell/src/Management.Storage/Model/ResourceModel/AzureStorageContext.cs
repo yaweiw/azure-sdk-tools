@@ -64,9 +64,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         public AzureStorageContext(CloudStorageAccount account)
         {
             StorageAccount = account;
-            BlobEndPoint = account.BlobEndpoint.ToString();
-            TableEndPoint = account.TableEndpoint.ToString();
-            QueueEndPoint = account.QueueEndpoint.ToString();
+
+            if (account.BlobEndpoint != null)
+            {
+                BlobEndPoint = account.BlobEndpoint.ToString();
+            }
+
+            if (account.TableEndpoint != null)
+            {
+                TableEndPoint = account.TableEndpoint.ToString();
+            }
+
+            if (account.QueueEndpoint != null)
+            {
+                QueueEndPoint = account.QueueEndpoint.ToString();
+            }
+
             StorageAccountName = account.Credentials.AccountName;
             Context = this;
             Name = String.Empty;
