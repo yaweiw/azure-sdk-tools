@@ -224,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 {
                     if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                 }
             }

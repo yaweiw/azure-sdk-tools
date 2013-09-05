@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
             catch (ServiceManagementClientException ex)
             {
-                this.WriteErrorDetails(ex);
+                this.WriteExceptionDetails(ex);
             }
         }
 

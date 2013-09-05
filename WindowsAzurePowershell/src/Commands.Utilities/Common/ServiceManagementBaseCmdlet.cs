@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     }
                     catch (ServiceManagementClientException ex)
                     {
-                        WriteErrorDetails(ex);
+                        WriteExceptionDetails(ex);
                     }
 
                     WriteVerboseWithTimestamp(string.Format(Resources.ServiceManagementExecuteClientActionInOCSCompletedOperation, operationDescription));
@@ -262,15 +262,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        protected virtual void WriteErrorDetails(ServiceManagementClientException exception)
-        {
-            if (CommandRuntime != null)
-            {
-                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
-
-        protected virtual void WriteErrorDetails(Exception exception)
+        protected virtual void WriteExceptionDetails(Exception exception)
         {
             if (CommandRuntime != null)
             {
@@ -301,7 +293,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             catch (AggregateException ex)
             {
-                WriteErrorDetails(ex);
+                WriteExceptionDetails(ex);
             }
 
             return operation;
@@ -322,11 +314,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 if (ex.InnerException is CloudException)
                 {
-                    WriteErrorDetails(ex.InnerException);
+                    WriteExceptionDetails(ex.InnerException);
                 }
                 else
                 {
-                    WriteErrorDetails(ex);
+                    WriteExceptionDetails(ex);
                 }
             }
 
@@ -373,7 +365,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     }
                     catch (ServiceManagementClientException ex)
                     {
-                        WriteErrorDetails(ex);
+                        WriteExceptionDetails(ex);
                     }
 
                     WriteVerboseWithTimestamp(string.Format(Resources.ServiceManagementExecuteClientActionInOCSCompletedOperation, operationDescription));
@@ -429,7 +421,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             catch (ServiceManagementClientException ex)
             {
-                WriteErrorDetails(ex);
+                WriteExceptionDetails(ex);
             }
 
             return operation;

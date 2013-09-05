@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     {
                         if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
                         {
-                            this.WriteErrorDetails(ex);
+                            this.WriteExceptionDetails(ex);
                         }
                     }
                 }
@@ -239,7 +239,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 }
                 catch (ServiceManagementClientException ex)
                 {
-                    this.WriteErrorDetails(ex);
+                    this.WriteExceptionDetails(ex);
                 }
             }
         }
@@ -263,7 +263,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 {
                     if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                 }
             }

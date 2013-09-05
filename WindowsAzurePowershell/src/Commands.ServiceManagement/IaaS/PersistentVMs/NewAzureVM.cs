@@ -168,7 +168,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             }
             catch (CloudException ex)
             {
-                this.WriteErrorDetails(ex);
+                this.WriteExceptionDetails(ex);
                 return;
             }
 
@@ -253,7 +253,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     }
                     else
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                     return;
                 }
@@ -434,7 +434,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     return false;
                 }
-                this.WriteErrorDetails(ex);
+                this.WriteExceptionDetails(ex);
             }
 
             return false;
