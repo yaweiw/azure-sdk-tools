@@ -15,6 +15,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
     public class ServiceManagementProfile : Profile
     {
+        private static readonly Lazy<bool> initialize;
+
+        static ServiceManagementProfile()
+        {
+            initialize = new Lazy<bool>(() =>
+            {
+                Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+                return true;
+            });
+        }
+
+        public static bool Initialize()
+        {
+            return initialize.Value;
+        }
+
         public override string ProfileName
         {
             get { return "ServiceManagementProfile"; }

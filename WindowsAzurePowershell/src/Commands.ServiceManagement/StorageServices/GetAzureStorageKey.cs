@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+            ServiceManagementProfile.Initialize();
 
             ExecuteClientActionNewSM(
                 null,

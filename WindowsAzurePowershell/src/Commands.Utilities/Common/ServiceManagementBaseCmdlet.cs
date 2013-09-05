@@ -453,5 +453,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             var context = Mapper.Map(source, destination);
             return context;
         }
+
+
     }
 }

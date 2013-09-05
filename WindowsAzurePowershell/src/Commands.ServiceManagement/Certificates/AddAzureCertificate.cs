@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
 

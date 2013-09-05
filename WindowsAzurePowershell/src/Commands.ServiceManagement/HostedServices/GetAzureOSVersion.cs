@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     {
         protected override void OnProcessRecord()
         {
-            Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+            ServiceManagementProfile.Initialize();
 
             ExecuteClientActionNewSM(
                 null,
