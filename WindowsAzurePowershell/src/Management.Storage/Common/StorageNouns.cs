@@ -103,5 +103,40 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// Copy status for azure storage blob
         /// </summary>
         public const string CopyBlobStatus = "AzureStorageBlobCopyState";
+
+        /// <summary>
+        /// Azure storage service properties
+        /// </summary>
+        public const string StorageServiceProperties = "AzureStorageServiceProperties";
+
+        /// <summary>
+        /// Azure storage blob service
+        /// </summary>
+        public const string BlobService = "Blob";
+
+        /// <summary>
+        /// Azure storage table service
+        /// </summary>
+        public const string TableService = "Table";
+
+        /// <summary>
+        /// Azure storage queue service
+        /// </summary>
+        public const string QueueService = "Queue";
+
+        /// <summary>
+        /// Turn off metrics
+        /// </summary>
+        public const string OffMetrics = "None";
+
+        /// <summary>
+        /// Minimal metrics
+        /// </summary>
+        public const string MinimalMetrics = "Service";
+
+        /// <summary>
+        /// Verbose metrics
+        /// </summary>
+        public const string VerboseMetrics = "ServiceAndApi";
     }
 }

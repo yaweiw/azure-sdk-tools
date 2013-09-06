@@ -427,5 +427,47 @@
         </ListEntries>
       </ListControl>
     </View>
+    <View>
+        <Name>Microsoft.WindowsAzure.Storage.Shared.Protocol.ServiceProperties</Name>
+        <ViewSelectedBy>
+            <TypeName>Microsoft.WindowsAzure.Storage.Shared.Protocol.ServiceProperties</TypeName>
+        </ViewSelectedBy>
+        <ListControl>
+            <ListEntries>
+                <ListEntry>
+                    <ListItems>
+                        <ListItem>
+                            <Label>Logging.Version</Label>
+                            <ScriptBlock>$_.Logging.Version</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>Logging.LoggingOperations</Label>
+                            <ScriptBlock>$_.Logging.LoggingOperations</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>Logging.RetentionDays</Label>
+                            <ScriptBlock>$_.Logging.RetentionDays</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>Metrics.Version</Label>
+                            <ScriptBlock>$_.Metrics.Version</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>Metrics.MetricsLevel</Label>
+                            <ScriptBlock>$_.Metrics.MetricsLevel</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>Metrics.RetentionDays</Label>
+                            <ScriptBlock>$_.Metrics.RetentionDays</ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>DefaultServiceVersion</Label>
+                            <PropertyName>DefaultServiceVersion</PropertyName>
+                        </ListItem>
+                    </ListItems>
+                </ListEntry>
+            </ListEntries>
+        </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
