@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Subscription
 {
-    using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;

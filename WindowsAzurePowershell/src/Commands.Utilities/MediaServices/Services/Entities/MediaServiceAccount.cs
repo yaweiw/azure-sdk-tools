@@ -11,26 +11,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
+    using System;
+    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    /// <summary>
-    /// Gets an azure website.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation"), OutputType(typeof(ICollection<string>))]
-    public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
+    [DataContract(Namespace = MediaServicesUriElements.ServiceNamespace, Name = "ServiceResource")]
+    [JsonObject(Title = "ServiceResource")]
+    public class MediaServiceAccount
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public Guid AccountId { get; set; }
 
-        public override void ExecuteCmdlet()
-        {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WriteObject(WebsitesClient.ListAvailableLocations(), true);
-        }
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string State { get; set; }
     }
 }

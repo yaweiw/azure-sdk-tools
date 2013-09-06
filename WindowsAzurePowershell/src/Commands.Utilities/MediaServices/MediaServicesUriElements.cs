@@ -12,25 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-
     /// <summary>
-    /// Gets an azure website.
+    ///     Contains URI fragments and namespaces used by Azure Media Services cmdlets
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation"), OutputType(typeof(ICollection<string>))]
-    public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
+    public class MediaServicesUriElements
     {
-        public IWebsitesClient WebsitesClient { get; set; }
-
-        public override void ExecuteCmdlet()
-        {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WriteObject(WebsitesClient.ListAvailableLocations(), true);
-        }
+        //Namespaces
+        public const string AccountDetailsNamespace = "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models";
+        public const string ServiceNamespace = "http://schemas.microsoft.com/windowsazure";
+        // Service resources
+        public const string MediaServiceRoot = "{subscriptionId}/services/mediaservices/Accounts";
+        public const string MediaServiceAccountDetails = "{subscriptionId}/services/mediaservices/Accounts/{name}";
+        public const string Accounts = "Accounts";
     }
 }

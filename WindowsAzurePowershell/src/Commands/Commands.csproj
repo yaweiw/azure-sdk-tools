@@ -233,6 +233,11 @@
     <Compile Include="Environment\RemoveAzureEnvironment.cs" />
     <Compile Include="Environment\SetAzureEnvironment.cs" />
     <Compile Include="Environment\GetAzureEnvironment.cs" />
+    <Compile Include="MediaServices\AzureMediaServicesHttpClientCommandBase.cs" />
+    <Compile Include="MediaServices\GetAzureMediaServiceCommand.cs" />
+    <Compile Include="MediaServices\NewAzureMediaServiceCommand.cs" />
+    <Compile Include="MediaServices\NewAzureMediaServiceKeyCommand.cs" />
+    <Compile Include="MediaServices\RemoveAzureMediaServiceCommand.cs" />
     <Compile Include="ServiceBus\GetAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\RemoveAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\SetAzureSBAuthorizationRule.cs" />

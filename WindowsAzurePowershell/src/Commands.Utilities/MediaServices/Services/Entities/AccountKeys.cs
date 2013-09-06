@@ -12,25 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
+    using System.Runtime.Serialization;
 
-    /// <summary>
-    /// Gets an azure website.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation"), OutputType(typeof(ICollection<string>))]
-    public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
+    [DataContract(Namespace = MediaServicesUriElements.AccountDetailsNamespace)]
+    public class AccountKeys
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        /// <summary>
+        ///     Gets or sets the primary account key.
+        /// </summary>
+        /// <value>
+        ///     The primary.
+        /// </value>
+        [DataMember]
+        public string Primary { get; set; }
 
-        public override void ExecuteCmdlet()
-        {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WriteObject(WebsitesClient.ListAvailableLocations(), true);
-        }
+        /// <summary>
+        ///     Gets or sets the secondary account key.
+        /// </summary>
+        /// <value>
+        ///     The secondary.
+        /// </value>
+        [DataMember]
+        public string Secondary { get; set; }
     }
 }
