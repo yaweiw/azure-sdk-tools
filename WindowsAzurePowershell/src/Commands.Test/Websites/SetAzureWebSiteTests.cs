@@ -66,36 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                         updatedSite = true;
                     });
 
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
-            Site site = new Site {Name = websiteName, WebSpace = webspaceName};
-            SiteConfig siteConfig = new SiteConfig { NumberOfWorkers = 1};
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
-            channel.GetSitesThunk = ar => new Sites(new List<Site> { site });
-            channel.GetSiteThunk = ar => site;
-            channel.GetSiteConfigThunk = ar => siteConfig;
-            channel.UpdateSiteConfigThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                SiteConfig website = ar.Values["siteConfig"] as SiteConfig;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(website.NumberOfWorkers, 3);
-                siteConfig.NumberOfWorkers = website.NumberOfWorkers;
-                updatedSiteConfig = true;
-            };
-
-            channel.UpdateSiteThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                Site website = ar.Values["site"] as Site;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsTrue(website.HostNames.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
-                Assert.IsNotNull(website.HostNames.Any(hostname => hostname.Equals("stuff.com")));
-                site.HostNames = website.HostNames;
-                updatedSite = true;
-            };
-
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
