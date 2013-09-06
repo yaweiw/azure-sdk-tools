@@ -117,9 +117,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public static bool IsValidTableName(string tableName)
         {
             //http://msdn.microsoft.com/en-us/library/windowsazure/hh343258.aspx
-            string [] metricsTables = {"$MetricsTransactionsBlob", "$MetricsTransactionsTable",
-                                          "$MetricsTransactionsQueue",  "$MetricsCapacityBlob"};
-            if (!String.IsNullOrEmpty(tableName) && Array.IndexOf(metricsTables, tableName) != -1)
+            string metricsPrefix = "$Metric";
+            if (!String.IsNullOrEmpty(tableName) && tableName.StartsWith(metricsPrefix))
             {
                 return true;
             } else {
