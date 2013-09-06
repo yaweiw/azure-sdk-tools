@@ -95,6 +95,8 @@
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
     <Compile Include="Blob\Cmdlet\StartAzureStorageBlobCopy.cs" />
     <Compile Include="Blob\Cmdlet\StopAzureStorageBlobCopy.cs" />
+    <Compile Include="Common\Cmdlet\GetAzureStorageServiceProperties.cs" />
+    <Compile Include="Common\Cmdlet\SetAzureStorageServiceProperties.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
