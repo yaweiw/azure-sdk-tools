@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;

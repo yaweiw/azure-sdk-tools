@@ -801,7 +801,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>Scaffolding\PHP</value>
   </data>
   <data name="PHPScaffoldingResources" xml:space="preserve">
-    <value>Microsoft.WindowsAzure.Commands.CloudService.ScaffoldingResources.PHP</value>
+    <value>Microsoft.WindowsAzure.Management.CloudService.ScaffoldingResources.PHP</value>
   </data>
   <data name="PHPVersionWarningText" xml:space="preserve">
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>
@@ -1303,5 +1303,24 @@ Please follow these steps in the portal:
   </data>
   <data name="InvalidDeploymentSlot" xml:space="preserve">
     <value>The deployment slot name {0} is invalid. Slot name must be either "Staging" or "Production".</value>
+  </data>
+  <data name="InvalidMediaServicesAccount" xml:space="preserve">
+    <value>The account {0} was not found. Please specify a valid account name.</value>
+  </data>
+  <data name="RegenerateKeyWarning" xml:space="preserve">
+    <value>Are you sure you want to regenerate key?</value>
+  </data>
+  <data name="RegenerateKeyWhatIfMessage" xml:space="preserve">
+    <value>Generate new key.</value>
+  </data>
+  <data name="RemoveMediaAccountWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the account?</value>
+    <comment> </comment>
+  </data>
+  <data name="RemoveMediaAccountWhatIfMessage" xml:space="preserve">
+    <value>Account removed.</value>
+  </data>
+  <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
+    <value>EndPoint can't be retrieved for storage account</value>
   </data>
 </root>
