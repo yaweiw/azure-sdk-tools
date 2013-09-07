@@ -330,16 +330,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
-        /// Update a website instance.
+        /// Update the set of host names for a website.
         /// </summary>
-        /// <param name="name">The website name</param>
-        /// <param name="site">The new site information</param>
-        public void UpdateWebsite(string name, Site site)
+        /// <param name="site">The site name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames)
         {
-            WebsiteManagementClient.WebSites.Update(site.WebSpace, site.Name, new WebSiteUpdateParameters
+            var update = new WebSiteUpdateHostNamesParameters();
+            foreach (var name in hostNames)
             {
-                State = (WebSiteState)(Enum.Parse(typeof(WebSiteState), site.State))
-            });
+                update.HostNames.Add(name);
+            }
+
+            WebsiteManagementClient.WebSites.UpdateHostNames(site.WebSpace, site.Name, update);
         }
 
         /// <summary>
