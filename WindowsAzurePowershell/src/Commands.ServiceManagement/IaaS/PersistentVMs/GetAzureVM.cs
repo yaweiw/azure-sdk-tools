@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
@@ -102,8 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         Name = vm.RoleName,
                         DeploymentName = CurrentDeploymentNewSM.Name,
                         AvailabilitySetName = vm.AvailabilitySetName,
-                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
-//                        Label = vm.Label,
+                        Label = vm.Label,
                         InstanceSize = vm.RoleSize,
                         InstanceStatus = roleInstance.InstanceStatus,
                         IpAddress = roleInstance.IPAddress.ToString(),
@@ -111,10 +111,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         PowerState = roleInstance.PowerState.ToString(),
                         InstanceErrorCode = roleInstance.InstanceErrorCode,
                         InstanceName = roleInstance.InstanceName,
-                        //TODO:https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/133
-                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/134
-//                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-//                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperation.OperationTrackingId,
                         OperationStatus = GetDeploymentOperation.Status,
@@ -123,8 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             AvailabilitySetName = vm.AvailabilitySetName,
                             ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
                             DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
-                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
-//                            Label = vm.Label,
+                            Label = vm.Label,
                             OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                             RoleName = vm.RoleName,
                             RoleSize = vm.RoleSize,

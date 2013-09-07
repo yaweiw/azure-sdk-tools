@@ -19,12 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Management.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using Properties;
     using Role = Management.Compute.Models.Role;
 
@@ -118,18 +119,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             OperationDescription = this.CommandRuntime.ToString(),
                             OperationStatus = getDeploymentOperation.Status.ToString(),
                             InstanceErrorCode = role.InstanceErrorCode,
-                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/133
-//                            InstanceFaultDomain = role.InstanceFaultDomain,
+                            InstanceFaultDomain = role.InstanceFaultDomain,
                             InstanceName = role.InstanceName,
                             InstanceSize = role.InstanceSize,
                             InstanceStateDetails = role.InstanceStateDetails,
                             InstanceStatus = role.InstanceStatus,
-                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/134
-//                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                             RoleName = role.RoleName,
                             DeploymentID = currentDeployment.PrivateId,
-                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/135
-//                            InstanceEndpoints = role.InstanceEndpoints
+                            InstanceEndpoints = Mapper.Map<InstanceEndpointList>(role.InstanceEndpoints)
                         };
 
                         instanceContexts.Add(context);

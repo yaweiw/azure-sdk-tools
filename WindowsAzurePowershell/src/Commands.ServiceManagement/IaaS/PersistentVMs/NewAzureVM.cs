@@ -218,9 +218,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         DeploymentSlot = DeploymentSlot.Production,
                         Name = this.DeploymentName ?? this.ServiceName,
                         Label = this.DeploymentLabel ?? this.ServiceName,
-                        VirtualNetworkName = this.VNetName
+                        VirtualNetworkName = this.VNetName,
+                        Roles = { persistentVMs[0] }
                     };
-                    parameters.Roles.Add(persistentVMs[0]);
 
                     if (this.DnsSettings != null)
                     {
@@ -342,7 +342,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             }
 
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/118
             var result = new Management.Compute.Models.Role
             {
@@ -351,7 +350,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 RoleName = persistentVM.RoleName,
                 RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,                
-//                Label = persistentVM.Label
+                Label = persistentVM.Label
             };
             persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
             PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));

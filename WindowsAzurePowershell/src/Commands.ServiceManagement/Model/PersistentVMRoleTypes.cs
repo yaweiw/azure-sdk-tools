@@ -1,4 +1,6 @@
 
+//TODO: When transition to SM.NET is completed, rename the namespace to "Microsoft.WindowsAzure.ServiceManagement"
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel
 {
     using System;
@@ -2167,6 +2169,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     }
     #endregion
 
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS)]
+    public class InstanceEndpointList : List<InstanceEndpoint> { }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class InstanceEndpoint : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Vip { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public int PublicPort { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public int LocalPort { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Protocol { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
 }
 
 

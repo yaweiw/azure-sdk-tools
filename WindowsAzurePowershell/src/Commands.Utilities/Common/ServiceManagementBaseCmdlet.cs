@@ -434,26 +434,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return channel.GetOperationStatus(subscriptionId, operationId);
         }
 
-        protected object ContextFactory<T1, T2>(T1 source) where T2 : ManagementOperationContext
+        protected T2 ContextFactory<T1, T2>(T1 source) where T2 : ManagementOperationContext
         {
             var context = Mapper.Map<T1, T2>(source);
             context.OperationDescription = CommandRuntime.ToString();
             return context;
         }
 
-        protected object ContextFactory<T1, T2>(T1 source, OperationStatusResponse response) where T2 : ManagementOperationContext
+        protected T2 ContextFactory<T1, T2>(T1 source, OperationStatusResponse response) where T2 : ManagementOperationContext
         {
             var context = Mapper.Map<T1, T2>(source);
             context = Mapper.Map(response, context);
             context.OperationDescription = CommandRuntime.ToString();
             return context;
         }
-        protected object ContextFactory<T1, T2>(T1 source, T2 destination) where T2 : ManagementOperationContext
+        protected T2 ContextFactory<T1, T2>(T1 source, T2 destination) where T2 : ManagementOperationContext
         {
             var context = Mapper.Map(source, destination);
             return context;
         }
-
-
     }
 }

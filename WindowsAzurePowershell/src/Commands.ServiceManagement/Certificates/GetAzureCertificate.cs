@@ -15,14 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
     using Properties;
-
 
     /// <summary>
     /// Retrieve a specified service certificate.
@@ -56,17 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, IEnumerable<Certificate>, object> func = (operation, certificates) => certificates.Select(certificate => new CertificateContext
-            {
-                ServiceName = this.ServiceName,
-                Data = certificate.Data,
-                Thumbprint = certificate.Thumbprint,
-                ThumbprintAlgorithm = certificate.ThumbprintAlgorithm,
-                Url = certificate.CertificateUrl,
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status
-            });
             if (this.Thumbprint != null)
             {
                 if (this.ThumbprintAlgorithm == null)
@@ -74,38 +62,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                     throw new ArgumentNullException("ThumbprintAlgorithm", Resources.MissingThumbprintAlgorithm);
                 }
 
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/99
-
-                ExecuteClientActionInOCS(
+                var parameters = new ServiceCertificateGetParameters
+                {
+                    ServiceName =  ServiceName,
+                    Thumbprint =  Thumbprint,
+                    ThumbprintAlgorithm =  ThumbprintAlgorithm
+                };
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint),
-                    (operation, certificate) => func(operation, new[] { certificate }));
-//                var parameters = new ServiceCertificateGetParameters
-//                {
-//                    ServiceName =  ServiceName,
-//                    Thumbprint =  Thumbprint,
-//                    ThumbprintAlgorithm =  ThumbprintAlgorithm
-//                };
-//                ExecuteClientActionNewSM(
-//                    null,
-//                    CommandRuntime.ToString(),
-//                    () => this.ComputeClient.ServiceCertificates.Get(parameters),
-//                    (s, response) => new int[1].Select(i => ContextFactory<ServiceCertificateGetResponse, CertificateContext>(response, s)));
+                    () => this.ComputeClient.ServiceCertificates.Get(parameters),
+                    (s, response) => new int[1].Select(i => ContextFactory<ServiceCertificateGetResponse, CertificateContext>(response, s)));
             }
             else
             {
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/100
-                ExecuteClientActionInOCS(
-                     null,
-                     CommandRuntime.ToString(),
-                     s => this.Channel.ListCertificates(s, this.ServiceName),
-                     (operation, certificates) => func(operation, certificates));
-//                ExecuteClientActionNewSM(
-//                    null,
-//                    CommandRuntime.ToString(),
-//                    () => this.ComputeClient.ServiceCertificates.List(this.ServiceName),
-//                    (s, response) => response.Certificates.Select(c => ContextFactory<ServiceCertificateListResponse.Certificate, CertificateContext>(c, s)));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.ServiceCertificates.List(this.ServiceName),
+                    (s, response) => response.Certificates.Select(c =>
+                                                                  {
+                                                                      var context = ContextFactory<ServiceCertificateListResponse.Certificate, CertificateContext>(c, s);
+                                                                      context.ServiceName = this.ServiceName;
+                                                                      return context;
+                                                                  }));
             }
         }
 

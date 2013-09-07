@@ -41,7 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             //SM to NewSM mapping
             Mapper.CreateMap<PVM.InputEndpoint, NSM.InputEndpoint>()
                 .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null));
-
             Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>();
             Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>()
                 .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS));
@@ -52,10 +51,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
+                .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null));
+            Mapper.CreateMap<PVM.InstanceEndpointList, IList<NSM.InstanceEndpoint>>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration, NSM.WindowsRemoteManagementSettings>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, NSM.WindowsRemoteManagementListener>()
+                .ForMember(c => c.ListenerType, o => o.MapFrom(r => r.Protocol));
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, IList<NSM.WindowsRemoteManagementListener>>();
 
             //NewSM to SM mapping
             Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>()
-                .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress.ToString()));
+                .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null));
             Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>();
             Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>()
                 .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
@@ -63,6 +69,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.InstanceEndpoint, PVM.InstanceEndpoint>()
+                .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null));
+            Mapper.CreateMap<IList<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>();
+            Mapper.CreateMap<NSM.WindowsRemoteManagementSettings, PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
+            Mapper.CreateMap<NSM.WindowsRemoteManagementListener, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>()
+                .ForMember(c => c.Protocol, o => o.MapFrom(r => r.ListenerType.ToString()));
+            Mapper.CreateMap<IList<NSM.WindowsRemoteManagementListener>, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
 
             //Common mapping
             Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
@@ -76,8 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             //AffinityGroup mapping
             Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>();
             Mapper.CreateMap<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>();
-            Mapper.CreateMap<AffinityGroupGetResponse.HostedServiceReference, AffinityGroupContext.Service>();
-            Mapper.CreateMap<AffinityGroupGetResponse.StorageServiceReference, AffinityGroupContext.Service>();
+            Mapper.CreateMap<AffinityGroupGetResponse.HostedServiceReference, AffinityGroupContext.Service>()
+                  .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
+            Mapper.CreateMap<AffinityGroupGetResponse.StorageServiceReference, AffinityGroupContext.Service>()
+                  .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<OperationStatusResponse, AffinityGroupContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
@@ -89,6 +104,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
             
             //ServiceCertificate mapping
+            Mapper.CreateMap<ServiceCertificateGetResponse, CertificateContext>()
+                .ForMember(c => c.Data, o => o.MapFrom(r => r.Data != null ? Convert.ToBase64String(r.Data) : null));
+            Mapper.CreateMap<ServiceCertificateListResponse.Certificate, CertificateContext>()
+                .ForMember(c => c.Url, o => o.MapFrom(r => r.CertificateUri))
+                .ForMember(c => c.Data, o => o.MapFrom(r => r.Data != null ? Convert.ToBase64String(r.Data) : null));
+            Mapper.CreateMap<OperationStatusResponse, CertificateContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
             Mapper.CreateMap<ComputeOperationStatusResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));

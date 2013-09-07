@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using System.Collections.Generic;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute.Models;
     using Properties;
 
     [Cmdlet(VerbsCommon.Get, "AzureWinRMUri"), OutputType(typeof(Uri), typeof(List<Uri>))]
@@ -47,22 +47,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         public void ExecuteCommandBody()
         {
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            if(CurrentDeployment.Url == null)
+            if (CurrentDeploymentNewSM.Uri == null)
             {
                 throw new ArgumentOutOfRangeException(Resources.CurrentDeploymentDoesNotHaveUrl);
             }
-            if (CurrentDeployment.RoleInstanceList == null)
+            if (CurrentDeploymentNewSM.RoleInstances == null)
             {
                 throw new ArgumentOutOfRangeException(Resources.CurrentDeploymentDoesNotHaveVMs);
             }
             if (String.IsNullOrEmpty(Name))
             {
-                var result = CurrentDeployment.RoleInstanceList.Select(GetUri).Where(uri => uri != null).ToList();
+                var result = CurrentDeploymentNewSM.RoleInstances.Select(GetUri).Where(uri => uri != null).ToList();
                 if(!result.Any())
                 {
                     return;
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             else
             {
                 var roleInstance =
-                    CurrentDeployment.RoleInstanceList.Where(r => r.RoleName != null).FirstOrDefault(
+                    CurrentDeploymentNewSM.RoleInstances.Where(r => r.RoleName != null).FirstOrDefault(
                         r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
 
                 if (roleInstance == null)
@@ -92,7 +92,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 throw new ArgumentOutOfRangeException(Resources.RoleInstanceCanNotBeFound);
             }
             
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/135
             if (roleInstance.InstanceEndpoints == null)
             {
                 throw new ArgumentOutOfRangeException(string.Format(Resources.NoEndpointFoundForVM, roleInstance.RoleName));
@@ -105,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             var builder = new UriBuilder(CurrentDeployment.Url)
             {
-                Port = winRmEndPoint.PublicPort,
+                Port = winRmEndPoint.Port,
                 Scheme = "https"
             };
             var uri = builder.Uri;
