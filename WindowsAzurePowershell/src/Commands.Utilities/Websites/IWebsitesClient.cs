@@ -76,11 +76,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name);
 
         /// <summary>
-        /// Update a website instance.
+        /// Update the set of host names for a website.
         /// </summary>
-        /// <param name="name">The website name</param>
-        /// <param name="site">The new site information</param>
-        void UpdateWebsite(string name, Site site);
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames);
 
         /// <summary>
         /// Gets the website configuration.
