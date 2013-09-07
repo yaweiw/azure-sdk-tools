@@ -56,13 +56,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                         updatedSiteConfig = true;
                     }).Verifiable();
 
-            clientMock.Setup(c => c.UpdateWebsite(websiteName, It.IsAny<Site>()))
-                .Callback((string name, Site siteUpdate) =>
+            clientMock.Setup(c => c.UpdateWebsiteHostNames(It.IsAny<Site>(), It.IsAny<IEnumerable<string>>()))
+                .Callback((Site site, IEnumerable<string> names) =>
                     {
-                        Assert.IsNotNull(siteUpdate);
-                        Assert.AreEqual(name, siteUpdate.Name);
-                        Assert.IsTrue(siteUpdate.HostNames.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
-                        Assert.IsTrue(siteUpdate.HostNames.Any(hostname => hostname.Equals("stuff.com")));
+                        Assert.AreEqual(websiteName, site.Name);
+                        Assert.IsTrue(names.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
+                        Assert.IsTrue(names.Any(hostname => hostname.Equals("stuff.com")));
                         updatedSite = true;
                     });
 

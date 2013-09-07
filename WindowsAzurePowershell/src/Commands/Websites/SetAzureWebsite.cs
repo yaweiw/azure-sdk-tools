@@ -147,12 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
                 var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
                 newHostNames.AddRange(HostNames);
-                var websiteUpdate = new Site
-                {
-                    Name = Name,
-                    HostNames = newHostNames.ToArray()
-                };
-                WebsitesClient.UpdateWebsite(Name, websiteUpdate);
+                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames);
             }
             
         }
