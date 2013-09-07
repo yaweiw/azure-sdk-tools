@@ -55,6 +55,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
+
             if (this.Thumbprint != null)
             {
                 if (this.ThumbprintAlgorithm == null)
