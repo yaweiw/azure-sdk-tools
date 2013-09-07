@@ -100,11 +100,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/130
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/136
             var parameters = new VirtualMachineUpdateParameters
             {
                 AvailabilitySetName = VM.AvailabilitySetName,
-//                Label = VM.Label,
+                Label = VM.Label,
                 OSVirtualHardDisk = Mapper.Map(VM.OSVirtualHardDisk, new OSVirtualHardDisk()),
                 RoleName = VM.RoleName,
                 RoleSize = roleSizeResult,

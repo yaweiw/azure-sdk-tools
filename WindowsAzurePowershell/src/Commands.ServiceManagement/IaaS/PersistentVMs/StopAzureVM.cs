@@ -22,8 +22,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Commands.Utilities.Common;
     using Helpers;
     using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
     using Properties;
+    using RoleInstance = WindowsAzure.ServiceManagement.RoleInstance;
 
     [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StopAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -77,8 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/128
-
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
 
             // Generate a list of role names matching regular expressions or
@@ -101,37 +102,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 if (StayProvisioned.IsPresent)
                 {
-                    ExecuteClientActionInOCS(
+                    ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.Stopped));
+                        () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.Stopped),
+                        (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
                 }
                 else
                 {
-                    //TOOD: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/129
                     if (!Force.IsPresent && IsLastVmInDeployment(roleNames.Count))
                     {
                         ConfirmAction(false,
                             Resources.DeploymentVIPLossWarning,
                             string.Format(Resources.DeprovisioningVM, roleName),
                             String.Empty,
-                            () => ExecuteClientActionInOCS(
+                            () => ExecuteClientActionNewSM(
                                 null,
                                 CommandRuntime.ToString(),
-                                s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.StoppedDeallocated)));
+                                () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.StoppedDeallocated),
+                                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s)));
                     }
                     else
                     {
-                        ExecuteClientActionInOCS(
-                            null,
-                            CommandRuntime.ToString(),
-                            s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownAction.StoppedDeallocated));
+                        ExecuteClientActionNewSM(
+                                null,
+                                CommandRuntime.ToString(),
+                                () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.StoppedDeallocated),
+                                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
                     }
                 }
-
             }
             else
             {
+                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/128
                 var shutdownRolesOperation = new ShutdownRolesOperation() { Roles = roleNames };
 
                 if (StayProvisioned.IsPresent)
@@ -169,8 +172,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         private bool IsLastVmInDeployment(int vmCount)
         {
-            Func<RoleInstance, bool> roleNotStoppedDeallocated = r => String.Compare(r.InstanceStatus, PostShutdownAction.StoppedDeallocated.ToString(), true, CultureInfo.InvariantCulture) != 0;
-            bool result = CurrentDeployment.RoleInstanceList.Count(roleNotStoppedDeallocated) <= vmCount;
+            Func<Management.Compute.Models.RoleInstance, bool> roleNotStoppedDeallocated = r => String.Compare(r.InstanceStatus, PostShutdownState.StoppedDeallocated.ToString(), true, CultureInfo.InvariantCulture) != 0;
+            bool result = CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
             return result;
         }
     }

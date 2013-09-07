@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using Role = Management.Compute.Models.Role;
 
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options
@@ -373,9 +374,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         DeploymentSlot = DeploymentSlot.Production,
                         Name = this.ServiceName,
                         Label = this.ServiceName,
-                        VirtualNetworkName = this.VNetName
+                        VirtualNetworkName = this.VNetName,
+                        Roles = {vm}
                     };
-                    parameters.Roles.Add(vm);
 
                     if (this.DnsSettings != null)
                     {
@@ -466,14 +467,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
-            //TOOD: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/117
             var vm = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
                 RoleSize = String.IsNullOrEmpty(InstanceSize) ? null : InstanceSize,
                 RoleType = "PersistentVMRole",
-//                Label = ServiceName,
+                Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
                 {
                     DiskName = null,
