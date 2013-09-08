@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             }));
 
 
-            clientMock.Setup(f => f.GetStorageServiceKeys(storageAccountName)).Returns(Task.Factory.StartNew(() =>
+            clientMock.Setup(f => f.GetStorageServiceKeysAsync(storageAccountName)).Returns(Task.Factory.StartNew(() =>
             {
                 return new StorageService()
                 {
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             }));
 
 
-            clientMock.Setup(f => f.GetStorageServiceProperties(storageAccountName)).Returns(Task.Factory.StartNew(() =>
+            clientMock.Setup(f => f.GetStorageServicePropertiesAsync(storageAccountName)).Returns(Task.Factory.StartNew(() =>
             {
                 return new StorageService()
                 {

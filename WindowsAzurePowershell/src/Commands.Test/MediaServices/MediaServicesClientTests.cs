@@ -177,7 +177,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
                 fakeHttpClient,
                 fakeHttpClient);
 
-            var result = target.GetStorageServiceKeys(_accountName).Result;
+            var result = target.GetStorageServiceKeysAsync(_accountName).Result;
             Assert.AreEqual("PrimaryKey", result.StorageServiceKeys.Primary);
             Assert.AreEqual("SecondaryKey", result.StorageServiceKeys.Secondary);
         }
@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             try
             {
-                var result = target.GetStorageServiceKeys(_accountName).Result;
+                var result = target.GetStorageServiceKeysAsync(_accountName).Result;
             }
             catch (AggregateException ax)
             {

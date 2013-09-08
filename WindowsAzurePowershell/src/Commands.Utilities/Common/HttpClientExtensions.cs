@@ -194,17 +194,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string content = response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
             LogResponse(response.StatusCode.ToString(), response.Headers, content, logger);
         }
-		
-		public static Task<HttpResponseMessage> GetAsync(this HttpClient client, string requestUri, Action<string> Logger)
+
+        public static Task<HttpResponseMessage> GetAsync(this HttpClient client, string requestUri, Action<string> Logger)
         {
             AddUserAgent(client);
-			LogRequest(
-				HttpMethod.Get.Method,
-				client.BaseAddress + requestUri,
-				client.DefaultRequestHeaders,
-				string.Empty,
-				Logger);
-			return client.GetAsync(requestUri);
+            LogRequest(
+                HttpMethod.Get.Method,
+                client.BaseAddress + requestUri,
+                client.DefaultRequestHeaders,
+                string.Empty,
+                Logger);
+            return client.GetAsync(requestUri);
         }
 
         public static Task<HttpResponseMessage> PostAsJsonAsyncWithoutEnsureSuccessStatusCode(

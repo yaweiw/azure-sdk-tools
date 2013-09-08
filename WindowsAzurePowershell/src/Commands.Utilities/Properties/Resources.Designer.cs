@@ -2266,7 +2266,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Management.CloudService.ScaffoldingResources.PHP.
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Commands.CloudService.ScaffoldingResources.PHP.
         /// </summary>
         public static string PHPScaffoldingResources {
             get {

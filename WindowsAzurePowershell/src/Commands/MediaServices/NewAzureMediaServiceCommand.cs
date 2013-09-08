@@ -46,11 +46,11 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
             Uri storageEndPoint = null;
             string storageAccountKey = null;
 
-            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceKeys(StorageAccountName).Result; });
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceKeysAsync(StorageAccountName).Result; });
             storageAccountKey = storage.StorageServiceKeys.Primary;
            
 
-            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceProperties(StorageAccountName).Result; });
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServicePropertiesAsync(StorageAccountName).Result; });
 
             if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
             {

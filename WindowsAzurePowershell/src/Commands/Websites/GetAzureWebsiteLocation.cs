@@ -18,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
