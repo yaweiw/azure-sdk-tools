@@ -63,13 +63,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        Task<StorageService> GetStorageServiceKeys(string storageAccountName);
+        Task<StorageService> GetStorageServiceKeysAsync(string storageAccountName);
 
         /// <summary>
         /// Gets the storage service properties.
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        Task<StorageService> GetStorageServiceProperties(string storageAccountName);
+        Task<StorageService> GetStorageServicePropertiesAsync(string storageAccountName);
     }
 }

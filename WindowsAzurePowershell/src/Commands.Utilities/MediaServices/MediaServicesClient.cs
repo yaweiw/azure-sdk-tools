@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        public Task<StorageService> GetStorageServiceKeys(string storageAccountName)
+        public Task<StorageService> GetStorageServiceKeysAsync(string storageAccountName)
         {
             //Storage service returng xml as output format
             return _storageClient.GetAsync(String.Format("{0}/keys", storageAccountName), Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        public Task<StorageService> GetStorageServiceProperties(string storageAccountName)
+        public Task<StorageService> GetStorageServicePropertiesAsync(string storageAccountName)
         {
             return _storageClient.GetAsync(storageAccountName, Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
         }

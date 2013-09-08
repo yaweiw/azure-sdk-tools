@@ -801,7 +801,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>Scaffolding\PHP</value>
   </data>
   <data name="PHPScaffoldingResources" xml:space="preserve">
-    <value>Microsoft.WindowsAzure.Management.CloudService.ScaffoldingResources.PHP</value>
+    <value>Microsoft.WindowsAzure.Commands.CloudService.ScaffoldingResources.PHP</value>
   </data>
   <data name="PHPVersionWarningText" xml:space="preserve">
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>

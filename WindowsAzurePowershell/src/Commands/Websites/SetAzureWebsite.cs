@@ -20,9 +20,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Management.Automation;
     using System.ServiceModel;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Commands.Utilities.Store;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Common;
     using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.DeploymentEntities;
     using Commands.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
