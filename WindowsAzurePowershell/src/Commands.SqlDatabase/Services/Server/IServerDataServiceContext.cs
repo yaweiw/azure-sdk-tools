@@ -104,6 +104,54 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Database Copy Operations
+        
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        DatabaseCopy[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName);
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy);
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to copy.</param>
+        /// <param name="partnerServer">The database to copy.</param>
+        /// <param name="partnerDatabaseName">The database to copy.</param>
+        /// <param name="maxLagInMinutes">The database to copy.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns></returns>
+        DatabaseCopy StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            int? maxLagInMinutes,
+            bool continuousCopy);
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        void StopDatabaseCopy(
+            DatabaseCopy databaseCopy,
+            bool forcedTermination);
+
+        #endregion
+
         #region Service Objective Operations
 
         /// <summary>

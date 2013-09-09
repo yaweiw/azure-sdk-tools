@@ -513,6 +513,196 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
 
         #endregion
+        
+        #region Database Copy Operations
+        
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        public DatabaseCopy[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName)
+        {
+            // Setup the query by filtering for the source/destination server name from the context.
+            IQueryable<DatabaseCopy> databaseCopyQuerySource = this.DatabaseCopies
+                .Where(copy => copy.SourceServerName == this.ServerName);
+            IQueryable<DatabaseCopy> databaseCopyQueryTarget = this.DatabaseCopies
+                .Where(copy => copy.DestinationServerName == this.ServerName);
+
+            // Add additional filter for database name
+            if (databaseName != null)
+            {
+                // Append the clause to only return database of the specified name
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.SourceDatabaseName == databaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.DestinationDatabaseName == databaseName);
+            }
+
+            // Add additional filter for partner server name
+            if (partnerServer != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationServerName == partnerServer);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceServerName == partnerServer);
+            }
+
+            // Add additional filter for partner database name
+            if (partnerDatabaseName != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationDatabaseName == partnerDatabaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceDatabaseName == partnerDatabaseName);
+            }
+
+            DatabaseCopy[] databaseCopies;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Return all results as an array.
+                DatabaseCopy[] sourceDatabaseCopies = databaseCopyQuerySource.ToArray();
+                DatabaseCopy[] targetDatabaseCopies = databaseCopyQueryTarget.ToArray();
+                databaseCopies = sourceDatabaseCopies.Concat(targetDatabaseCopies).ToArray();
+            }
+
+            // Load the extra properties for all objects.
+            foreach (DatabaseCopy databaseCopy in databaseCopies)
+            {
+                databaseCopy.LoadExtraProperties(this);
+            }
+
+            return databaseCopies;
+        }
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
+        {
+            DatabaseCopy refreshedDatabaseCopy;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Find the database copy by its keys
+                refreshedDatabaseCopy = this.DatabaseCopies
+                    .Where(c => c.SourceServerName == databaseCopy.SourceServerName)
+                    .Where(c => c.SourceDatabaseName == databaseCopy.SourceDatabaseName)
+                    .Where(c => c.DestinationServerName == databaseCopy.DestinationServerName)
+                    .Where(c => c.DestinationDatabaseName == databaseCopy.DestinationDatabaseName)
+                    .SingleOrDefault();
+                if (refreshedDatabaseCopy == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseCopyNotFound,
+                            databaseCopy.SourceServerName,
+                            databaseCopy.SourceDatabaseName,
+                            databaseCopy.DestinationServerName,
+                            databaseCopy.DestinationDatabaseName));
+                }
+            }
+
+            // Load the extra properties for this object.
+            refreshedDatabaseCopy.LoadExtraProperties(this);
+
+            return refreshedDatabaseCopy;
+        }
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
+        public DatabaseCopy StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            int? maxLagInMinutes,
+            bool continuousCopy)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Create a new database copy object with all the required properties
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.SourceServerName = this.ServerName;
+            databaseCopy.SourceDatabaseName = databaseName;
+            databaseCopy.DestinationServerName = partnerServer;
+            databaseCopy.DestinationDatabaseName = partnerDatabaseName;
+
+            // Set the optional continuous copy flag
+            databaseCopy.IsContinuous = continuousCopy;
+
+            // Set the optional Maximum Lag (RPO) value
+            databaseCopy.MaximumLag = maxLagInMinutes;
+
+            this.AddToDatabaseCopies(databaseCopy);
+            DatabaseCopy trackedDatabaseCopy = databaseCopy;
+            try
+            {
+                this.SaveChanges(SaveChangesOptions.None);
+
+                // Requery for the entity to obtain updated linkid and state
+                databaseCopy = this.RefreshEntity(databaseCopy);
+                if (databaseCopy == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabaseCopy);
+                }
+            }
+            catch
+            {
+                this.RevertChanges(trackedDatabaseCopy);
+                throw;
+            }
+
+            return databaseCopy;
+        }
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        public void StopDatabaseCopy(
+            DatabaseCopy databaseCopy,
+            bool forcedTermination)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            try
+            {
+                // Mark Forced/Friendly flag on the databaseCopy object first
+                databaseCopy.IsForcedTerminate = forcedTermination;
+                this.UpdateObject(databaseCopy);
+                this.SaveChanges();
+
+                // Mark the copy operation for delete
+                this.DeleteObject(databaseCopy);
+                this.SaveChanges();
+            }
+            catch
+            {
+                this.RevertChanges(databaseCopy);
+                throw;
+            }
+        }
+
+        #endregion
 
         #region ServiceObjective Operations
 
