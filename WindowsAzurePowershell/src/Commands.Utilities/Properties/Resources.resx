@@ -1304,4 +1304,23 @@ Please follow these steps in the portal:
   <data name="InvalidDeploymentSlot" xml:space="preserve">
     <value>The deployment slot name {0} is invalid. Slot name must be either "Staging" or "Production".</value>
   </data>
+  <data name="InvalidMediaServicesAccount" xml:space="preserve">
+    <value>The account {0} was not found. Please specify a valid account name.</value>
+  </data>
+  <data name="RegenerateKeyWarning" xml:space="preserve">
+    <value>Are you sure you want to regenerate key?</value>
+  </data>
+  <data name="RegenerateKeyWhatIfMessage" xml:space="preserve">
+    <value>Generate new key.</value>
+  </data>
+  <data name="RemoveMediaAccountWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the account?</value>
+    <comment> </comment>
+  </data>
+  <data name="RemoveMediaAccountWhatIfMessage" xml:space="preserve">
+    <value>Account removed.</value>
+  </data>
+  <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
+    <value>EndPoint can't be retrieved for storage account</value>
+  </data>
 </root>
