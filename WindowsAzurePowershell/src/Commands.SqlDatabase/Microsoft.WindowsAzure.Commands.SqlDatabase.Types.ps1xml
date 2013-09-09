@@ -60,6 +60,31 @@
     </Members>
   </Type>
   <Type>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.DatabaseCopy</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>SourceServerName</Name>
+              <Name>SourceDatabaseName</Name>
+              <Name>DestinationServerName</Name>
+              <Name>DestinationDatabaseName</Name>
+              <Name>IsContinuous</Name>
+              <Name>PercentComplete</Name>
+              <Name>ReplicationStateDescription</Name>
+              <Name>IsInterlinkConnected</Name>
+              <Name>MaximumLag</Name>
+              <Name>IsLocalDatabaseReplicationTarget</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
     <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServerDataServiceSqlAuth</Name>
     <Members>
       <MemberSet>

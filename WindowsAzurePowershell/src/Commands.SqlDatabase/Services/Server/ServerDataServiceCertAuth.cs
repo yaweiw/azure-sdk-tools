@@ -1,4 +1,4 @@
-﻿﻿// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -478,6 +478,62 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Construct the resulting database operations array
             DatabaseOperation[] operations = CreateDatabaseOperationsFromResponse(response);
             return operations;
+        }
+
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        public DatabaseCopy[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
+        public DatabaseCopy StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            int? maxLagInMinutes,
+            bool continuousCopy)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        public void StopDatabaseCopy(
+            DatabaseCopy databaseCopy,
+            bool forcedTermination)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
