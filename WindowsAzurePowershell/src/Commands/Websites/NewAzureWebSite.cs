@@ -243,32 +243,25 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             }
 
             var webspace = CreateNewSite(suffix);
-            UpdateSourceControlPublishing(webspace);
+            if (Git || GitHub)
+            {
+                UpdateSourceControlPublishing(webspace);
+            }
         }
 
         private void UpdateSourceControlPublishing(WebSpace webspace)
         {
-            if (Git || GitHub)
+            try
             {
-                try
-                {
-                    Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
-                }
-                catch (Exception)
-                {
-                    // Do nothing if session state is not present
-                }
+                Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
+            }
+            catch (Exception)
+            {
+                // Do nothing if session state is not present
+            }
 
-                LinkedRevisionControl linkedRevisionControl = null;
-                if (Git)
-                {
-                    linkedRevisionControl = new GitClient(this);
-                }
-                else if (GitHub)
-                {
-                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
-                }
-
+            using (LinkedRevisionControl linkedRevisionControl = CreateLinkedRevisionControl())
+            {
                 linkedRevisionControl.Init();
 
                 CopyIisNodeWhenServerJsPresent();
@@ -278,15 +271,25 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
                 Site updatedWebsite =
                     RetryCall(
-                        s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
+                        s =>
+                            Channel.GetSite(s, webspace.Name, Name,
+                                "repositoryuri,publishingpassword,publishingusername"));
                 if (Git)
                 {
                     AddRemoteToLocalGitRepo(updatedWebsite);
                 }
 
                 linkedRevisionControl.Deploy(updatedWebsite);
-                linkedRevisionControl.Dispose();
             }
+        }
+
+        private LinkedRevisionControl CreateLinkedRevisionControl()
+        {
+            if (Git)
+            {
+                return new GitClient(this);
+            }
+            return new GithubClient(this, GithubCredentials, GithubRepository);
         }
 
         private WebSpace CreateNewSite(string suffix)
