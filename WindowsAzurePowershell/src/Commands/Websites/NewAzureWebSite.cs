@@ -36,7 +36,20 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.New, "AzureWebsite"), OutputType(typeof(SiteWithConfig))]
     public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        private IWebsitesClient websitesClient;
+
+        public IWebsitesClient WebsitesClient
+        {
+            get
+            {
+                if (websitesClient == null)
+                {
+                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return websitesClient;
+            }
+            set { websitesClient = value; }
+        }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -214,10 +227,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             GitClass.AddRemoteRepository("azure", uri);
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             string suffix = WebsitesClient.GetWebsiteDnsSuffix();
 
             if (Git && GitHub)
@@ -230,6 +242,55 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 PublishingUsername = GetPublishingUser();
             }
 
+            var webspace = CreateNewSite(suffix);
+            UpdateSourceControlPublishing(webspace);
+        }
+
+        private void UpdateSourceControlPublishing(WebSpace webspace)
+        {
+            if (Git || GitHub)
+            {
+                try
+                {
+                    Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
+                }
+                catch (Exception)
+                {
+                    // Do nothing if session state is not present
+                }
+
+                LinkedRevisionControl linkedRevisionControl = null;
+                if (Git)
+                {
+                    linkedRevisionControl = new GitClient(this);
+                }
+                else if (GitHub)
+                {
+                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
+                }
+
+                linkedRevisionControl.Init();
+
+                CopyIisNodeWhenServerJsPresent();
+                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+
+                InitializeRemoteRepo(webspace.Name, Name);
+
+                Site updatedWebsite =
+                    RetryCall(
+                        s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
+                if (Git)
+                {
+                    AddRemoteToLocalGitRepo(updatedWebsite);
+                }
+
+                linkedRevisionControl.Deploy(updatedWebsite);
+                linkedRevisionControl.Dispose();
+            }
+        }
+
+        private WebSpace CreateNewSite(string suffix)
+        {
             WebSpaces webspaceList = null;
             InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
             if (Git && webspaceList.Count == 0)
@@ -258,7 +319,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     {
                         throw new Exception(Resources.CreateWebsiteFailed);
                     }
-                    
+
                     webspace = new WebSpace
                     {
                         Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
@@ -288,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             SiteWithWebSpace website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = new[] { string.Format("{0}.{1}", Name, suffix) },
+                HostNames = new[] {string.Format("{0}.{1}", Name, suffix)},
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };
@@ -310,44 +371,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 webspace.Plan = CurrentSubscription.SubscriptionId;
                 CreateSite(webspace, website);
             }
-
-            if (Git || GitHub)
-            {
-                try
-                {
-                    Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
-                }
-                catch (Exception)
-                {
-                    // Do nothing if session state is not present
-                }
-
-                LinkedRevisionControl linkedRevisionControl = null;
-                if (Git)
-                {
-                    linkedRevisionControl = new GitClient(this);
-                }
-                else if (GitHub)
-                {
-                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
-                }
-
-                linkedRevisionControl.Init();
- 
-                CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, webspace.Name);
-
-                InitializeRemoteRepo(webspace.Name, Name);
-
-                Site updatedWebsite = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
-                if (Git)
-                {
-                    AddRemoteToLocalGitRepo(updatedWebsite);
-                }
-
-                linkedRevisionControl.Deploy(updatedWebsite);
-                linkedRevisionControl.Dispose();
-            }
+            return webspace;
         }
 
         private void CreateSite(WebSpace webspace, SiteWithWebSpace website)
