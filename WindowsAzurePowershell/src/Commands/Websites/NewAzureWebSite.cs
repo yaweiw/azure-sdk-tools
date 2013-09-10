@@ -295,75 +295,22 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private WebSpace CreateNewSite(string suffix)
         {
-            WebSpaces webspaceList = null;
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
+            var webspaceList = WebsitesClient.ListWebSpaces();
             if (Git && webspaceList.Count == 0)
             {
-                // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);
-                throw new Exception(!Git
-                    ? error
-                    : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
+                throw new Exception(string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
             }
 
-            WebSpace webspace = null;
-            if (string.IsNullOrEmpty(Location))
-            {
-                // If no location was provided as a parameter, try to default it
-                webspace = webspaceList.FirstOrDefault();
-                if (webspace == null)
-                {
-                    string defaultLocation;
+            WebSpace webspace = FindWebSpace(webspaceList);
 
-                    try
-                    {
-                        defaultLocation = WebsitesClient.GetDefaultLocation();
-                    }
-                    catch
-                    {
-                        throw new Exception(Resources.CreateWebsiteFailed);
-                    }
-
-                    webspace = new WebSpace
-                    {
-                        Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
-                        GeoRegion = defaultLocation,
-                        Subscription = CurrentSubscription.SubscriptionId,
-                        Plan = "VirtualDedicatedPlan"
-                    };
-                }
-            }
-            else
-            {
-                // Find the webspace that corresponds to the georegion
-                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));
-                if (webspace == null)
-                {
-                    // If no webspace corresponding to the georegion was found, attempt to create it
-                    webspace = new WebSpace
-                    {
-                        Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
-                        GeoRegion = Location,
-                        Subscription = CurrentSubscription.SubscriptionId,
-                        Plan = "VirtualDedicatedPlan"
-                    };
-                }
-            }
-
-            SiteWithWebSpace website = new SiteWithWebSpace
+            var website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = new[] {string.Format("{0}.{1}", Name, suffix)},
+                HostNames = BuildHostNames(suffix),
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };
-
-            if (!string.IsNullOrEmpty(Hostname))
-            {
-                List<string> newHostNames = new List<string>(website.HostNames);
-                newHostNames.Add(Hostname);
-                website.HostNames = newHostNames.ToArray();
-            }
 
             try
             {
@@ -372,10 +319,66 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             catch (EndpointNotFoundException)
             {
                 // Create webspace with VirtualPlan failed, try with subscription id
+                // This supports Windows Azure Pack
                 webspace.Plan = CurrentSubscription.SubscriptionId;
                 CreateSite(webspace, website);
             }
             return webspace;
+        }
+        
+        private string[] BuildHostNames(string suffix)
+        {
+            var hostnames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
+            if (!string.IsNullOrEmpty(Hostname))
+            {
+                hostnames.Add(Hostname);
+            }
+            return hostnames.ToArray();
+        }
+
+        private WebSpace FindWebSpace(IList<WebSpace> webspaceList)
+        {
+            if (string.IsNullOrEmpty(Location))
+            {
+                return GetDefaultWebSpace(webspaceList);
+            }
+            return GetNamedWebSpace(webspaceList);
+        }
+
+        private WebSpace GetDefaultWebSpace(IList<WebSpace> webspaceList)
+        {
+            WebSpace webspace = webspaceList.FirstOrDefault();
+            if (webspace == null)
+            {
+                try
+                {
+                    string defaultLocation = WebsitesClient.GetDefaultLocation();
+                    webspace = WebSpaceForLocation(defaultLocation);
+                }
+                catch
+                {
+                    throw new Exception(Resources.CreateWebsiteFailed);
+                }
+            }
+            return webspace;
+        }
+
+        private WebSpace GetNamedWebSpace(IList<WebSpace> webspaceList)
+        {
+            // Find the webspace that corresponds to the georegion
+            return webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)) ??
+                WebSpaceForLocation(Location);
+        }
+
+        private WebSpace WebSpaceForLocation(string location)
+        {
+            return new WebSpace
+            {
+                Name = Regex.Replace(location.ToLower(), " ", "") + "webspace",
+                GeoRegion = location,
+                Subscription = CurrentSubscription.SubscriptionId,
+                Plan = "VirtualDedicatedPlan"
+            };
         }
 
         private void CreateSite(WebSpace webspace, SiteWithWebSpace website)
@@ -399,6 +402,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 {
                     WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
                 }
+                else if (BadPlan(ex))
+                {
+                    throw new EndpointNotFoundException();
+                }
                 else
                 {
                     WriteExceptionError(new Exception(ex.Message));
@@ -421,6 +428,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             // TODO: Verify this is the right error code/detection logic
             return ex.Response.StatusCode == HttpStatusCode.BadRequest;
+        }
+
+        // Calling Windows Azure Pack, will fail due to plan string
+        private bool BadPlan(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.NotFound;
         }
     }
 }
