@@ -781,6 +781,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retention days must be greater than 0 and less than or equal to 365 days..
+        /// </summary>
+        internal static string InvalidRetentionDays {
+            get {
+                return ResourceManager.GetString("InvalidRetentionDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid start time &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidStartTime {
