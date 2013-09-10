@@ -556,4 +556,19 @@ Failed: {2}.</value>
     <value>Invalid storage end point '{0}'.</value>
     <comment>0 for storage end point</comment>
   </data>
+  <data name="ExpiryTimeGreatThanStartTime" xml:space="preserve">
+    <value>The expiry time of the specified access policy should be greater than start time. Expiry time : {0}. Start time: {1}.</value>
+    <comment>0 for expiry time.  1 for start time.</comment>
+  </data>
+  <data name="InvalidAccessPermission" xml:space="preserve">
+    <value>Invalid access permission '{0}'.</value>
+    <comment>0 for permission</comment>
+  </data>
+  <data name="InvalidAccessPolicy" xml:space="preserve">
+    <value>Invalid access policy '{0}'.</value>
+    <comment>0 for access policy.</comment>
+  </data>
+  <data name="SasTokenAccountName" xml:space="preserve">
+    <value>[SasToken]</value>
+  </data>
 </root>
