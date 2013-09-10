@@ -1,0 +1,198 @@
+﻿﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
+{
+    using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Security.Permissions;
+    using System.Text;
+
+    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas), OutputType(typeof(String))]
+    public class NewAzureStorageBlobSasCommand : StorageCloudBlobCmdletBase
+    {
+        /// <summary>
+        /// Blob Pipeline parameter set name
+        /// </summary>
+        private const string BlobPipelineParameterSet = "BlobPipeline";
+
+        /// <summary>
+        /// container pipeline paremeter set name
+        /// </summary>
+        private const string BlobNamePipelineParmeterSet = "BlobName";
+
+        [Parameter(HelpMessage = "Cloud Blob Object", ParameterSetName = BlobPipelineParameterSet,
+                    ValueFromPipeline = true)]
+        public ICloudBlob ICloudBlobFromPipeline { get; set; }
+
+        [Alias("N", "Name")]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name", ParameterSetName = BlobNamePipelineParmeterSet)]
+        [ValidateNotNullOrEmpty]
+        public string ContainerName { get; set; }
+
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Blob Name", ParameterSetName = BlobNamePipelineParmeterSet)]
+        [ValidateNotNullOrEmpty]
+        public string BlobName { get; set; }
+
+        [Parameter(HelpMessage = "Policy Identifier")]
+        public string Policy { get; set; }
+
+        [Parameter(HelpMessage = "Permissions for a blob. Permissions can be any not-empty subset of \"rwd\".")]
+        public string Permission { get; set; }
+
+        [Parameter(HelpMessage = "Start Time")]
+        public DateTime? StartTime { get; set; }
+
+        [Parameter(HelpMessage = "Expiry Time")]
+        public DateTime? ExpiryTime { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
+        public SwitchParameter FullUri { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the NewAzureStorageBlobSasCommand class.
+        /// </summary>
+        public NewAzureStorageBlobSasCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the NewAzureStorageBlobSasCommand class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public NewAzureStorageBlobSasCommand(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            ICloudBlob blob = default(ICloudBlob);
+
+            if (ParameterSetName == BlobNamePipelineParmeterSet)
+            {
+                blob = GetICloudBlobByName(ContainerName, BlobName);
+            }
+
+            SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
+            SetupAccessPolicy(accessPolicy);
+            SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, Policy);
+            string sasToken = GeBlobtSharedAccessSignature(blob, accessPolicy, Policy);
+
+            if (FullUri)
+            {
+                string fullUri = blob.Uri.ToString() + sasToken;
+                WriteObject(fullUri);
+            }
+            else
+            {
+                WriteObject(sasToken);
+            }
+
+        }
+
+        /// <summary>
+        /// Ge blobt shared access signature 
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="accessPolicy">SharedAccessBlobPolicy object</param>
+        /// <param name="policyIdentifier">The existing policy identifier.</param>
+        /// <returns></returns>
+        private string GeBlobtSharedAccessSignature(ICloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier)
+        {
+            CloudBlobContainer container = blob.Container;
+            string signature = String.Empty;
+
+            switch (blob.BlobType)
+            {
+                case BlobType.BlockBlob:
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob.Name);
+                    signature = blockBlob.GetSharedAccessSignature(accessPolicy, policyIdentifier);
+                    break;
+                case BlobType.PageBlob:
+                    CloudPageBlob pageBlob = container.GetPageBlobReference(blob.Name);
+                    signature = pageBlob.GetSharedAccessSignature(accessPolicy, policyIdentifier);
+                    break;
+                default:
+                    throw new ArgumentException(Resources.UnknownBlob);
+            }
+
+            return signature;
+        }
+
+        /// <summary>
+        /// Update the access policy
+        /// </summary>
+        /// <param name="policy">Access policy object</param>
+        private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy)
+        {
+            SetupAccessPolicyPermission(accessPolicy, Permission);
+            SasTokenHelper.SetupAccessPolicyLifeTime(accessPolicy.SharedAccessStartTime,
+                accessPolicy.SharedAccessExpiryTime, StartTime, ExpiryTime);
+        }
+
+        /// <summary>
+        /// Set up access policy permission
+        /// </summary>
+        /// <param name="policy">SharedAccessBlobPolicy object</param>
+        /// <param name="permission">Permisson</param>
+        private void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
+        {
+            if (string.IsNullOrEmpty(permission)) return;
+            policy.Permissions = SharedAccessBlobPermissions.None;
+            foreach (char op in permission)
+            {
+                switch (op)
+                {
+                    case 'r':
+                        policy.Permissions |= SharedAccessBlobPermissions.Read;
+                        break;
+                    case 'w':
+                        policy.Permissions |= SharedAccessBlobPermissions.Write;
+                        break;
+                    case 'd':
+                        policy.Permissions |= SharedAccessBlobPermissions.Delete;
+                        break;
+                    default:
+                        throw new ArgumentException(string.Format(Resources.InvalidAccessPermission, op));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get ICloudBlob object by name
+        /// </summary>
+        /// <param name="ContainerName">Container name</param>
+        /// <param name="BlobName">Blob name.</param>
+        /// <returns>ICloudBlob object</returns>
+        private ICloudBlob GetICloudBlobByName(string ContainerName, string BlobName)
+        {
+            CloudBlobContainer container = Channel.GetContainerReference(ContainerName);
+            AccessCondition accessCondition = null;
+            BlobRequestOptions options = null;
+            return Channel.GetBlobReferenceFromServer(container, BlobName, accessCondition, options, OperationContext);
+        }
+    }
+}
