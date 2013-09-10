@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
@@ -381,33 +382,26 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             try
             {
-                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
-
+                WebsitesClient.CreateWebsite(webspace.Name, website);
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() =>
-                {
-                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
                 WriteObject(new SiteWithConfig(website, websiteConfiguration));
             }
-            catch (ProtocolException ex)
+            catch (CloudException ex)
             {
-                // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && (Git || GitHub))
+                if (SiteAlreadyExists(ex) && (Git || GitHub))
                 {
-                    WriteWarning(message);
+                    // Handle conflict - it's ok to attempt to use cmdlet on an
+                    // existing website if you're updating the source control stuff.
+                    WriteWarning(ex.Message);
                 }
-                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                else if (HostNameValidationFailed(ex))
                 {
                     WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
                 }
                 else
                 {
-                    WriteExceptionError(new Exception(message));
+                    WriteExceptionError(new Exception(ex.Message));
                 }
             }
         }
@@ -415,6 +409,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         public Action<string> GetLogger()
         {
             return WriteDebug;
+        }
+
+        private bool SiteAlreadyExists(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.Conflict;
+        }
+
+        private bool HostNameValidationFailed(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.BadRequest;
         }
     }
 }
