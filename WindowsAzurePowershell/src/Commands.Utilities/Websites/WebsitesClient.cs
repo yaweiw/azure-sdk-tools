@@ -330,6 +330,30 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Create a new website.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns></returns>
+        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
+        {
+            var options = new WebSiteCreateParameters
+            {
+                Name = siteToCreate.Name,
+                WebSpace = new WebSiteCreateParameters.WebSpaceDetails
+                {
+                     GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
+                     Name = siteToCreate.WebSpaceToCreate.Name,
+                     Plan = siteToCreate.WebSpaceToCreate.Plan
+                }
+            };
+            siteToCreate.HostNames.ForEach(s => options.HostNames.Add(new Uri(s, UriKind.RelativeOrAbsolute)));
+
+            var response = WebsiteManagementClient.WebSites.Create(webspaceName, options);
+            return response.WebSite.ToSite();
+        }
+
+        /// <summary>
         /// Update the set of host names for a website.
         /// </summary>
         /// <param name="site">The site name.</param>

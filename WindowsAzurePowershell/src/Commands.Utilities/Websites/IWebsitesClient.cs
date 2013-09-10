@@ -76,6 +76,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name);
 
         /// <summary>
+        /// Create a new website.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns></returns>
+        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate);
+
+        /// <summary>
         /// Update the set of host names for a website.
         /// </summary>
         /// <param name="site">The website name.</param>
