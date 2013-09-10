@@ -347,7 +347,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                      Plan = siteToCreate.WebSpaceToCreate.Plan
                 }
             };
-            siteToCreate.HostNames.ForEach(s => options.HostNames.Add(new Uri(s, UriKind.RelativeOrAbsolute)));
+            siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
 
             var response = WebsiteManagementClient.WebSites.Create(webspaceName, options);
             return response.WebSite.ToSite();
