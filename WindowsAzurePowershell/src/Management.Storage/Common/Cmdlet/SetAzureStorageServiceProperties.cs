@@ -37,8 +37,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Logging version")]
         public double? LoggingVersion { get; set; }
 
-        [Parameter(HelpMessage = "Logging retention days")]
-        [ValidateRange(1, 365)]
+        [Parameter(HelpMessage = "Logging retention days. 0 means disable Logging, otherwise enable.")]
+        [ValidateRange(0, 365)]
         public int? LoggingRetentionDays { get; set; }
 
         public const string LoggingOperationHelpMessage =
@@ -49,8 +49,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Metrics version")]
         public double? MetricsVersion { get; set; }
 
-        [Parameter(HelpMessage = "Metrics retention days")]
-        [ValidateRange(1, 365)]
+        [Parameter(HelpMessage = "Metrics retention days.  0 means disable Metrics, otherwise enable.")]
+        [ValidateRange(0, 365)]
         public int? MetricsRetentionDays { get; set; }
 
         [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
@@ -65,6 +65,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>
+        /// Logging/Metrics default retention days
+        /// </summary>
+        internal const int DefaultRetentionDays = 1;
+
+        /// <summary>
+        /// Minimal logging/metrics retention days.
+        /// </summary>
+        internal const int MinRetentionDays = 1;
+
+        /// <summary>
+        /// Maximal logging/metrics retention days
+        /// </summary>
+        internal const int MaxRetentionDays = 365;
+
+        /// <summary>
         /// Update the specified service properties according to the input
         /// </summary>
         /// <param name="serviceProperties">Service properties</param>
@@ -75,7 +90,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 serviceProperties.Logging.Version = LoggingVersion.ToString();
             }
 
-            serviceProperties.Logging.RetentionDays = LoggingRetentionDays ?? serviceProperties.Logging.RetentionDays;
+            if (LoggingRetentionDays != null)
+            {
+                if (serviceProperties.Logging.RetentionDays == 0)
+                {
+                    //Disable logging
+                    serviceProperties.Logging.RetentionDays = null;
+                }
+                else
+                {
+                    serviceProperties.Logging.RetentionDays = LoggingRetentionDays;
+                }
+            }
 
             if (LoggingOperations != null)
             {
@@ -83,21 +109,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 serviceProperties.Logging.LoggingOperations = logOperations;
             }
 
-            SetValidLoggingProperties(serviceProperties);
-
             if (MetricsVersion != null)
             {
                 serviceProperties.Metrics.Version = MetricsVersion.ToString();
             }
 
-            serviceProperties.Metrics.RetentionDays = MetricsRetentionDays ?? serviceProperties.Metrics.RetentionDays;
+            if (LoggingRetentionDays != null)
+            {
+                if (serviceProperties.Logging.RetentionDays == 0)
+                {
+                    //Disable metrics
+                    serviceProperties.Metrics.RetentionDays = null;
+                }
+                else
+                {
+                    serviceProperties.Metrics.RetentionDays = LoggingRetentionDays;
+                }
+            }
+
             if (MetricsLevel != null)
             {
                 MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
                 serviceProperties.Metrics.MetricsLevel = metricsLevel;
             }
-
-            SetValidMetricsProperties(serviceProperties);
 
             if (!string.IsNullOrEmpty(DefaultServiceVersion))
             {
@@ -106,54 +140,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
 
         /// <summary>
-        /// Correct the invalid metrics properties
-        /// </summary>
-        /// <param name="serviceProperties">Service properties</param>
-        internal void SetValidMetricsProperties(ServiceProperties serviceProperties)
-        {
-            if (serviceProperties.Metrics.MetricsLevel != StorageClient.MetricsLevel.None)
-            {
-                serviceProperties.Metrics.RetentionDays = serviceProperties.Metrics.RetentionDays ?? 1;
-
-                if (serviceProperties.Metrics.RetentionDays < 1 || serviceProperties.Metrics.RetentionDays > 365)
-                {
-                    serviceProperties.Metrics.RetentionDays = 1;
-                }
-
-                if (string.IsNullOrEmpty(serviceProperties.Metrics.Version))
-                {
-                    string defaultMetricsVersion = "1.0";
-                    serviceProperties.Metrics.Version = defaultMetricsVersion;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Correct the invalid logging properties
-        /// </summary>
-        /// <param name="serviceProperties">Service properties</param>
-        internal void SetValidLoggingProperties(ServiceProperties serviceProperties)
-        {
-            if (serviceProperties.Logging.LoggingOperations != StorageClient.LoggingOperations.None)
-            {
-                serviceProperties.Logging.RetentionDays = serviceProperties.Logging.RetentionDays ?? 1;
-                if (serviceProperties.Logging.RetentionDays < 1 || serviceProperties.Logging.RetentionDays > 365)
-                {
-                    serviceProperties.Logging.RetentionDays = 1;
-                }
-
-                if (string.IsNullOrEmpty(serviceProperties.Logging.Version))
-                {
-                    string defaultLoggingVersion = "1.0";
-                    serviceProperties.Logging.Version = defaultLoggingVersion;
-                }
-            }
-        }
-
-        /// <summary>
         /// Get metrics level
         /// </summary>
         /// <param name="MetricsLevel">The string type of Metrics level</param>
+        /// <example>GetMetricsLevel("None"), GetMetricsLevel("Service")</example>
         /// <returns>MetricsLevel object</returns>
         internal MetricsLevel GetMetricsLevel(string MetricsLevel)
         {
@@ -171,6 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// Get logging operations
         /// </summary>
         /// <param name="LoggingOperations">The string type of Logging operations</param>
+        /// <example>GetLoggingOperations("all"), GetLoggingOperations("read, write")</example>
         /// <returns>LoggingOperations object</returns>
         internal LoggingOperations GetLoggingOperations(string LoggingOperations)
         {
@@ -232,7 +223,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account.CreateCloudTableClient().SetServiceProperties(serviceProperties);
                     break;
                 default:
-                    throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
+                    throw new ArgumentException(Resources.InvalidStorageServiceType);
             }
         }
 

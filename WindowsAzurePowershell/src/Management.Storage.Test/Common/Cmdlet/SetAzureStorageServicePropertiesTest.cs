@@ -72,39 +72,5 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
             Assert.AreEqual(MetricsLevel.ServiceAndApi, command.GetMetricsLevel("ServiceAndApi"));
             AssertThrows<ArgumentException>(() => command.GetMetricsLevel("stdio"));
         }
-
-        [TestMethod]
-        public void SetValidLoggingPropertiesTest()
-        {
-            ServiceProperties properties = new ServiceProperties();
-            properties.Logging.LoggingOperations = LoggingOperations.Read;
-            Assert.AreEqual(properties.Logging.RetentionDays, null);
-            Assert.AreEqual(properties.Logging.Version, null);
-            command.SetValidLoggingProperties(properties);
-            Assert.AreEqual(properties.Logging.RetentionDays, 1);
-            Assert.AreEqual(properties.Logging.Version, "1.0");
-            properties.Logging.RetentionDays = 10;
-            properties.Logging.Version = "2.0";
-            command.SetValidLoggingProperties(properties);
-            Assert.AreEqual(properties.Logging.RetentionDays, 10);
-            Assert.AreEqual(properties.Logging.Version, "2.0");
-        }
-
-        [TestMethod]
-        public void SetValidMetricsPropertiesTest()
-        {
-            ServiceProperties properties = new ServiceProperties();
-            properties.Metrics.MetricsLevel = MetricsLevel.ServiceAndApi;
-            Assert.AreEqual(properties.Metrics.RetentionDays, null);
-            Assert.AreEqual(properties.Metrics.Version, null);
-            command.SetValidMetricsProperties(properties);
-            Assert.AreEqual(properties.Metrics.RetentionDays, 1);
-            Assert.AreEqual(properties.Metrics.Version, "1.0");
-            properties.Metrics.RetentionDays = 10;
-            properties.Metrics.Version = "2.0";
-            command.SetValidMetricsProperties(properties);
-            Assert.AreEqual(properties.Metrics.RetentionDays, 10);
-            Assert.AreEqual(properties.Metrics.Version, "2.0");
-        }
     }
 }
