@@ -37,19 +37,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Logging version")]
         public double? LoggingVersion { get; set; }
 
-        [Parameter(HelpMessage = "Logging retention days. 0 means disable Logging, otherwise enable.")]
+        [Parameter(HelpMessage = "Logging retention days. Zero means disable Logging, otherwise enable.")]
         [ValidateRange(0, 365)]
         public int? LoggingRetentionDays { get; set; }
 
         public const string LoggingOperationHelpMessage =
-            "Logging operations.(All, None, combinations of Read,write,delete which is seperated by semicolon.)";
+            "Logging operations. (All, None, combinations of Read, Write, delete that are seperated by semicolon.)";
         [Parameter(HelpMessage = LoggingOperationHelpMessage)]
         public string LoggingOperations { get; set; }
 
         [Parameter(HelpMessage = "Metrics version")]
         public double? MetricsVersion { get; set; }
 
-        [Parameter(HelpMessage = "Metrics retention days.  0 means disable Metrics, otherwise enable.")]
+        [Parameter(HelpMessage = "Metrics retention days. Zero means disable Metrics, otherwise enable.")]
         [ValidateRange(0, 365)]
         public int? MetricsRetentionDays { get; set; }
 
