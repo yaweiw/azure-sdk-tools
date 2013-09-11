@@ -65,21 +65,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>
-        /// Logging/Metrics default retention days
-        /// </summary>
-        internal const int DefaultRetentionDays = 1;
-
-        /// <summary>
-        /// Minimal logging/metrics retention days.
-        /// </summary>
-        internal const int MinRetentionDays = 1;
-
-        /// <summary>
-        /// Maximal logging/metrics retention days
-        /// </summary>
-        internal const int MaxRetentionDays = 365;
-
-        /// <summary>
         /// Update the specified service properties according to the input
         /// </summary>
         /// <param name="serviceProperties">Service properties</param>
@@ -107,6 +92,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             {
                 LoggingOperations logOperations = GetLoggingOperations(LoggingOperations);
                 serviceProperties.Logging.LoggingOperations = logOperations;
+                //Set default logging version
+                if (string.IsNullOrEmpty(serviceProperties.Logging.Version))
+                {
+                    string defaultLoggingVersion = "1.0";
+                    serviceProperties.Logging.Version = defaultLoggingVersion;
+                }
             }
 
             if (MetricsVersion != null)
@@ -114,16 +105,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 serviceProperties.Metrics.Version = MetricsVersion.ToString();
             }
 
-            if (LoggingRetentionDays != null)
+            if (MetricsRetentionDays != null)
             {
-                if (serviceProperties.Logging.RetentionDays == 0)
+                if (serviceProperties.Metrics.RetentionDays == 0)
                 {
                     //Disable metrics
                     serviceProperties.Metrics.RetentionDays = null;
                 }
                 else
                 {
-                    serviceProperties.Metrics.RetentionDays = LoggingRetentionDays;
+                    serviceProperties.Metrics.RetentionDays = MetricsRetentionDays;
                 }
             }
 
@@ -131,6 +122,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             {
                 MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
                 serviceProperties.Metrics.MetricsLevel = metricsLevel;
+                //Set default metrics version
+                if (string.IsNullOrEmpty(serviceProperties.Metrics.Version))
+                {
+                    string defaultMetricsVersion = "1.0";
+                    serviceProperties.Metrics.Version = defaultMetricsVersion;
+                }
             }
 
             if (!string.IsNullOrEmpty(DefaultServiceVersion))
