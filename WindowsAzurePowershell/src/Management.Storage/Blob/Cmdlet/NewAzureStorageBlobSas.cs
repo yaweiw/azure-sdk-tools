@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas), OutputType(typeof(String))]
+    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas, DefaultParameterSetName = BlobNamePipelineParmeterSet), OutputType(typeof(String))]
     public class NewAzureStorageBlobSasCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
@@ -38,9 +38,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         private const string BlobNamePipelineParmeterSet = "BlobName";
 
-        [Parameter(HelpMessage = "Cloud Blob Object", ParameterSetName = BlobPipelineParameterSet,
-                    ValueFromPipeline = true)]
-        public ICloudBlob ICloudBlobFromPipeline { get; set; }
+        [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
+            ValueFromPipelineByPropertyName = true, ParameterSetName = BlobPipelineParameterSet)]
+        public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name", ParameterSetName = BlobNamePipelineParmeterSet)]
         [ValidateNotNullOrEmpty]
@@ -51,7 +51,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public string Blob { get; set; }
 
         [Parameter(HelpMessage = "Policy Identifier")]
-        public string Policy { get; set; }
+        public string Policy
+        {
+            get { return accessPolicyIdentifier; }
+            set { accessPolicyIdentifier = value; }
+        }
+        private string accessPolicyIdentifier;
 
         [Parameter(HelpMessage = "Permissions for a blob. Permissions can be any not-empty subset of \"rwd\".")]
         public string Permission { get; set; }
@@ -94,11 +99,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 blob = GetICloudBlobByName(Container, Blob);
             }
+            else
+            {
+                blob = ICloudBlob;
+            }
 
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
             SetupAccessPolicy(accessPolicy);
-            SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, Policy);
-            string sasToken = GeBlobtSharedAccessSignature(blob, accessPolicy, Policy);
+            SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, accessPolicyIdentifier);
+            string sasToken = GeBlobSharedAccessSignature(blob, accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
             {
@@ -113,13 +122,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// Ge blobt shared access signature 
+        /// Ge blob shared access signature
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <param name="accessPolicy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The existing policy identifier.</param>
         /// <returns></returns>
-        private string GeBlobtSharedAccessSignature(ICloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier)
+        private string GeBlobSharedAccessSignature(ICloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier)
         {
             CloudBlobContainer container = blob.Container;
             string signature = String.Empty;
@@ -127,11 +136,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             switch (blob.BlobType)
             {
                 case BlobType.BlockBlob:
-                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob.Name);
+                    CloudBlockBlob blockBlob = blob as CloudBlockBlob;
                     signature = blockBlob.GetSharedAccessSignature(accessPolicy, policyIdentifier);
                     break;
                 case BlobType.PageBlob:
-                    CloudPageBlob pageBlob = container.GetPageBlobReference(blob.Name);
+                    CloudPageBlob pageBlob = blob as CloudPageBlob;
                     signature = pageBlob.GetSharedAccessSignature(accessPolicy, policyIdentifier);
                     break;
                 default:
@@ -148,11 +157,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy)
         {
             SetupAccessPolicyPermission(accessPolicy, Permission);
-            DateTimeOffset? startTime = null;
-            DateTimeOffset? endTime = null;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
-            accessPolicy.SharedAccessStartTime = startTime;
-            accessPolicy.SharedAccessExpiryTime = endTime;
+            DateTimeOffset? accessStartTime;
+            DateTimeOffset? accessEndTime;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            accessPolicy.SharedAccessStartTime = accessStartTime;
+            accessPolicy.SharedAccessExpiryTime = accessEndTime;
         }
 
         /// <summary>
@@ -193,9 +202,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private ICloudBlob GetICloudBlobByName(string ContainerName, string BlobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(ContainerName);
-            AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
-            return Channel.GetBlobReferenceFromServer(container, BlobName, accessCondition, options, OperationContext);
+            //AccessCondition accessCondition = null;
+            //BlobRequestOptions options = null;
+            //return Channel.GetBlobReferenceFromServer(container, BlobName, accessCondition, options, OperationContext);
+            //Create a block blob object in local no mattter what's the real blob type. If so, we can save the unnecessary request calls.
+            return container.GetBlockBlobReference(BlobName);
         }
     }
 }

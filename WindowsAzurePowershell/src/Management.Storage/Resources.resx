@@ -571,4 +571,10 @@ Failed: {2}.</value>
   <data name="SasTokenAccountName" xml:space="preserve">
     <value>[SasToken]</value>
   </data>
+  <data name="EndpkMustAccomanyEndrk" xml:space="preserve">
+    <value>Endpk must accompany Endrk.</value>
+  </data>
+  <data name="StartpkMustAccomanyStartrk" xml:space="preserve">
+    <value>Startpk must accompany startrk.</value>
+  </data>
 </root>

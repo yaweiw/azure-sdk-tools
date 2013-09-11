@@ -22,9 +22,14 @@
         public string Name { get; set; }
 
         [Parameter(HelpMessage = "Policy Identifier")]
-        public string Policy { get; set; }
+        public string Policy
+        {
+            get {return accessPolicyIdentifier;}
+            set {accessPolicyIdentifier = value;}
+        }
+        private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raup\".")]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -63,8 +68,8 @@
             CloudQueue queue = Channel.GetQueueReference(Name);
             SharedAccessQueuePolicy policy = new SharedAccessQueuePolicy();
             SetupAccessPolicy(policy);
-            SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, Policy);
-            string sasToken = queue.GetSharedAccessSignature(policy, Policy);
+            SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
+            string sasToken = queue.GetSharedAccessSignature(policy, accessPolicyIdentifier);
 
             if (FullUri)
             {
@@ -83,11 +88,11 @@
         /// <param name="policy">Access policy object</param>
         private void SetupAccessPolicy(SharedAccessQueuePolicy policy)
         {
-            DateTimeOffset? startTime = null;
-            DateTimeOffset? endTime = null;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
-            policy.SharedAccessStartTime = startTime;
-            policy.SharedAccessExpiryTime = endTime;
+            DateTimeOffset? accessStartTime;
+            DateTimeOffset? accessEndTime;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            policy.SharedAccessStartTime = accessStartTime;
+            policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
         }
 
