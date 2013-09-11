@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Properties;
     using Services;
     using Services.DeploymentEntities;
-    using Services.GeoEntities;
     using Services.WebEntities;
     using System;
     using System.Collections.Generic;
@@ -30,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Net.Http;
     using System.Text;
     using System.Web;
-    using System.Xml.Linq;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
@@ -93,19 +91,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             ICredentials credentials;
             GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
             return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
-        }
-
-        private HttpClient CreateWebsitesHttpClient()
-        {
-            WebRequestHandler requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(Subscription.Certificate);
-            StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint));
-            endpoint.Append(subscriptionId);
-            endpoint.Append("/services/");
-            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
-            client.DefaultRequestHeaders.Add(ServiceManagement.Constants.VersionHeaderName, WebsitesServiceVersion);
-
-            return client;
         }
 
         private string GetWebsiteDeploymentHttpConfiguration(
@@ -242,7 +227,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                         yield return line;
                     }
 
-                    doStreaming = endStreaming == null ? true : endStreaming(line);
+                    doStreaming = endStreaming == null || endStreaming(line);
                 }
             }
         }
@@ -254,13 +239,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns></returns>
         public List<LogPath> ListLogPaths(string name)
         {
-            List<LogPath> logPaths = new List<LogPath>();
             using (HttpClient client = CreateDeploymentHttpClient(name))
             {
-                logPaths = client.GetJson<List<LogPath>>(UriElements.LogPaths, Logger);
+                return client.GetJson<List<LogPath>>(UriElements.LogPaths, Logger);
             }
-
-            return logPaths;
         }
 
         /// <summary>
@@ -270,14 +252,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website application diagnostics settings</returns>
         public DiagnosticsSettings GetApplicationDiagnosticsSettings(string name)
         {
-            DiagnosticsSettings diagnosticsSettings = null;
-
             using (HttpClient client = CreateDeploymentHttpClient(name))
             {
-                diagnosticsSettings = client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
+                return client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
             }
-
-            return diagnosticsSettings;
         }
 
         /// <summary>
@@ -517,11 +495,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             var webspacesGeoRegions = WebsiteManagementClient.WebSpaces.List()
                 .WebSpaces.Select(w => w.GeoRegion);
 
-            using (HttpClient client = CreateWebsitesHttpClient())
-            {
-                var regions = client.GetXml<GeoRegions>(UriElements.WebSpacesGeoRegionsRoot, Logger);
-                return regions.Select(r => r.Name).Union(webspacesGeoRegions).ToList();
-            }
+            var availableRegionsResponse = WebsiteManagementClient.WebSpaces.ListGeoRegions();
+
+            return availableRegionsResponse.GeoRegions.Select(r => r.Name).Union(webspacesGeoRegions).ToList();
         }
 
         /// <summary>
@@ -530,15 +506,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website DNS suffix</returns>
         public string GetWebsiteDnsSuffix()
         {
-            string suffix;
-
-            using (HttpClient client = CreateWebsitesHttpClient())
-            {
-                string body = client.GetXml(UriElements.DnsSuffix, Logger);
-                suffix = General.IsXml(body) ? XDocument.Parse(body).Root.Value : body.Replace("\"", "");
-            }
-
-            return suffix;
+            return WebsiteManagementClient.WebSpaces.GetDnsSuffix().DnsSuffix;
         }
 
         /// <summary>
