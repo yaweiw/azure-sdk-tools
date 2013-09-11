@@ -412,6 +412,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Endpk must accompany Endrk..
+        /// </summary>
+        internal static string EndpkMustAccomanyEndrk {
+            get {
+                return ResourceManager.GetString("EndpkMustAccomanyEndrk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}..
         /// </summary>
         internal static string EndProcessingLog {
@@ -1047,6 +1056,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string StartDownloadBlob {
             get {
                 return ResourceManager.GetString("StartDownloadBlob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startpk must accompany startrk..
+        /// </summary>
+        internal static string StartpkMustAccomanyStartrk {
+            get {
+                return ResourceManager.GetString("StartpkMustAccomanyStartrk", resourceCulture);
             }
         }
         

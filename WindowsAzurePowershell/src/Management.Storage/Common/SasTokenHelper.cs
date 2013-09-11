@@ -113,7 +113,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             else
             {
                 double defaultLifeTime = 1.0; //Hours
-                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(defaultLifeTime).ToUniversalTime();
+
+                if (SharedAccessStartTime != null)
+                {
+                    SharedAccessExpiryTime = SharedAccessStartTime.Value.AddHours(defaultLifeTime).ToUniversalTime();
+                }
+                else
+                {
+                    SharedAccessExpiryTime = DateTime.UtcNow.AddHours(defaultLifeTime).ToUniversalTime();
+                }
             }
 
             if (SharedAccessStartTime != null && SharedAccessExpiryTime <= SharedAccessStartTime)

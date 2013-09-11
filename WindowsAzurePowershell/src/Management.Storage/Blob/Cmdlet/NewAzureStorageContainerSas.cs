@@ -37,7 +37,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public string Name { get; set; }
 
         [Parameter(HelpMessage = "Policy Identifier")]
-        public string Policy { get; set; }
+        public string Policy
+        {
+            get { return accessPolicyIdentifier; }
+            set { accessPolicyIdentifier = value; }
+        }
+        private string accessPolicyIdentifier;
 
         [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".")]
         public string Permission { get; set; }
@@ -78,8 +83,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             CloudBlobContainer container = Channel.GetContainerReference(Name);
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
             SetupAccessPolicy(accessPolicy);
-            SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, Policy);
-            string sasToken = container.GetSharedAccessSignature(accessPolicy, Policy);
+            SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
+            string sasToken = container.GetSharedAccessSignature(accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
             {
@@ -98,11 +103,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="policy">Access policy object</param>
         private void SetupAccessPolicy(SharedAccessBlobPolicy policy)
         {
-            DateTimeOffset? startTime = null;
-            DateTimeOffset? endTime = null;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
-            policy.SharedAccessStartTime = startTime;
-            policy.SharedAccessExpiryTime = endTime;
+            DateTimeOffset? accessStartTime;
+            DateTimeOffset? accessEndTime;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            policy.SharedAccessStartTime = accessStartTime;
+            policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
         }
 

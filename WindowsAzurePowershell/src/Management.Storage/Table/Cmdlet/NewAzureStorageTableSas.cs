@@ -39,9 +39,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public string Name { get; set; }
 
         [Parameter(HelpMessage = "Policy Identifier")]
-        public string Policy { get; set; }
+        public string Policy
+        {
+            get { return accessPolicyIdentifier; }
+            set { accessPolicyIdentifier = value; }
+        }
+        private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raud\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"audq\".")]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -93,8 +98,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             CloudTable table = Channel.GetTableReference(Name);
             SharedAccessTablePolicy policy = new SharedAccessTablePolicy();
             SetupAccessPolicy(policy);
-            SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, Policy);
-            string sasToken = table.GetSharedAccessSignature(policy, Policy, StartPartitionKey,
+            SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, accessPolicyIdentifier);
+            ValidatePkAndRk(StartPartitionKey, StartRowKey, EndPartitionKey, EndRowKey);
+            string sasToken = table.GetSharedAccessSignature(policy, accessPolicyIdentifier, StartPartitionKey,
                                 StartRowKey, EndPartitionKey, EndRowKey);
 
             if (FullUri)
@@ -109,16 +115,36 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         }
 
         /// <summary>
+        /// Validate the combination of PartitionKey and RowKey
+        /// </summary>
+        /// <param name="startPartitionKey"></param>
+        /// <param name="startRowKey"></param>
+        /// <param name="endPartitionKey"></param>
+        /// <param name="endRowKey"></param>
+        private void ValidatePkAndRk(string startPartitionKey, string startRowKey, string endPartitionKey, string endRowKey)
+        {
+            if (!string.IsNullOrEmpty(startRowKey) && string.IsNullOrEmpty(startPartitionKey))
+            {
+                throw new ArgumentException(Resources.StartpkMustAccomanyStartrk);
+            }
+
+            if (!string.IsNullOrEmpty(endRowKey) && string.IsNullOrEmpty(endPartitionKey))
+            {
+                throw new ArgumentException(Resources.EndpkMustAccomanyEndrk);
+            }
+        }
+
+        /// <summary>
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
         private void SetupAccessPolicy(SharedAccessTablePolicy policy)
         {
-            DateTimeOffset? startTime = null;
-            DateTimeOffset? endTime = null;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
-            policy.SharedAccessStartTime = startTime;
-            policy.SharedAccessExpiryTime = endTime;
+            DateTimeOffset? accessStartTime;
+            DateTimeOffset? accessEndTime;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            policy.SharedAccessStartTime = accessStartTime;
+            policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
         }
 
