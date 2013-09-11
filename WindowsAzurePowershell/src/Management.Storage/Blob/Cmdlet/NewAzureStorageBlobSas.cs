@@ -42,14 +42,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     ValueFromPipeline = true)]
         public ICloudBlob ICloudBlobFromPipeline { get; set; }
 
-        [Alias("N", "Name")]
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name", ParameterSetName = BlobNamePipelineParmeterSet)]
         [ValidateNotNullOrEmpty]
-        public string ContainerName { get; set; }
+        public string Container { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Blob Name", ParameterSetName = BlobNamePipelineParmeterSet)]
         [ValidateNotNullOrEmpty]
-        public string BlobName { get; set; }
+        public string Blob { get; set; }
 
         [Parameter(HelpMessage = "Policy Identifier")]
         public string Policy { get; set; }
@@ -93,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (ParameterSetName == BlobNamePipelineParmeterSet)
             {
-                blob = GetICloudBlobByName(ContainerName, BlobName);
+                blob = GetICloudBlobByName(Container, Blob);
             }
 
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
@@ -149,8 +148,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy)
         {
             SetupAccessPolicyPermission(accessPolicy, Permission);
-            SasTokenHelper.SetupAccessPolicyLifeTime(accessPolicy.SharedAccessStartTime,
-                accessPolicy.SharedAccessExpiryTime, StartTime, ExpiryTime);
+            DateTimeOffset? startTime = null;
+            DateTimeOffset? endTime = null;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
+            accessPolicy.SharedAccessStartTime = startTime;
+            accessPolicy.SharedAccessExpiryTime = endTime;
         }
 
         /// <summary>
@@ -158,10 +160,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="permission">Permisson</param>
-        private void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
+        internal void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
             policy.Permissions = SharedAccessBlobPermissions.None;
+            permission = permission.ToLower();
             foreach (char op in permission)
             {
                 switch (op)

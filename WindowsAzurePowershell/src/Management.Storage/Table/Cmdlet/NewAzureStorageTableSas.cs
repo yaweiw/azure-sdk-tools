@@ -66,10 +66,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         [Parameter(HelpMessage = "End Row Key")]
         public string EndRowKey { get; set; }
 
-        [Alias("policy")]
-        [Parameter(HelpMessage = "Policy Identifier")]
-        public string AccessPolicyIdentifier { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
         /// </summary>
@@ -118,8 +114,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// <param name="policy">Access policy object</param>
         private void SetupAccessPolicy(SharedAccessTablePolicy policy)
         {
-            SasTokenHelper.SetupAccessPolicyLifeTime(policy.SharedAccessStartTime,
-                policy.SharedAccessExpiryTime, StartTime, ExpiryTime);
+            DateTimeOffset? startTime = null;
+            DateTimeOffset? endTime = null;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
+            policy.SharedAccessStartTime = startTime;
+            policy.SharedAccessExpiryTime = endTime;
             SetupAccessPolicyPermission(policy, Permission);
         }
 
@@ -128,10 +127,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="permission">Permisson</param>
-        private void SetupAccessPolicyPermission(SharedAccessTablePolicy policy, string permission)
+        internal void SetupAccessPolicyPermission(SharedAccessTablePolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
             policy.Permissions = SharedAccessTablePermissions.None;
+            permission = permission.ToLower();
             foreach (char op in permission)
             {
                 switch (op)

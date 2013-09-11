@@ -35,7 +35,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (string.IsNullOrEmpty(policyIdentifier)) return;
             CloudBlobContainer container = channel.GetContainerReference(containerName);
-            policyIdentifier = policyIdentifier.ToLower();//policy name should case-insensitive in url.
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
             OperationContext context = null;
@@ -54,7 +53,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (string.IsNullOrEmpty(policyIdentifier)) return;
             CloudQueue queue = channel.GetQueueReference(queueName);
-            policyIdentifier = policyIdentifier.ToLower();//policy name should case-insensitive in url.
             QueueRequestOptions options = null;
             OperationContext context = null;
             QueuePermissions permission = channel.GetPermissions(queue, options, context);
@@ -71,7 +69,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (string.IsNullOrEmpty(policyIdentifier)) return;
             CloudTable table = channel.GetTableReference(tableName);
-            policyIdentifier = policyIdentifier.ToLower();//policy name should case-insensitive in url.
             TableRequestOptions options = null;
             OperationContext context = null;
             TablePermissions permission = channel.GetTablePermissions(table, options, context);
@@ -80,13 +77,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// 
+        /// Valiate access policy
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="policies"></param>
-        /// <param name="policyIdentifier"></param>
+        /// <param name="policies">Access policy</param>
+        /// <param name="policyIdentifier">policyIdentifier</param>
         internal static void ValidateExistingPolicy<T>(IDictionary<string, T> policies, string policyIdentifier)
         {
+            policyIdentifier = policyIdentifier.ToLower();//policy name should case-insensitive in url.
             foreach (KeyValuePair<string, T> pair in policies)
             {
                 if (pair.Key.ToLower() == policyIdentifier)
@@ -98,8 +96,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             throw new ArgumentException(string.Format(Resources.InvalidAccessPolicy, policyIdentifier));
         }
 
-        public static void SetupAccessPolicyLifeTime(DateTimeOffset? SharedAccessStartTime, DateTimeOffset? SharedAccessExpiryTime, DateTime? startTime, DateTime? expiryTime)
+        public static void SetupAccessPolicyLifeTime(DateTime? startTime, DateTime? expiryTime, out DateTimeOffset? SharedAccessStartTime, out DateTimeOffset? SharedAccessExpiryTime)
         {
+            SharedAccessStartTime = null;
+            SharedAccessExpiryTime = null;
             //Set up start/expiry time
             if (startTime != null)
             {

@@ -83,8 +83,11 @@
         /// <param name="policy">Access policy object</param>
         private void SetupAccessPolicy(SharedAccessQueuePolicy policy)
         {
-            SasTokenHelper.SetupAccessPolicyLifeTime(policy.SharedAccessStartTime,
-                policy.SharedAccessExpiryTime, StartTime, ExpiryTime);
+            DateTimeOffset? startTime = null;
+            DateTimeOffset? endTime = null;
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out startTime, out endTime);
+            policy.SharedAccessStartTime = startTime;
+            policy.SharedAccessExpiryTime = endTime;
             SetupAccessPolicyPermission(policy, Permission);
         }
 
@@ -93,10 +96,11 @@
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="permission">Permisson</param>
-        private void SetupAccessPolicyPermission(SharedAccessQueuePolicy policy, string permission)
+        internal void SetupAccessPolicyPermission(SharedAccessQueuePolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
             policy.Permissions = SharedAccessQueuePermissions.None;
+            permission = permission.ToLower();
             foreach (char op in permission)
             {
                 switch(op)
