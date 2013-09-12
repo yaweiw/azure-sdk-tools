@@ -17,33 +17,31 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
 
 
     [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]
     public class RestartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        private IWebsitesClient websitesClient;
+
+        public IWebsitesClient WebsitesClient { 
+            get
+            {
+                if (websitesClient == null)
+                {
+                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return websitesClient;
+            }
+
+            set { websitesClient = value; }
+        }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the RestartAzureWebsiteCommand class.
-        /// </summary>
-        public RestartAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        public RestartAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             WebsitesClient.RestartAzureWebsite(Name);
 
             if (PassThru.IsPresent)
