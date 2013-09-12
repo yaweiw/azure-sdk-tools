@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -290,7 +291,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         
         private string[] BuildHostNames(string suffix)
         {
-            var hostnames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
+            var hostnames = new List<string> { string.Format(CultureInfo.InvariantCulture, "{0}.{1}", Name, suffix) };
             if (!string.IsNullOrEmpty(Hostname))
             {
                 hostnames.Add(Hostname);
@@ -401,9 +402,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private bool SiteRepositoryAlreadyExists(Exception ex)
         {
-            if (ex is CloudException)
+            var cex = ex as CloudException;
+            if (cex != null)
             {
-                CloudException cex = (CloudException) ex;
                 // TODO: Verify this is the right error code/detection logic
                 return cex.Response.StatusCode == HttpStatusCode.BadRequest;
             }

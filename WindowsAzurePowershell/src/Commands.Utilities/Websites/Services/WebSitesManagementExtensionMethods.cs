@@ -189,7 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             return new HostNameSslState
             {
                 Name = state.Name,
-                SslState = (SslState)(int)state.SslState
+                SslState = (SslState) (int) state.SslState
             };
         }
 
@@ -228,7 +228,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             };
             config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
             config.ConnectionStrings.ForEach(
-                csi => parameters.ConnectionStrings.Add(new WebSiteUpdateConfigurationParameters.ConnectionStringInfo()
+                csi => parameters.ConnectionStrings.Add(new WebSiteUpdateConfigurationParameters.ConnectionStringInfo
                 {
                     Name = csi.Name,
                     ConnectionString = csi.ConnectionString,

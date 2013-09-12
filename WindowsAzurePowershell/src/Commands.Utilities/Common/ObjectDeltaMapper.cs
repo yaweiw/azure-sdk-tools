@@ -30,13 +30,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private static readonly object[] noArgs = new object[0];
         private static readonly BindingFlags publicProperties = BindingFlags.Public | BindingFlags.Instance;
 
+        /// <summary>
+        /// Compare a reference data object with a current source, and populate a third
+        /// object with the properties in source that are different from the reference.
+        /// The three objects don't have to be of the same type, this method matches
+        /// them up by property names.
+        /// </summary>
+        /// <typeparam name="TSource">Type of source object.</typeparam>
+        /// <typeparam name="TReference">Type of reference object.</typeparam>
+        /// <typeparam name="TDest">Type of destination object.</typeparam>
+        /// <param name="source">Object containing the current settings that is being compared against.</param>
+        /// <param name="reference">Object containing potentially new settings.</param>
+        /// <param name="dest">Object that gets populated with the property values that have changed.</param>
+        /// <param name="excludedProperties">Properties that should be explicitly ignored when comparing source and reference.</param>
+        /// <returns>true if there are any changes, false if not.</returns>
         public static bool Map<TSource, TReference, TDest>(TSource source, TReference reference, TDest dest, params string[] excludedProperties)
         {
             bool changed = false;
             var propertiesToCopy = GetPropertiesToUpdate<TSource, TReference, TDest>(excludedProperties);
             foreach (var property in propertiesToCopy)
             {
-                changed = changed || UpdateProperty(property, source, reference, dest);
+                changed = UpdateProperty(property, source, reference, dest) || changed;
             }
             return changed;
         }
