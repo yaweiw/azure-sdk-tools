@@ -14,401 +14,416 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using System.Net;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Management.Storage;
+    using Management.Storage.Models;
     using Moq;
-    using ServiceManagement;
     using Storage.Blob;
     using System;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
+    using OperationStatus = Management.Compute.Models.OperationStatus;
 
-	[TestClass]
-	public class CloudServiceClientTests : TestBase
-	{
-		private SubscriptionData subscription;
+    [TestClass]
+    public class CloudServiceClientTests : TestBase
+    {
+        private SubscriptionData subscription;
 
-		private Mock<IServiceManagement> serviceManagementChannelMock;
+        private ClientMocks clientMocks;
 
-		private Mock<CloudBlobUtility> cloudBlobUtilityMock;
+        private Mock<CloudBlobUtility> cloudBlobUtilityMock;
 
-		private ICloudServiceClient client;
+        private ICloudServiceClient client;
 
-		private string serviceName = "cloudService";
+        private const string serviceName = "cloudService";
 
-		private string storageName = "storagename";
+        private const string storageName = "storagename";
 
-		private HostedService cloudService;
+        private MockServicesHost services;
+        private MockStorageService storageService;
 
-		private StorageService storageService;
+        private void ExecuteInTempCurrentDirectory(string path, Action action)
+        {
+            string currentDirectory = Environment.CurrentDirectory;
 
-		private Deployment deployment;
+            try
+            {
+                Environment.CurrentDirectory = path;
+                action();
+            }
+            catch
+            {
+                Environment.CurrentDirectory = currentDirectory;
+                throw;
+            }
+        }
 
-		private void ExecuteInTempCurrentDirectory(string path, Action action)
-		{
-			string currentDirectory = Environment.CurrentDirectory;
+        private void SetupStorage(string name, MockStorageService.StorageAccountData a)
+        {
+            a.Name = name;
+            a.BlobEndpoint = "http://awesome.blob.core.windows.net/";
+            a.QueueEndpoint = "http://awesome.queue.core.windows.net/";
+            a.TableEndpoint = "http://awesome.table.core.windows.net/";
+            a.PrimaryKey =
+                "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==";
+            a.SecondaryKey = "secondaryKey";
+        }
 
-			try
-			{
-				Environment.CurrentDirectory = path;
-				action();
-			}
-			catch
-			{
-				Environment.CurrentDirectory = currentDirectory;
-				throw;
-			}
-		}
+        private void RemoveDeployments()
+        {
+            services.Clear()
+                .Add(s => { s.Name = serviceName; });
+        }
 
-		[TestInitialize]
-		public void TestSetup()
-		{
-			GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-			CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-			
-			storageService = new StorageService()
-			{
-				ServiceName = storageName,
-				StorageServiceKeys = new StorageServiceKeys()
-				{
-					Primary = "MNao3bm7t7B/x+g2/ssh9HnG0mEh1QV5EHpcna8CetYn+TSRoA8/SBoH6B3Ufwtnz3jZLSw9GEUuCTr3VooBWq==",
-					Secondary = "secondaryKey"
-				},
-				StorageServiceProperties = new StorageServiceProperties()
-				{
-					Endpoints = new EndpointList()
-					{
-						"http://awesome.blob.core.windows.net/",
-						"http://awesome.queue.core.windows.net/",
-						"http://awesome.table.core.windows.net/"
-					}
-				}
-			};
+        [TestInitialize]
+        public void TestSetup()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
 
-			deployment = new Deployment()
-			{
-				DeploymentSlot = DeploymentSlotType.Production,
-				Name = "mydeployment",
-				PrivateID = "privateId",
-				Status = DeploymentStatus.Starting,
-				RoleInstanceList = new RoleInstanceList()
-				{
-					new RoleInstance()
-					{
-						InstanceStatus = RoleInstanceStatus.ReadyRole,
-						RoleName = "Role1",
-						InstanceName = "Instance_Role1"
-					}
-				}
-			};
+            storageService = new MockStorageService()
+                .Add(a => SetupStorage(serviceName.ToLowerInvariant(), a))
+                .Add(a => SetupStorage(storageName.ToLowerInvariant(), a));
 
-			cloudService = new HostedService()
-			{
-				ServiceName = serviceName,
-				Deployments = new DeploymentList()
-			};
-			subscription = new SubscriptionData()
-			{
-				Certificate = It.IsAny<X509Certificate2>(),
-				IsDefault = true,
-				ServiceEndpoint = "https://www.azure.com",
-				SubscriptionId = Guid.NewGuid().ToString(),
-				SubscriptionName = Data.Subscription1
-			};
+            services = new MockServicesHost()
+                .Add(s =>
+                {
+                    s.Name = serviceName;
+                    s.AddDeployment(d =>
+                    {
+                        d.Slot = DeploymentSlot.Production;
+                        d.Name = "mydeployment";
+                    });
+                });
 
-			serviceManagementChannelMock = new Mock<IServiceManagement>();
-			serviceManagementChannelMock.Setup(f => f.EndGetHostedServiceWithDetails(It.IsAny<IAsyncResult>()))
-				.Returns(cloudService);
-			serviceManagementChannelMock.Setup(f => f.EndGetStorageService((It.IsAny<IAsyncResult>())))
-				.Returns(storageService);
-			serviceManagementChannelMock.Setup(f => f.EndGetStorageKeys(It.IsAny<IAsyncResult>()))
-				.Returns(storageService);
-			serviceManagementChannelMock.Setup(f => f.EndGetDeploymentBySlot(It.IsAny<IAsyncResult>()))
-				.Returns(deployment);
+            subscription = new SubscriptionData
+            {
+                Certificate = It.IsAny<X509Certificate2>(),
+                IsDefault = true,
+                ServiceEndpoint = "https://www.azure.com",
+                SubscriptionId = Guid.NewGuid().ToString(),
+                SubscriptionName = Data.Subscription1,
+            };
 
-			cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
-			cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
-				serviceManagementChannelMock.Object,
-				It.IsAny<string>(),
-				It.IsAny<string>(),
-				It.IsAny<string>(),
-				It.IsAny<BlobRequestOptions>())).Returns(new Uri("http://www.packageurl.azure.com"));
+            cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
+            cloudBlobUtilityMock.Setup(f => f.UploadPackageToBlob(
+                It.IsAny<StorageManagementClient>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<BlobRequestOptions>())).Returns(new Uri("http://www.packageurl.azure.com"));
 
-			client = new CloudServiceClient(subscription)
-			{ 
-				ServiceManagementChannel = serviceManagementChannelMock.Object,
-				CloudBlobUtility = cloudBlobUtilityMock.Object
-			};
-		}
+            clientMocks = new ClientMocks(subscription.SubscriptionId);
 
-		[TestMethod]
-		public void TestStartCloudService()
-		{
-			// Setup
-            cloudService.Deployments.Add(deployment);
-			UpdateDeploymentStatusInput actual = null;
-			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				It.IsAny<UpdateDeploymentStatusInput>(), null, null))
-				.Callback((
-					string s,
-					string name,
-					string slot,
-					UpdateDeploymentStatusInput input,
-					AsyncCallback callback,
-					object state) => actual = input);
+            services.InitializeMocks(clientMocks.ComputeManagementClientMock);
+            storageService.InitializeMocks(clientMocks.StorageManagementClientMock);
 
-			serviceManagementChannelMock.Setup(f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()));
+            client = new CloudServiceClient(subscription,
+                clientMocks.ManagementClientMock.Object,
+                clientMocks.StorageManagementClientMock.Object,
+                clientMocks.ComputeManagementClientMock.Object
+                )
+            {
+                CloudBlobUtility = cloudBlobUtilityMock.Object
+            };
+        }
 
-			// Test
-			client.StartCloudService(serviceName);
+        [TestMethod]
+        public void TestStartCloudService()
+        {
+            client.StartCloudService(serviceName);
 
-			// Assert
-			Assert.AreEqual<string>(DeploymentStatus.Running, actual.Status);
-			serviceManagementChannelMock.Verify(
-				f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()),
-				Times.Once());
-		}
+            Assert.IsTrue(services.LastDeploymentStatusUpdate.HasValue);
+            Assert.AreEqual(UpdatedDeploymentStatus.Running, services.LastDeploymentStatusUpdate.Value);
+        }
 
-		[TestMethod]
-		public void TestStopCloudService()
-		{
-			// Setup
-            cloudService.Deployments.Add(deployment);
-			UpdateDeploymentStatusInput actual = null;
-			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				It.IsAny<UpdateDeploymentStatusInput>(), null, null))
-				.Callback((
-					string s,
-					string name,
-					string slot,
-					UpdateDeploymentStatusInput input,
-					AsyncCallback callback,
-					object state) => actual = input);
+        [TestMethod]
+        public void TestStopCloudService()
+        {
+            client.StopCloudService(serviceName);
 
-			serviceManagementChannelMock.Setup(f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()));
+            Assert.IsTrue(services.LastDeploymentStatusUpdate.HasValue);
+            Assert.AreEqual(UpdatedDeploymentStatus.Suspended, services.LastDeploymentStatusUpdate.Value);
+        }
 
-			// Test
-			client.StopCloudService(serviceName);
+        [TestMethod]
+        public void TestRemoveCloudService()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.DeleteBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(
+                    CreateComputeOperationResponse("req0")));
 
-			// Assert
-			Assert.AreEqual<string>(DeploymentStatus.Suspended, actual.Status);
-			serviceManagementChannelMock.Verify(
-				f => f.EndUpdateDeploymentStatusBySlot(It.IsAny<IAsyncResult>()),
-				Times.Once());
-		}
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-		[TestMethod]
-		public void TestRemoveCloudService()
-		{
-			// Setup
-			cloudService.Deployments.Add(deployment);
+            // Test
+            client.RemoveCloudService(serviceName);
 
-			// Test
-			client.RemoveCloudService(serviceName);
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.DeleteBySlotAsync(serviceName, DeploymentSlot.Production), Times.Once);
 
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null), Times.Once());
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
+        }
 
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
+        [TestMethod]
+        public void TestRemoveCloudServiceWithStaging()
+        {
+            services.Clear()
+                .Add(s =>
+                {
+                    s.Name = serviceName;
+                    s.AddDeployment(d =>
+                    {
+                        d.Name = "mydeployment";
+                        d.Slot = DeploymentSlot.Staging;
+                    });
+                });
 
-		[TestMethod]
-		public void TestRemoveCloudServiceWithStaging()
-		{
-			// Setup
-			deployment.DeploymentSlot = DeploymentSlotType.Staging;
-			cloudService.Deployments.Add(deployment);
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.DeleteBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(
+                    CreateComputeOperationResponse("request001")));
 
-			// Test
-			client.RemoveCloudService(serviceName);
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Staging,
-				null,
-				null), Times.Once());
+            // Test
+            client.RemoveCloudService(serviceName);
 
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.DeleteBySlotAsync(serviceName, DeploymentSlot.Staging), Times.Once);
 
-		[TestMethod]
-		public void TestRemoveCloudServiceWithoutDeployments()
-		{
-			// Setup
-			cloudService.Deployments.Clear();
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteDeploymentBySlot(It.IsAny<IAsyncResult>()));
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteHostedService(It.IsAny<IAsyncResult>()));
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
 
-			// Test
-			client.RemoveCloudService(serviceName);
+        }
 
-			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null), Times.Never());
+        [TestMethod]
+        public void TestRemoveCloudServiceWithoutDeployments()
+        {
+            RemoveDeployments();
 
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null), Times.Once());
-		}
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.Deployments.BeginDeletingBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production))
+                .Returns((string s, DeploymentSlot slot) => Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "req0",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-		[TestMethod]
-		public void TestPublishNewCloudService()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+            clientMocks.ComputeManagementClientMock.Setup(
+                c => c.HostedServices.DeleteAsync(It.IsAny<string>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request000",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            // Test
+            client.RemoveCloudService(serviceName);
+
+            // Assert
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.Deployments.BeginDeletingBySlotAsync(serviceName, DeploymentSlot.Production), Times.Never);
+
+            clientMocks.ComputeManagementClientMock.Verify(
+                c => c.HostedServices.DeleteAsync(serviceName), Times.Once);
+
+        }
+
+        [TestMethod]
+        public void TestPublishNewCloudService()
+        {
+            RemoveDeployments();
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginCreateOrUpdateDeployment(
-					subscription.SubscriptionId,
-					serviceName,
-					DeploymentSlotType.Production,
-					It.IsAny<CreateDeploymentInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.CreateAsync(
+                    serviceName, DeploymentSlot.Production, It.IsAny<DeploymentCreateParameters>()), Times.Once);
+            }
 
-		[TestMethod]
-		public void TestUpgradeCloudService()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				cloudService.Deployments.Add(deployment);
+        }
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+        [TestMethod]
+        public void TestUpgradeCloudService()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-				serviceManagementChannelMock.Verify(f => f.BeginUpgradeDeploymentBySlot(
-					subscription.SubscriptionId,
-					serviceName,
-					DeploymentSlotType.Production,
-					It.IsAny<UpgradeDeploymentInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.UpgradeBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentUpgradeParameters>()))
+                .Returns(Tasks.FromResult(CreateComputeOperationResponse("req002")));
 
-		[TestMethod]
-		public void TestCreateStorageServiceWithPublish()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				cloudService.Deployments.Add(deployment);
-				serviceManagementChannelMock.Setup(f => f.EndGetStorageService(It.IsAny<IAsyncResult>()))
-					.Callback(() => serviceManagementChannelMock.Setup(f => f.EndGetStorageService(
-						It.IsAny<IAsyncResult>()))
-						.Returns(storageService))
-					.Throws(new EndpointNotFoundException());
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginCreateStorageService(
-					subscription.SubscriptionId,
-					It.IsAny<CreateStorageServiceInput>(),
-					null,
-					null), Times.Once());
-			}
-		}
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.UpgradeBySlotAsync(serviceName, DeploymentSlot.Production, It.IsAny<DeploymentUpgradeParameters>()), Times.Once);
+            }
 
-		[TestMethod]
-		public void TestPublishWithCurrentStorageAccount()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				subscription.CurrentStorageAccount = storageName;
+        }
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+        [TestMethod]
+        public void TestCreateStorageServiceWithPublish()
+        {
+            RemoveDeployments();
+            
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
 
-				cloudBlobUtilityMock.Verify(f => f.UploadPackageToBlob(
-					serviceManagementChannelMock.Object,
-					subscription.CurrentStorageAccount,
-					subscription.SubscriptionId,
-					It.IsAny<string>(),
-					It.IsAny<BlobRequestOptions>()), Times.Once());
-			}
-		}
+            storageService.Clear();
 
-		[TestMethod]
-		public void TestPublishWithDefaultLocation()
-		{
-			using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
-			{
-				// Setup
-				string rootPath = files.CreateNewService(serviceName);
-				files.CreateAzureSdkDirectoryAndImportPublishSettings();
-				CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
-				cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-				serviceManagementChannelMock.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
-					.Returns(new LocationList() { new Location() { Name = "East US" } });
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
-				ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
-				serviceManagementChannelMock.Verify(f => f.BeginListLocations(
-					subscription.SubscriptionId,
-					null,
-					null), Times.Once());
-			}
-		}
-	}
+                clientMocks.StorageManagementClientMock.Verify(c => c.StorageAccounts.CreateAsync(It.IsAny<StorageAccountCreateParameters>()), Times.Once);
+            }            
+        }
+
+        [TestMethod]
+        public void TestPublishWithCurrentStorageAccount()
+        {
+            RemoveDeployments();
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                subscription.CurrentStorageAccount = storageName;
+
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
+
+                cloudBlobUtilityMock.Verify(f => f.UploadPackageToBlob(
+                    clientMocks.StorageManagementClientMock.Object,
+                    subscription.CurrentStorageAccount,
+                    It.IsAny<string>(),
+                    It.IsAny<BlobRequestOptions>()), Times.Once());
+            }           
+        }
+
+        [TestMethod]
+        public void TestPublishWithDefaultLocation()
+        {
+            RemoveDeployments();
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync())
+                .Returns(Tasks.FromResult(new LocationsListResponse
+                {
+                    Locations =
+                    {
+                        new LocationsListResponse.Location {DisplayName = "East US", Name = "EastUS"}
+                    }
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                var cloudServiceProject = new CloudServiceProject(rootPath, null);
+                cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+
+                ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService());
+
+                clientMocks.ManagementClientMock.Verify(c => c.Locations.ListAsync(), Times.Once);
+            }            
+        }
+
+        private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        {
+            return new ComputeOperationStatusResponse
+            {
+                Error = null,
+                HttpStatusCode = HttpStatusCode.OK,
+                Id = "id",
+                RequestId = requestId,
+                Status = status,
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+    }
 }

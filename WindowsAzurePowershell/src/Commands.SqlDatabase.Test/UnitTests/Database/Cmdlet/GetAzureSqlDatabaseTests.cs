@@ -224,6 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 db1.IsFederationRoot = true.ToString();
                 db1.IsSystemObject = true.ToString();
                 db1.MaxSizeBytes = "1073741824";
+                db1.SizeMB = "2.4";
                 databases.Add(db1);
 
                 SqlDatabaseResponse db2 = new SqlDatabaseResponse();
@@ -236,6 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 db2.IsFederationRoot = true.ToString();
                 db2.IsSystemObject = true.ToString();
                 db2.MaxSizeBytes = "10737418240";
+                db2.SizeMB = "5.2";
                 databases.Add(db2);
 
                 SqlDatabaseList operationResult = new SqlDatabaseList(databases);
@@ -261,6 +263,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             Database database1Obj = results[0];
             Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+            Assert.AreEqual(2.4m, database1Obj.SizeMB, "Expected size to be 2.4 MB");
 
             Database database2Obj = results[1];
             
@@ -271,6 +274,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 "Expected collation to be Japanese_CI_AS");
             Assert.AreEqual("Business", database2Obj.Edition, "Expected edition to be Business");
             Assert.AreEqual(10, database2Obj.MaxSizeGB, "Expected max size to be 10 GB");
+            Assert.AreEqual(5.2m, database2Obj.SizeMB, "Expected size to be 5.2 MB");
         }
 
         [TestMethod]

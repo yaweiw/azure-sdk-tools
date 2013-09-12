@@ -27,11 +27,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using ServiceManagement;
 
-    public abstract class CloudBaseCmdlet<T> : CmdletBase
+    public abstract class CloudBaseCmdlet<T> : CmdletWithSubscriptionBase
         where T : class
     {
-        private SubscriptionData _currentSubscription;
-
         private Binding _serviceBinding;
 
         private string _serviceEndpoint;
@@ -86,30 +84,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set;
         }
 
-        public SubscriptionData CurrentSubscription
+        protected override void OnCurrentSubscriptionUpdated()
         {
-            get
+            // Recreate the channel if necessary
+            if (!ShareChannel)
             {
-                if (_currentSubscription == null)
-                {
-                    _currentSubscription = this.GetCurrentSubscription();
-                }
-
-                return _currentSubscription;
-            }
-
-            set
-            {
-                if (_currentSubscription != value)
-                {
-                    _currentSubscription = value;
-
-                    // Recreate the channel if necessary
-                    if (!ShareChannel)
-                    {
-                        InitChannelCurrentSubscription(true);
-                    }
-                }
+                InitChannelCurrentSubscription(true);
             }
         }
 

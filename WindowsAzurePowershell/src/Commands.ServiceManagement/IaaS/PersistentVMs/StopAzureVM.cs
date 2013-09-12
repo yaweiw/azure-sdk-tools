@@ -16,30 +16,19 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Linq;
     using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Helpers;
-    using WindowsAzure.ServiceManagement;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
-    using RoleInstance = WindowsAzure.ServiceManagement.RoleInstance;
 
     [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StopAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public StopAzureVMCommand()
-        {
-        }
-
-        public StopAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the Virtual Machine to stop.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -105,7 +94,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.Stopped),
+                        () => this.ComputeClient.VirtualMachines.Shutdown(
+                            this.ServiceName, 
+                            CurrentDeployment.Name, 
+                            roleNames[0],
+                            new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.Stopped }),
                         (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
                 }
                 else
@@ -119,7 +112,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             () => ExecuteClientActionNewSM(
                                 null,
                                 CommandRuntime.ToString(),
-                                () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.StoppedDeallocated),
+                                () => this.ComputeClient.VirtualMachines.Shutdown(
+                                    this.ServiceName, 
+                                    CurrentDeployment.Name, 
+                                    roleNames[0], 
+                                    new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
                                 (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s)));
                     }
                     else
@@ -127,44 +124,67 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         ExecuteClientActionNewSM(
                                 null,
                                 CommandRuntime.ToString(),
-                                () => this.ComputeClient.VirtualMachines.Shutdown(this.ServiceName, CurrentDeployment.Name, roleNames[0], PostShutdownState.StoppedDeallocated),
+                                () => this.ComputeClient.VirtualMachines.Shutdown(
+                                    this.ServiceName, 
+                                    CurrentDeployment.Name, 
+                                    roleNames[0], 
+                                    new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
                                 (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
                     }
                 }
             }
             else
             {
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/128
-                var shutdownRolesOperation = new ShutdownRolesOperation() { Roles = roleNames };
-
                 if (StayProvisioned.IsPresent)
                 {
-                    shutdownRolesOperation.PostShutdownAction = PostShutdownAction.Stopped;
-                    ExecuteClientActionInOCS(
+                    ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation));
+                        () => this.ComputeClient.VirtualMachines.ShutdownRoles(
+                            this.ServiceName,
+                            CurrentDeployment.Name,
+                            new VirtualMachineShutdownRolesParameters
+                            {
+                                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/158
+                                //Roles = roleNames.ToList(),
+                                PostShutdownAction = PostShutdownAction.Stopped
+                            }),
+                        (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
                 }
                 else
                 {
-                    shutdownRolesOperation.PostShutdownAction = PostShutdownAction.StoppedDeallocated;
-                    if (!Force.IsPresent && IsLastVmInDeployment(shutdownRolesOperation.Roles.Count))
+                    var shutdownRolesParameter = new VirtualMachineShutdownRolesParameters
+                    {
+                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/158
+                        //Roles = roleNames.ToList(),
+                        PostShutdownAction = PostShutdownAction.StoppedDeallocated
+                    };
+
+                    if (!Force.IsPresent && IsLastVmInDeployment(roleNames.Count))
                     {
                         ConfirmAction(false,
                             Resources.DeploymentVIPLossWarning,
                             string.Format(Resources.DeprovisioningVM, roleName),
                             String.Empty,
-                            () => ExecuteClientActionInOCS(
+                            () => ExecuteClientActionNewSM(
                                 null,
                                 CommandRuntime.ToString(),
-                                s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation)));
+                                () => this.ComputeClient.VirtualMachines.ShutdownRoles(
+                                    this.ServiceName,
+                                    CurrentDeployment.Name,
+                                    shutdownRolesParameter),
+                                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s)));
                     }
                     else
                     {
-                        ExecuteClientActionInOCS(
+                        ExecuteClientActionNewSM(
                             null,
                             CommandRuntime.ToString(),
-                            s => this.Channel.ShutdownRoles(s, this.ServiceName, CurrentDeployment.Name, shutdownRolesOperation));
+                            () => this.ComputeClient.VirtualMachines.ShutdownRoles(
+                                this.ServiceName,
+                                CurrentDeployment.Name,
+                                shutdownRolesParameter),
+                            (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
                     }
                 }
             }
@@ -172,7 +192,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         private bool IsLastVmInDeployment(int vmCount)
         {
-            Func<Management.Compute.Models.RoleInstance, bool> roleNotStoppedDeallocated = r => String.Compare(r.InstanceStatus, PostShutdownState.StoppedDeallocated.ToString(), true, CultureInfo.InvariantCulture) != 0;
+            Func<RoleInstance, bool> roleNotStoppedDeallocated =
+                r => String.Compare(
+                    r.InstanceStatus, 
+                    PostShutdownAction.StoppedDeallocated.ToString(), 
+                    true, 
+                    CultureInfo.InvariantCulture) != 0;
             bool result = CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
             return result;
         }

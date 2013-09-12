@@ -226,6 +226,16 @@
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
+    <Compile Include="CloudService\Model\ConfigurationSet.cs" />
+    <Compile Include="CloudService\Model\Deployment.cs" />
+    <Compile Include="CloudService\Model\DeploymentStatus.cs" />
+    <Compile Include="CloudService\Model\DnsSettings.cs" />
+    <Compile Include="CloudService\Model\InstanceEndpoint.cs" />
+    <Compile Include="CloudService\Model\PersistentVMDowntimeInfo.cs" />
+    <Compile Include="CloudService\Model\Role.cs" />
+    <Compile Include="CloudService\Model\RoleInstance.cs" />
+    <Compile Include="CloudService\Model\UpgradeStatus.cs" />
+    <Compile Include="CloudService\Model\VirtualIP.cs" />
     <Compile Include="CloudService\PublishContext.cs" />
     <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
@@ -244,10 +254,12 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldFile.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
+    <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
+    <Compile Include="Common\Tasks.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
@@ -280,6 +292,15 @@
     <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
       <DependentUpon>SubscriptionsData.xsd</DependentUpon>
     </Compile>
+    <Compile Include="MediaServices\IMediaServicesClient.cs" />
+    <Compile Include="MediaServices\MediaServicesClient.cs" />
+    <Compile Include="MediaServices\MediaServicesUriElements.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountCreationRequest.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountCreationResult.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountKeys.cs" />
+    <Compile Include="MediaServices\Services\Entities\MediaServiceAccount.cs" />
+    <Compile Include="MediaServices\Services\Entities\MediaServiceAccountDetails.cs" />
+    <Compile Include="MediaServices\Services\Entities\PagedSites.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

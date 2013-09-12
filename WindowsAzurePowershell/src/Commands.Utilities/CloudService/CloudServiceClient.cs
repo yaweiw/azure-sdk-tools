@@ -12,13 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using System.Net;
     using AzureTools;
     using Common;
-    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Management;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Model;
     using Properties;
-    using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
@@ -29,10 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using System.Threading;
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using DeploymentStatus = Model.DeploymentStatus;
+    using OperationStatus = Management.Compute.Models.OperationStatus;
+    using RoleInstance = Model.RoleInstance;
+    using RoleInstanceStatus = Management.Compute.Models.RoleInstanceStatus;
 
     public class CloudServiceClient : ICloudServiceClient
     {
@@ -40,9 +49,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         internal CloudBlobUtility CloudBlobUtility { get; set; }
 
-        internal IServiceManagement ServiceManagementChannel { get; set; }
+        internal ManagementClient ManagementClient { get; set; }
 
-        internal HeadersInspector HeadersInspector { get; set; }
+        internal StorageManagementClient StorageClient { get; set; }
+
+        internal ComputeManagementClient ComputeClient { get; set; }
 
         public SubscriptionData Subscription { get; set; }
 
@@ -50,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         public Action<string> VerboseStream { get; set; }
 
-        public Action<string> WarningeStream { get; set; }
+        public Action<string> WarningStream { get; set; }
 
         public string CurrentDirectory { get; set; }
 
@@ -62,40 +73,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Stop
         }
 
-        private void VerifyDeploymentExists(HostedService cloudService, string slot)
+        private void VerifyDeploymentExists(HostedServiceGetDetailedResponse cloudService, DeploymentSlot slot)
         {
             bool exists = false;
 
             if (cloudService.Deployments != null)
             {
-                exists = cloudService.Deployments.Exists(d => string.Equals(
-                    d.DeploymentSlot,
-                    slot,
-                    StringComparison.OrdinalIgnoreCase));
+                exists = cloudService.Deployments.Any(d => d.DeploymentSlot == slot );
             }
 
             if (!exists)
             {
                 throw new Exception(string.Format(Resources.CannotFindDeployment, cloudService.ServiceName, slot));
             }
+            
         }
 
-        private void SetCloudServiceState(string name, string slot, CloudServiceState state)
+        private void SetCloudServiceState(string name, DeploymentSlot slot, CloudServiceState state)
         {
-            HostedService cloudService = GetCloudService(name);
-            slot = GetSlot(slot);
-            VerifyDeploymentExists(cloudService, slot);
-            ServiceManagementChannel.UpdateDeploymentStatusBySlot(
-                subscriptionId,
-                cloudService.ServiceName,
-                slot,
-                new UpdateDeploymentStatusInput()
-                {
-                    Status = state == CloudServiceState.Start ? DeploymentStatus.Running : DeploymentStatus.Suspended
-                }
-            );
-        }
+            HostedServiceGetDetailedResponse cloudService = GetCloudService(name);
 
+            VerifyDeploymentExists(cloudService, slot);
+            ComputeClient.Deployments.UpdateStatusByDeploymentSlot(cloudService.ServiceName,
+                slot, new DeploymentUpdateStatusParameters
+                {
+                    Status =
+                        state == CloudServiceState.Start
+                            ? UpdatedDeploymentStatus.Running
+                            : UpdatedDeploymentStatus.Suspended
+                });
+        }
+        
         private void WriteToStream(Action<string> stream, string format, params object[] args)
         {
             if (stream != null)
@@ -106,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void WriteWarning(string format, params object[] args)
         {
-            WriteToStream(WarningeStream, format, args);
+            WriteToStream(WarningStream, format, args);
         }
 
         private void WriteVerbose(string format, params object[] args)
@@ -119,15 +127,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(format, args)));
         }
 
-        private void CallSync(Action action)
+        private void TranslateException(Action a)
         {
-            action();
-
-            string headerKey = Microsoft.WindowsAzure.ServiceManagement.Constants.OperationTrackingIdHeader;
-            if (HeadersInspector.ResponseHeaders != null && 
-                HeadersInspector.ResponseHeaders.GetValues(headerKey).Length == 1)
+            try
             {
-                WaitForOperation(HeadersInspector.ResponseHeaders[headerKey]);
+                a();
+            }
+            catch (CloudException ex)
+            {
+                throw new Exception(string.Format(
+                    Resources.OperationFailedMessage,
+                    ex.Message,
+                    ex.Response.StatusCode), ex);
             }
         }
 
@@ -146,55 +157,50 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private void UpdateCacheWorkerRolesCloudConfiguration(PublishContext context)
         {
             string connectionString = GetStorageServiceConnectionString(context.ServiceSettings.StorageServiceName);
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
+            var cloudServiceProject = new CloudServiceProject(context.RootPath, null);
 
-            ConfigConfigurationSetting connectionStringConfig = new ConfigConfigurationSetting
+            var connectionStringConfig = new ConfigConfigurationSetting
             {
                 name = Resources.CachingConfigStoreConnectionStringSettingName,
                 value = string.Empty
             };
 
             cloudServiceProject.Components.ForEachRoleSettings(
-            r => Array.Exists<ConfigConfigurationSetting>(r.ConfigurationSettings, c => c.Equals(connectionStringConfig)),
-            delegate(RoleSettings r)
-            {
-                int index = Array.IndexOf<ConfigConfigurationSetting>(r.ConfigurationSettings, connectionStringConfig);
-                r.ConfigurationSettings[index] = new ConfigConfigurationSetting
-                {
-                    name = Resources.CachingConfigStoreConnectionStringSettingName,
-                    value = connectionString
-                };
-            });
+                r => Array.Exists(r.ConfigurationSettings, c => c.Equals(connectionStringConfig)),
+                r =>
+                    {
+                        int index = Array.IndexOf(r.ConfigurationSettings, connectionStringConfig);
+                        r.ConfigurationSettings[index] = new ConfigConfigurationSetting
+                        {
+                            name = Resources.CachingConfigStoreConnectionStringSettingName,
+                            value = connectionString
+                        };
+                    });
 
             cloudServiceProject.Components.Save(cloudServiceProject.Paths);
         }
 
         private void CreateDeployment(PublishContext context)
         {
-            CreateDeploymentInput deploymentInput = new CreateDeploymentInput
+            var deploymentParams = new DeploymentCreateParameters
             {
-                PackageUrl = UploadPackage(context),
+                PackageUri = UploadPackage(context),
                 Configuration = General.GetConfiguration(context.ConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
-                StartDeployment = true,
+                StartDeployment = true
             };
 
             WriteVerboseWithTimestamp(Resources.PublishStartingMessage);
 
-            CertificateList uploadedCertificates = ServiceManagementChannel.ListCertificates(
-                subscriptionId,
-                context.ServiceName);
+            ServiceCertificateListResponse uploadedCertificates = ComputeClient.ServiceCertificates.List(context.ServiceName);
             AddCertificates(uploadedCertificates, context);
 
-            ServiceManagementChannel.CreateOrUpdateDeployment(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot,
-                deploymentInput);
+            ComputeClient.Deployments.Create(context.ServiceName, GetSlot(context.ServiceSettings.Slot),
+                deploymentParams);
         }
 
-        private void AddCertificates(CertificateList uploadedCertificates, PublishContext context)
+        private void AddCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
         {
             string name = context.ServiceName;
             CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
@@ -203,55 +209,53 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 foreach (ConfigCertificate certElement in cloudServiceProject.Components.CloudConfig.Role.
                     SelectMany(r => r.Certificates ?? new ConfigCertificate[0]).Distinct())
                 {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count(c => c.Thumbprint.Equals(
+                    if (uploadedCertificates == null || (uploadedCertificates.Certificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
                         X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
-                        CertificateFile certFile = null;
-                        try
-                        {
-                            certFile = new CertificateFile
-                            {
-                                Data = Convert.ToBase64String(cert.Export(X509ContentType.Pfx, string.Empty)),
-                                Password = string.Empty,
-                                CertificateFormat = "pfx"
-                            };
-                        }
-                        catch (CryptographicException exception)
-                        {
-                            throw new ArgumentException(string.Format(
-                                Resources.CertificatePrivateKeyAccessError,
-                                certElement.name), exception);
-                        }
-
-                        CallSync(() => ServiceManagementChannel.AddCertificates(subscriptionId, name, certFile));
+                        UploadCertificate(cert, certElement, name);
                     }
                 }
             }
         }
 
+        private void UploadCertificate(X509Certificate2 cert, ConfigCertificate certElement, string name)
+        {
+            try
+            {
+                var createParams = new ServiceCertificateCreateParameters
+                {
+                    Data = cert.Export(X509ContentType.Pfx, string.Empty),
+                    Password = string.Empty,
+                    CertificateFormat = CertificateFormat.Pfx
+                };
+                TranslateException(() => ComputeClient.ServiceCertificates.Create(name, createParams));
+
+            }
+            catch (CryptographicException ex)
+            {
+                throw new ArgumentException(string.Format(
+                    Resources.CertificatePrivateKeyAccessError,
+                    certElement.name), ex);                
+            }
+        }
+
         private void UpgradeDeployment(PublishContext context)
         {
-            UpgradeDeploymentInput upgradeDeploymentInput = new UpgradeDeploymentInput
+            var upgradeParams = new DeploymentUpgradeParameters
             {
-                PackageUrl = UploadPackage(context),
                 Configuration = General.GetConfiguration(context.ConfigPath),
+                PackageUri = UploadPackage(context),
                 Label = context.ServiceName,
-                Mode = UpgradeType.Auto
+                Mode = DeploymentUpgradeMode.Auto
             };
 
             WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
 
-            CertificateList uploadedCertificates = ServiceManagementChannel.ListCertificates(
-                subscriptionId,
-                context.ServiceName);
+            var uploadedCertificates = ComputeClient.ServiceCertificates.List(context.ServiceName);
             AddCertificates(uploadedCertificates, context);
 
-            ServiceManagementChannel.UpgradeDeploymentBySlot(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot,
-                upgradeDeploymentInput);
+            ComputeClient.Deployments.UpgradeBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot), upgradeParams);
         }
 
         private void VerifyDeployment(PublishContext context)
@@ -260,17 +264,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 WriteVerboseWithTimestamp(Resources.PublishInitializingMessage);
 
-                Dictionary<string, RoleInstance> roleInstanceSnapshot = new Dictionary<string, RoleInstance>();
+                var roleInstanceSnapshot = new Dictionary<string, RoleInstance>();
 
                 // Continue polling for deployment until all of the roles
                 // indicate they're ready
-                Deployment deployment = new Deployment();
+                Deployment deployment;
                 do
                 {
-                    deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                        subscriptionId,
-                        context.ServiceName,
-                        context.ServiceSettings.Slot);
+                    deployment = new Deployment(
+                        ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot)));
 
                     // The goal of this loop is to output a message whenever the status of a role 
                     // instance CHANGES. To do that, we have to remember the last status of all role instances
@@ -340,20 +342,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 WriteVerboseWithTimestamp(Resources.PublishCreatedWebsiteMessage, deployment.Url);
 
             }
-            catch (ServiceManagementClientException)
+            catch (CloudException)
             {
                 throw new InvalidOperationException(
                     string.Format(Resources.CannotFindDeployment, context.ServiceName, context.ServiceSettings.Slot));
             }
         }
 
-        private void DeleteDeploymentIfExists(string name, string slot)
+        private void DeleteDeploymentIfExists(string name, DeploymentSlot slot)
         {
             if (DeploymentExists(name, slot))
             {
                 WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
-                CallSync(() => ServiceManagementChannel.DeleteDeploymentBySlot(subscriptionId, name, slot));
-            }
+                TranslateException(() => ComputeClient.Deployments.DeleteBySlot(name, slot));
+            }   
         }
 
         private string GetDeploymentId(PublishContext context)
@@ -369,14 +371,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
                 try
                 {
-                    deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                        subscriptionId,
-                        context.ServiceName,
-                        context.ServiceSettings.Slot);
+                    deployment = new Deployment(
+                        ComputeClient.Deployments.GetBySlot(context.ServiceName,
+                        GetSlot(context.ServiceSettings.Slot)));
                 }
-                catch (Exception e)
+                catch (CloudException ex)
                 {
-                    if (e.Message != Resources.InternalServerErrorMessage)
+                    if (ex.Response.StatusCode != HttpStatusCode.InternalServerError)
                     {
                         throw;
                     }
@@ -387,9 +388,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             return deployment.PrivateID;
         }
 
-        private string GetSlot(string slot)
+        private DeploymentSlot GetSlot(string slot)
         {
-            return string.IsNullOrEmpty(slot) ? DeploymentSlotType.Production : slot;
+            if (string.IsNullOrEmpty(slot))
+            {
+                return DeploymentSlot.Production;
+            }
+            if (string.Compare(slot, "Staging", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return DeploymentSlot.Staging;
+            }  
+            if (string.Compare(slot, "Production", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return DeploymentSlot.Production;
+            }
+            throw new ArgumentException(string.Format(Resources.InvalidDeploymentSlot, slot), slot);
         }
 
         private string GetCloudServiceName(string name)
@@ -414,20 +427,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     context.ServiceSettings.StorageServiceName);
 
             return CloudBlobUtility.UploadPackageToBlob(
-                ServiceManagementChannel,
+                StorageClient,
                 context.ServiceSettings.StorageServiceName,
-                subscriptionId,
                 context.PackagePath,
                 new BlobRequestOptions());
         }
 
-        private HostedService GetCloudService(string name)
+        private HostedServiceGetDetailedResponse GetCloudService(string name)
         {
             name = GetCloudServiceName(name);
-
             try
             {
-                return ServiceManagementChannel.GetHostedServiceWithDetails(subscriptionId, name, true);
+                return ComputeClient.HostedServices.GetDetailed(name);
             }
             catch
             {
@@ -495,6 +506,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// Creates new instance from CloudServiceClient.
         /// </summary>
         /// <param name="subscription">The subscription data</param>
+        /// <param name="currentLocation">Directory to do operations in</param>
         /// <param name="debugStream">Action used to log http requests/responses</param>
         /// <param name="verboseStream">Action used to log detailed client progress</param>
         /// <param name="warningStream">Action used to log warning messages</param>
@@ -510,15 +522,40 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             CurrentDirectory = currentLocation;
             DebugStream = debugStream;
             VerboseStream = verboseStream;
-            WarningeStream = warningStream;
-            HeadersInspector = new HeadersInspector();
-            ServiceManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceManagement>(
-                ConfigurationConstants.WebHttpBinding(),
-                new Uri(subscription.ServiceEndpoint),
-                subscription.Certificate,
-                new HttpRestMessageInspector(DebugStream),
-                HeadersInspector);
+            WarningStream = warningStream;
+
             CloudBlobUtility = new CloudBlobUtility();
+
+            ManagementClient = CloudContext.Clients.CreateManagementClient(
+                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
+                new Uri(subscription.ServiceEndpoint));
+
+            StorageClient = CloudContext.Clients.CreateStorageManagementClient(
+                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
+                new Uri(subscription.ServiceEndpoint));
+
+            ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
+                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
+                new Uri(subscription.ServiceEndpoint));
+        }
+
+        internal CloudServiceClient(
+            SubscriptionData subscription,
+            ManagementClient managementClient,
+            StorageManagementClient storageManagementClient,
+            ComputeManagementClient computeManagementClient)
+        {
+            Subscription = subscription;
+            subscriptionId = subscription.SubscriptionId;
+            CurrentDirectory = null;
+            DebugStream = null;
+            VerboseStream = null;
+            WarningStream = null;
+
+            CloudBlobUtility = new CloudBlobUtility();
+            ManagementClient = managementClient;
+            StorageClient = storageManagementClient;
+            ComputeClient = computeManagementClient;
         }
 
         /// <summary>
@@ -528,7 +565,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="slot">The deployment slot</param>
         public void StartCloudService(string name = null, string slot = null)
         {
-            SetCloudServiceState(name, slot, CloudServiceState.Start);
+            DeploymentSlot deploymentSlot = GetSlot(slot);
+
+            SetCloudServiceState(name, deploymentSlot, CloudServiceState.Start);
         }
 
         /// <summary>
@@ -538,7 +577,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="slot">The deployment slot</param>
         public void StopCloudService(string name = null, string slot = null)
         {
-            SetCloudServiceState(name, slot, CloudServiceState.Stop);
+            DeploymentSlot deploymentSlot = GetSlot(slot);
+            SetCloudServiceState(name, deploymentSlot, CloudServiceState.Stop);
         }
 
         /// <summary>
@@ -549,7 +589,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>Flag indicating the deployment exists or not</returns>
         public bool DeploymentExists(string name = null, string slot = null)
         {
-            HostedService cloudService = GetCloudService(name);
+            DeploymentSlot deploymentSlot = GetSlot(slot);
+            return DeploymentExists(name, deploymentSlot);
+        }
+
+        private bool DeploymentExists(string name, DeploymentSlot slot)
+        {
+            HostedServiceGetDetailedResponse cloudService = GetCloudService(name);
             try
             {
                 VerifyDeploymentExists(cloudService, slot);
@@ -648,17 +694,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             VerifyDeployment(context);
 
             // Get object of the published deployment
-            Deployment deployment = ServiceManagementChannel.GetDeploymentBySlot(
-                subscriptionId,
-                context.ServiceName,
-                context.ServiceSettings.Slot);
+            DeploymentGetResponse deployment = ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot));
 
             if (launch)
             {
-                General.LaunchWebPage(deployment.Url.ToString());
+                General.LaunchWebPage(deployment.Uri.ToString());
             }
 
-            return deployment;
+            return new Deployment(deployment);
         }
 
         /// <summary>
@@ -668,18 +711,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>True if exists, false otherwise</returns>
         public bool CloudServiceExists(string name)
         {
-            HostedService cloudService = null;
-
             try
             {
-                cloudService = ServiceManagementChannel.GetHostedServiceWithDetails(subscriptionId, name, true);
+                return ComputeClient.HostedServices.GetDetailed(name) != null;
             }
             catch
             {
                 return false;
             }
-
-            return cloudService != null;
         }
 
         /// <summary>
@@ -687,6 +726,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="label">The cloud service label</param>
+        /// <param name="location">The location to create the cloud service in.</param>
+        /// <param name="affinityGroup">Affinity group name for cloud service</param>
         public void CreateCloudServiceIfNotExist(
             string name,
             string label = null,
@@ -697,23 +738,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
-                CreateHostedServiceInput cloudServiceInput = new CreateHostedServiceInput
-                {
-                    ServiceName = name,
-                    Label = string.IsNullOrEmpty(label) ? name : label
-                };
+                var createParameters = new HostedServiceCreateParameters {ServiceName = name, Label = label};
 
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
-                    cloudServiceInput.AffinityGroup = affinityGroup;
+                    createParameters.AffinityGroup = affinityGroup;
                 }
                 else
                 {
                     location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
-                    cloudServiceInput.Location = location;
+                    createParameters.Location = location;
                 }
 
-                ServiceManagementChannel.CreateHostedService(subscriptionId, cloudServiceInput);
+                ComputeClient.HostedServices.Create(createParameters);
 
                 WriteVerboseWithTimestamp(Resources.PublishCreatedServiceMessage, name);
             }
@@ -734,23 +771,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             if (!StorageServiceExists(name))
             {
-                CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
-                {
-                    ServiceName = name,
-                    Label = label,
-                };
-
+                var createParameters = new StorageAccountCreateParameters {ServiceName = name, Label = label};
+             
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
-                    storageServiceInput.AffinityGroup = affinityGroup;
+                    createParameters.AffinityGroup = affinityGroup;
                 }
                 else
                 {
                     location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
-                    storageServiceInput.Location = location;
+                    createParameters.Location = location;
                 }
 
-                CallSync(() => ServiceManagementChannel.CreateStorageService(subscriptionId, storageServiceInput));
+                TranslateException(() => StorageClient.StorageAccounts.Create(createParameters));
             }
         }
 
@@ -760,8 +793,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The location name</returns>
         public string GetDefaultLocation()
         {
-            LocationList locations = ServiceManagementChannel.ListLocations(subscriptionId);
-            return locations.First().Name;
+            return ManagementClient.Locations.List().Locations.First().Name;   
         }
 
         /// <summary>
@@ -771,67 +803,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>True if exists, false otherwise</returns>
         public bool StorageServiceExists(string name)
         {
-            StorageService storageService = null;
-
             try
             {
-                storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
+                return StorageClient.StorageAccounts.Get(name) != null;
             }
-            catch (EndpointNotFoundException)
+            catch (CloudException ex)
             {
                 // Don't write error message.  This catch block is used to
                 // detect that there's no such endpoint which indicates that
                 // the storage account doesn't exist.
-                return false;
+                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                // Something else went wrong
+                throw;
             }
-
-            return storageService != null;
-        }
-
-        /// <summary>
-        /// Waits for the given operation id until it's done.
-        /// </summary>
-        /// <param name="operationId">The operation id</param>
-        public void WaitForOperation(string operationId)
-        {
-            Operation operation = new Operation();
-            do
-            {
-                operation = ServiceManagementChannel.GetOperationStatus(subscriptionId, operationId);
-                Thread.Sleep(SleepDuration);
-            }
-            while (operation.Status == OperationState.InProgress);
-
-            if (operation.Status == OperationState.Failed)
-            {
-                throw new Exception(string.Format(
-                    Resources.OperationFailedMessage,
-                    operation.Error.Message,
-                    operation.Error.Code));
-            }
-        }
-
-        /// <summary>
-        /// Gets complete information of a storage service.
-        /// </summary>
-        /// <param name="name">The storage service name</param>
-        /// <returns>The storage service instance</returns>
-        public StorageService GetStorageService(string name)
-        {
-            StorageService storageService = null;
-
-            try
-            {
-                storageService = ServiceManagementChannel.GetStorageService(subscriptionId, name);
-                StorageService storageServiceKeys = ServiceManagementChannel.GetStorageKeys(subscriptionId, name);
-                storageService.StorageServiceKeys = storageServiceKeys.StorageServiceKeys;
-            }
-            catch
-            {
-                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
-            }
-
-            return storageService;
         }
 
         /// <summary>
@@ -841,20 +829,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            StorageService storageService = GetStorageService(name);
+            StorageServiceGetResponse storageService;
+            StorageAccountGetKeysResponse storageKeys;
 
-            Debug.Assert(storageService.StorageServiceKeys != null);
+            try
+            {
+                storageService = StorageClient.StorageAccounts.Get(name);
+                storageKeys = StorageClient.StorageAccounts.GetKeys(name);
+            }
+            catch
+            {
+                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
+            }
+
             Debug.Assert(storageService.ServiceName != null);
+            Debug.Assert(storageKeys != null);
 
             StorageCredentials credentials = new StorageCredentials(
                 storageService.ServiceName,
-                storageService.StorageServiceKeys.Primary);
+                storageKeys.PrimaryKey);
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]),
-                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2])
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
+                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
                 );
 
             return cloudStorageAccount.ToString(true);
@@ -866,13 +865,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="name">The cloud service name</param>
         public void RemoveCloudService(string name)
         {
-            HostedService cloudService = GetCloudService(name);
+            var cloudService = GetCloudService(name);
 
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlotType.Production);
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlotType.Staging);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
-            CallSync(() => ServiceManagementChannel.DeleteHostedService(subscriptionId, cloudService.ServiceName));
+            TranslateException(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
         }
     }
 }
