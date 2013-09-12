@@ -119,26 +119,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// <summary>
         /// Initializes a new instance of the NewAzureWebsiteCommand class.
         /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the NewAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
         /// <param name="githubChannel">
         /// Channel used for communication with the github APIs.
         /// </param>
-        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel, IGithubServiceManagement githubChannel)
+        public NewAzureWebsiteCommand(IGithubServiceManagement githubChannel)
         {
-            Channel = channel;
             GithubChannel = githubChannel;
         }
 
@@ -168,20 +153,19 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             IList<string> users = null;
             try
             {
-                InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+                users = WebsitesClient.ListPublishingUserNames();
             }
             catch
             {
                 throw new Exception(Resources.NeedPublishingUsernames);
             }
 
-            IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
-            if (!validUsers.Any())
+            if (users.Count == 0)
             {
                 throw new ArgumentException(Resources.InvalidGitCredentials);
             }
             
-            if (!(validUsers.Count() == 1 && users.Count() == 1))
+            if (users.Count != 1) 
             {
                 throw new Exception(Resources.MultiplePublishingUsernames);
             }
@@ -194,20 +178,17 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             try
             {
                 // Create website repository
-                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
+                WebsitesClient.CreateWebsiteRepository(webspace, websiteName);
             }
             catch (Exception ex)
             {
-                // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteRepositoryAlreadyExists,
-                                                 Name)))
+                if (SiteRepositoryAlreadyExists(ex))
                 {
-                    WriteWarning(message);
+                    WriteWarning(ex.Message);
                 }
                 else
                 {
-                    WriteExceptionError(new Exception(message));
+                    WriteExceptionError(ex);
                 }
             }
         }
@@ -270,11 +251,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
                 InitializeRemoteRepo(webspace.Name, Name);
 
-                Site updatedWebsite =
-                    RetryCall(
-                        s =>
-                            Channel.GetSite(s, webspace.Name, Name,
-                                "repositoryuri,publishingpassword,publishingusername"));
+                Site updatedWebsite = WebsitesClient.GetWebsite(Name);
+
                 if (Git)
                 {
                     AddRemoteToLocalGitRepo(updatedWebsite);
@@ -435,6 +413,17 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             // TODO: Verify this is the right error code/detection logic
             return ex.Response.StatusCode == HttpStatusCode.NotFound;
+        }
+
+        private bool SiteRepositoryAlreadyExists(Exception ex)
+        {
+            if (ex is CloudException)
+            {
+                CloudException cex = (CloudException) ex;
+                // TODO: Verify this is the right error code/detection logic
+                return cex.Response.StatusCode == HttpStatusCode.BadRequest;
+            }
+            return false;
         }
     }
 }

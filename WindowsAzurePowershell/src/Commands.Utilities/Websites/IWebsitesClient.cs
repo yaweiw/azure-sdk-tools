@@ -98,6 +98,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         SiteConfig GetWebsiteConfiguration(string name);
 
         /// <summary>
+        /// Create a git repository for the web site.
+        /// </summary>
+        /// <param name="webspaceName">Webspace that site is in.</param>
+        /// <param name="websiteName">The site name.</param>
+        void CreateWebsiteRepository(string webspaceName, string websiteName);
+
+        /// <summary>
         /// Update the website configuration
         /// </summary>
         /// <param name="name">The website name</param>
@@ -117,6 +124,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="spaceName">Name of webspace</param>
         /// <returns>The sites</returns>
         IList<Site> ListSitesInWebSpace(string spaceName);
+
+        /// <summary>
+        /// Get a list of the user names configured to publish to the space.
+        /// </summary>
+        /// <returns>The list of user names.</returns>
+        IList<string> ListPublishingUserNames();
 
         /// <summary>
         /// Enables site diagnostic.
