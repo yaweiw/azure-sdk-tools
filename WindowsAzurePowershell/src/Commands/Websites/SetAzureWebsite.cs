@@ -14,42 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Store;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services.WebEntities;
     using Utilities.Common;
 
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
-    public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class SetAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-        private IWebsitesClient websitesClient;
-
-        public IWebsitesClient WebsitesClient
-        {
-            get
-            {
-                if (websitesClient == null)
-                {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return websitesClient;
-            }
-
-            set { websitesClient = value; }
-        }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
         public int? NumberOfWorkers { get; set; }

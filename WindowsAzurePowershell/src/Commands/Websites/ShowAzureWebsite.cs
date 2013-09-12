@@ -19,29 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Common;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
-    using Utilities.Websites;
 
     /// <summary>
     /// Shows an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class ShowAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-        private IWebsitesClient client;
-
-        public IWebsitesClient WebsitesClient
-        {
-            get
-            {
-                if (client == null)
-                {
-                    client = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return client;
-            }
-            set { client = value; }
-        }
-
         public override void ExecuteCmdlet()
         {
             Site websiteObject = WebsitesClient.GetWebsite(Name);
