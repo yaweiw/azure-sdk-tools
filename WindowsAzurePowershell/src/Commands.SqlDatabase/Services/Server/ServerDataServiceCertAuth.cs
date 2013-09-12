@@ -15,8 +15,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.
@@ -174,7 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             Database result = new Database()
             {
                 CollationName = response.CollationName,
-                CreationDate = DateTime.Parse(response.CreationDate),
+                CreationDate = DateTime.Parse(response.CreationDate, CultureInfo.InvariantCulture),
                 Edition = response.Edition,
                 Id = int.Parse(response.Id),
                 IsFederationRoot = bool.Parse(response.IsFederationRoot),
@@ -183,6 +184,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 MaxSizeBytes = long.Parse(response.MaxSizeBytes),
                 Name = response.Name,
             };
+
+            // Parse any additional database information
+            if (!string.IsNullOrEmpty(response.SizeMB))
+            {
+                result.SizeMB = decimal.Parse(response.SizeMB, CultureInfo.InvariantCulture);
+            }
 
             // Parse the service objective information
             if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentErrorCode))
@@ -203,7 +210,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
             if (!string.IsNullOrEmpty(response.ServiceObjectiveAssignmentSuccessDate))
             {
-                result.ServiceObjectiveAssignmentSuccessDate = DateTime.Parse(response.ServiceObjectiveAssignmentSuccessDate);
+                result.ServiceObjectiveAssignmentSuccessDate = DateTime.Parse(response.ServiceObjectiveAssignmentSuccessDate, CultureInfo.InvariantCulture);
             }
             if (!string.IsNullOrEmpty(response.ServiceObjectiveId))
             {

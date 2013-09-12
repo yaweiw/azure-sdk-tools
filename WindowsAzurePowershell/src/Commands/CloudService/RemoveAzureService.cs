@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureServiceCommand : ServiceManagementBaseCmdlet
+    public class RemoveAzureServiceCommand : CmdletWithSubscriptionBase
     {
         public ICloudServiceClient CloudServiceClient { get; set; }
 

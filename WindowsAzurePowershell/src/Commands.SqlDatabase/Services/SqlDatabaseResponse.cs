@@ -70,11 +70,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services
         public string IsSystemObject { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum size in bytes.
+        /// Gets the size of the database in MB.
         /// </summary>
         [DataMember(Order = 9)]
-        public string MaxSizeBytes { get; set; }
+        public string SizeMB { get; set; }
 
+        /// <summary>
+        /// Gets or sets the maximum size in bytes.
+        /// </summary>
+        [DataMember(Order = 10)]
+        public string MaxSizeBytes { get; set; }
 
         /// <summary>
         /// Gets the service objective currently assigned to the database.
@@ -117,7 +122,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services
         /// </summary>
         [DataMember(Order = 21)]
         public string ServiceObjectiveAssignmentSuccessDate { get; private set; }
-
 
         /// <summary>
         /// Gets or sets the extension data
