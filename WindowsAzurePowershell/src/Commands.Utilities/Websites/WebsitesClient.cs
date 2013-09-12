@@ -384,6 +384,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Delete a website.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="deleteMetrics">pass true to delete stored metrics as part of removing site.</param>
+        /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
+        public void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false)
+        {
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, deleteEmptyServerFarm, deleteMetrics);
+        }
+
+        /// <summary>
         /// Get the WebSpaces.
         /// </summary>
         /// <returns>Collection of WebSpace objects</returns>
