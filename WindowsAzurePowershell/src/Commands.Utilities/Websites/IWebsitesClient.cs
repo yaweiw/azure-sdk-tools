@@ -111,6 +111,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="newConfiguration">The website configuration object containing updates.</param>
         void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration);
 
+        /// <summary>
+        /// Delete a website.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="deleteMetrics"></param>
+        /// <param name="deleteEmptyServerFarm"></param>
+        void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false);
 
         /// <summary>
         /// Get the WebSpaces.

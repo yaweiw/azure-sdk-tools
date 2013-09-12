@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Collections.Generic;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Websites;
+    using Moq;
     using Utilities.Common;
     using Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
@@ -29,56 +30,25 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void ProcessRemoveWebsiteTest()
         {
             // Setup
-            bool deletedWebsite = false;
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSiteThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Site { Name = "website1", WebSpace = "webspace1" };
-                }
+            var mockClient = new Mock<IWebsitesClient>();
 
-                return new Site { Name = "website2", WebSpace = "webspace2" };
-            };
-
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-            };
-
-            channel.DeleteSiteThunk = ar =>
-                                             {
-                                                 if (ar.Values["name"].Equals("website1"))
-                                                 {
-                                                     deletedWebsite = true;
-                                                 }
-                                             };
+            mockClient.Setup(c => c.GetWebsite("website1"))
+                .Returns(new Site { Name = "website1", WebSpace = "webspace1" });
+            mockClient.Setup(c => c.DeleteWebsite("webspace1", "website1", false, false)).Verifiable();
 
             // Test
-            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand(channel)
+            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
+                WebsitesClient = mockClient.Object,
                 Name = "website1",
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             // Delete existing website
             removeAzureWebsiteCommand.ExecuteCmdlet();
-            Assert.IsTrue(deletedWebsite);
-
-            // Delete unexisting website
-            deletedWebsite = false;
-
-            removeAzureWebsiteCommand.Name = "website2";
-            removeAzureWebsiteCommand.ExecuteCmdlet();
-            Assert.IsFalse(deletedWebsite);
+            mockClient.Verify(c => c.DeleteWebsite("webspace1", "website1", false, false), Times.Once());
         }
     }
 }
