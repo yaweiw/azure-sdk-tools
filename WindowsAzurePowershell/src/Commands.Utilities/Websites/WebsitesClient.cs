@@ -358,7 +358,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SiteConfig configuration =
                 WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToSiteConfig();
 
-            return configuration;
+            return siteWithConfig;
         }
 
         /// <summary>
