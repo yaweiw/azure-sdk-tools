@@ -23,35 +23,19 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.Github;
-    using Commands.Utilities.Websites.Services.WebEntities;
-    using GitClass = Commands.Utilities.Websites.Services.Git;
+    using Utilities.Properties;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.Github;
+    using Utilities.Websites.Services.WebEntities;
+    using GitClass = Utilities.Websites.Services.Git;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite"), OutputType(typeof(SiteWithConfig))]
-    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
+    public class NewAzureWebsiteCommand : WebsiteClientBaseCmdlet, IGithubCmdlet
     {
-        private IWebsitesClient websitesClient;
-
-        public IWebsitesClient WebsitesClient
-        {
-            get
-            {
-                if (websitesClient == null)
-                {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return websitesClient;
-            }
-            set { websitesClient = value; }
-        }
-
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
         public string Location

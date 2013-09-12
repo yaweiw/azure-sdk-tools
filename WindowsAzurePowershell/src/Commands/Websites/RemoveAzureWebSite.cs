@@ -15,35 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.WebEntities;
-    using Utilities.Websites;
+    using Utilities.Properties;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Removes an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true), OutputType(typeof(Site))]
-    public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class RemoveAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-
-        private IWebsitesClient websitesClient;
-
-        public IWebsitesClient WebsitesClient
-        {
-            get
-            {
-                if (websitesClient == null)
-                {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return websitesClient;
-            }
-            set { websitesClient = value; }
-        }
-
-
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
         public SwitchParameter Force
         {

@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
     
     /// <summary>
     /// Gets the azure logs.
@@ -41,22 +41,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
         public SaveAzureWebsiteLogCommand()
-            : this(null, null)
+            : this(null)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
         /// <param name="deploymentChannel">
         /// Channel used for communication with the git repository.
         /// </param>
-        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
+        public SaveAzureWebsiteLogCommand(IDeploymentServiceManagement deploymentChannel)
         {
-            Channel = channel;
             DeploymentChannel = deploymentChannel;
         }
 
@@ -77,7 +73,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             else
             {
                 // Set the file extension to .zip
-                string ext = Path.GetExtension(Output);
                 Output = Path.ChangeExtension(Output, "zip");
             }
 

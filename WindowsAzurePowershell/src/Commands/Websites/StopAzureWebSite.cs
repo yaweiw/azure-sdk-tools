@@ -15,23 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
+    using Utilities.Websites.Common;
 
     /// <summary>
     /// Stops an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite"), OutputType(typeof(bool))]
-    public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class StopAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             WebsitesClient.StopAzureWebsite(Name);
 
             if (PassThru.IsPresent)

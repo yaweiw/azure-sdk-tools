@@ -12,26 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
-    using System.Management.Automation;
-    using Utilities.Websites.Common;
-
-
-    [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]
-    public class RestartAzureWebsiteCommand : WebsiteClientBaseCmdlet
+    public abstract class WebsiteClientBaseCmdlet : WebsiteContextBaseCmdlet
     {
-        [Parameter(Mandatory = false)]
-        public SwitchParameter PassThru { get; set; }
+        private IWebsitesClient websitesClient;
 
-        public override void ExecuteCmdlet()
+        public IWebsitesClient WebsitesClient
         {
-            WebsitesClient.RestartAzureWebsite(Name);
-
-            if (PassThru.IsPresent)
+            get
             {
-                WriteObject(true);
+                if (websitesClient == null)
+                {
+                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return websitesClient;
             }
+
+            set { websitesClient = value; }
         }
     }
 }

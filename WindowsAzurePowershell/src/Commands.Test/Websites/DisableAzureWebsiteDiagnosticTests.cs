@@ -14,16 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
     using Utilities.Websites;
     using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
     using Commands.Websites;
     using Moq;
 
