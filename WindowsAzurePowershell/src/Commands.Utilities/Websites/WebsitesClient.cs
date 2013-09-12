@@ -374,6 +374,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Create a git repository for the web site.
+        /// </summary>
+        /// <param name="webspaceName">Webspace that site is in.</param>
+        /// <param name="websiteName">The site name.</param>
+        public void CreateWebsiteRepository(string webspaceName, string websiteName)
+        {
+            WebsiteManagementClient.WebSites.CreateRepository(webspaceName, websiteName);
+        }
+
+        /// <summary>
         /// Get the WebSpaces.
         /// </summary>
         /// <returns>Collection of WebSpace objects</returns>
@@ -516,6 +526,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public string GetDefaultLocation()
         {
             return ListAvailableLocations().First();
+        }
+
+        /// <summary>
+        /// Get a list of the user names configured to publish to the space.
+        /// </summary>
+        /// <returns>The list of user names.</returns>
+        public IList<string> ListPublishingUserNames()
+        {
+            return WebsiteManagementClient.WebSpaces.ListPublishingUsers()
+                .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
         }
     }
 }

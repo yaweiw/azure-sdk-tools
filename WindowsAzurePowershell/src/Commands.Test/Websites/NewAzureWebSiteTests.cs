@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Commands.Utilities.Common;
     using Utilities.Common;
     using Utilities.Websites;
@@ -37,42 +35,31 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
-            clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
-            bool created = true;
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace>
-            {
-                new WebSpace { Name = "webspace1", GeoRegion = "webspace1" },
-                new WebSpace { Name = "webspace2", GeoRegion = "webspace2" }
-            });
-
-            channel.GetSiteConfigThunk = ar =>
-            {
-                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
+            clientMock.Setup(c => c.GetWebsiteDnsSuffix()).Returns(suffix);
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[]
                 {
-                    return new SiteConfig
+                    new WebSpace {Name = "webspace1", GeoRegion = "webspace1"},
+                    new WebSpace {Name = "webspace2", GeoRegion = "webspace2"}
+                });
+
+            clientMock.Setup(c => c.GetWebsiteConfiguration("website1"))
+                .Returns(new SiteConfig {PublishingUsername = "user1"});
+
+            string createdSiteName = null;
+            string createdWebspaceName = null;
+
+            clientMock.Setup(c => c.CreateWebsite(webspaceName, It.IsAny<SiteWithWebSpace>()))
+                .Returns((string space, SiteWithWebSpace site) => site)
+                .Callback((string space, SiteWithWebSpace site) =>
                     {
-                        PublishingUsername = "user1"
-                    };
-                }
-
-                return null;
-            };
-
-            channel.CreateSiteThunk = ar =>
-                                          {
-                                              Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                                              Site website = ar.Values["site"] as Site;
-                                              Assert.IsNotNull(website);
-                                              Assert.AreEqual(websiteName, website.Name);
-                                              Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
-                                              created = true;
-                                              return website;
-                                          };
+                        createdSiteName = site.Name;
+                        createdWebspaceName = space;
+                    });
 
             // Test
             MockCommandRuntime mockRuntime = new MockCommandRuntime();
-            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand(channel)
+            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = mockRuntime,
@@ -83,7 +70,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             };
 
             newAzureWebsiteCommand.ExecuteCmdlet();
-            Assert.IsTrue(created);
+            Assert.AreEqual(websiteName, createdSiteName);
+            Assert.AreEqual(webspaceName, createdWebspaceName);
             Assert.AreEqual<string>(websiteName, (mockRuntime.OutputPipeline[0] as SiteWithConfig).Name);
         }
 
@@ -94,35 +82,30 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             const string suffix = "azurewebsites.com";
             const string location = "West US";
 
+            bool created = false;
+
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
-            clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
-            clientMock.Setup(f => f.GetDefaultLocation()).Returns(location);
-            bool created = true;
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces();
-
-            channel.GetSiteConfigThunk = ar =>
-            {
-                return new SiteConfig
+            clientMock.Setup(c => c.GetWebsiteDnsSuffix()).Returns(suffix);
+            clientMock.Setup(c => c.GetDefaultLocation()).Returns(location);
+            
+            clientMock.Setup(c => c.ListWebSpaces()).Returns(new WebSpaces());
+            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName))
+                .Returns(new SiteConfig
                 {
                     PublishingUsername = "user1"
-                };
-            };
+                });
 
-            channel.CreateSiteThunk = ar =>
-            {
-                Site website = ar.Values["site"] as Site;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
-                created = true;
-                return website;
-            };
+            clientMock.Setup(c => c.CreateWebsite(It.IsAny<string>(), It.IsAny<SiteWithWebSpace>()))
+                .Returns((string space, SiteWithWebSpace site) => site)
+                .Callback((string space, SiteWithWebSpace site) =>
+                    {
+                        created = true;
+                    });
 
             // Test
             MockCommandRuntime mockRuntime = new MockCommandRuntime();
-            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand(channel)
+            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = mockRuntime,
