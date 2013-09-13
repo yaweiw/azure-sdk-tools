@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using System.Collections.Generic;
     using System.Linq;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Websites;
+    using Moq;
     using Utilities.Common;
     using Utilities.Websites;
     using Commands.Utilities.Websites.Services.DeploymentEntities;
@@ -31,36 +33,42 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetAzureWebsiteDeploymentTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
+            var clientMock = new Mock<IWebsitesClient>();
+            var site1 = new Site
             {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
+                Name = "website1",
+                WebSpace = "webspace1",
+                SiteProperties = new SiteProperties
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", SiteProperties = new SiteProperties
-                        {
-                            Properties = new List<NameValuePair>
-                            {
-                                new NameValuePair { Name = "repositoryuri", Value = "http" },
-                                new NameValuePair { Name = "PublishingUsername", Value = "user1" },
-                                new NameValuePair { Name = "PublishingPassword", Value = "password1" }
-                            }
-                        }} 
-                    });
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair {Name = "repositoryuri", Value = "http"},
+                        new NameValuePair {Name = "PublishingUsername", Value = "user1"},
+                        new NameValuePair {Name = "PublishingPassword", Value = "password1"}
+                    }
                 }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
+
+            clientMock.Setup(c => c.GetWebsite("website1"))
+                .Returns(site1);
+
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[] { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace1"))
+                .Returns(new[] { site1 });
+
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace2"))
+                .Returns(new[] { new Site { Name = "website2", WebSpace = "webspace2" } });
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
             deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult(), new DeployResult() };
 
             // Test
-            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(channel, deploymentChannel)
+            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(deploymentChannel)
             {
                 Name = "website1",
                 ShareChannel = true,
+                WebsitesClient = clientMock.Object,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
@@ -76,27 +84,25 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetAzureWebsiteDeploymentLogsTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
+            var clientMock = new Mock<IWebsitesClient>();
+            var site1 = new Site
             {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
+                Name = "website1",
+                WebSpace = "webspace1",
+                SiteProperties = new SiteProperties
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", SiteProperties = new SiteProperties
-                        {
-                            Properties = new List<NameValuePair>
-                            {
-                                new NameValuePair { Name = "repositoryuri", Value = "http" },
-                                new NameValuePair { Name = "PublishingUsername", Value = "user1" },
-                                new NameValuePair { Name = "PublishingPassword", Value = "password1" }
-                            }
-                        }} 
-                    });
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair {Name = "repositoryuri", Value = "http"},
+                        new NameValuePair {Name = "PublishingUsername", Value = "user1"},
+                        new NameValuePair {Name = "PublishingPassword", Value = "password1"}
+                    }
                 }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
+
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[] {new WebSpace {Name = "webspace1"}, new WebSpace {Name = "webspace2"}});
+            clientMock.Setup(c => c.GetWebsite("website1")).Returns(site1);
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
             deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult { Id = "commit1" }, new DeployResult { Id = "commit2" } };
@@ -111,10 +117,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             };
 
             // Test
-            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(channel, deploymentChannel)
+            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(deploymentChannel)
             {
                 Name = "website1",
                 ShareChannel = true,
+                WebsitesClient = clientMock.Object,
                 Details = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }

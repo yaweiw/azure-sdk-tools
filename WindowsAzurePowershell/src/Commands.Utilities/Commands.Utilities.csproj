@@ -253,8 +253,10 @@
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\ObjectDeltaMapper.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
+    <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\Tasks.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
@@ -346,6 +348,7 @@
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
     <Compile Include="Websites\Common\IGithubCmdlet.cs" />
+    <Compile Include="Websites\Common\WebsiteClientBaseCmdlet.cs" />
     <Compile Include="Websites\Common\WebsiteContextBaseCmdlet.cs" />
     <Compile Include="Websites\Common\WebsitesBaseCmdlet.cs" />
     <Compile Include="Websites\IWebsitesClient.cs" />
@@ -420,6 +423,7 @@
     <Compile Include="Websites\Services\WebEntities\WebSystem.cs" />
     <Compile Include="Websites\Services\WebEntities\WebSystemSummary.cs" />
     <Compile Include="Websites\Services\WebsitesExtensionMethods.cs" />
+    <Compile Include="Websites\Services\WebSitesManagementExtensionMethods.cs" />
     <Compile Include="Websites\UriElements.cs" />
     <Compile Include="Websites\WebsitesClient.cs" />
   </ItemGroup>

@@ -12,24 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Common;
-    using Utilities.Websites.Common;
-    using Utilities.Websites.Services.WebEntities;
-
-    /// <summary>
-    /// Shows an azure website.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteClientBaseCmdlet
+    public abstract class WebsiteClientBaseCmdlet : WebsiteContextBaseCmdlet
     {
-        public override void ExecuteCmdlet()
+        private IWebsitesClient websitesClient;
+
+        public IWebsitesClient WebsitesClient
         {
-            Site websiteObject = WebsitesClient.GetWebsite(Name);
-            General.LaunchWebPage("http://" + websiteObject.HostNames.First());
+            get
+            {
+                if (websitesClient == null)
+                {
+                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                }
+                return websitesClient;
+            }
+
+            set { websitesClient = value; }
         }
     }
 }

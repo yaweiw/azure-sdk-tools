@@ -16,19 +16,16 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
+    using Utilities.Websites;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services.DeploymentEntities;
 
     [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
-    public class EnableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
+    public class EnableAzureWebsiteApplicationDiagnosticCommand : WebsiteClientBaseCmdlet
     {
         private const string FileParameterSetName = "FileParameterSet";
 
         private const string StorageParameterSetName = "StorageParameterSet";
-
-        public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
@@ -46,23 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ParameterSetName = StorageParameterSetName)]
         public string StorageAccountName { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the EnableAzureWebsiteApplicationDiagnosticCommand class.
-        /// </summary>
-        public EnableAzureWebsiteApplicationDiagnosticCommand()
-            : this(null)
-        {
-        }
-
-        public EnableAzureWebsiteApplicationDiagnosticCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-
             Dictionary<DiagnosticProperties, object> properties = new Dictionary<DiagnosticProperties, object>();
             properties[DiagnosticProperties.LogLevel] = LogLevel;
 

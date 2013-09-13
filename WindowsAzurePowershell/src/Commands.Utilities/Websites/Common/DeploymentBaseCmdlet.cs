@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
     using Services;
     using Services.WebEntities;
 
-    public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
+    public abstract class DeploymentBaseCmdlet : WebsiteClientBaseCmdlet
     {
         protected IDeploymentServiceManagement DeploymentChannel { get; set; }
 
@@ -29,8 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = null;
-            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSiteWithCache(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
+            Site site = WebsitesClient.GetWebsite(websiteName);
             if (site != null)
             {
                 return new Repository(site);

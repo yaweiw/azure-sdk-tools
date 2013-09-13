@@ -12,24 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Websites
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Common;
-    using Utilities.Websites.Common;
-    using Utilities.Websites.Services.WebEntities;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-    /// <summary>
-    /// Shows an azure website.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteClientBaseCmdlet
+    public class StandardHeadersHandler : DelegatingHandler
     {
-        public override void ExecuteCmdlet()
+        public StandardHeadersHandler()
         {
-            Site websiteObject = WebsitesClient.GetWebsite(Name);
-            General.LaunchWebPage("http://" + websiteObject.HostNames.First());
+        }
+
+        public StandardHeadersHandler(HttpMessageHandler innerHandler) : base(innerHandler)
+        {
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            request.Headers.UserAgent.Add(ApiConstants.UserAgentValue);
+            request.Headers.Remove(ApiConstants.VSDebuggerCausalityDataHeaderName);
+
+            return base.SendAsync(request, cancellationToken);
         }
     }
 }

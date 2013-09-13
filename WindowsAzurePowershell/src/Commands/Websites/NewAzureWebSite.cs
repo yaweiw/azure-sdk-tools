@@ -16,28 +16,27 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.Github;
-    using Commands.Utilities.Websites.Services.WebEntities;
-    using GitClass = Commands.Utilities.Websites.Services.Git;
+    using Utilities.Properties;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.Github;
+    using Utilities.Websites.Services.WebEntities;
+    using GitClass = Utilities.Websites.Services.Git;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite"), OutputType(typeof(SiteWithConfig))]
-    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
+    public class NewAzureWebsiteCommand : WebsiteClientBaseCmdlet, IGithubCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
-
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
         public string Location
@@ -105,26 +104,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// <summary>
         /// Initializes a new instance of the NewAzureWebsiteCommand class.
         /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the NewAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
         /// <param name="githubChannel">
         /// Channel used for communication with the github APIs.
         /// </param>
-        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel, IGithubServiceManagement githubChannel)
+        public NewAzureWebsiteCommand(IGithubServiceManagement githubChannel)
         {
-            Channel = channel;
             GithubChannel = githubChannel;
         }
 
@@ -154,20 +138,19 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             IList<string> users = null;
             try
             {
-                InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+                users = WebsitesClient.ListPublishingUserNames();
             }
             catch
             {
                 throw new Exception(Resources.NeedPublishingUsernames);
             }
 
-            IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
-            if (!validUsers.Any())
+            if (users.Count == 0)
             {
                 throw new ArgumentException(Resources.InvalidGitCredentials);
             }
             
-            if (!(validUsers.Count() == 1 && users.Count() == 1))
+            if (users.Count != 1) 
             {
                 throw new Exception(Resources.MultiplePublishingUsernames);
             }
@@ -180,20 +163,17 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             try
             {
                 // Create website repository
-                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
+                WebsitesClient.CreateWebsiteRepository(webspace, websiteName);
             }
             catch (Exception ex)
             {
-                // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteRepositoryAlreadyExists,
-                                                 Name)))
+                if (SiteRepositoryAlreadyExists(ex))
                 {
-                    WriteWarning(message);
+                    WriteWarning(ex.Message);
                 }
                 else
                 {
-                    WriteExceptionError(new Exception(message));
+                    WriteExceptionError(ex);
                 }
             }
         }
@@ -214,10 +194,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             GitClass.AddRemoteRepository("azure", uri);
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             string suffix = WebsitesClient.GetWebsiteDnsSuffix();
 
             if (Git && GitHub)
@@ -230,75 +209,71 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 PublishingUsername = GetPublishingUser();
             }
 
-            WebSpaces webspaceList = null;
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
+            var webspace = CreateNewSite(suffix);
+            if (Git || GitHub)
+            {
+                UpdateSourceControlPublishing(webspace);
+            }
+        }
+
+        private void UpdateSourceControlPublishing(WebSpace webspace)
+        {
+            try
+            {
+                Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
+            }
+            catch (Exception)
+            {
+                // Do nothing if session state is not present
+            }
+
+            using (LinkedRevisionControl linkedRevisionControl = CreateLinkedRevisionControl())
+            {
+                linkedRevisionControl.Init();
+
+                CopyIisNodeWhenServerJsPresent();
+                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+
+                InitializeRemoteRepo(webspace.Name, Name);
+
+                Site updatedWebsite = WebsitesClient.GetWebsite(Name);
+
+                if (Git)
+                {
+                    AddRemoteToLocalGitRepo(updatedWebsite);
+                }
+
+                linkedRevisionControl.Deploy(updatedWebsite);
+            }
+        }
+
+        private LinkedRevisionControl CreateLinkedRevisionControl()
+        {
+            if (Git)
+            {
+                return new GitClient(this);
+            }
+            return new GithubClient(this, GithubCredentials, GithubRepository);
+        }
+
+        private WebSpace CreateNewSite(string suffix)
+        {
+            var webspaceList = WebsitesClient.ListWebSpaces();
             if (Git && webspaceList.Count == 0)
             {
-                // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);
-                throw new Exception(!Git
-                    ? error
-                    : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
+                throw new Exception(string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
             }
 
-            WebSpace webspace = null;
-            if (string.IsNullOrEmpty(Location))
-            {
-                // If no location was provided as a parameter, try to default it
-                webspace = webspaceList.FirstOrDefault();
-                if (webspace == null)
-                {
-                    string defaultLocation;
+            WebSpace webspace = FindWebSpace(webspaceList);
 
-                    try
-                    {
-                        defaultLocation = WebsitesClient.GetDefaultLocation();
-                    }
-                    catch
-                    {
-                        throw new Exception(Resources.CreateWebsiteFailed);
-                    }
-                    
-                    webspace = new WebSpace
-                    {
-                        Name = Regex.Replace(defaultLocation.ToLower(), " ", "") + "webspace",
-                        GeoRegion = defaultLocation,
-                        Subscription = CurrentSubscription.SubscriptionId,
-                        Plan = "VirtualDedicatedPlan"
-                    };
-                }
-            }
-            else
-            {
-                // Find the webspace that corresponds to the georegion
-                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));
-                if (webspace == null)
-                {
-                    // If no webspace corresponding to the georegion was found, attempt to create it
-                    webspace = new WebSpace
-                    {
-                        Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
-                        GeoRegion = Location,
-                        Subscription = CurrentSubscription.SubscriptionId,
-                        Plan = "VirtualDedicatedPlan"
-                    };
-                }
-            }
-
-            SiteWithWebSpace website = new SiteWithWebSpace
+            var website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = new[] { string.Format("{0}.{1}", Name, suffix) },
+                HostNames = BuildHostNames(suffix),
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };
-
-            if (!string.IsNullOrEmpty(Hostname))
-            {
-                List<string> newHostNames = new List<string>(website.HostNames);
-                newHostNames.Add(Hostname);
-                website.HostNames = newHostNames.ToArray();
-            }
 
             try
             {
@@ -307,80 +282,96 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             catch (EndpointNotFoundException)
             {
                 // Create webspace with VirtualPlan failed, try with subscription id
+                // This supports Windows Azure Pack
                 webspace.Plan = CurrentSubscription.SubscriptionId;
                 CreateSite(webspace, website);
             }
+            return webspace;
+        }
+        
+        private string[] BuildHostNames(string suffix)
+        {
+            var hostnames = new List<string> { string.Format(CultureInfo.InvariantCulture, "{0}.{1}", Name, suffix) };
+            if (!string.IsNullOrEmpty(Hostname))
+            {
+                hostnames.Add(Hostname);
+            }
+            return hostnames.ToArray();
+        }
 
-            if (Git || GitHub)
+        private WebSpace FindWebSpace(IList<WebSpace> webspaceList)
+        {
+            if (string.IsNullOrEmpty(Location))
+            {
+                return GetDefaultWebSpace(webspaceList);
+            }
+            return GetNamedWebSpace(webspaceList);
+        }
+
+        private WebSpace GetDefaultWebSpace(IList<WebSpace> webspaceList)
+        {
+            WebSpace webspace = webspaceList.FirstOrDefault();
+            if (webspace == null)
             {
                 try
                 {
-                    Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
+                    string defaultLocation = WebsitesClient.GetDefaultLocation();
+                    webspace = WebSpaceForLocation(defaultLocation);
                 }
-                catch (Exception)
+                catch
                 {
-                    // Do nothing if session state is not present
+                    throw new Exception(Resources.CreateWebsiteFailed);
                 }
-
-                LinkedRevisionControl linkedRevisionControl = null;
-                if (Git)
-                {
-                    linkedRevisionControl = new GitClient(this);
-                }
-                else if (GitHub)
-                {
-                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
-                }
-
-                linkedRevisionControl.Init();
- 
-                CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, webspace.Name);
-
-                InitializeRemoteRepo(webspace.Name, Name);
-
-                Site updatedWebsite = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
-                if (Git)
-                {
-                    AddRemoteToLocalGitRepo(updatedWebsite);
-                }
-
-                linkedRevisionControl.Deploy(updatedWebsite);
-                linkedRevisionControl.Dispose();
             }
+            return webspace;
+        }
+
+        private WebSpace GetNamedWebSpace(IList<WebSpace> webspaceList)
+        {
+            // Find the webspace that corresponds to the georegion
+            return webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)) ??
+                WebSpaceForLocation(Location);
+        }
+
+        private WebSpace WebSpaceForLocation(string location)
+        {
+            return new WebSpace
+            {
+                Name = Regex.Replace(location.ToLower(), " ", "") + "webspace",
+                GeoRegion = location,
+                Subscription = CurrentSubscription.SubscriptionId,
+                Plan = "VirtualDedicatedPlan"
+            };
         }
 
         private void CreateSite(WebSpace webspace, SiteWithWebSpace website)
         {
             try
             {
-                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
-
+                WebsitesClient.CreateWebsite(webspace.Name, website);
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() =>
-                {
-                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
                 WriteObject(new SiteWithConfig(website, websiteConfiguration));
             }
-            catch (ProtocolException ex)
+            catch (CloudException ex)
             {
-                // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && (Git || GitHub))
+                if (SiteAlreadyExists(ex) && (Git || GitHub))
                 {
-                    WriteWarning(message);
+                    // Handle conflict - it's ok to attempt to use cmdlet on an
+                    // existing website if you're updating the source control stuff.
+                    WriteWarning(ex.Message);
                 }
-                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                else if (HostNameValidationFailed(ex))
                 {
                     WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
                 }
+                else if (BadPlan(ex))
+                {
+                    throw new EndpointNotFoundException();
+                }
                 else
                 {
-                    WriteExceptionError(new Exception(message));
+                    WriteExceptionError(new Exception(ex.Message));
                 }
             }
         }
@@ -388,6 +379,36 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         public Action<string> GetLogger()
         {
             return WriteDebug;
+        }
+
+        private bool SiteAlreadyExists(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.Conflict;
+        }
+
+        private bool HostNameValidationFailed(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.BadRequest;
+        }
+
+        // Calling Windows Azure Pack, will fail due to plan string
+        private bool BadPlan(CloudException ex)
+        {
+            // TODO: Verify this is the right error code/detection logic
+            return ex.Response.StatusCode == HttpStatusCode.NotFound;
+        }
+
+        private bool SiteRepositoryAlreadyExists(Exception ex)
+        {
+            var cex = ex as CloudException;
+            if (cex != null)
+            {
+                // TODO: Verify this is the right error code/detection logic
+                return cex.Response.StatusCode == HttpStatusCode.BadRequest;
+            }
+            return false;
         }
     }
 }

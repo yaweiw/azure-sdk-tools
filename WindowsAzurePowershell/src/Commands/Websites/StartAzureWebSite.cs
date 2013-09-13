@@ -15,43 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
+    using Utilities.Websites.Common;
 
     /// <summary>
     /// Starts an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureWebsite"), OutputType(typeof(bool))]
-    public class StartAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class StartAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
-
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the StartAzureWebsiteCommand class.
-        /// </summary>
-        public StartAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StartAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public StartAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
             WebsitesClient.StartAzureWebsite(Name);
 
             if (PassThru.IsPresent)
