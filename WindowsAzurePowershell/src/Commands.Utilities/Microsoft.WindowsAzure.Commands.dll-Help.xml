@@ -10872,7 +10872,22 @@
         </maml:introduction>
         <dev:code>PS C:\&gt; Get-AzureMediaServicesAccount</dev:code>
         <dev:remarks>
+          <maml:para>This example lists all available Media Services accounts.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
           <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-AzureMediaServicesAccount -Name myaccount</dev:code>
+        <dev:remarks>
+          <maml:para>This example displays properties of a Media Services account.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -10995,7 +11010,7 @@
         <maml:introduction>
           <maml:para />
         </maml:introduction>
-        <dev:code>PS C:\&gt; New-AzureMediaServicesAccount</dev:code>
+        <dev:code>PS C:\&gt; New-AzureMediaServicesAccount -Name myaccount -Location "West US" -StorageAccountName mystorageaccount</dev:code>
         <dev:remarks>
           <maml:para />
         </dev:remarks>
@@ -11120,7 +11135,7 @@
         <maml:introduction>
           <maml:para />
         </maml:introduction>
-        <dev:code>PS C:\&gt; New-AzureMediaServicesKey</dev:code>
+        <dev:code>PS C:\&gt; New-AzureMediaServicesKey -Name myaccount -KeyType Primary</dev:code>
         <dev:remarks>
           <maml:para />
         </dev:remarks>
@@ -11231,7 +11246,7 @@
         <maml:introduction>
           <maml:para />
         </maml:introduction>
-        <dev:code>PS C:\&gt; Remove-AzureMediaServicesAccount</dev:code>
+        <dev:code>PS C:\&gt; Remove-AzureMediaServicesAccount -Name myaccount</dev:code>
         <dev:remarks>
           <maml:para />
         </dev:remarks>
