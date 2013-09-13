@@ -25,15 +25,21 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     }
 
     /// <summary>
-    ///     Gets an azure website.
+    ///     Resets an Azure Media Services key.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureMediaServicesKey", SupportsShouldProcess = true), OutputType(typeof(string))]
     public class NewAzureMediaServiceKeyCommand : AzureMediaServicesHttpClientCommandBase
     {
+        /// <summary>
+        /// The media services account name.
+        /// </summary>
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services account name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        /// <summary>
+        /// The media services key type Primary|Secondary.
+        /// </summary>
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services key type <Primary|Secondary>.")]
         [ValidateNotNullOrEmpty]
         public KeyType KeyType { get; set; }

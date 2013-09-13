@@ -21,6 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     using ServiceManagement;
     using Utilities.Properties;
 
+    /// <summary>
+    ///     Creates new Azure Media Services account.
+    /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureMediaServicesAccount"), OutputType(typeof(AccountCreationResult))]
     public class NewAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
