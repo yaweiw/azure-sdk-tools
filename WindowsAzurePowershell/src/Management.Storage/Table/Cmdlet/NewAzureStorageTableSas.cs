@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public SwitchParameter FullUri { get; set; }
 
         [Alias("startpk")]
-        [Parameter(HelpMessage = "Start Partition Key")] //FIXME use  ParameterSetName = "StartTableKey"
+        [Parameter(HelpMessage = "Start Partition Key")]
         public string StartPartitionKey { get; set; }
         [Alias("startrk")]
         [Parameter(HelpMessage = "Start Row Key")]
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public string EndRowKey { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
         /// </summary>
         public NewAzureStorageTableSasCommand()
             : this(null)
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
         public NewAzureStorageTableSasCommand(IStorageTableManagement channel)
