@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
             SetupAccessPolicy(accessPolicy);
             SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, accessPolicyIdentifier);
-            string sasToken = GeBlobSharedAccessSignature(blob, accessPolicy, accessPolicyIdentifier);
+            string sasToken = GetBlobSharedAccessSignature(blob, accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
             {
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="accessPolicy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The existing policy identifier.</param>
         /// <returns></returns>
-        private string GeBlobSharedAccessSignature(ICloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier)
+        private string GetBlobSharedAccessSignature(ICloudBlob blob, SharedAccessBlobPolicy accessPolicy, string policyIdentifier)
         {
             CloudBlobContainer container = blob.Container;
             string signature = String.Empty;
@@ -202,9 +202,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private ICloudBlob GetICloudBlobByName(string ContainerName, string BlobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(ContainerName);
-            //AccessCondition accessCondition = null;
-            //BlobRequestOptions options = null;
-            //return Channel.GetBlobReferenceFromServer(container, BlobName, accessCondition, options, OperationContext);
             //Create a block blob object in local no mattter what's the real blob type. If so, we can save the unnecessary request calls.
             return container.GetBlockBlobReference(BlobName);
         }
