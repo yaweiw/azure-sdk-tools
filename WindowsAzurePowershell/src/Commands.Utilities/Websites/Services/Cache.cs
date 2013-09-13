@@ -49,6 +49,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 
         public static Site GetSite(string subscriptionId, string website, string propertiesToInclude)
         {
+            return GetSite(subscriptionId, website);
+        }
+ 
+        public static Site GetSite(string subscriptionId, string website)
+        {
             Sites sites = GetSites(subscriptionId);
             if (sites != null)
             {

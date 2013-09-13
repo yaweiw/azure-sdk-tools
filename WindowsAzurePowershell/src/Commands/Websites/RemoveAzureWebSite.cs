@@ -14,43 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Properties;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Removes an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true), OutputType(typeof(Site))]
-    public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class RemoveAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
         public SwitchParameter Force
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
-        /// </summary>
-        public RemoveAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public RemoveAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
         }
 
         protected virtual void WriteWebsite(Site website)
@@ -66,22 +46,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Resources.RemoveWebsiteMessage,
                 Name,
                 () =>
-                {
-                    InvokeInOperationContext(() =>
                     {
-                        // Find out in which webspace is the website
-                        Site websiteObject = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
-                        if (websiteObject == null)
-                        {
-                            throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-                        }
-
-                        RetryCall(s => Channel.DeleteSite(s, websiteObject.WebSpace, websiteObject.Name, string.Empty));
-                        WaitForOperation(CommandRuntime.ToString());
-
+                        Site websiteObject = WebsitesClient.GetWebsite(Name);
+                        WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name);
                         Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
                     });
-                });
         }
     }
 }

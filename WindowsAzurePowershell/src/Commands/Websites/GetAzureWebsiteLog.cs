@@ -17,10 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services;
 
     /// <summary>
     /// Gets an azure website.
@@ -31,8 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         private const string TailParameterSet = "Tail";
 
         private const string ListPathParameterSet = "ListPath";
-
-        public IWebsitesClient WebsiteClient;
 
         public Predicate<string> StopCondition;
 
@@ -60,36 +56,29 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// Initializes a new instance of the GetAzureWebsiteLogCommand class.
         /// </summary>
         public GetAzureWebsiteLogCommand()
-            : this(null, null)
+            : this(null)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteLogCommand class.
         /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
         /// <param name="deploymentChannel">
         /// Channel used for communication with the git repository.
         /// </param>
         public GetAzureWebsiteLogCommand(
-            IWebsitesServiceManagement channel,
             IDeploymentServiceManagement deploymentChannel)
         {
-            Channel = channel;
             DeploymentChannel = deploymentChannel;
-            WebsiteClient = null;
         }
 
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            WebsiteClient = WebsiteClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
             if (Tail.IsPresent)
             {
-                foreach (string logLine in WebsiteClient.StartLogStreaming(
+                foreach (string logLine in WebsitesClient.StartLogStreaming(
                     Name,
                     Path,
                     Message,
@@ -101,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             }
             else if (ListPath.IsPresent)
             {
-                WriteObject(WebsiteClient.ListLogPaths(Name).Select<LogPath, string>(i => i.Name), true);
+                WriteObject(WebsitesClient.ListLogPaths(Name).Select(i => i.Name), true);
             }
         }
     }

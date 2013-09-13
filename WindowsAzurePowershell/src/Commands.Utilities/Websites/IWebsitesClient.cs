@@ -74,13 +74,70 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The website instance</returns>
         Site GetWebsite(string name);
-                
+
+        /// <summary>
+        /// Create a new website.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns></returns>
+        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate);
+
+        /// <summary>
+        /// Update the set of host names for a website.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames);
+
         /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The website configuration object</returns>
-        SiteWithConfig GetWebsiteConfiguration(string name);
+        SiteConfig GetWebsiteConfiguration(string name);
+
+        /// <summary>
+        /// Create a git repository for the web site.
+        /// </summary>
+        /// <param name="webspaceName">Webspace that site is in.</param>
+        /// <param name="websiteName">The site name.</param>
+        void CreateWebsiteRepository(string webspaceName, string websiteName);
+
+        /// <summary>
+        /// Update the website configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration);
+
+        /// <summary>
+        /// Delete a website.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="deleteMetrics"></param>
+        /// <param name="deleteEmptyServerFarm"></param>
+        void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false);
+
+        /// <summary>
+        /// Get the WebSpaces.
+        /// </summary>
+        /// <returns>Collection of WebSpace objects</returns>
+        IList<WebSpace> ListWebSpaces();
+
+        /// <summary>
+        /// Get the sites in the given webspace
+        /// </summary>
+        /// <param name="spaceName">Name of webspace</param>
+        /// <returns>The sites</returns>
+        IList<Site> ListSitesInWebSpace(string spaceName);
+
+        /// <summary>
+        /// Get a list of the user names configured to publish to the space.
+        /// </summary>
+        /// <returns>The list of user names.</returns>
+        IList<string> ListPublishingUserNames();
 
         /// <summary>
         /// Enables site diagnostic.
@@ -113,7 +170,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        /// <param name="logLevel">The log level</param>
         /// <param name="properties">The diagnostic setting properties</param>
         void EnableApplicationDiagnostic(
             string name,

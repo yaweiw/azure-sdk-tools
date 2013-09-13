@@ -18,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using System.IO;
     using System.Text;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Websites;
+    using Moq;
     using Utilities.Common;
     using Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
@@ -27,42 +29,54 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     [TestClass]
     public class SaveAzureWebsiteLogTests : WebsitesTestBase
     {
+        private Site site1 = new Site
+        {
+            Name = "website1",
+            WebSpace = "webspace1",
+            SiteProperties = new SiteProperties
+            {
+                Properties = new List<NameValuePair>
+                {
+                    new NameValuePair {Name = "repositoryuri", Value = "http"},
+                    new NameValuePair {Name = "PublishingUsername", Value = "user1"},
+                    new NameValuePair {Name = "PublishingPassword", Value = "password1"}
+                }
+            }
+        };
+
+        private List<WebSpace> spaces = new List<WebSpace>
+        {
+            new WebSpace {Name = "webspace1"},
+            new WebSpace {Name = "webspace2"}
+        };
+
+        private Mock<IWebsitesClient> clientMock;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.GetWebsite("website1"))
+                .Returns(site1);
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(spaces);
+        }
+
         [TestMethod]
         public void SaveAzureWebsiteLogTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", SiteProperties = new SiteProperties
-                        {
-                            Properties = new List<NameValuePair>
-                            {
-                                new NameValuePair { Name = "repositoryuri", Value = "http" },
-                                new NameValuePair { Name = "PublishingUsername", Value = "user1" },
-                                new NameValuePair { Name = "PublishingPassword", Value = "password1" }
-                            }
-                        }} 
-                    });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-            };
-
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement
             {
                 DownloadLogsThunk = ar => new MemoryStream(Encoding.UTF8.GetBytes("test"))
             };
 
             // Test
-            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(channel, deploymentChannel)
+            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(deploymentChannel)
             {
                 Name = "website1", 
                 ShareChannel = true,
+                WebsitesClient = clientMock.Object,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
@@ -76,39 +90,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void SaveAzureWebsiteLogWithNoFileExtensionTest()
         {
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             string expectedOutput = "file_without_ext.zip";
-
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetSitesThunk = ar =>
-            {
-                if (ar.Values["webspaceName"].Equals("webspace1"))
-                {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", SiteProperties = new SiteProperties
-                        {
-                            Properties = new List<NameValuePair>
-                            {
-                                new NameValuePair { Name = "repositoryuri", Value = "http" },
-                                new NameValuePair { Name = "PublishingUsername", Value = "user1" },
-                                new NameValuePair { Name = "PublishingPassword", Value = "password1" }
-                            }
-                        }} 
-                    });
-                }
-
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
-            };
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement
             {
-                DownloadLogsThunk = ar => new MemoryStream(Encoding.UTF8.GetBytes("test with no extnsion"))
+                DownloadLogsThunk = ar => new MemoryStream(Encoding.UTF8.GetBytes("test with no extension"))
             };
 
             // Test
-            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(channel, deploymentChannel)
+            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(deploymentChannel)
             {
                 Name = "website1",
                 ShareChannel = true,
+                WebsitesClient = clientMock.Object,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Output = "file_without_ext"
@@ -116,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
             getAzureWebsiteLogCommand.ExecuteCmdlet();
-            Assert.AreEqual("test with no extnsion", File.ReadAllText(expectedOutput));
+            Assert.AreEqual("test with no extension", File.ReadAllText(expectedOutput));
         }
     }
 }

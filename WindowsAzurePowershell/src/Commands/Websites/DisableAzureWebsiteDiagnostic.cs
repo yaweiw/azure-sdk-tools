@@ -19,10 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Commands.Utilities.Websites.Common;
 
     [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
-    public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet
+    public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteClientBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
-
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -34,8 +32,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-
             if (!File.IsPresent && !Storage.IsPresent)
             {
                 WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);

@@ -14,27 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Store;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Websites.Common;
+    using Utilities.Websites.Services.WebEntities;
+    using Utilities.Common;
 
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
-    public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class SetAzureWebsiteCommand : WebsiteClientBaseCmdlet
     {
-        public IWebsitesClient WebsitesClient { get; set; }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
         public int? NumberOfWorkers { get; set; }
@@ -84,174 +76,57 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the SetAzureWebsiteCommand class.
-        /// </summary>
-        public SetAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SetAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public SetAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        private Site website;
+        private SiteConfig currentSiteConfig;
 
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            string suffix = WebsitesClient.GetWebsiteDnsSuffix();
 
-            Site website = null;
-            SiteConfig websiteConfig = null;
+            GetCurrentSiteState();
+            UpdateConfig();
+            UpdateHostNames();
 
-            InvokeInOperationContext(() =>
+            if (PassThru.IsPresent)
             {
-                try
-                {
-                    website = RetryCall(s => Channel.GetSiteWithCache(s, Name, null));
-                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
-                }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
-            });
-
-            if (website == null)
-            {
-                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+                WriteObject(true);
             }
+        }
 
+        private void GetCurrentSiteState()
+        {
+            website = WebsitesClient.GetWebsite(Name);
+            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+        }
+
+        private void UpdateConfig()
+        {
             bool changes = false;
-            SiteWithConfig websiteConfigUpdate = new SiteWithConfig(website, websiteConfig);
+            var websiteConfigUpdate = new SiteWithConfig(website, currentSiteConfig);
             if (SiteWithConfig != null)
             {
                 websiteConfigUpdate = SiteWithConfig;
                 changes = true;
             }
 
-            if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
-            {
-                changes = true;
-                websiteConfigUpdate.NumberOfWorkers = NumberOfWorkers;
-            }
-
-            if (DefaultDocuments != null && !DefaultDocuments.Equals(websiteConfig.DefaultDocuments))
-            {
-                changes = true;
-                websiteConfigUpdate.DefaultDocuments = DefaultDocuments;
-            }
-
-            if (NetFrameworkVersion != null && !NetFrameworkVersion.Equals(websiteConfig.NetFrameworkVersion))
-            {
-                changes = true;
-                websiteConfigUpdate.NetFrameworkVersion = NetFrameworkVersion;
-            }
-
-            if (PhpVersion != null && !PhpVersion.Equals(websiteConfig.PhpVersion))
-            {
-                changes = true;
-                websiteConfigUpdate.PhpVersion = PhpVersion;
-            }
-
-            if (RequestTracingEnabled != null && !RequestTracingEnabled.Equals(websiteConfig.RequestTracingEnabled))
-            {
-                changes = true;
-                websiteConfigUpdate.RequestTracingEnabled = RequestTracingEnabled;
-            }
-
-            if (HttpLoggingEnabled != null && !HttpLoggingEnabled.Equals(websiteConfig.HttpLoggingEnabled))
-            {
-                changes = true;
-                websiteConfigUpdate.HttpLoggingEnabled = HttpLoggingEnabled;
-            }
-
-            if (DetailedErrorLoggingEnabled != null && !DetailedErrorLoggingEnabled.Equals(websiteConfig.DetailedErrorLoggingEnabled))
-            {
-                changes = true;
-                websiteConfigUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
-            }
-
-            if (AppSettings != null && !AppSettings.Equals(websiteConfig.AppSettings))
-            {
-                changes = true;
-                websiteConfigUpdate.AppSettings = AppSettings;
-            }
-
-            if (Metadata != null && !Metadata.Equals(websiteConfig.Metadata))
-            {
-                changes = true;
-                websiteConfigUpdate.Metadata = Metadata;
-            }
-
-            if (ConnectionStrings != null && !ConnectionStrings.Equals(websiteConfig.ConnectionStrings))
-            {
-                changes = true;
-                websiteConfigUpdate.ConnectionStrings = ConnectionStrings;
-            }
-
-            if (HandlerMappings != null && !HandlerMappings.Equals(websiteConfig.HandlerMappings))
-            {
-                changes = true;
-                websiteConfigUpdate.HandlerMappings = HandlerMappings;
-            }
-
-            bool siteChanges = false;
-            Site websiteUpdate = new Site
-            {
-                Name = Name,
-                HostNames = new[] { string.Format("{0}.{1}", Name, suffix) }
-            };
-            if (HostNames != null)
-            {
-                siteChanges = true;
-                List<string> newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
-                newHostNames.AddRange(HostNames);
-                websiteUpdate.HostNames = newHostNames.ToArray();
-            }
+            changes = changes || ObjectDeltaMapper.Map(this, currentSiteConfig, websiteConfigUpdate, "HostNames", "SiteWithConfig", "PassThru");
 
             if (changes)
             {
-                InvokeInOperationContext(() =>
-                {
-                    try
-                    {
-                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate.GetSiteConfig()));
-                    }
-                    catch (CommunicationException ex)
-                    {
-                        WriteErrorDetails(ex);
-                    }
-                });
+                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig());
             }
+        }
 
-            if (siteChanges)
+        private void UpdateHostNames()
+        {
+            if (HostNames != null)
             {
-                InvokeInOperationContext(() =>
-                {
-                    try
-                    {
-                        RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
-                    }
-                    catch (CommunicationException ex)
-                    {
-                        WriteErrorDetails(ex);
-                    }
-                });
+                string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
+                var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
+                newHostNames.AddRange(HostNames);
+                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames);
             }
-
-            if (PassThru.IsPresent)
-            {
-                WriteObject(true);
-            }
+            
         }
     }
 }
