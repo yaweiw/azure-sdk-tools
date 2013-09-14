@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             OsVersion = role.OSVersion;
             RoleType = role.RoleType;
             configurationSets.AddRange(role.ConfigurationSets.Select(cs => new ConfigurationSet(cs)));
-            RoleSize = role.RoleSize;
+            RoleSize = role.RoleSize.ToString();
         }
 
         public string RoleName { get; set; }
