@@ -30,13 +30,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         {
             RoleName = roleInstance.RoleName;
             InstanceName = roleInstance.InstanceName;
-            InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain;
-            InstanceFaultDomain = roleInstance.InstanceFaultDomain;
-            InstanceSize = roleInstance.InstanceSize;
+            InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.ToString();
+            InstanceFaultDomain = roleInstance.InstanceFaultDomain.ToString();
+            InstanceSize = roleInstance.InstanceSize.ToString();
             InstanceStateDetails = roleInstance.InstanceStateDetails;
             InstanceErrorCode = roleInstance.InstanceErrorCode;
             IPAddress = roleInstance.IPAddress;
-            InstanceEndpoints = new List<InstanceEndpoint>(roleInstance.InputEndpoints.Select(ep => new InstanceEndpoint(ep)));
+            InstanceEndpoints = new List<InstanceEndpoint>(roleInstance.InstanceEndpoints.Select(ep => new InstanceEndpoint(ep)));
             PowerState = roleInstance.PowerState.ToString();
             HostName = roleInstance.HostName;
             RemoteAccessCertificateThumbprint = roleInstance.RemoteAccessCertificateThumbprint;

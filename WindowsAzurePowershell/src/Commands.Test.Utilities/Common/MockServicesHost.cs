@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                     StartTime = DateTime.Now,
                     Status = "",
                 },
-                LastModifiedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+                LastModifiedTime = DateTime.Now
             };
 
             return Tasks.FromResult(response);
