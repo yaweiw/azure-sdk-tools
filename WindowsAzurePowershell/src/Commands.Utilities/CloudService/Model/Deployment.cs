@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             RollbackAllowed = string.Compare(response.RollbackAllowed, "true", StringComparison.InvariantCultureIgnoreCase) == 0;
             VirtualNetworkName = response.VirtualNetworkName;
             CreatedTime = response.CreatedTime;
-            LastModifiedTime = DateTime.Parse(response.LastModifiedTime);
+            LastModifiedTime = response.LastModifiedTime;
 
             if (response.ExtendedProperties != null)
             {
