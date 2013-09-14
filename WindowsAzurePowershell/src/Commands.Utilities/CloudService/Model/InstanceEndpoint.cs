@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             
         }
 
-        public InstanceEndpoint(InputEndpoint endpoint)
+        public InstanceEndpoint(Management.Compute.Models.InstanceEndpoint endpoint)
         {
             Name = endpoint.Name;
             Vip = endpoint.VirtualIPAddress.ToString();
