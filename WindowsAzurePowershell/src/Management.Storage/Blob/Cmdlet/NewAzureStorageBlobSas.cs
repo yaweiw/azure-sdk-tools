@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// Ge blob shared access signature
+        /// Get blob shared access signature
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <param name="accessPolicy">SharedAccessBlobPolicy object</param>
