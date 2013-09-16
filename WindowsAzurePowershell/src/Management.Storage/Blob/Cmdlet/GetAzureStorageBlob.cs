@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// execute command
+        /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()

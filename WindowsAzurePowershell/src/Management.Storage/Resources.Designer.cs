@@ -412,6 +412,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Endpk must accompany Endrk..
+        /// </summary>
+        internal static string EndpkMustAccomanyEndrk {
+            get {
+                return ResourceManager.GetString("EndpkMustAccomanyEndrk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}..
         /// </summary>
         internal static string EndProcessingLog {
@@ -435,6 +444,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string ExceptionCannotEmpty {
             get {
                 return ResourceManager.GetString("ExceptionCannotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The expiry time of the specified access policy should be greater than start time. Expiry time : {0}. Start time: {1}..
+        /// </summary>
+        internal static string ExpiryTimeGreatThanStartTime {
+            get {
+                return ResourceManager.GetString("ExpiryTimeGreatThanStartTime", resourceCulture);
             }
         }
         
@@ -678,6 +696,24 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string InitOperationContextLog {
             get {
                 return ResourceManager.GetString("InitOperationContextLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid access permission &apos;{0}&apos;..
+        /// </summary>
+        internal static string InvalidAccessPermission {
+            get {
+                return ResourceManager.GetString("InvalidAccessPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid access policy &apos;{0}&apos;..
+        /// </summary>
+        internal static string InvalidAccessPolicy {
+            get {
+                return ResourceManager.GetString("InvalidAccessPolicy", resourceCulture);
             }
         }
         
@@ -988,6 +1024,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [SasToken].
+        /// </summary>
+        internal static string SasTokenAccountName {
+            get {
+                return ResourceManager.GetString("SasTokenAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload file &apos;{0}&apos; to blob &apos;{1}&apos; in container &apos;{2}&apos;..
         /// </summary>
         internal static string SendAzureBlobActivity {
@@ -1029,6 +1074,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string StartDownloadBlob {
             get {
                 return ResourceManager.GetString("StartDownloadBlob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startpk must accompany startrk..
+        /// </summary>
+        internal static string StartpkMustAccomanyStartrk {
+            get {
+                return ResourceManager.GetString("StartpkMustAccomanyStartrk", resourceCulture);
             }
         }
         

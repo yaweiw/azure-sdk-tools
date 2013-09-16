@@ -86,7 +86,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 
             if (string.IsNullOrEmpty(StorageAccountName))
             {
-                StorageAccountName = Resources.AnonymousAccountName;
+                if (account.Credentials.IsSAS)
+                {
+                    StorageAccountName = Resources.SasTokenAccountName;
+                }
+                else
+                {
+                    StorageAccountName = Resources.AnonymousAccountName;
+                }
             }
         }
     }
