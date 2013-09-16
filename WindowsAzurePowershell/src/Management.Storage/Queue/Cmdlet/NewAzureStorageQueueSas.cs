@@ -42,7 +42,7 @@
         public SwitchParameter FullUri { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
         /// </summary>
         public NewAzureStorageQueueSasCommand()
             : this(null)
@@ -50,7 +50,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
         public NewAzureStorageQueueSasCommand(IStorageQueueManagement channel)
