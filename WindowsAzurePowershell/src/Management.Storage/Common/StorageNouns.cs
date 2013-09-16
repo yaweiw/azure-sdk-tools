@@ -138,5 +138,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// Verbose metrics
         /// </summary>
         public const string VerboseMetrics = "ServiceAndApi";
+
+        /// <summary>
+        /// Azure storage container sas
+        /// </summary>
+        public const string ContainerSas = "AzureStorageContainerSas";
+
+        /// <summary>
+        /// Azure storage blob sas
+        /// </summary>
+        public const string BlobSas = "AzureStorageBlobSas";
+
+        /// <summary>
+        /// Azure storage table sas
+        /// </summary>
+        public const string TableSas = "AzureStorageTableSas";
+
+        /// <summary>
+        /// Azure storage queue sas
+        /// </summary>
+        public const string QueueSas = "AzureStorageQueueSas";
     }
 }
