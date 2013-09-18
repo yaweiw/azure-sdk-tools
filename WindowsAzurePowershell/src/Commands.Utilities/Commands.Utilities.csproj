@@ -253,11 +253,14 @@
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\IProfileStore.cs" />
     <Compile Include="Common\ObjectDeltaMapper.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
+    <Compile Include="Common\ProfileData.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\Tasks.cs" />
+    <Compile Include="Common\WindowsAzureProfile.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
