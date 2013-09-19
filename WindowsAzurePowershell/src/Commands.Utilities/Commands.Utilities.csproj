@@ -262,6 +262,7 @@
     <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\Tasks.cs" />
     <Compile Include="Common\WindowsAzureProfile.cs" />
+    <Compile Include="Common\WindowsAzureSubsciption.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
