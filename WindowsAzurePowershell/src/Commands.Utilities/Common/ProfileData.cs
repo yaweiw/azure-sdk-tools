@@ -60,9 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             PublishSettingsFileUrl = inMemoryEnvironment.PublishSettingsFileUrl;
             ServiceEndpoint = inMemoryEnvironment.ServiceEndpoint;
             ManagementPortalUrl = inMemoryEnvironment.ManagementPortalUrl;
-            StorageBlobEndpointFormat = inMemoryEnvironment.StorageBlobEndpointFormat;
-            StorageQueueEndpointFormat = inMemoryEnvironment.StorageQueueEndpointFormat;
-            StorageTableEndpointFormat = inMemoryEnvironment.StorageTableEndpointFormat;
+            StorageEndpointSuffix = inMemoryEnvironment.StorageEndpointSuffix;
             AdTenantUrl = inMemoryEnvironment.AdTenantUrl;
             CommonTenantId = inMemoryEnvironment.CommonTenantId;
         }
@@ -78,9 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 PublishSettingsFileUrl = this.PublishSettingsFileUrl,
                 ServiceEndpoint = this.ServiceEndpoint,
                 ManagementPortalUrl = this.ManagementPortalUrl,
-                StorageBlobEndpointFormat = this.StorageBlobEndpointFormat,
-                StorageQueueEndpointFormat = this.StorageQueueEndpointFormat,
-                StorageTableEndpointFormat = this.StorageTableEndpointFormat,
+                StorageEndpointSuffix = this.StorageEndpointSuffix,
                 AdTenantUrl = this.AdTenantUrl,
                 CommonTenantId = this.CommonTenantId
             };
@@ -99,13 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ManagementPortalUrl { get; set; }
 
         [DataMember]
-        public string StorageBlobEndpointFormat { get; set; }
-
-        [DataMember]
-        public string StorageQueueEndpointFormat { get; set; }
-
-        [DataMember]
-        public string StorageTableEndpointFormat { get; set; }
+        public string StorageEndpointSuffix { get; set; }
 
         [DataMember]
         public string AdTenantUrl { get; set; }

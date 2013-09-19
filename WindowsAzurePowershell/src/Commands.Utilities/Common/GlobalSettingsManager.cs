@@ -414,26 +414,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string managementPortalUrl = null,
             string storageEndpoint = null)
         {
-            string storageBlobEndpointFormat = null;
-            string storageQueueEndpointFormat = null;
-            string storageTableEndpointFormat = null;
-
-            if (!string.IsNullOrEmpty(storageEndpoint))
-            {
-                Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
-                storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
-                storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
-                storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
-            }
- 
             return AddEnvironment(
                 name,
                 publishSettingsFileUrl,
                 serviceEndpoint,
                 managementPortalUrl,
-                storageBlobEndpointFormat,
-                storageQueueEndpointFormat,
-                storageTableEndpointFormat);
+                storageEndpoint);
         }
 
         /// <summary>
@@ -443,16 +429,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="publishSettingsFileUrl">The publish settings url</param>
         /// <param name="serviceEndpoint">The RDFE endpoint</param>
         /// <param name="managementPortalUrl">The portal url</param>
-        /// <param name="storageBlobEndpointFormat">Blob service endpoint</param>
-        /// <param name="storageQueueEndpointFormat">Queue service endpoint</param>
-        /// <param name="storageTableEndpointFormat">Table service endpoint</param>
+        /// <param name="storageEndpointSuffix">Suffix for URIs for storage service endpoints</param>
         public WindowsAzureEnvironment AddEnvironment(string name,
             string publishSettingsFileUrl,
             string serviceEndpoint = null,
             string managementPortalUrl = null,
-            string storageBlobEndpointFormat = null,
-            string storageQueueEndpointFormat = null,
-            string storageTableEndpointFormat = null)
+            string storageEndpointSuffix = null)
         {
             if (!EnvironmentExists(name) && !IsPublicEnvironment(name))
             {
@@ -462,9 +444,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     PublishSettingsFileUrl = publishSettingsFileUrl,
                     ManagementPortalUrl = managementPortalUrl,
                     ServiceEndpoint = serviceEndpoint,
-                    StorageBlobEndpointFormat = storageBlobEndpointFormat,
-                    StorageQueueEndpointFormat = storageQueueEndpointFormat,
-                    StorageTableEndpointFormat = storageTableEndpointFormat
+                    StorageEndpointSuffix = storageEndpointSuffix
                 };
                 customEnvironments.Add(environment);
                 General.EnsureDirectoryExists(GlobalPaths.EnvironmentsFile);
@@ -485,16 +465,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="publishSettingsFileUrl">The publish settings url</param>
         /// <param name="serviceEndpoint">The RDFE endpoint</param>
         /// <param name="managementPortalUrl">The portal url</param>
-        /// <param name="storageBlobEndpointFormat">Blob service endpoint</param>
-        /// <param name="storageQueueEndpointFormat">Queue service endpoint</param>
-        /// <param name="storageTableEndpointFormat">Table service endpoint</param>
+        /// <param name="storageEndpointSuffix">The suffix for URLs for storage services</param>
         public WindowsAzureEnvironment ChangeEnvironment(string name,
             string publishSettingsFileUrl,
             string serviceEndpoint = null,
             string managementPortalUrl = null,
-            string storageBlobEndpointFormat = null,
-            string storageQueueEndpointFormat = null,
-            string storageTableEndpointFormat = null)
+            string storageEndpointSuffix = null)
         {
             if (EnvironmentExists(name) && !IsPublicEnvironment(name))
             {
@@ -506,15 +482,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     environment.ManagementPortalUrl,
                     managementPortalUrl);
                 environment.ServiceEndpoint = General.GetNonEmptyValue(environment.ServiceEndpoint, serviceEndpoint);
-                environment.StorageBlobEndpointFormat = General.GetNonEmptyValue(
-                    environment.StorageBlobEndpointFormat,
-                    storageBlobEndpointFormat);
-                environment.StorageQueueEndpointFormat = General.GetNonEmptyValue(
-                    environment.StorageQueueEndpointFormat,
-                    storageQueueEndpointFormat);
-                environment.StorageTableEndpointFormat = General.GetNonEmptyValue(
-                    environment.StorageTableEndpointFormat,
-                    storageTableEndpointFormat);
+                environment.StorageEndpointSuffix = General.GetNonEmptyValue(
+                    environment.StorageEndpointSuffix, storageEndpointSuffix);
                 General.SerializeXmlFile(customEnvironments, GlobalPaths.EnvironmentsFile);
 
                 return environment;
@@ -535,26 +504,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string managementPortalUrl = null,
             string storageEndpoint = null)
         {
-            string storageBlobEndpointFormat = null;
-            string storageQueueEndpointFormat = null;
-            string storageTableEndpointFormat = null;
-
-            if (!string.IsNullOrEmpty(storageEndpoint))
-            {
-                Validate.ValidateDnsName(storageEndpoint, "storageEndpoint");
-                storageBlobEndpointFormat = string.Format("{{0}}://{{1}}.blob.{0}/", storageEndpoint);
-                storageQueueEndpointFormat = string.Format("{{0}}://{{1}}.queue.{0}/", storageEndpoint);
-                storageTableEndpointFormat = string.Format("{{0}}://{{1}}.table.{0}/", storageEndpoint);
-            }
-
             return ChangeEnvironment(
                 name,
                 publishSettingsFileUrl,
                 serviceEndpoint,
                 managementPortalUrl,
-                storageBlobEndpointFormat,
-                storageQueueEndpointFormat,
-                storageTableEndpointFormat);
+                storageEndpoint);
         }
 
         /// <summary>
