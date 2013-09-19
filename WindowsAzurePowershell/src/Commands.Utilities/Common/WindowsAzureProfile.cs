@@ -103,6 +103,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Save();
         }
 
+        public void UpdateEnvironment(WindowsAzureEnvironment newEnvironment)
+        {
+            GuardExistsAndNonPublic(newEnvironment.Name);
+            environments[newEnvironment.Name] = newEnvironment;
+            Save();
+        }
+
+        public void RemoveEnvironment(string name)
+        {
+            GuardExistsAndNonPublic(name);
+            environments.Remove(name);
+            Save();
+        }
+
+        private void GuardExistsAndNonPublic(string name)
+        {
+            if (IsPublicEnvironment(name))
+            {
+                throw new InvalidOperationException(string.Format(Resources.ChangePublicEnvironmentMessage, name));
+            }
+            if (!environments.ContainsKey(name))
+            {
+                throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
+
         private void Load()
         {
             
@@ -110,14 +136,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void Save()
         {
-            var profileData = new ProfileData
-            {
-                DefaultEnvironmentName = CurrentEnvironment.Name,
-                Environments = Environments.Values
-                    .Where(e => !WindowsAzureEnvironment.PublicEnvironments.ContainsKey(e.Name))
-                    .Select(e => new AzureEnvironmentData(e))
-            };
+            var profileData = new ProfileData();
+            SetEnvironmentData(profileData);
             profileStore.Save(profileData);
+        }
+
+        private bool IsPublicEnvironment(string name)
+        {
+            return
+                WindowsAzureEnvironment.PublicEnvironments.Keys.Any(
+                    publicName => string.Compare(publicName, name, StringComparison.OrdinalIgnoreCase) == 0);
+        }
+
+        private void SetEnvironmentData(ProfileData data)
+        {
+            data.DefaultEnvironmentName = CurrentEnvironment.Name;
+            data.Environments = Environments.Values
+                .Where(e => !IsPublicEnvironment(e.Name))
+                .Select(e => new AzureEnvironmentData(e));
         }
     }
 }
