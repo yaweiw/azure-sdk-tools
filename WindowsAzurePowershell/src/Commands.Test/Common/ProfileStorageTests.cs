@@ -30,33 +30,27 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
         {
             DefaultEnvironmentName = "AzureCloud",
             Environments = new[]
+            {
+                new AzureEnvironmentData
                 {
-                    new AzureEnvironmentData
-                    {
-                        AdTenantUrl = "adtenant",
-                        CommonTenantId = "Common",
-                        ManagementPortalUrl = "https://management.windowsazure.net/",
-                        ServiceEndpoint = "https://do.some.stuff",
-                        Name = "Custom1",
-                        PublishSettingsFileUrl = "SomeUrl",
-                        StorageBlobEndpointFormat = "blobFormat",
-                        StorageQueueEndpointFormat = "queueFormat",
-                        StorageTableEndpointFormat = "tableFormat",
-                    },
-                    new AzureEnvironmentData
-                    {
-                        AdTenantUrl = "adtenant2",
-                        CommonTenantId = "Common",
-                        ManagementPortalUrl = "https://management.windowsazure.net/2",
-                        ServiceEndpoint = "https://do.some.other.stuff",
-                        Name = "Custom2",
-                        PublishSettingsFileUrl = "SomeUrl2",
-                        StorageBlobEndpointFormat = "blobFormat2",
-                        StorageQueueEndpointFormat = "queueFormat2",
-                        StorageTableEndpointFormat = "tableFormat2",
-                    },
-
+                    AdTenantUrl = "adtenant",
+                    CommonTenantId = "Common",
+                    ManagementPortalUrl = "https://management.windowsazure.net/",
+                    ServiceEndpoint = "https://do.some.stuff",
+                    Name = "Custom1",
+                    PublishSettingsFileUrl = "SomeUrl",
+                    StorageEndpointSuffix = "storage.on.azure"                    },
+                new AzureEnvironmentData
+                {
+                    AdTenantUrl = "adtenant2",
+                    CommonTenantId = "Common",
+                    ManagementPortalUrl = "https://management.windowsazure.net/2",
+                    ServiceEndpoint = "https://do.some.other.stuff",
+                    Name = "Custom2",
+                    PublishSettingsFileUrl = "SomeUrl2",
+                    StorageEndpointSuffix = "storage.on.other"
                 }
+            }
         };
 
         
@@ -95,9 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 ServiceEndpoint = sourceEnv.ServiceEndpoint,
                 AdTenantUrl = sourceEnv.AdTenantUrl,
                 CommonTenantId = sourceEnv.CommonTenantId,
-                StorageBlobEndpointFormat = sourceEnv.StorageBlobEndpointFormat,
-                StorageQueueEndpointFormat = sourceEnv.StorageQueueEndpointFormat,
-                StorageTableEndpointFormat = sourceEnv.StorageTableEndpointFormat
+                StorageEndpointSuffix = sourceEnv.StorageEndpointSuffix
             });
 
             storeMock.Verify(s => s.Save(It.IsAny<ProfileData>()), Times.Once);
@@ -128,9 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.AreEqual(expected.ServiceEndpoint, actual.ServiceEndpoint);
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.PublishSettingsFileUrl, actual.PublishSettingsFileUrl);
-            Assert.AreEqual(expected.StorageBlobEndpointFormat, actual.StorageBlobEndpointFormat);
-            Assert.AreEqual(expected.StorageQueueEndpointFormat, actual.StorageQueueEndpointFormat);
-            Assert.AreEqual(expected.StorageTableEndpointFormat, actual.StorageTableEndpointFormat);
+            Assert.AreEqual(expected.StorageEndpointSuffix, actual.StorageEndpointSuffix);
         }
     }
 }

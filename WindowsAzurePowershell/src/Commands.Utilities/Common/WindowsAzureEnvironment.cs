@@ -52,20 +52,53 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <remarks>If null, this environment does not support AD authentication</remarks>
         public string CommonTenantId { get; set; }
 
+        private string storageEndpointSuffix;
+
+        /// <summary>
+        /// The storage endpoint suffix for this environment.
+        /// </summary>
+        public string StorageEndpointSuffix
+        {
+            get { return storageEndpointSuffix; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    Validate.ValidateDnsName(value, "value");
+                }
+                storageEndpointSuffix = value;
+            }
+        }
+
+        private const string storageFormatTemplate = "{{0}}://{{1}}.{0}.{1}/";
+        private string EndpointFormatFor(string service)
+        {
+            if (string.IsNullOrEmpty(storageEndpointSuffix)) return null;
+            return string.Format(storageFormatTemplate, service, storageEndpointSuffix);
+        }
+
         /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
-        public string StorageBlobEndpointFormat { get; set; }
+        public string StorageBlobEndpointFormat { 
+            get { return EndpointFormatFor("blob"); }
+        }
 
         /// <summary>
         /// The storage service queue endpoint format.
         /// </summary>
-        public string StorageQueueEndpointFormat { get; set; }
+        public string StorageQueueEndpointFormat
+        {
+            get { return EndpointFormatFor("queue"); }
+        }
 
         /// <summary>
         /// The storage service table endpoint format.
         /// </summary>
-        public string StorageTableEndpointFormat { get; set; }
+        public string StorageTableEndpointFormat
+        {
+            get { return EndpointFormatFor("table"); }
+        }
 
         /// <summary>
         /// Gets the endpoint for storage blob.
@@ -122,9 +155,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     // TODO: Get real endpoint for prod
                     AdTenantUrl = "https://login.windows.net/",
                     CommonTenantId = "common",
-                    StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
-                    StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageQueueEndpointFormat,
-                    StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat
+                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix
                 }
             },
             {
@@ -135,9 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
-                    StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageBlobEndpointFormat,
-                    StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageQueueEndpointFormat,
-                    StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.ChinaStorageTableEndpointFormat
+                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix
                 }
             }
         };
