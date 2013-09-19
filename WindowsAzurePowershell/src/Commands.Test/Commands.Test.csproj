@@ -218,6 +218,7 @@
     <Compile Include="CloudService\Utilities\ServicePathInfoTests.cs" />
     <Compile Include="CloudService\Utilities\ServiceSettingsTests.cs" />
     <Compile Include="Common\DeltaMapperTests.cs" />
+    <Compile Include="Common\ProfileStorageTests.cs" />
     <Compile Include="Common\WindowsAzureEnvironmentTests.cs" />
     <Compile Include="Environment\AddAzureEnvironmentTests.cs" />
     <Compile Include="Environment\RemoveAzureEnvironmentTests.cs" />

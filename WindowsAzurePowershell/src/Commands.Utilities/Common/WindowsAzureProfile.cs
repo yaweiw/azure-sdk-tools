@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Properties;
 
     /// <summary>
@@ -28,21 +29,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Internal state
 
         // Store - responsible for loading and saving a profile to a particular location
-        private IProfileStore profileStore;
+        private readonly IProfileStore profileStore;
 
         // Azure environments
         private readonly Dictionary<string, WindowsAzureEnvironment> environments = new Dictionary<string, WindowsAzureEnvironment>(
             WindowsAzureEnvironment.PublicEnvironments, StringComparer.OrdinalIgnoreCase);
 
         // Singleton instance management
-        private static readonly Lazy<WindowsAzureProfile> instance =
-            new Lazy<WindowsAzureProfile>(() => new WindowsAzureProfile());
+        private static Lazy<WindowsAzureProfile> instance =
+            new Lazy<WindowsAzureProfile>(() => new WindowsAzureProfile(null));
+
+        public WindowsAzureProfile(IProfileStore profileStore)
+        {
+            this.profileStore = profileStore;
+            Load();
+        }
 
         public static WindowsAzureProfile Instance
         {
             get
             {
                 return instance.Value;
+            }
+
+            set
+            {
+                instance = new Lazy<WindowsAzureProfile>(() => value);
             }
         }
         
@@ -54,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return new Dictionary<string, WindowsAzureEnvironment>(environments); }
         }
 
-        private WindowsAzureEnvironment currentEnvironment = null;
+        private WindowsAzureEnvironment currentEnvironment;
 
         public WindowsAzureEnvironment CurrentEnvironment
         {
@@ -91,5 +103,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Save();
         }
 
+        private void Load()
+        {
+            
+        }
+
+        private void Save()
+        {
+            var profileData = new ProfileData
+            {
+                DefaultEnvironmentName = CurrentEnvironment.Name,
+                Environments = Environments.Values
+                    .Where(e => !WindowsAzureEnvironment.PublicEnvironments.ContainsKey(e.Name))
+                    .Select(e => new AzureEnvironmentData(e))
+            };
+            profileStore.Save(profileData);
+        }
     }
 }

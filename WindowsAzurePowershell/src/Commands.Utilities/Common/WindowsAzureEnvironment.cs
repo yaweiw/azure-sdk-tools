@@ -15,7 +15,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -41,6 +40,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ManagementPortalUrl { get; set; }
 
         /// <summary>
+        /// Url for the Active Directory tenant for this environment
+        /// </summary>
+        /// <remarks>If null, this environment does not support AD authentication</remarks>
+        public string AdTenantUrl { get; set; }
+
+        /// <summary>
+        /// Name for the common tenant used as the first step
+        /// in the AD authentication process for this environment.
+        /// </summary>
+        /// <remarks>If null, this environment does not support AD authentication</remarks>
+        public string CommonTenantId { get; set; }
+
+        /// <summary>
         /// The storage service blob endpoint format.
         /// </summary>
         public string StorageBlobEndpointFormat { get; set; }
@@ -59,6 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Gets the endpoint for storage blob.
         /// </summary>
         /// <param name="accountName">The account name</param>
+        /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the blob service</returns>
         public Uri GetStorageBlobEndpoint(string accountName, bool useHttps = true)
         {
@@ -69,6 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Gets the endpoint for storage queue.
         /// </summary>
         /// <param name="accountName">The account name</param>
+        /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the queue service</returns>
         public Uri GetStorageQueueEndpoint(string accountName, bool useHttps = true)
         {
@@ -79,6 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Gets the endpoint for storage table.
         /// </summary>
         /// <param name="accountName">The account name</param>
+        /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
         /// <returns>The fully qualified uri to the table service</returns>
         public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
         {
@@ -91,20 +106,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static Dictionary<string, WindowsAzureEnvironment> PublicEnvironments
         {
             get { return environments; }
-            private set { environments = value; }
         }
 
-        private static Dictionary<string, WindowsAzureEnvironment> environments = 
+        private static readonly Dictionary<string, WindowsAzureEnvironment> environments = 
             new Dictionary<string, WindowsAzureEnvironment>(StringComparer.InvariantCultureIgnoreCase)
         {
             {
                 EnvironmentName.AzureCloud,
-                new WindowsAzureEnvironment()
+                new WindowsAzureEnvironment
                 {
                     Name = EnvironmentName.AzureCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
+                    // TODO: Get real endpoint for prod
+                    AdTenantUrl = "https://login.windows.net/",
+                    CommonTenantId = "common",
                     StorageBlobEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageBlobEndpointFormat,
                     StorageQueueEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageQueueEndpointFormat,
                     StorageTableEndpointFormat = WindowsAzureEnvironmentConstants.AzureStorageTableEndpointFormat
@@ -112,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             },
             {
                 EnvironmentName.AzureChinaCloud,
-                new WindowsAzureEnvironment()
+                new WindowsAzureEnvironment
                 {
                     Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
