@@ -28,20 +28,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
     [TestClass]
     public class SetAzureEnvironmentTests : TestBase
     {
-        private FileSystemHelper helper;
+        private WindowsAzureProfile testProfile;
 
         [TestInitialize]
         public void SetupTest()
         {
+            testProfile = new WindowsAzureProfile(new Mock<IProfileStore>().Object);
+            WindowsAzureProfile.Instance = testProfile;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-            helper = new FileSystemHelper(this);
-            helper.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            helper.Dispose();
+            WindowsAzureProfile.ResetInstance();
         }
 
         [TestMethod]
@@ -49,7 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
         {
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
             string name = "Katal";
-            GlobalSettingsManager.Instance.AddEnvironment(name, "publish file url");
+            testProfile.AddEnvironment(new WindowsAzureEnvironment { Name = name, PublishSettingsFileUrl = "publish file url"});
+
             SetAzureEnvironmentCommand cmdlet = new SetAzureEnvironmentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
