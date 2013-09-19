@@ -142,7 +142,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void Load()
         {
-            
+            if (profileStore != null)
+            {
+                var profileData = profileStore.Load();
+                if (profileData != null)
+                {
+                    LoadEnvironmentData(profileData);
+                }
+            }
         }
 
         private void Save()
@@ -152,7 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             profileStore.Save(profileData);
         }
 
-        private bool IsPublicEnvironment(string name)
+        private static bool IsPublicEnvironment(string name)
         {
             return
                 WindowsAzureEnvironment.PublicEnvironments.Keys.Any(
@@ -165,6 +172,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             data.Environments = Environments.Values
                 .Where(e => !IsPublicEnvironment(e.Name))
                 .Select(e => new AzureEnvironmentData(e));
+        }
+
+        private void LoadEnvironmentData(ProfileData data)
+        {
+            if (data.Environments != null)
+            {
+                foreach (var e in data.Environments.Select(e => e.ToAzureEnvironment()))
+                {
+                    environments[e.Name] = e;
+                }
+                if (environments.ContainsKey(data.DefaultEnvironmentName))
+                {
+                    currentEnvironment = environments[data.DefaultEnvironmentName];
+                }
+            }
         }
     }
 }

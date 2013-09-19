@@ -98,6 +98,23 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             AssertEqual(sourceEnv, savedData.Environments.First());
         }
 
+        [TestMethod]
+        public void ProfileLoadsFromStoreOnConstruction()
+        {
+            var storeMock = new Mock<IProfileStore>();
+            storeMock.Setup(s => s.Load())
+                .Returns(testProfileData);
+
+            var profile = new WindowsAzureProfile(storeMock.Object);
+
+            storeMock.Verify(s => s.Load(), Times.Once);
+            Assert.AreEqual(testProfileData.DefaultEnvironmentName, profile.CurrentEnvironment.Name);
+            Assert.AreEqual(testProfileData.Environments.Count(),
+                profile.Environments.Count - WindowsAzureEnvironment.PublicEnvironments.Count);
+            Assert.IsTrue(profile.Environments.ContainsKey(testProfileData.Environments.First().Name));
+            Assert.IsTrue(profile.Environments.ContainsKey(testProfileData.Environments.Skip(1).Take(1).First().Name));
+        }
+
         private T RoundTrip<T>(T objectToSerialize)
         {
             var writeSerializer = new DataContractSerializer(typeof (T));
