@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -27,6 +29,88 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         [DataMember]
         public string DefaultEnvironmentName { get; set; }
          
+        [DataMember]
+        public IEnumerable<AzureEnvironmentData> Environments { get; set; }
+    }
 
+    /// <summary>
+    /// This class provides the representation of
+    /// data loaded and saved into data files for
+    /// an individual Azure environment
+    /// </summary>
+    [DataContract]
+    public class AzureEnvironmentData
+    {
+        /// <summary>
+        /// Constructor used by data contract serializer
+        /// </summary>
+        public AzureEnvironmentData()
+        {
+        }
+
+        /// <summary>
+        /// Helper constructor for converting from in memory object
+        /// to serializable one.
+        /// </summary>
+        /// <param name="inMemoryEnvironment">Environment to serialize data from.</param>
+
+        public AzureEnvironmentData(WindowsAzureEnvironment inMemoryEnvironment)
+        {
+            Name = inMemoryEnvironment.Name;
+            PublishSettingsFileUrl = inMemoryEnvironment.PublishSettingsFileUrl;
+            ServiceEndpoint = inMemoryEnvironment.ServiceEndpoint;
+            ManagementPortalUrl = inMemoryEnvironment.ManagementPortalUrl;
+            StorageBlobEndpointFormat = inMemoryEnvironment.StorageBlobEndpointFormat;
+            StorageQueueEndpointFormat = inMemoryEnvironment.StorageQueueEndpointFormat;
+            StorageTableEndpointFormat = inMemoryEnvironment.StorageTableEndpointFormat;
+            AdTenantUrl = inMemoryEnvironment.AdTenantUrl;
+            CommonTenantId = inMemoryEnvironment.CommonTenantId;
+        }
+
+        /// <summary>
+        /// Helper method to convert to an in-memory environment object.
+        /// </summary>
+        public WindowsAzureEnvironment ToAzureEnvironment()
+        {
+            return new WindowsAzureEnvironment
+            {
+                Name = this.Name,
+                PublishSettingsFileUrl = this.PublishSettingsFileUrl,
+                ServiceEndpoint = this.ServiceEndpoint,
+                ManagementPortalUrl = this.ManagementPortalUrl,
+                StorageBlobEndpointFormat = this.StorageBlobEndpointFormat,
+                StorageQueueEndpointFormat = this.StorageQueueEndpointFormat,
+                StorageTableEndpointFormat = this.StorageTableEndpointFormat,
+                AdTenantUrl = this.AdTenantUrl,
+                CommonTenantId = this.CommonTenantId
+            };
+        }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string PublishSettingsFileUrl { get; set; }
+
+        [DataMember]
+        public string ServiceEndpoint { get; set; }
+
+        [DataMember]
+        public string ManagementPortalUrl { get; set; }
+
+        [DataMember]
+        public string StorageBlobEndpointFormat { get; set; }
+
+        [DataMember]
+        public string StorageQueueEndpointFormat { get; set; }
+
+        [DataMember]
+        public string StorageTableEndpointFormat { get; set; }
+
+        [DataMember]
+        public string AdTenantUrl { get; set; }
+
+        [DataMember]
+        public string CommonTenantId { get; set; }
     }
 }
