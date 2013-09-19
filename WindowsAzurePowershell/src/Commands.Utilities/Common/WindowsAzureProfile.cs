@@ -45,6 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Load();
         }
 
+        /// <summary>
+        /// The default instance shared across the process.
+        /// </summary>
         public static WindowsAzureProfile Instance
         {
             get
@@ -58,12 +61,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
         
+        /// <summary>
+        /// Reset the default instance, used when the instance has been replaced for testing.
+        /// </summary>
+        public static void ResetInstance()
+        {
+            instance = new Lazy<WindowsAzureProfile>(() => new WindowsAzureProfile(null));
+        }
+
         //
         // Azure environments
         //
 
         public IDictionary<string, WindowsAzureEnvironment> Environments { 
-            get { return new Dictionary<string, WindowsAzureEnvironment>(environments); }
+            get { return new Dictionary<string, WindowsAzureEnvironment>(environments, StringComparer.OrdinalIgnoreCase); }
         }
 
         private WindowsAzureEnvironment currentEnvironment;
