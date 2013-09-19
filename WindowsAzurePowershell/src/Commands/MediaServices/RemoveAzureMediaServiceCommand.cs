@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     using Utilities.MediaServices;
 
     /// <summary>
-    /// Remove an Azure Media Services account
+    ///     Removes an Azure Media Services account.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureMediaServicesAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
