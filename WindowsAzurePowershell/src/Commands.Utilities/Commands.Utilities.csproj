@@ -255,6 +255,7 @@
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\IProfileStore.cs" />
     <Compile Include="Common\ObjectDeltaMapper.cs" />
+    <Compile Include="Common\PowershellProfileStore.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ProfileData.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />

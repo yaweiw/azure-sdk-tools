@@ -35,9 +35,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly Dictionary<string, WindowsAzureEnvironment> environments = new Dictionary<string, WindowsAzureEnvironment>(
             WindowsAzureEnvironment.PublicEnvironments, StringComparer.OrdinalIgnoreCase);
 
+        // Func used to create the default instance
+        private static readonly Func<WindowsAzureProfile> defaultCreator =
+            () => new WindowsAzureProfile(new PowershellProfileStore());
+
         // Singleton instance management
         private static Lazy<WindowsAzureProfile> instance =
-            new Lazy<WindowsAzureProfile>(() => new WindowsAzureProfile(null));
+            new Lazy<WindowsAzureProfile>(defaultCreator);
+
 
         public WindowsAzureProfile(IProfileStore profileStore)
         {
@@ -66,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         public static void ResetInstance()
         {
-            instance = new Lazy<WindowsAzureProfile>(() => new WindowsAzureProfile(null));
+            instance = new Lazy<WindowsAzureProfile>(defaultCreator);
         }
 
         //
