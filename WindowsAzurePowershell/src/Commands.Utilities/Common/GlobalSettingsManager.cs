@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return SubscriptionManager.Subscriptions; }
         }
 
-        public WindowsAzureEnvironment DefaultEnvironment { get; set; }
+        private WindowsAzureEnvironment DefaultEnvironment { get; set; }
 
         protected GlobalSettingsManager(string azurePath)
             : this(azurePath, null)
