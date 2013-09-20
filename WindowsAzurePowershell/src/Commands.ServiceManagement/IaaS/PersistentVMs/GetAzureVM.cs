@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         DeploymentName = CurrentDeploymentNewSM.Name,
                         AvailabilitySetName = vm.AvailabilitySetName,
                         Label = vm.Label,
-                        InstanceSize = vm.RoleSize,
+                        InstanceSize = vm.RoleSize.ToString(),
                         InstanceStatus = roleInstance.InstanceStatus,
                         IpAddress = roleInstance.IPAddress.ToString(),
                         InstanceStateDetails = roleInstance.InstanceStateDetails,
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             Label = vm.Label,
                             OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                             RoleName = vm.RoleName,
-                            RoleSize = vm.RoleSize,
+                            RoleSize = vm.RoleSize.ToString(),
                             RoleType = vm.RoleType,
                             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/132
 //                            DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint

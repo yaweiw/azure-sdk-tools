@@ -39,7 +39,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using ConfigCertificate = Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigConfigurationSetting = Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DeploymentStatus = Model.DeploymentStatus;
-    using OperationStatus = Management.Compute.Models.OperationStatus;
     using RoleInstance = Model.RoleInstance;
     using RoleInstanceStatus = Management.Compute.Models.RoleInstanceStatus;
 
@@ -528,15 +527,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             ManagementClient = CloudContext.Clients.CreateManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint));
+                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
 
             StorageClient = CloudContext.Clients.CreateStorageManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint));
+                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
 
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint));
+                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
         }
 
         internal CloudServiceClient(

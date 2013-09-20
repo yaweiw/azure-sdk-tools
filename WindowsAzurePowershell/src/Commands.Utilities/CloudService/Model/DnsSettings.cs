@@ -27,9 +27,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         public DnsSettings(Management.Compute.Models.DnsSettings settings)
             : this()
         {
-            foreach (var server in settings.DnsServers.Keys)
+            foreach (var server in settings.DnsServers)
             {
-                DnsServers[server] = settings.DnsServers[server];
+                DnsServers[server.Name] = server.Address;
             }
         }
 

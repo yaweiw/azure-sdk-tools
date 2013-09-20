@@ -16,21 +16,28 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
+    using Utilities.Common;
+    using Utilities.Properties;
+    using Utilities.Websites;
+    using Utilities.Websites.Services;
+    using Utilities.Websites.Services.DeploymentEntities;
+    using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
-    public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
+    public class GetAzureWebsiteCommand : CmdletWithSubscriptionBase
     {
-        public IWebsitesClient WebsitesClient { get; set; }
+        private IWebsitesClient websitesClient;
+
+        public IWebsitesClient WebsitesClient
+        {
+            get { return websitesClient ?? (websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug)); }
+            set { websitesClient = value; }
+        }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -40,25 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteCommand class.
-        /// </summary>
-        public GetAzureWebsiteCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureWebsiteCommand(IWebsitesServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
             WriteObject(websites, true);
@@ -66,73 +54,78 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
+            EnsureCurrentSubscription();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                GetByName();
+            }
+            else
+            {
+                GetNoName();
+            }
+        }
+
+        private void GetByName()
+        {
+            Do(() =>
+                {
+                    Site websiteObject = WebsitesClient.GetWebsite(Name);
+                    SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name);
+                    Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
+
+                    var diagnosticSettings = new DiagnosticsSettings();
+                    try
+                    {
+                        diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                    }
+                    catch
+                    {
+                        // Ignore exception and use default values
+                    }
+
+                    WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+                });
+        }
+
+        private void GetNoName()
+        {
+            Do(() =>
+                {
+                    var websites = WebsitesClient.ListWebSpaces()
+                        .SelectMany(space => websitesClient.ListSitesInWebSpace(space.Name))
+                        .ToList();
+                    Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
+                    WriteWebsites(websites);
+                });
+        }
+
+        private void EnsureCurrentSubscription()
+        {
             if (CurrentSubscription == null)
             {
                 throw new Exception(Resources.NoDefaultSubscriptionMessage);
             }
+        }
 
-            if (!string.IsNullOrEmpty(Name))
+        private void Do(Action call)
+        {
+            try
             {
-                // Show website
-                Site websiteObject = RetryCall(s => Channel.GetSiteWithCache(s, Name, "repositoryuri,publishingpassword,publishingusername"));
-                if (websiteObject == null)
+                call();
+            }
+            catch (CloudException ex)
+            {
+                if (ex.Response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    WriteError(new ErrorRecord(new Exception(Resources.CommunicationCouldNotBeEstablished, ex), string.Empty, ErrorCategory.InvalidData, null));
+                    throw;
+                }
+                if (ex.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
-
-                SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() =>
-                {
-                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
-
-                // Add to cache
-                Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
-
-                DiagnosticsSettings diagnosticsSettings = new DiagnosticsSettings();
-                if (websiteObject.State == "Running")
-                {
-                    WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-
-                    try
-                    {
-                        diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
-                    }
-                    catch
-                    {
-                        // Ignore the exception and use default values.
-                    }
-                }
-
-                // Output results
-                WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration, diagnosticsSettings), false);
-            }
-            else
-            {
-                // Show websites
-                WebSpaces webspaces = null;
-                InvokeInOperationContext(() =>
-                {
-                    webspaces = RetryCall(s => Channel.GetWebSpaces(s));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
-
-                List<Site> websites = new List<Site>();
-                foreach (var webspace in webspaces)
-                {
-                    InvokeInOperationContext(() =>
-                    {
-                        websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
-                        WaitForOperation(CommandRuntime.ToString());
-                    });
-                }
-
-                // Add to cache
-                Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
-
-                // Output results
-                WriteWebsites(websites);
+                throw;
             }
         }
     }
