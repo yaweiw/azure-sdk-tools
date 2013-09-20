@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             InstanceErrorCode = role.InstanceErrorCode,
                             InstanceFaultDomain = role.InstanceFaultDomain,
                             InstanceName = role.InstanceName,
-                            InstanceSize = role.InstanceSize,
+                            InstanceSize = role.InstanceSize.ToString(),
                             InstanceStateDetails = role.InstanceStateDetails,
                             InstanceStatus = role.InstanceStatus,
                             InstanceUpgradeDomain = role.InstanceUpgradeDomain,

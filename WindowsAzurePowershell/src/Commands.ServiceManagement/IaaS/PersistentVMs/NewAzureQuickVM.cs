@@ -218,7 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public DnsServer[] DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer[] DnsSettings
         {
             get;
             set;
@@ -385,7 +385,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                         foreach (var dns in this.DnsSettings)
                         {
-                            parameters.DnsSettings.DnsServers.Add(dns.Name, IPAddress.Parse(dns.Address));
+                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = IPAddress.Parse(dns.Address) });
                         }
                     }
 
@@ -428,19 +428,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 try
                 {
                     var operationDescription = string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName);
-
-                    VirtualMachineRoleSize roleSizeResult;
-                    if (!Enum.TryParse(vm.RoleSize, true, out roleSizeResult))
-                    {
-                        throw new ArgumentOutOfRangeException("RoleSize:" + vm.RoleSize);
-                    }
-                        
+                                            
                     var parameter = new VirtualMachineCreateParameters
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
                         OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
-                        RoleSize = roleSizeResult,
+                        RoleSize = vm.RoleSize,
                     };
                     parameter.DataVirtualHardDisks.ForEach(c => vm.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
                     parameter.ConfigurationSets.ForEach(c => vm.ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
@@ -466,12 +460,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
+            VirtualMachineRoleSize parsedRoleSize;
+            if (string.IsNullOrEmpty(InstanceSize) 
+                || !Enum.TryParse(InstanceSize, out parsedRoleSize))
+            {
+                throw new ArgumentException(string.Format("Instance Size: '{0}'", InstanceSize));
+            }
+
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
             var vm = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = String.IsNullOrEmpty(InstanceSize) ? null : InstanceSize,
+                RoleSize = parsedRoleSize,
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk

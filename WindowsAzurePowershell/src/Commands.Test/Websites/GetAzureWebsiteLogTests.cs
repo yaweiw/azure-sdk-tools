@@ -30,7 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     [TestClass]
     public class GetAzureWebsiteLogTests : WebsitesTestBase
     {
-        private Mock<IWebsitesServiceManagement> websiteChannelMock;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -52,7 +51,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public override void SetupTest()
         {
             base.SetupTest();
-            websiteChannelMock = new Mock<IWebsitesServiceManagement>();
             websitesClientMock = new Mock<IWebsitesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
             stopCondition = (string line) => line != null;
@@ -64,10 +62,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 It.IsAny<int>()))
                 .Returns(logs);
             logs = new List<string>() { "Log1", "Error: Log2", "Log3", "Error: Log4", null };
-            getAzureWebsiteLogCmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, null)
+            getAzureWebsiteLogCmdlet = new GetAzureWebsiteLogCommand(null)
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                WebsiteClient = websitesClientMock.Object,
+                WebsitesClient = websitesClientMock.Object,
                 StopCondition = stopCondition,
                 Name = websiteName,
                 ShareChannel = true
@@ -85,15 +83,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 }
             };
             Cache.AddSite(getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId, website);
-            websiteChannelMock.Setup(f => f.BeginGetSite(
-                getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId,
-                null,
-                websiteName,
-                "repositoryuri,publishingpassword,publishingusername",
-                null,
-                null))
-                .Returns(It.IsAny<IAsyncResult>());
-            websiteChannelMock.Setup(f => f.EndGetSite(It.IsAny<IAsyncResult>())).Returns(website);
+            websitesClientMock.Setup(c => c.GetWebsite(websiteName))
+                .Returns(website);
         }
 
         [TestMethod]

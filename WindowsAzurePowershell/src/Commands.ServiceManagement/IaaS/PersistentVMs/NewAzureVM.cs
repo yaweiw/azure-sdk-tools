@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = false, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "DNS Settings for Deployment.")]
         [Parameter(Mandatory = false, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public DnsServer[] DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer[] DnsSettings
         {
             get;
             set;
@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                         foreach (var dns in this.DnsSettings)
                         {
-                            parameters.DnsSettings.DnsServers.Add(dns.Name, IPAddress.Parse(dns.Address));
+                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = IPAddress.Parse(dns.Address) });
                         }
                     }
 
@@ -279,7 +279,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 var operationDescription = string.Format(Resources.AzureVMCommandCreateVM, CommandRuntime, persistentVMs[i].RoleName);
                 VirtualMachineRoleSize roleSizeResult;
-                if (!Enum.TryParse(persistentVMs[i].RoleSize, true, out roleSizeResult))
+                if (!Enum.TryParse(persistentVMs[i].RoleSize.ToString(), true, out roleSizeResult))
                 {
                     throw new ArgumentOutOfRangeException("RoleSize:" + persistentVMs[i].RoleSize);
                 }
@@ -348,7 +348,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
-                RoleSize = persistentVM.RoleSize,
+                RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize),
                 RoleType = persistentVM.RoleType,                
                 Label = persistentVM.Label
             };

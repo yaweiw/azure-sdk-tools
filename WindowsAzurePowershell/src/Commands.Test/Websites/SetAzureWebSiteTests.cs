@@ -40,40 +40,33 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(f => f.GetWebsiteDnsSuffix()).Returns(suffix);
+
             bool updatedSite = false;
             bool updatedSiteConfig = false;
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
 
-            Site site = new Site {Name = websiteName, WebSpace = webspaceName};
-            SiteConfig siteConfig = new SiteConfig { NumberOfWorkers = 1};
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
-            channel.GetSitesThunk = ar => new Sites(new List<Site> { site });
-            channel.GetSiteThunk = ar => site;
-            channel.GetSiteConfigThunk = ar => siteConfig;
-            channel.UpdateSiteConfigThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                SiteConfig website = ar.Values["siteConfig"] as SiteConfig;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(website.NumberOfWorkers, 3);
-                siteConfig.NumberOfWorkers = website.NumberOfWorkers;
-                updatedSiteConfig = true;
-            };
+            clientMock.Setup(c => c.GetWebsite(websiteName))
+                .Returns(new Site {Name = websiteName, WebSpace = webspaceName});
+            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName))
+                .Returns(new SiteConfig {NumberOfWorkers = 1});
+            clientMock.Setup(c => c.UpdateWebsiteConfiguration(websiteName, It.IsAny<SiteConfig>()))
+                .Callback((string name, SiteConfig config) =>
+                    {
+                        Assert.IsNotNull(config);
+                        Assert.AreEqual(config.NumberOfWorkers, 3);
+                        updatedSiteConfig = true;
+                    }).Verifiable();
 
-            channel.UpdateSiteThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                Site website = ar.Values["site"] as Site;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsTrue(website.HostNames.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
-                Assert.IsNotNull(website.HostNames.Any(hostname => hostname.Equals("stuff.com")));
-                site.HostNames = website.HostNames;
-                updatedSite = true;
-            };
+            clientMock.Setup(c => c.UpdateWebsiteHostNames(It.IsAny<Site>(), It.IsAny<IEnumerable<string>>()))
+                .Callback((Site site, IEnumerable<string> names) =>
+                    {
+                        Assert.AreEqual(websiteName, site.Name);
+                        Assert.IsTrue(names.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));
+                        Assert.IsTrue(names.Any(hostname => hostname.Equals("stuff.com")));
+                        updatedSite = true;
+                    });
 
             // Test
-            SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
+            SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
@@ -90,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test updating site only and not configurations
             updatedSite = false;
             updatedSiteConfig = false;
-            setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
+            setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),

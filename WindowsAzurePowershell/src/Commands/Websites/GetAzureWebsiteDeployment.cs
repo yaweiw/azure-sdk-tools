@@ -58,22 +58,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
         /// </summary>
         public GetAzureWebsiteDeploymentCommand()
-            : this(null, null)
+            : this(null)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
         /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
         /// <param name="deploymentChannel">
         /// Channel used for communication with the git repository.
         /// </param>
-        public GetAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
+        public GetAzureWebsiteDeploymentCommand(IDeploymentServiceManagement deploymentChannel)
         {
-            Channel = channel;
             DeploymentChannel = deploymentChannel;
         }
 
