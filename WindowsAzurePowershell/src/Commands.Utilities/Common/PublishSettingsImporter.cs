@@ -14,28 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System;
-    using System.Security.Cryptography.X509Certificates;
-    using WindowsAzure.Common;
+    using System.Collections.Generic;
+    using XmlSchema;
 
     /// <summary>
-    /// Representation of a subscription in memory
+    /// Class that handles loading publishsettings files
+    /// and turning them into WindowsAzureSubscription objects.
     /// </summary>
-    public class WindowsAzureSubsciption
+    public class PublishSettingsImporter
     {
-        public string Name { get; set; }
-        public string SubscriptionId { get; set; }
-        public Uri ManagementEndpoint { get; set; }
-        public Uri SqlAzureServiceEndpoint { get; set; }
-        public bool IsDefault { get; set; }
-        public X509Certificate2 Certificate { get; set; }
-
-        // Access token / account name goes here once we hook up AD
-
-        public T CreateClient<T>() where T : ServiceClient<T>
-        {
-            // Hook this up in a minute
-            return default(T);
-        }
+         public IEnumerable<WindowsAzureSubsciption> Import(string fileName)
+         {
+             PublishData publishData = DeserializePublishData()
+         }
     }
 }
