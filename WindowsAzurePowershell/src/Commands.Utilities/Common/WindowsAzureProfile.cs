@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using Properties;
 
@@ -190,9 +191,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void ImportPublishSettings(string fileName)
         {
-            // TODO: Inject this instead of newing it up here
-            var importer = new PublishSettingsImporter();
-            IEnumerable<WindowsAzureSubsciption> newSubscriptions = importer.Import(fileName);
+            using (var s = new StreamReader(fileName, true))
+            {
+                ImportPublishSettings(s);
+            }
+        }
+
+        public void ImportPublishSettings(StreamReader reader)
+        {
+            IEnumerable<WindowsAzureSubsciption> newSubscriptions = PublishSettingsImporter.Import(reader);
 
             foreach (var newSubscription in newSubscriptions)
             {
