@@ -35,6 +35,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly Dictionary<string, WindowsAzureEnvironment> environments = new Dictionary<string, WindowsAzureEnvironment>(
             WindowsAzureEnvironment.PublicEnvironments, StringComparer.OrdinalIgnoreCase);
 
+        // And subscriptions
+        private readonly List<WindowsAzureSubsciption> subscriptions = new List<WindowsAzureSubsciption>();
+
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
             () => new WindowsAzureProfile(new PowershellProfileStore());
@@ -65,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 instance = new Lazy<WindowsAzureProfile>(() => value);
             }
         }
-        
+
         /// <summary>
         /// Reset the default instance, used when the instance has been replaced for testing.
         /// </summary>
@@ -78,7 +81,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Azure environments
         //
 
-        public IDictionary<string, WindowsAzureEnvironment> Environments { 
+        public IDictionary<string, WindowsAzureEnvironment> Environments
+        {
             get { return new Dictionary<string, WindowsAzureEnvironment>(environments, StringComparer.OrdinalIgnoreCase); }
         }
 
@@ -121,19 +125,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void UpdateEnvironment(WindowsAzureEnvironment newEnvironment)
         {
-            GuardExistsAndNonPublic(newEnvironment.Name);
+            GuardEnvironmentExistsAndNonPublic(newEnvironment.Name);
             environments[newEnvironment.Name] = newEnvironment;
             Save();
         }
 
         public void RemoveEnvironment(string name)
         {
-            GuardExistsAndNonPublic(name);
+            GuardEnvironmentExistsAndNonPublic(name);
             environments.Remove(name);
             Save();
         }
 
-        private void GuardExistsAndNonPublic(string name)
+        private void GuardEnvironmentExistsAndNonPublic(string name)
         {
             if (IsPublicEnvironment(name))
             {
@@ -142,6 +146,89 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             if (!environments.ContainsKey(name))
             {
                 throw new KeyNotFoundException(string.Format(Resources.EnvironmentNotFound, name));
+            }
+        }
+
+        //
+        // Subscriptions
+        //
+
+        public IList<WindowsAzureSubsciption> Subscriptions
+        {
+            get
+            {
+                return new List<WindowsAzureSubsciption>(subscriptions);
+            }
+        }
+
+        private WindowsAzureSubsciption currentSubscription;
+
+        public WindowsAzureSubsciption CurrentSubscription
+        {
+            get
+            {
+                if (currentSubscription == null)
+                {
+                    currentSubscription = DefaultSubscription;
+                }
+                return currentSubscription;
+            }
+
+            set { currentSubscription = value; }
+        }
+
+        public WindowsAzureSubsciption DefaultSubscription
+        {
+            get { return subscriptions.FirstOrDefault(s => s.IsDefault); }
+        }
+
+        public void RemoveSubscription(WindowsAzureSubsciption s)
+        {
+            subscriptions.Remove(s);
+            Save();
+        }
+
+        public void ImportPublishSettings(string fileName)
+        {
+            // TODO: Inject this instead of newing it up here
+            var importer = new PublishSettingsImporter();
+            IEnumerable<WindowsAzureSubsciption> newSubscriptions = importer.Import(fileName);
+
+            foreach (var newSubscription in newSubscriptions)
+            {
+                var existingSubscription =
+                    subscriptions.FirstOrDefault(s => s.SubscriptionId == newSubscription.SubscriptionId);
+                if (existingSubscription != null)
+                {
+                    UpdateExistingSubscription(existingSubscription, newSubscription);
+                }
+                else
+                {
+                    subscriptions.Add(newSubscription);
+                }
+            }
+
+            if (subscriptions.Count == 1)
+            {
+                subscriptions[0].IsDefault = true;
+            }
+
+            Save();
+        }
+
+        private void UpdateExistingSubscription(WindowsAzureSubsciption existingSubscription,
+            WindowsAzureSubsciption newSubscription)
+        {
+            // For now, just remove old and add new.
+            subscriptions.Add(newSubscription);
+            subscriptions.Remove(existingSubscription);
+            if (existingSubscription.IsDefault)
+            {
+                newSubscription.IsDefault = true;
+            }
+            if (currentSubscription == existingSubscription)
+            {
+                currentSubscription = newSubscription;
             }
         }
 
@@ -193,5 +280,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
         }
+
     }
 }
