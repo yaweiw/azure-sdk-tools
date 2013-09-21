@@ -220,6 +220,7 @@
     <Compile Include="Common\DeltaMapperTests.cs" />
     <Compile Include="Common\ProfileStorageTests.cs" />
     <Compile Include="Common\PublishSettingImporterTests.cs" />
+    <Compile Include="Common\ProfileSubscriptionImportTests.cs" />
     <Compile Include="Common\WindowsAzureEnvironmentTests.cs" />
     <Compile Include="Environment\AddAzureEnvironmentTests.cs" />
     <Compile Include="Environment\RemoveAzureEnvironmentTests.cs" />
