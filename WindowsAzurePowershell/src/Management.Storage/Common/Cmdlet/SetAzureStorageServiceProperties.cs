@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 
             if (LoggingRetentionDays != null)
             {
-                if (serviceProperties.Logging.RetentionDays == 0)
+                if (LoggingRetentionDays == 0)
                 {
                     //Disable logging
                     serviceProperties.Logging.RetentionDays = null;
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 
             if (MetricsRetentionDays != null)
             {
-                if (serviceProperties.Metrics.RetentionDays == 0)
+                if (MetricsRetentionDays == 0)
                 {
                     //Disable metrics
                     serviceProperties.Metrics.RetentionDays = null;
