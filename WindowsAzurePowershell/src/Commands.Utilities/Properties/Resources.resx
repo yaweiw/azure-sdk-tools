@@ -1325,4 +1325,7 @@ Please follow these steps in the portal:
   <data name="CannotUpdateUnknownSubscription" xml:space="preserve">
     <value>The subscription named {0} with id {1} is not currently imported. You must import this subscription before it can be updated.</value>
   </data>
+  <data name="InvalidManagementClientType" xml:space="preserve">
+    <value>Cannot create instance of management client type {0}. It does not have the expected constructor.</value>
+  </data>
 </root>

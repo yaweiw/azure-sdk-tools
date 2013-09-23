@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// Helper constructor to copy data from in memory to serialization format.
         /// </summary>
-        /// <param name="inMemorySubscription"></param>
+        /// <param name="inMemorySubscription">The subscription to serialize</param>
         public AzureSubscriptionData(WindowsAzureSubscription inMemorySubscription)
         {
             Name = inMemorySubscription.Name;
@@ -133,6 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ManagementEndpoint = inMemorySubscription.ManagementEndpoint.ToString();
             IsDefault = inMemorySubscription.IsDefault;
             ManagementCertificate = inMemorySubscription.Certificate.CertificateString;
+            CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
         }
 
         /// <summary>
@@ -147,7 +148,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionId = this.SubscriptionId,
                 ManagementEndpoint = new Uri(ManagementEndpoint),
                 IsDefault = this.IsDefault,
-                Certificate = new WindowsAzureCertificate(ManagementCertificate)
+                Certificate = new WindowsAzureCertificate(ManagementCertificate),
+                CurrentStorageAccountName = CloudStorageAccount
             };
         }
 
@@ -165,5 +167,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string ManagementCertificate { get; set; }
+
+        [DataMember]
+        public string CloudStorageAccount { get; set; }
     }
 }

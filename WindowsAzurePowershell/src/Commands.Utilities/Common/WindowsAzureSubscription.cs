@@ -15,8 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
-    using System.Security.Cryptography.X509Certificates;
+    using Management.Storage;
+    using Storage;
+    using Storage.Auth;
     using WindowsAzure.Common;
+    using Properties;
 
     /// <summary>
     /// Representation of a subscription in memory
@@ -30,14 +33,58 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public bool IsDefault { get; set; }
         public WindowsAzureCertificate Certificate { get; set; }
 
+        private string currentStorageAccountName;
+        private CloudStorageAccount cloudStorageAccount;
+
+        public string CurrentStorageAccountName
+        {
+            get { return currentStorageAccountName; }
+            set
+            {
+                if (currentStorageAccountName != value)
+                {
+                    currentStorageAccountName = value;
+                    cloudStorageAccount = null;
+                }
+            }
+        }
+
         // Access token / account name goes here once we hook up AD
 
-        public T CreateClient<T>() where T : ServiceClient<T>
+        /// <summary>
+        /// Create a service management client for this subscription,
+        /// with appropriate credentials supplied.
+        /// </summary>
+        /// <typeparam name="TClient">Type of client to create, must be derived from <see cref="ServiceClient{T}"/></typeparam>
+        /// <returns>The service client instance</returns>
+        public TClient CreateClient<TClient>() where TClient : ServiceClient<TClient>
         {
             var credential = new CertificateCloudCredentials(SubscriptionId, Certificate);
-            var constructor = typeof(T).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
+            var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
+            if (constructor == null)
+            {
+                throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
+            }
+            return (TClient)constructor.Invoke(new object[] { credential, ManagementEndpoint });
+        }
 
-            return (T)constructor.Invoke(new object[] { credential, ManagementEndpoint });
+        public CloudStorageAccount GetCloudStorageAccount()
+        {
+            if (cloudStorageAccount == null)
+            {
+                using (var storageClient = CreateClient<StorageManagementClient>())
+                {
+                    var storageServiceResponse = storageClient.StorageAccounts.Get(CurrentStorageAccountName);
+                    var storageKeysResponse = storageClient.StorageAccounts.GetKeys(CurrentStorageAccountName);
+
+                    cloudStorageAccount = new CloudStorageAccount(
+                        new StorageCredentials(storageServiceResponse.ServiceName, storageKeysResponse.PrimaryKey),
+                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[0].ToString()),
+                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[1].ToString()),
+                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[2].ToString()));
+                }
+            }
+            return cloudStorageAccount;
         }
     }
 }

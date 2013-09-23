@@ -1454,6 +1454,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot create instance of management client type {0}. It does not have the expected constructor..
+        /// </summary>
+        public static string InvalidManagementClientType {
+            get {
+                return ResourceManager.GetString("InvalidManagementClientType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not download a valid runtime manifest, Please check your internet connection and try again..
         /// </summary>
         public static string InvalidManifestError {
