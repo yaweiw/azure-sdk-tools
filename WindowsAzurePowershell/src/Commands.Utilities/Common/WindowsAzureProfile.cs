@@ -191,15 +191,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void ImportPublishSettings(string fileName)
         {
-            using (var s = new StreamReader(fileName, true))
+            using (var s = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 ImportPublishSettings(s);
             }
         }
 
-        public void ImportPublishSettings(StreamReader reader)
+        public void ImportPublishSettings(Stream stream)
         {
-            IEnumerable<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(reader);
+            IEnumerable<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(stream);
 
             foreach (var newSubscription in newSubscriptions)
             {

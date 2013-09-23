@@ -36,10 +36,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             using (Stream s = GetPublishSettingsStream("Azure.publishsettings"))
             {
                 expected = ReadExpected(s);
-                using (var reader = new StreamReader(s))
-                {
-                    profile.ImportPublishSettings(reader);
-                }
+                s.Seek(0, SeekOrigin.Begin);
+                profile.ImportPublishSettings(s);
             }
 
             // This sample file has two subscriptions with the same ID.
@@ -78,10 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             using (Stream s = GetPublishSettingsStream("ValidProfile2.PublishSettings"))
             {
                 expected = ReadExpected(s);
-                using (var reader = new StreamReader(s))
-                {
-                    profile.ImportPublishSettings(reader);
-                }
+                s.Seek(0, SeekOrigin.Begin);
+                profile.ImportPublishSettings(s);
             }
 
             Assert.AreEqual(expected.Descendants("Subscription").Count(), profile.Subscriptions.Count);
