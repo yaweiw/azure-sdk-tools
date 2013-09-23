@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set { profile = value; }
         }
 
-        public WindowsAzureSubscription azureSubscription;
+        private WindowsAzureSubscription azureSubscription;
 
         public WindowsAzureSubscription CurrentAzureSubscription
         {
