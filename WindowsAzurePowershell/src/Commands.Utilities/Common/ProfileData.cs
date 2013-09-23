@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
@@ -30,6 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
          
         [DataMember]
         public IEnumerable<AzureEnvironmentData> Environments { get; set; }
+
+        [DataMember]
+        public IEnumerable<AzureSubscriptionData> Subscriptions { get; set; } 
     }
 
     /// <summary>
@@ -101,5 +105,65 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string CommonTenantId { get; set; }
+    }
+
+    /// <summary>
+    /// This class provides the representation of data loaded
+    /// and saved into data file for an individual Azure subscription.
+    /// </summary>
+    [DataContract]
+    public class AzureSubscriptionData
+    {
+        /// <summary>
+        /// Constructor used by DataContractSerializer
+        /// </summary>
+        public AzureSubscriptionData()
+        {
+            
+        }
+
+        /// <summary>
+        /// Helper constructor to copy data from in memory to serialization format.
+        /// </summary>
+        /// <param name="inMemorySubscription"></param>
+        public AzureSubscriptionData(WindowsAzureSubscription inMemorySubscription)
+        {
+            Name = inMemorySubscription.Name;
+            SubscriptionId = inMemorySubscription.SubscriptionId;
+            ManagementEndpoint = inMemorySubscription.ManagementEndpoint.ToString();
+            IsDefault = inMemorySubscription.IsDefault;
+            ManagementCertificate = inMemorySubscription.Certificate.CertificateString;
+        }
+
+        /// <summary>
+        /// Helper method to convert to an in memory subscription object.
+        /// </summary>
+        /// <returns>The in memory subscription</returns>
+        public WindowsAzureSubscription ToAzureSubscription()
+        {
+            return new WindowsAzureSubscription
+            {
+                Name = this.Name,
+                SubscriptionId = this.SubscriptionId,
+                ManagementEndpoint = new Uri(ManagementEndpoint),
+                IsDefault = this.IsDefault,
+                Certificate = new WindowsAzureCertificate(ManagementCertificate)
+            };
+        }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string SubscriptionId { get; set; }
+
+        [DataMember]
+        public string ManagementEndpoint { get; set; }
+
+        [DataMember]
+        public bool IsDefault { get; set; }
+
+        [DataMember]
+        public string ManagementCertificate { get; set; }
     }
 }

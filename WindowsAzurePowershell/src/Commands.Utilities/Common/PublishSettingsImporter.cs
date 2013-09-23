@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// </summary>
     public static class PublishSettingsImporter
     {
-        public static IEnumerable<WindowsAzureSubsciption> Import(string filename)
+        public static IEnumerable<WindowsAzureSubscription> Import(string filename)
         {
             using (var s = new StreamReader(filename, true))
             {
@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        public static IEnumerable<WindowsAzureSubsciption> Import(StreamReader reader)
+        public static IEnumerable<WindowsAzureSubscription> Import(StreamReader reader)
         {
             var publishData = DeserializePublishData(reader);
             PublishDataPublishProfile profile = publishData.Items.Single();
@@ -49,11 +49,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return (PublishData)serializer.Deserialize(reader);
         }
 
-        private static WindowsAzureSubsciption PublishSubscriptionToAzureSubscription(
+        private static WindowsAzureSubscription PublishSubscriptionToAzureSubscription(
             PublishDataPublishProfile profile,
             PublishDataPublishProfileSubscription s)
         {
-            return new WindowsAzureSubsciption
+            return new WindowsAzureSubscription
             {
                 Certificate = GetCertificate(profile, s),
                 Name = s.Name,
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             };
         }
 
-        private static X509Certificate2 GetCertificate(PublishDataPublishProfile profile,
+        private static WindowsAzureCertificate GetCertificate(PublishDataPublishProfile profile,
             PublishDataPublishProfileSubscription s)
         {
             string certificateString;
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 certificateString = profile.ManagementCertificate;
             }
-            return new X509Certificate2(Convert.FromBase64String(certificateString), string.Empty);
+            return new WindowsAzureCertificate(certificateString);
         }
 
         private static Uri GetManagementUri(PublishDataPublishProfile profile, PublishDataPublishProfileSubscription s)

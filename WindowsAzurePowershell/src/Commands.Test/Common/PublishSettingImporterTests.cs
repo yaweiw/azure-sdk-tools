@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             {
                 XDocument expected = ReadExpected(s);
 
-                List<WindowsAzureSubsciption> subscriptions = ReadPublishSettings(s);
+                List<WindowsAzureSubscription> subscriptions = ReadPublishSettings(s);
 
                 Assert.AreEqual(expected.Descendants("Subscription").Count(), subscriptions.Count);
 
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             return xdoc;
         }
 
-        private List<WindowsAzureSubsciption> ReadPublishSettings(Stream s)
+        private List<WindowsAzureSubscription> ReadPublishSettings(Stream s)
         {
             using (var reader = new StreamReader(s))
             {
