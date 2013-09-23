@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
-    public class GetAzureWebsiteCommand : WebsiteClientBaseCmdlet
+    public class GetAzureWebsiteCommand : NewWebsitesBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private void EnsureCurrentSubscription()
         {
-            if (CurrentSubscription == null)
+            if (CurrentAzureSubscription == null)
             {
                 throw new Exception(Resources.NoDefaultSubscriptionMessage);
             }

@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 if (azureSubscription == null)
                 {
-                    return profile.CurrentSubscription;
+                    return Profile.CurrentSubscription;
                 }
                 return azureSubscription;
             }
