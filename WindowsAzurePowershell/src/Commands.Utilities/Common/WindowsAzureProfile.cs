@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             WindowsAzureEnvironment.PublicEnvironments, StringComparer.OrdinalIgnoreCase);
 
         // And subscriptions
-        private readonly List<WindowsAzureSubsciption> subscriptions = new List<WindowsAzureSubsciption>();
+        private readonly List<WindowsAzureSubscription> subscriptions = new List<WindowsAzureSubscription>();
 
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
@@ -154,17 +154,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Subscriptions
         //
 
-        public IList<WindowsAzureSubsciption> Subscriptions
+        public IList<WindowsAzureSubscription> Subscriptions
         {
             get
             {
-                return new List<WindowsAzureSubsciption>(subscriptions);
+                return new List<WindowsAzureSubscription>(subscriptions);
             }
         }
 
-        private WindowsAzureSubsciption currentSubscription;
+        private WindowsAzureSubscription currentSubscription;
 
-        public WindowsAzureSubsciption CurrentSubscription
+        public WindowsAzureSubscription CurrentSubscription
         {
             get
             {
@@ -178,12 +178,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set { currentSubscription = value; }
         }
 
-        public WindowsAzureSubsciption DefaultSubscription
+        public WindowsAzureSubscription DefaultSubscription
         {
             get { return subscriptions.FirstOrDefault(s => s.IsDefault); }
         }
 
-        public void RemoveSubscription(WindowsAzureSubsciption s)
+        public void RemoveSubscription(WindowsAzureSubscription s)
         {
             subscriptions.Remove(s);
             Save();
@@ -199,7 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void ImportPublishSettings(StreamReader reader)
         {
-            IEnumerable<WindowsAzureSubsciption> newSubscriptions = PublishSettingsImporter.Import(reader);
+            IEnumerable<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(reader);
 
             foreach (var newSubscription in newSubscriptions)
             {
@@ -223,8 +223,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Save();
         }
 
-        private void UpdateExistingSubscription(WindowsAzureSubsciption existingSubscription,
-            WindowsAzureSubsciption newSubscription)
+        private void UpdateExistingSubscription(WindowsAzureSubscription existingSubscription,
+            WindowsAzureSubscription newSubscription)
         {
             // For now, just remove old and add new.
             subscriptions.Add(newSubscription);
@@ -247,6 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 if (profileData != null)
                 {
                     LoadEnvironmentData(profileData);
+                    LoadSubscriptionData(profileData);
                 }
             }
         }
@@ -255,6 +256,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             var profileData = new ProfileData();
             SetEnvironmentData(profileData);
+            SetSubscriptionData(profileData);
             profileStore.Save(profileData);
         }
 
@@ -288,5 +290,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        private void SetSubscriptionData(ProfileData data)
+        {
+            data.Subscriptions = Subscriptions.Select(s => new AzureSubscriptionData(s));
+        }
+
+        private void LoadSubscriptionData(ProfileData data)
+        {
+            if (data.Subscriptions != null)
+            {
+                foreach (var s in data.Subscriptions)
+                {
+                    subscriptions.Add(s.ToAzureSubscription());
+                }
+            }
+        }
     }
 }

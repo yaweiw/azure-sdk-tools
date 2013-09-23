@@ -21,14 +21,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// <summary>
     /// Representation of a subscription in memory
     /// </summary>
-    public class WindowsAzureSubsciption
+    public class WindowsAzureSubscription
     {
         public string Name { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ManagementEndpoint { get; set; }
         public Uri SqlAzureServiceEndpoint { get; set; }
         public bool IsDefault { get; set; }
-        public X509Certificate2 Certificate { get; set; }
+        public WindowsAzureCertificate Certificate { get; set; }
 
         // Access token / account name goes here once we hook up AD
 

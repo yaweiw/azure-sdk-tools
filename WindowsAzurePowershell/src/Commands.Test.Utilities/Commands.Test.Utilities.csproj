@@ -208,9 +208,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <EmbeddedResource Include="Resources\Azure.publishsettings" />
+    <EmbeddedResource Include="Resources\Azure.publishsettings">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\InvalidProfile.PublishSettings" />
-    <EmbeddedResource Include="Resources\ValidProfile.PublishSettings" />
+    <EmbeddedResource Include="Resources\ValidProfile.PublishSettings">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ValidProfile2.PublishSettings" />
     <EmbeddedResource Include="Resources\GB18030ServiceDefinition.csdef" />
     <None Include="packages.config" />
