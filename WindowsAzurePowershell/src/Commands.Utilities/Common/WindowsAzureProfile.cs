@@ -189,6 +189,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Save();
         }
 
+        public void UpdateSubscription(WindowsAzureSubscription s)
+        {
+            if (!subscriptions.Contains(s))
+            {
+                throw new ArgumentException(string.Format(Resources.CannotUpdateUnknownSubscription, s.Name,
+                                                          s.SubscriptionId));
+            }
+
+            if (s.IsDefault)
+            {
+                foreach (var subs in subscriptions.Where(s2 => s2 != s))
+                {
+                    subs.IsDefault = false;
+                }
+            }
+
+            Save();
+        }
+
         public void ImportPublishSettings(string fileName)
         {
             using (var s = new FileStream(fileName, FileMode.Open, FileAccess.Read))

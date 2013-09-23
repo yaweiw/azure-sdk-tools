@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public abstract class CmdletWithSubscriptionBase : CmdletBase
     {
+        // Doubling up with old and new subscriptions temporarily until
+        // we complete the switchover
         private SubscriptionData _currentSubscription;
 
         public SubscriptionData CurrentSubscription
@@ -53,6 +55,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         protected virtual void OnCurrentSubscriptionUpdated()
         {
             
+        }
+
+        private WindowsAzureProfile profile;
+
+        public WindowsAzureProfile Profile
+        {
+            get
+            {
+                if (profile == null)
+                {
+                    return WindowsAzureProfile.Instance;
+                }
+                return profile;
+            }
+
+            set { profile = value; }
+        }
+
+        public WindowsAzureSubscription azureSubscription;
+
+        public WindowsAzureSubscription CurrentAzureSubscription
+        {
+            get
+            {
+                if (azureSubscription == null)
+                {
+                    return profile.CurrentSubscription;
+                }
+                return azureSubscription;
+            }
+            set { azureSubscription = value; }
         }
     }
 }
