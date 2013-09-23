@@ -120,9 +120,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             });
 
             var locator = typeof (ResourceLocator);
-            profile.ImportPublishSettings(
-                new StreamReader(locator.Assembly
-                    .GetManifestResourceStream(locator, "Azure.publishsettings")));
+            profile.ImportPublishSettings(locator.Assembly
+                .GetManifestResourceStream(locator, "Azure.publishsettings"));
 
             // Should save twice, one for environment, one for subscription import
             storeMock.Verify(s => s.Save(It.IsAny<ProfileData>()), Times.Exactly(2));

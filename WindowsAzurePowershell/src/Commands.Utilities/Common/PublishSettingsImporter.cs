@@ -30,23 +30,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public static IEnumerable<WindowsAzureSubscription> Import(string filename)
         {
-            using (var s = new StreamReader(filename, true))
+            using (var s = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 return Import(s);
             }
         }
 
-        public static IEnumerable<WindowsAzureSubscription> Import(StreamReader reader)
+        public static IEnumerable<WindowsAzureSubscription> Import(Stream stream)
         {
-            var publishData = DeserializePublishData(reader);
+            var publishData = DeserializePublishData(stream);
             PublishDataPublishProfile profile = publishData.Items.Single();
             return profile.Subscription.Select(s => PublishSubscriptionToAzureSubscription(profile, s));
         }
 
-        private static PublishData DeserializePublishData(StreamReader reader)
+        private static PublishData DeserializePublishData(Stream stream)
         {
             var serializer = new XmlSerializer(typeof(PublishData));
-            return (PublishData)serializer.Deserialize(reader);
+            return (PublishData)serializer.Deserialize(stream);
         }
 
         private static WindowsAzureSubscription PublishSubscriptionToAzureSubscription(
