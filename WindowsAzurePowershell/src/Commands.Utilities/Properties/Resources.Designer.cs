@@ -368,7 +368,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        ///  &lt;/da [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CacheAutoDiscoveryConfig {
             get {
@@ -535,6 +535,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string CannotFindServiceRoot {
             get {
                 return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The subscription named {0} with id {1} is not currently imported. You must import this subscription before it can be updated..
+        /// </summary>
+        public static string CannotUpdateUnknownSubscription {
+            get {
+                return ResourceManager.GetString("CannotUpdateUnknownSubscription", resourceCulture);
             }
         }
         

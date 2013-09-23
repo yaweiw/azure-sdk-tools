@@ -34,8 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public T CreateClient<T>() where T : ServiceClient<T>
         {
-            // Hook this up in a minute
-            return default(T);
+            var credential = new CertificateCloudCredentials(SubscriptionId, Certificate);
+            var constructor = typeof(T).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
+
+            return (T)constructor.Invoke(new object[] { credential, ManagementEndpoint });
         }
     }
 }

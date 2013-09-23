@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
-    public abstract class WebsiteClientBaseCmdlet : WebsiteContextBaseCmdlet
+    public abstract class WebsiteClientBaseCmdlet : WebsitesBaseCmdlet
     {
         private IWebsitesClient websitesClient;
 
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
             {
                 if (websitesClient == null)
                 {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
+                    websitesClient = new WebsitesClient(CurrentAzureSubscription, WriteDebug);
                 }
                 return websitesClient;
             }

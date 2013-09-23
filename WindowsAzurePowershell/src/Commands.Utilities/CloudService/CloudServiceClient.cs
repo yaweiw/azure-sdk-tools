@@ -515,13 +515,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Action<string> debugStream = null,
             Action<string> verboseStream = null,
             Action<string> warningStream = null)
+            : this(currentLocation, debugStream, warningStream, verboseStream)
         {
             Subscription = subscription;
             subscriptionId = subscription.SubscriptionId;
             CurrentDirectory = currentLocation;
-            DebugStream = debugStream;
-            VerboseStream = verboseStream;
-            WarningStream = warningStream;
 
             CloudBlobUtility = new CloudBlobUtility();
 
@@ -538,11 +536,36 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
         }
 
+        public CloudServiceClient(
+            WindowsAzureSubscription subscription,
+            string currentLocation = null,
+            Action<string> debugStream = null,
+            Action<string> verboseStream = null,
+            Action<string> warningStream = null)
+            : this(currentLocation, debugStream, warningStream, verboseStream)
+        {
+            CloudBlobUtility = new CloudBlobUtility();
+
+            ManagementClient = subscription.CreateClient<ManagementClient>();
+            StorageClient = subscription.CreateClient<StorageManagementClient>();
+            ComputeClient = subscription.CreateClient<ComputeManagementClient>();
+        }
+
+        private CloudServiceClient(string currentLocation, Action<string> debugStream, Action<string> verboseStream,
+                                   Action<string> warningStream)
+        {
+            CurrentDirectory = currentLocation;
+            DebugStream = debugStream;
+            VerboseStream = verboseStream;
+            WarningStream = warningStream;
+        }
+
         internal CloudServiceClient(
             SubscriptionData subscription,
             ManagementClient managementClient,
             StorageManagementClient storageManagementClient,
             ComputeManagementClient computeManagementClient)
+            : this((string)null, null, null, null)
         {
             Subscription = subscription;
             subscriptionId = subscription.SubscriptionId;
