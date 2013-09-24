@@ -150,6 +150,12 @@
     <Reference Include="Microsoft.WindowsAzure.Management">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Sql">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
