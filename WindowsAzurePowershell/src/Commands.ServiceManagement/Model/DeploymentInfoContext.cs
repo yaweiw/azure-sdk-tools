@@ -39,19 +39,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             this.DeploymentId = deployment.PrivateId;
             this.VNetName = deployment.VirtualNetworkName;
             this.SdkVersion = deployment.SdkVersion;
-            this.DnsSettings = new Microsoft.WindowsAzure.ServiceManagement.DnsSettings
-            {
-                DnsServers = new Microsoft.WindowsAzure.ServiceManagement.DnsServerList()
-            };
 
-            foreach (var dns in deployment.DnsSettings.DnsServers)
+            if (deployment.DnsSettings != null)
             {
-                var newDns = new Microsoft.WindowsAzure.ServiceManagement.DnsServer
+                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
                 {
-                    Name = dns.Name,
-                    Address = dns.Address.ToString()
+                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList()
                 };
-                this.DnsSettings.DnsServers.Add(newDns);
+
+                foreach (var dns in deployment.DnsSettings.DnsServers)
+                {
+                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer
+                    {
+                        Name = dns.Name,
+                        Address = dns.Address.ToString()
+                    };
+                    this.DnsSettings.DnsServers.Add(newDns);
+                }
             }
 
             bool result = false;
@@ -120,18 +124,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             this.DeploymentId = deployment.PrivateID;
             this.VNetName = deployment.VirtualNetworkName;
             this.SdkVersion = deployment.SdkVersion;
-            this.DnsSettings = new Microsoft.WindowsAzure.ServiceManagement.DnsSettings
+
+            if (deployment.Dns != null)
             {
-                DnsServers = new Microsoft.WindowsAzure.ServiceManagement.DnsServerList()
-            };
-            foreach (var dns in deployment.Dns.DnsServers)
-            {
-                var newDns = new Microsoft.WindowsAzure.ServiceManagement.DnsServer
+                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
                 {
-                    Name = dns.Name,
-                    Address = dns.Address
+                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList()
                 };
-                this.DnsSettings.DnsServers.Add(newDns);
+
+                foreach (var dns in deployment.Dns.DnsServers)
+                {
+                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer
+                    {
+                        Name = dns.Name,
+                        Address = dns.Address.ToString()
+                    };
+                    this.DnsSettings.DnsServers.Add(newDns);
+                }
             }
 
             if (deployment.RollbackAllowed.HasValue)
@@ -280,7 +289,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
-        public Microsoft.WindowsAzure.ServiceManagement.DnsSettings DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings DnsSettings
         {
             get;
             protected set;

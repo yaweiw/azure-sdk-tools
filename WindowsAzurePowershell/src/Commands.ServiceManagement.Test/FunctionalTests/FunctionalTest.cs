@@ -326,7 +326,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, locationName);
 
-                DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
+                Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
                 AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
