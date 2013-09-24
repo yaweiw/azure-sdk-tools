@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
             Assert.IsTrue(currentSubscription.IsDefault);
 
             var newCurrentSubscription =
-                profile.Subscriptions.FirstOrDefault(s => !s.SubscriptionId.Equals(currentSubscription.SubscriptionId));
+                profile.Subscriptions.First(s => !s.SubscriptionId.Equals(currentSubscription.SubscriptionId));
             profile.CurrentSubscription = newCurrentSubscription;
             var newSubscriptionId = newCurrentSubscription.SubscriptionId;
 
