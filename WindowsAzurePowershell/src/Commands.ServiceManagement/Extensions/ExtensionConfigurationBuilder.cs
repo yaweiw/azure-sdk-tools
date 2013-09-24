@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Management.Compute;
+    using Management.Compute.Models;
     using WindowsAzure.ServiceManagement;
 
     public class ExtensionConfigurationBuilder
@@ -36,9 +38,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             namedRoles = new Dictionary<string, HashSet<string>>();
         }
 
-        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, ExtensionConfiguration config)
+        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration config)
             : this(extensionManager)
         {
+            Add(config);
+        }
+
+        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
+            : this(extensionManager)
+        {
+            // TODO 09/22/2013
+            // Need to remove this function, since it uses the old library's data structure ExtensionConfiguration
             Add(config);
         }
 
@@ -226,8 +236,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return this;
         }
 
-        public ExtensionConfigurationBuilder Add(ExtensionConfiguration config)
+        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration config)
         {
+            if (config != null)
+            {
+                if (config.AllRoles != null)
+                {
+                    foreach (var e in config.AllRoles)
+                    {
+                        AddDefault(e.Id);
+                    }
+                }
+
+                if (config.NamedRoles != null)
+                {
+                    foreach (var r in config.NamedRoles)
+                    {
+                        foreach (var e in r.Extensions)
+                        {
+                            if (namedRoles.ContainsKey(r.RoleName))
+                            {
+                                namedRoles[r.RoleName].Add(e.Id);
+                            }
+                            else
+                            {
+                                namedRoles.Add(r.RoleName, new HashSet<string>(new string[] { e.Id }));
+                            }
+                        }
+                    }
+                }
+            }
+            return this;
+        }
+
+        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
+        {
+            // TODO 09/22/2013
+            // Need to remove this function, since it uses the old library's data structure ExtensionConfiguration
             if (config != null)
             {
                 if (config.AllRoles != null)
@@ -256,9 +301,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return this;
         }
 
-        public ExtensionConfiguration ToConfiguration()
+        public Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration ToConfiguration()
         {
-            ExtensionConfiguration config = new ExtensionConfiguration
+            Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config = new Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration
             {
                 AllRoles = new AllRoles(),
                 NamedRoles = new NamedRoles()

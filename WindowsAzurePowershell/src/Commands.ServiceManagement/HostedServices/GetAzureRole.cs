@@ -140,6 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.GetRoleProcess();
         }
 

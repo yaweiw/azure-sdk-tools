@@ -25,16 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(IEnumerable<DiagnosticExtensionContext>))]
     public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public GetAzureServiceDiagnosticsExtensionCommand()
-            : base()
-        {
-        }
-
-        public GetAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName

@@ -19,7 +19,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Management.Automation;
     using System.ServiceModel;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
 
     /// <summary>
@@ -71,6 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             if (InstanceName != null)
             {
+                ServiceManagementProfile.Initialize();
                 if (Reboot)
                 {
                     RebootSingleInstance(InstanceName);
@@ -90,18 +93,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         private void RebootSingleInstance(string instanceName)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.RebootDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName));
-            }
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+            InvokeInOperationContext(() => ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.RebootRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName),
+                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s)));
         }
 
         private void ReimageSingleInstance(string instanceName)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.ReimageDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName));
-            }
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+            InvokeInOperationContext(() => ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.ReimageRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName),
+                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s)));
         }
 
         private void ValidateParameters()

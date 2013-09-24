@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
     using Commands.Utilities.Common;
     using Management;
     using Management.Models;

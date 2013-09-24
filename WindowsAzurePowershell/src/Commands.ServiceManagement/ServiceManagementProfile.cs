@@ -12,6 +12,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using Utilities.Common;
     using PVM = Model.PersistentVMModel;
     using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
+    using System.Xml.Linq;
+    using System.Xml;
+    using System.IO;
 
     public class ServiceManagementProfile : Profile
     {
@@ -184,6 +187,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<StorageOperationStatusResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            //Hosted Services mapping
+            Mapper.CreateMap<OperationStatusResponse, DeploymentInfoContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            Mapper.CreateMap<DeploymentGetResponse, DeploymentInfoContext>()
+                  .ForMember(c => c.Slot, o => o.MapFrom(r => r.DeploymentSlot.ToString()))
+                  .ForMember(c => c.DeploymentName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri))
+                  .ForMember(c => c.DeploymentId, o => o.MapFrom(r => r.PrivateId))
+                  .ForMember(c => c.VNetName, o => o.MapFrom(r => r.VirtualNetworkName))
+                  .ForMember(c => c.RollbackAllowed, o => o.MapFrom(r => !string.IsNullOrEmpty(r.RollbackAllowed)))
+                  .ForMember(c => c.RoleInstanceList, o => o.MapFrom(r => r.RoleInstances))
+                  .ForMember(c => c.CurrentUpgradeDomain, o => o.MapFrom(r => r.UpgradeStatus.CurrentUpgradeDomain))
+                  .ForMember(c => c.CurrentUpgradeDomainState, o => o.MapFrom(r => r.UpgradeStatus.CurrentUpgradeDomainState))
+                  .ForMember(c => c.UpgradeType, o => o.MapFrom(r => r.UpgradeStatus.UpgradeType));
         }
     }
 

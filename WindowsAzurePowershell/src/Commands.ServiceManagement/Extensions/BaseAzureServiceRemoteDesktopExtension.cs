@@ -34,12 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             Initialize();
         }
 
-        public BaseAzureServiceRemoteDesktopExtensionCmdlet(IServiceManagement channel)
-            : base(channel)
-        {
-            Initialize();
-        }
-
         protected void Initialize()
         {
             ExtensionNameSpace = RDPExtensionNamespace;

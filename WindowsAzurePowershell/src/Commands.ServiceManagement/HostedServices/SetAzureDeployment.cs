@@ -18,11 +18,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Extensions;
-    using Commands.ServiceManagement.Helpers;
-    using WindowsAzure.ServiceManagement;
+    using Extensions;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
@@ -30,15 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Set, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureDeploymentCommand()
-        {
-        }
-
-        public SetAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Upgrade", HelpMessage = "Upgrade Deployment")]
         public SwitchParameter Upgrade
         {
@@ -90,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Upgrade", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         [Parameter(Position = 3, Mandatory = true, ParameterSetName = "Config", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Status", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
+        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Staging, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -98,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual | Simultaneous")]
-        [ValidateSet(UpgradeType.Auto, UpgradeType.Manual, UpgradeType.Simultaneous, IgnoreCase = true)]
+        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Auto, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Manual, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Simultaneous, IgnoreCase = true)]
         public string Mode
         {
             get;
@@ -128,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 3, Mandatory = true, ParameterSetName = "Status", HelpMessage = "New deployment status. Running | Suspended")]
-        [ValidateSet(DeploymentStatus.Running, DeploymentStatus.Suspended, IgnoreCase = true)]
+        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentStatus.Running, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentStatus.Suspended, IgnoreCase = true)]
         public string NewStatus
         {
             get;
@@ -151,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 configString = General.GetConfiguration(Configuration);
             }
 
-            ExtensionConfiguration extConfig = null;
+            Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration extConfig = null;
             if (ExtensionConfiguration != null)
             {
                 var roleList = (from c in ExtensionConfiguration
@@ -186,7 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                         }
 
-                        ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
+                        Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
                         foreach (var r in currentConfig.AllRoles)
                         {
                             if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(r.Id))
@@ -237,7 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                 var upgradeDeploymentInput = new UpgradeDeploymentInput
                 {
-                    Mode = Mode ?? UpgradeType.Auto,
+                    Mode = Mode ?? Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Auto,
                     Configuration = configString,
                     ExtensionConfiguration = extConfig,
                     PackageUrl = packageUrl,
