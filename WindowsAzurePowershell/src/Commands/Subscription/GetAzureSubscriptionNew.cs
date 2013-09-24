@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     /// Implementation of the get-azuresubscription cmdlet that works against
     /// the WindowsAzureProfile layer.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "WindowsAzureSubscriptionNew", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsCommon.Get, "AzureSubscriptionNew", DefaultParameterSetName = "ByName")]
     [OutputType(typeof(SubscriptionData))]
     public class GetAzureSubscriptionNewCommand : CmdletWithSubscriptionBase
     {
@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             WriteSubscriptions(subscriptions);
         }
 
-        private void GetDefault()
+        public void GetDefault()
         {
             if (Profile.DefaultSubscription == null)
             {
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
         }
 
-        private void GetCurrent()
+        public void GetCurrent()
         {
             if (Profile.CurrentSubscription == null)
             {

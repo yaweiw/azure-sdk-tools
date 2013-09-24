@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using Utilities.Common;
     using Utilities.Properties;
 
-    [Cmdlet(VerbsData.Import, "AzurePublishSettingsNew")]
+    [Cmdlet(VerbsData.Import, "AzurePublishSettingsFileNew")]
     public class ImportAzurePublishSettingsNewCommand : CmdletWithSubscriptionBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
