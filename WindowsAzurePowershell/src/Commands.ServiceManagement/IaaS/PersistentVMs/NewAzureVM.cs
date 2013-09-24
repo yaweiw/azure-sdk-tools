@@ -349,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
                 RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize),
-                RoleType = persistentVM.RoleType,                
+                RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
             persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));

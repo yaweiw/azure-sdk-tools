@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using PowershellCore;
 
     public class GetAzureDnsCmdletInfo : CmdletsInfo
     {
-        public GetAzureDnsCmdletInfo(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings settings)
+        public GetAzureDnsCmdletInfo(DnsSettings settings)
         {
             cmdletName = Utilities.GetAzureDnsCmdletName;
             if (settings != null)

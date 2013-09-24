@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using System;
@@ -100,13 +99,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 }
             };
 
-            // TODO - 09/23/2013
-            // Need to remove the dependency on IServiceManagement channel.
             // Test
-            /*
-            var moveAzureDeployment = new MoveAzureDeploymentCommand(channel)
+            var moveAzureDeployment = new MoveAzureDeploymentCommand()
             {
                 ShareChannel = true,
+                Channel = channel,
                 CommandRuntime = new MockCommandRuntime(),
                 ServiceName = "testService",
                 CurrentSubscription = new SubscriptionData
@@ -120,7 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 moveAzureDeployment.ExecuteCommand();
                 if(parameters.ThrowsException)
                 {
-                    Assert.Fail(parameters.Description);       
+                    Assert.Fail(parameters.Description);
                 }
             }
             catch (Exception e)
@@ -134,7 +131,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                     Assert.Fail("{0} fails unexpectedly: {1}", parameters.Description, e);
                 }
             }
-            */
         }
 
         [TestMethod]

@@ -30,8 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-
+    using Model.PersistentVMModel;
 
     [TestClass]
     public class FunctionalTestCommonVM : ServiceManagementTest

@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Model.PersistentVMModel;
 
     public class Verify : ServiceManagementTest
     {
@@ -141,12 +141,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <param name="resultSettings"></param>
         /// <param name="expDns"></param>
         /// <returns></returns>
-        internal static bool AzureDns(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings resultSettings, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer expDns)
+        internal static bool AzureDns(DnsSettings resultSettings, DnsServer expDns)
         {
             try
             {
-                Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList dnsList = vmPowershellCmdlets.GetAzureDns(resultSettings);
-                foreach (Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer dnsServer in dnsList)
+                DnsServerList dnsList = vmPowershellCmdlets.GetAzureDns(resultSettings);
+                foreach (DnsServer dnsServer in dnsList)
                 {
                     Console.WriteLine("DNS Server Name: {0}, DNS Server Address: {1}", dnsServer.Name, dnsServer.Address);
                     if (MatchDns(expDns, dnsServer))
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        private static bool MatchDns(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer expDns, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer actualDns)
+        private static bool MatchDns(DnsServer expDns, DnsServer actualDns)
         {
             try
             {

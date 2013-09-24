@@ -44,8 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void ExecuteCommand()
         {
-            var prodDeployment = GetDeploymentBySlot(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production);
-            var stagingDeployment = GetDeploymentBySlot(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Staging);
+            var prodDeployment = GetDeploymentBySlot(DeploymentSlotType.Production);
+            var stagingDeployment = GetDeploymentBySlot(DeploymentSlotType.Staging);
 
             if(stagingDeployment == null && prodDeployment == null)
             {

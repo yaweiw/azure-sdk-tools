@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance(); 
+            var role = VM.GetInstance();
             var configSetbuilder = new ConfigurationSetsBuilder(role.ConfigurationSets);
             if (Linux.IsPresent)
             {

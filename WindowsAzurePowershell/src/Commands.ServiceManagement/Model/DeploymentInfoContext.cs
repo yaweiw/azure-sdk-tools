@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Xml.Linq;
     using Management.Compute.Models;
     using PersistentVMModel;
-    using WindowsAzure.ServiceManagement;
 
     public class DeploymentInfoContext : ServiceOperationContext
     {
