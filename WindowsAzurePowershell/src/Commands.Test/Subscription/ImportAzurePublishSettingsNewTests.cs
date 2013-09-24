@@ -15,9 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 {
     using System;
+    using System.IO;
     using System.Linq;
     using Commands.Subscription;
     using Commands.Utilities.Common;
+    using Commands.Utilities.Properties;
     using Moq;
     using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
@@ -26,19 +28,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     public class ImportAzurePublishSettingsNewTests
     {
         private WindowsAzureProfile profile;
+        private MockCommandRuntime mockCommandRuntime;
         private ImportAzurePublishSettingsNewCommand cmdlet;
 
         [TestInitialize]
         public void Setup()
         {
+            mockCommandRuntime = new MockCommandRuntime();
             profile = new WindowsAzureProfile(new Mock<IProfileStore>().Object);
             cmdlet = new ImportAzurePublishSettingsNewCommand
             {
                 Profile = profile,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = mockCommandRuntime
             };
         }
-
 
         [TestMethod]
         public void CanImportValidPublishSettings()
@@ -86,6 +89,65 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             Assert.AreEqual(profile.CurrentSubscription.SubscriptionId, newSubscriptionId);
             Assert.IsTrue(profile.Subscriptions.Contains(profile.CurrentSubscription));
+        }
+
+        [TestMethod]
+        public void CanImportFromDirectoryWithSingleFile()
+        {
+            var testDir = new TestDirBuilder("testdir")
+                .AddFile(Data.ValidPublishSettings.First(), "myfile.publishsettings");
+
+            cmdlet.PublishSettingsFile = testDir.DirectoryName;
+
+            cmdlet.ExecuteCmdlet();
+
+            Assert.AreEqual(profile.CurrentSubscription.Name, Data.Subscription1);
+            Assert.IsTrue(profile.CurrentSubscription.IsDefault);
+            Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
+        }
+
+        [TestMethod]
+        public void ImportFindsFileInCurrentDirectoryIfNoPathGiven()
+        {
+            var testDir = new TestDirBuilder("testdir")
+                .AddFile(Data.ValidPublishSettings.First(), "myfile.publishsettings");
+
+            using (testDir.Pushd())
+            {
+                cmdlet.ExecuteCmdlet();
+            }
+            Assert.AreEqual(profile.CurrentSubscription.Name, Data.Subscription1);
+            Assert.IsTrue(profile.CurrentSubscription.IsDefault);
+            Assert.AreEqual(Path.GetFullPath(testDir.FilePaths[0]), mockCommandRuntime.OutputPipeline[0].ToString());
+        }
+
+        [TestMethod]
+        public void ImportingFromDirectoryWithNoFilesThrows()
+        {
+            var testDir = new TestDirBuilder("testdir3");
+            using (testDir.Pushd())
+            {
+                Testing.AssertThrows<Exception>(
+                    () => cmdlet.ExecuteCmdlet(),
+                    string.Format(Resources.NoPublishSettingsFilesFoundMessage, Directory.GetCurrentDirectory()));
+            }
+        }
+
+        [TestMethod]
+        public void ImportingFromDirectoryWithMultiplePublishSettingsImportsFirstOneAndGivesWarning()
+        {
+            var testDir = new TestDirBuilder("testdir2")
+                .AddFile(Data.ValidPublishSettings.First(), "myfile1.publishsettings")
+                .AddFile(Data.ValidPublishSettings.First(), "myfile2.publishsettings");
+
+            cmdlet.PublishSettingsFile = testDir.DirectoryName;
+            cmdlet.ExecuteCmdlet();
+
+            Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.Name);
+            Assert.IsTrue(profile.CurrentSubscription.IsDefault);
+            Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
+            Assert.AreEqual(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, testDir.FilePaths[0]), 
+                mockCommandRuntime.WarningStream[0]);
         }
     }
 }
