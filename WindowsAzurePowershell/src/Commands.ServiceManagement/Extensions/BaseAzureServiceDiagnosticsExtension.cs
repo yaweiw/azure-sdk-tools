@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Xml;
     using System.Xml.Linq;
     using Commands.Utilities.Common;
+    using Management.Storage;
+    using Management.Storage.Models;
     using Properties;
     using Storage;
     using Storage.Auth;
@@ -41,12 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
-        {
-            Initialize();
-        }
-
-        public BaseAzureServiceDiagnosticsExtensionCmdlet(IServiceManagement channel)
-            : base(channel)
         {
             Initialize();
         }
@@ -81,6 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ValidateStorageAccount()
         {
+            var ss = this.StorageClient.StorageAccounts.Get(StorageAccountName);
             var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageService == null)
             {

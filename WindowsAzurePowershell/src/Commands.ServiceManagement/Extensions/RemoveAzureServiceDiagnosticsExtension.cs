@@ -27,16 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Remove, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public RemoveAzureServiceDiagnosticsExtensionCommand()
-            : base()
-        {
-        }
-
-        public RemoveAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
         public override string ServiceName

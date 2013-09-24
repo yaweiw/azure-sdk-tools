@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     /// <summary>
     /// View details of a specified deployment.
@@ -27,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureDeployment"), OutputType(typeof(DeploymentInfoContext))]
     public class GetAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureDeploymentCommand()
-        {
-        }
-
-        public GetAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         public string ServiceName
         {
@@ -51,33 +43,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        Deployment UpdateDeploymentSlofIfEmpty(Deployment deployment)
-        {
-            if (string.IsNullOrEmpty(deployment.DeploymentSlot))
-            {
-                deployment.DeploymentSlot = this.Slot;
-            }
-            return deployment;
-        }
-
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
+
             if (string.IsNullOrEmpty(this.Slot))
             {
                 this.Slot = DeploymentSlotType.Production;
             }
-//            var d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
 
-            ExecuteClientActionInOCS(
+            ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot),
-                (operation, deployment) => new DeploymentInfoContext(UpdateDeploymentSlofIfEmpty(deployment))
+                () => this.ComputeClient.Deployments.GetBySlot(this.ServiceName, (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true)),
+                (s, d) =>
                 {
-                    ServiceName = this.ServiceName,
-                    OperationId = operation.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = operation.Status
+                    return new DeploymentInfoContext(d)
+                    {
+                        OperationId = s.Id,
+                        OperationStatus = s.Status.ToString(),
+                        OperationDescription = CommandRuntime.ToString(),
+                        ServiceName = this.ServiceName
+                    };
                 });
         }
     }

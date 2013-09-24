@@ -14,14 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using System;
-    using System.Management.Automation;
-    using AutoMapper;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
-    using WindowsAzure.ServiceManagement;
     using Properties;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     /// Sets the label and description of the specified hosted service
@@ -29,15 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Set, "AzureService"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureServiceCommand()
-        {
-        }
-
-        public SetAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -84,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             ExecuteClientActionNewSM(parameters, 
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.HostedServices.Update(this.ServiceName, parameters),
-                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+                (s, r) => ContextFactory<OperationResponse, ManagementOperationContext>(r, s));
             
         }
     }

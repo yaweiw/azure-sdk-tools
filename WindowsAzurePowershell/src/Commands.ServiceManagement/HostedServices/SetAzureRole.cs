@@ -18,14 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Linq;
-    using AutoMapper;
-    using Commands.Utilities.Common;
+    using Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Management.Models;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using Properties;
-
 
     /// <summary>
     /// Sets the instance count for the selected role.
@@ -33,15 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Set, "AzureRole", DefaultParameterSetName = "ParameterSetDeploymentSlot"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureRoleCommand()
-        {
-        }
-
-        public SetAzureRoleCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string ServiceName
         {
@@ -50,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot of the deployment.")]
-        [ValidateNotNullOrEmpty]
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -103,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             ExecuteClientActionNewSM(configuration, 
                 CommandRuntime.ToString(), 
                 () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(this.ServiceName, slot, updatedConfigurationParameter),
-                (s,response)=>ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response));
+                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
         }
 
         protected override void OnProcessRecord()

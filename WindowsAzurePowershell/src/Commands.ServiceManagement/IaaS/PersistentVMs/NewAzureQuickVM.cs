@@ -428,7 +428,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 try
                 {
                     var operationDescription = string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName);
-                                            
+
                     var parameter = new VirtualMachineCreateParameters
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
@@ -460,11 +460,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
-            VirtualMachineRoleSize parsedRoleSize;
-            if (string.IsNullOrEmpty(InstanceSize) 
-                || !Enum.TryParse(InstanceSize, out parsedRoleSize))
+            if (string.IsNullOrEmpty(InstanceSize))
             {
-                throw new ArgumentException(string.Format("Instance Size: '{0}'", InstanceSize));
+                InstanceSize = VirtualMachineRoleSize.Small.ToString();
             }
 
             //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
@@ -472,7 +470,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = parsedRoleSize,
+                RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk

@@ -14,10 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
 
     /// <summary>
@@ -51,7 +53,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void RemoveDeploymentProcess()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteDeploymentBySlot(s, this.ServiceName, this.Slot));
+            ServiceManagementProfile.Initialize();
+            
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType),
+                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
         }
 
         protected override void OnProcessRecord()
