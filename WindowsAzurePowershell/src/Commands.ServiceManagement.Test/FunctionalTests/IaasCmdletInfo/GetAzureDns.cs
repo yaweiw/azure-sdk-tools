@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class GetAzureDnsCmdletInfo : CmdletsInfo
     {
-        public GetAzureDnsCmdletInfo(DnsSettings settings)
+        public GetAzureDnsCmdletInfo(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings settings)
         {
             cmdletName = Utilities.GetAzureDnsCmdletName;
             if (settings != null)

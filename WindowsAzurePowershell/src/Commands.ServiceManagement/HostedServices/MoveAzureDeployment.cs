@@ -28,18 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Move, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class MoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public MoveAzureDeploymentCommand()
-        {
-        }
-
-        // TODO: 9/23/2013
-        // Test code (MoveAzureDeploymentCommandTests.cs) relies on the class IServiceManagement.
-        // Need to remove the dependency there, before removing this constructor that uses the old lib.
-        public MoveAzureDeploymentCommand(Microsoft.WindowsAzure.ServiceManagement.IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName

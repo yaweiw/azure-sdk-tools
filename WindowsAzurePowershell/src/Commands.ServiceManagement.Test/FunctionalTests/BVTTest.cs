@@ -263,7 +263,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string dnsName = "OpenDns1";
                 string ipAddress = "208.67.222.222";
 
-                DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
+                Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
                 RecordTimeTaken(ref prevTime);
 
