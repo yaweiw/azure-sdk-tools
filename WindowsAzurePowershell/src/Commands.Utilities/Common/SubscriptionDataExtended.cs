@@ -38,6 +38,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string OperationId { get; set; }
         public string OperationStatus { get; set; }
 
+        public SubscriptionDataExtended()
+        {
+            
+        }
+
         public SubscriptionDataExtended(Subscription subscription, SubscriptionData subscriptionData,
             string description, Operation operation)
         {

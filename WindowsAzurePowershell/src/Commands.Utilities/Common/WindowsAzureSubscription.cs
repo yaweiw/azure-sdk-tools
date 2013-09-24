@@ -49,6 +49,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        public CloudStorageAccount CurrentCloudStorageAccount
+        {
+            get { return cloudStorageAccount; }
+        }
+
         // Access token / account name goes here once we hook up AD
 
         /// <summary>
