@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
-    using AutoMapper;
     using Management.Compute.Models;
     using PersistentVMModel;
     using WindowsAzure.ServiceManagement;
@@ -70,23 +69,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                 this.UpgradeType = deployment.UpgradeStatus.UpgradeType.ToString();
             }
 
-            this.Configuration = string.IsNullOrEmpty(deployment.Configuration)
-                                     ? string.Empty
-                                     : deployment.Configuration;
+            this.Configuration = string.IsNullOrEmpty(deployment.Configuration) ? string.Empty : deployment.Configuration;
 
-            this.Label = string.IsNullOrEmpty(deployment.Label)
-                             ? string.Empty
-                             : deployment.Label;
+            this.Label = string.IsNullOrEmpty(deployment.Label) ? string.Empty : deployment.Label;
 
-            if (deployment.RoleInstances != null)
-            {
-                this.RoleInstanceList = new List<Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance>();
-                foreach (var roleInstance in deployment.RoleInstances)
-                {
-                    var newRoleInstance = new Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance();
-                    this.RoleInstanceList.Add(Mapper.Map(roleInstance, newRoleInstance));
-                }
-            }
+            this.RoleInstanceList = deployment.RoleInstances;
 
             if (!string.IsNullOrEmpty(deployment.Configuration))
             {
@@ -101,91 +88,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
                 this.OSVersion = doc.Root.Attribute("osVersion") != null ?
                                  doc.Root.Attribute("osVersion").Value :
-                                 string.Empty;
-
-                this.RolesConfiguration = new Dictionary<string, RoleConfiguration>();
-
-                var roles = doc.Root.Descendants(this.ns + "Role");
-
-                foreach (var role in roles)
-                {
-                    this.RolesConfiguration.Add(role.Attribute("name").Value, new RoleConfiguration(role));
-                }
-            }
-        }
-
-        public DeploymentInfoContext(Deployment deployment)
-        {
-            this.Slot = deployment.DeploymentSlot;
-            this.Name = deployment.Name;
-            this.DeploymentName = deployment.Name;
-            this.Url = deployment.Url;
-            this.Status = deployment.Status;
-            this.DeploymentId = deployment.PrivateID;
-            this.VNetName = deployment.VirtualNetworkName;
-            this.SdkVersion = deployment.SdkVersion;
-
-            if (deployment.Dns != null)
-            {
-                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
-                {
-                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList()
-                };
-
-                foreach (var dns in deployment.Dns.DnsServers)
-                {
-                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer
-                    {
-                        Name = dns.Name,
-                        Address = dns.Address.ToString()
-                    };
-                    this.DnsSettings.DnsServers.Add(newDns);
-                }
-            }
-
-            if (deployment.RollbackAllowed.HasValue)
-            {
-                this.RollbackAllowed = deployment.RollbackAllowed;
-            }
-
-            if (deployment.UpgradeStatus != null)
-            {
-                this.CurrentUpgradeDomain = deployment.UpgradeStatus.CurrentUpgradeDomain;
-                this.CurrentUpgradeDomainState = deployment.UpgradeStatus.CurrentUpgradeDomainState;
-                this.UpgradeType = deployment.UpgradeStatus.UpgradeType;
-            }
-
-            this.Configuration = string.IsNullOrEmpty(deployment.Configuration)
-                                     ? string.Empty
-                                     : deployment.Configuration;
-
-            this.Label = string.IsNullOrEmpty(deployment.Label)
-                             ? string.Empty
-                             : deployment.Label;
-
-            if (deployment.RoleInstanceList != null)
-            {
-                this.RoleInstanceList = new List<Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance>();
-                foreach (var roleInstance in deployment.RoleInstanceList)
-                {
-                    var newRoleInstance = new Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance();
-                    this.RoleInstanceList.Add(Mapper.Map(roleInstance, newRoleInstance));
-                }
-            }
-
-            if (!string.IsNullOrEmpty(deployment.Configuration))
-            {
-                string xmlString = this.Configuration;
-
-                XDocument doc;
-                using (var stringReader = new StringReader(xmlString))
-                {
-                    XmlReader reader = XmlReader.Create(stringReader);
-                    doc = XDocument.Load(reader);
-                }
-
-                this.OSVersion = doc.Root.Attribute("osVersion") != null ?
-                                 doc.Root.Attribute("osVersion").Value : 
                                  string.Empty;
 
                 this.RolesConfiguration = new Dictionary<string, RoleConfiguration>();
@@ -316,7 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
             foreach (var roleConfig in this.RolesConfiguration)
             {
-                rootElement.Add(roleConfig.Value.Serialize());                
+                rootElement.Add(roleConfig.Value.Serialize());
             }
 
             return document;

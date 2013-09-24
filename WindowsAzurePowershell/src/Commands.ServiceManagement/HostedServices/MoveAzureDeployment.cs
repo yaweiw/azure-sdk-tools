@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             var swapDeploymentParams = new DeploymentSwapParameters
             {
                 SourceDeployment = stagingDeployment.Name,
-                ProductionDeployment = prodDeployment == null ? null : prodDeployment.Name
+                ProductionDeployment = prodDeployment == null ? string.Empty : prodDeployment.Name
             };
 
             ExecuteClientActionNewSM(
@@ -98,7 +98,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             {
                 this.WriteDebug(String.Format(Resources.NoDeploymentFoundToMove, slot));
             }
-
 
             return prodDeployment;
         }
