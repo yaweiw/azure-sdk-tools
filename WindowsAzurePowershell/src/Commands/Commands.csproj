@@ -263,6 +263,7 @@
     </Compile>
     <Compile Include="Subscription\GetAzureSubscription.cs" />
     <Compile Include="Subscription\ImportAzurePublishSettings.cs" />
+    <Compile Include="Subscription\ImportAzurePublishSettingsNew.cs" />
     <Compile Include="Subscription\RemoveAzureSubscription.cs" />
     <Compile Include="Subscription\SelectAzureSubscription.cs" />
     <Compile Include="Subscription\SetAzureSubscription.cs" />

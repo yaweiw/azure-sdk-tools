@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
 
-            if (subscriptions.Count == 1)
+            if (DefaultSubscription == null && subscriptions.Count > 0) 
             {
                 subscriptions[0].IsDefault = true;
             }
