@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     using PIRCmdletInfo;
 
@@ -436,22 +436,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureDns
 
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer NewAzureDns(string name, string ipAddress)
+        public DnsServer NewAzureDns(string name, string ipAddress)
         {
-            return RunPSCmdletAndReturnFirst<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer>(new NewAzureDnsCmdletInfo(name, ipAddress));
+            return RunPSCmdletAndReturnFirst<DnsServer>(new NewAzureDnsCmdletInfo(name, ipAddress));
         }
 
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList GetAzureDns(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings settings)
+        public DnsServerList GetAzureDns(DnsSettings settings)
         {
             GetAzureDnsCmdletInfo getAzureDnsCmdletInfo = new GetAzureDnsCmdletInfo(settings);
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureDnsCmdletInfo);
 
             Collection<PSObject> result = azurePowershellCmdlet.Run();
-            Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList dnsList = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList();
+            DnsServerList dnsList = new DnsServerList();
 
             foreach (PSObject re in result)
             {
-                dnsList.Add((Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer)re.BaseObject);
+                dnsList.Add((DnsServer)re.BaseObject);
             }
             return dnsList;
         }
@@ -929,7 +929,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
         }
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer[] dnsSettings,
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();

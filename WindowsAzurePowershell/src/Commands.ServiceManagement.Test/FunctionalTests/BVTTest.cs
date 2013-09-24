@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using System.Security.Cryptography.X509Certificates;
 
     [TestClass]
@@ -263,7 +263,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string dnsName = "OpenDns1";
                 string ipAddress = "208.67.222.222";
 
-                Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
+                DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
                 RecordTimeTaken(ref prevTime);
 

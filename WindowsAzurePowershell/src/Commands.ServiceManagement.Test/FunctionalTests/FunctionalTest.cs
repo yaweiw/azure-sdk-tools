@@ -30,8 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
-
+    using Model.PersistentVMModel;
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest
@@ -326,7 +325,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, locationName);
 
-                Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
+                DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
                 AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
