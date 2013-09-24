@@ -16,9 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Utilities.Common;
+    using Utilities.Properties;
 
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsNew")]
     public class ImportAzurePublishSettingsNewCommand : CmdletWithSubscriptionBase
@@ -56,14 +58,41 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         private void ImportDirectory()
         {
-            throw new NotImplementedException("Getting there...");
+            var dirPath = ResolveDirectoryPath(PublishSettingsFile);
+
+            var files = Directory.GetFiles(dirPath, "*.publishsettings");
+            string fileToImport = files.FirstOrDefault();
+            if (fileToImport == null)
+            {
+                throw new Exception(string.Format(Resources.NoPublishSettingsFilesFoundMessage, dirPath));
+            }
+
+            ImportFile(fileToImport);
+
+            if (files.Length > 1)
+            {
+                WriteWarning(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, fileToImport));
+            }
+
+            WriteObject(fileToImport);
         }
 
         private void ImportFile()
         {
             var fullFile = ResolveFileName(PublishSettingsFile);
             GuardFileExists(fullFile);
-            Profile.ImportPublishSettings(PublishSettingsFile);
+            ImportFile(fullFile);
+        }
+
+        private void ImportFile(string fileName)
+        {
+            Profile.ImportPublishSettings(fileName);
+            if (Profile.DefaultSubscription != null)
+            {
+                WriteVerbose(string.Format(
+                    Resources.DefaultAndCurrentSubscription,
+                    Profile.DefaultSubscription.Name));
+            }
         }
 
         private void GuardFileExists(string fileName)
@@ -77,6 +106,15 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         private string ResolveFileName(string filename)
         {
             return this.TryResolvePath(filename);
+        }
+
+        private string ResolveDirectoryPath(string directoryPath)
+        {
+            if (string.IsNullOrEmpty(directoryPath))
+            {
+                return CurrentPath();
+            }
+            return directoryPath;
         }
     }
 }
