@@ -14,15 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
-    using WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
@@ -30,54 +27,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
-            {
-                AffinityGroup = d.AffinityGroup,
-                Category = d.Category,
-                Label = d.Label,
-                Location = d.Location,
-                MediaLink = d.MediaLink,
-                ImageName = d.Name,
-                OS = d.OS,
-                LogicalSizeInGB = d.LogicalSizeInGB,
-                Eula = d.Eula,
-                Description = d.Description,
-                ImageFamily = d.ImageFamily,
-                PublishedDate = d.PublishedDate,
-                IsPremium = d.IsPremium,
-                PrivacyUri = d.PrivacyUri,
-                PublisherName = d.PublisherName,
-                RecommendedVMSize = d.RecommendedVMSize,
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status
-            });
             if (!string.IsNullOrEmpty(this.ImageName))
             {
-                //TODO:https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/106
-                ExecuteClientActionInOCS(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
-                    s => this.Channel.GetOSImage(s, this.ImageName),
-                    (operation, image) => func(operation, new[] { image }));
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
+                    (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
             }
             else
             {
-                ExecuteClientActionNewSM(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
+                    this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineImages.List(),
-                    (s,response) => response.Images.Select(r => ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(r, s)));
+                    (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
 
             }
         }

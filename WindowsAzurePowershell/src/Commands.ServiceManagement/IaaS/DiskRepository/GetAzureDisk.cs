@@ -12,83 +12,43 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
-    using WindowsAzure.ServiceManagement;
-    using Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(IEnumerable<DiskContext>))]
     public class GetAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the disk in the disk library.")]
         [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
+        public string DiskName { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            Func<Operation, IEnumerable<Disk>, object> func = (operation, disks) => disks.Select(d => new DiskContext
-            {
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status,
-                DiskName = d.Name,
-                Label = d.Label,
-                IsCorrupted = d.IsCorrupted,
-                AffinityGroup = d.AffinityGroup,
-                OS = d.OS,
-                Location = d.Location,
-                MediaLink = d.MediaLink,
-                DiskSizeInGB = d.LogicalDiskSizeInGB,
-                SourceImageName = d.SourceImageName,
-                AttachedTo = CreateRoleReference(d.AttachedTo)
-            }).ToList();
             if (!string.IsNullOrEmpty(this.DiskName))
             {
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/103
-                ExecuteClientActionInOCS(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
-                    s => this.Channel.GetDisk(s, this.DiskName),
-                    (operation, disk) => func(operation, new[] { disk }));
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName),
+                    (s, response) => this.ContextFactory<VirtualMachineDiskGetDiskResponse, DiskContext>(response, s));
             }
             else
             {
-                ExecuteClientActionNewSM(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
+                    this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineDisks.ListDisks(),
-                    (s, response) => response.Disks.Select(disk => ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
+                    (s, response) => response.Disks.Select(disk => this.ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
             }
-        }
-
-        private static DiskContext.RoleReference CreateRoleReference(RoleReference roleReference)
-        {
-            if (roleReference == null)
-            {
-                return null;
-            }
-
-            return new DiskContext.RoleReference
-            {
-                DeploymentName = roleReference.DeploymentName,
-                HostedServiceName = roleReference.HostedServiceName,
-                RoleName = roleReference.RoleName
-            };
         }
     }
 }

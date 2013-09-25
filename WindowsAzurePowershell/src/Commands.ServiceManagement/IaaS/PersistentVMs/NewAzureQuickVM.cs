@@ -313,8 +313,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     ExecuteClientActionNewSM(
                         parameter,
                         CommandRuntime + Resources.QuickVMCreateCloudService,
-                        () => this.ComputeClient.HostedServices.Create(parameter),
-                        (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+                        () => this.ComputeClient.HostedServices.Create(parameter));
 
                 }
 

@@ -17,24 +17,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySet
 {
     using System;
     using System.Management.Automation;
-    using IaaS;
-    using Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureAvailabilitySet"), OutputType(typeof(IPersistentVM))]
     public class SetAzureAvailabilitySet : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Availability set name.")]
         [ValidateNotNullOrEmpty]
-        public string AvailabilitySetName
-        {
-            get;
-            set;
-        }
+        public string AvailabilitySetName { get; set; }
 
         internal void ExecuteCommand()
         {
-            VM.GetInstance().AvailabilitySetName = AvailabilitySetName;
-            WriteObject(VM, true);
+            this.VM.GetInstance().AvailabilitySetName = this.AvailabilitySetName;
+            this.WriteObject(this.VM, true);
         }
 
         protected override void ProcessRecord()
@@ -42,11 +37,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySet
             try
             {
                 base.ProcessRecord();
-                ExecuteCommand();
+                this.ExecuteCommand();
             }
             catch (Exception ex)
             {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
     }

@@ -67,8 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter),
-                (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+                () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
         }
     }
 }

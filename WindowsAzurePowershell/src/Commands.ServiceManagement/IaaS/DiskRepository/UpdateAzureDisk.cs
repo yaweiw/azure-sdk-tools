@@ -12,81 +12,43 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
-    using Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.Compute;
+    using Microsoft.WindowsAzure.Management.Compute.Models;
 
     [Cmdlet(VerbsData.Update, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class UpdateAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the disk in the disk library.")]
         [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
+        public string DiskName { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Label of the disk.")]
         [ValidateNotNullOrEmpty]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         internal void ExecuteCommand()
         {
-            var disk = new Disk
-            {
-                Name = this.DiskName,
-                Label = this.Label
-            };
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/108
-            ExecuteClientActionInOCS(
-                disk,
-                CommandRuntime.ToString(),
-                s => this.Channel.UpdateDisk(s, this.DiskName, disk),
-                (op, responseDisk) => new DiskContext
-                {
-                    DiskName = responseDisk.Name,
-                    Label = responseDisk.Label,
-                    IsCorrupted = responseDisk.IsCorrupted,
-                    AffinityGroup = responseDisk.AffinityGroup,
-                    OS = responseDisk.OS,
-                    Location = responseDisk.Location,
-                    MediaLink = responseDisk.MediaLink,
-                    DiskSizeInGB = responseDisk.LogicalDiskSizeInGB,
-                    SourceImageName = responseDisk.SourceImageName,
-                    AttachedTo = CreateRoleReference(responseDisk.AttachedTo),
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationId = op.OperationTrackingId,
-                    OperationStatus = op.Status
-                });
+            ServiceManagementProfile.Initialize();
+
+            var parameters = new VirtualMachineDiskUpdateDiskParameters();
+            parameters.Name = this.DiskName;
+            parameters.Label = this.Label;
+
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineDisks.UpdateDisk(this.DiskName, parameters),
+                (s, response) => this.ContextFactory<VirtualMachineDiskUpdateDiskResponse, DiskContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
             this.ExecuteCommand();
-        }
-
-        private static DiskContext.RoleReference CreateRoleReference(RoleReference roleReference)
-        {
-            if (roleReference == null)
-            {
-                return null;
-            }
-
-            return new DiskContext.RoleReference
-            {
-                DeploymentName = roleReference.DeploymentName,
-                HostedServiceName = roleReference.HostedServiceName,
-                RoleName = roleReference.RoleName
-            };
         }
     }
 }
