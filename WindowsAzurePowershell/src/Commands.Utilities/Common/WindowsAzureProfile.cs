@@ -168,11 +168,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             get
             {
-                if (currentSubscription == null)
-                {
-                    currentSubscription = DefaultSubscription;
-                }
-                return currentSubscription;
+                return currentSubscription ?? DefaultSubscription;
             }
 
             set { currentSubscription = value; }
@@ -204,8 +200,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (!subscriptions.Contains(s))
             {
-                throw new ArgumentException(string.Format(Resources.CannotUpdateUnknownSubscription, s.Name,
-                                                          s.SubscriptionId));
+                throw new ArgumentException(
+                    string.Format(Resources.CannotUpdateUnknownSubscription, 
+                        s.Name, s.SubscriptionId));
             }
 
             if (s.IsDefault)
@@ -245,7 +242,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
 
-            if (DefaultSubscription == null && subscriptions.Count > 0) 
+            if (DefaultSubscription == null && subscriptions.Count > 0)
             {
                 subscriptions[0].IsDefault = true;
             }
@@ -333,6 +330,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     subscriptions.Add(s.ToAzureSubscription());
                 }
+            }
+        }
+
+        private void GuardKnownSubscription(WindowsAzureSubscription s)
+        {
+            if (!subscriptions.Contains(s))
+            {
+                throw new ArgumentException(
+                    string.Format(Resources.CannotUpdateUnknownSubscription, 
+                        s.Name,s.SubscriptionId));
             }
         }
     }

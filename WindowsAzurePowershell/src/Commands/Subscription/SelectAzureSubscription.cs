@@ -14,12 +14,95 @@
 
 namespace Microsoft.WindowsAzure.Commands.Subscription
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
-    [Cmdlet(VerbsCommon.Select, "AzureSubscription")]
+    using Utilities.Properties;
+
+    [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Current")]
     [OutputType(typeof(bool))]
     public class SelectAzureSubscriptionCommand : CmdletWithSubscriptionBase
     {
-         
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Current", HelpMessage = "Name of subscription to select")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Default", HelpMessage = "Name of subscription to select")]
+        [ValidateNotNullOrEmpty]
+        public string SubscriptionName { get; set; }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Current", HelpMessage = "Switch to set the chosen subscription as the current one")]
+        public SwitchParameter Current { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = "Default", HelpMessage = "Switch to set the chosen subscription as the default one")]
+        public SwitchParameter Default { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = "NoCurrent", HelpMessage = "Switch to clear the current subscription")]
+        public SwitchParameter NoCurrent { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = "NoDefault", HelpMessage = "Switch to clear the default subscription")]
+        public SwitchParameter NoDefault { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        public override void ExecuteCmdlet()
+        {
+            switch (ParameterSetName)
+            {
+                case "Current":
+                    SetCurrent();
+                    break;
+
+                case "Default":
+                    SetDefault();
+                    break;
+
+                case "NoCurrent":
+                    ClearCurrent();
+                    break;
+
+                case "NoDefault":
+                    ClearDefault();
+                    break;
+            }
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
+        }
+
+        public void SetCurrent()
+        {
+            Profile.CurrentSubscription = FindNamedSubscription();
+        }
+
+        public void SetDefault()
+        {
+            var newDefault = FindNamedSubscription();
+            newDefault.IsDefault = true;
+            Profile.UpdateSubscription(newDefault);
+        }
+
+        public void ClearCurrent()
+        {
+            Profile.CurrentSubscription = null;
+        }
+
+        public void ClearDefault()
+        {
+            var defaultSubscription = Profile.DefaultSubscription;
+            defaultSubscription.IsDefault = false;
+            Profile.UpdateSubscription(defaultSubscription);
+        }
+
+        private WindowsAzureSubscription FindNamedSubscription()
+        {
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            if (subscription == null)
+            {
+                throw new Exception(string.Format(Resources.InvalidSubscription, SubscriptionName));
+            }
+            return subscription;
+        }
     }
 }
