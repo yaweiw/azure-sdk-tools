@@ -27,13 +27,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
     using System.Web;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
     {
-        private CloudServiceClient cloudServiceClient;
+        private readonly CloudServiceClient cloudServiceClient;
 
         public const string WebsitesServiceVersion = "2012-12-01";
 
@@ -42,23 +41,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public Action<string> Logger { get; set; }
 
         /// <summary>
-        /// Creates new WebsitesClient.
+        /// Creates new WebsitesClient
         /// </summary>
-        /// <param name="subscription">The Windows Azure subscription data object</param>
+        /// <param name="subscription">Subscription containing websites to manipulate</param>
         /// <param name="logger">The logger action</param>
-        private WebsitesClient(SubscriptionData subscription, Action<string> logger)
-        {
-            var subscriptionId = subscription.SubscriptionId;
-            Logger = logger;
-
-            cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
-
-            WebsiteManagementClient =
-                CloudContext.Clients.CreateWebSiteManagementClient(new CertificateCloudCredentials(
-                    subscriptionId, subscription.Certificate), new Uri(subscription.ServiceEndpoint))
-                    .WithHandler(new StandardHeadersHandler());
-        }
-
         public WebsitesClient(WindowsAzureSubscription subscription, Action<string> logger)
         {
             Logger = logger;

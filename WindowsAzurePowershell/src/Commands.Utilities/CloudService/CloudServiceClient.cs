@@ -56,6 +56,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         public SubscriptionData Subscription { get; set; }
 
+        public WindowsAzureSubscription AzureSubscription { get; set; }
+
         public Action<string> DebugStream { get; set; }
 
         public Action<string> VerboseStream { get; set; }
@@ -470,7 +472,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             // If there's no storage service provided, try using the default one
             if (string.IsNullOrEmpty(storageServiceName))
             {
-                storageServiceName = Subscription.CurrentStorageAccount;
+                storageServiceName = AzureSubscription.CurrentStorageAccountName;
             }
 
             // Use default location if not location and affinity group provided
@@ -483,7 +485,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 slot,
                 location,
                 affinityGroup,
-                Subscription.SubscriptionName,
+                AzureSubscription.Name,
                 storageServiceName,
                 name,
                 cloudServiceProject.ServiceName,
@@ -510,33 +512,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="verboseStream">Action used to log detailed client progress</param>
         /// <param name="warningStream">Action used to log warning messages</param>
         public CloudServiceClient(
-            SubscriptionData subscription,
-            string currentLocation = null,
-            Action<string> debugStream = null,
-            Action<string> verboseStream = null,
-            Action<string> warningStream = null)
-            : this(currentLocation, debugStream, warningStream, verboseStream)
-        {
-            Subscription = subscription;
-            subscriptionId = subscription.SubscriptionId;
-            CurrentDirectory = currentLocation;
-
-            CloudBlobUtility = new CloudBlobUtility();
-
-            ManagementClient = CloudContext.Clients.CreateManagementClient(
-                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
-
-            StorageClient = CloudContext.Clients.CreateStorageManagementClient(
-                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
-
-            ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
-                new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
-        }
-
-        public CloudServiceClient(
             WindowsAzureSubscription subscription,
             string currentLocation = null,
             Action<string> debugStream = null,
@@ -544,6 +519,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Action<string> warningStream = null)
             : this(currentLocation, debugStream, warningStream, verboseStream)
         {
+            AzureSubscription = subscription;
             CloudBlobUtility = new CloudBlobUtility();
 
             ManagementClient = subscription.CreateClient<ManagementClient>();
@@ -561,13 +537,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         }
 
         internal CloudServiceClient(
-            SubscriptionData subscription,
+            WindowsAzureSubscription subscription,
             ManagementClient managementClient,
             StorageManagementClient storageManagementClient,
             ComputeManagementClient computeManagementClient)
             : this((string)null, null, null, null)
         {
-            Subscription = subscription;
+            AzureSubscription = subscription;
             subscriptionId = subscription.SubscriptionId;
             CurrentDirectory = null;
             DebugStream = null;

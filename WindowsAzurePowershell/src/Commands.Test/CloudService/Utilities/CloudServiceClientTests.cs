@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     [TestClass]
     public class CloudServiceClientTests : TestBase
     {
-        private SubscriptionData subscription;
+        private WindowsAzureSubscription subscription;
 
         private ClientMocks clientMocks;
 
@@ -101,13 +101,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     });
                 });
 
-            subscription = new SubscriptionData
+            subscription = new WindowsAzureSubscription
             {
-                Certificate = It.IsAny<X509Certificate2>(),
+                Certificate = new WindowsAzureCertificate(It.IsAny<X509Certificate2>()),
                 IsDefault = true,
-                ServiceEndpoint = "https://www.azure.com",
+                ManagementEndpoint = new Uri("https://www.azure.com"),
                 SubscriptionId = Guid.NewGuid().ToString(),
-                SubscriptionName = Data.Subscription1,
+                Name = Data.Subscription1,
             };
 
             cloudBlobUtilityMock = new Mock<CloudBlobUtility>();
@@ -364,13 +364,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 var cloudServiceProject = new CloudServiceProject(rootPath, null);
                 cloudServiceProject.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                subscription.CurrentStorageAccount = storageName;
+                subscription.CurrentStorageAccountName = storageName;
 
                 ExecuteInTempCurrentDirectory(rootPath, () => client.PublishCloudService(location: "West US"));
 
                 cloudBlobUtilityMock.Verify(f => f.UploadPackageToBlob(
                     clientMocks.StorageManagementClientMock.Object,
-                    subscription.CurrentStorageAccount,
+                    subscription.CurrentStorageAccountName,
                     It.IsAny<string>(),
                     It.IsAny<BlobRequestOptions>()), Times.Once());
             }           
