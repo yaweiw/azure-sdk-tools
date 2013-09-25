@@ -59,14 +59,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     _serviceEndpoint = CurrentServiceEndpoint;
                 }
-                else if (CurrentSubscription != null && !string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+                else if (CurrentAzureSubscription != null && CurrentAzureSubscription.ManagementEndpoint != null)
                 {
-                    _serviceEndpoint = CurrentSubscription.ServiceEndpoint;
+                    _serviceEndpoint = CurrentAzureSubscription.ManagementEndpoint.ToString();
                 }
                 else
                 {
                     // Use default endpoint
-                    _serviceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+                    _serviceEndpoint = Profile.CurrentEnvironment.ServiceEndpoint;
                 }
 
                 return _serviceEndpoint;
@@ -107,8 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (!string.IsNullOrEmpty(subscriptionName))
             {
-                GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
-                CurrentSubscription = globalSettingsManager.Subscriptions.Values.First(sub => sub.SubscriptionName == subscriptionName);
+                CurrentAzureSubscription = Profile.Subscriptions.First(s => s.Name == subscriptionName);
             }
         }
 
@@ -119,17 +118,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected virtual void InitChannelCurrentSubscription(bool force)
         {
-            if (CurrentSubscription == null)
+            if (CurrentAzureSubscription == null)
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscription);
             }
 
-            if (CurrentSubscription.Certificate == null)
+            if (CurrentAzureSubscription.Certificate == null)
             {
                 throw new ArgumentException(Resources.InvalidCurrentSuscriptionCertificate);
             }
 
-            if (string.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
+            if (string.IsNullOrEmpty(CurrentAzureSubscription.SubscriptionId))
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscriptionId);
             }
@@ -184,13 +183,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return ChannelHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
-                CurrentSubscription.Certificate,
+                CurrentAzureSubscription.Certificate,
                 new HttpRestMessageInspector(WriteDebug));
         }
 
         protected void RetryCall(Action<string> call)
         {
-            RetryCall(CurrentSubscription.SubscriptionId, call);
+            RetryCall(CurrentAzureSubscription.SubscriptionId, call);
         }
 
         protected void RetryCall(string subsId, Action<string> call)
@@ -267,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 try
                 {
-                    SubscriptionData currentSubscription = this.GetCurrentSubscription();
+                    WindowsAzureSubscription currentSubscription = Profile.CurrentSubscription;
 
                     operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
 
