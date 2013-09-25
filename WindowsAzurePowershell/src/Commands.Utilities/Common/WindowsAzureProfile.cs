@@ -192,7 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             subscriptions.Remove(s);
 
-            if (s.IsDefault)
+            if (s.IsDefault && subscriptions.Count > 0)
             {
                 subscriptions[0].IsDefault = true;
             }
