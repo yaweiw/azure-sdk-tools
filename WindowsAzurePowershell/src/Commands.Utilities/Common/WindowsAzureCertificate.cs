@@ -35,6 +35,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             certificate = new X509Certificate2(Convert.FromBase64String(managementCertificateString), string.Empty);
         }
 
+        public WindowsAzureCertificate(X509Certificate2 certificate)
+        {
+            this.certificate = certificate;
+        }
+
         /// <summary>
         /// Implicit conversion operator to X509Certificate2 type
         /// so that you can use this class anywhere you use

@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         public override void ExecuteCmdlet()
         {
             CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
-                CurrentSubscription,
+                CurrentAzureSubscription,
                 SessionState.Path.CurrentLocation.Path,
                 WriteDebug,
                 WriteVerbose,
