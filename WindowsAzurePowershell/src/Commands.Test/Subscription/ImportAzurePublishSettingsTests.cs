@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ImportAzurePublishSettingsNewTests
+    public class ImportAzurePublishSettingsTests
     {
         private WindowsAzureProfile profile;
         private MockCommandRuntime mockCommandRuntime;
