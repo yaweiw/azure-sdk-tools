@@ -244,13 +244,9 @@
     <Compile Include="Store\SetAzureStoreAddOnTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subscription\GetSubscriptionNewTest.cs" />
-    <Compile Include="Subscription\GetSubscriptionTest.cs" />
     <Compile Include="Subscription\GetAzurePublishSettingsFileTests.cs" />
     <Compile Include="Subscription\ImportAzurePublishSettingsNewTests.cs" />
-    <Compile Include="Subscription\ImportAzurePublishSettingsTest.cs" />
     <Compile Include="Common\RemoveSubscriptionTest.cs" />
-    <Compile Include="Subscription\SelectSubscriptionTest.cs" />
-    <Compile Include="Subscription\SetSubscriptionTest.cs" />
     <Compile Include="Common\CmdletSubscriptionExtensionsTest.cs" />
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
