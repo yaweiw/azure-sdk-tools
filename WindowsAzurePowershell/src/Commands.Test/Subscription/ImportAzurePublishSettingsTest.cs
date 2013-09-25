@@ -42,9 +42,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportSubscriptionProcess()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
@@ -64,9 +64,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportSubscriptionPublishSettingsOnlyProcess()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
@@ -82,9 +82,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportSubscriptionPublishSettingsSecondVersionOnlyProcess()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             cmdlet.ImportSubscriptionFile(
@@ -102,9 +102,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportSubscriptionPublishSettingsOnlyMultipleTimesProcess()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             cmdlet.ImportSubscriptionFile(
@@ -132,9 +132,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportPublishSettingsWithPassingDirectory()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir";
@@ -156,9 +156,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportPublishSettingsWithoutPassingDirectory()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir";
@@ -182,9 +182,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportPublishSettingsWithNoPublishSettingsFilesFound()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir3";
@@ -203,9 +203,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void TestImportPublishSettingsWithMultiplePublishSettingsFilesFound()
         {
             MockCommandRuntime mockCommandRuntime;
-            ImportAzurePublishSettingsCommand cmdlet;
+            ImportAzurePublishSettingsOldCommand cmdlet;
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet = new ImportAzurePublishSettingsOldCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
             cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir2";

@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 File.Copy(Data.ValidSubscriptionsData[i], targetFile, true);
                 var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
                 MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-                var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
+                var removeSubscriptionCommand = new RemoveAzureSubscriptionOldCommand();
                 removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub1", targetFile);
 
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 File.Copy(Data.ValidSubscriptionsData[i], targetFile, true);
                 var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
                 MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-                var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
+                var removeSubscriptionCommand = new RemoveAzureSubscriptionOldCommand();
                 removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub2", targetFile);
 
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
                 MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
                 
-                var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
+                var removeSubscriptionCommand = new RemoveAzureSubscriptionOldCommand();
                 removeSubscriptionCommand.SetCurrentSubscription(globalSettingsManager.Subscriptions["mysub1"]);
                 removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub1", targetFile);

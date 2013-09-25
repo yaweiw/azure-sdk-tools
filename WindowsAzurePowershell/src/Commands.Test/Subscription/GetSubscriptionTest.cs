@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            var importSubscriptionCommand = new ImportAzurePublishSettingsOldCommand();
             importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            var importSubscriptionCommand = new ImportAzurePublishSettingsOldCommand();
             importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            var importSubscriptionCommand = new ImportAzurePublishSettingsOldCommand();
             importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         }
     }
 
-    public class GetSubscriptionCommandStub : GetAzureSubscriptionCommand
+    public class GetSubscriptionCommandStub : GetAzureSubscriptionOldCommand
     {
         public readonly IList<SubscriptionData> Messages = new List<SubscriptionData>();
 
