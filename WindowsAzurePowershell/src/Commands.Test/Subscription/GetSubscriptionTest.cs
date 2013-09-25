@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 {
     using System.Linq;
-    using System.Management.Automation;
     using Commands.Subscription;
     using Commands.Utilities.Common;
     using Moq;
@@ -23,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetSubscriptionNewTest
+    public class GetSubscriptionTest
     {
         private WindowsAzureProfile profile;
         private MockCommandRuntime mockCommandRuntime;
