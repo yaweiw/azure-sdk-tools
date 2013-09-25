@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ManagementEndpoint.ToString();
             IsDefault = inMemorySubscription.IsDefault;
-            ManagementCertificate = inMemorySubscription.Certificate.CertificateString;
+            ManagementCertificate = inMemorySubscription.Certificate.Thumbprint;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
         }
 
@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionId = this.SubscriptionId,
                 ManagementEndpoint = new Uri(ManagementEndpoint),
                 IsDefault = this.IsDefault,
-                Certificate = new WindowsAzureCertificate(ManagementCertificate),
+                Certificate = WindowsAzureCertificate.FromThumbprint(ManagementCertificate),
                 CurrentStorageAccountName = CloudStorageAccount
             };
         }

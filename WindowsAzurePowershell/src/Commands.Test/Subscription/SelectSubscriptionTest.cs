@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var selectSubscriptionCommand = new SelectAzureSubscriptionCommand();
+            var selectSubscriptionCommand = new SelectAzureSubscriptionOldCommand();
 
             // Check that current subscription is the default one
             Assert.AreEqual("Windows Azure Sandbox 9-220", selectSubscriptionCommand.GetCurrentSubscription().SubscriptionName);
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var globalSettingsManager = GlobalSettingsManager.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var selectSubscriptionCommand = new SelectAzureSubscriptionCommand();
+            var selectSubscriptionCommand = new SelectAzureSubscriptionOldCommand();
 
             // Check that current subscription is the default one
             Assert.AreEqual("Windows Azure Sandbox 9-220", selectSubscriptionCommand.GetCurrentSubscription().SubscriptionName);
