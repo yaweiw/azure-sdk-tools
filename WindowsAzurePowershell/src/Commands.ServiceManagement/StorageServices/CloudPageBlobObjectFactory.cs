@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Storage.RetryPolicies;
     using Sync.Download;
     using Sync.Upload;
-    using WindowsAzure.ServiceManagement;
 
     public class CloudPageBlobObjectFactory : ICloudPageBlobObjectFactory
     {

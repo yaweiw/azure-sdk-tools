@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using AutoMapper;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
@@ -27,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public RemoveAzureVMCommand()
-        {
-        }
-
-        public RemoveAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the role to remove.")]
         [ValidateNotNullOrEmpty]
         public string Name

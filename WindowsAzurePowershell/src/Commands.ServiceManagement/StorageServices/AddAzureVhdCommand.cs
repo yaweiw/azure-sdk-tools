@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Commands.Utilities.Common;
     using Commands.ServiceManagement.Model;
     using Sync.Download;
-    using WindowsAzure.ServiceManagement;
     using Commands.ServiceManagement.Properties;
 
 
@@ -31,15 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     public class AddAzureVhdCommand : ServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
-
-        public AddAzureVhdCommand()
-        {
-        }
-
-        public AddAzureVhdCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName="Vhd", HelpMessage = "Uri to blob")]
         [ValidateNotNullOrEmpty]

@@ -16,7 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Management.Storage.Models;
 
     /// <summary>
     /// Updates the label and/or the description for a storage account in Windows Azure.
@@ -24,15 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Set, "AzureStorageAccount"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureStorageAccountCommand()
-        {
-        }
-
-        public SetAzureStorageAccountCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         /// <summary>
         /// The name for the storage account. (Required)
         /// </summary>
@@ -68,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
         }
 
         [Parameter(HelpMessage = "Enable or Disable Geo Replication")]
-        public bool? GeoReplicationEnabled        
+        public bool? GeoReplicationEnabled
         {
             get;
             set;
@@ -76,14 +68,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         public void SetStorageAccountProcess()
         {
-            var upstorageinput = new UpdateStorageServiceInput
+            var upstorageinput = new StorageAccountUpdateParameters
             {
                 GeoReplicationEnabled = GeoReplicationEnabled,
                 Description = this.Description,
                 Label = this.Label
             };
 
-            ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput));
+            ExecuteClientActionNewSM(
+                upstorageinput,
+                CommandRuntime.ToString(),
+                () => this.StorageClient.StorageAccounts.Update(this.StorageAccountName, upstorageinput),
+                (s, r) =>
+                {
+                    return new ManagementOperationContext
+                    {
+                        OperationId = s.Id,
+                        OperationStatus = s.Status.ToString()
+                    };
+                });
         }
 
         protected override void OnProcessRecord()

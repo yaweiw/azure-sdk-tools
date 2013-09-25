@@ -48,10 +48,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
         private void AssertExpectedValue(TestData expected)
         {
-            var command = new SetAzureStorageAccountCommand(channel)
+            var command = new SetAzureStorageAccountCommand
             {
-                CommandRuntime = new MockCommandRuntime(),
                 ShareChannel = true,
+                Channel = channel,
+                CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData {SubscriptionId = expected.SubscriptionId},
                 StorageAccountName = expected.StorageServiceName,
                 Description = expected.UpdateStorageServiceInput.Description,

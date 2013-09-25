@@ -25,24 +25,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
     using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
     using RoleInstance = Management.Compute.Models.RoleInstance;
 
-
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         public GetAzureVMCommand()
         {
-        }
-
-        public GetAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
