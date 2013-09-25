@@ -300,6 +300,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return operation;
         }
 
+        //TODO: Input argument is not used and should probably be removed.
         protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action, Func<OperationStatusResponse, TResult, object> contextFactory) where TResult : OperationResponse
         {
             TResult result = null;
@@ -333,6 +334,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     WriteObject(context, true);
                 }
             }
+        }
+        protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action) where TResult : OperationResponse
+        {
+            this.ExecuteClientActionNewSM(input, operationDescription, action, (s, response) => this.ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
         }
 
         protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<Operation, TResult, object> contextFactory) where TResult : class

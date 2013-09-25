@@ -162,8 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     ExecuteClientActionNewSM(
                         parameter,
                         CommandRuntime + " - Create Cloud Service",
-                        () => this.ComputeClient.HostedServices.Create(parameter),
-                        (s, response) => ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+                        () => this.ComputeClient.HostedServices.Create(parameter));
                 }
             }
             catch (CloudException ex)

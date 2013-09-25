@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
         // are handled for the roleName passed in.
         // This function also verifies that the RoleInstance exists before adding the
         // RoleName to the RoleNamesCollection.
-        public static RoleNamesCollection GetRoleNames(RoleInstanceList roleInstanceList, string roleName)
+        public static RoleNamesCollection GetRoleNames(IList<RoleInstance> roleInstanceList, string roleName)
         {
             var roleNamesCollection = new RoleNamesCollection();
             if (!string.IsNullOrEmpty(roleName))

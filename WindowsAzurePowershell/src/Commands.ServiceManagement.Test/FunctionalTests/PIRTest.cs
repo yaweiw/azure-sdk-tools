@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
             image = Utilities.GetUniqueShortName(imageNamePrefix);
-
+            
             vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             try

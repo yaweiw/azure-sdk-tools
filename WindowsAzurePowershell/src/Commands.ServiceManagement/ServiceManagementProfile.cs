@@ -60,6 +60,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.ListenerType, o => o.MapFrom(r => r.Protocol));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, IList<NSM.WindowsRemoteManagementListener>>();
 
+            Mapper.CreateMap<Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList, IList<NSM.RoleInstance>>();
+
             //NewSM to SM mapping
             Mapper.CreateMap<NSM.LoadBalancerProbe, PVM.LoadBalancerProbe>();
             Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>()
@@ -78,6 +80,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.WindowsRemoteManagementListener, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.ListenerType.ToString()));
             Mapper.CreateMap<IList<NSM.WindowsRemoteManagementListener>, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
+
+            Mapper.CreateMap<IList<NSM.RoleInstance>, Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList>();
 
             //Common mapping
             Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
@@ -136,8 +140,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Disk mapping
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/104
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/105
             Mapper.CreateMap<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
@@ -145,22 +147,56 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails));
             Mapper.CreateMap<VirtualMachineDiskListResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
+
+            Mapper.CreateMap<VirtualMachineDiskGetDiskResponse, DiskContext>()
+                  .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails))
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
+                  .ForMember(c => c.IsCorrupted, o => o.MapFrom(r => r.IsCorrupted))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType));
+            Mapper.CreateMap<VirtualMachineDiskGetDiskResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
+
+            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse, DiskContext>()
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
+                  .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails));
+            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
+
+            Mapper.CreateMap<VirtualMachineDiskUpdateDiskResponse, DiskContext>()
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
+
             Mapper.CreateMap<OperationStatusResponse, DiskContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Image mapping
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/107
             Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri));
+
+            Mapper.CreateMap<VirtualMachineImageGetResponse, OSImageContext>()
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))          
+                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)));
+
             Mapper.CreateMap<OperationStatusResponse, OSImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
+            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse, OSImageContext>()
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
+            
             //Storage mapping
             Mapper.CreateMap<StorageServiceGetResponse, StorageServicePropertiesOperationContext>()
                   .ForMember(c => c.StorageAccountName, o => o.MapFrom(r => r.ServiceName));

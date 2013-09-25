@@ -72,8 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             };
             ExecuteClientActionNewSM(parameters, 
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.HostedServices.Update(this.ServiceName, parameters),
-                (s, r) => ContextFactory<OperationResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.HostedServices.Update(this.ServiceName, parameters));
             
         }
     }

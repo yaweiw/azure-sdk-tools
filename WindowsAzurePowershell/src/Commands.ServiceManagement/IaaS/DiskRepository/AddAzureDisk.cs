@@ -18,95 +18,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Model;
-    using WindowsAzure.ServiceManagement;
-
+    using WindowsAzure.Management.Compute;
+    using WindowsAzure.Management.Compute.Models;
 
     [Cmdlet(VerbsCommon.Add, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class AddAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the disk in the disk library.")]
         [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
+        public string DiskName { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Location of the physical blob backing the disk. This link refers to a blob in a storage account.")]
         [ValidateNotNullOrEmpty]
-        public string MediaLocation
-        {
-            get;
-            set;
-        }
+        public string MediaLocation { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Label of the disk.")]
         [ValidateNotNullOrEmpty]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "OS on Disk.")]
         [ValidateNotNullOrEmpty]
-        public string OS
-        {
-            get;
-            set;
-        }
+        public string OS { get; set; }
 
         public void ExecuteCommand()
         {
-            var disk = new Disk
+            var parameters = new VirtualMachineDiskCreateDiskParameters
             {
                 Name = this.DiskName,
-                MediaLink = new Uri(this.MediaLocation),
-                OS = this.OS,
+                MediaLinkUri = new Uri(this.MediaLocation),
+                OperatingSystemType = this.OS,
                 Label = string.IsNullOrEmpty(this.Label) ? this.DiskName : this.Label
             };
-            
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/101
-            ExecuteClientActionInOCS(
-                disk, 
-                CommandRuntime.ToString(), 
-                s => this.Channel.CreateDisk(s, disk), 
-                (op,responseDisk) => new DiskContext
-                {
-                    DiskName = responseDisk.Name,
-                    Label = responseDisk.Label,
-                    IsCorrupted = responseDisk.IsCorrupted,
-                    AffinityGroup = responseDisk.AffinityGroup,
-                    OS = responseDisk.OS,
-                    Location = responseDisk.Location,
-                    MediaLink = responseDisk.MediaLink,
-                    DiskSizeInGB = responseDisk.LogicalDiskSizeInGB,
-                    SourceImageName = responseDisk.SourceImageName,
-                    AttachedTo = CreateRoleReference(responseDisk.AttachedTo),
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationId = op.OperationTrackingId,
-                    OperationStatus = op.Status
-                });
+
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineDisks.CreateDisk(parameters),
+                (s, response) => this.ContextFactory<VirtualMachineDiskCreateDiskResponse, DiskContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
             this.ExecuteCommand();
-        }
-
-        private static DiskContext.RoleReference CreateRoleReference(RoleReference roleReference)
-        {
-            if (roleReference == null)
-            {
-                return null;
-            }
-
-            return new DiskContext.RoleReference
-            {
-                DeploymentName = roleReference.DeploymentName,
-                HostedServiceName = roleReference.HostedServiceName,
-                RoleName = roleReference.RoleName
-            };
         }
     }
 }

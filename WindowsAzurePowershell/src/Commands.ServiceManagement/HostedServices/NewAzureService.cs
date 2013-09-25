@@ -81,8 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             };
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.HostedServices.Create(parameter),
-                (s, r) => ContextFactory<OperationResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.HostedServices.Create(parameter));
         }
 
         protected override void OnProcessRecord()

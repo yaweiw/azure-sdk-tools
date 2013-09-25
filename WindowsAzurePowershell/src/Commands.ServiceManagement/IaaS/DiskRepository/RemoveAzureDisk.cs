@@ -14,63 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
-
+    using Microsoft.WindowsAzure.Management.Compute;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDisk"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the data disk in the disk library to remove.")]
         [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
+        public string DiskName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
-        public SwitchParameter DeleteVHD
-        {
-            get;
-            set;
-        }
+        public SwitchParameter DeleteVHD { get; set; }
 
         public void RemoveDiskProcess()
         {
-            try
-            {            
-                Uri mediaLink = null;
-                if (this.DeleteVHD.IsPresent)
-                {
-                    //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/103
-                    // Get the location of the underlying VHD
-                    using (new OperationContextScope(Channel.ToContextChannel()))
-                    {
-                        var disk = this.RetryCall(s => this.Channel.GetDisk(s, this.DiskName));
-                        mediaLink = disk.MediaLink;
-                    }
-                }
-
-                // Remove the disk from the disk repository
-                using (new OperationContextScope(Channel.ToContextChannel()))
-                {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName));
-                }
-
-                if (this.DeleteVHD.IsPresent)
-                {
-                    // Remove the underlying VHD from the blob storage
-                    Commands.ServiceManagement.Helpers.Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
-                }
-            }
-            catch (ServiceManagementClientException ex)
-            {
-                this.WriteExceptionDetails(ex);
-            }
+            ServiceManagementProfile.Initialize();
+        
+            // Remove the disk from the disk repository
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineDisks.DeleteDisk(this.DiskName, this.DeleteVHD.IsPresent));
         }
 
         protected override void OnProcessRecord()
