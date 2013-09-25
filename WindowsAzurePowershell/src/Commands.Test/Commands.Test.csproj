@@ -219,6 +219,7 @@
     <Compile Include="CloudService\Utilities\ServiceSettingsTests.cs" />
     <Compile Include="Common\DeltaMapperTests.cs" />
     <Compile Include="Common\ProfileStorageTests.cs" />
+    <Compile Include="Common\ProfileSubscriptionChangeTests.cs" />
     <Compile Include="Common\PublishSettingImporterTests.cs" />
     <Compile Include="Common\ProfileSubscriptionImportTests.cs" />
     <Compile Include="Common\WindowsAzureEnvironmentTests.cs" />
