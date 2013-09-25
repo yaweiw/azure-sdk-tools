@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// New Windows Azure Service Remote Desktop Extension.

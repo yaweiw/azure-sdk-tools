@@ -13,6 +13,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
@@ -45,6 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected string PublicConfiguration { get; set; }
         protected string PrivateConfiguration { get; set; }
         protected Deployment Deployment { get; set; }
+        protected DeploymentGetResponse DeploymentGetResponse { get; set; }
 
         public virtual string ServiceName { get; set; }
         public virtual string Slot { get; set; }
@@ -164,6 +166,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                          where d.Name.LocalName == element
                          select d.Descendants().Any() ? d.ToString() : d.Value;
             return result.FirstOrDefault();
+        }
+
+        protected string GetPublicConfigValue(HostedServiceListExtensionsResponse.Extension extension, string element)
+        {
+            return extension == null ? string.Empty : GetConfigValue(extension.PublicConfiguration, element);
         }
 
         protected string GetPublicConfigValue(HostedServiceExtension extension, string element)

@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Set Windows Azure Service Diagnostics Extension.
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 PrivateConfiguration = PrivateConfiguration,
                 Roles = new ExtensionRoleList(Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)) : Enumerable.Repeat(new ExtensionRole(), 1))
             };
-            var extConfig = ExtensionManager.InstallExtension(context, Slot, Deployment.ExtensionConfiguration);
+            var extConfig = ExtensionManager.InstallExtension(context, Slot, ExtensionManager.Convert(Deployment.ExtensionConfiguration));
             ChangeDeployment(extConfig);
         }
 

@@ -17,7 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
 
     /// <summary>
     /// Get Windows Azure Service Diagnostics Extension.
@@ -51,24 +53,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ValidateParameters();
-            ExecuteClientActionInOCS(null,
+            ExecuteClientActionNewSM(
+                null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName),
-                (op, extensions) =>
+                () => this.ComputeClient.HostedServices.ListExtensions(this.ServiceName),
+                (s, r) =>
                 {
-                    var extensionRoleList = (from r in Deployment.RoleList
-                                             select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
+                    var extensionRoleList = (from dr in Deployment.RoleList
+                                             select new ExtensionRole(dr.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
+
                     return from role in extensionRoleList
-                           from extension in extensions
+                           from extension in r.Extensions
                            where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new DiagnosticExtensionContext
                            {
-                               OperationId = op.OperationTrackingId,
+                               OperationId = s.Id,
                                OperationDescription = CommandRuntime.ToString(),
-                               OperationStatus = op.Status,
+                               OperationStatus = s.Status.ToString(),
                                Extension = extension.Type,
-                               ProviderNameSpace = extension.ProviderNameSpace,
+                               ProviderNameSpace = extension.ProviderNamespace,
                                Id = extension.Id,
                                Role = role,
                                StorageAccountName = GetPublicConfigValue(extension, StorageNameElemStr),

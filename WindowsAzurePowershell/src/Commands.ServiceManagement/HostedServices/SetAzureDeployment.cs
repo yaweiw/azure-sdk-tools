@@ -18,14 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
+    using Utilities.Common;
     using Extensions;
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
     using Properties;
-    using Utilities.Common;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
@@ -84,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Upgrade", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         [Parameter(Position = 3, Mandatory = true, ParameterSetName = "Config", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Status", ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
-        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Staging, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production, IgnoreCase = true)]
+        [ValidateSet(Model.PersistentVMModel.DeploymentSlotType.Staging, Model.PersistentVMModel.DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -92,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual | Simultaneous")]
-        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Auto, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Manual, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Simultaneous, IgnoreCase = true)]
+        [ValidateSet(Model.PersistentVMModel.UpgradeType.Auto, Model.PersistentVMModel.UpgradeType.Manual, Model.PersistentVMModel.UpgradeType.Simultaneous, IgnoreCase = true)]
         public string Mode
         {
             get;
@@ -122,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 3, Mandatory = true, ParameterSetName = "Status", HelpMessage = "New deployment status. Running | Suspended")]
-        [ValidateSet(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentStatus.Running, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentStatus.Suspended, IgnoreCase = true)]
+        [ValidateSet(Model.PersistentVMModel.DeploymentStatus.Running, Model.PersistentVMModel.DeploymentStatus.Suspended, IgnoreCase = true)]
         public string NewStatus
         {
             get;
@@ -145,62 +143,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 configString = General.GetConfiguration(Configuration);
             }
 
-            Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration extConfig = null;
+            ExtensionConfiguration extConfig = null;
             if (ExtensionConfiguration != null)
             {
-                var roleList = (from c in ExtensionConfiguration
-                                where c != null
-                                from r in c.Roles
-                                select r).GroupBy(r => r.ToString()).Select(g => g.First());
-
-                foreach (var role in roleList)
+                string errorConfigInput = null;
+                if (!ExtensionManager.Validate(ExtensionConfiguration, out errorConfigInput))
                 {
-                    var result = from c in ExtensionConfiguration
-                                 where c != null && c.Roles.Any(r => r.ToString() == role.ToString())
-                                 select string.Format("{0}.{1}", c.ProviderNameSpace, c.Type);
-                    foreach (var s in result)
-                    {
-                        if (result.Count(t => t == s) > 1)
-                        {
-                            throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, s));
-                        }
-                    }
+                    throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, errorConfigInput));
                 }
 
-                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-                ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
-                ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
                 {
-                    if (context != null)
+                    if (context != null && context.X509Certificate != null)
                     {
-                        if (context.X509Certificate != null)
-                        {
-                            var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
-                            ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
-                        }
-
-                        Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
-                        foreach (var r in currentConfig.AllRoles)
-                        {
-                            if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(r.Id))
-                            {
-                                configBuilder.AddDefault(r.Id);
-                            }
-                        }
-                        foreach (var r in currentConfig.NamedRoles)
-                        {
-                            foreach (var e in r.Extensions)
-                            {
-                                if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(e.Id))
-                                {
-                                    configBuilder.Add(r.RoleName, e.Id);
-                                }
-                            }
-                        }
+                        ExecuteClientActionNewSM(
+                            null,
+                            string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint),
+                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtils.Create(context.X509Certificate)),
+                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
                     }
                 }
-                extConfig = configBuilder.ToConfiguration();
+
+                ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
+                extConfig = extensionMgr.Add(ExtensionConfiguration, this.Slot);
             }
 
             // Upgrade Parameter Set
@@ -226,15 +191,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.UploadingPackage);
                     WriteProgress(progress);
                     removePackage = true;
-                    InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.Channel, storageName, s, Package, null)));
+                    InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.StorageClient, storageName, Package, null)));
                 }
 
-                var upgradeDeploymentInput = new UpgradeDeploymentInput
+                var upgradeDeploymentInput = new DeploymentUpgradeParameters
                 {
-                    Mode = Mode ?? Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.UpgradeType.Auto,
+                    Mode = string.IsNullOrEmpty(Mode) ? DeploymentUpgradeMode.Auto : (DeploymentUpgradeMode)Enum.Parse(typeof(DeploymentUpgradeMode), Mode, true),
                     Configuration = configString,
                     ExtensionConfiguration = extConfig,
-                    PackageUrl = packageUrl,
+                    PackageUri = packageUrl,
                     Label = Label ?? ServiceName,
                     Force = Force.IsPresent
                 };
@@ -244,47 +209,76 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     upgradeDeploymentInput.RoleToUpgrade = RoleName;
                 }
 
-                using (new OperationContextScope(Channel.ToContextChannel()))
+                InvokeInOperationContext(() =>
                 {
                     try
                     {
-                        ExecuteClientAction(upgradeDeploymentInput, CommandRuntime.ToString(), s => this.Channel.UpgradeDeploymentBySlot(s, this.ServiceName, this.Slot, upgradeDeploymentInput));
+                        Func<ComputeOperationStatusResponse> action =
+                            () => this.ComputeClient.Deployments.UpgradeBySlot(
+                                this.ServiceName,
+                                (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                                upgradeDeploymentInput);
+
+                        ExecuteClientActionNewSM(
+                            upgradeDeploymentInput,
+                            CommandRuntime.ToString(),
+                            action,
+                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+
                         if (removePackage == true)
                         {
                             this.RetryCall(s =>
                             AzureBlob.DeletePackageFromBlob(
-                                    this.Channel,
+                                    this.StorageClient,
                                     storageName,
-                                    s,
                                     packageUrl));
                         }
                     }
-                    catch (ServiceManagementClientException ex)
+                    catch (CloudException ex)
                     {
                         this.WriteExceptionDetails(ex);
                     }
-                }
+                });
             }
             else if (string.Compare(this.ParameterSetName, "Config", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Config parameter set 
-                var changeConfiguration = new ChangeConfigurationInput
+                // Config parameter set
+                var changeDeploymentStatusParams = new DeploymentChangeConfigurationParameters
                 {
                     Configuration = configString,
                     ExtensionConfiguration = extConfig
                 };
 
-                ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, changeConfiguration));
+                Func<ComputeOperationStatusResponse> action = 
+                    () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
+                        this.ServiceName,
+                        (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                        changeDeploymentStatusParams);
+
+                ExecuteClientActionNewSM(
+                    changeDeploymentStatusParams,
+                    CommandRuntime.ToString(),
+                    action,
+                    (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
             }
             else
             {
                 // Status parameter set
-                var updateDeploymentStatus = new UpdateDeploymentStatusInput
+                var updateDeploymentStatusParams = new DeploymentUpdateStatusParameters
                 {
-                    Status = this.NewStatus
+                    Status = (UpdatedDeploymentStatus)Enum.Parse(typeof(UpdatedDeploymentStatus), this.NewStatus, true)
                 };
 
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UpdateDeploymentStatusBySlot(s, this.ServiceName, this.Slot, updateDeploymentStatus));
+                Func<ComputeOperationStatusResponse> action = () => this.ComputeClient.Deployments.UpdateStatusByDeploymentSlot(
+                    this.ServiceName,
+                    (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                    updateDeploymentStatusParams);
+
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    action,
+                    (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
             }
         }
 
