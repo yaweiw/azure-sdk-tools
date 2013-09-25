@@ -259,18 +259,18 @@
     <Compile Include="Store\NewAzureStoreAddOn.cs" />
     <Compile Include="Store\RemoveAzureStoreAddOn.cs" />
     <Compile Include="Store\SetAzureStoreAddOn.cs" />
-    <Compile Include="Subscription\RemoveAzureSubscriptionNew.cs" />
+    <Compile Include="Subscription\RemoveAzureSubscription.cs" />
     <Compile Include="Subscription\GetAzurePublishSettingsFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Subscription\GetAzureSubscriptionOld.cs" />
     <Compile Include="Subscription\GetAzureSubscription.cs" />
-    <Compile Include="Subscription\GetAzureSubscriptionNew.cs" />
+    <Compile Include="Subscription\ImportAzurePublishSettingsOld.cs" />
     <Compile Include="Subscription\ImportAzurePublishSettings.cs" />
-    <Compile Include="Subscription\ImportAzurePublishSettingsNew.cs" />
-    <Compile Include="Subscription\RemoveAzureSubscription.cs" />
+    <Compile Include="Subscription\RemoveAzureSubscriptionOld.cs" />
     <Compile Include="Subscription\SelectAzureSubscription.cs" />
     <Compile Include="Subscription\SetAzureSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

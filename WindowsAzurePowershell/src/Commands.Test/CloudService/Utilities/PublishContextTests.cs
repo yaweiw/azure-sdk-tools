@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
         private MockCommandRuntime mockCommandRuntime;
 
-        private ImportAzurePublishSettingsCommand importCmdlet;
+        private ImportAzurePublishSettingsOldCommand importCmdlet;
 
         /// <summary>
         /// When running this test double check that the certificate used in Azure.PublishSettings has not expired.
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             configPath = service.Paths.CloudConfiguration;
             settings = ServiceSettingsTestData.Instance.Data[ServiceSettingsState.Default];
             mockCommandRuntime = new MockCommandRuntime();
-            importCmdlet = new ImportAzurePublishSettingsCommand();
+            importCmdlet = new ImportAzurePublishSettingsOldCommand();
             importCmdlet.CommandRuntime = mockCommandRuntime;
             importCmdlet.ImportSubscriptionFile(Data.ValidPublishSettings.First(), null);
             importCmdlet.SubscriptionClient = CreateMockSubscriptionClient();

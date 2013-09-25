@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 var publishSettingsFile = Data.ValidPublishSettings[i];
 
                 // Prepare
-                new ImportAzurePublishSettingsCommand().ImportSubscriptionFile(publishSettingsFile, null);
+                new ImportAzurePublishSettingsOldCommand().ImportSubscriptionFile(publishSettingsFile, null);
                 GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
                 PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(GlobalPathInfo.GlobalSettingsDirectory, Resources.PublishSettingsFileName));
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsFile);

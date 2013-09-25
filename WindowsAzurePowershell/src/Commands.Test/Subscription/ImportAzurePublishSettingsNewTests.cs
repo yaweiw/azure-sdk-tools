@@ -29,14 +29,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     {
         private WindowsAzureProfile profile;
         private MockCommandRuntime mockCommandRuntime;
-        private ImportAzurePublishSettingsNewCommand cmdlet;
+        private ImportAzurePublishSettingsCommand cmdlet;
 
         [TestInitialize]
         public void Setup()
         {
             mockCommandRuntime = new MockCommandRuntime();
             profile = new WindowsAzureProfile(new Mock<IProfileStore>().Object);
-            cmdlet = new ImportAzurePublishSettingsNewCommand
+            cmdlet = new ImportAzurePublishSettingsCommand
             {
                 Profile = profile,
                 CommandRuntime = mockCommandRuntime

@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     {
         private WindowsAzureProfile profile;
         private MockCommandRuntime mockCommandRuntime;
-        private GetAzureSubscriptionNewCommand cmdlet;
+        private GetAzureSubscriptionCommand cmdlet;
 
         [TestInitialize]
         public void Setup()
@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             mockCommandRuntime = new MockCommandRuntime();
 
-            cmdlet = new GetAzureSubscriptionNewCommand
+            cmdlet = new GetAzureSubscriptionCommand
             {
                 Profile = profile,
                 CommandRuntime = mockCommandRuntime
