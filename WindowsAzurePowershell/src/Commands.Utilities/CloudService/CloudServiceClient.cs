@@ -44,8 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
     public class CloudServiceClient : ICloudServiceClient
     {
-        private string subscriptionId;
-
         internal CloudBlobUtility CloudBlobUtility { get; set; }
 
         internal ManagementClient ManagementClient { get; set; }
@@ -54,9 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         internal ComputeManagementClient ComputeClient { get; set; }
 
-        public SubscriptionData Subscription { get; set; }
-
-        public WindowsAzureSubscription AzureSubscription { get; set; }
+        public WindowsAzureSubscription Subscription { get; set; }
 
         public Action<string> DebugStream { get; set; }
 
@@ -472,7 +468,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             // If there's no storage service provided, try using the default one
             if (string.IsNullOrEmpty(storageServiceName))
             {
-                storageServiceName = AzureSubscription.CurrentStorageAccountName;
+                storageServiceName = Subscription.CurrentStorageAccountName;
             }
 
             // Use default location if not location and affinity group provided
@@ -485,7 +481,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 slot,
                 location,
                 affinityGroup,
-                AzureSubscription.Name,
+                Subscription.Name,
                 storageServiceName,
                 name,
                 cloudServiceProject.ServiceName,
@@ -519,7 +515,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Action<string> warningStream = null)
             : this(currentLocation, debugStream, warningStream, verboseStream)
         {
-            AzureSubscription = subscription;
+            Subscription = subscription;
             CloudBlobUtility = new CloudBlobUtility();
 
             ManagementClient = subscription.CreateClient<ManagementClient>();
@@ -543,8 +539,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ComputeManagementClient computeManagementClient)
             : this((string)null, null, null, null)
         {
-            AzureSubscription = subscription;
-            subscriptionId = subscription.SubscriptionId;
+            Subscription = subscription;
             CurrentDirectory = null;
             DebugStream = null;
             VerboseStream = null;
@@ -654,7 +649,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerboseWithTimestamp(
                     Resources.PublishPreparingDeploymentMessage,
                     context.ServiceName,
-                    subscriptionId);
+                    Subscription.SubscriptionId);
             UpdateCacheWorkerRolesCloudConfiguration(context);
 
             // Create cloud package
