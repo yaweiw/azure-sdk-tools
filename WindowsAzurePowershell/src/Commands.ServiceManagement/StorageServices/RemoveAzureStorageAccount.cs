@@ -16,8 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Commands.ServiceManagement.Model;
+    using Management.Storage;
+    using Management.Storage.Models;
 
     /// <summary>
     /// Deletes the specified storage account from Windows Azure.
@@ -25,15 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Remove, "AzureStorageAccount"), OutputType(typeof(StorageServiceOperationContext))]
     public class RemoveAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureStorageAccountCommand()
-        {
-        }
-
-        public RemoveAzureStorageAccountCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the storage account to be removed.")]
         [ValidateNotNullOrEmpty]
         [Alias("ServiceName")]
@@ -47,7 +39,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
         {
             var operationId = string.Empty;
 
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteStorageService(s, this.StorageAccountName));
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.StorageClient.StorageAccounts.Delete(this.StorageAccountName),
+                (s, r) =>
+                {
+                    return new StorageServiceOperationContext
+                    {
+                        OperationId = s.Id,
+                        OperationStatus = s.Status.ToString(),
+                        OperationDescription = CommandRuntime.ToString(),
+                        StorageAccountName = this.StorageAccountName
+                    };
+                });
 
             return operationId;
         }

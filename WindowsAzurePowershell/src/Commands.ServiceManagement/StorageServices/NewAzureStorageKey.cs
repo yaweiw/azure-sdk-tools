@@ -14,10 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
+    using System;
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Commands.ServiceManagement.Model;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Management.Storage.Models;
 
     /// <summary>
     /// Regenerates storage keys with the key-type parameter specifying 
@@ -26,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.New, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
     public class NewAzureStorageKeyCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureStorageKeyCommand()
-        {
-        }
-
-        public NewAzureStorageKeyCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Key to regenerate. Primary | Secondary")]
         [ValidateSet("Primary", "Secondary", IgnoreCase = true)]
         public string KeyType
@@ -54,22 +47,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         protected override void OnProcessRecord()
         {
-            var regenerateKeys = new RegenerateKeys
+            var regenerateKeys = new StorageAccountRegenerateKeysParameters
             {
-                KeyType = this.KeyType
+                ServiceName = this.StorageAccountName,
+                KeyType = (StorageKeyType)Enum.Parse(typeof(StorageKeyType), this.KeyType, true)
             };
 
-            ExecuteClientActionInOCS(
-                regenerateKeys, this.CommandRuntime.ToString(),
-                s => this.Channel.RegenerateStorageServiceKeys(s, this.StorageAccountName, regenerateKeys), 
-                (operation, storageService) => new StorageServiceKeyOperationContext
+            ExecuteClientActionNewSM(
+                regenerateKeys,
+                this.CommandRuntime.ToString(),
+                () => this.StorageClient.StorageAccounts.RegenerateKeys(regenerateKeys),
+                (s, r) =>
                 {
-                    StorageAccountName = this.StorageAccountName,
-                    Primary = storageService.StorageServiceKeys.Primary,
-                    Secondary = storageService.StorageServiceKeys.Secondary,
-                    OperationDescription = this.CommandRuntime.ToString(),
-                    OperationId = operation.OperationTrackingId,
-                    OperationStatus = operation.Status
+                    return new StorageServiceKeyOperationContext
+                    {
+                        StorageAccountName = this.StorageAccountName,
+                        Primary = r.PrimaryKey,
+                        Secondary = r.SecondaryKey,
+                        OperationDescription = this.CommandRuntime.ToString(),
+                        OperationId = s.Id,
+                        OperationStatus = s.Status.ToString()
+                    };
                 });
         }
     }

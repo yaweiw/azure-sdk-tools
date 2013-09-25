@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Commands.ServiceManagement.Model;
     using Management.Storage;
     using Management.Storage.Models;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Lists all storage services underneath the subscription.
@@ -31,15 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Get, "AzureStorageAccount"), OutputType(typeof(StorageServicePropertiesOperationContext))]
     public class GetAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureStorageAccountCommand()
-        {
-        }
-
-        public GetAzureStorageAccountCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage Account Name.")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName

@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Commands.ServiceManagement.Model;
     using Management.Storage;
     using Management.Storage.Models;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Displays the primary and secondary keys for the account. Should have 
@@ -30,15 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Get, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
     public class GetAzureStorageKeyCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureStorageKeyCommand()
-        {
-        }
-
-        public GetAzureStorageKeyCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         [Alias("ServiceName")]
