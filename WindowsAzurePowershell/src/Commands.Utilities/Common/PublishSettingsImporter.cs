@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Security.Cryptography.X509Certificates;
     using System.Xml.Serialization;
     using XmlSchema;
 
@@ -61,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             };
         }
 
-        private static WindowsAzureCertificate GetCertificate(PublishDataPublishProfile profile,
+        private static X509Certificate2 GetCertificate(PublishDataPublishProfile profile,
             PublishDataPublishProfileSubscription s)
         {
             string certificateString;

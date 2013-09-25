@@ -23,41 +23,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// This class encapsulates the details of creating and
     /// reloading certificates from various sources.
     /// </summary>
-    public class WindowsAzureCertificate
+    public static class WindowsAzureCertificate
     {
-        private readonly X509Certificate2 certificate;
-
-        public X509Certificate2 Certificate { get { return certificate; } }
-        public string Thumbprint { get { return certificate.Thumbprint; } }
-
-        public WindowsAzureCertificate(X509Certificate2 certificate)
-        {
-            this.certificate = certificate;
-        }
-
-        public static WindowsAzureCertificate FromPublishSettingsString(string managementCertificateString)
+        public static X509Certificate2 FromPublishSettingsString(string managementCertificateString)
         {
             var certificate = new X509Certificate2(Convert.FromBase64String(managementCertificateString), string.Empty);
             SaveCertificateToStore(certificate);
-            return new WindowsAzureCertificate(certificate);
+            return certificate;
         }
 
-        public static WindowsAzureCertificate FromThumbprint(string thumbprint)
+        public static X509Certificate2 FromThumbprint(string thumbprint)
         {
             var certificate = LoadCertificateByThumbprint(thumbprint);
-            return new WindowsAzureCertificate(certificate);
-        }
-
-        /// <summary>
-        /// Implicit conversion operator to X509Certificate2 type
-        /// so that you can use this class anywhere you use
-        /// X509Certificate2.
-        /// </summary>
-        /// <param name="cert">Certificate to convert</param>
-        /// <returns>The x509Certificate2</returns>
-        public static implicit operator X509Certificate2(WindowsAzureCertificate cert)
-        {
-            return cert.certificate;
+            return certificate;
         }
 
         [StorePermission(SecurityAction.Demand, Unrestricted = true)]
@@ -105,8 +83,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 op(store);
             }
         }
-
-
 
         // Helper class to manage opening a closing a certificate store
         private sealed class StoreOpener : IDisposable
