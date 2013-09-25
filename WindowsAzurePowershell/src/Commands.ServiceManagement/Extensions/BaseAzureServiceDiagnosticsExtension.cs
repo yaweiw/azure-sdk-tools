@@ -15,13 +15,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Text;
     using System.Xml;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
     using Management.Storage;
-    using Management.Storage.Models;
     using Properties;
-    using Storage;
-    using Storage.Auth;
-    using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
@@ -77,24 +72,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ValidateStorageAccount()
         {
-            var ss = this.StorageClient.StorageAccounts.Get(StorageAccountName);
-            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
+            var storageService = this.StorageClient.StorageAccounts.Get(StorageAccountName);
             if (storageService == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
             }
 
-            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
-            if (storageKeys == null || storageKeys.StorageServiceKeys == null)
+            var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.ServiceName);
+            if (storageKeys == null || storageKeys.PrimaryKey == null || storageKeys.SecondaryKey == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
             }
-            StorageKey = storageKeys.StorageServiceKeys.Primary;
+            StorageKey = storageKeys.PrimaryKey != null ? storageKeys.PrimaryKey : storageKeys.SecondaryKey;
 
             StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]));
-            endpointStr.AppendFormat("QueueEndpoint={0};", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]));
-            endpointStr.AppendFormat("TableEndpoint={0}", General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2]));
+            endpointStr.AppendFormat("BlobEndpoint={0};", storageService.Properties.Endpoints[0]);
+            endpointStr.AppendFormat("QueueEndpoint={0};", storageService.Properties.Endpoints[1]);
+            endpointStr.AppendFormat("TableEndpoint={0}", storageService.Properties.Endpoints[2]);
             ConnectionQualifiers = endpointStr.ToString();
             DefaultEndpointsProtocol = "https";
         }

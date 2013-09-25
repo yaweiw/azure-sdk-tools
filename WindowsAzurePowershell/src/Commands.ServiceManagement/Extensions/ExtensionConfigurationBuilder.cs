@@ -17,9 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Management.Compute;
     using Management.Compute.Models;
-    using WindowsAzure.ServiceManagement;
 
     public class ExtensionConfigurationBuilder
     {
@@ -38,17 +36,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             namedRoles = new Dictionary<string, HashSet<string>>();
         }
 
-        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration config)
+        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, ExtensionConfiguration config)
             : this(extensionManager)
         {
-            Add(config);
-        }
-
-        public ExtensionConfigurationBuilder(ExtensionManager extensionManager, Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
-            : this(extensionManager)
-        {
-            // TODO 09/22/2013
-            // Need to remove this function, since it uses the old library's data structure ExtensionConfiguration
             Add(config);
         }
 
@@ -56,8 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             return allRoles.Any(id =>
             {
-                HostedServiceExtension e = extensionManager.GetExtension(id);
-                return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
+                var e = extensionManager.GetExtension(id);
+                return e != null && e.ProviderNamespace == nameSpace && e.Type == type;
             });
         }
 
@@ -74,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 return (from r in namedRoles
                         where roles.Contains(r.Key)
                         from id in r.Value
-                        select extensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNameSpace == nameSpace && e.Type == type);
+                        select extensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNamespace == nameSpace && e.Type == type);
             }
             else
             {
@@ -163,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     namedRoles[r].RemoveWhere(id =>
                     {
                         var e = extensionManager.GetExtension(id);
-                        return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
+                        return e != null && e.ProviderNamespace == nameSpace && e.Type == type;
                     });
                 }
                 return this;
@@ -235,8 +225,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             return this;
         }
+        
+        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
+        {
+            return Add(ExtensionManager.Convert(config));
+        }
 
-        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration config)
+        public ExtensionConfigurationBuilder Add(ExtensionConfiguration config)
         {
             if (config != null)
             {
@@ -269,53 +264,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return this;
         }
 
-        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
+        public ExtensionConfiguration ToConfiguration()
         {
-            // TODO 09/22/2013
-            // Need to remove this function, since it uses the old library's data structure ExtensionConfiguration
-            if (config != null)
+            ExtensionConfiguration config = new ExtensionConfiguration();
+            foreach (var id in allRoles)
             {
-                if (config.AllRoles != null)
+                config.AllRoles.Add(new ExtensionConfiguration.Extension
                 {
-                    config.AllRoles.ForEach(e => AddDefault(e.Id));
-                }
+                    Id = id
+                });
+            }
 
-                if (config.NamedRoles != null)
+            foreach (var r in namedRoles)
+            {
+                if (r.Value.Any())
                 {
-                    foreach (var r in config.NamedRoles)
+                    var nr = new ExtensionConfiguration.NamedRole
                     {
-                        r.Extensions.ForEach(e =>
+                        RoleName = r.Key
+                    };
+
+                    foreach (var v in r.Value)
+                    {
+                        nr.Extensions.Add(new ExtensionConfiguration.Extension
                         {
-                            if (namedRoles.ContainsKey(r.RoleName))
-                            {
-                                namedRoles[r.RoleName].Add(e.Id);
-                            }
-                            else
-                            {
-                                namedRoles.Add(r.RoleName, new HashSet<string>(new string[] { e.Id }));
-                            }
+                            Id = v
                         });
                     }
+
+                    config.NamedRoles.Add(nr);
                 }
             }
-            return this;
-        }
 
-        public Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration ToConfiguration()
-        {
-            Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config = new Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration
-            {
-                AllRoles = new AllRoles(),
-                NamedRoles = new NamedRoles()
-            };
-            config.AllRoles.AddRange(from id in allRoles select new Extension(id));
-            config.NamedRoles.AddRange(from r in namedRoles
-                                       where r.Value.Any()
-                                       select new RoleExtensions
-                                       {
-                                           RoleName = r.Key,
-                                           Extensions = new ExtensionList(from id in r.Value select new Extension(id))
-                                       });
             return config;
         }
     }

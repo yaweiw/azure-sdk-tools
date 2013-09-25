@@ -18,8 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
 
     public static class CertUtils
     {
@@ -44,12 +45,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             return true;
         }
 
-        public static CertificateFile Create(X509Certificate2 certificate)
+        public static ServiceCertificateCreateParameters Create(X509Certificate2 certificate)
         {
             return Create(certificate, false);
         }
 
-        public static CertificateFile Create(X509Certificate2 certificate, bool dropPrivateKey)
+        public static ServiceCertificateCreateParameters Create(X509Certificate2 certificate, bool dropPrivateKey)
         {
             if (dropPrivateKey)
             {
@@ -57,11 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             }
             var password = CertUtils.RandomBase64PasswordString();
             var certificateData = GetCertificateData(certificate, password);
-            var certificateFile = new CertificateFile
+            var certificateFile = new ServiceCertificateCreateParameters
                                   {
-                                      Data = Convert.ToBase64String(certificateData),
+                                      Data = certificateData,
                                       Password = password,
-                                      CertificateFormat = Resources.Pfx_CertificateFormat
+                                      CertificateFormat = CertificateFormat.Pfx
                                   };
             return certificateFile;
         }
