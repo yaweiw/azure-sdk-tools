@@ -185,7 +185,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void RemoveSubscription(WindowsAzureSubscription s)
         {
+            if (s == currentSubscription)
+            {
+                currentSubscription = null;
+            }
+
             subscriptions.Remove(s);
+
+            if (s.IsDefault)
+            {
+                subscriptions[0].IsDefault = true;
+            }
+
             Save();
         }
 
