@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 certificateString = profile.ManagementCertificate;
             }
-            return new WindowsAzureCertificate(certificateString);
+            return WindowsAzureCertificate.FromPublishSettingsString(certificateString);
         }
 
         private static Uri GetManagementUri(PublishDataPublishProfile profile, PublishDataPublishProfileSubscription s)

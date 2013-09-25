@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
     using Moq;
     using Utilities.Resources;
@@ -73,7 +74,34 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             }
         };
 
-        
+        [ClassInitialize]
+        public static void SetupCerts(TestContext ctx)
+        {
+            X509Certificate2 cert =
+                new X509Certificate2(
+                    Convert.FromBase64String(testProfileData.Subscriptions.First().ManagementCertificate), string.Empty);
+            X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            certStore.Open(OpenFlags.ReadWrite);
+            certStore.Add(cert);
+            certStore.Close();
+
+            foreach (var s in testProfileData.Subscriptions)
+            {
+                s.ManagementCertificate = cert.Thumbprint;
+            }
+        }
+
+        [ClassCleanup]
+        public static void RemoveCerts()
+        {
+            X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            certStore.Open(OpenFlags.ReadWrite);
+            var certs = certStore.Certificates.Find(X509FindType.FindByThumbprint,
+                testProfileData.Subscriptions.First().ManagementCertificate, false);
+            certStore.Remove(certs[0]);
+            certStore.Close();
+        }
+
         [TestMethod]
         public void DataContractSerializedToXmlAsExpected()
         {
