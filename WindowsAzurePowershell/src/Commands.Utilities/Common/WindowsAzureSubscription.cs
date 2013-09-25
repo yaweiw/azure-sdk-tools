@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Security.Cryptography.X509Certificates;
     using Management.Storage;
     using Storage;
     using Storage.Auth;
@@ -31,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public Uri ManagementEndpoint { get; set; }
         public Uri SqlAzureServiceEndpoint { get; set; }
         public bool IsDefault { get; set; }
-        public WindowsAzureCertificate Certificate { get; set; }
+        public X509Certificate2 Certificate { get; set; }
 
         private string currentStorageAccountName;
         private CloudStorageAccount cloudStorageAccount;
