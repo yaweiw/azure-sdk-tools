@@ -35,7 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         [TestInitialize]
         public void SetupTest()
         {
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             // Create 2 test databases
             NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth();
         }

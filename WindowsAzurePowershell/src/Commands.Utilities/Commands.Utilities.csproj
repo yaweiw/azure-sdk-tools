@@ -277,7 +277,6 @@
     <Compile Include="Common\CmdletBase.cs" />
     <Compile Include="Common\ServiceManagementBaseCmdlet.cs" />
     <Compile Include="Common\CmdletExtensions.cs" />
-    <Compile Include="Common\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Common\AzureServiceManagementException.cs" />
     <Compile Include="Common\HttpRestMessageInspector.cs" />
     <Compile Include="Common\InnerDataServiceException.cs" />

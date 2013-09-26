@@ -34,7 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         [TestInitialize]
         public virtual void SetupTest()
         {
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 

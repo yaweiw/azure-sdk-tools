@@ -34,7 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
         {
             testProfile = new WindowsAzureProfile(new Mock<IProfileStore>().Object);
             WindowsAzureProfile.Instance = testProfile;
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestCleanup]
