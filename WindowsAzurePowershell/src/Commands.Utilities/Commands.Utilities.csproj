@@ -283,11 +283,8 @@
     <Compile Include="Common\ManagementOperationContext.cs" />
     <Compile Include="Common\SubscriptionData.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
-    <Compile Include="Common\GlobalSettingsManager.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
-    <Compile Include="Common\ISubscriptionsManager.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
-    <Compile Include="Common\SubscriptionsManager.cs" />
     <Compile Include="Common\AzureBlob.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
