@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
             cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<WindowsAzureEnvironment>()), Times.Once());
-            WindowsAzureEnvironment env = GlobalSettingsManager.Instance.GetEnvironment("KaTaL");
+            WindowsAzureEnvironment env = WindowsAzureProfile.Instance.Environments["KaTaL"];
             Assert.AreEqual(env.Name.ToLower(), cmdlet.Name.ToLower());
             Assert.AreEqual(env.PublishSettingsFileUrl, cmdlet.PublishSettingsFileUrl);
             Assert.AreEqual(env.ServiceEndpoint, cmdlet.ServiceEndpoint);
