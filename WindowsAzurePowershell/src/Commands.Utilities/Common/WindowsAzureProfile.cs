@@ -200,6 +200,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return subscriptions.FirstOrDefault(s => s.IsDefault); }
         }
 
+        public void AddSubscription(WindowsAzureSubscription s)
+        {
+            if (subscriptions.Contains(s) ||
+                subscriptions.Any(es => string.Compare(s.Name, s.Name, StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                throw new ArgumentException(
+                    string.Format(Resources.SubscriptionAlreadyExists, s.Name));
+            }
+
+            subscriptions.Add(s);
+            if (s.IsDefault)
+            {
+                UpdateDefaultSubscription(s);
+            }
+
+            Save();
+        }
+
         public void RemoveSubscription(WindowsAzureSubscription s)
         {
             if (s == currentSubscription)
@@ -228,13 +246,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (s.IsDefault)
             {
-                foreach (var subs in subscriptions.Where(s2 => s2 != s))
-                {
-                    subs.IsDefault = false;
-                }
+                UpdateDefaultSubscription(s);
             }
 
             Save();
+        }
+
+        private void UpdateDefaultSubscription(WindowsAzureSubscription newDefault)
+        {
+            foreach (var subs in subscriptions.Where(s => s != newDefault))
+            {
+                subs.IsDefault = false;
+            }
         }
 
         public void ImportPublishSettings(string fileName)
