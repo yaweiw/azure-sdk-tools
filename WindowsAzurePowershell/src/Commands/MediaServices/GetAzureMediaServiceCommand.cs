@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     using Utilities.MediaServices.Services.Entities;
 
     /// <summary>
-    ///     Gets an azure media service account 
+    ///     Gets an Azure Media Services account.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureMediaServicesAccount"), OutputType(typeof(MediaServiceAccount), typeof(IEnumerable<MediaServiceAccount>))]
     public class GetAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
