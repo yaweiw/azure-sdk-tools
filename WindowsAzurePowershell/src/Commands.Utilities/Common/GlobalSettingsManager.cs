@@ -57,11 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public CloudServiceProjectConfiguration ServiceConfiguration { get; private set; }
 
-        public IDictionary<string, SubscriptionData> Subscriptions
-        {
-            get { return SubscriptionManager.Subscriptions; }
-        }
-
         private WindowsAzureEnvironment DefaultEnvironment { get; set; }
 
         protected GlobalSettingsManager(string azurePath)
@@ -313,20 +308,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     GlobalPaths.ServiceConfigurationFile,
                     new JavaScriptSerializer().Serialize(ServiceConfiguration));
             }
-        }
-
-        public string GetSubscriptionId(string subscriptionName)
-        {
-            foreach (var subscription in Subscriptions.Values)
-            {
-                if (subscription.SubscriptionName.Equals(subscriptionName))
-                {
-                    Validate.IsGuid(subscription.SubscriptionId);
-                    return subscription.SubscriptionId;
-                }
-            }
-
-            throw new ArgumentException(string.Format(Resources.SubscriptionIdNotFoundMessage, subscriptionName, GlobalPaths.PublishSettingsFile));
         }
 
         internal void DeleteGlobalSettingsManager()

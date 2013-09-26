@@ -119,7 +119,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
                 Name = EnvironmentName.AzureCloud,
                 PublishSettingsFileUrl = "http://microsoft.com"
             };
-            int count = GlobalSettingsManager.Instance.GetEnvironments().Count;
 
             Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
         }

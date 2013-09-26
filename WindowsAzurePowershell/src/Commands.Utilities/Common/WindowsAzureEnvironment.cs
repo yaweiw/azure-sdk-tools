@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using Properties;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -71,6 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         private const string storageFormatTemplate = "{{0}}://{{1}}.{0}.{1}/";
+
         private string EndpointFormatFor(string service)
         {
             if (string.IsNullOrEmpty(storageEndpointSuffix)) return null;
@@ -131,6 +133,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
         {
             return new Uri(string.Format(StorageTableEndpointFormat, useHttps ? "https" : "http", accountName));
+        }
+
+        /// <summary>
+        /// Gets the management portal URI with a particular realm suffix if supplied
+        /// </summary>
+        /// <param name="realm">Realm for user's account</param>
+        /// <returns>Url to management portal.</returns>
+        public string ManagementPortalUrlWithRealm(string realm = null)
+        {
+            return AddRealm(ManagementPortalUrl, realm);
+        }
+
+        /// <summary>
+        /// Get the publish settings file download url with a realm suffix if needed.
+        /// </summary>
+        /// <param name="realm">Realm for user's account</param>
+        /// <returns>Url to publish settings file</returns>
+        public string PublishSettingsFileUrlWithRealm(string realm = null)
+        {
+            return AddRealm(PublishSettingsFileUrl, realm);
+        }
+
+        private string AddRealm(string baseUrl, string realm)
+        {
+            if (!string.IsNullOrEmpty(realm))
+            {
+                baseUrl += string.Format(Resources.PublishSettingsFileRealmFormat, realm);
+            }
+            return baseUrl;
         }
 
         /// <summary>
