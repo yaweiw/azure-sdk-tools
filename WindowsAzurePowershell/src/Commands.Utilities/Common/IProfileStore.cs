@@ -16,7 +16,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     public interface IProfileStore
     {
+        /// <summary>
+        /// Save the given profile data to the store.
+        /// </summary>
+        /// <param name="profile">Data to store.</param>
         void Save(ProfileData profile);
+        
+        /// <summary>
+        /// Load from the store.
+        /// </summary>
+        /// <returns>The loaded data.</returns>
         ProfileData Load();
+
+        /// <summary>
+        /// Destroy the store and it's backing data.
+        /// </summary>
+        void DestroyData();
     }
 }

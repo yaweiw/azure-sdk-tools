@@ -36,20 +36,45 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return Path.Combine(settingsDirectory, profileFileName); }
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="PowershellProfileStore"/>
+        /// using the given directory and filename.
+        /// </summary>
+        /// <param name="settingsDirectory">Directory to store / load information from.
+        /// If null or blank, uses the current directory.</param>
+        /// <param name="fileName">Filename to read from / write to. If null or
+        /// blank, uses the default azureProfile.xml file.</param>
         public PowershellProfileStore(string settingsDirectory, string fileName)
         {
+            if (string.IsNullOrEmpty(settingsDirectory))
+            {
+                settingsDirectory = Directory.GetCurrentDirectory();
+            }
             this.settingsDirectory = settingsDirectory;
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = DefaultProfileName;
+            }
             this.profileFileName = fileName;
             EnsureSettingsDirectoryExists();
             EnsureProfileFileExists();
         }
 
+        /// <summary>
+        /// Create an instance of <see cref="PowershellProfileStore"/>
+        /// that uses the default powershell file and directory.
+        /// </summary>
         public PowershellProfileStore()
             : this(GlobalPathInfo.GlobalSettingsDirectory, DefaultProfileName)
         {
             
         }
 
+        /// <summary>
+        /// Save the given profile data to the store.
+        /// </summary>
+        /// <param name="profile">Data to store.</param>
         public void Save(ProfileData profile)
         {
             string tempFilePath;
@@ -61,6 +86,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             File.Replace(tempFilePath, FullProfilePath, null);
         }
 
+        /// <summary>
+        /// Load from the store.
+        /// </summary>
+        /// <returns>The loaded data.</returns>
         public ProfileData Load()
         {
             if (File.Exists(FullProfilePath))
@@ -81,6 +110,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Destroy the store and it's backing data.
+        /// </summary>
+        public void DestroyData()
+        {
+            Directory.Delete(settingsDirectory, true);
         }
 
         private void EnsureSettingsDirectoryExists()
