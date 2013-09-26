@@ -125,7 +125,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = null
+                CurrentSubscription = null,
+                Profile = new WindowsAzureProfile(new Mock<IProfileStore>().Object)
             };
 
             Testing.AssertThrows<Exception>(getAzureWebsiteCommand.ExecuteCmdlet, Resources.NoDefaultSubscriptionMessage);
