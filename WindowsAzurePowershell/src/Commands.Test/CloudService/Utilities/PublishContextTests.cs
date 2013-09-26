@@ -48,8 +48,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestInitialize()]
         public void TestInitialize()
         {
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             service = new AzureServiceWrapper(Directory.GetCurrentDirectory(), Path.GetRandomFileName(), null);
             service.CreateVirtualCloudPackage();

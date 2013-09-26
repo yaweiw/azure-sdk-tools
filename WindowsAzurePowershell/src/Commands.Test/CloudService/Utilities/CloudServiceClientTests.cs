@@ -84,7 +84,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestSetup()
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
 
             storageService = new MockStorageService()
                 .Add(a => SetupStorage(serviceName.ToLowerInvariant(), a))
