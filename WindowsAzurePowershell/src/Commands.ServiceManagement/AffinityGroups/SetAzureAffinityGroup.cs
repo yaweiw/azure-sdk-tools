@@ -69,14 +69,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
                 Label = this.Label,
                 Description = this.Description ?? null
             };
-            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), () => this.ManagementClient.AffinityGroups.Update(this.Name, parameters), 
-                (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(s));
+            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), () => this.ManagementClient.AffinityGroups.Update(this.Name, parameters));
         }
 
         protected override void OnProcessRecord()
         {
             this.ExecuteCommand();
         }
-
     }
 }

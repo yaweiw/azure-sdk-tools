@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Security.Cryptography.X509Certificates;
     using Management.Compute.Models;
     using Model.PersistentVMModel;
-    using Properties;
 
     public static class CertUtils
     {
@@ -175,13 +174,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using System;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using Management.Compute.Models;
-    using Model.PersistentVMModel;
-    using Properties;
 
     public static class CertUtilsNewSM
     {

@@ -14,16 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
-    using Commands.Utilities.Common;
-    using Sync.Download;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Properties;
     using Storage.Auth;
-    using Commands.ServiceManagement.Properties;
+    using Sync.Download;
+    using System;
+    using Utilities.Common;
 
     public class StorageCredentialsFactory
     {
-        private IServiceManagement channel;
+        private StorageManagementClient client;
+        //private IServiceManagement channel;
         private SubscriptionData currentSubscription;
 
         public static bool IsChannelRequired(Uri destination)
@@ -35,11 +36,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
         {
         }
 
-        public StorageCredentialsFactory(IServiceManagement channel, SubscriptionData currentSubscription)
+        public StorageCredentialsFactory(StorageManagementClient client, SubscriptionData currentSubscription)
+        {
+            this.client = client;
+            this.currentSubscription = currentSubscription;
+        }
+
+        /*public StorageCredentialsFactory(IServiceManagement channel, SubscriptionData currentSubscription)
         {
             this.channel = channel;
             this.currentSubscription = currentSubscription;
-        }
+        }*/
 
         public StorageCredentials Create(BlobUri destination)
         {
@@ -49,9 +56,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                 {
                     throw new ArgumentException(Resources.StorageCredentialsFactoryCurrentSubscriptionNotSet, "SubscriptionId");
                 }
-                StorageService sService = this.channel.GetStorageKeys(currentSubscription.SubscriptionId, destination.StorageAccountName);
-                return new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary);
+
+                var storageKeys = this.client.StorageAccounts.GetKeys(destination.StorageAccountName);
+                return new StorageCredentials(destination.StorageAccountName, storageKeys.PrimaryKey);
+                //StorageService sService = this.channel.GetStorageKeys(currentSubscription.SubscriptionId, destination.StorageAccountName);
+                //return new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary);
             }
+
             return new StorageCredentials(destination.Uri.Query);
         }
     }

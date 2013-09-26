@@ -15,25 +15,30 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System;
-    using System.ServiceModel;
+    using Management.Storage;
     using Storage.Auth;
     using Storage.Blob;
-    using WindowsAzure.ServiceManagement;
 
     public static class Disks
     {
-        public static void RemoveVHD(IServiceManagement channel, string subscriptionId, Uri mediaLink)
+        // TODO: No reference to this funciton, consider removing it.
+
+        //public static void RemoveVHD(IServiceManagement channel, string subscriptionId, Uri mediaLink)
+        public static void RemoveVHD(StorageManagementClient storageClient, string subscriptionId, Uri mediaLink)
         {            
             var accountName = mediaLink.Host.Split('.')[0];
             var blobEndpoint = new Uri(mediaLink.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped));
 
-            StorageService storageService;
-            using (new OperationContextScope(channel.ToContextChannel()))
-            {
-                storageService = channel.GetStorageKeys(subscriptionId, accountName);
-            }
+            var storageService = storageClient.StorageAccounts.Get(accountName);
+            var storageKeys = storageClient.StorageAccounts.GetKeys(accountName);
 
-            var storageAccountCredentials = new StorageCredentials(accountName, storageService.StorageServiceKeys.Primary);
+            //StorageService storageService;
+            //using (new OperationContextScope(channel.ToContextChannel()))
+            //{
+            //    storageService = channel.GetStorageKeys(subscriptionId, accountName);
+            //}
+
+            var storageAccountCredentials = new StorageCredentials(accountName, storageKeys.PrimaryKey);
             var client = new CloudBlobClient(blobEndpoint, storageAccountCredentials);
             var blob = client.GetBlobReferenceFromServer(mediaLink);
             blob.DeleteIfExists();

@@ -89,8 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                     InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                     OperationDescription = CommandRuntime.ToString(),
-                    OperationId = GetDeploymentOperation.OperationTrackingId,
-                    OperationStatus = GetDeploymentOperation.Status,
+                    OperationId = GetDeploymentOperationNewSM.Id,
+                    //OperationId = GetDeploymentOperation.OperationTrackingId,
+                    OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
+                    //OperationStatus = GetDeploymentOperation.Status,
                     VM = new PersistentVM
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,

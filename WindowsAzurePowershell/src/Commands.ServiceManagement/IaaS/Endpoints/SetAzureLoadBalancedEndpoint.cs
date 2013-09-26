@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             ServiceManagementProfile.Initialize();
 
             base.ExecuteCommand();
-            if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)
+            //if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)
+            if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeploymentNewSM == null)
             {
                 return;
             }

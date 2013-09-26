@@ -27,14 +27,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
     public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetConfigCommand()
-        {
-        }
+        //public GetAzureVNetConfigCommand()
+        //{
+        //}
 
-        public GetAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        //public GetAzureVNetConfigCommand(IServiceManagement channel)
+        //{
+        //    Channel = channel;
+        //}
 
         [Parameter(HelpMessage = "The file path to save the network configuration to.")]
         [ValidateNotNullOrEmpty]
@@ -48,7 +48,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             this.ValidateParameters();
 
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            VirtualNetworkConfigContext result = null;
+
+            InvokeInOperationContext(() =>
+            //using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -78,23 +81,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             networkConfig.ExportToFile(this.ExportToFile);
                         }
 
-                        return networkConfig;
+                        result = networkConfig;
                     }
                 }
-                catch (ServiceManagementClientException ex)
+                catch (CloudException ex)
+                //catch (ServiceManagementClientException ex)
                 {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
+                    if (ex.Response.StatusCode == HttpStatusCode.NotFound && !IsVerbose())
+                    //if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
                     {
-                        return null;
+                        result = null;
                     }
                     else
                     {
                         this.WriteExceptionDetails(ex);
                     }
                 }
+            });
 
-                return null;
-            }
+            return result;
         }
 
         protected override void OnProcessRecord()

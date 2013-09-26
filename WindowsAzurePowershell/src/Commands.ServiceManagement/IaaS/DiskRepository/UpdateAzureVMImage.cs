@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
         [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
         public string RecommendedVMSize { get; set; }
-
+        
         public void UpdateVMImageProcess()
         {
             var parameters = new VirtualMachineImageUpdateParameters();
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             parameters.ImageFamily = this.ImageFamily;
             parameters.PublishedDate = this.PublishedDate;
             parameters.PrivacyUri = this.PrivacyUri;
-            parameters.RecommendedVMSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize);
+            parameters.RecommendedVMSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true);
 
             this.ExecuteClientActionNewSM(
                 null,

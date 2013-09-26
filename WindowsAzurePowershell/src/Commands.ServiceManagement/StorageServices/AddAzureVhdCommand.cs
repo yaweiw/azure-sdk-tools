@@ -18,10 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using System.IO;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
+    using Model;
+    using Properties;
     using Sync.Download;
-    using Commands.ServiceManagement.Properties;
-
 
     /// <summary>
     /// Uploads a vhd as fixed disk format vhd to a blob in Windows Azure Storage
@@ -118,13 +117,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             StorageCredentialsFactory storageCredentialsFactory;
             if (StorageCredentialsFactory.IsChannelRequired(Destination))
             {
+                storageCredentialsFactory = new StorageCredentialsFactory(this.StorageClient, this.CurrentSubscription);
+            }
+            else
+            {
+                storageCredentialsFactory = new StorageCredentialsFactory();
+            }
+
+            return storageCredentialsFactory;
+
+            /*StorageCredentialsFactory storageCredentialsFactory;
+            if (StorageCredentialsFactory.IsChannelRequired(Destination))
+            {
                 storageCredentialsFactory = new StorageCredentialsFactory(this.Channel, this.CurrentSubscription);
             }
             else
             {
                 storageCredentialsFactory = new StorageCredentialsFactory();
             }
-            return storageCredentialsFactory;
+            return storageCredentialsFactory;*/
         }
 
         protected override void InitChannelCurrentSubscription(bool force)
