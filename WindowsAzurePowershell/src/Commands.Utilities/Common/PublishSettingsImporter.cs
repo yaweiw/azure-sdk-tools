@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 Certificate = GetCertificate(profile, s),
                 Name = s.Name,
-                ManagementEndpoint = GetManagementUri(profile, s),
+                ServiceEndpoint = GetManagementUri(profile, s),
                 SubscriptionId = s.Id
             };
         }

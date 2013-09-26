@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             };
 
             WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ManagementEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
+            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
 
             NewAzureSqlDatabaseServerContext contextCmdlet = 
                 new NewAzureSqlDatabaseServerContext();
@@ -245,7 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             };
 
             WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ManagementEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
+            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
 
             NewAzureSqlDatabaseServerContext contextCmdlet = 
                 new NewAzureSqlDatabaseServerContext();

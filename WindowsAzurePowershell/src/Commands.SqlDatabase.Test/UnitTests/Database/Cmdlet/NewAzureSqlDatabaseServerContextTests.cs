@@ -159,7 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         public void NewAzureSqlDatabaseServerContextWithCertAuth()
         {
             WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ManagementEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
+            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
 
             NewAzureSqlDatabaseServerContext serverContext = new NewAzureSqlDatabaseServerContext();
             ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth(

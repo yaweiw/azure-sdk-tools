@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             {
                 Certificate = It.IsAny<X509Certificate2>(),
                 IsDefault = true,
-                ManagementEndpoint = new Uri("https://www.azure.com"),
+                ServiceEndpoint = new Uri("https://www.azure.com"),
                 SubscriptionId = Guid.NewGuid().ToString(),
                 Name = Data.Subscription1,
             };

@@ -59,9 +59,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     _serviceEndpoint = CurrentServiceEndpoint;
                 }
-                else if (CurrentSubscription != null && CurrentSubscription.ManagementEndpoint != null)
+                else if (CurrentSubscription != null && CurrentSubscription.ServiceEndpoint != null)
                 {
-                    _serviceEndpoint = CurrentSubscription.ManagementEndpoint.ToString();
+                    _serviceEndpoint = CurrentSubscription.ServiceEndpoint.ToString();
                 }
                 else
                 {

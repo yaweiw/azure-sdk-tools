@@ -40,13 +40,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ServiceBinding = ConfigurationConstants.WebHttpBinding();
             }
 
-            if (CurrentSubscription.ManagementEndpoint == null)
+            if (CurrentSubscription.ServiceEndpoint == null)
             {
                 ServiceEndpoint = Profile.CurrentEnvironment.ServiceEndpoint;
             }
             else
             {
-                ServiceEndpoint = CurrentSubscription.ManagementEndpoint.ToString();
+                ServiceEndpoint = CurrentSubscription.ServiceEndpoint.ToString();
             }
 
             return GatewayManagementHelper.CreateGatewayManagementChannel(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
