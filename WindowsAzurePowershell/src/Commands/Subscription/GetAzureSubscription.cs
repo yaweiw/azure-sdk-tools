@@ -165,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             data.CurrentCloudStorageAccount = subscription.CurrentCloudStorageAccount;
             data.CurrentStorageAccount = subscription.CurrentStorageAccountName;
             data.IsDefault = subscription.IsDefault;
-            data.ServiceEndpoint = subscription.ManagementEndpoint.ToString();
+            data.ServiceEndpoint = subscription.ServiceEndpoint.ToString();
             data.SqlAzureServiceEndpoint = subscription.SqlAzureServiceEndpoint != null ? subscription.SqlAzureServiceEndpoint.ToString() : null;
             data.SubscriptionId = subscription.SubscriptionId;
             data.SubscriptionName = subscription.Name;

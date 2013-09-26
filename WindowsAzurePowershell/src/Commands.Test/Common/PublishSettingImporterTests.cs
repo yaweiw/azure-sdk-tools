@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                     Assert.AreEqual(expectedSub.Attribute("Id").Value,
                         subscriptions[i].SubscriptionId);
                     Assert.AreEqual(ExpectedManagementUri(expected, expectedSub),
-                                    subscriptions[i].ManagementEndpoint);
+                                    subscriptions[i].ServiceEndpoint);
                     ++i;
                 }
             }

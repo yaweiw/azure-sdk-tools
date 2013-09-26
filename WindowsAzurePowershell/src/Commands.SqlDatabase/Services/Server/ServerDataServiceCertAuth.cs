@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
             // Create a new ServerDataServiceCertAuth object to be used
             return new ServerDataServiceCertAuth(
-                subscription.ManagementEndpoint,
+                subscription.ServiceEndpoint,
                 subscription.SubscriptionId,
                 serverName,
                 subscription.Certificate);

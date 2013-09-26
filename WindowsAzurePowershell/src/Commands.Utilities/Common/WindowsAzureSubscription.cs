@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public string Name { get; set; }
         public string SubscriptionId { get; set; }
-        public Uri ManagementEndpoint { get; set; }
+        public Uri ServiceEndpoint { get; set; }
         public Uri SqlAzureServiceEndpoint { get; set; }
         public bool IsDefault { get; set; }
         public X509Certificate2 Certificate { get; set; }
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
-            return (TClient)constructor.Invoke(new object[] { credential, ManagementEndpoint });
+            return (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
         }
 
         public CloudStorageAccount GetCloudStorageAccount()

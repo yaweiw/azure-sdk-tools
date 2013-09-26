@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 expected.Descendants("PublishProfile").Select(p => new Uri(p.Attribute("Url").Value)).First();
             foreach (var s in profile.Subscriptions)
             {
-                Assert.AreEqual(expectedManagementUri, s.ManagementEndpoint);
+                Assert.AreEqual(expectedManagementUri, s.ServiceEndpoint);
             }
 
             store.Verify(s => s.Save(It.IsAny<ProfileData>()), Times.Once);
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 expected.Descendants("Subscription")
                 .Select(s => new Uri(s.Attribute("ServiceManagementUrl").Value)))
             {
-                Assert.IsTrue(profile.Subscriptions.Any(s => s.ManagementEndpoint == uri));
+                Assert.IsTrue(profile.Subscriptions.Any(s => s.ServiceEndpoint == uri));
             }
         }
 

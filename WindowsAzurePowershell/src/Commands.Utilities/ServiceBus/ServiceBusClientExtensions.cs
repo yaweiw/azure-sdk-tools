@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 ClientCertificateOptions = ClientCertificateOption.Manual
             };
             requestHandler.ClientCertificates.Add(Subscription.Certificate);
-            StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ManagementEndpoint.ToString()));
+            StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint.ToString()));
             endpoint.Append(subscriptionId);
             endpoint.Append("/services/servicebus/namespaces/");
             HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
@@ -281,7 +281,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             Logger = logger;
             ServiceBusManagementChannel = ChannelHelper.CreateServiceManagementChannel<IServiceBusManagement>(
                 ConfigurationConstants.WebHttpBinding(),
-                subscription.ManagementEndpoint,
+                subscription.ServiceEndpoint,
                 subscription.Certificate,
                 new HttpRestMessageInspector(logger));
         }

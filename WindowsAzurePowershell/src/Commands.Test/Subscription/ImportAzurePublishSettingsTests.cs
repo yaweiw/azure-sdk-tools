@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             Assert.AreEqual(Data.SampleSubscription1, profile.CurrentSubscription.Name);
             Assert.AreEqual(new Uri("https://newmanagement.core.windows.net/"),
-                profile.CurrentSubscription.ManagementEndpoint);
+                profile.CurrentSubscription.ServiceEndpoint);
             Assert.IsNotNull(profile.CurrentSubscription.Certificate);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
         }
