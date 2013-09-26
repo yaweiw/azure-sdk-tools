@@ -27,13 +27,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Properties;
     using Utilities.CloudService;
     using Utilities.Common;
-    using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceExtensionCmdlet : ServiceManagementBaseCmdlet
     {
         protected const string PublicConfigStr = "PublicConfig";
         protected const string PrivateConfigStr = "PrivateConfig";
-        protected const string ChangeConfigurationModeStr = "Auto";
         protected const string XmlNameSpaceAttributeStr = "xmlns";
 
         protected ExtensionManager ExtensionManager { get; set; }
@@ -45,8 +43,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected XDocument PrivateConfigurationXml { get; set; }
         protected string PublicConfiguration { get; set; }
         protected string PrivateConfiguration { get; set; }
-        protected Deployment Deployment { get; set; }
-        protected DeploymentGetResponse DeploymentGetResponse { get; set; }
+        protected DeploymentGetResponse Deployment { get; set; }
+        //protected Deployment Deployment { get; set; }
 
         public virtual string ServiceName { get; set; }
         public virtual string Slot { get; set; }
@@ -97,13 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindDeployment, ServiceName, Slot));
                 }
-                Deployment.ExtensionConfiguration = Deployment.ExtensionConfiguration ?? new Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration
-                {
-                    AllRoles = new AllRoles(),
-                    NamedRoles = new NamedRoles()
-                };
-                Deployment.ExtensionConfiguration.AllRoles = Deployment.ExtensionConfiguration.AllRoles ?? new AllRoles();
-                Deployment.ExtensionConfiguration.NamedRoles = Deployment.ExtensionConfiguration.NamedRoles ?? new NamedRoles();
+                Deployment.ExtensionConfiguration = Deployment.ExtensionConfiguration ?? new Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration();
             }
         }
 
@@ -112,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             Role = Role == null ? new string[0] : Role.Select(r => r == null ? string.Empty : r.Trim()).Distinct().ToArray();
             foreach (string roleName in Role)
             {
-                if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
+                if (Deployment.Roles == null || !Deployment.Roles.Any(r => r.RoleName == roleName))
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindRole, roleName, Slot, ServiceName));
                 }
@@ -173,11 +165,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return extension == null ? string.Empty : GetConfigValue(extension.PublicConfiguration, element);
         }
 
-        protected string GetPublicConfigValue(HostedServiceExtension extension, string element)
-        {
-            return extension == null ? string.Empty : GetConfigValue(extension.PublicConfiguration, element);
-        }
-
         private void SetConfigValue(XDocument config, string element, Object value)
         {
             if (config != null && value != null)
@@ -216,31 +203,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             SetConfigValue(PrivateConfigurationXml, element, value);
         }
 
-        protected void ChangeDeployment(Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration extConfig)
-        {
-            var parameters = new DeploymentChangeConfigurationParameters
-            {
-                Configuration = Deployment.Configuration,
-                ExtensionConfiguration = extConfig,
-                Mode = DeploymentChangeConfigurationMode.Auto,
-                TreatWarningsAsError = false
-            };
-
-            DeploymentSlot slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true);
-
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => ComputeClient.Deployments.ChangeConfigurationBySlot(ServiceName, slotType, parameters),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
-        }
-
-        protected void ChangeDeployment(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration extConfig)
+        protected void ChangeDeployment(ExtensionConfiguration extConfig)
         {
             // TODO - 09/22/2013
             // Need to remove this function once the ExtensionConfiguration issue is fixed.
             // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/168
-            ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
+            DeploymentChangeConfigurationParameters changeConfigInput = new DeploymentChangeConfigurationParameters
+            {
+                Configuration = Deployment.Configuration,
+                ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
+                Mode = DeploymentChangeConfigurationMode.Auto,
+                TreatWarningsAsError = false
+            };
+
+            Func<ComputeOperationStatusResponse> action = () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
+                ServiceName,
+                (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true),
+                changeConfigInput);
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                action);
+            /*ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
             {
                 Configuration = Deployment.Configuration,
                 ExtendedProperties = Deployment.ExtendedProperties,
@@ -249,30 +234,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 TreatWarningsAsError = false
             };
 
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));*/
         }
 
-        protected Deployment GetDeployment(string slot)
+        protected DeploymentGetResponse GetDeployment(string slot)
+        //protected Deployment GetDeployment(string slot)
         {
             var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), slot, true);
 
             DeploymentGetResponse d = null;
-            Deployment deployment = null;
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            //Deployment deployment = null;
+            InvokeInOperationContext(() =>
+            //using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
                     d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
-                    deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
+                    //deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
                 }
-                catch (ServiceManagementClientException ex)
+                catch (CloudException ex)
+                //catch (ServiceManagementClientException ex)
                 {
-                    if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
+                    if (ex.Response.StatusCode != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
                         this.WriteExceptionDetails(ex);
                     }
                 }
-            }
+            });
 
             // TODO: 09/22/2013
             // Need to replace the return of 'Deployment' by 'DeploymentGetResponse'.
@@ -280,7 +268,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             // ExtensionConfiguration. It is a blocking issue, and we need to wait for
             // the fix to proceed.
             // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/168
-            return deployment;
+            return d;
+            //return deployment;
         }
 
         protected virtual bool IsServiceAvailable(string serviceName)

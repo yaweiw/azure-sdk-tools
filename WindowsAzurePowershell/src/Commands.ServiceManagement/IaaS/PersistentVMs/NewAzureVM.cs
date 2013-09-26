@@ -342,7 +342,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
-                RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize),
+                RoleSize = string.IsNullOrEmpty(persistentVM.RoleSize) ? VirtualMachineRoleSize.Small
+                                                                       : (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize, true),
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };

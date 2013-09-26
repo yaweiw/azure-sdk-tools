@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 () => this.ComputeClient.HostedServices.ListExtensions(this.ServiceName),
                 (s, r) =>
                 {
-                    var extensionRoleList = (from dr in Deployment.RoleList
+                    var extensionRoleList = (from dr in Deployment.Roles
                                              select new ExtensionRole(dr.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
 
                     return from role in extensionRoleList
