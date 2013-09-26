@@ -38,6 +38,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return certificate;
         }
 
+        [StorePermission(SecurityAction.Demand, Flags = StorePermissionFlags.OpenStore | StorePermissionFlags.RemoveFromStore)]
+        public static void DeleteFromStore(X509Certificate2 certificate)
+        {
+            DoStoreOp(StoreLocation.CurrentUser, OpenFlags.ReadWrite, store => store.Remove(certificate));
+        }
+
         [StorePermission(SecurityAction.Demand, Unrestricted = true)]
         private static void SaveCertificateToStore(X509Certificate2 certificate)
         {

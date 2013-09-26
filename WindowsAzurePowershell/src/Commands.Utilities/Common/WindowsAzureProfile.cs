@@ -48,6 +48,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             new Lazy<WindowsAzureProfile>(defaultCreator);
 
 
+        /// <summary>
+        /// Create an instance of <see cref="WindowsAzureProfile"/> that
+        /// stores data in the given store.
+        /// </summary>
+        /// <param name="profileStore">Data store to read and write from.</param>
         public WindowsAzureProfile(IProfileStore profileStore)
         {
             this.profileStore = profileStore;
@@ -76,6 +81,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static void ResetInstance()
         {
             instance = new Lazy<WindowsAzureProfile>(defaultCreator);
+        }
+
+        /// <summary>
+        /// Destroy any saved data. Deletes the data store and removes any
+        /// certificates from the certificate store.
+        /// </summary>
+        public void DestroyData()
+        {
+            foreach (var s in subscriptions)
+            {
+                if (s != null)
+                {
+                    WindowsAzureCertificate.DeleteFromStore(s.Certificate);
+                }
+            }
+            profileStore.DestroyData();
         }
 
         //
