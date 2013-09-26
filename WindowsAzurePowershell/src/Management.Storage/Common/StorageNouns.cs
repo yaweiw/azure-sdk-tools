@@ -105,9 +105,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string CopyBlobStatus = "AzureStorageBlobCopyState";
 
         /// <summary>
-        /// Azure storage service properties
+        /// Azure storage service metrics
         /// </summary>
-        public const string StorageServiceProperties = "AzureStorageServiceProperties";
+        public const string StorageServiceMetrics = "AzureStorageServiceMetrics";
+
+        /// <summary>
+        /// Azure storage service logging
+        /// </summary>
+        public const string StorageServiceLogging = "AzureStorageServiceLogging";
 
         /// <summary>
         /// Azure storage blob service
@@ -142,21 +147,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Azure storage container sas
         /// </summary>
-        public const string ContainerSas = "AzureStorageContainerSas";
+        public const string ContainerSas = "AzureStorageContainerSASToken";
 
         /// <summary>
         /// Azure storage blob sas
         /// </summary>
-        public const string BlobSas = "AzureStorageBlobSas";
+        public const string BlobSas = "AzureStorageBlobSASToken";
 
         /// <summary>
         /// Azure storage table sas
         /// </summary>
-        public const string TableSas = "AzureStorageTableSas";
+        public const string TableSas = "AzureStorageTableSASToken";
 
         /// <summary>
         /// Azure storage queue sas
         /// </summary>
-        public const string QueueSas = "AzureStorageQueueSas";
+        public const string QueueSas = "AzureStorageQueueSASToken";
     }
 }

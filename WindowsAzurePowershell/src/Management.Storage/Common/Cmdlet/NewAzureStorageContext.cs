@@ -40,6 +40,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private const string SasTokenParameterSet = "SasToken";
 
         /// <summary>
+        /// Sas token with azure environment parameter set name
+        /// </summary>
+        private const string SasTokenEnvironmentParameterSet = "SasTokenWithAzureEnvironment";
+
+        /// <summary>
         /// Account name and key and azure environment parameter set name
         /// </summary>
         private const string AccountNameKeyEnvironmentParameterSet = "AccountNameAndKeyEnvironment";
@@ -75,6 +80,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             Mandatory = true, ParameterSetName = AnonymousEnvironmentParameterSet)]
         [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
             Mandatory = true, ParameterSetName = SasTokenParameterSet)]
+        [Parameter(Position = 0, HelpMessage = StorageAccountNameHelpMessage,
+            Mandatory = true, ParameterSetName = SasTokenEnvironmentParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
@@ -86,8 +93,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
 
-        [Parameter(HelpMessage = "Azure Storage SAS Token",
+        private const string SasTokenHelpMessage = "Azure Storage SAS Token";
+        [Parameter(HelpMessage = SasTokenHelpMessage,
             Mandatory = true, ParameterSetName = SasTokenParameterSet)]
+        [Parameter(HelpMessage = SasTokenHelpMessage,
+            Mandatory = true, ParameterSetName = SasTokenEnvironmentParameterSet)]
         [ValidateNotNullOrEmpty]
         public string SasToken { get; set; }
 
@@ -139,6 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private  const string EndPointHelpMessage = "Azure storage endpoint";
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = AnonymousParameterSet)]
+        [Parameter(HelpMessage = EndPointHelpMessage, ParameterSetName = SasTokenParameterSet)]
         public string Endpoint
         {
             get { return storageEndpoint; }
@@ -152,6 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AnonymousEnvironmentParameterSet,
             ValueFromPipelineByPropertyName = true)]
+        [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = SasTokenEnvironmentParameterSet, Mandatory = true)]
         public string Environment
         {
             get { return environmentName; }
@@ -195,10 +207,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="sasToken">Sas token</param>
         /// <param name="useHttps">Use https or not</param>
         /// <returns>a storage account</returns>
-        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
+        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken,
+            bool useHttps, string storageEndpoint = "")
         {
             StorageCredentials credential = new StorageCredentials(sasToken);
-            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps);
+            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps, storageEndpoint);
+        }
+
+        internal CloudStorageAccount GetStorageAccountBySasTokenFromAzureEnvironment(string storageAccountName,
+            string sasToken, bool useHttps, string azureEnvironmentName = "")
+        {
+            StorageCredentials credential = new StorageCredentials(sasToken);
+            return GetStorageAccountWithAzureEnvironment(credential, StorageAccountName, useHttps, azureEnvironmentName);
         }
 
         /// <summary>
@@ -342,7 +362,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                         useHttps, environmentName);
                     break;
                 case SasTokenParameterSet:
-                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken, useHttps);
+                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken, useHttps, storageEndpoint);
+                    break;
+                case SasTokenEnvironmentParameterSet:
+                    account = GetStorageAccountBySasTokenFromAzureEnvironment(StorageAccountName, SasToken, useHttps, environmentName);
                     break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);

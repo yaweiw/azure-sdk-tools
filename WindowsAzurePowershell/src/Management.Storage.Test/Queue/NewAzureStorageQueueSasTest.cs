@@ -27,12 +27,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     [TestClass]
     public class NewAzureStorageQueueSasTest : StorageQueueTestBase
     {
-        public NewAzureStorageQueueSasCommand command = null;
+        public NewAzureStorageQueueSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageQueueSasCommand(queueMock)
+            command = new NewAzureStorageQueueSasTokenCommand(queueMock)
                 {
                     CommandRuntime = new MockCommandRuntime()
                 };

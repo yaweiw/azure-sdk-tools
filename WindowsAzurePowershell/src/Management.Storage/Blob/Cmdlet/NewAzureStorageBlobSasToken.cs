@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Text;
 
     [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas, DefaultParameterSetName = BlobNamePipelineParmeterSet), OutputType(typeof(String))]
-    public class NewAzureStorageBlobSasCommand : StorageCloudBlobCmdletBase
+    public class NewAzureStorageBlobSasTokenCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
         /// Blob Pipeline parameter set name
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageBlobSasCommand class.
         /// </summary>
-        public NewAzureStorageBlobSasCommand()
+        public NewAzureStorageBlobSasTokenCommand()
             : this(null)
         {
         }
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// Initializes a new instance of the NewAzureStorageBlobSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
-        public NewAzureStorageBlobSasCommand(IStorageBlobManagement channel)
+        public NewAzureStorageBlobSasTokenCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
         }

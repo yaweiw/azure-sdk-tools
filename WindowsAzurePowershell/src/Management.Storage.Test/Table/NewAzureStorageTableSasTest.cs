@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
     [TestClass]
     public class NewAzureStorageTableSasTest : StorageTableStorageTestBase
     {
-        public NewAzureStorageTableSasCommand command = null;
+        public NewAzureStorageTableSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageTableSasCommand(tableMock)
+            command = new NewAzureStorageTableSasTokenCommand(tableMock)
                 {
                     CommandRuntime = new MockCommandRuntime()
                 };
