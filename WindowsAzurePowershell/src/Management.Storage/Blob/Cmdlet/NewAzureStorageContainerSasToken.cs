@@ -1,8 +1,23 @@
-﻿namespace Microsoft.WindowsAzure.Management.Storage.Queue.Cmdlet
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Storage.Queue;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,12 +25,12 @@
     using System.Security.Permissions;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.New, StorageNouns.QueueSas), OutputType(typeof(String))]
-    public class NewAzureStorageQueueSasCommand : StorageQueueBaseCmdlet
+    [Cmdlet(VerbsCommon.New, StorageNouns.ContainerSas), OutputType(typeof(String))]
+    public class NewAzureStorageContainerSasTokenCommand : StorageCloudBlobCmdletBase
     {
-        [Alias("N", "Queue")]
+        [Alias("N", "Container")]
         [Parameter(Position = 0, Mandatory = true,
-            HelpMessage = "Table Name",
+            HelpMessage = "Container Name",
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
@@ -24,12 +39,12 @@
         [Parameter(HelpMessage = "Policy Identifier")]
         public string Policy
         {
-            get {return accessPolicyIdentifier;}
-            set {accessPolicyIdentifier = value;}
+            get { return accessPolicyIdentifier; }
+            set { accessPolicyIdentifier = value; }
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raup\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".")]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -42,18 +57,18 @@
         public SwitchParameter FullUri { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
         /// </summary>
-        public NewAzureStorageQueueSasCommand()
+        public NewAzureStorageContainerSasTokenCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
-        public NewAzureStorageQueueSasCommand(IStorageQueueManagement channel)
+        public NewAzureStorageContainerSasTokenCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
         }
@@ -65,15 +80,15 @@
         public override void ExecuteCmdlet()
         {
             if (String.IsNullOrEmpty(Name)) return;
-            CloudQueue queue = Channel.GetQueueReference(Name);
-            SharedAccessQueuePolicy policy = new SharedAccessQueuePolicy();
-            SetupAccessPolicy(policy);
-            SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
-            string sasToken = queue.GetSharedAccessSignature(policy, accessPolicyIdentifier);
+            CloudBlobContainer container = Channel.GetContainerReference(Name);
+            SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
+            SetupAccessPolicy(accessPolicy);
+            SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
+            string sasToken = container.GetSharedAccessSignature(accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
             {
-                string fullUri = queue.Uri.ToString() + sasToken;
+                string fullUri = container.Uri.ToString() + sasToken;
                 WriteObject(fullUri);
             }
             else
@@ -86,7 +101,7 @@
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessQueuePolicy policy)
+        private void SetupAccessPolicy(SharedAccessBlobPolicy policy)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
@@ -101,26 +116,26 @@
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="permission">Permisson</param>
-        internal void SetupAccessPolicyPermission(SharedAccessQueuePolicy policy, string permission)
+        internal void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
-            policy.Permissions = SharedAccessQueuePermissions.None;
+            policy.Permissions = SharedAccessBlobPermissions.None;
             permission = permission.ToLower();
             foreach (char op in permission)
             {
                 switch(op)
                 {
                     case 'r':
-                        policy.Permissions |= SharedAccessQueuePermissions.Read;
+                        policy.Permissions |= SharedAccessBlobPermissions.Read;
                         break;
-                    case 'a':
-                        policy.Permissions |= SharedAccessQueuePermissions.Add;
+                    case 'w':
+                        policy.Permissions |= SharedAccessBlobPermissions.Write;
                         break;
-                    case 'u':
-                        policy.Permissions |= SharedAccessQueuePermissions.Update;
+                    case 'd':
+                        policy.Permissions |= SharedAccessBlobPermissions.Delete;
                         break;
-                    case 'p':
-                        policy.Permissions |= SharedAccessQueuePermissions.ProcessMessages;
+                    case 'l':
+                        policy.Permissions |= SharedAccessBlobPermissions.List;
                         break;
                     default:
                         throw new ArgumentException(string.Format(Resources.InvalidAccessPermission, op));

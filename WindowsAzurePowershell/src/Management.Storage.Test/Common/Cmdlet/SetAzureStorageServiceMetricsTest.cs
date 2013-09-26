@@ -24,17 +24,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
     using System.Text;
 
     [TestClass]
-    public class SetAzureStorageServicePropertiesTest : StorageTestBase
+    public class SetAzureStorageServiceMetricsTest : StorageTestBase
     {
         /// <summary>
         /// StorageCmdletBase command
         /// </summary>
-        public SetAzureStorageServiceProperties command = null;
+        public SetAzureStorageServiceMetricsCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new SetAzureStorageServiceProperties
+            command = new SetAzureStorageServiceMetricsCommand
             {
                 CommandRuntime = new MockCommandRuntime()
             };
@@ -44,24 +44,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         public void CleanCommand()
         {
             command = null;
-        }
-
-        [TestMethod]
-        public void GetLoggingOperationsTest()
-        { 
-            Assert.AreEqual(LoggingOperations.None, command.GetLoggingOperations("none"));
-            Assert.AreEqual(LoggingOperations.All, command.GetLoggingOperations("all"));
-            Assert.AreEqual(LoggingOperations.Read, command.GetLoggingOperations("Read"));
-            Assert.AreEqual(LoggingOperations.Write, command.GetLoggingOperations("WrIte"));
-            Assert.AreEqual(LoggingOperations.Delete, command.GetLoggingOperations("DELETE"));
-            Assert.AreEqual(LoggingOperations.Read | LoggingOperations.Delete,
-                command.GetLoggingOperations("Read, DELETE"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("DELETE,xxx"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("DELETE,all"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("DELETE,none"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("all,none"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("allnone"));
-            AssertThrows<ArgumentException>(() => command.GetLoggingOperations("stdio"));
         }
 
         [TestMethod]

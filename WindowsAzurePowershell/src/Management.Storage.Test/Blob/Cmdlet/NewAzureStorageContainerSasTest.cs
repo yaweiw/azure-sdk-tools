@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     [TestClass]
     public class NewAzureStorageContainerSasTest : StorageBlobTestBase
     {
-        public NewAzureStorageContainerSasCommand command = null;
+        public NewAzureStorageContainerSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageContainerSasCommand(BlobMock)
+            command = new NewAzureStorageContainerSasTokenCommand(BlobMock)
             {
                 CommandRuntime = new MockCommandRuntime()
             };
