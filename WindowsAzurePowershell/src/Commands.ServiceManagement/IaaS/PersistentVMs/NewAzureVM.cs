@@ -287,6 +287,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     RoleName = persistentVMs[i].RoleName,
                     RoleSize = persistentVMs[i].RoleSize,
                 };
+                
+                if (parameter.OSVirtualHardDisk.HostCaching == VirtualHardDiskHostCaching.None)
+                {
+                    parameter.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadOnly;
+                }
+
                 parameter.DataVirtualHardDisks.ForEach(c => persistentVMs[i].DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
                 parameter.ConfigurationSets.ForEach(c => persistentVMs[i].ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
 
