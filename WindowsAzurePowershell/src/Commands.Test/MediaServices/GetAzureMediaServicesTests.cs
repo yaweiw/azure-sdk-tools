@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData
+                CurrentSubscription = new WindowsAzureSubscription
                 {
                     SubscriptionId = SubscriptionId
                 }
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData
+                CurrentSubscription = new WindowsAzureSubscription
                 {
                     SubscriptionId = SubscriptionId
                 }
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             {
                 CommandRuntime = new MockCommandRuntime(),
                 MediaServicesClient = clientMock.Object,
-                CurrentSubscription = new SubscriptionData
+                CurrentSubscription = new WindowsAzureSubscription
                 {
                     SubscriptionId = SubscriptionId
                 }

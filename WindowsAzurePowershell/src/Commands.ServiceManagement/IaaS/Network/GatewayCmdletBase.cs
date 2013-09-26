@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             Operation operation = null;
             String operationId = RetrieveOperationId();
-            SubscriptionData currentSubscription = this.GetCurrentSubscription();
+            WindowsAzureSubscription currentSubscription = CurrentSubscription;
             try
             {
                 IGatewayServiceManagement channel = (IGatewayServiceManagement)Channel;

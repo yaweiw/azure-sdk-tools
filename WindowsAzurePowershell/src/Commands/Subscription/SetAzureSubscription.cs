@@ -108,104 +108,106 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         /// <param name="subscriptionDataFile">The input/output subscription data file to use.</param>
         internal void SetSubscriptionProcess(string parameterSetName, string subscriptionName, string subscriptionId, X509Certificate2 certificate, string serviceEndpoint, string defaultSubscription, string currentStorageAccount, string subscriptionDataFile)
         {
-            SubscriptionData currentSubscription = this.GetCurrentSubscription();
-            if (currentSubscription != null && 
-                !string.IsNullOrEmpty(currentSubscription.ServiceEndpoint) &&
-                string.IsNullOrEmpty(serviceEndpoint))
-            {
-                // If the current subscription already has a service endpoint do not overwrite if not specified 
-                serviceEndpoint = currentSubscription.ServiceEndpoint;
-            }
-            else if (string.IsNullOrEmpty(serviceEndpoint))
-            {
-                // No current subscription and nothing specified initialize with the default
-                serviceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
-            }
+            //SubscriptionData currentSubscription = this.GetCurrentSubscription();
+            //if (currentSubscription != null && 
+            //    !string.IsNullOrEmpty(currentSubscription.ServiceEndpoint) &&
+            //    string.IsNullOrEmpty(serviceEndpoint))
+            //{
+            //    // If the current subscription already has a service endpoint do not overwrite if not specified 
+            //    serviceEndpoint = currentSubscription.ServiceEndpoint;
+            //}
+            //else if (string.IsNullOrEmpty(serviceEndpoint))
+            //{
+            //    // No current subscription and nothing specified initialize with the default
+            //    serviceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+            //}
 
-            if (parameterSetName == "DefaultSubscription")
-            {
-                // Set a new default subscription
-                this.SetDefaultSubscription(defaultSubscription, subscriptionDataFile);
-                this.SetCurrentSubscription(defaultSubscription, subscriptionDataFile);
-            }
-            else if (parameterSetName == "ResetDefaultSubscription")
-            {
-                // Reset default subscription
-                this.SetDefaultSubscription(null, subscriptionDataFile);
-            }
-            else
-            {
-                // Update or create a new subscription
-                GlobalSettingsManager globalSettingsManager;
-                try
-                {
-                    globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory, subscriptionDataFile);
-                }
-                catch (FileNotFoundException)
-                {
-                    // assume that import has never been ran and just create it.
-                    globalSettingsManager = GlobalSettingsManager.Create(GlobalPathInfo.GlobalSettingsDirectory,
-                        subscriptionDataFile,
-                        certificate,
-                        serviceEndpoint);
-                }
+            //if (parameterSetName == "DefaultSubscription")
+            //{
+            //    // Set a new default subscription
+            //    this.SetDefaultSubscription(defaultSubscription, subscriptionDataFile);
+            //    this.SetCurrentSubscription(defaultSubscription, subscriptionDataFile);
+            //}
+            //else if (parameterSetName == "ResetDefaultSubscription")
+            //{
+            //    // Reset default subscription
+            //    this.SetDefaultSubscription(null, subscriptionDataFile);
+            //}
+            //else
+            //{
+            //    // Update or create a new subscription
+            //    GlobalSettingsManager globalSettingsManager;
+            //    try
+            //    {
+            //        globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory, subscriptionDataFile);
+            //    }
+            //    catch (FileNotFoundException)
+            //    {
+            //        // assume that import has never been ran and just create it.
+            //        globalSettingsManager = GlobalSettingsManager.Create(GlobalPathInfo.GlobalSettingsDirectory,
+            //            subscriptionDataFile,
+            //            certificate,
+            //            serviceEndpoint);
+            //    }
 
-                SubscriptionData subscription = globalSettingsManager.Subscriptions.ContainsKey(subscriptionName)
-                    ? globalSettingsManager.Subscriptions[subscriptionName]
-                    : new SubscriptionData { SubscriptionName = subscriptionName, IsDefault = (globalSettingsManager.Subscriptions.Count == 0) };
+            //    SubscriptionData subscription = globalSettingsManager.Subscriptions.ContainsKey(subscriptionName)
+            //        ? globalSettingsManager.Subscriptions[subscriptionName]
+            //        : new SubscriptionData { SubscriptionName = subscriptionName, IsDefault = (globalSettingsManager.Subscriptions.Count == 0) };
 
-                if (parameterSetName == "CommonSettings")
-                {
-                    SetCommonSettingsProcess(subscription, subscriptionId, certificate, serviceEndpoint, currentStorageAccount);
-                }
+            //    if (parameterSetName == "CommonSettings")
+            //    {
+            //        SetCommonSettingsProcess(subscription, subscriptionId, certificate, serviceEndpoint, currentStorageAccount);
+            //    }
 
-                // Create or update
-                globalSettingsManager.Subscriptions[subscription.SubscriptionName] = subscription;
-                globalSettingsManager.SaveSubscriptions(subscriptionDataFile);
+            //    // Create or update
+            //    globalSettingsManager.Subscriptions[subscription.SubscriptionName] = subscription;
+            //    globalSettingsManager.SaveSubscriptions(subscriptionDataFile);
 
-                currentSubscription = this.GetCurrentSubscription();
-                if (currentSubscription == null || string.Compare(currentSubscription.SubscriptionName, subscription.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    // If the user modifies a subscription using Set-AzureSubscription, but doesn't call Select-AzureSubscription
-                    // it is not immediately reflected in the code. This takes into account if they modify the current subscription 
-                    // that they shouldn't have to call Select-AzureSubscription once again to have the values updated in session.
-                    this.SetCurrentSubscription(subscription.SubscriptionName, subscriptionDataFile);
+            //    currentSubscription = this.GetCurrentSubscription();
+            //    if (currentSubscription == null || string.Compare(currentSubscription.SubscriptionName, subscription.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0)
+            //    {
+            //        // If the user modifies a subscription using Set-AzureSubscription, but doesn't call Select-AzureSubscription
+            //        // it is not immediately reflected in the code. This takes into account if they modify the current subscription 
+            //        // that they shouldn't have to call Select-AzureSubscription once again to have the values updated in session.
+            //        this.SetCurrentSubscription(subscription.SubscriptionName, subscriptionDataFile);
 
-                    if (currentSubscription != null)
-                    {
-                        WriteMessage(string.Format(
-                            Resources.UpdatedSettings,
-                            subscriptionName,
-                            currentSubscription.SubscriptionName));
-                    }
-                }
-            }
+            //        if (currentSubscription != null)
+            //        {
+            //            WriteMessage(string.Format(
+            //                Resources.UpdatedSettings,
+            //                subscriptionName,
+            //                currentSubscription.SubscriptionName));
+            //        }
+            //    }
+            //}
         }
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                SetSubscriptionProcess(
-                    ParameterSetName,
-                    SubscriptionName,
-                    SubscriptionId,
-                    Certificate,
-                    ServiceEndpoint,
-                    DefaultSubscription,
-                    CurrentStorageAccount,
-                    this.TryResolvePath(SubscriptionDataFile));
+            throw new NotImplementedException("Working on it, this cmdlet is currently broken");
 
-                if (PassThru.IsPresent)
-                {
-                    WriteObject(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.InvalidData, null));
-            }
+            //try
+            //{
+            //    base.ProcessRecord();
+            //    SetSubscriptionProcess(
+            //        ParameterSetName,
+            //        SubscriptionName,
+            //        SubscriptionId,
+            //        Certificate,
+            //        ServiceEndpoint,
+            //        DefaultSubscription,
+            //        CurrentStorageAccount,
+            //        this.TryResolvePath(SubscriptionDataFile));
+
+            //    if (PassThru.IsPresent)
+            //    {
+            //        WriteObject(true);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.InvalidData, null));
+            //}
         }
     }
 }

@@ -266,13 +266,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Subscription\GetAzureSubscriptionOld.cs" />
     <Compile Include="Subscription\GetAzureSubscription.cs" />
-    <Compile Include="Subscription\ImportAzurePublishSettingsOld.cs" />
     <Compile Include="Subscription\ImportAzurePublishSettings.cs" />
-    <Compile Include="Subscription\RemoveAzureSubscriptionOld.cs" />
     <Compile Include="Subscription\SelectAzureSubscription.cs" />
-    <Compile Include="Subscription\SelectAzureSubscriptionOld.cs" />
     <Compile Include="Subscription\SetAzureSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnostic.cs" />
