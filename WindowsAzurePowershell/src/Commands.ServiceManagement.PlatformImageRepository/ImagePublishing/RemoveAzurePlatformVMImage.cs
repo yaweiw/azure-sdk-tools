@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void OnProcessRecord()
         {
-            this.Channel.GetOSImage(CurrentAzureSubscription.SubscriptionId, this.ImageName);
+            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UnReplicateOSImage(s, this.ImageName));
         }
     }

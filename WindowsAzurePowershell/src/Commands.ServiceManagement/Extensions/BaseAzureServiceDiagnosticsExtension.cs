@@ -81,13 +81,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ValidateStorageAccount()
         {
-            var storageService = Channel.GetStorageService(CurrentAzureSubscription.SubscriptionId, StorageAccountName);
+            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageService == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
             }
 
-            var storageKeys = Channel.GetStorageKeys(CurrentAzureSubscription.SubscriptionId, StorageAccountName);
+            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageKeys == null || storageKeys.StorageServiceKeys == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));

@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         /// </summary>
         public override void ExecuteCmdlet()
         {
-            string subscriptionId = CurrentAzureSubscription.SubscriptionId;
+            string subscriptionId = CurrentSubscription.SubscriptionId;
             string name = Name;
 
             try

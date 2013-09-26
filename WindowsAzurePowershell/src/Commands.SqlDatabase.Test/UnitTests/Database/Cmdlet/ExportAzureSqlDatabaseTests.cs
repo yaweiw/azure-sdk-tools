@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             StartAzureSqlDatabaseExport exportAzureSqlDatabase =
                 new StartAzureSqlDatabaseExport(channel) { ShareChannel = true };
-            exportAzureSqlDatabase.CurrentAzureSubscription = UnitTestHelper.CreateUnitTestSubscription();
+            exportAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             exportAzureSqlDatabase.CommandRuntime = commandRuntime;
             
             var result = exportAzureSqlDatabase.ExportSqlAzureDatabaseProcess(serverName, input);

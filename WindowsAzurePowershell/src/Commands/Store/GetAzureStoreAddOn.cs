@@ -66,9 +66,9 @@ namespace Microsoft.WindowsAzure.Commands.Store
         private void GetAddOn()
         {
  	        StoreClient = StoreClient ?? new StoreClient(
-                CurrentAzureSubscription.SubscriptionId,
+                CurrentSubscription.SubscriptionId,
                 ServiceEndpoint,
-                CurrentAzureSubscription.Certificate,
+                CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
             List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, null, null));
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Store
 
         private void ListAvailableAddOns()
         {
-            LocationList locations = Channel.ListLocations(CurrentAzureSubscription.SubscriptionId);
+            LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
             MarketplaceClient = MarketplaceClient ?? 
                 new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
 

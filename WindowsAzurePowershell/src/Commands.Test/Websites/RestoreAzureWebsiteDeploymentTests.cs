@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 ShareChannel = true,
                 WebsitesClient = clientMock.Object,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId }
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 ShareChannel = true,
                 WebsitesClient = clientMock.Object,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId }
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();

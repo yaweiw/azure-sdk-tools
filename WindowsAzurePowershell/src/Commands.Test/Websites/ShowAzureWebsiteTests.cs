@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1",
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
                 WebsitesClient = mockClient.Object
             };
 

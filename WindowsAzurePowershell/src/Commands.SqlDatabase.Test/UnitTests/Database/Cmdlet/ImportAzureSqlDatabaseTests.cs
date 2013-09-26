@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             StartAzureSqlDatabaseImport importAzureSqlDatabase =
                 new StartAzureSqlDatabaseImport(channel) { ShareChannel = true };
-            importAzureSqlDatabase.CurrentAzureSubscription = UnitTestHelper.CreateUnitTestSubscription();
+            importAzureSqlDatabase.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             importAzureSqlDatabase.CommandRuntime = commandRuntime;
             var result = importAzureSqlDatabase.ImportSqlAzureDatabaseProcess(serverName, input);
             Assert.AreEqual(testGuid.ToString(), result.RequestGuid);

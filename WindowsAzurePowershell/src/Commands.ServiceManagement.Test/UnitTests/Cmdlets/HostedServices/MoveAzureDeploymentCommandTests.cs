@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 ServiceName = "testService",
-                CurrentAzureSubscription = new WindowsAzureSubscription
+                CurrentSubscription = new WindowsAzureSubscription
                 {
                     SubscriptionId = "testId"
                 }

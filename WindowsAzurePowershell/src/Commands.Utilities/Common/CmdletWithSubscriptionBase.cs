@@ -34,35 +34,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public WindowsAzureProfile Profile
         {
-            get
-            {
-                if (profile == null)
-                {
-                    return WindowsAzureProfile.Instance;
-                }
-                return profile;
-            }
+            get { return profile ?? WindowsAzureProfile.Instance; }
 
             set { profile = value; }
         }
 
-        private WindowsAzureSubscription azureSubscription;
+        private WindowsAzureSubscription currentSubscription;
 
-        public WindowsAzureSubscription CurrentAzureSubscription
+        public WindowsAzureSubscription CurrentSubscription
         {
-            get
-            {
-                if (azureSubscription == null)
-                {
-                    return Profile.CurrentSubscription;
-                }
-                return azureSubscription;
-            }
+            get { return currentSubscription ?? Profile.CurrentSubscription; }
             set
             {
-                if (azureSubscription != value)
+                if (currentSubscription != value)
                 {
-                    azureSubscription = value;
+                    currentSubscription = value;
                     OnCurrentSubscriptionUpdated();
                 }
             }

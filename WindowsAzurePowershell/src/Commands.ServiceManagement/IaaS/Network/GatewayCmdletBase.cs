@@ -40,16 +40,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ServiceBinding = ConfigurationConstants.WebHttpBinding();
             }
 
-            if (CurrentAzureSubscription.ManagementEndpoint == null)
+            if (CurrentSubscription.ManagementEndpoint == null)
             {
                 ServiceEndpoint = Profile.CurrentEnvironment.ServiceEndpoint;
             }
             else
             {
-                ServiceEndpoint = CurrentAzureSubscription.ManagementEndpoint.ToString();
+                ServiceEndpoint = CurrentSubscription.ManagementEndpoint.ToString();
             }
 
-            return GatewayManagementHelper.CreateGatewayManagementChannel(ServiceBinding, new Uri(ServiceEndpoint), CurrentAzureSubscription.Certificate);
+            return GatewayManagementHelper.CreateGatewayManagementChannel(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
         }
 
         protected override void WriteErrorDetails(CommunicationException exception)
