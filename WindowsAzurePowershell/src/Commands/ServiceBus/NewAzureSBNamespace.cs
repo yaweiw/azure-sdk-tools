@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         public override void ExecuteCmdlet()
         {
             ServiceBusNamespace namespaceDescription = null;
-            string subscriptionId = CurrentSubscription.SubscriptionId;
+            string subscriptionId = CurrentAzureSubscription.SubscriptionId;
             string name = Name;
             string region = string.IsNullOrEmpty(Location) ? GetDefaultLocation() : Location;
 
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
 
         private string GetDefaultLocation()
         {
-            return Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId).First().Code;
+            return Channel.ListServiceBusRegions(CurrentAzureSubscription.SubscriptionId).First().Code;
         }
     }
 }

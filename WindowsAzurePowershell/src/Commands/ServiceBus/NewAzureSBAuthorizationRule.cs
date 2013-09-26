@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
 
         public override void ExecuteCmdlet()
         {
-            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription, WriteDebug);
+            Client = Client ?? new ServiceBusClientExtensions(CurrentAzureSubscription, WriteDebug);
             AuthorizationRule rule = null;
             PSObject output = null;
 

@@ -97,13 +97,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 return operationResult;
             };
 
-            SubscriptionData subscriptionData = UnitTestHelper.CreateUnitTestSubscription();
-            subscriptionData.ServiceEndpoint = MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri;
+            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
+            subscription.ManagementEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
 
             NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
 
             ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscriptionData);
+                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
             service.Channel = channel;
 
             Database result = 

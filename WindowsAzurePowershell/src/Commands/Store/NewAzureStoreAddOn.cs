@@ -50,9 +50,9 @@ namespace Microsoft.WindowsAzure.Commands.Store
         public override void ExecuteCmdlet()
         {
             StoreClient = StoreClient ?? new StoreClient(
-                CurrentSubscription.SubscriptionId,
+                CurrentAzureSubscription.SubscriptionId,
                 ServiceEndpoint,
-                CurrentSubscription.Certificate,
+                CurrentAzureSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
             WindowsAzureAddOn addon;

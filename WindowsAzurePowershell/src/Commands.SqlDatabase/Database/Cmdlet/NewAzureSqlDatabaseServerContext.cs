@@ -198,18 +198,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// Connect to Azure SQL Server using certificate authentication.
         /// </summary>
         /// <param name="serverName">The name of the server to connect to</param>
-        /// <param name="subscriptionData">The subscription data to use for authentication</param>
+        /// <param name="subscription">The subscription data to use for authentication</param>
         /// <returns>A new <see cref="ServerDataServiceCertAuth"/> context,
         /// or <c>null</c> if an error occurred.</returns>
         internal ServerDataServiceCertAuth GetServerDataServiceByCertAuth(
             string serverName,
-            SubscriptionData subscriptionData)
+            WindowsAzureSubscription subscription)
         {
             ServerDataServiceCertAuth context = null;
 
             try
             {
-                context = ServerDataServiceCertAuth.Create(serverName, subscriptionData);
+                context = ServerDataServiceCertAuth.Create(serverName, subscription);
             }
             catch (ArgumentException e)
             {
@@ -246,12 +246,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 case FullyQualifiedServerNameWithCertAuthParamSet:
                 case ServerNameWithCertAuthParamSet:
                     // Get the current subscription data.
-                    SubscriptionData subscriptionData = this.GetSubscriptionData();
+                    WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
 
                     // Create a context using the subscription datat
                     return this.GetServerDataServiceByCertAuth(
                        serverName,
-                       subscriptionData);
+                       subscription);
 
                 default:
                     throw new InvalidOperationException(Resources.UnknownParameterSet);

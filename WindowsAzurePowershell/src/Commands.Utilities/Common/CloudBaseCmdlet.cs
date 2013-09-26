@@ -222,7 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected TResult RetryCall<TResult>(Func<string, TResult> call)
         {
-            return RetryCall(CurrentSubscription.SubscriptionId, call);
+            return RetryCall(CurrentAzureSubscription.SubscriptionId, call);
         }
 
         protected TResult RetryCall<TResult>(string subsId, Func<string, TResult> call)
