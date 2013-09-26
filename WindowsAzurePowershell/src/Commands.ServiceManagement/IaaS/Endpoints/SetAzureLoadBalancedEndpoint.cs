@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                 null,
                 this.CommandRuntime.ToString(),
                 s => this.Channel.UpdateLoadBalancedEndpointSet(
-                    this.CurrentSubscription.SubscriptionId,
+                    this.CurrentAzureSubscription.SubscriptionId,
                     this.ServiceName,
                     this.CurrentDeployment.Name,
                     endpointList));

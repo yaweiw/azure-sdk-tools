@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 if (this.DeleteVHD.IsPresent)
                 {
                     // Remove the underlying VHD from the blob storage
-                    Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
+                    Disks.RemoveVHD(this.Channel, CurrentAzureSubscription.SubscriptionId, mediaLink);
                 }
             }
             catch (ServiceManagementClientException ex)

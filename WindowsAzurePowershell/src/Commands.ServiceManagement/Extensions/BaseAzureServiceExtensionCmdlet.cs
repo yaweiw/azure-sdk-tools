@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             string serviceName;
             ServiceSettings settings = General.GetDefaultSettings(General.TryGetServiceRootPath(CurrentPath()),
-                ServiceName, null, null, null, null, CurrentSubscription.SubscriptionId, out serviceName);
+                ServiceName, null, null, null, null, CurrentAzureSubscription.SubscriptionId, out serviceName);
 
             if (string.IsNullOrEmpty(serviceName))
             {
@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             bool found = false;
             InvokeInOperationContext(() =>
             {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
+                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentAzureSubscription.SubscriptionId, serviceName).Result);
             });
             return found;
         }

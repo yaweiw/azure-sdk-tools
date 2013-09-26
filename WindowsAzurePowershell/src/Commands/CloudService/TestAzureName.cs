@@ -101,11 +101,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
 
             if (Service.IsPresent)
             {
-                IsDNSAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsDNSAvailable(CurrentAzureSubscription.SubscriptionId, Name);
             }
             else if (Storage.IsPresent)
             {
-                IsStorageServiceAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsStorageServiceAvailable(CurrentAzureSubscription.SubscriptionId, Name);
             }
             else
             {
@@ -114,11 +114,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                     serviceBusChannel = ChannelHelper.CreateServiceManagementChannel<IServiceBusManagement>(
                         ServiceBinding,
                         new Uri(ServiceEndpoint),
-                        CurrentSubscription.Certificate,
+                        CurrentAzureSubscription.Certificate,
                         new HttpRestMessageInspector(text => this.WriteDebug(text)));
                 }
 
-                IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsServiceBusNamespaceAvailable(CurrentAzureSubscription.SubscriptionId, Name);
             }
         }
     }

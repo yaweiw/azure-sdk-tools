@@ -302,7 +302,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 var networkConfigurationSetBuilder = new NetworkConfigurationSetBuilder(persistentVM.ConfigurationSets);
 
-                Disk disk = this.Channel.GetDisk(CurrentSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
+                Disk disk = this.Channel.GetDisk(CurrentAzureSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
                 if (disk.OS == OS.Windows && !persistentVM.NoRDPEndpoint)
                 {
                     networkConfigurationSetBuilder.AddRdpEndpoint();

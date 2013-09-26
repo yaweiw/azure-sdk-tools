@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ValidateParameters();
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName),
+                s => this.Channel.ListHostedServiceExtensions(CurrentAzureSubscription.SubscriptionId, ServiceName),
                 (op, extensions) =>
                 {
                     var extensionRoleList = (from r in Deployment.RoleList

@@ -59,12 +59,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         /// <summary>
         /// Removes a service bus namespace.
         /// </summary>
-        /// <param name="subscriptionId">The user subscription id</param>
-        /// <param name="name">The namespace name</param>
-        /// <summary>
         public override void ExecuteCmdlet()
         {
-            string subscriptionId = CurrentSubscription.SubscriptionId;
+            string subscriptionId = CurrentAzureSubscription.SubscriptionId;
             string name = Name;
 
             try
