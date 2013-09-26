@@ -151,8 +151,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     }
                 }
 
+
+                var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+                DeploymentGetResponse d = null;
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
+                    }
+                    catch (CloudException ex)
+                    {
+                        if (ex.Response.StatusCode != HttpStatusCode.NotFound && IsVerbose() == false)
+                        {
+                            this.WriteExceptionDetails(ex);
+                        }
+                    }
+                });
+
                 ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
-                extConfig = extensionMgr.Set(ExtensionConfiguration, this.Slot);
+                extConfig = extensionMgr.Set(d, ExtensionConfiguration, this.Slot);
             }
             
             var deploymentInput = new DeploymentCreateParameters

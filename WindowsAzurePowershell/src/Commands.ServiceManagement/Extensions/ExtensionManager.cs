@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
-    using WindowsAzure.ServiceManagement;
+    //using WindowsAzure.ServiceManagement;
 
     public class ExtensionManager
     {
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 ExtendedExtensionList = Cmdlet.ComputeClient.HostedServices.ListExtensions(ServiceName).Extensions;
             }
 
-            return ExtendedExtensionList == null ? null : ExtendedExtensionList.DefaultIfEmpty(null).First(e => e.Id == extensionId);
+            return ExtendedExtensionList == null || !ExtendedExtensionList.Any() ? null : ExtendedExtensionList.First(e => e.Id == extensionId);
         }
 
         public void DeleteExtension(string extensionId)
@@ -93,11 +93,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return new ExtensionConfigurationBuilder(this, config);
         }
 
-        public ExtensionConfigurationBuilder GetBuilder(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
-        {
-            return new ExtensionConfigurationBuilder(this, Convert(config));
-        }
-
         public string GetExtensionId(string roleName, string type, string slot, int index)
         {
             return string.Format(ExtensionIdTemplate, roleName, type, slot, index);
@@ -105,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         private void GetThumbprintAndAlgorithm(IList<HostedServiceListExtensionsResponse.Extension> extensionList, string extensionId, ref string thumbprint, ref string thumbprintAlgorithm)
         {
-            var existingExtension = extensionList.DefaultIfEmpty(null).First(e => e.Id == extensionId);
+            var existingExtension = extensionList == null || !extensionList.Any(e => e.Id == extensionId) ? null : extensionList.First(e => e.Id == extensionId);
             if (existingExtension != null)
             {
                 thumbprint = existingExtension.Thumbprint;
@@ -125,8 +120,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             var certList = Cmdlet.ComputeClient.ServiceCertificates.List(ServiceName).Certificates;
             string extThumbprint = thumbprint;
             string extThumbprintAlgorithm = thumbprintAlgorithm;
-            var cert = certList.DefaultIfEmpty(null).First(c => c.Thumbprint == extThumbprint && c.ThumbprintAlgorithm == extThumbprintAlgorithm);
-            cert = cert != null ? cert : certList.DefaultIfEmpty(null).First(c =>
+            var cert = certList == null || !certList.Any(c => c.Thumbprint == extThumbprint && c.ThumbprintAlgorithm == extThumbprintAlgorithm)
+                                         ? null : certList.First(c => c.Thumbprint == extThumbprint && c.ThumbprintAlgorithm == extThumbprintAlgorithm);
+            cert = cert != null ? cert : certList.FirstOrDefault(c =>
             {
                 byte[] bytes = c.Data;
                 X509Certificate2 x509cert = null;
@@ -252,7 +248,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        public Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration Set(ExtensionConfigurationInput[] inputs, string slot)
+        public Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration Set(DeploymentGetResponse currentDeployment, ExtensionConfigurationInput[] inputs, string slot)
         {
             string errorConfigInput = null;
             if (!Validate(inputs, out errorConfigInput))
@@ -260,33 +256,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, errorConfigInput));
             }
 
-            Microsoft.WindowsAzure.ServiceManagement.Deployment currentDeployment = null;
-            Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration deploymentExtensionConfig = null;
-            using (new OperationContextScope(this.Cmdlet.Channel.ToContextChannel()))
-            {
-                try
-                {
-                    currentDeployment = this.Cmdlet.Channel.GetDeploymentBySlot(Cmdlet.CurrentSubscription.SubscriptionId, this.ServiceName, slot);
-                    deploymentExtensionConfig = currentDeployment == null ? null : this.GetBuilder(currentDeployment.ExtensionConfiguration).ToConfiguration();
-                }
-                catch (Microsoft.WindowsAzure.ServiceManagement.ServiceManagementClientException ex)
-                {
-                    if (ex.HttpStatus != HttpStatusCode.NotFound)
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            Microsoft.WindowsAzure.ServiceManagement.Deployment deployment = Cmdlet.Channel.GetDeploymentBySlot(Cmdlet.CurrentSubscription.SubscriptionId, ServiceName, slot);
-            var oldExtConfig = deployment.ExtensionConfiguration;
+            var oldExtConfig = currentDeployment.ExtensionConfiguration;
 
             ExtensionConfigurationBuilder configBuilder = this.GetBuilder();
             foreach (ExtensionConfigurationInput context in inputs)
             {
                 if (context != null)
                 {
-                    Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration currentConfig = this.InstallExtension(context, slot, deploymentExtensionConfig);
+                    Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration currentConfig = this.InstallExtension(context, slot, oldExtConfig);
                     foreach (var r in currentConfig.AllRoles)
                     {
                         if (currentDeployment == null || !this.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
@@ -312,10 +289,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return extConfig;
         }
 
-        public Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration Add(ExtensionConfigurationInput[] inputs, string slot)
+        public Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration Add(DeploymentGetResponse deployment, ExtensionConfigurationInput[] inputs, string slot)
         {
-            Microsoft.WindowsAzure.ServiceManagement.Deployment deployment = Cmdlet.Channel.GetDeploymentBySlot(Cmdlet.CurrentSubscription.SubscriptionId, ServiceName, slot);
-            var oldExtConfig = Convert(deployment.ExtensionConfiguration);
+            string errorConfigInput = null;
+            if (!Validate(inputs, out errorConfigInput))
+            {
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, errorConfigInput));
+            }
+
+            var oldExtConfig = deployment.ExtensionConfiguration;
 
             ExtensionConfigurationBuilder configBuilder = this.GetBuilder();
             foreach (ExtensionConfigurationInput context in inputs)
@@ -345,47 +327,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             var extConfig = configBuilder.ToConfiguration();
 
             return extConfig;
-        }
-
-        public static Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration Convert(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration thisExt)
-        {
-            Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration thatExt = new Management.Compute.Models.ExtensionConfiguration();
-            if (thisExt != null)
-            {
-                if (thisExt.AllRoles != null)
-                {
-                    foreach (var ex in thisExt.AllRoles)
-                    {
-                        thatExt.AllRoles.Add(new Management.Compute.Models.ExtensionConfiguration.Extension
-                        {
-                            Id = ex.Id
-                        });
-                    }
-                }
-
-                if (thisExt.NamedRoles != null)
-                {
-                    foreach (var roleEx in thisExt.NamedRoles)
-                    {
-                        var thatNamedRole = new Management.Compute.Models.ExtensionConfiguration.NamedRole
-                        {
-                            RoleName = roleEx.RoleName
-                        };
-
-                        foreach (var ex in roleEx.Extensions)
-                        {
-                            thatNamedRole.Extensions.Add(new Management.Compute.Models.ExtensionConfiguration.Extension
-                            {
-                                Id = ex.Id
-                            });
-                        }
-
-                        thatExt.NamedRoles.Add(thatNamedRole);
-                    }
-                }
-            }
-
-            return thatExt;
         }
 
         public static bool Validate(ExtensionConfigurationInput[] inputs, out string errorConfigInput)

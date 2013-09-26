@@ -15,15 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
-    using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Utilities.Common;
+    using System.Net;
     using Extensions;
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
@@ -164,8 +163,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     }
                 }
 
+                var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+                DeploymentGetResponse d = null;
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
+                    }
+                    catch (CloudException ex)
+                    {
+                        if (ex.Response.StatusCode != HttpStatusCode.NotFound && IsVerbose() == false)
+                        {
+                            this.WriteExceptionDetails(ex);
+                        }
+                    }
+                });
+
                 ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
-                extConfig = extensionMgr.Add(ExtensionConfiguration, this.Slot);
+                extConfig = extensionMgr.Add(d, ExtensionConfiguration, this.Slot);
             }
 
             // Upgrade Parameter Set

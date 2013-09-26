@@ -225,11 +225,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             return this;
         }
-        
-        public ExtensionConfigurationBuilder Add(Microsoft.WindowsAzure.ServiceManagement.ExtensionConfiguration config)
-        {
-            return Add(ExtensionManager.Convert(config));
-        }
 
         public ExtensionConfigurationBuilder Add(ExtensionConfiguration config)
         {

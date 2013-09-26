@@ -477,7 +477,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     DiskName = null,
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
-                    HostCaching = HostCaching
+                    HostCaching = string.IsNullOrEmpty(HostCaching) ? Management.Compute.Models.VirtualHardDiskHostCaching.ReadOnly.ToString() : HostCaching
                 }, new Management.Compute.Models.OSVirtualHardDisk())
             };
 
@@ -486,7 +486,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
-
 
             var netConfig = CreateNetworkConfigurationSet();
 

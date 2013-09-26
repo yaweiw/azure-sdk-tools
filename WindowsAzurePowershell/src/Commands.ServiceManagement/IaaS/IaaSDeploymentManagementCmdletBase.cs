@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
                 }
                 //durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == roleName);
-                durableRoleInstance = d.RoleInstances.DefaultIfEmpty(null).First(ri => ri.RoleName == roleName);
+                durableRoleInstance = d.RoleInstances == null || !d.RoleInstances.Any() ? null : d.RoleInstances.First(ri => ri.RoleName == roleName);
 
                 if (currentInstanceStatus == null)
                 {
