@@ -2192,6 +2192,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
         public ExtensionDataObject ExtensionData { get; set; }
     }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS, Name = "AvailableServices", ItemName = "AvailableService")]
+    public class AvailableServicesList : List<string>, IExtensibleDataObject
+    {
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
 }
 
 

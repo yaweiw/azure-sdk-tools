@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         {
             public GetAzureWinRMUriStub(Deployment currentDeployment)
             {
-                this.CurrentDeployment = currentDeployment;
+                //this.CurrentDeployment = currentDeployment;
             }
         }
 

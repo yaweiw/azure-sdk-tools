@@ -277,12 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             for (int i = startingVM; i < persistentVMs.Count; i++)
             {
                 var operationDescription = string.Format(Resources.AzureVMCommandCreateVM, CommandRuntime, persistentVMs[i].RoleName);
-                VirtualMachineRoleSize roleSizeResult;
-                if (!Enum.TryParse(persistentVMs[i].RoleSize.ToString(), true, out roleSizeResult))
-                {
-                    throw new ArgumentOutOfRangeException("RoleSize:" + persistentVMs[i].RoleSize);
-                }
-
+                
                 //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
                 //TOOD: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/118
                 var parameter = new VirtualMachineCreateParameters
@@ -290,7 +285,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     AvailabilitySetName = persistentVMs[i].AvailabilitySetName,
                     OSVirtualHardDisk = Mapper.Map(persistentVMs[i].OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                     RoleName = persistentVMs[i].RoleName,
-                    RoleSize = roleSizeResult,
+                    RoleSize = persistentVMs[i].RoleSize,
                 };
                 parameter.DataVirtualHardDisks.ForEach(c => persistentVMs[i].DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
                 parameter.ConfigurationSets.ForEach(c => persistentVMs[i].ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
