@@ -57,6 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public BaseAzureServiceExtensionCmdlet()
             : base()
         {
+            ServiceManagementProfile.Initialize();
         }
 
         protected virtual void ValidateParameters()
