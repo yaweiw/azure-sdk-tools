@@ -130,17 +130,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "Use certificate authentication")]
         public SwitchParameter UseSubscription { get; set; }
 
-        /// <summary>
-        /// Gets or sets the server credentials
-        /// </summary>
-        [Parameter(Mandatory = false, Position = 2, 
-            ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2,
-            ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        public SubscriptionData SubscriptionData { get; set; }
-
         #endregion
 
         /// <summary>
@@ -356,24 +345,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             else
             {
                 throw new ArgumentException(Resources.CredentialNotSpecified);
-            }
-        }
-
-        /// <summary>
-        /// Obtain the SubscriptionData based on the Cmdlet's parameter set.
-        /// </summary>
-        /// <returns>The SubscriptionData to use based on the Cmdlet's parameter set.</returns>
-        private SubscriptionData GetSubscriptionData()
-        {
-            if (this.MyInvocation.BoundParameters.ContainsKey("SubscriptionData"))
-            {
-                // SubscriptionData is specified as a parameter. Use it as is.
-                return this.SubscriptionData;
-            }
-            else
-            {
-                // SubscriptionData is not specified, use the current subscription.
-                return this.GetCurrentSubscription();
             }
         }
 

@@ -26,35 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public static ISessionManager SessionManager = new PsSessionManager();
 
-        public static SubscriptionData GetCurrentSubscription(this PSCmdlet cmdlet)
-        {
-            // Check if there is a current subscription already set
-            var currentSubscription = SessionManager.GetVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable) as SubscriptionData;
-            if (currentSubscription == null)
-            {
-                try
-                {
-                    // Check if there is a default subscription available
-                    GlobalSettingsManager globalSettingsManager = GlobalSettingsManager.Load(GlobalPathInfo.GlobalSettingsDirectory);
-                    currentSubscription =
-                        globalSettingsManager.Subscriptions.Values.FirstOrDefault(subscription => subscription.IsDefault);
-
-                    if (currentSubscription != null)
-                    {
-                        // Set the default subscription to be the new current subscription
-                        SessionManager.SetVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable,
-                                                   currentSubscription);
-                    }
-                }
-                catch (FileNotFoundException)
-                {
-                    return null;
-                }
-            }
-
-            return currentSubscription;
-        }
-
         public static void SetCurrentSubscription(this PSCmdlet cmdlet, string subscriptionName, string subscriptionDataFile)
         {
             if (subscriptionName == null)
