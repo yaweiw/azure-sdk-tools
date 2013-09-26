@@ -285,9 +285,7 @@
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\GlobalSettingsManager.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
-    <Compile Include="Common\ISessionManager.cs" />
     <Compile Include="Common\ISubscriptionsManager.cs" />
-    <Compile Include="Common\PsSessionManager.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
     <Compile Include="Common\SubscriptionsManager.cs" />
     <Compile Include="Common\AzureBlob.cs" />
