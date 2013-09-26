@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     {
                         Site websiteObject = WebsitesClient.GetWebsite(Name);
                         WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name);
-                        Cache.RemoveSite(CurrentAzureSubscription.SubscriptionId, websiteObject);
+                        Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
                     });
         }
     }

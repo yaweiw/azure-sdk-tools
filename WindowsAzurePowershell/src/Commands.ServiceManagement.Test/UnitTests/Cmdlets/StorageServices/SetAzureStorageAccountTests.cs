@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             {
                 CommandRuntime = new MockCommandRuntime(),
                 ShareChannel = true,
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = expected.SubscriptionId },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = expected.SubscriptionId },
                 StorageAccountName = expected.StorageServiceName,
                 Description = expected.UpdateStorageServiceInput.Description,
                 Label = expected.UpdateStorageServiceInput.Label,

@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     }
                 }
 
-                Deployment deployment = Channel.GetDeploymentBySlot(CurrentAzureSubscription.SubscriptionId, ServiceName, Slot);
+                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
                 ExtensionManager extensionMgr = new ExtensionManager(this, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
@@ -213,7 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             if (string.Compare(ParameterSetName, "Upgrade", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 bool removePackage = false;
-                var storageName = CurrentAzureSubscription.CurrentStorageAccountName;
+                var storageName = CurrentSubscription.CurrentStorageAccountName;
 
                 Uri packageUrl = null;
                 if (Package.StartsWith(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||

@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             };
 
             var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, RetryPolicy.NoRetryPolicy, ServiceManagementClientOptions.DefaultOptions.WaitTimeForOperationToComplete, messageInspectors);
-            var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentAzureSubscription.SubscriptionId, CurrentAzureSubscription.Certificate, clientOptions);
+            var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate, clientOptions);
 
             Type serviceManagementClientType = typeof(ServiceManagementClient);
             PropertyInfo propertyInfo = serviceManagementClientType.GetProperty("SyncService", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                 if (!string.IsNullOrEmpty(operationId))
                 {
-                    operation = RetryCall(s => GetOperationStatus(this.CurrentAzureSubscription.SubscriptionId, operationId));
+                    operation = RetryCall(s => GetOperationStatus(this.CurrentSubscription.SubscriptionId, operationId));
 
                     if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
                     {

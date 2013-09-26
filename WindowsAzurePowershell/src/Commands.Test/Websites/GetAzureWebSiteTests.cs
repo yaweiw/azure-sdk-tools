@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
                 WebsitesClient = clientMock.Object
             };
 
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
                 Name = "website1",
                 WebsitesClient = clientMock.Object
             };
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
                 Name = "WEBSiTe1",
                 WebsitesClient = clientMock.Object
             };
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = null
+                CurrentSubscription = null
             };
 
             Testing.AssertThrows<Exception>(getAzureWebsiteCommand.ExecuteCmdlet, Resources.NoDefaultSubscriptionMessage);
@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var getAzureWebsiteCommand = new GetAzureWebsiteCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentAzureSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
                 Name = "website1",
                 WebsitesClient = websitesClientMock.Object
             };

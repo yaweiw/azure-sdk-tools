@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             else if (Storage.IsPresent)
             {
                 string storageName = string.IsNullOrEmpty(StorageAccountName) ?
-                    CurrentAzureSubscription.CurrentStorageAccountName : StorageAccountName;
+                    CurrentSubscription.CurrentStorageAccountName : StorageAccountName;
                 properties[DiagnosticProperties.StorageAccountName] = storageName;
                 WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, properties);
             }

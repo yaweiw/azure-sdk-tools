@@ -97,11 +97,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         {
             if (string.IsNullOrEmpty(Name))
             {
-                ListNamespacesProcess(CurrentAzureSubscription.SubscriptionId);
+                ListNamespacesProcess(CurrentSubscription.SubscriptionId);
             }
             else
             {
-                GetNamespaceProcess(CurrentAzureSubscription.SubscriptionId, Name);
+                GetNamespaceProcess(CurrentSubscription.SubscriptionId, Name);
             }
         }
     }

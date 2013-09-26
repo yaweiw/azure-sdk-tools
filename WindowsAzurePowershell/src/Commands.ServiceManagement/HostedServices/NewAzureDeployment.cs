@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Production);
             AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Staging);
 
-            var storageName = CurrentAzureSubscription.CurrentStorageAccountName;
+            var storageName = CurrentSubscription.CurrentStorageAccountName;
 
             Uri packageUrl;
             if (this.Package.StartsWith(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
@@ -301,7 +301,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 this.Label = this.Name;
             }
 
-            if (string.IsNullOrEmpty(this.CurrentAzureSubscription.CurrentStorageAccountName))
+            if (string.IsNullOrEmpty(this.CurrentSubscription.CurrentStorageAccountName))
             {
                 throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);                
             }

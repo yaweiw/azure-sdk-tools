@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                 () =>
                 {
                     CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
-                        CurrentAzureSubscription,
+                        CurrentSubscription,
                         SessionState.Path.CurrentLocation.Path,
                         WriteDebug,
                         WriteVerbose,

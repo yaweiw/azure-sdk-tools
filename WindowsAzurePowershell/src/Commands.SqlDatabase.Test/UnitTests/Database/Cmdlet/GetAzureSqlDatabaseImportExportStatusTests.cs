@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             GetAzureSqlDatabaseImportExportStatus getImportExportStatus = 
                 new GetAzureSqlDatabaseImportExportStatus(channel) { ShareChannel = true };
-            getImportExportStatus.CurrentAzureSubscription = UnitTestHelper.CreateUnitTestSubscription();
+            getImportExportStatus.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             getImportExportStatus.CommandRuntime = commandRuntime;
             var result = getImportExportStatus.GetAzureSqlDatabaseImportExportStatusProcess(
                 serverName,

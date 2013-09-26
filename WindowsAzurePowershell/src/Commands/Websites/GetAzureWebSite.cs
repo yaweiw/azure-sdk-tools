@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 {
                     Site websiteObject = WebsitesClient.GetWebsite(Name);
                     SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name);
-                    Cache.AddSite(CurrentAzureSubscription.SubscriptionId, websiteObject);
+                    Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
                     var diagnosticSettings = new DiagnosticsSettings();
                     try
@@ -86,14 +86,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     var websites = WebsitesClient.ListWebSpaces()
                         .SelectMany(space => WebsitesClient.ListSitesInWebSpace(space.Name))
                         .ToList();
-                    Cache.SaveSites(CurrentAzureSubscription.SubscriptionId, new Sites(websites));
+                    Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                     WriteWebsites(websites);
                 });
         }
 
         private void EnsureCurrentSubscription()
         {
-            if (CurrentAzureSubscription == null)
+            if (CurrentSubscription == null)
             {
                 throw new Exception(Resources.NoDefaultSubscriptionMessage);
             }

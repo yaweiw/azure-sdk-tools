@@ -59,9 +59,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     _serviceEndpoint = CurrentServiceEndpoint;
                 }
-                else if (CurrentAzureSubscription != null && CurrentAzureSubscription.ManagementEndpoint != null)
+                else if (CurrentSubscription != null && CurrentSubscription.ManagementEndpoint != null)
                 {
-                    _serviceEndpoint = CurrentAzureSubscription.ManagementEndpoint.ToString();
+                    _serviceEndpoint = CurrentSubscription.ManagementEndpoint.ToString();
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (!string.IsNullOrEmpty(subscriptionName))
             {
-                CurrentAzureSubscription = Profile.Subscriptions.First(s => s.Name == subscriptionName);
+                CurrentSubscription = Profile.Subscriptions.First(s => s.Name == subscriptionName);
             }
         }
 
@@ -118,17 +118,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected virtual void InitChannelCurrentSubscription(bool force)
         {
-            if (CurrentAzureSubscription == null)
+            if (CurrentSubscription == null)
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscription);
             }
 
-            if (CurrentAzureSubscription.Certificate == null)
+            if (CurrentSubscription.Certificate == null)
             {
                 throw new ArgumentException(Resources.InvalidCurrentSuscriptionCertificate);
             }
 
-            if (string.IsNullOrEmpty(CurrentAzureSubscription.SubscriptionId))
+            if (string.IsNullOrEmpty(CurrentSubscription.SubscriptionId))
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscriptionId);
             }
@@ -183,13 +183,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return ChannelHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
-                CurrentAzureSubscription.Certificate,
+                CurrentSubscription.Certificate,
                 new HttpRestMessageInspector(WriteDebug));
         }
 
         protected void RetryCall(Action<string> call)
         {
-            RetryCall(CurrentAzureSubscription.SubscriptionId, call);
+            RetryCall(CurrentSubscription.SubscriptionId, call);
         }
 
         protected void RetryCall(string subsId, Action<string> call)
@@ -222,7 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected TResult RetryCall<TResult>(Func<string, TResult> call)
         {
-            return RetryCall(CurrentAzureSubscription.SubscriptionId, call);
+            return RetryCall(CurrentSubscription.SubscriptionId, call);
         }
 
         protected TResult RetryCall<TResult>(string subsId, Func<string, TResult> call)

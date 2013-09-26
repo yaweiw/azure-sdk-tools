@@ -71,13 +71,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         private void ProcessShareImageParameterSet()
         {
-            this.Channel.GetOSImage(CurrentAzureSubscription.SubscriptionId, this.ImageName);
+            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShareOSImage(s, this.ImageName, this.Permission));
         }
 
         private void ProcessReplicateImageParameterSet()
         {
-            this.Channel.GetOSImage(CurrentAzureSubscription.SubscriptionId, this.ImageName);
+            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
             ValidateTargetLocations();
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ReplicateOSImage(s, this.ImageName, CreateReplicationInput()));
         }
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         private void ValidateTargetLocations()
         {
-            var locations = this.Channel.ListLocations(CurrentAzureSubscription.SubscriptionId);
+            var locations = this.Channel.ListLocations(CurrentSubscription.SubscriptionId);
             if (this.ReplicaLocations != null)
             {
                 var invalidValues = ReplicaLocations.Except(locations.Select(l => l.Name), StringComparer.OrdinalIgnoreCase).ToList();

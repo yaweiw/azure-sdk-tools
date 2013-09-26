@@ -126,8 +126,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         internal virtual bool ShouldInitServiceChannel()
         {
             //Storage Context is empty and have already set the current storage account in subscription
-            if (Context == null && CurrentAzureSubscription != null &&
-                !String.IsNullOrEmpty(CurrentAzureSubscription.CurrentStorageAccountName))
+            if (Context == null && CurrentSubscription != null &&
+                !String.IsNullOrEmpty(CurrentSubscription.CurrentStorageAccountName))
             {
                 return true;
             }
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>A storage account</returns>
         private CloudStorageAccount GetStorageAccountFromSubscription()
         {
-            string CurrentStorageAccount = CurrentAzureSubscription.CurrentStorageAccountName;
+            string CurrentStorageAccount = CurrentSubscription.CurrentStorageAccountName;
 
             if (string.IsNullOrEmpty(CurrentStorageAccount))
             {
@@ -168,12 +168,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
             else
             {
-                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentAzureSubscription.Name));
+                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.Name));
 
                 try
                 {
                     //The service channel initialized by subscription
-                    return CurrentAzureSubscription.GetCloudStorageAccount();
+                    return CurrentSubscription.GetCloudStorageAccount();
                 }
                 catch (ServiceModel.CommunicationException e)
                 {
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                     if (e.IsNotFoundException())
                     {
                         //Repack the 404 error
-                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount, CurrentAzureSubscription.Name);
+                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount, CurrentSubscription.Name);
                         ServiceModel.CommunicationException exception = new ServiceModel.CommunicationException(errorMessage, e);
                         throw exception;
                     }
