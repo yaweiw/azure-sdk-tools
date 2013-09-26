@@ -194,7 +194,6 @@
     </Compile>
     <Compile Include="Resources\ResourceLocator.cs" />
     <Compile Include="ServiceBus\SimpleServiceBusManagement.cs" />
-    <Compile Include="Common\InMemorySessionManager.cs" />
     <Compile Include="Common\AzureAssert.cs" />
     <Compile Include="Common\FileSystemHelper.cs" />
     <Compile Include="Common\MockCommandRuntime.cs" />
