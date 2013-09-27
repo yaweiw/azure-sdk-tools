@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         {
             RoleName = roleInstance.RoleName;
             InstanceName = roleInstance.InstanceName;
+            InstanceStatus = roleInstance.InstanceStatus;
             InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.ToString();
             InstanceFaultDomain = roleInstance.InstanceFaultDomain.ToString();
             InstanceSize = roleInstance.InstanceSize.ToString();
