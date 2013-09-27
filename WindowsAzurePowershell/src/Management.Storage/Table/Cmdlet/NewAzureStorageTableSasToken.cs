@@ -172,6 +172,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
                         policy.Permissions |= SharedAccessTablePermissions.Delete;
                         break;
                     case 'q':
+                    case 'r':
                         policy.Permissions |= SharedAccessTablePermissions.Query;
                         break;
                     default:

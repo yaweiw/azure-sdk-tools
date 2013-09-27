@@ -56,8 +56,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Update);
             command.SetupAccessPolicyPermission(accessPolicy, "uUUU");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Update);
-            command.SetupAccessPolicyPermission(accessPolicy, "dq");
+            command.SetupAccessPolicyPermission(accessPolicy, "drrq");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query);
+            command.SetupAccessPolicyPermission(accessPolicy, "rq");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Query);
+            command.SetupAccessPolicyPermission(accessPolicy, "q");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Query);
+            command.SetupAccessPolicyPermission(accessPolicy, "r");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Query);
             command.SetupAccessPolicyPermission(accessPolicy, "qd");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query);
             command.SetupAccessPolicyPermission(accessPolicy, "audq");
