@@ -98,6 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 WriteExceptionError(ex);
             }
+            finally { WriteDebug(HttpRestCallLogger.Flush()); }
         }
 
         /// <summary>
