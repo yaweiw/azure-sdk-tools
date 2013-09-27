@@ -46,9 +46,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             IgnoreCase = true)]
         public string MetricsLevel { get; set; }
 
-        [Parameter(HelpMessage = "Service default version")]
-        public string DefaultServiceVersion { get; set; }
-
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
 
@@ -86,11 +83,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     string defaultMetricsVersion = "1.0";
                     serviceProperties.Metrics.Version = defaultMetricsVersion;
                 }
-            }
-
-            if (!string.IsNullOrEmpty(DefaultServiceVersion))
-            {
-                serviceProperties.DefaultServiceVersion = DefaultServiceVersion;
             }
         }
 
