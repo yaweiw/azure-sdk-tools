@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml.Serialization;
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
+    using System.Net.Http;
 
     public static class General
     {
@@ -777,6 +778,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return GetHttpRequestLog(method, requestUri, ConvertHttpHeadersToWebHeaderCollection(headers), body);
         }
 
+        public static string GetLog(HttpResponseMessage response)
+        {
+            string body = response.Content == null ? string.Empty : FormatString(response.Content.ReadAsStringAsync().Result);
+
+            return GetHttpResponseLog(
+                response.StatusCode.ToString(),
+                response.Headers,
+                body);
+        }
+
+        public static string GetLog(HttpRequestMessage request)
+        {
+            string body = request.Content == null ? string.Empty : FormatString(request.Content.ReadAsStringAsync().Result);
+
+            return GetHttpRequestLog(
+                request.Method.ToString(),
+                request.RequestUri.ToString(),
+                (HttpHeaders)request.Headers,
+                body);
+        }
+
+        public static string FormatString(string content)
+        {
+            if (IsXml(content))
+            {
+                return TryFormatXml(content);
+            }
+            else if (IsJson(content))
+            {
+                return General.TryFormatJson(content);
+            }
+            else
+            {
+                return content;
+            }
+        }
+
         private static WebHeaderCollection ConvertHttpHeadersToWebHeaderCollection(HttpHeaders headers)
         {
             WebHeaderCollection webHeaders = new WebHeaderCollection();
@@ -802,21 +840,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return result.ToString();
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
-        public static string TryFormatJson(string str)
-        {
-            try
-            {
-                object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, JsonFormatting.Indented);
-            }
-            catch
-            {
-                // can't parse JSON, return the original string
-                return str;
-            }
         }
 
         public static Encoding GetFileEncoding(string path)
@@ -857,18 +880,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// Formats the given XML into indented way.
         /// </summary>
-        /// <param name="xml">The input xml string</param>
+        /// <param name="content">The input xml string</param>
         /// <returns>The formatted xml string</returns>
-        public static string FormatXml(string xml)
+        public static string TryFormatXml(string content)
         {
             try
             {
-                XDocument doc = XDocument.Parse(xml);
+                XDocument doc = XDocument.Parse(content);
                 return doc.ToString();
             }
             catch (Exception)
             {
-                return xml;
+                return content;
             }
         }
 
@@ -888,6 +911,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 return false;
             }
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
+        public static string TryFormatJson(string str)
+        {
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, JsonFormatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
+        }
+
+        public static bool IsJson(string content)
+        {
+            content = content.Trim();
+            return content.StartsWith("{") && content.EndsWith("}")
+                   || content.StartsWith("[") && content.EndsWith("]");
         }
 
         public static string GetNonEmptyValue(string oldValue, string newValue)

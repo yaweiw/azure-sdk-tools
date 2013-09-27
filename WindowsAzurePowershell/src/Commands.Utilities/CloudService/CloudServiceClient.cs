@@ -527,15 +527,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             ManagementClient = CloudContext.Clients.CreateManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
+                new Uri(subscription.ServiceEndpoint))
+                .WithHandler(new StandardHeadersHandler())
+                .WithHandler(new HttpRestCallLogger());
 
             StorageClient = CloudContext.Clients.CreateStorageManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
+                new Uri(subscription.ServiceEndpoint))
+                .WithHandler(new StandardHeadersHandler())
+                .WithHandler(new HttpRestCallLogger());
 
             ComputeClient = CloudContext.Clients.CreateComputeManagementClient(
                 new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate),
-                new Uri(subscription.ServiceEndpoint)).WithHandler(new StandardHeadersHandler());
+                new Uri(subscription.ServiceEndpoint))
+                .WithHandler(new StandardHeadersHandler())
+                .WithHandler(new HttpRestCallLogger());
         }
 
         internal CloudServiceClient(
