@@ -123,7 +123,8 @@
     <Compile Include="Blob\StorageBlobTestBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBaseTest.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContextTest.cs" />
-    <Compile Include="Common\Cmdlet\SetAzureStorageServicePropertiesTest.cs" />
+    <Compile Include="Common\Cmdlet\SetAzureStorageServiceLoggingTest.cs" />
+    <Compile Include="Common\Cmdlet\SetAzureStorageServiceMetricsTest.cs" />
     <Compile Include="Common\CommunicationExceptionUtilTest.cs" />
     <Compile Include="Common\IStorageManagement.cs" />
     <Compile Include="Common\NameUtilTest.cs" />

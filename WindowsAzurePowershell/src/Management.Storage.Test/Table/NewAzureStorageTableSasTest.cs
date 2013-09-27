@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
     [TestClass]
     public class NewAzureStorageTableSasTest : StorageTableStorageTestBase
     {
-        public NewAzureStorageTableSasCommand command = null;
+        public NewAzureStorageTableSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageTableSasCommand(tableMock)
+            command = new NewAzureStorageTableSasTokenCommand(tableMock)
                 {
                     CommandRuntime = new MockCommandRuntime()
                 };
@@ -54,14 +54,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Add);
             command.SetupAccessPolicyPermission(accessPolicy, "u");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Update);
+            command.SetupAccessPolicyPermission(accessPolicy, "uUUU");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Update);
             command.SetupAccessPolicyPermission(accessPolicy, "dq");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query);
+            command.SetupAccessPolicyPermission(accessPolicy, "qd");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query);
             command.SetupAccessPolicyPermission(accessPolicy, "audq");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Add 
                 | SharedAccessTablePermissions.Query | SharedAccessTablePermissions.Update | SharedAccessTablePermissions.Delete);
+            command.SetupAccessPolicyPermission(accessPolicy, "dqaaaau");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessTablePermissions.Add
+                | SharedAccessTablePermissions.Query | SharedAccessTablePermissions.Update | SharedAccessTablePermissions.Delete);
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "rwDl"));
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "x"));
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "rwx"));
+            AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "ABC"));
         }
     }
 }

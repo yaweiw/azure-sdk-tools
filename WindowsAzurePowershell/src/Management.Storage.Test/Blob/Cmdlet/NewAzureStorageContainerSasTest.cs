@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     [TestClass]
     public class NewAzureStorageContainerSasTest : StorageBlobTestBase
     {
-        public NewAzureStorageContainerSasCommand command = null;
+        public NewAzureStorageContainerSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageContainerSasCommand(BlobMock)
+            command = new NewAzureStorageContainerSasTokenCommand(BlobMock)
             {
                 CommandRuntime = new MockCommandRuntime()
             };
@@ -54,13 +54,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Read);
             command.SetupAccessPolicyPermission(accessPolicy, "D");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Delete);
+            command.SetupAccessPolicyPermission(accessPolicy, "rrR");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Read);
             command.SetupAccessPolicyPermission(accessPolicy, "DR");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Delete | SharedAccessBlobPermissions.Read);
             command.SetupAccessPolicyPermission(accessPolicy, "rwDl");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Delete |
                 SharedAccessBlobPermissions.Read | SharedAccessBlobPermissions.List | SharedAccessBlobPermissions.Write);
+            command.SetupAccessPolicyPermission(accessPolicy, "Dlrw");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessBlobPermissions.Delete |
+                SharedAccessBlobPermissions.Read | SharedAccessBlobPermissions.List | SharedAccessBlobPermissions.Write);
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "x"));
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "rwx"));
+            AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "ABC"));
         }
     }
 }

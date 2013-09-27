@@ -25,9 +25,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceProperties),
+    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceLogging),
         OutputType(typeof(ServiceProperties))]
-    public class SetAzureStorageServiceProperties : StorageCloudBlobCmdletBase
+    public class SetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
@@ -35,31 +35,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         public string Type { get; set; }
 
         [Parameter(HelpMessage = "Logging version")]
-        public double? LoggingVersion { get; set; }
+        public double? Version { get; set; }
 
         [Parameter(HelpMessage = "Logging retention days. Zero means disable Logging, otherwise enable.")]
         [ValidateRange(0, 365)]
-        public int? LoggingRetentionDays { get; set; }
+        public int? RetentionDays { get; set; }
 
         public const string LoggingOperationHelpMessage =
             "Logging operations. (All, None, combinations of Read, Write, delete that are seperated by semicolon.)";
         [Parameter(HelpMessage = LoggingOperationHelpMessage)]
         public string LoggingOperations { get; set; }
-
-        [Parameter(HelpMessage = "Metrics version")]
-        public double? MetricsVersion { get; set; }
-
-        [Parameter(HelpMessage = "Metrics retention days. Zero means disable Metrics, otherwise enable.")]
-        [ValidateRange(0, 365)]
-        public int? MetricsRetentionDays { get; set; }
-
-        [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
-        [ValidateSet(StorageNouns.OffMetrics, StorageNouns.MinimalMetrics, StorageNouns.VerboseMetrics,
-            IgnoreCase = true)]
-        public string MetricsLevel { get; set; }
-
-        [Parameter(HelpMessage = "Service default version")]
-        public string DefaultServiceVersion { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
@@ -70,21 +55,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="serviceProperties">Service properties</param>
         internal void UpdateServiceProperties(ServiceProperties serviceProperties)
         {
-            if (LoggingVersion != null)
+            if (Version != null)
             {
-                serviceProperties.Logging.Version = LoggingVersion.ToString();
+                serviceProperties.Logging.Version = Version.ToString();
             }
 
-            if (LoggingRetentionDays != null)
+            if (RetentionDays != null)
             {
-                if (LoggingRetentionDays == 0)
+                if (RetentionDays == 0)
                 {
                     //Disable logging
                     serviceProperties.Logging.RetentionDays = null;
                 }
                 else
                 {
-                    serviceProperties.Logging.RetentionDays = LoggingRetentionDays;
+                    serviceProperties.Logging.RetentionDays = RetentionDays;
                 }
             }
 
@@ -98,59 +83,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     string defaultLoggingVersion = "1.0";
                     serviceProperties.Logging.Version = defaultLoggingVersion;
                 }
-            }
-
-            if (MetricsVersion != null)
-            {
-                serviceProperties.Metrics.Version = MetricsVersion.ToString();
-            }
-
-            if (MetricsRetentionDays != null)
-            {
-                if (MetricsRetentionDays == 0)
-                {
-                    //Disable metrics
-                    serviceProperties.Metrics.RetentionDays = null;
-                }
-                else
-                {
-                    serviceProperties.Metrics.RetentionDays = MetricsRetentionDays;
-                }
-            }
-
-            if (MetricsLevel != null)
-            {
-                MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
-                serviceProperties.Metrics.MetricsLevel = metricsLevel;
-                //Set default metrics version
-                if (string.IsNullOrEmpty(serviceProperties.Metrics.Version))
-                {
-                    string defaultMetricsVersion = "1.0";
-                    serviceProperties.Metrics.Version = defaultMetricsVersion;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(DefaultServiceVersion))
-            {
-                serviceProperties.DefaultServiceVersion = DefaultServiceVersion;
-            }
-        }
-
-        /// <summary>
-        /// Get metrics level
-        /// </summary>
-        /// <param name="MetricsLevel">The string type of Metrics level</param>
-        /// <example>GetMetricsLevel("None"), GetMetricsLevel("Service")</example>
-        /// <returns>MetricsLevel object</returns>
-        internal MetricsLevel GetMetricsLevel(string MetricsLevel)
-        {
-            try
-            {
-                return (MetricsLevel)Enum.Parse(typeof(MetricsLevel), MetricsLevel, true);
-            }
-            catch 
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidEnumName, MetricsLevel));
             }
         }
 
@@ -231,14 +163,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = 
-                GetAzureStorageServiceProperties.GetStorageServiceProperties(account, Type);
+            ServiceProperties serviceProperties =
+                GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
             UpdateServiceProperties(serviceProperties);
             SetStorageServiceProperties(account, Type, serviceProperties);
 
             if (PassThru)
             {
-                WriteObject(serviceProperties);
+                WriteObject(serviceProperties.Logging);
             }
         }
     }

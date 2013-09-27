@@ -24,34 +24,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceProperties),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceLogging),
         OutputType(typeof(ServiceProperties))]
-    public class GetAzureStorageServiceProperties : StorageCloudBlobCmdletBase
+    public class GetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
         public string Type { get; set; }
-
-        /// <summary>
-        /// Get storage service properties
-        /// </summary>
-        /// <param name="account">Cloud storage account</param>
-        /// <param name="type">Service type</param>
-        /// <returns>Storage service properties</returns>
-        internal static ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type)
-        {
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
-            {
-                case StorageNouns.BlobService:
-                    return account.CreateCloudBlobClient().GetServiceProperties();
-                case StorageNouns.QueueService:
-                    return account.CreateCloudQueueClient().GetServiceProperties();
-                case StorageNouns.TableService:
-                    return account.CreateCloudTableClient().GetServiceProperties();
-                default:
-                    throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
-            }
-        }
 
         /// <summary>
         /// Execute command
@@ -60,8 +39,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = GetStorageServiceProperties(account, Type);
-            WriteObject(serviceProperties);
+            ServiceProperties serviceProperties = 
+                GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
+            WriteObject(serviceProperties.Logging);
         }
     }
 }

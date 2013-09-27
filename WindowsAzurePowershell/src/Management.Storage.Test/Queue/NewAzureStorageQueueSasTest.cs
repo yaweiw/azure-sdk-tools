@@ -27,12 +27,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     [TestClass]
     public class NewAzureStorageQueueSasTest : StorageQueueTestBase
     {
-        public NewAzureStorageQueueSasCommand command = null;
+        public NewAzureStorageQueueSasTokenCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageQueueSasCommand(queueMock)
+            command = new NewAzureStorageQueueSasTokenCommand(queueMock)
                 {
                     CommandRuntime = new MockCommandRuntime()
                 };
@@ -55,14 +55,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Read);
             command.SetupAccessPolicyPermission(accessPolicy, "a");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Add);
+            command.SetupAccessPolicyPermission(accessPolicy, "aAaaa");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Add);
             command.SetupAccessPolicyPermission(accessPolicy, "ru");
             Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Update | SharedAccessQueuePermissions.Read);
+            command.SetupAccessPolicyPermission(accessPolicy, "ur");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Update | SharedAccessQueuePermissions.Read);
             command.SetupAccessPolicyPermission(accessPolicy, "raUP");
-            Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Add 
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Add
+                | SharedAccessQueuePermissions.Read | SharedAccessQueuePermissions.Update | SharedAccessQueuePermissions.ProcessMessages);
+            command.SetupAccessPolicyPermission(accessPolicy, "UPrrrra");
+            Assert.AreEqual(accessPolicy.Permissions, SharedAccessQueuePermissions.Add
                 | SharedAccessQueuePermissions.Read | SharedAccessQueuePermissions.Update | SharedAccessQueuePermissions.ProcessMessages);
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "rwDl"));
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "x"));
             AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "rwx"));
+            AssertThrows<ArgumentException>(() => command.SetupAccessPolicyPermission(accessPolicy, "ABC"));
         }
     }
 }
