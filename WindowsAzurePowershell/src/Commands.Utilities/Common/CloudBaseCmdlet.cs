@@ -146,21 +146,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                Validate.ValidateInternetConnection();
-                InitChannelCurrentSubscription();
-                ExecuteCmdlet();
-                OnProcessRecord();
-            }
-            catch (CommunicationException ex)
-            {
-                WriteErrorDetails(ex);
-            }
-            catch (Exception ex)
-            {
-                WriteExceptionError(ex);
-            }
+            Validate.ValidateInternetConnection();
+            InitChannelCurrentSubscription();
+            base.ProcessRecord();
+            OnProcessRecord();
         }
 
         /// <summary>

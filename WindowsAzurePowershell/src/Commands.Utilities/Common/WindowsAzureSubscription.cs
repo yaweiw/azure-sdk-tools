@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Net.Http;
+    using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using Management.Storage;
     using Storage;
@@ -71,7 +73,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
-            return (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+            TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+
+            var withHandlerMethod = typeof (TClient).GetMethod("WithHandler", new[] {typeof (DelegatingHandler)});
+            return (TClient)withHandlerMethod.Invoke(client, new[] {new HttpRestCallLogger()});
         }
 
         public CloudStorageAccount GetCloudStorageAccount()
