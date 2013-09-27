@@ -163,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AnonymousEnvironmentParameterSet,
             ValueFromPipelineByPropertyName = true)]
-        [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = SasTokenEnvironmentParameterSet)]
+        [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = SasTokenEnvironmentParameterSet, Mandatory = true)]
         public string Environment
         {
             get { return environmentName; }

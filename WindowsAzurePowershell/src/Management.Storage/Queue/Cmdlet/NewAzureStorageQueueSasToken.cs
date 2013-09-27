@@ -1,23 +1,8 @@
-﻿// ----------------------------------------------------------------------------------
-//
-// Copyright Microsoft Corporation
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// ----------------------------------------------------------------------------------
-
-namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
+﻿namespace Microsoft.WindowsAzure.Management.Storage.Queue.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Queue;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -25,12 +10,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.New, StorageNouns.ContainerSas), OutputType(typeof(String))]
-    public class NewAzureStorageContainerSasCommand : StorageCloudBlobCmdletBase
+    [Cmdlet(VerbsCommon.New, StorageNouns.QueueSas), OutputType(typeof(String))]
+    public class NewAzureStorageQueueSasTokenCommand : StorageQueueBaseCmdlet
     {
-        [Alias("N", "Container")]
+        [Alias("N", "Queue")]
         [Parameter(Position = 0, Mandatory = true,
-            HelpMessage = "Container Name",
+            HelpMessage = "Table Name",
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
@@ -39,12 +24,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [Parameter(HelpMessage = "Policy Identifier")]
         public string Policy
         {
-            get { return accessPolicyIdentifier; }
-            set { accessPolicyIdentifier = value; }
+            get {return accessPolicyIdentifier;}
+            set {accessPolicyIdentifier = value;}
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raup\".")]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -57,18 +42,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public SwitchParameter FullUri { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
         /// </summary>
-        public NewAzureStorageContainerSasCommand()
+        public NewAzureStorageQueueSasTokenCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
+        /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
-        public NewAzureStorageContainerSasCommand(IStorageBlobManagement channel)
+        public NewAzureStorageQueueSasTokenCommand(IStorageQueueManagement channel)
         {
             Channel = channel;
         }
@@ -80,15 +65,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             if (String.IsNullOrEmpty(Name)) return;
-            CloudBlobContainer container = Channel.GetContainerReference(Name);
-            SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
-            SetupAccessPolicy(accessPolicy);
-            SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
-            string sasToken = container.GetSharedAccessSignature(accessPolicy, accessPolicyIdentifier);
+            CloudQueue queue = Channel.GetQueueReference(Name);
+            SharedAccessQueuePolicy policy = new SharedAccessQueuePolicy();
+            SetupAccessPolicy(policy);
+            SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
+            string sasToken = queue.GetSharedAccessSignature(policy, accessPolicyIdentifier);
 
             if (FullUri)
             {
-                string fullUri = container.Uri.ToString() + sasToken;
+                string fullUri = queue.Uri.ToString() + sasToken;
                 WriteObject(fullUri);
             }
             else
@@ -101,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessBlobPolicy policy)
+        private void SetupAccessPolicy(SharedAccessQueuePolicy policy)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
@@ -116,26 +101,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="permission">Permisson</param>
-        internal void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
+        internal void SetupAccessPolicyPermission(SharedAccessQueuePolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
-            policy.Permissions = SharedAccessBlobPermissions.None;
+            policy.Permissions = SharedAccessQueuePermissions.None;
             permission = permission.ToLower();
             foreach (char op in permission)
             {
                 switch(op)
                 {
                     case 'r':
-                        policy.Permissions |= SharedAccessBlobPermissions.Read;
+                        policy.Permissions |= SharedAccessQueuePermissions.Read;
                         break;
-                    case 'w':
-                        policy.Permissions |= SharedAccessBlobPermissions.Write;
+                    case 'a':
+                        policy.Permissions |= SharedAccessQueuePermissions.Add;
                         break;
-                    case 'd':
-                        policy.Permissions |= SharedAccessBlobPermissions.Delete;
+                    case 'u':
+                        policy.Permissions |= SharedAccessQueuePermissions.Update;
                         break;
-                    case 'l':
-                        policy.Permissions |= SharedAccessBlobPermissions.List;
+                    case 'p':
+                        policy.Permissions |= SharedAccessQueuePermissions.ProcessMessages;
                         break;
                     default:
                         throw new ArgumentException(string.Format(Resources.InvalidAccessPermission, op));

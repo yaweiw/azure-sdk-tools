@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
     using System.Text;
 
     [Cmdlet(VerbsCommon.New, StorageNouns.TableSas), OutputType(typeof(String))]
-    public class NewAzureStorageTableSasCommand : StorageCloudTableCmdletBase
+    public class NewAzureStorageTableSasTokenCommand : StorageCloudTableCmdletBase
     {
         [Alias("N", "Table")]
         [Parameter(Position = 0, Mandatory = true,
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
         /// </summary>
-        public NewAzureStorageTableSasCommand()
+        public NewAzureStorageTableSasTokenCommand()
             : this(null)
         {
         }
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
         /// </summary>
         /// <param name="channel">IStorageBlobManagement channel</param>
-        public NewAzureStorageTableSasCommand(IStorageTableManagement channel)
+        public NewAzureStorageTableSasTokenCommand(IStorageTableManagement channel)
         {
             Channel = channel;
         }
