@@ -354,6 +354,7 @@
     <Compile Include="Subscription\ProviderRegistrationConstants.cs" />
     <Compile Include="Subscription\SubscriptionClient.cs" />
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
+    <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
     <Compile Include="Websites\Common\IGithubCmdlet.cs" />
     <Compile Include="Websites\Common\NewWebsitesBaseCmdlet.cs" />
