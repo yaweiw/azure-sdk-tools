@@ -19,11 +19,16 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Management.Automation;
     using Utilities.Common;
     using Utilities.Properties;
+    using Utilities.Subscription;
 
     [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Current")]
     [OutputType(typeof(bool))]
-    public class SelectAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class SelectAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public SelectAzureSubscriptionCommand() : base(false)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Current", HelpMessage = "Name of subscription to select")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Default", HelpMessage = "Name of subscription to select")]
         [ValidateNotNullOrEmpty]

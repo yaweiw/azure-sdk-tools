@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using Management;
     using Utilities.Common;
     using Utilities.Properties;
+    using Utilities.Subscription;
 
     /// <summary>
     /// Implementation of the get-azuresubscription cmdlet that works against
@@ -28,8 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
     [OutputType(typeof(SubscriptionData))]
-    public class GetAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class GetAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public GetAzureSubscriptionCommand() : base(false)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }

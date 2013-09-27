@@ -19,13 +19,18 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
+    using Utilities.Subscription;
 
     /// <summary>
     /// Sets an azure subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSubscription", DefaultParameterSetName = "CommonSettings"), OutputType(typeof(bool))]
-    public class SetAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class SetAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public SetAzureSubscriptionCommand() : base(true)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "CommonSettings")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ResetCurrentStorageAccount")]
         [ValidateNotNullOrEmpty]
