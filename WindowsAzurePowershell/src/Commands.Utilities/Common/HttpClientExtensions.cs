@@ -153,14 +153,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static string GetXml(this HttpClient client, string requestUri, Action<string> logger)
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            return GetRawBody(client, requestUri, logger, General.FormatXml);
+            return GetRawBody(client, requestUri, logger, General.TryFormatXml);
         }
 
         public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> logger)
             where T: class, new()
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            return GetFormat<T>(client, requestUri, logger, General.FormatXml, General.DeserializeXmlString<T>);
+            return GetFormat<T>(client, requestUri, logger, General.TryFormatXml, General.DeserializeXmlString<T>);
         }
 
         public static T PostJson<T>(
