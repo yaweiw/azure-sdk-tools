@@ -130,7 +130,34 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "Use certificate authentication")]
         public SwitchParameter UseSubscription { get; set; }
 
+        [Parameter(Mandatory = false, Position = 2,
+            ParameterSetName = ServerNameWithCertAuthParamSet,
+            HelpMessage = "The subscription to use, or uses the current subscription if not specified")]
+        [Parameter(Mandatory = false, Position = 2,
+             ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
+             HelpMessage = "The subscription to use, or uses the current subscription if not specified")]
+        public string SubscriptionName { get; set; }
+
         #endregion
+
+        #region Current Subscription Management
+
+        private WindowsAzureSubscription CurrentSubscription
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(SubscriptionName))
+                {
+                    return WindowsAzureProfile.Instance.CurrentSubscription;
+                }
+                return
+                    WindowsAzureProfile.Instance.Subscriptions.First(
+                        s => SubscriptionName == s.Name);
+            }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Connect to a Azure SQL Server with the given ManagementService Uri using
@@ -235,7 +262,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 case FullyQualifiedServerNameWithCertAuthParamSet:
                 case ServerNameWithCertAuthParamSet:
                     // Get the current subscription data.
-                    WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+                    WindowsAzureSubscription subscription = CurrentSubscription;
 
                     // Create a context using the subscription datat
                     return this.GetServerDataServiceByCertAuth(
