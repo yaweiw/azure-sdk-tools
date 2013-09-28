@@ -16,11 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
+    using Management.VirtualNetworks;
     using Model;
     using Service.Gateway;
     using Utilities.Common;
-    using Management.VirtualNetworks;
-    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetGateway"), OutputType(typeof(VirtualNetworkGatewayContext))]
     public class GetAzureVNetGatewayCommand : ServiceManagementBaseCmdlet

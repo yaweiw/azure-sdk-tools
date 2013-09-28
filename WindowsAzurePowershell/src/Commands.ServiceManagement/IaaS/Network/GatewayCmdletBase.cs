@@ -41,13 +41,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ServiceBinding = ConfigurationConstants.WebHttpBinding();
             }
 
-            if (string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+            if (CurrentSubscription.ServiceEndpoint == null)
             {
-                ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+                ServiceEndpoint = Profile.CurrentEnvironment.ServiceEndpoint;
             }
             else
             {
-                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
+                ServiceEndpoint = CurrentSubscription.ServiceEndpoint.ToString();
             }
 
             return GatewayManagementHelper.CreateGatewayManagementChannel(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             Operation operation = null;
             String operationId = RetrieveOperationId();
-            SubscriptionData currentSubscription = this.GetCurrentSubscription();
+            WindowsAzureSubscription currentSubscription = CurrentSubscription;
             try
             {
                 IGatewayServiceManagement channel = (IGatewayServiceManagement)Channel;

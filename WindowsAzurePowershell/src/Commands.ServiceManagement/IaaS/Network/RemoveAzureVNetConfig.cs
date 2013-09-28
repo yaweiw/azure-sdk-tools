@@ -15,31 +15,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.IO;
     using System.Management.Automation;
-    using System.Xml;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
         private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";
         private static readonly XNamespace InstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
-
-        public RemoveAzureVNetConfigCommand()
-        {
-        }
-
-        public RemoveAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         protected override void OnProcessRecord()
         {

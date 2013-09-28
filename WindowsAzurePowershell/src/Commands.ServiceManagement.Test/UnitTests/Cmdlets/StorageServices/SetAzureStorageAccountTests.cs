@@ -50,10 +50,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         {
             var command = new SetAzureStorageAccountCommand
             {
-                ShareChannel = true,
                 Channel = channel,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData {SubscriptionId = expected.SubscriptionId},
+                ShareChannel = true,
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = expected.SubscriptionId },
                 StorageAccountName = expected.StorageServiceName,
                 Description = expected.UpdateStorageServiceInput.Description,
                 Label = expected.UpdateStorageServiceInput.Label,

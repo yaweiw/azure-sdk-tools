@@ -15,27 +15,19 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Net;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using System.Net;
+    using System.Xml.Serialization;
+    using Management.VirtualNetworks;
     using Model;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
     public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
-        //public GetAzureVNetConfigCommand()
-        //{
-        //}
-
-        //public GetAzureVNetConfigCommand(IServiceManagement channel)
-        //{
-        //    Channel = channel;
-        //}
-
         [Parameter(HelpMessage = "The file path to save the network configuration to.")]
         [ValidateNotNullOrEmpty]
         public string ExportToFile
@@ -51,29 +43,95 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             VirtualNetworkConfigContext result = null;
 
             InvokeInOperationContext(() =>
-            //using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigBeginOperation, CommandRuntime.ToString()));
 
-                    var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfiguration(s)) as Stream;
-                    Operation operation = GetOperation();
+                    var netcfg = this.NetworkClient.Networks.GetConfiguration();
+                    var operation = GetOperationNewSM(netcfg.RequestId);
 
-                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
-
-                    if (netConfigStream != null)
+                    if (netcfg != null)
                     {
                         // TODO: might want to change this to an XML object of some kind...
-                        var configReader = new StreamReader(netConfigStream);
-                        var xml = configReader.ReadToEnd();
+                        //var configReader = new StreamReader(netConfigStream);
+                        //var xml = configReader.ReadToEnd();
+                        NetworkConfiguration netobj = new NetworkConfiguration();
+                        netobj.VirtualNetworkConfiguration.Dns.DnsServers = new DnsServer[netcfg.DnsServers.Count];
+                        int i = 0;
+                        foreach (var ds in netcfg.DnsServers)
+                        {
+                            netobj.VirtualNetworkConfiguration.Dns.DnsServers[i++] = new DnsServer
+                            {
+                                IPAddress = ds.IPAddress.ToString(),
+                                name = ds.Name
+                            };
+                        }
+                        
+                        netobj.VirtualNetworkConfiguration.LocalNetworkSites = new LocalNetworkSite[netcfg.LocalNetworkSites.Count];
+                        i = 0;
+                        foreach (var lns in netcfg.LocalNetworkSites)
+                        {
+                            netobj.VirtualNetworkConfiguration.LocalNetworkSites[i] = new LocalNetworkSite
+                            {
+                                name = lns.Name,
+                                VPNGatewayAddress = lns.VpnGatewayAddress.ToString()
+                            };
+
+                            netobj.VirtualNetworkConfiguration.LocalNetworkSites[i].AddressSpace = lns.AddressSpace.ToArray();
+                            i++;
+                        }
+
+                        netobj.VirtualNetworkConfiguration.VirtualNetworkSites = new VirtualNetworkSite[netcfg.VirtualNetworkSites.Count];
+                        i = 0;
+                        foreach (var vns in netcfg.VirtualNetworkSites)
+                        {
+                            netobj.VirtualNetworkConfiguration.VirtualNetworkSites[i] = new VirtualNetworkSite
+                            {
+                                AddressSpace = vns.AddressSpace.ToArray(),
+                                name = vns.Name,
+                                AffinityGroup = vns.AffinityGroup,
+                                Gateway = new Gateway
+                                {
+                                    profile = (GatewaySize)Enum.Parse(typeof(GatewaySize), vns.Gateway.Profile, true),
+                                    VPNClientAddressPool = vns.Gateway.VpnClientAddressPool.ToArray(),
+                                    ConnectionsToLocalNetwork = (from ln in vns.Gateway.ConnectionsToLocalNetwork
+                                                                 select new LocalNetworkSiteRef
+                                                                 {
+                                                                     name = ln.Name,
+                                                                     Connection = new Connection[1]
+                                                                     {
+                                                                         new Connection
+                                                                         {
+                                                                             type = (ConnectionType)Enum.Parse(typeof(ConnectionType), ln.ConnectionType.ToString(), true)
+                                                                         }
+                                                                     }
+                                                                 }).ToArray(),
+                                },
+                                Subnets = new Subnet[vns.Subnets.Count],
+                                InternetGatewayNetwork = new InternetGatewayNetwork
+                                {
+                                    name = vns.Label
+                                },
+                                DnsServersRef = (from dsr in vns.DnsServersReference
+                                                 select new DnsServerRef
+                                                 {
+                                                     name = dsr.Name
+                                                 }).ToArray()
+                            };
+                        }
+                        
+                        XmlSerializer ser = new XmlSerializer(typeof(NetworkConfiguration));
+                        StringWriter sw = new StringWriter();
+                        ser.Serialize(sw, netobj);
+                        var xml = sw.ToString();
 
                         var networkConfig = new VirtualNetworkConfigContext
                         {
                             XMLConfiguration = xml,
-                            OperationId = operation.OperationTrackingId,
+                            OperationId = operation.Id,
                             OperationDescription = CommandRuntime.ToString(),
-                            OperationStatus = operation.Status
+                            OperationStatus = operation.Status.ToString()
                         };
 
                         if (!string.IsNullOrEmpty(this.ExportToFile))
@@ -83,12 +141,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                         result = networkConfig;
                     }
+
+                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
                 }
                 catch (CloudException ex)
-                //catch (ServiceManagementClientException ex)
                 {
                     if (ex.Response.StatusCode == HttpStatusCode.NotFound && !IsVerbose())
-                    //if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
                     {
                         result = null;
                     }

@@ -26,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
-    //using WindowsAzure.ServiceManagement;
 
     public class ExtensionManager
     {
