@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
 
         private WindowsAzureProfile LoadSubscriptionDataFile()
         {
-            string path = this.ResolvePath(SubscriptionDataFile);
+            string path = SubscriptionDataFile;
             if (!File.Exists(path) && !createFileIfNotExists)
             {
                 throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
