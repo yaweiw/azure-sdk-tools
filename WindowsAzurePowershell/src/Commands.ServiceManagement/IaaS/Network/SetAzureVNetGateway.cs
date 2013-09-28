@@ -18,19 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Service.Gateway;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetGateway", DefaultParameterSetName = "Connect"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureVNetGatewayCommand : GatewayCmdletBase
+    public class SetAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureVNetGatewayCommand()
-        {
-        }
-
-        public SetAzureVNetGatewayCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Connect", HelpMessage = "Connect to Gateway")]
         public SwitchParameter Connect
         {
@@ -61,12 +54,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            var uc = new UpdateConnection
+            var connParams = new GatewayConnectDisconnectOrTestParameters
             {
-                Operation = this.Connect.IsPresent ? UpdateConnectionOperation.Connect : UpdateConnectionOperation.Disconnect
+                Operation = this.Connect.IsPresent ? GatewayConnectionUpdateOperation.Connect : GatewayConnectionUpdateOperation.Disconnect
             };
 
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.UpdateVirtualNetworkGatewayConnection(s, this.VNetName, this.LocalNetworkSiteName, uc), this.WaitForNewGatewayOperation);
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.ConnectDisconnectOrTest(this.VNetName, this.LocalNetworkSiteName, connParams),
+                this.WaitForNewGatewayOperation);
         }
     }
 }

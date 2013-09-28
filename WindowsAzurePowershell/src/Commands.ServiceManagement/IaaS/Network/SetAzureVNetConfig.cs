@@ -16,10 +16,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
+    using System.Net;
+    using System.Xml.Linq;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
     using Properties;
+    using System.Xml.Serialization;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
@@ -46,18 +52,133 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ValidateParameters();
 
             FileStream netConfigFS = null;
+            StreamReader sr = null;
 
             try
             {
                 netConfigFS = new FileStream(this.ConfigurationPath, FileMode.Open);
-
                 ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, netConfigFS));
+
+                sr = new StreamReader(this.ConfigurationPath);
+                XmlSerializer ser = new XmlSerializer(typeof(NetworkConfiguration));
+                NetworkConfiguration netConfig = (NetworkConfiguration)ser.Deserialize(sr);
+
+                var netParams = new NetworkSetConfigurationParameters();
+                foreach (var ds in netConfig.VirtualNetworkConfiguration.Dns.DnsServers)
+                {
+                    netParams.DnsServers.Add(
+                        new NetworkSetConfigurationParameters.DnsServer
+                        {
+                            IPAddress = IPAddress.Parse(ds.IPAddress),
+                            Name = ds.name
+                        });
+                }
+
+                foreach (var lns in netConfig.VirtualNetworkConfiguration.LocalNetworkSites)
+                {
+                    var newItem = new NetworkSetConfigurationParameters.LocalNetworkSite();
+                    if (lns.AddressSpace != null)
+                    {
+                        foreach (var aa in lns.AddressSpace)
+                        {
+                            newItem.AddressSpace.Add(aa);
+                        }
+                    }
+
+                    newItem.Name = lns.name;
+                    newItem.VpnGatewayAddress = IPAddress.Parse(lns.VPNGatewayAddress);
+                    netParams.LocalNetworkSites.Add(newItem);
+                }
+
+                foreach (var vns in netConfig.VirtualNetworkConfiguration.VirtualNetworkSites)
+                {
+                    var newItem = new NetworkSetConfigurationParameters.VirtualNetworkSite();
+                    newItem.AffinityGroup = vns.AffinityGroup;
+                    newItem.Name = vns.name;
+                    newItem.Label = vns.name;
+
+                    if (vns.AddressSpace != null)
+                    {
+                        foreach (var aa in vns.AddressSpace)
+                        {
+                            newItem.AddressSpace.Add(aa);
+                        }
+                    }
+
+                    if (vns.DnsServersRef != null)
+                    {
+                        foreach (var dsr in vns.DnsServersRef)
+                        {
+                            newItem.DnsServersReference.Add(
+                                new NetworkSetConfigurationParameters.DnsServerReference
+                                {
+                                    Name = dsr.name
+                                });
+                        }
+                    }
+
+                    newItem.Gateway = new NetworkSetConfigurationParameters.Gateway();
+                    if (vns.Gateway != null)
+                    {
+                        newItem.Gateway.Profile = vns.Gateway.profile.ToString();
+
+                        if (vns.Gateway.VPNClientAddressPool != null)
+                        {
+                            foreach (var ca in vns.Gateway.VPNClientAddressPool)
+                            {
+                                newItem.Gateway.VpnClientAddressPool.Add(ca);
+                            }
+                        }
+
+                        if (vns.Gateway.ConnectionsToLocalNetwork != null)
+                        {
+                            foreach (var lnsr in vns.Gateway.ConnectionsToLocalNetwork)
+                            {
+                                if (lnsr.Connection != null)
+                                {
+                                    foreach (var conn in lnsr.Connection)
+                                    {
+
+                                        newItem.Gateway.ConnectionsToLocalNetwork.Add(
+                                            new NetworkSetConfigurationParameters.LocalNetworkSiteReference
+                                            {
+                                                ConnectionType = (LocalNetworkConnectionType)Enum.Parse(typeof(LocalNetworkConnectionType), conn.type.ToString(), true),
+                                                Name = lnsr.name
+                                            });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (vns.Subnets != null)
+                    {
+                        foreach (var sn in vns.Subnets)
+                        {
+                            newItem.Subnets.Add(new NetworkSetConfigurationParameters.Subnet
+                                {
+                                    AddressPrefix = sn.AddressPrefix,
+                                    Name = sn.name
+                                });
+                        }
+                    }
+                }
+
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.NetworkClient.Networks.SetConfiguration(netParams));
             }
             finally
             {
                 if (netConfigFS != null)
                 {
                     netConfigFS.Close();
+                }
+
+                if (sr != null)
+                {
+                    sr.Close();
                 }
             }
         }

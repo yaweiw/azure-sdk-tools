@@ -21,6 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Xml.Linq;
     using Commands.Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : ServiceManagementBaseCmdlet
@@ -39,19 +43,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            var netConfig = new XElement(
-                NetconfigNamespace + "NetworkConfiguration",
-                new XAttribute("xmlns", NetconfigNamespace.NamespaceName),
-                new XAttribute(XNamespace.Xmlns + "xsi", InstanceNamespace.NamespaceName),
-                new XElement(NetconfigNamespace + "VirtualNetworkConfiguration"));
+            NetworkSetConfigurationParameters networkConfigParams = new NetworkSetConfigurationParameters();
 
-            var stream = new MemoryStream();
-            var writer1 = XmlWriter.Create(stream);
-            netConfig.WriteTo(writer1);
-            writer1.Flush();
-            stream.Seek(0L, SeekOrigin.Begin);
-
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream));
+            this.ExecuteClientActionNewSM(
+                networkConfigParams,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
         }
     }
 }
