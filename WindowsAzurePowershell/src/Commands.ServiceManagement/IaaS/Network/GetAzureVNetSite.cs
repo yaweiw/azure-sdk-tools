@@ -15,29 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Net;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.ServiceModel;
-    using Commands.Utilities.Common;
+    using Management.VirtualNetworks;
     using Model;
-    using WindowsAzure.ServiceManagement;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetSite"), OutputType(typeof(IEnumerable<VirtualNetworkSiteContext>))]
     public class GetAzureVNetSiteCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetSiteCommand()
-        {
-        }
-
-        public GetAzureVNetSiteCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "The virtual network name.")]
         [ValidateNotNullOrEmpty]
         public string VNetName
@@ -47,14 +38,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         }
 
         public IEnumerable<VirtualNetworkSiteContext> GetVirtualNetworkSiteProcess()
-        {            
-            using (new OperationContextScope(Channel.ToContextChannel()))
+        {
+            IEnumerable<VirtualNetworkSiteContext> result = null;
+
+            InvokeInOperationContext(() =>
             {
                 try
                 {
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetSiteBeginOperation, CommandRuntime.ToString()));
 
-                    var sites = this.RetryCall(s => this.Channel.ListVirtualNetworkSites(s)).ToList();
+                    var response = this.NetworkClient.Networks.List();
+                    var sites = response.VirtualNetworkSites;
 
                     if (!string.IsNullOrEmpty(this.VNetName))
                     {
@@ -66,23 +60,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         }
                     }
 
-                    Operation operation = GetOperation();
+                    var operation = GetOperationNewSM(response.RequestId);
 
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetSiteCompletedOperation, CommandRuntime.ToString()));
 
-                    return sites.Select(s => new VirtualNetworkSiteContext
+                    result = sites.Select(s => new VirtualNetworkSiteContext
                     {
-                        OperationId = operation.OperationTrackingId,
+                        OperationId = operation.Id,
                         OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status,
+                        OperationStatus = operation.Status.ToString(),
                         AddressSpacePrefixes = s.AddressSpace != null ? s.AddressSpace.AddressPrefixes : null,
                         AffinityGroup = s.AffinityGroup,
-                        DnsServers = s.Dns == null ? null : from ds in s.Dns.DnsServers
-                                                            select new Model.PersistentVMModel.DnsServer
-                                                            {
-                                                                Address = ds.Address,
-                                                                Name = ds.Name
-                                                            },
+                        DnsServers = s.DnsServers == null ? null : from ds in s.DnsServers
+                                                                   select new Model.PersistentVMModel.DnsServer
+                                                                   {
+                                                                       Address = ds.Address.ToString(),
+                                                                       Name = ds.Name
+                                                                   },
                         GatewayProfile = s.Gateway != null ? s.Gateway.Profile : null,
                         GatewaySites = s.Gateway == null ? null : s.Gateway.Sites == null ? null :
                                        s.Gateway.Sites.Select(gs => new Model.PersistentVMModel.LocalNetworkSite
@@ -94,13 +88,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                            },
                                            Connections = gs.Connections == null ? null : gs.Connections.Select(gc => new Model.PersistentVMModel.Connection
                                            {
-                                               Type = gc.Type
+                                               Type = gc.Type.ToString()
                                            }) as Model.PersistentVMModel.ConnectionList,
                                            Name = gs.Name,
-                                           VpnGatewayAddress = gs.VpnGatewayAddress
+                                           VpnGatewayAddress = gs.VpnGatewayAddress.ToString()
                                        }) as Model.PersistentVMModel.LocalNetworkSiteList,
                         Id = s.Id,
-                        InUse = s.InUse,
                         Label = s.Label,
                         Name = s.Name,
                         State = s.State,
@@ -111,11 +104,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         })
                     }).ToList();
                 }
-                catch (ServiceManagementClientException ex)
+                catch (CloudException ex)
                 {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
+                    if (ex.Response.StatusCode == HttpStatusCode.NotFound && !IsVerbose())
                     {
-                        return null;
+                        result = null;
                     }
                     else
                     {
@@ -123,8 +116,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     }
                 }
 
-                return null;
-            }
+                result = null;
+            });
+
+            return result;
         }
 
         protected override void OnProcessRecord()

@@ -15,21 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Management.Automation;
-    using System.Net;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Management.Automation;
+    using System.Net;
     using System.Threading;
-    using Commands.Utilities.Common;
-    using Model.PersistentVMModel;
-    //using WindowsAzure.ServiceManagement;
     using Management.Compute;
     using Management.Compute.Models;
     using Management.Models;
     using Properties;
-    //using RoleInstance = WindowsAzure.ServiceManagement.RoleInstance;
-    //using RoleInstanceStatus = WindowsAzure.ServiceManagement.RoleInstanceStatus;
+    using Utilities.Common;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
@@ -42,8 +38,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         public IaaSDeploymentManagementCmdletBase()
         {
-            //CurrentDeployment = null;
-            //GetDeploymentOperation = null;
             CreatingNewDeployment = false;
         }
 
@@ -55,10 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        //protected Microsoft.WindowsAzure.ServiceManagement.Deployment CurrentDeployment { get; set; }
         protected DeploymentGetResponse CurrentDeploymentNewSM { get; set; }
 
-        //protected Microsoft.WindowsAzure.ServiceManagement.Operation GetDeploymentOperation { get; set; }
         protected OperationStatusResponse GetDeploymentOperationNewSM { get; set; }
 
         protected bool CreatingNewDeployment { get; set; }

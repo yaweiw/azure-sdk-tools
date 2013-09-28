@@ -27,9 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using Properties;
     using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
     using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
-    //    using WindowsAzure.ServiceManagement;
-//    using InputEndpoint = WindowsAzure.ServiceManagement.InputEndpoint;
-//    using LoadBalancerProbe = WindowsAzure.ServiceManagement.LoadBalancerProbe;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureLoadBalancedEndpoint : IaaSDeploymentManagementCmdletBase

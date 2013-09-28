@@ -347,6 +347,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     operation = waitOperation(result.RequestId, operationDescription);
                 }
             }
+            catch (CloudException ex)
+            {
+                WriteExceptionDetails(ex);
+            }
             catch (AggregateException ex)
             {
                 if (ex.InnerException is CloudException)

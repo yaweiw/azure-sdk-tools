@@ -16,28 +16,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Net;
-    using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
-    using Properties;
     using System.Xml.Serialization;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
+    using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureVNetConfigCommand()
-        {
-        }
-
-        public SetAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path to the Network Configuration file (.xml).")]
         [ValidateNotNullOrEmpty]
@@ -56,9 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             try
             {
-                netConfigFS = new FileStream(this.ConfigurationPath, FileMode.Open);
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, netConfigFS));
-
                 sr = new StreamReader(this.ConfigurationPath);
                 XmlSerializer ser = new XmlSerializer(typeof(NetworkConfiguration));
                 NetworkConfiguration netConfig = (NetworkConfiguration)ser.Deserialize(sr);
@@ -95,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     var newItem = new NetworkSetConfigurationParameters.VirtualNetworkSite();
                     newItem.AffinityGroup = vns.AffinityGroup;
                     newItem.Name = vns.name;
-                    newItem.Label = vns.name;
+                    newItem.Label = vns.InternetGatewayNetwork.name;
 
                     if (vns.AddressSpace != null)
                     {

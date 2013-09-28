@@ -14,11 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.VirtualNetworks;
     using System.Management.Automation;
     using Utilities.Common;
-    using Service.Gateway;
-    using Management.VirtualNetworks;
-    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
