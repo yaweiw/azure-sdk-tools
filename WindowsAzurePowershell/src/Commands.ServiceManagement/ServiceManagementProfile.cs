@@ -39,12 +39,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
         protected override void Configure()
         {
             //SM to NewSM mapping
-            Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>();
+            Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>()
+                  .ForMember(c => c.Protocol, o => o.MapFrom(r => r.Protocol));
             Mapper.CreateMap<PVM.InputEndpoint, NSM.InputEndpoint>()
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null));
-            Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>();
+            Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>()
+                  .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun))
+                  .ForMember(c => c.HostCaching, o => o.MapFrom(r => string.IsNullOrEmpty(r.HostCaching) ? "None" : r.HostCaching));
             Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>()
-                  .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS));
+                  .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS))
+                  .ForMember(c => c.HostCaching, o => o.MapFrom(r => string.IsNullOrEmpty(r.HostCaching) ? "None" : r.HostCaching));
             Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>()
                   .ForMember(c => c.InputEndpoints, o => o.MapFrom(r => r.InputEndpoints != null ? r.InputEndpoints.ToList() : null))
                   .ForMember(c => c.SubnetNames, o => o.MapFrom(r => r.SubnetNames != null ? r.SubnetNames.ToList() : null));
@@ -63,12 +67,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList, IList<NSM.RoleInstance>>();
 
             //NewSM to SM mapping
-            Mapper.CreateMap<NSM.LoadBalancerProbe, PVM.LoadBalancerProbe>();
+            Mapper.CreateMap<NSM.LoadBalancerProbe, PVM.LoadBalancerProbe>()
+                  .ForMember(c => c.Protocol, o => o.MapFrom(r => r.Protocol.ToString().ToLower()));
             Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>()
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null));
-            Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>();
+            Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>()
+                  .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber))
+                  .ForMember(c => c.HostCaching, o => o.MapFrom(r => r.HostCaching.ToString()));
             Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>()
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem))
+                  .ForMember(c => c.HostCaching, o => o.MapFrom(r => r.HostCaching.ToString()));
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
