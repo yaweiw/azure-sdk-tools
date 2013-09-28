@@ -285,11 +285,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     RoleName = persistentVMs[i].RoleName,
                     RoleSize = persistentVMs[i].RoleSize,
                 };
-                
-                if (parameter.OSVirtualHardDisk.HostCaching == VirtualHardDiskHostCaching.None)
-                {
-                    parameter.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadOnly;
-                }
 
                 parameter.DataVirtualHardDisks.ForEach(c => persistentVMs[i].DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
                 parameter.ConfigurationSets.ForEach(c => persistentVMs[i].ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
@@ -351,6 +346,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
+
+            if (string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.HostCaching))
+            {
+                result.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadWrite;
+            }
+
             persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
             PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
 
