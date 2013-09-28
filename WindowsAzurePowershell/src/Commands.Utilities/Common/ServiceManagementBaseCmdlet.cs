@@ -33,6 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using WindowsAzure.Common;
     using Microsoft.WindowsAzure;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
+    using System.Threading;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
@@ -49,6 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             client = new Lazy<ManagementClient>(CreateClient);
             computeClient = new Lazy<ComputeManagementClient>(CreateComputeClient);
             storageClient = new Lazy<StorageManagementClient>(CreateStorageClient);
+            networkClient = new Lazy<VirtualNetworkManagementClient>(CreateNetworkClient);
         }
         public ManagementClient CreateClient()
         {
@@ -92,6 +96,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return restMH;
         }
 
+        public VirtualNetworkManagementClient CreateNetworkClient()
+        {
+            var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
+            var client = CloudContext.Clients.CreateVirtualNetworkManagementClient(credentials, new Uri(this.ServiceEndpoint));
+            var restMH = client.WithHandler(new HttpRestMessageHandler(this.LogDebug));
+            var userAgentMH = client.WithHandler(new UserAgentMessageProcessingHandler());
+
+            clientsToDispose.Add(client);
+            clientsToDispose.Add(restMH);
+            clientsToDispose.Add(userAgentMH);
+
+            return restMH;
+        }
+
         private void LogDebug(string message)
         {
 //            var debugMessage = String.Format("Write-Debug -Message '{0}'", message);
@@ -120,6 +138,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public StorageManagementClient StorageClient 
         {
             get { return storageClient.Value; }
+        }
+        
+        private Lazy<VirtualNetworkManagementClient> networkClient;
+        public VirtualNetworkManagementClient NetworkClient 
+        {
+            get { return networkClient.Value; }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the client would also dispose the channel we are returning.")]
@@ -303,14 +327,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         //TODO: Input argument is not used and should probably be removed.
         protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action, Func<OperationStatusResponse, TResult, object> contextFactory) where TResult : OperationResponse
         {
+            ExecuteClientActionNewSM(input, operationDescription, action, null, contextFactory);
+        }
+
+        protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action, Func<string, string, OperationStatusResponse> waitOperation, Func<OperationStatusResponse, TResult, object> contextFactory) where TResult : OperationResponse
+        {
             TResult result = null;
             OperationStatusResponse operation = null;
             WriteVerboseWithTimestamp(string.Format(Resources.ServiceManagementExecuteClientActionInOCSBeginOperation, operationDescription));
             try
             {
                 result = action();
-                operation = GetOperationNewSM(result.RequestId);
-
+                if (waitOperation == null)
+                {
+                    operation = GetOperationNewSM(result.RequestId);
+                }
+                else
+                {
+                    operation = waitOperation(result.RequestId, operationDescription);
+                }
             }
             catch (AggregateException ex)
             {
@@ -335,9 +370,45 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
         }
+
         protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action) where TResult : OperationResponse
         {
             this.ExecuteClientActionNewSM(input, operationDescription, action, (s, response) => this.ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+        }
+
+        protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action, Func<string, string, OperationStatusResponse> waitOperation) where TResult : OperationResponse
+        {
+            this.ExecuteClientActionNewSM(input, operationDescription, action, waitOperation, (s, response) => this.ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
+        }
+
+        protected OperationStatusResponse WaitForNewGatewayOperation(string operationId, string opdesc)
+        {
+            try
+            {
+                var opStatus = this.NetworkClient.Gateways.GetOperationStatus(operationId);
+
+                var activityId = new Random().Next(1, 999999);
+                var progress = new ProgressRecord(activityId, opdesc, Resources.GatewayOperationStatus + opStatus);
+                while (opStatus.Status != GatewayOperationStatus.Successful && opStatus.Status != GatewayOperationStatus.Failed)
+                {
+                    WriteProgress(progress);
+                    Thread.Sleep(1 * 1000);
+                    opStatus = this.NetworkClient.Gateways.GetOperationStatus(operationId);
+                }
+
+                if (opStatus.Status == GatewayOperationStatus.Failed)
+                {
+                    var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", opStatus.Status, opStatus.Error.Message);
+                    var exception = new Exception(errorMessage);
+                    WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+                }
+            }
+            catch (CommunicationException ex)
+            {
+                WriteErrorDetails(ex);
+            }
+
+            return GetOperationNewSM(operationId);
         }
 
         protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<Operation, TResult, object> contextFactory) where TResult : class

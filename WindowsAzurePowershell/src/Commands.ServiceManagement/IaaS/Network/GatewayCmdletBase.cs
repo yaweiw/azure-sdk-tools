@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Properties;
+    using Microsoft.WindowsAzure.Management.Models;
 
     public class GatewayCmdletBase : CloudBaseCmdlet<IGatewayServiceManagement>
     {

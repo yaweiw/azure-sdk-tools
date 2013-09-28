@@ -156,6 +156,10 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>

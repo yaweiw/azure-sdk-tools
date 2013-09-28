@@ -17,19 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Model;
     using Service.Gateway;
+    using Utilities.Common;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetGatewayKey"), OutputType(typeof(SharedKeyContext))]
-    public class GetAzureVNetGatewayKeyCommand : GatewayCmdletBase
+    public class GetAzureVNetGatewayKeyCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetGatewayKeyCommand()
-        {
-        }
-
-        public GetAzureVNetGatewayKeyCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "The virtual network name.")]
         [ValidateNotNullOrEmpty]
         public string VNetName
@@ -48,17 +42,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(
+            this.ExecuteClientActionNewSM(
                 null,
-                CommandRuntime.ToString(),
-                s => this.Channel.GetVirtualNetworkSharedKey(s, this.VNetName, this.LocalNetworkSiteName),
-                WaitForNewGatewayOperation,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.GetSharedKey(this.VNetName, this.LocalNetworkSiteName),
+                this.WaitForNewGatewayOperation,
                 (operation, sharedKey) => new SharedKeyContext
                 {
-                    OperationId = operation.OperationTrackingId,
+                    OperationId = operation.Id,
                     OperationDescription = this.CommandRuntime.ToString(),
-                    OperationStatus = operation.Status,
-                    Value = sharedKey.Value
+                    OperationStatus = operation.Status.ToString(),
+                    Value = sharedKey.SharedKey
                 });
         }
     }

@@ -1315,12 +1315,14 @@ Please follow these steps in the portal:
   </data>
   <data name="RemoveMediaAccountWarning" xml:space="preserve">
     <value>Are you sure you want to remove the account?</value>
-    <comment> </comment>
   </data>
   <data name="RemoveMediaAccountWhatIfMessage" xml:space="preserve">
     <value>Account removed.</value>
   </data>
   <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
     <value>EndPoint can't be retrieved for storage account</value>
+  </data>
+  <data name="GatewayOperationStatus" xml:space="preserve">
+    <value>Operation Status:</value>
   </data>
 </root>
