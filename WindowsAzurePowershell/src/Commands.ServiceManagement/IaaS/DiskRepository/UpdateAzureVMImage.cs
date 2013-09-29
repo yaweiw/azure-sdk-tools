@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.Compute;
-    using Microsoft.WindowsAzure.Management.Compute.Models;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using ServiceManagement.Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class UpdateAzureVMImage : ServiceManagementBaseCmdlet
@@ -65,7 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             parameters.ImageFamily = this.ImageFamily;
             parameters.PublishedDate = this.PublishedDate;
             parameters.PrivacyUri = this.PrivacyUri;
-            parameters.RecommendedVMSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true);
+            parameters.RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? VirtualMachineRoleSize.Small :
+                                           (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true);
 
             this.ExecuteClientActionNewSM(
                 null,
@@ -99,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.UpdateVMImageProcess();
         }
     }

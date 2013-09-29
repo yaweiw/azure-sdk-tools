@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
     using Utilities.Common;
 
@@ -106,8 +107,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             bool removePackage = false;
 
-            AssertNoPersistenVmRoleExistsInDeployment(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production);
-            AssertNoPersistenVmRoleExistsInDeployment(Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Staging);
+            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Production);
+            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Staging);
 
             var storageName = CurrentSubscription.CurrentStorageAccountName;
 
@@ -256,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             if (string.IsNullOrEmpty(this.Slot))
             {
-                this.Slot = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DeploymentSlotType.Production;
+                this.Slot = DeploymentSlotType.Production;
             }
 
             if (string.IsNullOrEmpty(this.Name))

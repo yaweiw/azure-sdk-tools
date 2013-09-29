@@ -96,7 +96,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             VirtualMachineRoleSize roleSizeResult;
-            if (!Enum.TryParse(VM.RoleSize, true, out roleSizeResult))
+            if (string.IsNullOrEmpty(VM.RoleSize))
+            {
+                roleSizeResult = VirtualMachineRoleSize.Small;
+            }
+            else if (!Enum.TryParse(VM.RoleSize, true, out roleSizeResult))
             {
                 throw new ArgumentOutOfRangeException("RoleSize:" + VM.RoleSize);
             }

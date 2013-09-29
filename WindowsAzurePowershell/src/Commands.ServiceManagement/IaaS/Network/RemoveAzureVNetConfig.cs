@@ -15,11 +15,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System.IO;
     using System.Management.Automation;
+    using System.Xml;
     using System.Xml.Linq;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using Utilities.Common;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : ServiceManagementBaseCmdlet
@@ -27,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";
         private static readonly XNamespace InstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
 
-        protected override void OnProcessRecord()
+        protected void OnProcessRecordNewSM()
         {
             NetworkSetConfigurationParameters networkConfigParams = new NetworkSetConfigurationParameters();
 
@@ -35,6 +38,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 networkConfigParams,
                 this.CommandRuntime.ToString(),
                 () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
+        }
+
+        protected override void OnProcessRecord()
+        {
+            var netConfig = new XElement(
+                NetconfigNamespace + "NetworkConfiguration",
+                new XAttribute("xmlns", NetconfigNamespace.NamespaceName),
+                new XAttribute(XNamespace.Xmlns + "xsi", InstanceNamespace.NamespaceName),
+                new XElement(NetconfigNamespace + "VirtualNetworkConfiguration"));
+
+            var stream = new MemoryStream();
+            var writer1 = XmlWriter.Create(stream);
+            netConfig.WriteTo(writer1);
+            writer1.Flush();
+            stream.Seek(0L, SeekOrigin.Begin);
+
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream));
         }
     }
 }
