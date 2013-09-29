@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 Name = this.DiskName,
                 MediaLinkUri = new Uri(this.MediaLocation),
-                OperatingSystemType = this.OS,
+                OperatingSystemType = string.IsNullOrEmpty(this.OS) ? "Windows" : this.OS,
                 Label = string.IsNullOrEmpty(this.Label) ? this.DiskName : this.Label
             };
 

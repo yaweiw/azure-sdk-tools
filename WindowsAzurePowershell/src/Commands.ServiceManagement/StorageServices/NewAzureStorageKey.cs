@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             var regenerateKeys = new StorageAccountRegenerateKeysParameters
             {
                 ServiceName = this.StorageAccountName,
-                KeyType = (StorageKeyType)Enum.Parse(typeof(StorageKeyType), this.KeyType, true)
+                KeyType = string.IsNullOrEmpty(this.KeyType) ? StorageKeyType.Primary : (StorageKeyType)Enum.Parse(typeof(StorageKeyType), this.KeyType, true)
             };
 
             ExecuteClientActionNewSM(

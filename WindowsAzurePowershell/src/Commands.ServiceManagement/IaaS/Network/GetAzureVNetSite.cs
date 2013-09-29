@@ -115,8 +115,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         this.WriteExceptionDetails(ex);
                     }
                 }
-
-                result = null;
             });
 
             return result;

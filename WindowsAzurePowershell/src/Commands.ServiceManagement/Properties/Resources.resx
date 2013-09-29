@@ -555,4 +555,7 @@
   <data name="MustSpecifyForceParameterWhenUsingWildcards" xml:space="preserve">
     <value>Must provide the Force switch when using wildcard syntax.</value>
   </data>
+  <data name="NetworkConfigurationCannotBeDeserialized" xml:space="preserve">
+    <value>Network configuration cannot be deserialized.</value>
+  </data>
 </root>
