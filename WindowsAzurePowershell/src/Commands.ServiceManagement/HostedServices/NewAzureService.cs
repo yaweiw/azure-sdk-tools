@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Creates a new hosted service in Windows Azure.

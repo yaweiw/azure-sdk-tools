@@ -66,42 +66,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                     result = sites.Select(s => new VirtualNetworkSiteContext
                     {
-                        OperationId = operation.Id,
+                        OperationId          = operation.Id,
                         OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status.ToString(),
+                        OperationStatus      = operation.Status.ToString(),
                         AddressSpacePrefixes = s.AddressSpace != null ? s.AddressSpace.AddressPrefixes : null,
-                        AffinityGroup = s.AffinityGroup,
-                        DnsServers = s.DnsServers == null ? null : from ds in s.DnsServers
+                        AffinityGroup        = s.AffinityGroup,
+                        DnsServers           = s.DnsServers == null ? null : from ds in s.DnsServers
                                                                    select new Model.PersistentVMModel.DnsServer
                                                                    {
                                                                        Address = ds.Address.ToString(),
                                                                        Name = ds.Name
                                                                    },
-                        GatewayProfile = s.Gateway != null ? s.Gateway.Profile : null,
-                        GatewaySites = s.Gateway == null ? null : s.Gateway.Sites == null ? null :
-                                       s.Gateway.Sites.Select(gs => new Model.PersistentVMModel.LocalNetworkSite
-                                       {
-                                           AddressSpace = new Model.PersistentVMModel.AddressSpace
-                                           {
-                                               AddressPrefixes = gs.AddressSpace == null ? null : gs.AddressSpace.AddressPrefixes == null ? null :
-                                               gs.AddressSpace.AddressPrefixes.ToList() as Model.PersistentVMModel.AddressPrefixList
-                                           },
-                                           Connections = gs.Connections == null ? null : gs.Connections.Select(gc => new Model.PersistentVMModel.Connection
-                                           {
-                                               Type = gc.Type.ToString()
-                                           }) as Model.PersistentVMModel.ConnectionList,
-                                           Name = gs.Name,
-                                           VpnGatewayAddress = gs.VpnGatewayAddress.ToString()
-                                       }) as Model.PersistentVMModel.LocalNetworkSiteList,
-                        Id = s.Id,
-                        Label = s.Label,
-                        Name = s.Name,
-                        State = s.State,
-                        Subnets = s.Subnets.Select(sn => new Model.PersistentVMModel.Subnet
-                        {
-                            AddressPrefix = sn.AddressPrefix,
-                            Name = sn.Name
-                        })
+                        GatewayProfile       = s.Gateway != null ? s.Gateway.Profile : null,
+                        GatewaySites         = s.Gateway == null ? null : s.Gateway.Sites == null ? null :
+                                               s.Gateway.Sites.Select(gs => new Model.PersistentVMModel.LocalNetworkSite
+                                               {
+                                                   AddressSpace = new Model.PersistentVMModel.AddressSpace
+                                                   {
+                                                       AddressPrefixes = gs.AddressSpace == null ? null : gs.AddressSpace.AddressPrefixes == null ? null :
+                                                       gs.AddressSpace.AddressPrefixes.ToList() as Model.PersistentVMModel.AddressPrefixList
+                                                   },
+                                                   Connections = gs.Connections == null ? null : gs.Connections.Select(gc => new Model.PersistentVMModel.Connection
+                                                   {
+                                                       Type = gc.Type.ToString()
+                                                   }) as Model.PersistentVMModel.ConnectionList,
+                                                   Name = gs.Name,
+                                                   VpnGatewayAddress = gs.VpnGatewayAddress.ToString()
+                                               }) as Model.PersistentVMModel.LocalNetworkSiteList,
+                        Id                   = s.Id,
+                        Label                = s.Label,
+                        Name                 = s.Name,
+                        State                = s.State,
+                        Subnets              = s.Subnets.Select(sn => new Model.PersistentVMModel.Subnet {AddressPrefix = sn.AddressPrefix, Name = sn.Name})
                     }).ToList();
                 }
                 catch (CloudException ex)

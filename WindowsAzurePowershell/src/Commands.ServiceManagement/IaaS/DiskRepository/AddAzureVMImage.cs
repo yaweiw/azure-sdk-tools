@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.Management.Compute;
-    using WindowsAzure.Management.Compute.Models;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class AddAzureVMImage : ServiceManagementBaseCmdlet
@@ -67,8 +67,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize();
-
             var parameters = new VirtualMachineImageCreateParameters
             {
                 Name = this.ImageName,
@@ -93,6 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

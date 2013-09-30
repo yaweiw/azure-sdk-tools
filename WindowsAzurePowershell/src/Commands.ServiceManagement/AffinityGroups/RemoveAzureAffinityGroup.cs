@@ -15,10 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Management;
-    using Management.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Deletes an affinity group.
@@ -38,8 +36,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
         {
             ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), () => this.ManagementClient.AffinityGroups.Delete(this.Name),
-                (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(s));
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ManagementClient.AffinityGroups.Delete(this.Name));
         }
 
         protected override void OnProcessRecord()

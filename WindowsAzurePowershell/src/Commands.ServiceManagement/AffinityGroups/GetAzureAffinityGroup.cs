@@ -16,11 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
-    using Utilities.Common;
     using Management;
     using Management.Models;
     using Model;
+    using Utilities.Common;
 
     /// <summary>
     /// List the properties for the specified affinity group.

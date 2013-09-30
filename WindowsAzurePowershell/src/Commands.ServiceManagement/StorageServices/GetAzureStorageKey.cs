@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
+    using ServiceManagement.Model;
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
     using Management.Storage;
     using Management.Storage.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Displays the primary and secondary keys for the account. Should have 

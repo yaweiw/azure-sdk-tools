@@ -47,10 +47,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 this.WaitForNewGatewayOperation,
                 (operation, sharedKey) => new SharedKeyContext
                 {
-                    OperationId = operation.Id,
+                    OperationId          = operation.Id,
                     OperationDescription = this.CommandRuntime.ToString(),
-                    OperationStatus = operation.Status.ToString(),
-                    Value = sharedKey.SharedKey
+                    OperationStatus      = operation.Status.ToString(),
+                    Value                = sharedKey.SharedKey
                 });
         }
     }

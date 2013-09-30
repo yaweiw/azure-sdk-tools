@@ -108,9 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
-                        //OperationId = GetDeploymentOperation.OperationTrackingId,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
-                        //OperationStatus = GetDeploymentOperation.Status,
                         VM = new PersistentVM
                         {
                             AvailabilitySetName = vm.AvailabilitySetName,
@@ -121,8 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             RoleName = vm.RoleName,
                             RoleSize = vm.RoleSize.ToString(),
                             RoleType = vm.RoleType,
-                            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/132
-//                            DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
+                            DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
                         }
                     };
 

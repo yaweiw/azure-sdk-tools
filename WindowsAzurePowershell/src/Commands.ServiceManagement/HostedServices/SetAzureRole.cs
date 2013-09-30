@@ -91,8 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             }
             ExecuteClientActionNewSM(configuration, 
                 CommandRuntime.ToString(), 
-                () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(this.ServiceName, slot, updatedConfigurationParameter),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(this.ServiceName, slot, updatedConfigurationParameter));
         }
 
         protected override void OnProcessRecord()

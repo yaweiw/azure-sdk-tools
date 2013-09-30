@@ -65,10 +65,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     try
                     {
-                        //WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
-                        //CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
-                        //GetDeploymentOperation = GetOperation();
-
                         CurrentDeploymentNewSM = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
                         GetDeploymentOperationNewSM = GetOperationNewSM(CurrentDeploymentNewSM.RequestId);
                         WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
@@ -102,17 +98,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             string currentInstanceStatus = null;
             Management.Compute.Models.RoleInstance durableRoleInstance;
-            //RoleInstance durableRoleInstance;
             do
             {
                 DeploymentGetResponse d = null;
-                //Deployment deployment = null;
                 InvokeInOperationContext(() =>
                 {
                     try
                     {
                         d = this.ComputeClient.Deployments.GetBySlot(ServiceName, DeploymentSlot.Production);
-                        //deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
                     }
                     catch (Exception e)
                     {
@@ -128,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
                 }
-                //durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == roleName);
+
                 durableRoleInstance = d.RoleInstances == null || !d.RoleInstances.Any() ? null : d.RoleInstances.First(ri => ri.RoleName == roleName);
 
                 if (currentInstanceStatus == null)

@@ -19,14 +19,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
-    using Commands.Utilities.Common;
     using IaaS;
     using Management.Compute.Models;
     using Model;
     using Model.PersistentVMModel;
     using Properties;
-    using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using Utilities.Common;
     using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
+    using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureLoadBalancedEndpoint : IaaSDeploymentManagementCmdletBase

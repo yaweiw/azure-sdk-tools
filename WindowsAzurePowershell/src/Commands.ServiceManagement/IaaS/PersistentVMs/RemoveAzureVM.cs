@@ -17,11 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -62,8 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production),
-                    (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
 
             }
         }

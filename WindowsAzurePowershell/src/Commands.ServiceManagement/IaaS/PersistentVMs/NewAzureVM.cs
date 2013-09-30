@@ -191,12 +191,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     if (vm.WinRMCertificate != null)
                     {
-                        if (!CertUtils.HasExportablePrivateKey(vm.WinRMCertificate))
+                        if (!CertUtilsNewSM.HasExportablePrivateKey(vm.WinRMCertificate))
                         {
                             throw new ArgumentException(Resources.WinRMCertificateDoesNotHaveExportablePrivateKey);
                         }
                         var operationDescription = string.Format(Resources.AzureVMUploadingWinRMCertificate, CommandRuntime, vm.WinRMCertificate.Thumbprint);
-                        var newCertificateFile = CertUtils.Create(vm.WinRMCertificate);
+                        var newCertificateFile = CertUtilsNewSM.Create(vm.WinRMCertificate);
                         var certificateFile = new Microsoft.WindowsAzure.ServiceManagement.CertificateFile
                         {
                             CertificateFormat = newCertificateFile.CertificateFormat.ToString(),
@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                                          select new
                                                          {
                                                              c.Thumbprint,
-                                                             CertificateFile = CertUtils.Create(c, vm.NoExportPrivateKey)
+                                                             CertificateFile = CertUtilsNewSM.Create(c, vm.NoExportPrivateKey)
                                                          };
                     foreach (var current in certificateFilesWithThumbprint.ToList())
                     {

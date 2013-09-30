@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using System.Collections.Generic;
-    using Commands.Utilities.Common;
+    using Utilities.Common;
 
     public class AffinityGroupContext : ManagementOperationContext
     {

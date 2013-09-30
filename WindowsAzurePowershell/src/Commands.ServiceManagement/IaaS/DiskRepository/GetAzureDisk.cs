@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Management.Compute;
-    using Management.Compute.Models;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(IEnumerable<DiskContext>))]
     public class GetAzureDiskCommand : ServiceManagementBaseCmdlet

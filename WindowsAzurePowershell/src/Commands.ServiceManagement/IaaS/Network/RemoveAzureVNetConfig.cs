@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using Utilities.Common;
+    // TODO: Need to wait for the fix for this.NetworkClient.Networks.SetConfiguration(netParams))
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]

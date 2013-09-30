@@ -273,7 +273,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\CertUtils.cs" />
-    <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\OS.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
@@ -315,7 +314,6 @@
     <Compile Include="IaaS\Endpoints\SetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureLoadBalancedEndpoint.cs" />
-    <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
     <Compile Include="IaaS\Network\GetAzureVNetConfig.cs" />

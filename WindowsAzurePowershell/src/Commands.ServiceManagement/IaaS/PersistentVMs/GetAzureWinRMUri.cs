@@ -102,7 +102,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return null;
             }
 
-            //var builder = new UriBuilder(CurrentDeployment.Url)
             var builder = new UriBuilder(CurrentDeploymentNewSM.Uri)
             {
                 Port = winRmEndPoint.Port,

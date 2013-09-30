@@ -14,15 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
     using Management.Storage;
     using Management.Storage.Models;
+    using Model;
+    using Utilities.Common;
 
     /// <summary>
     /// Lists all storage services underneath the subscription.

@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.AvailabilitySet
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureAvailabilitySet"), OutputType(typeof(IPersistentVM))]
     public class SetAzureAvailabilitySet : VirtualMachineConfigurationCmdletBase

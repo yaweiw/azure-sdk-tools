@@ -24,6 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Storage;
     using Model;
     using Properties;
+    // TODO: Wait for fix
+    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/187
     using Microsoft.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
@@ -121,8 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ExecuteClientActionNewSM(
                 parameters,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters),
-                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters));
         }
 
         internal override void ExecuteCommand()

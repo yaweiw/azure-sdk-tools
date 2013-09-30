@@ -15,12 +15,12 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Management.Automation;
     using System.Collections.Generic;
+    using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.ServiceManagement.Common;
+    using Common;
+    using Helpers;
     using Model;
-    using Commands.ServiceManagement.Helpers;
     using Properties;
 
     /// <summary>

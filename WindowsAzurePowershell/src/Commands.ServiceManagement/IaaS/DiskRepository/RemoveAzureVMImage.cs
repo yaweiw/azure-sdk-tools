@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.Management.Compute;
+    using Management.Compute;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet

@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
-    using Sync.Download;
     using Management.Storage;
+    using ServiceManagement.Model;
+    using Sync.Download;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Save, "AzureVhd"), OutputType(typeof (VhdDownloadContext))]
     public class SaveAzureVhdCommand : ServiceManagementBaseCmdlet
