@@ -30,17 +30,30 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The policy identifier which need to be checked.</param>
-        public static void ValidateContainerAccessPolicy(IStorageBlobManagement channel, string containerName, 
+        public static bool ValidateContainerAccessPolicy(IStorageBlobManagement channel, string containerName,
             SharedAccessBlobPolicy policy, string policyIdentifier)
         {
-            if (string.IsNullOrEmpty(policyIdentifier)) return;
+            if (string.IsNullOrEmpty(policyIdentifier)) return true;
             CloudBlobContainer container = channel.GetContainerReference(containerName);
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
             OperationContext context = null;
             BlobContainerPermissions permission = channel.GetContainerPermissions(container, accessCondition, options, context);
 
-            ValidateExistingPolicy<SharedAccessBlobPolicy>(permission.SharedAccessPolicies, policyIdentifier);
+            SharedAccessBlobPolicy sharedAccessPolicy =
+                GetExistingPolicy<SharedAccessBlobPolicy>(permission.SharedAccessPolicies, policyIdentifier);
+
+            if (policy.Permissions != SharedAccessBlobPermissions.None)
+            {
+                throw new ArgumentException(Resources.SignedPermissionsMustBeOmitted);
+            }
+
+            if (policy.SharedAccessExpiryTime.HasValue && sharedAccessPolicy.SharedAccessExpiryTime.HasValue)
+            {
+                throw new ArgumentException(Resources.SignedExpiryTimeMustBeOmitted);
+            }
+
+            return !sharedAccessPolicy.SharedAccessExpiryTime.HasValue;
         }
 
         /// <summary>
@@ -48,16 +61,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The policy identifier which need to be checked.</param>
-        public static void ValidateQueueAccessPolicy(IStorageQueueManagement channel, string queueName,
+        public static bool ValidateQueueAccessPolicy(IStorageQueueManagement channel, string queueName,
             SharedAccessQueuePolicy policy, string policyIdentifier)
         {
-            if (string.IsNullOrEmpty(policyIdentifier)) return;
+            if (string.IsNullOrEmpty(policyIdentifier)) return true;
             CloudQueue queue = channel.GetQueueReference(queueName);
             QueueRequestOptions options = null;
             OperationContext context = null;
             QueuePermissions permission = channel.GetPermissions(queue, options, context);
 
-            ValidateExistingPolicy<SharedAccessQueuePolicy>(permission.SharedAccessPolicies, policyIdentifier);
+            SharedAccessQueuePolicy sharedAccessPolicy =
+                GetExistingPolicy<SharedAccessQueuePolicy>(permission.SharedAccessPolicies, policyIdentifier);
+
+            if (policy.Permissions != SharedAccessQueuePermissions.None)
+            {
+                throw new ArgumentException(Resources.SignedPermissionsMustBeOmitted);
+            }
+
+            if (policy.SharedAccessExpiryTime.HasValue && sharedAccessPolicy.SharedAccessExpiryTime.HasValue)
+            {
+                throw new ArgumentException(Resources.SignedExpiryTimeMustBeOmitted);
+            }
+
+            return !sharedAccessPolicy.SharedAccessExpiryTime.HasValue;
         }
 
         /// <summary>
@@ -65,38 +91,52 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
         /// <param name="policyIdentifier">The policy identifier which need to be checked.</param>
-        internal static void ValidateTableAccessPolicy(IStorageTableManagement channel, string tableName, SharedAccessTablePolicy policy, string policyIdentifier)
+        internal static bool ValidateTableAccessPolicy(IStorageTableManagement channel,
+            string tableName, SharedAccessTablePolicy policy, string policyIdentifier)
         {
-            if (string.IsNullOrEmpty(policyIdentifier)) return;
+            if (string.IsNullOrEmpty(policyIdentifier)) return true;
             CloudTable table = channel.GetTableReference(tableName);
             TableRequestOptions options = null;
             OperationContext context = null;
             TablePermissions permission = channel.GetTablePermissions(table, options, context);
 
-            ValidateExistingPolicy<SharedAccessTablePolicy>(permission.SharedAccessPolicies, policyIdentifier);
+            SharedAccessTablePolicy sharedAccessPolicy =
+                GetExistingPolicy<SharedAccessTablePolicy>(permission.SharedAccessPolicies, policyIdentifier);
+
+            if (policy.Permissions != SharedAccessTablePermissions.None)
+            {
+                throw new ArgumentException(Resources.SignedPermissionsMustBeOmitted);
+            }
+
+            if (policy.SharedAccessExpiryTime.HasValue && sharedAccessPolicy.SharedAccessExpiryTime.HasValue)
+            {
+                throw new ArgumentException(Resources.SignedExpiryTimeMustBeOmitted);
+            }
+
+            return !sharedAccessPolicy.SharedAccessExpiryTime.HasValue;
         }
 
         /// <summary>
         /// Valiate access policy
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="policies">Access policy</param>
         /// <param name="policyIdentifier">policyIdentifier</param>
-        internal static void ValidateExistingPolicy<T>(IDictionary<string, T> policies, string policyIdentifier)
+        internal static T GetExistingPolicy<T>(IDictionary<string, T> policies, string policyIdentifier)
         {
             policyIdentifier = policyIdentifier.ToLower();//policy name should case-insensitive in url.
             foreach (KeyValuePair<string, T> pair in policies)
             {
                 if (pair.Key.ToLower() == policyIdentifier)
                 {
-                    return;
+                    return pair.Value;
                 }
             }
 
             throw new ArgumentException(string.Format(Resources.InvalidAccessPolicy, policyIdentifier));
         }
 
-        public static void SetupAccessPolicyLifeTime(DateTime? startTime, DateTime? expiryTime, out DateTimeOffset? SharedAccessStartTime, out DateTimeOffset? SharedAccessExpiryTime)
+        public static void SetupAccessPolicyLifeTime(DateTime? startTime, DateTime? expiryTime,
+            out DateTimeOffset? SharedAccessStartTime, out DateTimeOffset? SharedAccessExpiryTime, bool setExpiryTime)
         {
             SharedAccessStartTime = null;
             SharedAccessExpiryTime = null;
@@ -110,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 SharedAccessExpiryTime = expiryTime.Value.ToUniversalTime();
             }
-            else
+            else if (setExpiryTime)
             {
                 double defaultLifeTime = 1.0; //Hours
 
@@ -124,7 +164,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
             }
 
-            if (SharedAccessStartTime != null && SharedAccessExpiryTime <= SharedAccessStartTime)
+            if (SharedAccessStartTime != null && SharedAccessExpiryTime.HasValue
+                && SharedAccessExpiryTime <= SharedAccessStartTime)
             {
                 throw new ArgumentException(String.Format(Resources.ExpiryTimeGreatThanStartTime,
                     SharedAccessExpiryTime.ToString(), SharedAccessStartTime.ToString()));

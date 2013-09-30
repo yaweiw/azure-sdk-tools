@@ -28,6 +28,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     [Cmdlet(VerbsCommon.New, StorageNouns.ContainerSas), OutputType(typeof(String))]
     public class NewAzureStorageContainerSasTokenCommand : StorageCloudBlobCmdletBase
     {
+        /// <summary>
+        /// Sas permission parameter set name
+        /// </summary>
+        private const string SasPermissionParameterSet = "SasPermission";
+
+        /// <summary>
+        /// Sas policy paremeter set name
+        /// </summary>
+        private const string SasPolicyParmeterSet = "SasPolicy";
+
         [Alias("N", "Container")]
         [Parameter(Position = 0, Mandatory = true,
             HelpMessage = "Container Name",
@@ -36,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(HelpMessage = "Policy Identifier")]
+        [Parameter(HelpMessage = "Policy Identifier", ParameterSetName = SasPolicyParmeterSet)]
         public string Policy
         {
             get { return accessPolicyIdentifier; }
@@ -44,7 +54,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"rwdl\".",
+            ParameterSetName = SasPermissionParameterSet)]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -82,8 +93,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             if (String.IsNullOrEmpty(Name)) return;
             CloudBlobContainer container = Channel.GetContainerReference(Name);
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
-            SetupAccessPolicy(accessPolicy);
-            SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
+            bool isNoExpiryTime = SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
+            SetupAccessPolicy(accessPolicy, isNoExpiryTime);
             string sasToken = container.GetSharedAccessSignature(accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
@@ -101,11 +112,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessBlobPolicy policy)
+        private void SetupAccessPolicy(SharedAccessBlobPolicy policy, bool setExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime,
+                out accessStartTime, out accessEndTime, setExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);

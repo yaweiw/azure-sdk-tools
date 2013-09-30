@@ -30,6 +30,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
     [Cmdlet(VerbsCommon.New, StorageNouns.TableSas), OutputType(typeof(String))]
     public class NewAzureStorageTableSasTokenCommand : StorageCloudTableCmdletBase
     {
+        /// <summary>
+        /// Sas permission parameter set name
+        /// </summary>
+        private const string SasPermissionParameterSet = "SasPermission";
+
+        /// <summary>
+        /// Sas policy paremeter set name
+        /// </summary>
+        private const string SasPolicyParmeterSet = "SasPolicy";
+
         [Alias("N", "Table")]
         [Parameter(Position = 0, Mandatory = true,
             HelpMessage = "Table Name",
@@ -38,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(HelpMessage = "Policy Identifier")]
+        [Parameter(HelpMessage = "Policy Identifier", ParameterSetName = SasPolicyParmeterSet)]
         public string Policy
         {
             get { return accessPolicyIdentifier; }
@@ -46,7 +56,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"audq\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"audq\".",
+            ParameterSetName = SasPermissionParameterSet)]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -97,8 +108,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             if (String.IsNullOrEmpty(Name)) return;
             CloudTable table = Channel.GetTableReference(Name);
             SharedAccessTablePolicy policy = new SharedAccessTablePolicy();
-            SetupAccessPolicy(policy);
-            SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, accessPolicyIdentifier);
+            bool isNoExpiryTime = SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, accessPolicyIdentifier);
+            SetupAccessPolicy(policy, isNoExpiryTime);
             ValidatePkAndRk(StartPartitionKey, StartRowKey, EndPartitionKey, EndRowKey);
             string sasToken = table.GetSharedAccessSignature(policy, accessPolicyIdentifier, StartPartitionKey,
                                 StartRowKey, EndPartitionKey, EndRowKey);
@@ -138,11 +149,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessTablePolicy policy)
+        private void SetupAccessPolicy(SharedAccessTablePolicy policy, bool setExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime,
+                out accessStartTime, out accessEndTime, setExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
