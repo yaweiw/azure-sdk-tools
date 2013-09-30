@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
     using Management.Storage;
     using Management.Storage.Models;
+    using ServiceManagement.Model;
+    using Utilities.Common;
 
     /// <summary>
     /// Regenerates storage keys with the key-type parameter specifying 

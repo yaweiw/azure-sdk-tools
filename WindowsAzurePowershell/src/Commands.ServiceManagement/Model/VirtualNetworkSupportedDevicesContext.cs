@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
     using System.IO;
-    using Commands.Utilities.Common;
     using Properties;
+    using Utilities.Common;
 
     public class VirtualNetworkSupportedDevicesContext : ManagementOperationContext
     {

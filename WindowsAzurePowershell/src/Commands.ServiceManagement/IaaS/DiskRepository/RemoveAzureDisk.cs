@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Compute;
+    using Utilities.Common;
+    using Management.Compute;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDisk"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureDiskCommand : ServiceManagementBaseCmdlet

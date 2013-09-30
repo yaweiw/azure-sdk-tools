@@ -17,12 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Requests a reboot/reimage of a single role instance or for all role instances of a role.
@@ -97,8 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             InvokeInOperationContext(() => ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.RebootRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s)));
+                () => this.ComputeClient.Deployments.RebootRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName)));
         }
 
         private void ReimageSingleInstance(string instanceName)
@@ -107,8 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             InvokeInOperationContext(() => ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.ReimageRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s)));
+                () => this.ComputeClient.Deployments.ReimageRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName)));
         }
 
         private void ValidateParameters()

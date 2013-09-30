@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using Commands.Utilities.Common;
+    using System;
+    using System.Management.Automation;
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
-    using System;
-    using System.Management.Automation;
+    using Utilities.Common;
 
     /// <summary>
     /// Sets the label and description of the specified hosted service

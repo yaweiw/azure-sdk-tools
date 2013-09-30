@@ -158,8 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                         ExecuteClientActionNewSM(
                             null,
                             string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint),
-                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtils.Create(context.X509Certificate)),
-                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtilsNewSM.Create(context.X509Certificate)));
                     }
                 }
 
@@ -238,17 +237,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 {
                     try
                     {
-                        Func<ComputeOperationStatusResponse> action =
-                            () => this.ComputeClient.Deployments.UpgradeBySlot(
-                                this.ServiceName,
-                                (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
-                                upgradeDeploymentInput);
-
                         ExecuteClientActionNewSM(
                             upgradeDeploymentInput,
                             CommandRuntime.ToString(),
-                            action,
-                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                            () => this.ComputeClient.Deployments.UpgradeBySlot(
+                                this.ServiceName,
+                                (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                                upgradeDeploymentInput));
 
                         if (removePackage == true)
                         {
@@ -274,17 +269,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     ExtensionConfiguration = extConfig
                 };
 
-                Func<ComputeOperationStatusResponse> action = 
-                    () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
-                        this.ServiceName,
-                        (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
-                        changeDeploymentStatusParams);
-
                 ExecuteClientActionNewSM(
                     changeDeploymentStatusParams,
                     CommandRuntime.ToString(),
-                    action,
-                    (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                    () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
+                        this.ServiceName,
+                        (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                        changeDeploymentStatusParams));
             }
             else
             {
@@ -294,16 +285,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     Status = (UpdatedDeploymentStatus)Enum.Parse(typeof(UpdatedDeploymentStatus), this.NewStatus, true)
                 };
 
-                Func<ComputeOperationStatusResponse> action = () => this.ComputeClient.Deployments.UpdateStatusByDeploymentSlot(
-                    this.ServiceName,
-                    (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
-                    updateDeploymentStatusParams);
-
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    action,
-                    (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                    () => this.ComputeClient.Deployments.UpdateStatusByDeploymentSlot(
+                    this.ServiceName,
+                    (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                    updateDeploymentStatusParams));
             }
         }
 

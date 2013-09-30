@@ -16,11 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Swaps the deployments in production and stage.
@@ -75,8 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             ExecuteClientActionNewSM(
                 swapDeploymentParams,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.Swap(ServiceName, swapDeploymentParams),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.Deployments.Swap(ServiceName, swapDeploymentParams));
         }
 
         private DeploymentGetResponse GetDeploymentBySlot(string slot)

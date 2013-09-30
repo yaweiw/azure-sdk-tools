@@ -39,17 +39,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 this.WaitForNewGatewayOperation,
                 (s, r) => r.Connections.Select(c => new GatewayConnectionContext
                 {
-                    OperationId = s.Id,
-                    OperationDescription = this.CommandRuntime.ToString(),
-                    OperationStatus = s.Status.ToString(),
-                    ConnectivityState = c.ConnectivityState.ToString(),
-                    EgressBytesTransferred = (ulong)c.EgressBytesTransferred,
-                    IngressBytesTransferred = (ulong)c.IngressBytesTransferred,
+                    OperationId               = s.Id,
+                    OperationDescription      = this.CommandRuntime.ToString(),
+                    OperationStatus           = s.Status.ToString(),
+                    ConnectivityState         = c.ConnectivityState.ToString(),
+                    EgressBytesTransferred    = (ulong)c.EgressBytesTransferred,
+                    IngressBytesTransferred   = (ulong)c.IngressBytesTransferred,
                     LastConnectionEstablished = c.LastConnectionEstablished.ToString(),
-                    LastEventID = c.LastEvent != null ? c.LastEvent.Id.ToString() : null,
-                    LastEventMessage = c.LastEvent != null ? c.LastEvent.Message.ToString() : null,
-                    LastEventTimeStamp = c.LastEvent != null ? c.LastEvent.Timestamp.ToString() : null,
-                    LocalNetworkSiteName = c.LocalNetworkSiteName
+                    LastEventID               = c.LastEvent != null ? c.LastEvent.Id.ToString() : null,
+                    LastEventMessage          = c.LastEvent != null ? c.LastEvent.Message.ToString() : null,
+                    LastEventTimeStamp        = c.LastEvent != null ? c.LastEvent.Timestamp.ToString() : null,
+                    LocalNetworkSiteName      = c.LocalNetworkSiteName
                 }));
         }
     }

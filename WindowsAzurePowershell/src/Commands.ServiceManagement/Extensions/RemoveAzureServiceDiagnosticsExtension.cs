@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Remove Windows Azure Service Diagnostics Extension.

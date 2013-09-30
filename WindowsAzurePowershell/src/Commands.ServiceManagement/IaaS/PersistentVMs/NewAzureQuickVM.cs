@@ -330,12 +330,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 if (WinRMCertificate != null)
                 {
-                    if (!CertUtils.HasExportablePrivateKey(WinRMCertificate))
+                    if (!CertUtilsNewSM.HasExportablePrivateKey(WinRMCertificate))
                     {
                         throw new ArgumentException(Resources.WinRMCertificateDoesNotHaveExportablePrivateKey);
                     }
                     var operationDescription = string.Format(Resources.QuickVMUploadingWinRMCertificate, CommandRuntime, WinRMCertificate.Thumbprint);
-                    var newCertificateFile = CertUtils.Create(WinRMCertificate);
+                    var newCertificateFile = CertUtilsNewSM.Create(WinRMCertificate);
                     var certificateFile = new Microsoft.WindowsAzure.ServiceManagement.CertificateFile
                     {
                         CertificateFormat = newCertificateFile.CertificateFormat.ToString(),
@@ -351,7 +351,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                                          select new
                                                          {
                                                              c.Thumbprint,
-                                                             CertificateFile = CertUtils.Create(c, this.NoExportPrivateKey.IsPresent)
+                                                             CertificateFile = CertUtilsNewSM.Create(c, this.NoExportPrivateKey.IsPresent)
                                                          };
                     foreach (var current in certificateFilesWithThumbprint.ToList())
                     {
@@ -496,7 +496,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
-                    StoredCertificateSettings = Mapper.Map<Microsoft.WindowsAzure.ServiceManagement.CertificateSettingList>(CertUtils.GetCertificateSettings(this.Certificates, this.X509Certificates)),
+                    StoredCertificateSettings = Mapper.Map<Microsoft.WindowsAzure.ServiceManagement.CertificateSettingList>(CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates)),
                     //WinRM = Mapper.Map<Microsoft.WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration>(GetWinRmConfiguration())
                     WinRM = new WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration
                     {

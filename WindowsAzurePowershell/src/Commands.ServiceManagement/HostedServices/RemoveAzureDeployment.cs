@@ -16,11 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Deletes the specified deployment.
@@ -60,8 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
         }
 
         protected override void OnProcessRecord()

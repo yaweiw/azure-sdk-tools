@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
-    using Management.Compute.Models;
     using Management.Compute;
+    using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Deletes the specified certificate.
@@ -58,9 +57,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                 Thumbprint = Thumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm
             };
-            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), 
-                () => this.ComputeClient.ServiceCertificates.Delete(parameters),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.ServiceCertificates.Delete(parameters));
         }
 
         protected override void OnProcessRecord()

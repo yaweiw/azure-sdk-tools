@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.Management.Compute;
-    using WindowsAzure.Management.Compute.Models;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class AddAzureDiskCommand : ServiceManagementBaseCmdlet
@@ -59,6 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Model;
     using Properties;
     using Sync.Download;
+    using Utilities.Common;
 
     /// <summary>
     /// Uploads a vhd as fixed disk format vhd to a blob in Windows Azure Storage

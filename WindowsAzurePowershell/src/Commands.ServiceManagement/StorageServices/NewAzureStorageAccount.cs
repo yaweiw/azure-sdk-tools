@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Management.Storage;
     using Management.Storage.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Creates a new storage account in Windows Azure.
@@ -71,21 +70,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         internal void ExecuteCommand()
         {
-            //            if (string.IsNullOrEmpty(Label))
-//            {
-//                Label = StorageAccountName;
-//            }
-//            var createStorageServiceInput = new CreateStorageServiceInput()
-//            {
-//                ServiceName = this.StorageAccountName,
-//                Label = this.Label,
-//                Description = this.Description,
-//                AffinityGroup = this.AffinityGroup,
-//                Location = this.Location
-//            };
-//
-//            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
-
             ServiceManagementProfile.Initialize();
 
             var parameters = new StorageAccountCreateParameters
@@ -99,8 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             ExecuteClientActionNewSM(
                 parameters,
                 CommandRuntime.ToString(),
-                () => this.StorageClient.StorageAccounts.Create(parameters),
-                (s, response) => ContextFactory<StorageOperationStatusResponse, ManagementOperationContext>(response, s));
+                () => this.StorageClient.StorageAccounts.Create(parameters));
         }
 
         protected override void OnProcessRecord()

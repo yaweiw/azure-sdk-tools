@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management;
     using Management.Models;
-    using AutoMapper;
+    using Utilities.Common;
 
     /// <summary>
     /// Updates the label and/or the description for an affinity group for the specified subscription.

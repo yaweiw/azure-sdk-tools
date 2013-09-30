@@ -17,15 +17,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
-    using System.Text;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Properties;
+    using Utilities.Common;
 
     public class ExtensionManager
     {

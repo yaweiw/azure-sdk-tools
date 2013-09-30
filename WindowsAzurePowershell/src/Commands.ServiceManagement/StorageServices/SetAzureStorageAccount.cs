@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Storage;
     using Management.Storage.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Updates the label and/or the description for a storage account in Windows Azure.
@@ -78,15 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             ExecuteClientActionNewSM(
                 upstorageinput,
                 CommandRuntime.ToString(),
-                () => this.StorageClient.StorageAccounts.Update(this.StorageAccountName, upstorageinput),
-                (s, r) =>
-                {
-                    return new ManagementOperationContext
-                    {
-                        OperationId = s.Id,
-                        OperationStatus = s.Status.ToString()
-                    };
-                });
+                () => this.StorageClient.StorageAccounts.Update(this.StorageAccountName, upstorageinput));
         }
 
         protected override void OnProcessRecord()

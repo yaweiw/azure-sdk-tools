@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Save, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase

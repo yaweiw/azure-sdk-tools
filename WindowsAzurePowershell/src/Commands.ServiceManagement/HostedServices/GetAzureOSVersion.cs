@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using Utilities.Common;
 
     /// <summary>
     /// Lists the versions of the guest operating system that are currently available in Windows Azure.

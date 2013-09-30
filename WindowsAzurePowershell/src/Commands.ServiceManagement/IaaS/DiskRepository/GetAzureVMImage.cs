@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]

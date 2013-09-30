@@ -16,11 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Management.Models;
     using Management.Compute;
     using Management.Compute.Models;
     using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Walks the specified upgrade domain.
@@ -70,8 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.WalkUpgradeDomainByDeploymentSlot(ServiceName, slotType, walkUpgradeDomainParams),
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                () => this.ComputeClient.Deployments.WalkUpgradeDomainByDeploymentSlot(ServiceName, slotType, walkUpgradeDomainParams));
         }
 
         protected override void OnProcessRecord()

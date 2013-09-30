@@ -17,11 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Retrieve a specified service certificate.

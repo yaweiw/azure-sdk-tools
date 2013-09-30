@@ -13,12 +13,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
     using Helpers;
@@ -77,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             else
             {
                 ServiceName = serviceName;
-                if (!IsServiceAvailable(ServiceName))
+                if (ComputeClient.HostedServices.CheckNameAvailability(ServiceName).IsAvailable)
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
@@ -126,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 {
                     var parameters = new ServiceCertificateCreateParameters
                     {
-                        Data = CertUtils.GetCertificateData(X509Certificate),
+                        Data = CertUtilsNewSM.GetCertificateData(X509Certificate),
                         Password = null,
                         CertificateFormat = CertificateFormat.Pfx
                     };
@@ -134,8 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters),
-                        (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
                 }
 
                 CertificateThumbprint = X509Certificate.Thumbprint;
@@ -206,9 +203,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)
         {
-            // TODO - 09/22/2013
-            // Need to remove this function once the ExtensionConfiguration issue is fixed.
-            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/168
             DeploymentChangeConfigurationParameters changeConfigInput = new DeploymentChangeConfigurationParameters
             {
                 Configuration = Deployment.Configuration,
@@ -217,44 +211,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 TreatWarningsAsError = false
             };
 
-            Func<ComputeOperationStatusResponse> action = () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
-                ServiceName,
-                (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true),
-                changeConfigInput);
-
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                action);
-            /*ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
-            {
-                Configuration = Deployment.Configuration,
-                ExtendedProperties = Deployment.ExtendedProperties,
-                ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
-                Mode = ChangeConfigurationModeStr,
-                TreatWarningsAsError = false
-            };
-
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));*/
+                () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
+                    ServiceName,
+                    (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true),
+                    changeConfigInput));
         }
 
         protected DeploymentGetResponse GetDeployment(string slot)
-        //protected Deployment GetDeployment(string slot)
         {
             var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), slot, true);
 
             DeploymentGetResponse d = null;
-            //Deployment deployment = null;
             InvokeInOperationContext(() =>
-            //using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
                     d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
-                    //deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
                 }
                 catch (CloudException ex)
-                //catch (ServiceManagementClientException ex)
                 {
                     if (ex.Response.StatusCode != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
@@ -263,20 +240,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 }
             });
 
-            // TODO: 09/22/2013
-            // Need to replace the return of 'Deployment' by 'DeploymentGetResponse'.
-            // But the DeploymentGetResponse object doesn't contain definition of
-            // ExtensionConfiguration. It is a blocking issue, and we need to wait for
-            // the fix to proceed.
-            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/168
             return d;
-            //return deployment;
-        }
-
-        protected virtual bool IsServiceAvailable(string serviceName)
-        {
-            // Check that cloud service exists
-            return !ComputeClient.HostedServices.CheckNameAvailability(serviceName).IsAvailable;
         }
     }
 }

@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Commands.Utilities.Common;
+    using Utilities.Common;
 
     public class ServiceOperationContext : ManagementOperationContext
     {

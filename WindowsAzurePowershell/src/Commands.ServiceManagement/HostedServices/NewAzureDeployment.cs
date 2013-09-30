@@ -147,8 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                         ExecuteClientActionNewSM(
                             null,
                             string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint),
-                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtils.Create(context.X509Certificate)),
-                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtilsNewSM.Create(context.X509Certificate)));
                     }
                 }
 
@@ -192,17 +191,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.CreatingNewDeployment);
                     WriteProgress(progress);
 
-                    Func<ComputeOperationStatusResponse> action =
-                        () => this.ComputeClient.Deployments.Create(
-                            this.ServiceName,
-                            (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
-                            deploymentInput);
-
                     ExecuteClientActionNewSM(
                         deploymentInput,
                         CommandRuntime.ToString(),
-                        action,
-                        (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                        () => this.ComputeClient.Deployments.Create(
+                            this.ServiceName,
+                            (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true),
+                            deploymentInput));
 
                     if (removePackage == true)
                     {

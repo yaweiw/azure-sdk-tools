@@ -17,11 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using AutoMapper;
-    using Commands.Utilities.Common;
     using Helpers;
-    using Management.Compute.Models;
     using Management.Compute;
+    using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
@@ -66,9 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
             };
             ExecuteClientActionNewSM(
                 null, 
-                CommandRuntime.ToString(), 
-                () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters), 
-                (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -80,18 +78,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
         private byte[] GetCertificateData()
         {
-
             if (((CertToDeploy is PSObject) && ((PSObject)CertToDeploy).ImmediateBaseObject is X509Certificate2) ||
                 (CertToDeploy is X509Certificate2))
             {
                 var cert = ((PSObject)CertToDeploy).ImmediateBaseObject as X509Certificate2;
 
-                return CertUtils.GetCertificateData(cert);
+                return CertUtilsNewSM.GetCertificateData(cert);
             }
             else
             {
                 var certPath = this.ResolvePath(CertToDeploy.ToString());
-                return CertUtils.GetCertificateData(certPath, Password);
+                return CertUtilsNewSM.GetCertificateData(certPath, Password);
             }
         }
     }
