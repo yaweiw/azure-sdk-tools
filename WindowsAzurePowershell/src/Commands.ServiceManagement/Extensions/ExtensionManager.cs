@@ -252,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, errorConfigInput));
             }
 
-            var oldExtConfig = currentDeployment.ExtensionConfiguration;
+            var oldExtConfig = currentDeployment != null ? currentDeployment.ExtensionConfiguration : new ExtensionConfiguration();
 
             ExtensionConfigurationBuilder configBuilder = this.GetBuilder();
             foreach (ExtensionConfigurationInput context in inputs)
