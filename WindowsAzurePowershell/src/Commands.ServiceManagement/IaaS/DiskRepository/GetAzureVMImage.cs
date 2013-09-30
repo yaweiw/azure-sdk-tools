@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
@@ -21,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
@@ -29,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        protected override void OnProcessRecord()
+        protected void OnProcessRecordNewSM()
         {
             ServiceManagementProfile.Initialize();
 
@@ -48,6 +50,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineImages.List(),
                     (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
+            }
+        }
+
+        protected override void OnProcessRecord()
+        {
+            Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
+            {
+                AffinityGroup = d.AffinityGroup,
+                Category = d.Category,
+                Label = d.Label,
+                Location = d.Location,
+                MediaLink = d.MediaLink,
+                ImageName = d.Name,
+                OS = d.OS,
+                LogicalSizeInGB = d.LogicalSizeInGB,
+                Eula = d.Eula,
+                Description = d.Description,
+                ImageFamily = d.ImageFamily,
+                PublishedDate = d.PublishedDate,
+                IsPremium = d.IsPremium,
+                PrivacyUri = d.PrivacyUri,
+                PublisherName = d.PublisherName,
+                RecommendedVMSize = d.RecommendedVMSize,
+                OperationId = operation.OperationTrackingId,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = operation.Status
+            });
+            if (!string.IsNullOrEmpty(this.ImageName))
+            {
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.GetOSImage(s, this.ImageName),
+                    (operation, image) => func(operation, new[] { image }));
+            }
+            else
+            {
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.ListOSImages(s),
+                    (operation, images) => func(operation, images));
 
             }
         }
