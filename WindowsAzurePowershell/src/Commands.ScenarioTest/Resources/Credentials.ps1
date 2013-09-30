@@ -34,11 +34,11 @@ function Test-SelectSubscription
 	PROCESS
 	{
 	    Assert-True {($Name -and $Id)} "[select-subscription]: You must specify a Name and Id"
-		Select-AzureSubscription -SubscriptionName $Name
+		Select-AzureSubscription -Name $Name
 		Write-Log "Selected subscription '$Name'"
 		$subscription = Get-AzureSubscription -Current
 		$subscription | Format-Subscription | Write-Log
-		Assert-True { (($subscription.SubscriptionName -eq $Name) -and ($subscription.SubscriptionId -eq $Id))} "[Select-Subscription]: current subscription does not match '$Name'"
+		Assert-True { (($subscription.Name -eq $Name) -and ($subscription.SubscriptionId -eq $Id))} "[Select-Subscription]: current subscription does not match '$Name'"
 	}
 }
 
@@ -136,7 +136,7 @@ function Test-RemoveInvalidSubscription
 #######################################
 function Test-RemoveEmptySubscription
 {
-    $message = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
+    $message = "Cannot validate argument on parameter 'Name'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
 	Assert-Throws {Remove-AzureSubscription ""} $message
 }
 
@@ -156,7 +156,7 @@ function Test-GetInvalidSubscription
 #######################################
 function Test-GetEmptySubscription
 {
-    $message = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
+    $message = "Cannot validate argument on parameter 'Name'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
 	Assert-Throws {Get-AzureSubscription ""} $message
 }
 
@@ -177,7 +177,7 @@ function Test-GetEmptyCurrentSubscription
 #########################################
 function Test-GetEmptyDefaultSubscription
 {
-    $message = "No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription <subscriptionName> to set the default subscription."
+    $message = "No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription <Name> to set the default subscription."
 	Remove-AllSubscriptions
 	Assert-Throws {Get-AzureSubscription -Default} $message
 }
@@ -198,6 +198,6 @@ function Test-SelectInvalidSubscription
 #######################################
 function Test-SelectEmptySubscription
 {
-    $message = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
+    $message = "Cannot validate argument on parameter 'Name'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
 	Assert-Throws {Select-AzureSubscription ""} $message
 }

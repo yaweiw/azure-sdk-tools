@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = false, Position = 2,
              ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
              HelpMessage = "The subscription to use, or uses the current subscription if not specified")]
-        public string SubscriptionName { get; set; }
+        public string Name { get; set; }
 
         #endregion
 
@@ -146,13 +146,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         {
             get
             {
-                if (string.IsNullOrEmpty(SubscriptionName))
+                if (string.IsNullOrEmpty(Name))
                 {
                     return WindowsAzureProfile.Instance.CurrentSubscription;
                 }
                 return
                     WindowsAzureProfile.Instance.Subscriptions.First(
-                        s => SubscriptionName == s.Name);
+                        s => Name == s.Name);
             }
         }
 

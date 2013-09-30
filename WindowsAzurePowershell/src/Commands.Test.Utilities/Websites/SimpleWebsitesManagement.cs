@@ -48,10 +48,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, WebSpaces> GetWebSpacesThunk { get; set; }
 
-        public IAsyncResult BeginGetWebSpaces(string subscriptionName, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetWebSpaces(string Name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
@@ -80,10 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, Sites> GetSitesThunk { get; set; }
 
-        public IAsyncResult BeginGetSites(string subscriptionName, string webspaceName, string propertiesToInclude, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSites(string Name, string webspaceName, string propertiesToInclude, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["propertiesToInclude"] = propertiesToInclude;
             result.Values["callback"] = callback;
@@ -114,10 +114,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Action<SimpleServiceManagementAsyncResult> DeleteSiteThunk { get; set; }
 
-        public IAsyncResult BeginDeleteSite(string subscriptionName, string webspaceName, string name, string deleteMetrics, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteSite(string Name, string webspaceName, string name, string deleteMetrics, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["deleteMetrics"] = deleteMetrics;
@@ -147,10 +147,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, SiteConfig> GetSiteConfigThunk { get; set; }
 
-        public IAsyncResult BeginGetSiteConfig(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSiteConfig(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["callback"] = callback;
@@ -181,10 +181,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, Site> CreateSiteThunk { get; set; }
 
-        public IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, Site site, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateSite(string Name, string webspaceName, Site site, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["site"] = site;
             result.Values["callback"] = callback;
@@ -215,10 +215,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Action<SimpleServiceManagementAsyncResult> UpdateSiteThunk { get; set; }
 
-        public IAsyncResult BeginUpdateSite(string subscriptionName, string webspaceName, string name, Site site, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateSite(string Name, string webspaceName, string name, Site site, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["site"] = site;
@@ -248,10 +248,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Action<SimpleServiceManagementAsyncResult> UpdateSiteConfigThunk { get; set; }
 
-        public IAsyncResult BeginUpdateSiteConfig(string subscriptionName, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateSiteConfig(string Name, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["siteConfig"] = siteConfig;
@@ -281,10 +281,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, string[]> GetSubscriptionPublishingUsersThunk { get; set; }
 
-        public IAsyncResult BeginGetSubscriptionPublishingUsers(string subscriptionName, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSubscriptionPublishingUsers(string Name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
@@ -313,10 +313,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Action<SimpleServiceManagementAsyncResult> CreateSiteRepositoryThunk { get; set; }
 
-        public IAsyncResult BeginCreateSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateSiteRepository(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["callback"] = callback;
@@ -345,10 +345,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         public Func<SimpleServiceManagementAsyncResult, Site> GetSiteThunk { get; set; }
 
-        public IAsyncResult BeginGetSite(string subscriptionName, string webspaceName, string name, string propertiesToInclude, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSite(string Name, string webspaceName, string name, string propertiesToInclude, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["Name"] = Name;
             result.Values["webspaceName"] = webspaceName;
             result.Values["name"] = name;
             result.Values["propertiesToInclude"] = propertiesToInclude;
@@ -378,7 +378,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 
         #endregion
 
-        public IAsyncResult BeginGetWebSpace(string subscriptionName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetWebSpace(string Name, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -388,7 +388,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginCreateWebSpace(string subscriptionName, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateWebSpace(string Name, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -398,7 +398,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginUpdateWebSpace(string subscriptionName, string name, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateWebSpace(string Name, string name, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -408,7 +408,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginDeleteWebSpace(string subscriptionName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteWebSpace(string Name, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -418,7 +418,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginGetSiteRepositoryUri(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSiteRepositoryUri(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -428,7 +428,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginDeleteSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteSiteRepository(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -438,7 +438,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginCreateDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateDevSite(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -448,7 +448,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginGetDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetDevSite(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -458,7 +458,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginUpdateDevSite(string subscriptionName, string webspaceName, string name, SiteRepositoryDev repositoryDevSite, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateDevSite(string Name, string webspaceName, string name, SiteRepositoryDev repositoryDevSite, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -468,7 +468,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginDeleteDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteDevSite(string Name, string webspaceName, string name, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }

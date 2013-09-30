@@ -10,7 +10,7 @@
               <xs:element name="Thumbprint" type="xs:string" />
               <xs:element name="ServiceEndpoint" type="xs:string" />
               <xs:element name="SQLAzureServiceEndpoint" type="xs:string" />
-              <xs:element name="CurrentStorageAccount" type="xs:string" />
+              <xs:element name="CurrentStorageAccountName" type="xs:string" />
             </xs:sequence>
             <xs:attribute name="name" type="xs:string" use="required" />
           </xs:complexType>

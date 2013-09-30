@@ -27,12 +27,12 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     /// the WindowsAzureProfile layer.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
-    [OutputType(typeof(SubscriptionData))]
+    [OutputType(typeof(WindowsAzureSubscription))]
     public class GetAzureSubscriptionCommand : CmdletWithSubscriptionBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
-        public string SubscriptionName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Retrieves the default subscription", ParameterSetName = "Default")]
         public SwitchParameter Default { get; set; }
@@ -62,9 +62,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public void GetByName()
         {
             IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions;
-            if (!string.IsNullOrEmpty(SubscriptionName))
+            if (!string.IsNullOrEmpty(Name))
             {
-                subscriptions = subscriptions.Where(s => s.Name == SubscriptionName);
+                subscriptions = subscriptions.Where(s => s.Name == Name);
             }
             WriteSubscriptions(subscriptions);
         }
@@ -106,38 +106,19 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         private void WriteSubscriptions(IEnumerable<WindowsAzureSubscription> subscriptions)
         {
-            IEnumerable<SubscriptionData> subscriptionOutput;
-
-            if (ExtendedDetails.IsPresent)
-            {
-                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData());
-            }
-            else
-            {
-                subscriptionOutput = subscriptions.Select(s => s.ToSubscriptionData());
-            }
-
-            foreach (var data in subscriptionOutput)
-            {
-                WriteObject(data, true);
-            }
+            WriteObject(subscriptions, true);
         }
     }
 
     static class SubscriptionConversions
     {
-        internal static SubscriptionData ToSubscriptionData(this WindowsAzureSubscription subscription)
-        {
-            return subscription.FillSubscriptionData(new SubscriptionData());
-        }
-
-        internal static SubscriptionData ToExtendedData(this WindowsAzureSubscription subscription)
+        internal static SubscriptionDataExtended ToExtendedData(this WindowsAzureSubscription subscription)
         {
             using (var client = subscription.CreateClient<ManagementClient>())
             {
                 var response = client.Subscriptions.Get();
 
-                var result = new SubscriptionDataExtended
+                SubscriptionDataExtended result = new SubscriptionDataExtended
                 {
                     AccountAdminLiveEmailId = response.AccountAdminLiveEmailId,
                     CurrentCoreCount = response.CurrentCoreCount,
@@ -151,25 +132,18 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                     MaxStorageAccounts = response.MaximumStorageAccounts,
                     ServiceAdminLiveEmailId = response.ServiceAdminLiveEmailId,
                     SubscriptionRealName = response.SubscriptionName,
-                    SubscriptionStatus = response.SubscriptionStatus.ToString()
+                    SubscriptionStatus = response.SubscriptionStatus.ToString(),
+                    Name = subscription.Name,
+                    SubscriptionId = subscription.SubscriptionId,
+                    ServiceEndpoint = subscription.ServiceEndpoint,
+                    SqlAzureServiceEndpoint = subscription.SqlAzureServiceEndpoint,
+                    IsDefault = subscription.IsDefault,
+                    Certificate = subscription.Certificate,
+                    CurrentStorageAccountName = subscription.CurrentStorageAccountName
                 };
-                subscription.FillSubscriptionData(result);
+                
                 return result;
             }
-        }
-
-        private static SubscriptionData FillSubscriptionData(this WindowsAzureSubscription subscription,
-            SubscriptionData data)
-        {
-            data.Certificate = subscription.Certificate;
-            data.CurrentCloudStorageAccount = subscription.CurrentCloudStorageAccount;
-            data.CurrentStorageAccount = subscription.CurrentStorageAccountName;
-            data.IsDefault = subscription.IsDefault;
-            data.ServiceEndpoint = subscription.ServiceEndpoint.ToString();
-            data.SqlAzureServiceEndpoint = subscription.SqlAzureServiceEndpoint != null ? subscription.SqlAzureServiceEndpoint.ToString() : null;
-            data.SubscriptionId = subscription.SubscriptionId;
-            data.SubscriptionName = subscription.Name;
-            return data;
         }
     }
 }

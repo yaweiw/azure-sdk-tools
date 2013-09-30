@@ -1359,7 +1359,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription..
+        ///   Looks up a localized string similar to No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;Name&gt; to set the default subscription..
         /// </summary>
         public static string InvalidDefaultSubscription {
             get {
@@ -2632,7 +2632,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription..
+        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;Name&gt; to select a new current subscription..
         /// </summary>
         public static string RemoveCurrentSubscription {
             get {
@@ -2641,7 +2641,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
+        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-Subscription &lt;Name&gt; to select a new default subscription..
         /// </summary>
         public static string RemoveDefaultSubscription {
             get {

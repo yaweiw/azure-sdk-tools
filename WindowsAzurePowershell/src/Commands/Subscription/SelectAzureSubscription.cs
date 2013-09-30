@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Current", HelpMessage = "Name of subscription to select")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Default", HelpMessage = "Name of subscription to select")]
         [ValidateNotNullOrEmpty]
-        public string SubscriptionName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = "Current", HelpMessage = "Switch to set the chosen subscription as the current one")]
         public SwitchParameter Current { get; set; }
@@ -97,10 +97,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         private WindowsAzureSubscription FindNamedSubscription()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == Name);
             if (subscription == null)
             {
-                throw new Exception(string.Format(Resources.InvalidSubscription, SubscriptionName));
+                throw new Exception(string.Format(Resources.InvalidSubscription, Name));
             }
             return subscription;
         }

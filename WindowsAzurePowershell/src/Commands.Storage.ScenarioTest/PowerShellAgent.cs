@@ -91,7 +91,7 @@ namespace Commands.Storage.ScenarioTest
         /// Import azure subscription
         /// </summary>
         /// <param name="filePath">Azure subscription file path</param>
-        public static void ImportAzureSubscriptionAndSetStorageAccount(string filePath, string subscriptionName, string storageAccountName)
+        public static void ImportAzureSubscriptionAndSetStorageAccount(string filePath, string Name, string storageAccountName)
         {
             PowerShell ps = PowerShell.Create(_InitState);
             //TODO add tests for positional parameter
@@ -99,14 +99,14 @@ namespace Commands.Storage.ScenarioTest
             ps.BindParameter("PublishSettingsFile", filePath);
             ps.AddStatement();
             ps.AddCommand("Set-AzureSubscription");
-            ps.BindParameter("SubscriptionName", subscriptionName);
-            ps.BindParameter("CurrentStorageAccount", storageAccountName);
+            ps.BindParameter("Name", Name);
+            ps.BindParameter("CurrentStorageAccountName", storageAccountName);
             Test.Info("set current storage account in subscription, Cmdline: {0}", GetCommandLine(ps));
             ps.Invoke();
 
             if(ps.Streams.Error.Count > 0)
             {
-                Test.Error("Can't set current storage account to {0} in subscription {1}. Exception: {2}", storageAccountName, subscriptionName, ps.Streams.Error[0].Exception.Message);
+                Test.Error("Can't set current storage account to {0} in subscription {1}. Exception: {2}", storageAccountName, Name, ps.Streams.Error[0].Exception.Message);
             }
         }
 
