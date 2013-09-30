@@ -33,18 +33,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
         {
             Dictionary<string, string> policies = new Dictionary<string,string>() 
                 { { "test", "test" }, { "Abc", "abc" }, { "123", "123" } };
-            SasTokenHelper.ValidateExistingPolicy<string>(policies, "ABC");
-            SasTokenHelper.ValidateExistingPolicy<string>(policies, "test");
-            SasTokenHelper.ValidateExistingPolicy<string>(policies, "tesT");
-            SasTokenHelper.ValidateExistingPolicy<string>(policies, "123");
-            AssertThrows<ArgumentException>(() => SasTokenHelper.ValidateExistingPolicy<string>(policies, "test1"));
+            SasTokenHelper.GetExistingPolicy<string>(policies, "ABC");
+            SasTokenHelper.GetExistingPolicy<string>(policies, "test");
+            SasTokenHelper.GetExistingPolicy<string>(policies, "tesT");
+            SasTokenHelper.GetExistingPolicy<string>(policies, "123");
+            AssertThrows<ArgumentException>(() => SasTokenHelper.GetExistingPolicy<string>(policies, "test1"));
         }
 
         [TestMethod]
         public void ValidateExistingPolicyWithEmptyPoliciesTest()
         {
             Dictionary<string, string> policies = new Dictionary<string, string>();
-            AssertThrows<ArgumentException>(() => SasTokenHelper.ValidateExistingPolicy<string>(policies, "test1"));
+            AssertThrows<ArgumentException>(() => SasTokenHelper.GetExistingPolicy<string>(policies, "test1"));
         }
 
         [TestMethod]
@@ -54,10 +54,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
             DateTime? end = start.Value.AddHours(1.0);
             DateTimeOffset? testStart = null;
             DateTimeOffset? testEnd = null;
-            SasTokenHelper.SetupAccessPolicyLifeTime(start, end, out testStart, out testEnd);
+            SasTokenHelper.SetupAccessPolicyLifeTime(start, end, out testStart, out testEnd, true);
             Assert.AreEqual(testStart.Value.UtcDateTime.ToString(), start.Value.ToUniversalTime().ToString());
             Assert.AreEqual(testEnd.Value.UtcDateTime.ToString(), end.Value.ToUniversalTime().ToString());
-            AssertThrows<ArgumentException>(() => SasTokenHelper.SetupAccessPolicyLifeTime(end, start, out testStart, out testEnd));
+            AssertThrows<ArgumentException>(() => SasTokenHelper.SetupAccessPolicyLifeTime(end, start, out testStart, out testEnd, true));
         }
     }
 }

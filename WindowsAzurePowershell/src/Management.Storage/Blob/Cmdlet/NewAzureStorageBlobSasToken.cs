@@ -25,32 +25,51 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas, DefaultParameterSetName = BlobNamePipelineParmeterSet), OutputType(typeof(String))]
+    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSas, DefaultParameterSetName = BlobNamePipelineParmeterSetWithPermission), OutputType(typeof(String))]
     public class NewAzureStorageBlobSasTokenCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
-        /// Blob Pipeline parameter set name
+        /// container pipeline paremeter set name with permission
         /// </summary>
-        private const string BlobPipelineParameterSet = "BlobPipeline";
+        private const string BlobNamePipelineParmeterSetWithPermission = "BlobNameWithPermission";
 
         /// <summary>
-        /// container pipeline paremeter set name
+        /// container pipeline paremeter set name with policy
         /// </summary>
-        private const string BlobNamePipelineParmeterSet = "BlobName";
+        private const string BlobNamePipelineParmeterSetWithPolicy = "BlobNameWithPolicy";
+
+        /// <summary>
+        /// Blob Pipeline parameter set name with permission
+        /// </summary>
+        private const string BlobPipelineParameterSetWithPermision = "BlobPipelineWithPermission";
+
+        /// <summary>
+        /// Blob Pipeline parameter set name with policy
+        /// </summary>
+        private const string BlobPipelineParameterSetWithPolicy = "BlobPipelineWithPolicy";
 
         [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = BlobPipelineParameterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = BlobPipelineParameterSetWithPolicy)]
+        [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
+            ValueFromPipelineByPropertyName = true, ParameterSetName = BlobPipelineParameterSetWithPermision)]
         public ICloudBlob ICloudBlob { get; set; }
 
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name", ParameterSetName = BlobNamePipelineParmeterSet)]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name",
+            ParameterSetName = BlobNamePipelineParmeterSetWithPermission)]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Container Name",
+            ParameterSetName = BlobNamePipelineParmeterSetWithPolicy)]
         [ValidateNotNullOrEmpty]
         public string Container { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Blob Name", ParameterSetName = BlobNamePipelineParmeterSet)]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Blob Name",
+            ParameterSetName = BlobNamePipelineParmeterSetWithPermission)]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Blob Name",
+            ParameterSetName = BlobNamePipelineParmeterSetWithPolicy)]
         [ValidateNotNullOrEmpty]
         public string Blob { get; set; }
 
-        [Parameter(HelpMessage = "Policy Identifier")]
+        [Parameter(HelpMessage = "Policy Identifier", ParameterSetName = BlobNamePipelineParmeterSetWithPolicy)]
+        [Parameter(HelpMessage = "Policy Identifier", ParameterSetName = BlobPipelineParameterSetWithPolicy)]
         public string Policy
         {
             get { return accessPolicyIdentifier; }
@@ -58,7 +77,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a blob. Permissions can be any not-empty subset of \"rwd\".")]
+        [Parameter(HelpMessage = "Permissions for a blob. Permissions can be any not-empty subset of \"rwd\".",
+            ParameterSetName = BlobNamePipelineParmeterSetWithPermission)]
+        [Parameter(HelpMessage = "Permissions for a blob. Permissions can be any not-empty subset of \"rwd\".",
+            ParameterSetName = BlobPipelineParameterSetWithPermision)]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -95,7 +117,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             ICloudBlob blob = default(ICloudBlob);
 
-            if (ParameterSetName == BlobNamePipelineParmeterSet)
+            if (ParameterSetName == BlobNamePipelineParmeterSetWithPermission ||
+                ParameterSetName == BlobNamePipelineParmeterSetWithPolicy)
             {
                 blob = GetICloudBlobByName(Container, Blob);
             }
@@ -105,8 +128,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
-            SetupAccessPolicy(accessPolicy);
-            SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, accessPolicyIdentifier);
+            bool isNoExpiryTime = SasTokenHelper.ValidateContainerAccessPolicy(Channel, blob.Container.Name, accessPolicy, accessPolicyIdentifier);
+            SetupAccessPolicy(accessPolicy, isNoExpiryTime);
             string sasToken = GetBlobSharedAccessSignature(blob, accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
@@ -154,12 +177,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy)
+        private void SetupAccessPolicy(SharedAccessBlobPolicy accessPolicy, bool setExpirtyTime)
         {
             SetupAccessPolicyPermission(accessPolicy, Permission);
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime,
+                out accessStartTime, out accessEndTime, setExpirtyTime);
             accessPolicy.SharedAccessStartTime = accessStartTime;
             accessPolicy.SharedAccessExpiryTime = accessEndTime;
         }

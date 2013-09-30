@@ -13,6 +13,16 @@
     [Cmdlet(VerbsCommon.New, StorageNouns.QueueSas), OutputType(typeof(String))]
     public class NewAzureStorageQueueSasTokenCommand : StorageQueueBaseCmdlet
     {
+        /// <summary>
+        /// Sas permission parameter set name
+        /// </summary>
+        private const string SasPermissionParameterSet = "SasPermission";
+
+        /// <summary>
+        /// Sas policy paremeter set name
+        /// </summary>
+        private const string SasPolicyParmeterSet = "SasPolicy";
+
         [Alias("N", "Queue")]
         [Parameter(Position = 0, Mandatory = true,
             HelpMessage = "Table Name",
@@ -21,7 +31,7 @@
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(HelpMessage = "Policy Identifier")]
+        [Parameter(HelpMessage = "Policy Identifier", ParameterSetName = SasPolicyParmeterSet)]
         public string Policy
         {
             get {return accessPolicyIdentifier;}
@@ -29,7 +39,8 @@
         }
         private string accessPolicyIdentifier;
 
-        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raup\".")]
+        [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"raup\".",
+            ParameterSetName = SasPermissionParameterSet)]
         public string Permission { get; set; }
 
         [Parameter(HelpMessage = "Start Time")]
@@ -67,8 +78,8 @@
             if (String.IsNullOrEmpty(Name)) return;
             CloudQueue queue = Channel.GetQueueReference(Name);
             SharedAccessQueuePolicy policy = new SharedAccessQueuePolicy();
-            SetupAccessPolicy(policy);
-            SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
+            bool isNoExpiryTime = SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
+            SetupAccessPolicy(policy, isNoExpiryTime);
             string sasToken = queue.GetSharedAccessSignature(policy, accessPolicyIdentifier);
 
             if (FullUri)
@@ -86,11 +97,11 @@
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessQueuePolicy policy)
+        private void SetupAccessPolicy(SharedAccessQueuePolicy policy, bool setExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime);
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime, setExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
