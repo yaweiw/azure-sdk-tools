@@ -106,6 +106,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t read the blob properties..
+        /// </summary>
+        internal static string BlobIsNotReadable {
+            get {
+                return ResourceManager.GetString("BlobIsNotReadable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not find blob name or container name..
         /// </summary>
         internal static string BlobNameNotFound {
