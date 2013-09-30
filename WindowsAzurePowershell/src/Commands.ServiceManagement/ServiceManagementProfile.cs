@@ -249,6 +249,64 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<StorageOperationStatusResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            // SM to Model
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancedEndpointList,                                    PVM.LoadBalancerProbe>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.InputEndpoint,                                               PVM.InputEndpoint>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpoint,                                            PVM.InstanceEndpoint>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpointList,                                        PVM.InstanceEndpointList>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.DataVirtualHardDisk,                                         PVM.DataVirtualHardDisk>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.OSVirtualHardDisk,                                           PVM.OSVirtualHardDisk>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateFile,                                             PVM.CertificateFile>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateSetting,                                          PVM.CertificateSetting>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateSettingList,                                      PVM.CertificateSettingList>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinSettings,      PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmProtocol,           PVM.WindowsProvisioningConfigurationSet.WinRmProtocol>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerProperties, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerCollection, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration,      PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPair,                PVM.LinuxProvisioningConfigurationSet.SSHKeyPair>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPairList,            PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKey,              PVM.LinuxProvisioningConfigurationSet.SSHPublicKey>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHSettings,               PVM.LinuxProvisioningConfigurationSet.SSHSettings>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.NetworkConfigurationSet,                                     PVM.NetworkConfigurationSet>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet,                         PVM.WindowsProvisioningConfigurationSet>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet,                           PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.ProvisioningConfigurationSet,                                PVM.ProvisioningConfigurationSet>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.ConfigurationSet,                                            PVM.ConfigurationSet>();
+
+            // Model to SM
+            Mapper.CreateMap<PVM.LoadBalancerProbe,                                           WindowsAzure.ServiceManagement.LoadBalancerProbe>();
+            Mapper.CreateMap<PVM.LoadBalancedEndpointList,                                    WindowsAzure.ServiceManagement.LoadBalancerProbe>();
+            Mapper.CreateMap<PVM.InputEndpoint,                                               WindowsAzure.ServiceManagement.InputEndpoint>();
+            Mapper.CreateMap<PVM.InstanceEndpoint,                                            WindowsAzure.ServiceManagement.InstanceEndpoint>();
+            Mapper.CreateMap<PVM.InstanceEndpointList,                                        WindowsAzure.ServiceManagement.InstanceEndpointList>();
+            Mapper.CreateMap<PVM.DataVirtualHardDisk,                                         WindowsAzure.ServiceManagement.DataVirtualHardDisk>();
+            Mapper.CreateMap<PVM.OSVirtualHardDisk,                                           WindowsAzure.ServiceManagement.OSVirtualHardDisk>();
+            Mapper.CreateMap<PVM.CertificateFile,                                             WindowsAzure.ServiceManagement.CertificateFile>();
+            Mapper.CreateMap<PVM.CertificateSetting,                                          WindowsAzure.ServiceManagement.CertificateSetting>();
+            Mapper.CreateMap<PVM.CertificateSettingList,                                      WindowsAzure.ServiceManagement.CertificateSettingList>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings,      WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmProtocol,           WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmProtocol>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration,      WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPair,                WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPair>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList,            WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKey,              WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKey>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHSettings,               WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHSettings>();
+            Mapper.CreateMap<PVM.NetworkConfigurationSet,                                     WindowsAzure.ServiceManagement.NetworkConfigurationSet>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet,                         WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet,                           WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.ProvisioningConfigurationSet,                                WindowsAzure.ServiceManagement.ProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.ConfigurationSet,                                            WindowsAzure.ServiceManagement.ConfigurationSet>();
         }
     }
 }
