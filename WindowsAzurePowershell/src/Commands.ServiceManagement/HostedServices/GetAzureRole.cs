@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     foreach (var role in roleInstances)
                     {
-                        var context = new RoleInstanceContext()
+                        instanceContexts.Add(new RoleInstanceContext()
                         {
                             ServiceName = this.ServiceName,
                             OperationId = getDeploymentOperation.Id,
@@ -127,10 +127,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                             RoleName = role.RoleName,
                             DeploymentID = currentDeployment.PrivateId,
-                            InstanceEndpoints = Mapper.Map<InstanceEndpointList>(role.InstanceEndpoints)
-                        };
-
-                        instanceContexts.Add(context);
+                            InstanceEndpoints = role.InstanceEndpoints == null ? null : Mapper.Map<Model.PersistentVMModel.InstanceEndpointList>((from ep in role.InstanceEndpoints
+                                                                                                                                                  select Mapper.Map<Model.PersistentVMModel.InstanceEndpoint>(ep)).ToList())
+                        });
                     }
 
                     WriteObject(instanceContexts, true);
