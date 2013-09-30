@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema
         }
 
         /// <remarks/>
-        public string CurrentStorageAccount
+        public string CurrentStorageAccountName
         {
             get { return this.currentStorageAccountField; }
             set { this.currentStorageAccountField = value; }

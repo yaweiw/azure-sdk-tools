@@ -124,12 +124,12 @@ function Write-Log
 
 function Check-SubscriptionMatch
 {
-    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $checkedSubscription)
-    Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.SubscriptionName)+ "'")
+    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureSubscription] $checkedSubscription)
+    Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.Name)+ "'")
     Format-Subscription $checkedSubscription | Write-Log
-    if ($baseSubscriptionName -ne $checkedSubscription.SubscriptionName) 
+    if ($baseSubscriptionName -ne $checkedSubscription.Name) 
     {
-        throw ("[Check-SubscriptionMatch]: Subscription Match Failed '" + ($baseSubscriptionName) + "' != '" + ($checkedSubscription.SubscriptionName) + "'")
+        throw ("[Check-SubscriptionMatch]: Subscription Match Failed '" + ($baseSubscriptionName) + "' != '" + ($checkedSubscription.Name) + "'")
     }
     
     Write-Log ("CheckSubscriptionMatch]: subscription check succeeded.")

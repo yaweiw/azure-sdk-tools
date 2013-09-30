@@ -45,12 +45,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             AreEqualServiceSettings(expected.Location, expected.Slot, expected.StorageServiceName, expected.Subscription, actual);
         }
 
-        public static void AreEqualServiceSettings(string location, string slot, string storageAccountName, string subscriptionName, ServiceSettings actual)
+        public static void AreEqualServiceSettings(string location, string slot, string storageAccountName, string Name, ServiceSettings actual)
         {
             Assert.AreEqual<string>(location, actual.Location);
             Assert.AreEqual<string>(slot, actual.Slot);
             Assert.AreEqual<string>(storageAccountName, actual.StorageServiceName);
-            Assert.AreEqual<string>(subscriptionName, actual.Subscription);
+            Assert.AreEqual<string>(Name, actual.Subscription);
         }
 
         public static void AreEqualDeploymentSettings(PublishContext expected, PublishContext actual)

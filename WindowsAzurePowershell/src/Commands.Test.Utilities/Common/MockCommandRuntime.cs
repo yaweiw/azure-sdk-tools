@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
@@ -102,7 +103,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            OutputPipeline.Add(sendToPipeline);
+            IEnumerable list = (IEnumerable)sendToPipeline;
+
+            foreach (var item in list)
+            {
+                OutputPipeline.Add(item);
+            }
         }
 
         public void WriteObject(object sendToPipeline)

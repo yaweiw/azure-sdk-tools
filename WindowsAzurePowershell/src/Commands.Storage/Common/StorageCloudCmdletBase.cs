@@ -160,15 +160,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>A storage account</returns>
         private CloudStorageAccount GetStorageAccountFromSubscription()
         {
-            string CurrentStorageAccount = CurrentSubscription.CurrentStorageAccountName;
+            string CurrentStorageAccountName = CurrentSubscription.CurrentStorageAccountName;
 
-            if (string.IsNullOrEmpty(CurrentStorageAccount))
+            if (string.IsNullOrEmpty(CurrentStorageAccountName))
             {
                 throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
             }
             else
             {
-                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.Name));
+                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccountName, CurrentSubscription.Name));
 
                 try
                 {
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                     if (e.IsNotFoundException())
                     {
                         //Repack the 404 error
-                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount, CurrentSubscription.Name);
+                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccountName, CurrentSubscription.Name);
                         ServiceModel.CommunicationException exception = new ServiceModel.CommunicationException(errorMessage, e);
                         throw exception;
                     }

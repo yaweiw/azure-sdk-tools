@@ -282,7 +282,6 @@
     <Compile Include="Common\HttpRestMessageInspector.cs" />
     <Compile Include="Common\InnerDataServiceException.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
-    <Compile Include="Common\SubscriptionData.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />

@@ -129,7 +129,7 @@ Try
 	{
 		# Drop Database
 		Drop-DatabasesWithServerName $ServerName $Name
-		Remove-AzureSubscription $sub.SubscriptionName -Force
+		Remove-AzureSubscription $sub.Name -Force
 	}
 
     $IsTestPass = $True

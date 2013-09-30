@@ -187,7 +187,7 @@
     <value>Cannot Create New Deployment with Virtual Machines Present in {0} Slot</value>
   </data>
   <data name="CurrentStorageAccountIsNotSet" xml:space="preserve">
-    <value>CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.</value>
+    <value>CurrentStorageAccountName is not set. Use Set-AzureSubscription subname -CurrentStorageAccountName storageaccount to set it.</value>
   </data>
   <data name="DeployedArtifactsWillBeRemoved" xml:space="preserve">
     <value>This cmdlet will remove deployed applications including VMs from the specified deployment slot. Do you want to continue?</value>
@@ -310,7 +310,7 @@
     <value>No endpoint found for the VM: {0}</value>
   </data>
   <data name="CurrentStorageAccountIsNotAccessible" xml:space="preserve">
-    <value>CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.</value>
+    <value>CurrentStorageAccountName is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.</value>
   </data>
   <data name="ServiceExistsLocationCanNotBeSpecified" xml:space="preserve">
     <value>Service already exists, Location cannot be specified.</value>

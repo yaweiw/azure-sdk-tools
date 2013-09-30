@@ -66,42 +66,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public const string EntitiesRoot = "entities";
         public const string UserRoles = "/userRoles";
         public const string CloudEntityRoot = EntitiesRoot + UserRoles;
-        public const string SubscriptionEntitiesRoot = EntitiesRoot + "{subscriptionName}" + UserRoles;
-        public const string WebSpaceEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}" + UserRoles;
-        public const string WebSiteEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}/sites/{siteName}" + UserRoles;
+        public const string SubscriptionEntitiesRoot = EntitiesRoot + "{Name}" + UserRoles;
+        public const string WebSpaceEntitiesRoot = EntitiesRoot + "{Name}/services/webspaces/{webspaceName}" + UserRoles;
+        public const string WebSiteEntitiesRoot = EntitiesRoot + "{Name}/services/webspaces/{webspaceName}/sites/{siteName}" + UserRoles;
         public const string GeoRegionsRoot = "regions/";
         public const string GeoLocationsRoot = "regions/{regionName}/locations";
         public const string StampsRoot = "locations/{locationName}/stamps";
         public const string StampsCommand = "?Command={command}";
-        public const string WebSitesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites";
-        public const string SqlDatabasesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sqldbs";
-        public const string MySqlDatabaseRoot = "{subscriptionName}/services/webspaces/{webspaceName}/mysqldbs";
-        public const string SqlAzureDatabasesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sqlazuredbs";
-        public const string WebSpacesRoot = "{subscriptionName}/services/webspaces";
-        public const string WebSpaceUsagesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
-        public const string WebSiteUsagesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
-        public const string WebSiteMetricsRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/metrics";
-        public const string WebSiteMetricDefinitions = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/metricdefinitions";
-        public const string WebSiteConfig = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/config";
-        public const string WebSiteRepository = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/repository";
-        public const string WebSiteRepositoryDev = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/repository/dev";
-        public const string WebSiteAuditLogs = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/auditlogs?startTime={startTime}&endTime={endTime}";
-        public const string WebSiteGetLastAuditLog = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/lastauditlog";
-        public const string WebSiteSwap = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}?Command={command}&OtherSiteName={otherSiteName}";
-        public const string WebSiteRestart = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/restart";
-        public const string WebSiteIsValidCustomDomain = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/isvalidcustomdomain?hostName={hostName}&type={recordType}";
+        public const string WebSitesRoot = "{Name}/services/webspaces/{webspaceName}/sites";
+        public const string SqlDatabasesRoot = "{Name}/services/webspaces/{webspaceName}/sqldbs";
+        public const string MySqlDatabaseRoot = "{Name}/services/webspaces/{webspaceName}/mysqldbs";
+        public const string SqlAzureDatabasesRoot = "{Name}/services/webspaces/{webspaceName}/sqlazuredbs";
+        public const string WebSpacesRoot = "{Name}/services/webspaces";
+        public const string WebSpaceUsagesRoot = "{Name}/services/webspaces/{webspaceName}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
+        public const string WebSiteUsagesRoot = "{Name}/services/webspaces/{webspaceName}/sites/{name}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
+        public const string WebSiteMetricsRoot = "{Name}/services/webspaces/{webspaceName}/sites/{name}/metrics";
+        public const string WebSiteMetricDefinitions = "{Name}/services/webspaces/{webspaceName}/sites/{name}/metricdefinitions";
+        public const string WebSiteConfig = "{Name}/services/webspaces/{webspaceName}/sites/{name}/config";
+        public const string WebSiteRepository = "{Name}/services/webspaces/{webspaceName}/sites/{name}/repository";
+        public const string WebSiteRepositoryDev = "{Name}/services/webspaces/{webspaceName}/sites/{name}/repository/dev";
+        public const string WebSiteAuditLogs = "{Name}/services/webspaces/{webspaceName}/sites/{name}/auditlogs?startTime={startTime}&endTime={endTime}";
+        public const string WebSiteGetLastAuditLog = "{Name}/services/webspaces/{webspaceName}/sites/{name}/lastauditlog";
+        public const string WebSiteSwap = "{Name}/services/webspaces/{webspaceName}/sites/{name}?Command={command}&OtherSiteName={otherSiteName}";
+        public const string WebSiteRestart = "{Name}/services/webspaces/{webspaceName}/sites/{name}/restart";
+        public const string WebSiteIsValidCustomDomain = "{Name}/services/webspaces/{webspaceName}/sites/{name}/isvalidcustomdomain?hostName={hostName}&type={recordType}";
 
         public const string HostNameAvailability = "ishostnameavailable/{subDomain}";
 
         public const string HostNameReservedOrNotAllowed = "ishostnamereservedornotallowed/{subDomain}";
 
-        public const string WebSitesPerSubscription = "subscriptions/{subscriptionName}/sites";
-        public const string SqlDatabasesPerSubscription = "subscriptions/{subscriptionName}/sqldbs";
-        public const string MySqlDatabasesPerSubscription = "subscriptions/{subscriptionName}/mysqldbs";
+        public const string WebSitesPerSubscription = "subscriptions/{Name}/sites";
+        public const string SqlDatabasesPerSubscription = "subscriptions/{Name}/sqldbs";
+        public const string MySqlDatabasesPerSubscription = "subscriptions/{Name}/mysqldbs";
 
-        public const string SubscriptionPublishingUsers = "{subscriptionName}/services/webspaces/?properties=publishingUsers";
+        public const string SubscriptionPublishingUsers = "{Name}/services/webspaces/?properties=publishingUsers";
 
-        public const string WebSitePublishingProfile = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/publishxml";
+        public const string WebSitePublishingProfile = "subscriptions/{Name}/webspaces/{webspaceName}/sites/{name}/publishxml";
 
         public const string RDFENotification = "notification";
 

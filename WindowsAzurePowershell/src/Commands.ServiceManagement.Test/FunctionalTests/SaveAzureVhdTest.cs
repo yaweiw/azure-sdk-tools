@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             pass = true;
             testStartTime = DateTime.Now;
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);  
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccountName);  
 
             // Set the source blob
             blobHandle = Utilities.GetBlobHandle(vhdBlobLocation, storageAccountKey.Primary);            
