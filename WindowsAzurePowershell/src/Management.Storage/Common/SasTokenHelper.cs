@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         public static void SetupAccessPolicyLifeTime(DateTime? startTime, DateTime? expiryTime,
-            out DateTimeOffset? SharedAccessStartTime, out DateTimeOffset? SharedAccessExpiryTime, bool setExpiryTime)
+            out DateTimeOffset? SharedAccessStartTime, out DateTimeOffset? SharedAccessExpiryTime, bool shouldSetExpiryTime)
         {
             SharedAccessStartTime = null;
             SharedAccessExpiryTime = null;
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 SharedAccessExpiryTime = expiryTime.Value.ToUniversalTime();
             }
-            else if (setExpiryTime)
+            else if (shouldSetExpiryTime)
             {
                 double defaultLifeTime = 1.0; //Hours
 

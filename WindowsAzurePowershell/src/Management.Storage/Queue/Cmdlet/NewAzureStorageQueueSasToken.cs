@@ -78,8 +78,8 @@
             if (String.IsNullOrEmpty(Name)) return;
             CloudQueue queue = Channel.GetQueueReference(Name);
             SharedAccessQueuePolicy policy = new SharedAccessQueuePolicy();
-            bool isNoExpiryTime = SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
-            SetupAccessPolicy(policy, isNoExpiryTime);
+            bool shouldSetExpiryTime = SasTokenHelper.ValidateQueueAccessPolicy(Channel, queue.Name, policy, accessPolicyIdentifier);
+            SetupAccessPolicy(policy, shouldSetExpiryTime);
             string sasToken = queue.GetSharedAccessSignature(policy, accessPolicyIdentifier);
 
             if (FullUri)
@@ -97,11 +97,12 @@
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessQueuePolicy policy, bool setExpiryTime)
+        /// <param name="shouldSetExpiryTime">Should set the default expiry time</param>
+        private void SetupAccessPolicy(SharedAccessQueuePolicy policy, bool shouldSetExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
-            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime, setExpiryTime);
+            SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime, out accessStartTime, out accessEndTime, shouldSetExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);

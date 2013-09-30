@@ -93,8 +93,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             if (String.IsNullOrEmpty(Name)) return;
             CloudBlobContainer container = Channel.GetContainerReference(Name);
             SharedAccessBlobPolicy accessPolicy = new SharedAccessBlobPolicy();
-            bool isNoExpiryTime = SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
-            SetupAccessPolicy(accessPolicy, isNoExpiryTime);
+            bool shouldSetExpiryTime = SasTokenHelper.ValidateContainerAccessPolicy(Channel, container.Name, accessPolicy, accessPolicyIdentifier);
+            SetupAccessPolicy(accessPolicy, shouldSetExpiryTime);
             string sasToken = container.GetSharedAccessSignature(accessPolicy, accessPolicyIdentifier);
 
             if (FullUri)
@@ -112,12 +112,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessBlobPolicy policy, bool setExpiryTime)
+        /// <param name="shouldSetExpiryTime">Should set the default expiry time</param>
+        private void SetupAccessPolicy(SharedAccessBlobPolicy policy, bool shouldSetExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
             SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime,
-                out accessStartTime, out accessEndTime, setExpiryTime);
+                out accessStartTime, out accessEndTime, shouldSetExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
