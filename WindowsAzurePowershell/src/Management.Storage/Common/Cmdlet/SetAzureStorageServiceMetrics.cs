@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 
             if (PassThru)
             {
-                WriteObject(serviceProperties);
+                WriteObject(serviceProperties.Metrics);
             }
         }
     }
