@@ -108,8 +108,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             if (String.IsNullOrEmpty(Name)) return;
             CloudTable table = Channel.GetTableReference(Name);
             SharedAccessTablePolicy policy = new SharedAccessTablePolicy();
-            bool isNoExpiryTime = SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, accessPolicyIdentifier);
-            SetupAccessPolicy(policy, isNoExpiryTime);
+            bool shouldSetExpiryTime = SasTokenHelper.ValidateTableAccessPolicy(Channel, table.Name, policy, accessPolicyIdentifier);
+            SetupAccessPolicy(policy, shouldSetExpiryTime);
             ValidatePkAndRk(StartPartitionKey, StartRowKey, EndPartitionKey, EndRowKey);
             string sasToken = table.GetSharedAccessSignature(policy, accessPolicyIdentifier, StartPartitionKey,
                                 StartRowKey, EndPartitionKey, EndRowKey);
@@ -149,12 +149,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         /// Update the access policy
         /// </summary>
         /// <param name="policy">Access policy object</param>
-        private void SetupAccessPolicy(SharedAccessTablePolicy policy, bool setExpiryTime)
+        /// <param name="shouldSetExpiryTime">Should set the default expiry time</param>
+        private void SetupAccessPolicy(SharedAccessTablePolicy policy, bool shouldSetExpiryTime)
         {
             DateTimeOffset? accessStartTime;
             DateTimeOffset? accessEndTime;
             SasTokenHelper.SetupAccessPolicyLifeTime(StartTime, ExpiryTime,
-                out accessStartTime, out accessEndTime, setExpiryTime);
+                out accessStartTime, out accessEndTime, shouldSetExpiryTime);
             policy.SharedAccessStartTime = accessStartTime;
             policy.SharedAccessExpiryTime = accessEndTime;
             SetupAccessPolicyPermission(policy, Permission);
