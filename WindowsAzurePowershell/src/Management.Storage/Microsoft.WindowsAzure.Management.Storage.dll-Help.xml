@@ -1952,11 +1952,55 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Policy</maml:name>
+				<maml:name>Permission</maml:name>
 				<maml:description>
-					<maml:para>Azure Stored Access Policy.</maml:para>
+					<maml:para>Permissions for a storage blob.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ExpiryTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes invalid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>FullUri</maml:name>
+				<maml:description>
+					<maml:para>Return the full blob uri with sas token.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageBlobSASToken</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>ICloudBlob</maml:name>
+				<maml:description>
+					<maml:para>ICloudBlob object</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>Permission</maml:name>
@@ -2017,9 +2061,60 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Permission</maml:name>
+				<maml:name>StartTime</maml:name>
 				<maml:description>
-					<maml:para>Permissions for a storage blob.</maml:para>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ExpiryTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes invalid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>FullUri</maml:name>
+				<maml:description>
+					<maml:para>Return the full blob uri with sas token.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageBlobSASToken</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>Container</maml:name>
+				<maml:description>
+					<maml:para>Azure storage container name.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "2" >
+				<maml:name>Blob</maml:name>
+				<maml:description>
+					<maml:para>Azure storage blob name.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Policy</maml:name>
+				<maml:description>
+					<maml:para>Azure Stored Access Policy.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2076,18 +2171,6 @@ C:\PS&gt;			</maml:introduction>
 			<maml:name>Blob</maml:name>
 			<maml:description>
 				<maml:para>Azure storage blob name.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-			<dev:type>
-				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Policy</maml:name>
-			<maml:description>
-				<maml:para>Azure Stored Access Policy.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -2175,6 +2258,18 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">ICloudBlob</command:parameterValue>
 			<dev:type>
 				<maml:name>ICloudBlob</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Policy</maml:name>
+			<maml:description>
+				<maml:para>Azure Stored Access Policy.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -2503,6 +2598,50 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ExpiryTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes invalid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>FullUri</maml:name>
+				<maml:description>
+					<maml:para>Return the full container uri with sas token.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageContainerSASToken</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByValue, ByPropertyName)" position = "1" >
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>Azure storage container name.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>Permission</maml:name>
 				<maml:description>
 					<maml:para>Permissions for a storage container.</maml:para>
@@ -2571,18 +2710,6 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Permission</maml:name>
-			<maml:description>
-				<maml:para>Permissions for a storage container.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-			<dev:type>
-				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>StartTime</maml:name>
 			<maml:description>
 				<maml:para>The time at which the shared access signature becomes valid.</maml:para>
@@ -2633,6 +2760,18 @@ C:\PS&gt;			</maml:introduction>
 			<maml:name>PipelineVariable</maml:name>
 			<maml:description>
 				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Permission</maml:name>
+			<maml:description>
+				<maml:para>Permissions for a storage container.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -2701,11 +2840,11 @@ C:\PS&gt;			</maml:introduction>
 		</command:example>
 		<command:example>
 			<maml:title>
---------------  Generate a container sas token by pipeline --------------			</maml:title>
+--------------  Generate multiple container sas token by pipeline --------------			</maml:title>
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
-  			<dev:code>Get-AzureStorageContainer | New-AzureStorageContainerSASToken -Permission rwdl</dev:code>
+  			<dev:code>Get-AzureStorageContainer -Container test* | New-AzureStorageContainerSASToken -Permission rwdl</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
@@ -2797,11 +2936,10 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>SasToken</maml:name>
+				<maml:name>Anonymous</maml:name>
 				<maml:description>
-					<maml:para>Azure storage shared access signature token</maml:para>
+					<maml:para>Anonymous storage account.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>Protocol</maml:name>
@@ -2841,10 +2979,17 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Environment</maml:name>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Protocol</maml:name>
 				<maml:description>
-					<maml:para>Azure Environment</maml:para>
+					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Endpoint</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage Endpoint.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2879,7 +3024,7 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Environment</maml:name>
 				<maml:description>
 					<maml:para>Azure Environment</maml:para>
@@ -2916,10 +3061,10 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Endpoint</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Environment</maml:name>
 				<maml:description>
-					<maml:para>Azure Storage Endpoint.</maml:para>
+					<maml:para>Azure Environment</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2941,19 +3086,13 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Anonymous</maml:name>
+				<maml:name>SasToken</maml:name>
 				<maml:description>
-					<maml:para>Anonymous storage account.</maml:para>
-				</maml:description>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Protocol</maml:name>
-				<maml:description>
-					<maml:para>Transfer Protocol (https/http).</maml:para>
+					<maml:para>Azure storage shared access signature token</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Environment</maml:name>
 				<maml:description>
 					<maml:para>Azure Environment</maml:para>
@@ -3064,6 +3203,17 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Anonymous</maml:name>
+			<maml:description>
+				<maml:para>Anonymous storage account.</maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>SasToken</maml:name>
 			<maml:description>
 				<maml:para>Azure storage shared access signature token</maml:para>
@@ -3075,7 +3225,7 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>Environment</maml:name>
 			<maml:description>
 				<maml:para>Azure Environment</maml:para>
@@ -3083,17 +3233,6 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Anonymous</maml:name>
-			<maml:description>
-				<maml:para>Anonymous storage account.</maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -3565,6 +3704,50 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ExpiryTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes invalid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>FullUri</maml:name>
+				<maml:description>
+					<maml:para>Return the full queue uri with sas token</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageQueueSASToken</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByValue, ByPropertyName)" position = "1" >
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>Azure storage queue name.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>Permission</maml:name>
 				<maml:description>
 					<maml:para>Permissions for a storage queue.</maml:para>
@@ -3633,18 +3816,6 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Permission</maml:name>
-			<maml:description>
-				<maml:para>Permissions for a storage queue.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-			<dev:type>
-				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>StartTime</maml:name>
 			<maml:description>
 				<maml:para>The time at which the shared access signature becomes valid.</maml:para>
@@ -3695,6 +3866,18 @@ C:\PS&gt;			</maml:introduction>
 			<maml:name>PipelineVariable</maml:name>
 			<maml:description>
 				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Permission</maml:name>
+			<maml:description>
+				<maml:para>Permissions for a storage queue.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -3972,6 +4155,78 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ExpiryTime</maml:name>
+				<maml:description>
+					<maml:para>The time at which the shared access signature becomes invalid.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>FullUri</maml:name>
+				<maml:description>
+					<maml:para>Return the full queue uri with sas token</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartPartitionKey</maml:name>
+				<maml:description>
+					<maml:para>Start partition key.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>StartRowKey</maml:name>
+				<maml:description>
+					<maml:para>Start row key.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>EndPartitionKey</maml:name>
+				<maml:description>
+					<maml:para>End partition key.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>EndRowKey</maml:name>
+				<maml:description>
+					<maml:para>End row key.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageTableSASToken</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByValue, ByPropertyName)" position = "1" >
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>Azure storage table name.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>Permission</maml:name>
 				<maml:description>
 					<maml:para>Permissions for a storage table.</maml:para>
@@ -4059,18 +4314,6 @@ C:\PS&gt;			</maml:introduction>
 			<maml:name>Policy</maml:name>
 			<maml:description>
 				<maml:para>Azure Stored Access Policy.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-			<dev:type>
-				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Permission</maml:name>
-			<maml:description>
-				<maml:para>Permissions for a storage table.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -4178,6 +4421,18 @@ C:\PS&gt;			</maml:introduction>
 			<maml:name>PipelineVariable</maml:name>
 			<maml:description>
 				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Permission</maml:name>
+			<maml:description>
+				<maml:para>Permissions for a storage table.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -5476,19 +5731,12 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Blob</maml:name>
-				<maml:description>
-					<maml:para>Blob name.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>CloudBlobContainer</maml:name>
+				<maml:name>ICloudBlob</maml:name>
 				<maml:description>
-					<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
+					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >CloudBlobContainer</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>BlobType</maml:name>
@@ -5548,12 +5796,19 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>ICloudBlob</maml:name>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Blob</maml:name>
 				<maml:description>
-					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
+					<maml:para>Blob name.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>CloudBlobContainer</maml:name>
+				<maml:description>
+					<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >CloudBlobContainer</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>BlobType</maml:name>
@@ -5726,18 +5981,6 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-			<maml:name>CloudBlobContainer</maml:name>
-			<maml:description>
-				<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
-			</maml:description>
-			<command:parameterValue required="true" variableLength="false">CloudBlobContainer</command:parameterValue>
-			<dev:type>
-				<maml:name>CloudBlobContainer</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>ICloudBlob</maml:name>
 			<maml:description>
 				<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
@@ -5745,6 +5988,18 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">ICloudBlob</command:parameterValue>
 			<dev:type>
 				<maml:name>ICloudBlob</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>CloudBlobContainer</maml:name>
+			<maml:description>
+				<maml:para>CloudBlobContainer object from Azure Storage Client library. You can create it or use Get-AzureStorageContainer cmdlet.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">CloudBlobContainer</command:parameterValue>
+			<dev:type>
+				<maml:name>CloudBlobContainer</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
