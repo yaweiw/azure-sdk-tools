@@ -120,6 +120,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private const string AnonymousHelpMessage = "Use anonymous storage account";
         [Parameter(HelpMessage = AnonymousHelpMessage,
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
+        [Parameter(HelpMessage = AnonymousHelpMessage,
+            Mandatory = true, ParameterSetName = AnonymousEnvironmentParameterSet)]
         public SwitchParameter Anonymous
         {
             get { return isAnonymous; }
@@ -160,9 +162,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private const string AzureEnvironmentHelpMessage = "Azure environment name";
         [Alias("Name", "EnvironmentName")]
         [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AccountNameKeyEnvironmentParameterSet,
-            ValueFromPipelineByPropertyName = true)]
+            ValueFromPipelineByPropertyName = true, Mandatory = true)]
         [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = AnonymousEnvironmentParameterSet,
-            ValueFromPipelineByPropertyName = true)]
+            ValueFromPipelineByPropertyName = true, Mandatory = true)]
         [Parameter(HelpMessage = AzureEnvironmentHelpMessage, ParameterSetName = SasTokenEnvironmentParameterSet, Mandatory = true)]
         public string Environment
         {
