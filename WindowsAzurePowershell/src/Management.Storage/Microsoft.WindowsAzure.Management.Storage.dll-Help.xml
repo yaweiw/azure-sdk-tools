@@ -1920,7 +1920,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>New-AzureStorageBlobSASToken</command:name>
 		<maml:description>
-			<maml:para>Generate Shared Access Signature  token for azure storage blob.</maml:para>
+			<maml:para>Generate Shared Access Signature token for azure storage blob.</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -1933,7 +1933,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para>Generate Shared Access Signature  token for azure storage blob.</maml:para>
+		<maml:para>Generate Shared Access Signature token for azure storage blob.</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>New-AzureStorageBlobSASToken</maml:name>
@@ -1968,7 +1968,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>StartTime</maml:name>
 				<maml:description>
-					<maml:para>The time at which the shared access signature becomes valid,</maml:para>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
 			</command:parameter>
@@ -2026,7 +2026,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>StartTime</maml:name>
 				<maml:description>
-					<maml:para>The time at which the shared access signature becomes valid,</maml:para>
+					<maml:para>The time at which the shared access signature becomes valid.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >DateTime</command:parameterValue>
 			</command:parameter>
@@ -2111,7 +2111,7 @@ C:\PS&gt;			</maml:introduction>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>StartTime</maml:name>
 			<maml:description>
-				<maml:para>The time at which the shared access signature becomes valid,</maml:para>
+				<maml:para>The time at which the shared access signature becomes valid.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
 			<dev:type>
@@ -2471,7 +2471,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>New-AzureStorageContainerSASToken</command:name>
 		<maml:description>
-			<maml:para>Generate Shared Access Signature  token for azure storage container.</maml:para>
+			<maml:para>Generate Shared Access Signature token for azure storage container.</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -2484,7 +2484,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para>Generate Shared Access Signature  token for azure storage container.</maml:para>
+		<maml:para>Generate Shared Access Signature token for azure storage container.</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>New-AzureStorageContainerSASToken</maml:name>
@@ -2754,7 +2754,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2792,7 +2792,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2830,7 +2830,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2861,7 +2861,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2899,7 +2899,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2936,7 +2936,7 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
 				<maml:name>StorageAccountName</maml:name>
 				<maml:description>
-					<maml:para>Azure storage accout name</maml:para>
+					<maml:para>Azure storage account name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -3006,7 +3006,7 @@ C:\PS&gt;			</maml:introduction>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
 			<maml:name>StorageAccountName</maml:name>
 			<maml:description>
-				<maml:para>Azure storage accout name</maml:para>
+				<maml:para>Azure storage account name</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -3533,7 +3533,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>New-AzureStorageQueueSASToken</command:name>
 		<maml:description>
-			<maml:para>Generate Shared Access Signature  token for azure storage queue.</maml:para>
+			<maml:para>Generate Shared Access Signature token for azure storage queue.</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -3546,7 +3546,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para>Generate Shared Access Signature  token for azure storage queue.</maml:para>
+		<maml:para>Generate Shared Access Signature token for azure storage queue.</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>New-AzureStorageQueueSASToken</maml:name>
@@ -3940,7 +3940,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>New-AzureStorageTableSASToken</command:name>
 		<maml:description>
-			<maml:para>Generate Shared Access Signature  token for azure storage table.</maml:para>
+			<maml:para>Generate Shared Access Signature token for azure storage table.</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -3953,7 +3953,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para>Generate Shared Access Signature  token for azure storage table.</maml:para>
+		<maml:para>Generate Shared Access Signature token for azure storage table.</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>New-AzureStorageTableSASToken</maml:name>
