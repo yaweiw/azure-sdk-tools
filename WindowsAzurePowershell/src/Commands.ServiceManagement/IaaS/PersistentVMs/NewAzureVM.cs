@@ -186,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             foreach (var vm in VMs)
             {
-                var configuration = vm.ConfigurationSets.OfType<Microsoft.WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet>().FirstOrDefault();
+                var configuration = vm.ConfigurationSets.OfType<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet>().FirstOrDefault();
                 if (configuration != null)
                 {
                     if (vm.WinRMCertificate != null)
@@ -341,22 +341,73 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 datadisk.MediaLink = mediaLinkFactory.Create();
             }
 
-            return new Microsoft.WindowsAzure.ServiceManagement.PersistentVMRole
+            var vm = new Microsoft.WindowsAzure.ServiceManagement.PersistentVMRole
             {
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
-                ConfigurationSets = Mapper.Map<Collection<WindowsAzure.ServiceManagement.ConfigurationSet>>(persistentVM.ConfigurationSets),
-                DataVirtualHardDisks = Mapper.Map<Collection<WindowsAzure.ServiceManagement.DataVirtualHardDisk>>(persistentVM.DataVirtualHardDisks),
+                //ConfigurationSets = Mapper.Map<Collection<WindowsAzure.ServiceManagement.ConfigurationSet>>(persistentVM.ConfigurationSets),
+                //DataVirtualHardDisks = Mapper.Map<Collection<WindowsAzure.ServiceManagement.DataVirtualHardDisk>>(persistentVM.DataVirtualHardDisks),
+                ConfigurationSets = new Collection<WindowsAzure.ServiceManagement.ConfigurationSet>(),
+                DataVirtualHardDisks = new Collection<WindowsAzure.ServiceManagement.DataVirtualHardDisk>(),
                 OSVirtualHardDisk = Mapper.Map<WindowsAzure.ServiceManagement.OSVirtualHardDisk>(persistentVM.OSVirtualHardDisk),
                 RoleName = persistentVM.RoleName,
                 RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
+
+            if (persistentVM.DataVirtualHardDisks != null)
+            {
+                persistentVM.DataVirtualHardDisks.ForEach(c => vm.DataVirtualHardDisks.Add(Mapper.Map(c, new WindowsAzure.ServiceManagement.DataVirtualHardDisk())));
+            }
+
+            if (persistentVM.ConfigurationSets != null)
+            {
+                persistentVM.ConfigurationSets.ForEach(c =>
+                {
+                    if (c is Model.PersistentVMModel.NetworkConfigurationSet)
+                    {
+                        vm.ConfigurationSets.Add(Mapper.Map<WindowsAzure.ServiceManagement.NetworkConfigurationSet>(c));
+                    }
+                    else if (c is Model.PersistentVMModel.WindowsProvisioningConfigurationSet)
+                    {
+                        var cs = Mapper.Map<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet>(c);
+                        var winrm = (c as Model.PersistentVMModel.WindowsProvisioningConfigurationSet).WinRM;
+                        if (winrm != null && winrm.Listeners != null)
+                        {
+                            // AutoMapper doesn't work for the Listeners
+                            cs.WinRM = new WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration();
+                            cs.WinRM.Listeners = new WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerCollection();
+                            foreach (var t in winrm.Listeners)
+                            {
+                                cs.WinRM.Listeners.Add(new WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                                {
+                                    CertificateThumbprint = t.CertificateThumbprint,
+                                    Protocol = t.Protocol
+                                });
+                            }
+                        }
+                        vm.ConfigurationSets.Add(cs);
+                    }
+                    else if (c is Model.PersistentVMModel.LinuxProvisioningConfigurationSet)
+                    {
+                        vm.ConfigurationSets.Add(Mapper.Map<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet>(c));
+                    }
+                    else if (c is Model.PersistentVMModel.ProvisioningConfigurationSet)
+                    {
+                        vm.ConfigurationSets.Add(Mapper.Map<WindowsAzure.ServiceManagement.ProvisioningConfigurationSet>(c));
+                    }
+                    else if (c is Model.PersistentVMModel.ConfigurationSet)
+                    {
+                        vm.ConfigurationSets.Add(Mapper.Map<WindowsAzure.ServiceManagement.ConfigurationSet>(c));
+                    }
+                });
+            }
+
+            return vm;
         }
 
         public void NewAzureVMProcessNewSM()
         {
-            ServiceManagementProfile.Initialize();
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
             CloudStorageAccount currentStorage = null;
             try
@@ -590,6 +641,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         {
             try
             {
+                ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
                 this.NewAzureVMProcess();
