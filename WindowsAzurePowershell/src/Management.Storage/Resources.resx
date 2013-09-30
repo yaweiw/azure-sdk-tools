@@ -584,4 +584,7 @@ Failed: {2}.</value>
   <data name="StartpkMustAccomanyStartrk" xml:space="preserve">
     <value>Startpk must accompany startrk.</value>
   </data>
+  <data name="BlobIsNotReadable" xml:space="preserve">
+    <value>Can't read the blob properties.</value>
+  </data>
 </root>
