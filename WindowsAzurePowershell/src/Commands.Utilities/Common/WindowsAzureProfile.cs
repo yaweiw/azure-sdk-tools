@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public void AddSubscription(WindowsAzureSubscription s)
         {
             if (subscriptions.Contains(s) ||
-                subscriptions.Any(es => string.Compare(s.SubscriptionName, s.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0))
+                subscriptions.Any(es => string.Compare(es.SubscriptionName, s.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0))
             {
                 throw new ArgumentException(
                     string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));

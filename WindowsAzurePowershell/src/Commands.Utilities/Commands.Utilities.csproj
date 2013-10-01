@@ -297,9 +297,6 @@
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
-    <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
-      <DependentUpon>SubscriptionsData.xsd</DependentUpon>
-    </Compile>
     <Compile Include="MediaServices\IMediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesUriElements.cs" />
@@ -726,9 +723,6 @@
     <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Common\XmlSchema\SubscriptionsData.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
