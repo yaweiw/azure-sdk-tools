@@ -103,12 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            IEnumerable list = (IEnumerable)sendToPipeline;
-
-            foreach (var item in list)
-            {
-                OutputPipeline.Add(item);
-            }
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
