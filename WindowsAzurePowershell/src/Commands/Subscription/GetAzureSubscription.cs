@@ -91,7 +91,13 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public void GetCurrent()
         {
-            if (Profile.CurrentSubscription == null)
+            //
+            // Explicitly ignore the SubscriptionDataFile property here,
+            // since current is strictly in-memory and we want the real
+            // current subscription.
+            //
+            var currentProfile = WindowsAzureProfile.Instance;
+            if (currentProfile.CurrentSubscription == null)
             {
                 WriteError(new ErrorRecord(
                     new InvalidOperationException(Resources.InvalidSelectedSubscription),
@@ -100,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
             else
             {
-                WriteSubscriptions(Profile.CurrentSubscription);
+                WriteSubscriptions(currentProfile.CurrentSubscription);
             }
         }
 

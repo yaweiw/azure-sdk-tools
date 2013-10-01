@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
             {
                 if (string.IsNullOrEmpty(SubscriptionDataFile))
                 {
-                    loadedProfile = base.Profile;
+                    loadedProfile = WindowsAzureProfile.DefaultInstance;
                 }
                 else
                 {
