@@ -76,13 +76,13 @@ Try
     ###############################################################################
     # Test ByManageUrlWithCertAuth with Optional Parameters
     $context = New-AzureSqlDatabaseServerContext -ServerName $ServerName `
-        -UseSubscription -WindowsAzureSubscription $sub.SubscriptionName
+        -UseSubscription -SubscriptionName $sub.SubscriptionName
     Assert {$context.ServerName -eq $ServerName} `
         "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
     # Test ByFullyQualifiedServerNameWithCertAuth
     $context = New-AzureSqlDatabaseServerContext -FullyQualifiedServerName $FQSN `
-        -UseSubscription -WindowsAzureSubscription $sub
+        -UseSubscription -SubscriptionName $sub.SubscriptionName
     Assert {$context.ServerName -eq $ServerName} `
         "Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
     
