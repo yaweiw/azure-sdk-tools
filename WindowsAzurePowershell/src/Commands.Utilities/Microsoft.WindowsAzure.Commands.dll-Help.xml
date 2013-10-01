@@ -1547,7 +1547,7 @@
         The service endpoint is the Windows Azure management API endpoint for the target environment. Custom service endpoints are supported and can be different for each configured subscription.
       </maml:para>
       <maml:para>
-        Each subscription data set can contain information for the current Windows Azure Storage account. Storage account information is set with the –CurrentStorageAccount parameter.
+        Each subscription data set can contain information for the current Windows Azure Storage account. Storage account information is set with the –CurrentStorageAccountName parameter.
       </maml:para>
       <maml:para>
         All connection information is stored in encrypted form in the subscription data file. If a subscription is designated as the default subscription, it is automatically made current when starting a PowerShell session or executing a script. To set the default subscription, use the  -DefaultSubscription parameter and specify the name of the subscription to designate as the default. The default subscription setting can be cleared by specifying the -NoDefaultSubscription switch parameter.
@@ -1578,7 +1578,7 @@
           <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>CurrentStorageAccount</maml:name>
+          <maml:name>CurrentStorageAccountName</maml:name>
           <maml:description>
             <maml:para>The storage account to use for the subscription.</maml:para>
           </maml:description>
@@ -1671,7 +1671,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>CurrentStorageAccount</maml:name>
+        <maml:name>CurrentStorageAccountName</maml:name>
         <maml:description>
           <maml:para>The storage account to use for the subscription.</maml:para>
         </maml:description>
@@ -1922,7 +1922,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" -CurrentStorageAccount mystorage1
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" -CurrentStorageAccountName mystorage1
 
         </dev:code>
         <dev:remarks>
@@ -10430,7 +10430,7 @@
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
-            <maml:para>The storage account to use for storing the logs. If not specified, the CurrentStorageAccount will be used</maml:para>
+            <maml:para>The storage account to use for storing the logs. If not specified, the CurrentStorageAccountName will be used</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -10475,7 +10475,7 @@
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
         <maml:name>StorageAccountName</maml:name>
         <maml:description>
-          <maml:para>The storage account to use for storing the logs. If not specified, the CurrentStorageAccount will be used</maml:para>
+          <maml:para>The storage account to use for storing the logs. If not specified, the CurrentStorageAccountName will be used</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>

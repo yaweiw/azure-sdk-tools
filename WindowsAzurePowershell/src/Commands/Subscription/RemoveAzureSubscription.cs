@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public void RemoveSubscriptionProcess()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription != null)
             {
                 // Warn the user if the removed subscription is the default one.
