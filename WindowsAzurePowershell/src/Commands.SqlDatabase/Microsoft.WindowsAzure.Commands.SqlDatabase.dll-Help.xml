@@ -1829,11 +1829,11 @@ It prompts the user for server administrator credentials, connects to the specif
 C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
 C:\PS&gt;$myCert = Get-Item Cert:\CurrentUser\My\$thumbprint
 
-C:\PS&gt; Set-AzureSubscription -Name "mySubscription" -SubscriptionId $subId -Certificate $myCert
+C:\PS&gt; Set-AzureSubscription -SubscriptionName "mySubscription" -SubscriptionId $subId -Certificate $myCert
 
 ---------------------------------------------------------
 
-C:\PS&gt;Select-AzureSubscription -Name "mySubscription"
+C:\PS&gt;Select-AzureSubscription -SubscriptionName "mySubscription"
 
 C:\PS&gt;$ctx = New-AzureSqlDatabaseServerContext -ServerName "lpqd0zbr8y" -UseSubscription
 </dev:code>

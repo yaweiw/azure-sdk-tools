@@ -21,9 +21,9 @@ Tests Remove-AzureSubscription with valid subscription
 function Test-RemoveAzureSubscriptionWithDefaultSubscription
 {
 	# Setup
-	$name = (Get-AzureSubscription -Default).Name
-	$expectedDefaultWarning = "The default subscription is being removed. Use Select-Subscription <Name> to select a new default subscription."
-	$expectedCurrentWarning = "The current subscription is being removed. Use Select-Subscription <Name> to select a new current subscription."
+	$name = (Get-AzureSubscription -Default).SubscriptionName
+	$expectedDefaultWarning = "The default subscription is being removed. Use Select-Subscription <subscriptionName> to select a new default subscription."
+	$expectedCurrentWarning = "The current subscription is being removed. Use Select-Subscription <subscriptionName> to select a new current subscription."
 
 	# Test
 	Remove-AzureSubscription $name -Force -WarningVariable warning
@@ -54,7 +54,7 @@ Tests Remove-AzureSubscription with empty subscription
 function Test-RemoveAzureSubscriptionWithEmptySubscription
 {
 	# Setup
-	$errorMessage = "Cannot validate argument on parameter 'Name'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
+	$errorMessage = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
 
 	# Test
 	Assert-Throws { Remove-AzureSubscription "" } $errorMessage
@@ -67,7 +67,7 @@ Tests Remove-AzureSubscription with WhatIf
 function Test-RemoveAzureSubscriptionWithWhatIf
 {
 	# Setup
-	$name = (Get-AzureSubscription -Default).Name
+	$name = (Get-AzureSubscription -Default).SubscriptionName
 
 	# Test
 	Remove-AzureSubscription $name -Force -WhatIf

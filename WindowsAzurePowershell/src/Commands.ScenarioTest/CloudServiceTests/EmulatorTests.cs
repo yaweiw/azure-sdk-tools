@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
                 "Write-Verbose \"Verbose\"",
                 "Write-Warning \"Warning\"",
                 "foreach ($k in (Get-Item env:) ){$name=$k.name; $Value = $k.Value; Write-Debug \"$name=$Value\"}",
-                "foreach ($sub in Get-AzureSubscription) {$name = $sub.Name; Write-Debug $name}",
+                "foreach ($sub in Get-AzureSubscription) {$name = $sub.SubscriptionName; Write-Debug $name}",
                 "Assert-True {$true -eq $true}"
                 );
         }

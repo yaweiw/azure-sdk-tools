@@ -76,16 +76,16 @@ function Init-AzureSubscription
 	
     if($ServiceEndpoint)
     {
-        Set-AzureSubscription -Name $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+        Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
             -ServiceEndpoint $ServiceEndpoint
     }
     else
     {
-        Set-AzureSubscription -Name $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
+        Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert `
             -ServiceEndpoint "https://management.core.windows.net"
     }
 	
-    Select-AzureSubscription -Name $subName
+    Select-AzureSubscription -SubscriptionName $subName
 }
 
 function Get-ServerContextByManageUrlWithSqlAuth

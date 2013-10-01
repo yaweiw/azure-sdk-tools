@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public class CloudServiceProjectConfiguration
     {
         public string subscription { get; set; }
-        public string Name { get; set; }
+        public string subscriptionName { get; set; }
         public string endpoint { get; set; }
     }
 }

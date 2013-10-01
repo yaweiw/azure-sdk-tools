@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
 
         [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of subscription")]
         public SwitchParameter Force { get; set; }
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public void RemoveSubscriptionProcess()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == Name);
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription != null)
             {
                 // Warn the user if the removed subscription is the default one.
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
             else
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidSubscription, Name));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidSubscription, SubscriptionName));
             }
         }
 
@@ -70,9 +70,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemoveSubscriptionConfirmation, Name),
+                string.Format(Resources.RemoveSubscriptionConfirmation, SubscriptionName),
                 Resources.RemoveSubscriptionMessage,
-                Name,
+                SubscriptionName,
                 RemoveSubscriptionProcess);
         }
     }

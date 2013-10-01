@@ -203,10 +203,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public void AddSubscription(WindowsAzureSubscription s)
         {
             if (subscriptions.Contains(s) ||
-                subscriptions.Any(es => string.Compare(s.Name, s.Name, StringComparison.OrdinalIgnoreCase) == 0))
+                subscriptions.Any(es => string.Compare(s.SubscriptionName, s.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0))
             {
                 throw new ArgumentException(
-                    string.Format(Resources.SubscriptionAlreadyExists, s.Name));
+                    string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));
             }
 
             subscriptions.Add(s);
@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new ArgumentException(
                     string.Format(Resources.CannotUpdateUnknownSubscription, 
-                        s.Name, s.SubscriptionId));
+                        s.SubscriptionName, s.SubscriptionId));
             }
 
             if (s.IsDefault)
@@ -383,7 +383,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new ArgumentException(
                     string.Format(Resources.CannotUpdateUnknownSubscription, 
-                        s.Name,s.SubscriptionId));
+                        s.SubscriptionName,s.SubscriptionId));
             }
         }
     }

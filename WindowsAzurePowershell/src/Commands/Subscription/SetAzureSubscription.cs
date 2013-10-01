@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "CommonSettings")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ResetCurrentStorageAccount")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Account subscription ID.", ParameterSetName = "CommonSettings")]
         public string SubscriptionId { get; set; }
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         /// </summary>
         internal void SetSubscriptionProcess()
         {
-            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == Name);
+            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription == null)
             {
                 CreateNewSubscription();
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             var subscription = new WindowsAzureSubscription
             {
-                Name = Name,
+                SubscriptionName = SubscriptionName,
                 SubscriptionId = SubscriptionId,
                 Certificate = Certificate,
                 CurrentStorageAccountName = CurrentStorageAccountName

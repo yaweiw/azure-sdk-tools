@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.Name);
+            Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.SubscriptionName);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
         }
 
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.AreEqual(Data.SampleSubscription1, profile.CurrentSubscription.Name);
+            Assert.AreEqual(Data.SampleSubscription1, profile.CurrentSubscription.SubscriptionName);
             Assert.AreEqual(new Uri("https://newmanagement.core.windows.net/"),
                 profile.CurrentSubscription.ServiceEndpoint);
             Assert.IsNotNull(profile.CurrentSubscription.Certificate);
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             var currentSubscription = profile.CurrentSubscription;
 
-            Assert.AreEqual(Data.Subscription1, currentSubscription.Name);
+            Assert.AreEqual(Data.Subscription1, currentSubscription.SubscriptionName);
             Assert.IsTrue(currentSubscription.IsDefault);
 
             var newCurrentSubscription =
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.AreEqual(profile.CurrentSubscription.Name, Data.Subscription1);
+            Assert.AreEqual(profile.CurrentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
         }
@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
             {
                 cmdlet.ExecuteCmdlet();
             }
-            Assert.AreEqual(profile.CurrentSubscription.Name, Data.Subscription1);
+            Assert.AreEqual(profile.CurrentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(Path.GetFullPath(testDir.FilePaths[0]), mockCommandRuntime.OutputPipeline[0].ToString());
         }
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
             cmdlet.PublishSettingsFile = testDir.DirectoryName;
             cmdlet.ExecuteCmdlet();
 
-            Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.Name);
+            Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.SubscriptionName);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
             Assert.AreEqual(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, testDir.FilePaths[0]), 
