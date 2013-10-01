@@ -106,7 +106,18 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         private void WriteSubscriptions(IEnumerable<WindowsAzureSubscription> subscriptions)
         {
-            foreach (WindowsAzureSubscription subscription in subscriptions)
+            IEnumerable<WindowsAzureSubscription> subscriptionOutput;
+
+            if (ExtendedDetails.IsPresent)
+            {
+                subscriptionOutput = subscriptions.Select(s => s.ToExtendedData());
+            }
+            else
+            {
+                subscriptionOutput = subscriptions;
+            }
+
+            foreach (WindowsAzureSubscription subscription in subscriptionOutput)
             {
                 WriteObject(subscription);
             }
