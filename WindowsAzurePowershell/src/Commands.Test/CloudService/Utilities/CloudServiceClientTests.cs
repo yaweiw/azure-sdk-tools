@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 IsDefault = true,
                 ServiceEndpoint = new Uri("https://www.azure.com"),
                 SubscriptionId = Guid.NewGuid().ToString(),
-                Name = Data.Subscription1,
+                SubscriptionName = Data.Subscription1,
             };
 
             cloudBlobUtilityMock = new Mock<CloudBlobUtility>();

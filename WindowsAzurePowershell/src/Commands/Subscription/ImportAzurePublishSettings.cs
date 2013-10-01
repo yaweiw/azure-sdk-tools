@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             {
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
-                    Profile.DefaultSubscription.Name));
+                    Profile.DefaultSubscription.SubscriptionName));
             }
         }
 

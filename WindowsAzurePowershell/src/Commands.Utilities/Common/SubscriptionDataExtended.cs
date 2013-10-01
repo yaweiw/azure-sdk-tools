@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    public class SubscriptionDataExtended : SubscriptionData
+    public class SubscriptionDataExtended : WindowsAzureSubscription
     {
         public string AccountAdminLiveEmailId { get; set; }
         public int CurrentCoreCount { get; set; }

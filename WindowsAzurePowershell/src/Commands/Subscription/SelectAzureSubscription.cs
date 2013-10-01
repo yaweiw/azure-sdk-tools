@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         private WindowsAzureSubscription FindNamedSubscription()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription == null)
             {
                 throw new Exception(string.Format(Resources.InvalidSubscription, SubscriptionName));
