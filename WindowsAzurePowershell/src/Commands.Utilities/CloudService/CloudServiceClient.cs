@@ -481,7 +481,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 slot,
                 location,
                 affinityGroup,
-                Subscription.Name,
+                Subscription.SubscriptionName,
                 storageServiceName,
                 name,
                 cloudServiceProject.ServiceName,

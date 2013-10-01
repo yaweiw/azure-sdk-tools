@@ -671,16 +671,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
-        public WindowsAzureSubscription SetAzureSubscription(string Name, string CurrentStorageAccountName)
+        public WindowsAzureSubscription SetAzureSubscription(string subscriptionName, string CurrentStorageAccountName)
         {
-            SetAzureSubscriptionCmdletInfo setAzureSubscriptionCmdlet = new SetAzureSubscriptionCmdletInfo(Name, CurrentStorageAccountName);
+            SetAzureSubscriptionCmdletInfo setAzureSubscriptionCmdlet = new SetAzureSubscriptionCmdletInfo(subscriptionName, CurrentStorageAccountName);
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(setAzureSubscriptionCmdlet);
             azurePowershellCmdlet.Run();
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
             {
-                if (subscription.Name == Name)
+                if (subscription.SubscriptionName == subscriptionName)
                 {
                     return subscription;
                 }
@@ -688,16 +688,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
-        public WindowsAzureSubscription SetDefaultAzureSubscription(string Name)
+        public WindowsAzureSubscription SetDefaultAzureSubscription(string subscriptionName)
         {
-            SelectAzureSubscriptionCmdletInfo selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(Name);
+            SelectAzureSubscriptionCmdletInfo selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(subscriptionName);
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(selectAzureSubscriptionCmdlet);
             azurePowershellCmdlet.Run();
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
             {
-                if (subscription.Name == Name)
+                if (subscription.SubscriptionName == subscriptionName)
                 {
                     return subscription;
                 }
@@ -705,9 +705,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
-        public bool SelectAzureSubscription(string Name, bool clear = false, string subscriptionDataFile = null)
+        public bool SelectAzureSubscription(string subscriptionName, bool clear = false, string subscriptionDataFile = null)
         {
-            return RunPSCmdletAndReturnFirst<bool>(new SelectAzureSubscriptionCmdletInfo(Name, clear, subscriptionDataFile));
+            return RunPSCmdletAndReturnFirst<bool>(new SelectAzureSubscriptionCmdletInfo(subscriptionName, clear, subscriptionDataFile));
         }
 
         #endregion

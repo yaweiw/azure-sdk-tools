@@ -111,7 +111,7 @@ Try
     {
         # Drop Database
         Drop-Databases $Context $NameStartWith
-        Remove-AzureSubscription $sub.Name -Force
+        Remove-AzureSubscription $sub.SubscriptionName -Force
     }
 
     # Using Cert Auth with server name
@@ -131,7 +131,7 @@ Try
     {
         # Drop Database
         Drop-Databases $Context $NameStartWith
-        Remove-AzureSubscription $sub.Name -Force
+        Remove-AzureSubscription $sub.SubscriptionName -Force
     }
 
     $IsTestPass = $True

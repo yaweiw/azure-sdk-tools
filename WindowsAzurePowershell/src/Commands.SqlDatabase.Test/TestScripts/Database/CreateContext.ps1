@@ -69,7 +69,7 @@ Try
 	Assert {$context.ServerName -eq $ServerName} `
 		"Server name does not match. Actual:[$($context.ServerName)] expected:[$ServerName]"
 
-	Remove-AzureSubscription $sub.Name -Force
+	Remove-AzureSubscription $sub.SubscriptionName -Force
 
 	###############################################################################
 	#	Test the connection context creation using subscription data

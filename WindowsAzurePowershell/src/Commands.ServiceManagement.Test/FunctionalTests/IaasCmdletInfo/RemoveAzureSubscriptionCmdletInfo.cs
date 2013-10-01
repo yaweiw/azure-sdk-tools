@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class RemoveAzureSubscriptionCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureSubscriptionCmdletInfo(string Name, string dataFile, bool force = false)
+        public RemoveAzureSubscriptionCmdletInfo(string subscriptionName, string dataFile, bool force = false)
         {
             cmdletName = Utilities.RemoveAzureSubscriptionCmdletName;
-            cmdletParams.Add(new CmdletParam("Name", Name));
+            cmdletParams.Add(new CmdletParam("SubscriptionName", subscriptionName));
             if (dataFile != null)
             {
                 cmdletParams.Add(new CmdletParam("SubscriptionDataFile", dataFile));

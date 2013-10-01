@@ -152,6 +152,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Store">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>

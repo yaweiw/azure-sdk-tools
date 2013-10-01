@@ -687,10 +687,10 @@
       <command:syntaxItem>
         <maml:name>Get-AzureSubscription</maml:name>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-          <maml:name>Name</maml:name>
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
-              Retrieves the configuration settings for the subscription identified by this name. The Default, Current, and Name parameters are mutually exclusive. If none of these parameters are used, Get-AzureSubscription returns a list object with all of the subscriptions currently stored in the subscription data file.
+              Retrieves the configuration settings for the subscription identified by this name. The Default, Current, and SubscriptionName parameters are mutually exclusive. If none of these parameters are used, Get-AzureSubscription returns a list object with all of the subscriptions currently stored in the subscription data file.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -718,7 +718,7 @@
           <maml:name>Current</maml:name>
           <maml:description>
             <maml:para>
-              If this parameter is specified, returns subscription settings for the current subscription. The Default, Current, and Name parameters are mutually exclusive. If none of these parameters is specified, Get-AzureSubscription returns a list object with all of the subscriptions currently listed in the subscription data file. The Windows Azure PowerShell cmdlets retrieve default settings for their parameters from the information stored in the current subscription. Use the Select-AzureSubscription cmdlet to select the subscription.
+              If this parameter is specified, returns subscription settings for the current subscription. The Default, Current, and SubscriptionName parameters are mutually exclusive. If none of these parameters is specified, Get-AzureSubscription returns a list object with all of the subscriptions currently listed in the subscription data file. The Windows Azure PowerShell cmdlets retrieve default settings for their parameters from the information stored in the current subscription. Use the Select-AzureSubscription cmdlet to select the subscription.
             </maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -737,7 +737,7 @@
           <maml:name>Default</maml:name>
           <maml:description>
             <maml:para>
-              If this parameter is specified, returns the subscription that has been designated as the default subscription. The Default, Current, and Name parameters are mutually exclusive. A default subscription is automatically selected whenever the PowerShell session starts. To designate the default subscription, use the Set-AzureSubscription cmdlet.
+              If this parameter is specified, returns the subscription that has been designated as the default subscription. The Default, Current, and SubscriptionName parameters are mutually exclusive. A default subscription is automatically selected whenever the PowerShell session starts. To designate the default subscription, use the Set-AzureSubscription cmdlet.
             </maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -765,7 +765,7 @@
         <maml:name>Current</maml:name>
         <maml:description>
           <maml:para>
-            If this parameter is specified, returns subscription settings for the current subscription. The Default, Current, and Name parameters are mutually exclusive. If none of these parameters is specified, Get-AzureSubscription returns a list object with all of the subscriptions currently listed in the subscription data file. The Windows Azure PowerShell cmdlets retrieve default settings for their parameters from the information stored in the current subscription. Use the Select-AzureSubscription cmdlet to select the subscription.
+            If this parameter is specified, returns subscription settings for the current subscription. The Default, Current, and SubscriptionName parameters are mutually exclusive. If none of these parameters is specified, Get-AzureSubscription returns a list object with all of the subscriptions currently listed in the subscription data file. The Windows Azure PowerShell cmdlets retrieve default settings for their parameters from the information stored in the current subscription. Use the Select-AzureSubscription cmdlet to select the subscription.
           </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -779,7 +779,7 @@
         <maml:name>Default</maml:name>
         <maml:description>
           <maml:para>
-            If this parameter is specified, returns the subscription that has been designated as the default subscription. The Default, Current, and Name parameters are mutually exclusive. A default subscription is automatically selected whenever the PowerShell session starts. To designate the default subscription, use the Set-AzureSubscription cmdlet.
+            If this parameter is specified, returns the subscription that has been designated as the default subscription. The Default, Current, and SubscriptionName parameters are mutually exclusive. A default subscription is automatically selected whenever the PowerShell session starts. To designate the default subscription, use the Set-AzureSubscription cmdlet.
           </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -816,10 +816,10 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-        <maml:name>Name</maml:name>
+        <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
-            Retrieves the configuration settings for the subscription identified by this name. The Default, Current, and Name parameters are mutually exclusive. If none of these parameters are used, Get-AzureSubscription returns a list object with all of the subscriptions currently stored in the subscription data file.
+            Retrieves the configuration settings for the subscription identified by this name. The Default, Current, and SubscriptionName parameters are mutually exclusive. If none of these parameters are used, Get-AzureSubscription returns a list object with all of the subscriptions currently stored in the subscription data file.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -887,7 +887,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Get-AzureSubscription –Name "MyProdSubscription"
+          C:\PS&gt;Get-AzureSubscription –SubscriptionName "MyProdSubscription"
 
         </dev:code>
         <dev:remarks>
@@ -1166,7 +1166,7 @@
       <command:syntaxItem>
         <maml:name>Remove-AzureSubscription</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-          <maml:name>Name</maml:name>
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
               Specifies the name of the subscription for which all data will be removed from the subscription data file.
@@ -1201,7 +1201,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-        <maml:name>Name</maml:name>
+        <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
             Specifies the name of the subscription for which all data will be removed from the subscription data file.
@@ -1326,7 +1326,7 @@
       <command:syntaxItem>
         <maml:name>Select-AzureSubscription</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-          <maml:name>Name</maml:name>
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
               Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
@@ -1396,7 +1396,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-        <maml:name>Name</maml:name>
+        <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
             Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
@@ -1560,7 +1560,7 @@
       <command:syntaxItem>
         <maml:name>Set-AzureSubscription</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-          <maml:name>Name</maml:name>
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
               The name of the subscription data set that will be updated.
@@ -1753,7 +1753,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-        <maml:name>Name</maml:name>
+        <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
             The name of the subscription data set that will be updated.
@@ -1805,7 +1805,7 @@
           C:\PS&gt;$subID = &lt;Subscription ID&gt;
           C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
           C:\PS&gt;$myCert = Get-Item cert:\\CurrentUser\My\$thumbprint
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" -SubscriptionId $subID -Certificate $myCert
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" -SubscriptionId $subID -Certificate $myCert
 
         </dev:code>
         <dev:remarks>
@@ -1830,8 +1830,8 @@
           C:\PS&gt;$subID = &lt;Subscription ID&gt;
           C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
           C:\PS&gt;$myCert = Get-Item cert:\\CurrentUser\My\$thumbprint
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" –SubscriptionId $subID
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" –Certificate $myCert
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" –SubscriptionId $subID
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" –Certificate $myCert
 
         </dev:code>
         <dev:remarks>
@@ -1853,7 +1853,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" -ServiceEndpoint "https://management.core.windows-internal.net"
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" -ServiceEndpoint "https://management.core.windows-internal.net"
 
         </dev:code>
         <dev:remarks>
@@ -1875,7 +1875,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" –Certificate $null -ServiceEndpoint $null
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" –Certificate $null -ServiceEndpoint $null
 
         </dev:code>
         <dev:remarks>
@@ -1900,7 +1900,7 @@
           C:\PS&gt;$subID = &lt;Subscription ID&gt;
           C:\PS&gt;$thumbprint = &lt;Certificate Thumbprint&gt;
           C:\PS&gt;$myCert = Get-Item cert:\\CurrentUser\My\$thumbprint
-          C:\PS&gt;Set-AzureSubscription –Name "TestSub" –SubscriptionId $subID -Certificate $myCert -SubscriptionDataFile "C:\temp\mysubscriptiondatafile.xml"
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "TestSub" –SubscriptionId $subID -Certificate $myCert -SubscriptionDataFile "C:\temp\mysubscriptiondatafile.xml"
 
         </dev:code>
         <dev:remarks>
@@ -1922,7 +1922,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Set-AzureSubscription –Name "MySub" -CurrentStorageAccountName mystorage1
+          C:\PS&gt;Set-AzureSubscription –SubscriptionName "MySub" -CurrentStorageAccountName mystorage1
 
         </dev:code>
         <dev:remarks>

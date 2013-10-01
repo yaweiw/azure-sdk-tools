@@ -17,30 +17,30 @@
 #
 # Import the given subscription if it has not already been imported
 #
-#    param [string] $Name: the subscription to import
+#    param [string] $subscriptionName: the subscription to import
 #    param [string] $publishFile     : the path to the publishsettings file with crednentials for the 
 #     given subscription
 #######################################
 function Import-SubscriptionIfNecessary 
 {
-    param( [String] $Name, [String] $publishFile)
-    Write-Log "[import-subscriptionifnecessary]: Setting subscription with $Name, using publish settings file $publishFile\r\n"
-    $subscription = Get-AzureSubscription $Name
+    param( [String] $subscriptionName, [String] $publishFile)
+    Write-Log "[import-subscriptionifnecessary]: Setting subscription with $subscriptionName, using publish settings file $publishFile\r\n"
+    $subscription = Get-AzureSubscription $subscriptionName
     if ($subscription -eq $NULL) 
 	{
-       Write-Log "[import-subsctiptionifnecessary]: subscription $Name not found, importing publish settings file $publishFile\r\n"
+       Write-Log "[import-subsctiptionifnecessary]: subscription $subscriptionName not found, importing publish settings file $publishFile\r\n"
        Import-AzurePublishSettingsFile $publishFile
     }
     
-    Select-AzureSubscription $Name
+    Select-AzureSubscription $subscriptionName
     $currentSub = Get-AzureSubscription -Current
 	Write-Log $currentSub
-    if ($Name -ne $currentSub.Name) 
+    if ($subscriptionName -ne $currentSub.SubscriptionName) 
 	{
-        throw "[import-subscriptionIfNecessary]: Unable to set current subscription to $Name"
+        throw "[import-subscriptionIfNecessary]: Unable to set current subscription to $subscriptionName"
     }
     
-    return $currentSub | Select-Object Name,SubscriptionId
+    return $currentSub | Select-Object SubscriptionName,SubscriptionId
 }
 
 ################################
@@ -52,7 +52,7 @@ function Remove-AllSubscriptions
     try {
     foreach ($subscription in  Get-AzureSubscription) 
 	{
-	  $toss = Remove-AzureSubscription $subscription.Name
+	  $toss = Remove-AzureSubscription $subscription.SubscriptionName
 	}
 	
 	Assert-True { (Get-AzureSubscription) -eq $nul} "[Remove-AllSubscriptions]: all subscriptions not removed"
@@ -66,27 +66,27 @@ function Remove-AllSubscriptions
 #
 # Select only the relevant columns from a subscription
 #
-#    parm [WindowsAzureSubscription] $subscription: the subscription object to write out
+#    parm [SubscriptionData] $subscription: the subscription object to write out
 ############################################
 function Format-Subscription 
 {
     [CmdletBinding()]
-    param([Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$false)] [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureSubscription] $subscription)
+    param([Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$false)] [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $subscription)
 	PROCESS
 	{
-	    Select-Object -InputObject $subscription -Property Name,SubscriptionId,ServiceEndpoint,IsDefault | Format-List | Out-String
+	    Select-Object -InputObject $subscription -Property SubscriptionName,SubscriptionId,ServiceEndpoint,IsDefault | Format-List | Out-String
 	}
 }
 
 
 function Check-SubscriptionMatch
 {
-    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureSubscription] $checkedSubscription)
-	Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.Name)+ "'")
+    param([string] $baseSubscriptionName, [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $checkedSubscription)
+	Write-Log ("[CheckSubscriptionMatch]: base subscription: '$baseSubscriptionName', validating '" + ($checkedSubscription.SubscriptionName)+ "'")
 	Format-Subscription $checkedSubscription | Write-Log
-	if ($baseSubscriptionName -ne $checkedSubscription.Name) 
+	if ($baseSubscriptionName -ne $checkedSubscription.SubscriptionName) 
 	{
-	    throw ("[Check-SubscriptionMatch]: Subscription Match Failed '" + ($baseSubscriptionName) + "' != '" + ($checkedSubscription.Name) + "'")
+	    throw ("[Check-SubscriptionMatch]: Subscription Match Failed '" + ($baseSubscriptionName) + "' != '" + ($checkedSubscription.SubscriptionName) + "'")
 	}
 	
     Write-Log ("CheckSubscriptionMatch]: subscription check succeeded.")
@@ -95,12 +95,12 @@ function Check-SubscriptionMatch
 ##########################
 #
 #  Find a subscription in a list of expected subscriptions
-#    param $input: A list of WindowsAzureSubscription
+#    param $input: A list of subscriptiondata
 ##########################
 function Find-Subscription
 {
-    param( [Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureSubscription] $subscription, [array] $subscriptions)
-    $subscriptions | Where-Object {$_.Name -eq $subscription.Name}
+    param( [Microsoft.WindowsAzure.Commands.Utilities.Common.SubscriptionData] $subscription, [array] $subscriptions)
+    $subscriptions | Where-Object {$_.Name -eq $subscription.SubscriptionName}
 }
 ############################################
 #
@@ -126,8 +126,8 @@ function ImportAndVerify-PublishSettingsFile
 	$allSubscriptions | Format-Subscription | Write-Log
 	foreach ($subscription in $allSubscriptions)
 	{
-	    Write-Log ("[importandverify-publishsettingsfile]: Checking subscription '" + $subscription.Name + "'")
-		Assert-True {(Find-Subscription $subscription $subscriptions) -ne $nul} ("[importandverify-publishsettings]: Could not find subscription '" + $subscription.Name + "'")
+	    Write-Log ("[importandverify-publishsettingsfile]: Checking subscription '" + $subscription.SubscriptionName + "'")
+		Assert-True {(Find-Subscription $subscription $subscriptions) -ne $nul} ("[importandverify-publishsettings]: Could not find subscription '" + $subscription.SubscriptionName + "'")
 	}
 	
 	Write-Log "[importandverify-publishsettingsfile]: Checking each subscription individually."

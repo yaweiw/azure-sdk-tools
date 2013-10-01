@@ -102,12 +102,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// Sets the current subscription to the passed subscription name. If null, no changes.
         /// </summary>
-        /// <param name="Name">The subscription name</param>
-        public void SetCurrentSubscription(string Name)
+        /// <param name="subscriptionName">The subscription name</param>
+        public void SetCurrentSubscription(string subscriptionName)
         {
-            if (!string.IsNullOrEmpty(Name))
+            if (!string.IsNullOrEmpty(subscriptionName))
             {
-                CurrentSubscription = Profile.Subscriptions.First(s => s.Name == Name);
+                CurrentSubscription = Profile.Subscriptions.First(s => s.SubscriptionName == subscriptionName);
             }
         }
 

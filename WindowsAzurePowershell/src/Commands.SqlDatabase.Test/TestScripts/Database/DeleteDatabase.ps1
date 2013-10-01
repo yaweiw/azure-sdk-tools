@@ -100,7 +100,7 @@ Try
 	{
 		# Drop Database
 		Drop-Databases $Context $Name
-		Remove-AzureSubscription $sub.Name -Force
+		Remove-AzureSubscription $sub.SubscriptionName -Force
 	}
 	
 	# Delete with Cert Auth With Server Name
@@ -117,7 +117,7 @@ Try
 	{
 		# Drop Database
 		Drop-Databases $Context $Name
-		Remove-AzureSubscription $sub.Name -Force
+		Remove-AzureSubscription $sub.SubscriptionName -Force
 	}
 	
 	  

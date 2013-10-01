@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Retrieves the default subscription", ParameterSetName = "Default")]
         public SwitchParameter Default { get; set; }
@@ -62,9 +62,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public void GetByName()
         {
             IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions;
-            if (!string.IsNullOrEmpty(Name))
+            if (!string.IsNullOrEmpty(SubscriptionName))
             {
-                subscriptions = subscriptions.Where(s => s.Name == Name);
+                subscriptions = subscriptions.Where(s => s.SubscriptionName == SubscriptionName);
             }
             WriteSubscriptions(subscriptions);
         }
@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                     ServiceAdminLiveEmailId = response.ServiceAdminLiveEmailId,
                     SubscriptionRealName = response.SubscriptionName,
                     SubscriptionStatus = response.SubscriptionStatus.ToString(),
-                    Name = subscription.Name,
+                    SubscriptionName = subscription.SubscriptionName,
                     SubscriptionId = subscription.SubscriptionId,
                     ServiceEndpoint = subscription.ServiceEndpoint,
                     SqlAzureServiceEndpoint = subscription.SqlAzureServiceEndpoint,
