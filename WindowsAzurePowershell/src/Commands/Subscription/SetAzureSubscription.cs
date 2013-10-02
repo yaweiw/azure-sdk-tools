@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         [Parameter(Mandatory = false, HelpMessage = "Current storage account name.", ParameterSetName = "CommonSettings")]
         [ValidateNotNullOrEmpty]
-        public string CurrentStorageAccount { get; set; }
+        public string CurrentStorageAccountName { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         /// </summary>
         internal void SetSubscriptionProcess()
         {
-            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription == null)
             {
                 CreateNewSubscription();
@@ -77,10 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             var subscription = new WindowsAzureSubscription
             {
-                Name = SubscriptionName,
+                SubscriptionName = SubscriptionName,
                 SubscriptionId = SubscriptionId,
                 Certificate = Certificate,
-                CurrentStorageAccountName = CurrentStorageAccount
+                CurrentStorageAccountName = CurrentStorageAccountName
             };
 
             if (string.IsNullOrEmpty(ServiceEndpoint))
@@ -112,9 +112,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 subscription.ServiceEndpoint = new Uri(ServiceEndpoint);
             }
 
-            if (CurrentStorageAccount != null)
+            if (CurrentStorageAccountName != null)
             {
-                subscription.CurrentStorageAccountName = CurrentStorageAccount;
+                subscription.CurrentStorageAccountName = CurrentStorageAccountName;
             }
 
             Profile.UpdateSubscription(subscription);

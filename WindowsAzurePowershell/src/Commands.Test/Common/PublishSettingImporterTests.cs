@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 var i = 0;
                 foreach (var expectedSub in expected.Descendants("Subscription"))
                 {
-                    Assert.AreEqual(expectedSub.Attribute("Name").Value, subscriptions[i].Name);
+                    Assert.AreEqual(expectedSub.Attribute("Name").Value, subscriptions[i].SubscriptionName);
                     Assert.AreEqual(ExpectedManagementCertificate(expected, expectedSub),
                         subscriptions[i].Certificate);
                     Assert.AreEqual(expectedSub.Attribute("Id").Value,
