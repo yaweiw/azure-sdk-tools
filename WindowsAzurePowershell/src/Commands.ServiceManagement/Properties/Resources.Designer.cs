@@ -250,7 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service..
+        ///   Looks up a localized string similar to CurrentStorageAccountName is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service..
         /// </summary>
         internal static string CurrentStorageAccountIsNotAccessible {
             get {
@@ -259,7 +259,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it..
+        ///   Looks up a localized string similar to CurrentStorageAccountName is not set. Use Set-AzureSubscription subname -CurrentStorageAccountName storageaccount to set it..
         /// </summary>
         internal static string CurrentStorageAccountIsNotSet {
             get {

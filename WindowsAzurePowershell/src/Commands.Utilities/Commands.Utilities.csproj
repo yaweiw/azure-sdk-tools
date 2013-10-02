@@ -156,7 +156,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Store">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>    <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
     </Reference>
@@ -290,7 +292,6 @@
     <Compile Include="Common\HttpRestMessageInspector.cs" />
     <Compile Include="Common\InnerDataServiceException.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
-    <Compile Include="Common\SubscriptionData.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
@@ -303,9 +304,6 @@
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
-    <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
-      <DependentUpon>SubscriptionsData.xsd</DependentUpon>
-    </Compile>
     <Compile Include="MediaServices\IMediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesUriElements.cs" />
@@ -732,9 +730,6 @@
     <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Common\XmlSchema\SubscriptionsData.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

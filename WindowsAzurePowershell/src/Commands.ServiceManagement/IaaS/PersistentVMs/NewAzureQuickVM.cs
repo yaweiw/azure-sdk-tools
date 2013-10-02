@@ -770,7 +770,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     DiskName = null,
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
-                    HostCaching = string.IsNullOrEmpty(HostCaching) ? Management.Compute.Models.VirtualHardDiskHostCaching.ReadWrite.ToString() : HostCaching
+                    //HostCaching = string.IsNullOrEmpty(HostCaching) ? Management.Compute.Models.VirtualHardDiskHostCaching.ReadWrite.ToString() : HostCaching
+                    HostCaching = HostCaching
                 }, new Management.Compute.Models.OSVirtualHardDisk())
             };
 
