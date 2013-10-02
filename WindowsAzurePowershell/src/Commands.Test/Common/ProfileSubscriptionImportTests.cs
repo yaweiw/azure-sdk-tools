@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
 
             foreach(var name in expected.Descendants("Subscription").Skip(1).Select(s => s.Attribute("Name").Value))
             {
-                Assert.IsTrue(profile.Subscriptions.Any(s => s.Name == name));
+                Assert.IsTrue(profile.Subscriptions.Any(s => s.SubscriptionName == name));
             }
 
             Uri expectedManagementUri =
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
 
             foreach (var name in expected.Descendants("Subscription").Select(s => s.Attribute("Name").Value))
             {
-                Assert.IsTrue(profile.Subscriptions.Any(s => s.Name == name));
+                Assert.IsTrue(profile.Subscriptions.Any(s => s.SubscriptionName == name));
             }
 
             foreach (var uri in

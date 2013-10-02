@@ -626,10 +626,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 Label = persistentVM.Label
             };
 
-            if (string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.HostCaching))
-            {
-                result.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadWrite;
-            }
+            //if (string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.HostCaching))
+            //{
+            //    result.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadWrite;
+            //}
 
             persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
             PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
