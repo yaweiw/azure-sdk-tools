@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     public class AddAzureVhdTest
     {
         private ServiceManagementCmdletTestHelper vmPowershellCmdlets;
-        private SubscriptionData defaultAzureSubscription;
+        private WindowsAzureSubscription defaultAzureSubscription;
         private StorageServiceKeyOperationContext storageAccountKey;
         //private string destination;
         //private string patchDestination;
@@ -65,14 +65,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
-            Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccountName);
+            Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccountName, storageAccountKey.StorageAccountName);
 
-            //destination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
-            //patchDestination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //destination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccountName, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //patchDestination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccountName, Utilities.GetUniqueShortName("PSTestAzureVhd"));
 
-            //destinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
-            //patchDestinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //destinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccountName, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //patchDestinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccountName, Utilities.GetUniqueShortName("PSTestAzureVhd"));
             //var destinationBlob = new CloudPageBlob(new Uri(destinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
             //var patchDestinationBlob = new CloudPageBlob(new Uri(patchDestinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
             //var policy = new SharedAccessBlobPolicy()
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             //patchDestinationSasUri += patchDestinationBlobToken;
 
 
-            blobUrlRoot = string.Format(@"http://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccount);
+            blobUrlRoot = string.Format(@"http://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccountName);
 
             perfFile = "perf.csv";
         }
@@ -1027,7 +1027,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Set the destination
             string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
-            string badUrlRoot = string.Format(@"badprotocolhttp://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccount);
+            string badUrlRoot = string.Format(@"badprotocolhttp://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccountName);
             string vhdDestUri = badUrlRoot + vhdBlobName;
 
             DateTime startTime = DateTime.Now;

@@ -54,18 +54,18 @@ namespace Microsoft.WindowsAzure.Commands.Store
         public override void ExecuteCmdlet()
         {
             if (ListAvailable.IsPresent)
-	        {
-		        ListAvailableAddOns();
-	        }
+            {
+                ListAvailableAddOns();
+            }
             else
-	        {
+            {
                 GetAddOn();
-	        }
+            }
         }
 
         private void GetAddOn()
         {
- 	        StoreClient = StoreClient ?? new StoreClient(
+            StoreClient = StoreClient ?? new StoreClient(
                 CurrentSubscription.SubscriptionId,
                 ServiceEndpoint,
                 CurrentSubscription.Certificate,
