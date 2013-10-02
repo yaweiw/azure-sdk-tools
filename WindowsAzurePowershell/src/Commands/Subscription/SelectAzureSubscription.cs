@@ -79,6 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public void SetCurrent()
         {
             Profile.CurrentSubscription = FindNamedSubscription();
+            WindowsAzureProfile.Instance = Profile;
         }
 
         public void SetDefault()
@@ -86,11 +87,16 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             var newDefault = FindNamedSubscription();
             newDefault.IsDefault = true;
             Profile.UpdateSubscription(newDefault);
+            if (!WindowsAzureProfile.Instance.CurrentSubscriptionIsSet)
+            {
+                WindowsAzureProfile.Instance = Profile;
+            }
         }
 
         public void ClearCurrent()
         {
-            Profile.CurrentSubscription = null;
+            WindowsAzureProfile.ResetInstance();
+            WindowsAzureProfile.Instance.CurrentSubscription = null;
         }
 
         public void ClearDefault()

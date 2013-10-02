@@ -204,6 +204,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set { currentSubscription = value; }
         }
 
+        public bool CurrentSubscriptionIsSet
+        {
+            get { return currentSubscription != null; }
+        }
+
         public WindowsAzureSubscription DefaultSubscription
         {
             get { return subscriptions.FirstOrDefault(s => s.IsDefault); }
