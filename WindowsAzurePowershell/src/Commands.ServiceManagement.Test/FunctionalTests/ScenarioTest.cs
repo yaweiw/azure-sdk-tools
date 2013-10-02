@@ -756,7 +756,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string deploymentName = "deployment1";
             string deploymentLabel = "label1";
             DeploymentInfoContext result;
-            string storage = defaultAzureSubscription.CurrentStorageAccount;
+            string storage = defaultAzureSubscription.CurrentStorageAccountName;
             XmlDocument daConfig = new XmlDocument();
             daConfig.Load(@".\da.xml");
 
@@ -814,7 +814,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string deploymentLabel = "label1";
             DeploymentInfoContext result;
 
-            string storage = defaultAzureSubscription.CurrentStorageAccount;
+            string storage = defaultAzureSubscription.CurrentStorageAccountName;
             XmlDocument daConfig = new XmlDocument();
             daConfig.Load(@".\da.xml");
 
