@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 // Verify site still exists
                 try
                 {
-                    return client.WebSites.Get(site.WebSpace, site.Name).ToSite();
+                    return client.WebSites.Get(site.WebSpace, site.Name, new WebSiteGetParameters()).ToSite();
                 }
                 catch
                 {
