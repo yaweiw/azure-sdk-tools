@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             var spaces = client.WebSpaces.List();
             foreach (var space in spaces.WebSpaces)
             {
-                var sites = client.WebSpaces.ListWebSites(space.Name);
+                var sites = client.WebSpaces.ListWebSites(space.Name, new WebSiteListParameters());
                 var site = sites.WebSites.FirstOrDefault(
                     ws => ws.Name.Equals(website, StringComparison.InvariantCultureIgnoreCase));
                 if (site != null)
