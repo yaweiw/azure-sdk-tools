@@ -872,7 +872,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
-                this.NewAzureVMProcess();
+                this.NewAzureVMProcessNewSM();
             }
             catch (Exception ex)
             {

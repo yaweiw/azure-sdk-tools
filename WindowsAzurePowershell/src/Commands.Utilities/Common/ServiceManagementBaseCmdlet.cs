@@ -349,7 +349,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             catch (CloudException ex)
             {
-                WriteExceptionDetails(ex);
+                if (ex.Response.StatusCode != System.Net.HttpStatusCode.Accepted)
+                {
+                    WriteExceptionDetails(ex);
+                }
+                else
+                {
+                    WriteWarning(ex.ToString());
+                }
             }
             catch (AggregateException ex)
             {

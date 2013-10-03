@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        protected void OnProcessRecordNewSM()
+        protected void GetAzureVMImageProcessNewSM()
         {
             ServiceManagementProfile.Initialize();
 
@@ -54,6 +54,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         }
 
         protected override void OnProcessRecord()
+        {
+            GetAzureVMImageProcessNewSM();
+        }
+
+        protected void GetAzureVMImageProcessOldSM()
         {
             Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
             {
