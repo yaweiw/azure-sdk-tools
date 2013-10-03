@@ -208,11 +208,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.StorageClient, storageName, Package, null)));
                 }
 
-                // TODO: 9/26/2013
-                // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/181
-                // Currently, DeploymentUpgradeMode doesn't have 'Simultaneous', so we default
-                // it to 'Auto'. Need to remove this default logic once the fix comes in.
-                DeploymentUpgradeMode upgradeMode = DeploymentUpgradeMode.Auto;
+                DeploymentUpgradeMode upgradeMode;
                 if (!Enum.TryParse<DeploymentUpgradeMode>(Mode, out upgradeMode))
                 {
                     upgradeMode = DeploymentUpgradeMode.Auto;
