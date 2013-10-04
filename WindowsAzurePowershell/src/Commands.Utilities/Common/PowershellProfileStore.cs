@@ -62,6 +62,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
+        /// Create a new instance of <see cref="PowershellProfileStore"/>
+        /// using the given path for the storage.
+        /// </summary>
+        /// <param name="settingsFilePath">Path to store / load information from.</param>
+        public PowershellProfileStore(string settingsFilePath)
+            : this(Path.GetDirectoryName(settingsFilePath), Path.GetFileName(settingsFilePath))
+        {
+            
+        }
+
+        /// <summary>
         /// Create an instance of <see cref="PowershellProfileStore"/>
         /// that uses the default powershell file and directory.
         /// </summary>
