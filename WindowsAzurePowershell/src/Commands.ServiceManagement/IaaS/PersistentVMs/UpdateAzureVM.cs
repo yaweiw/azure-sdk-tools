@@ -118,7 +118,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 //                RoleType = VM.RoleType
             };
             VM.DataVirtualHardDisks.ForEach(c => parameters.DataVirtualHardDisks.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk())));
-            VM.ConfigurationSets.ForEach(c => parameters.ConfigurationSets.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.ConfigurationSet())));
+            //VM.ConfigurationSets.ForEach(c => parameters.ConfigurationSets.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.ConfigurationSet())));
+            Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers.PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
 
             ExecuteClientActionNewSM(
                 parameters,
@@ -128,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         
         internal override void ExecuteCommand()
         {
-            this.ExecuteCommandNewSM();
+            this.ExecuteCommandOldSM();
         }
 
         internal void ExecuteCommandOldSM()
