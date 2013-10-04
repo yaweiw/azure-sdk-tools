@@ -43,21 +43,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
         {
             get
             {
-                if (string.IsNullOrEmpty(SubscriptionDataFile))
-                {
-                    loadedProfile = WindowsAzureProfile.DefaultInstance;
-                }
-                else
+                if (loadedProfile == null && !string.IsNullOrEmpty(SubscriptionDataFile))
                 {
                     loadedProfile = LoadSubscriptionDataFile();
                 }
-                return loadedProfile;
+                if (loadedProfile != null)
+                {
+                    return loadedProfile;
+                }
+                return base.Profile;
 
             }
             set
             {
-                loadedProfile = value;
+                base.Profile = value;
             }
+        }
+
+        public WindowsAzureProfile BaseProfile
+        {
+            get { return base.Profile; }
         }
 
         private WindowsAzureProfile LoadSubscriptionDataFile()
