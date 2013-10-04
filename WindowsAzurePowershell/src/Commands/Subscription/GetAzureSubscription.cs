@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using Management;
     using Utilities.Common;
     using Utilities.Properties;
+    using Utilities.Subscription;
 
     /// <summary>
     /// Implementation of the get-azuresubscription cmdlet that works against
@@ -28,8 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
     [OutputType(typeof(WindowsAzureSubscription))]
-    public class GetAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class GetAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public GetAzureSubscriptionCommand() : base(false)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
@@ -86,7 +91,13 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public void GetCurrent()
         {
-            if (Profile.CurrentSubscription == null)
+            //
+            // Explicitly ignore the SubscriptionDataFile property here,
+            // since current is strictly in-memory and we want the real
+            // current subscription.
+            //
+            var currentProfile = BaseProfile;
+            if (currentProfile.CurrentSubscription == null)
             {
                 WriteError(new ErrorRecord(
                     new InvalidOperationException(Resources.InvalidSelectedSubscription),
@@ -95,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
             else
             {
-                WriteSubscriptions(Profile.CurrentSubscription);
+                WriteSubscriptions(currentProfile.CurrentSubscription);
             }
         }
 
