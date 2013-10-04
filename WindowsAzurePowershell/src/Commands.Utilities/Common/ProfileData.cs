@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="inMemorySubscription">The subscription to serialize</param>
         public AzureSubscriptionData(WindowsAzureSubscription inMemorySubscription)
         {
-            Name = inMemorySubscription.Name;
+            Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
             IsDefault = inMemorySubscription.IsDefault;
@@ -144,7 +144,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             return new WindowsAzureSubscription
             {
-                Name = this.Name,
+                SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = new Uri(ManagementEndpoint),
                 IsDefault = this.IsDefault,

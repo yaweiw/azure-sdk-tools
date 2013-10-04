@@ -16,7 +16,7 @@
 .SYNOPSIS
 Sets 
 #>
-function Set-CurrentStorageAccount
+function Set-CurrentStorageAccountName
 {
-	Get-AzureSubscription -Default | Set-AzureSubscription -CurrentStorageAccount ""
+	Get-AzureSubscription -Default | Set-AzureSubscription -CurrentStorageAccountName ""
 }
