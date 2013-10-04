@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             const string expectedName = "testacc";
 
             clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(
-                Task.Factory.StartNew(() => new OperationResponse { StatusCode = HttpStatusCode.OK }));
+                Task.Factory.StartNew(() => new OperationResponse { StatusCode = HttpStatusCode.NoContent }));
 
             // Test
             RemoveAzureMediaServiceCommand command = new RemoveAzureMediaServiceCommand
@@ -45,9 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             command.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            OperationResponse response = (OperationResponse)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
-            Assert.IsNotNull(response);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            bool response = (bool)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.IsTrue(response);
         }
     }
 }
