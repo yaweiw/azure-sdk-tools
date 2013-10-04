@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             // since current is strictly in-memory and we want the real
             // current subscription.
             //
-            var currentProfile = WindowsAzureProfile.Instance;
+            var currentProfile = BaseProfile;
             if (currentProfile.CurrentSubscription == null)
             {
                 WriteError(new ErrorRecord(
