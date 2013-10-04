@@ -14,10 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Subscription
 {
+    using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-
+    using Utilities.Properties;
     /// <summary>
     /// Get publish profile
     /// </summary>
@@ -48,7 +50,14 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
             else
             {
-                environment = WindowsAzureProfile.Instance.Environments[Environment];
+                try
+                {
+                    environment = WindowsAzureProfile.Instance.Environments[Environment];
+                }
+                catch (KeyNotFoundException)
+                {
+                    throw new Exception(string.Format(Resources.EnvironmentNotFound, Environment));
+                }
             }
 
             string url = environment.PublishSettingsFileUrlWithRealm(Realm);
