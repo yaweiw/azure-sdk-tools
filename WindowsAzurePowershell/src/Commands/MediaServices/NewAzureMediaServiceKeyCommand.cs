@@ -11,6 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
     using Utilities.Properties;
@@ -42,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
         /// </summary>
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services key type <Primary|Secondary>.")]
         [ValidateNotNullOrEmpty]
-        public KeyType KeyType { get; set; }
+        public MediaServicesKeyType KeyType { get; set; }
 
         [Parameter(Position = 2, HelpMessage = "Do not confirm regeneration of the key.")]
         public SwitchParameter Force { get; set; }
@@ -56,18 +59,19 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
                           Resources.RegenerateKeyWhatIfMessage,
                           string.Empty,
                           () =>
-                              {
-                                  MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
+                          {
+                              MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-                                  bool result;
-                                  CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.RegenerateMediaServicesAccountAsync(Name, KeyType.ToString()).Result; });
+                              
+                              OperationResponse result =null;
+                              CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.RegenerateMediaServicesAccountAsync(Name, KeyType).Result; });
+                            
+                              MediaServiceAccountDetails account = null;
+                              CatchAggregatedExceptionFlattenAndRethrow(() => { account = new MediaServiceAccountDetails(MediaServicesClient.GetMediaServiceAsync(Name).Result); });
+                              string newKey = KeyType == MediaServicesKeyType.Primary ? account.AccountKeys.Primary : account.AccountKeys.Secondary;
 
-                                  MediaServiceAccountDetails account = null;
-                                  CatchAggregatedExceptionFlattenAndRethrow(() => { account = MediaServicesClient.GetMediaServiceAsync(Name).Result; });
-                                  string newKey = KeyType == KeyType.Primary ? account.AccountKeys.Primary : account.AccountKeys.Secondary;
-
-                                  WriteObject(newKey);
-                              });
+                              WriteObject(newKey);
+                          });
         }
     }
 }

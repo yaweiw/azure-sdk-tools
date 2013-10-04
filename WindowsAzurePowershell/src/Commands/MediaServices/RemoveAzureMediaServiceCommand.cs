@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     /// <summary>
     ///     Removes an Azure Media Services account.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureMediaServicesAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Remove, "AzureMediaServicesAccount", SupportsShouldProcess = true), OutputType(typeof(OperationResponse))]
     public class RemoveAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The media services account name.")]
@@ -39,15 +39,15 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
                           Resources.RemoveMediaAccountWhatIfMessage,
                           string.Empty,
                           () =>
-                              {
-                                  MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
+                          {
+                              MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-                                  bool result = false;
+                              OperationResponse result = null;
 
-                                  CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.DeleteAzureMediaServiceAccountAsync(Name).Result; });
+                              CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.DeleteAzureMediaServiceAccountAsync(Name).Result; });
 
-                                  WriteObject(result);
-                              });
+                              WriteObject(result);
+                          });
         }
     }
 }

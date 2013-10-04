@@ -26,6 +26,10 @@ using System.Xml.Serialization;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
 using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+using Microsoft.WindowsAzure.Management.MediaServices;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Microsoft.WindowsAzure.Management.Storage;
+using Microsoft.WindowsAzure.Management.Storage.Models;
 using Microsoft.WindowsAzure.ServiceManagement;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -38,21 +42,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
     public class MediaServicesClient : IMediaServicesClient
     {
         public const string MediaServiceVersion = "2013-03-01";
-        private readonly HttpClient _httpClient;
-        private readonly HttpClient _storageClient;
+        private readonly IStorageManagementClient _storageClient;
+        public IMediaServicesManagementClient _mediaServicesManagementClient;
 
         /// <summary>
         ///     Creates new MediaServicesClient.
         /// </summary>
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
-        public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger, HttpClient httpClient, HttpClient storageClient)
+        /// <param name="mediaServicesManagementClient"></param>
+        /// <param name="storageClient"></param>
+        public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger, IMediaServicesManagementClient mediaServicesManagementClient, IStorageManagementClient storageClient)
         {
             
-            Subscription = subscription;
             Logger = logger;
-            _httpClient = httpClient;
             _storageClient = storageClient;
+            _mediaServicesManagementClient = mediaServicesManagementClient;
+
         }
 
         /// <summary>
@@ -60,9 +66,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
-        public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger) : this(subscription, logger, CreateIMediaServicesHttpClient(subscription), CreateStorageServiceHttpClient(subscription))
+        public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger)
+            : this(subscription, logger, subscription.CreateClient<MediaServicesManagementClient>(), subscription.CreateClient<StorageManagementClient>())
         {
         }
+
+        
+
 
         /// <summary>
         ///     Gets or sets the subscription.
@@ -85,9 +95,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         ///     Gets the media service accounts async.
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<MediaServiceAccount>> GetMediaServiceAccountsAsync()
+        public Task<MediaServicesAccountListResponse> GetMediaServiceAccountsAsync()
         {
-            return _httpClient.GetAsync(MediaServicesUriElements.Accounts, Logger).ContinueWith(tr => ProcessJsonResponse<IEnumerable<MediaServiceAccount>>(tr));
+            return _mediaServicesManagementClient.Accounts.ListAsync();
         }
 
 
@@ -96,10 +106,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        public Task<StorageService> GetStorageServiceKeysAsync(string storageAccountName)
+        public Task<StorageAccountGetKeysResponse> GetStorageServiceKeysAsync(string storageAccountName)
         {
-            //Storage service returng xml as output format
-            return _storageClient.GetAsync(String.Format("{0}/keys", storageAccountName), Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
+            return _storageClient.StorageAccounts.GetKeysAsync(storageAccountName);
         }
 
         /// <summary>
@@ -107,9 +116,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        public Task<StorageService> GetStorageServicePropertiesAsync(string storageAccountName)
+        public Task<StorageServiceGetResponse> GetStorageServicePropertiesAsync(string storageAccountName)
         {
-            return _storageClient.GetAsync(storageAccountName, Logger).ContinueWith(tr => ProcessXmlResponse<StorageService>(tr));
+            return _storageClient.StorageAccounts.GetAsync(storageAccountName);
         }
 
         /// <summary>
@@ -117,9 +126,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public Task<MediaServiceAccountDetails> GetMediaServiceAsync(string name)
+        public Task<MediaServicesAccountGetResponse> GetMediaServiceAsync(string name)
         {
-            return _httpClient.GetAsync(String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name), Logger).ContinueWith(tr => ProcessJsonResponse<MediaServiceAccountDetails>(tr));
+            
+            return _mediaServicesManagementClient.Accounts.GetAsync(name);
         }
 
         /// <summary>
@@ -127,28 +137,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public Task<AccountCreationResult> CreateNewAzureMediaServiceAsync(AccountCreationRequest request)
+        public Task<MediaServicesAccountCreateResponse> CreateNewAzureMediaServiceAsync(MediaServicesAccountCreateParameters request)
         {
-            return _httpClient.PostAsJsonAsyncWithoutEnsureSuccessStatusCode(MediaServicesUriElements.Accounts, JObject.FromObject(request), Logger).ContinueWith(tr => ProcessJsonResponse<AccountCreationResult>(tr));
+            return _mediaServicesManagementClient.Accounts.CreateAsync(request);
         }
 
         /// <summary>
         ///     Deletes azure media service account async.
         /// </summary>
         /// <returns></returns>
-        public Task<bool> DeleteAzureMediaServiceAccountAsync(string name)
+        public Task<OperationResponse> DeleteAzureMediaServiceAccountAsync(string name)
         {
-            string url = String.Format("{0}/{1}", MediaServicesUriElements.Accounts, name);
-            return _httpClient.DeleteAsync(url).ContinueWith(tr => ProcessJsonResponse<bool>(tr));
+            return _mediaServicesManagementClient.Accounts.DeleteAsync(name);
         }
 
         /// <summary>
         ///     Deletes azure media service account async.
         /// </summary>
-        public Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType)
+        public Task<OperationResponse> RegenerateMediaServicesAccountAsync(string name, MediaServicesKeyType keyType)
         {
-            string url = String.Format("{0}/{1}/AccountKeys/{2}/Regenerate", MediaServicesUriElements.Accounts, name, keyType);
-            return _httpClient.PostAsync(url, null).ContinueWith(tr => ProcessJsonResponse<bool>(tr));
+            return _mediaServicesManagementClient.Accounts.RegenerateKeyAsync(name, keyType);
         }
 
         /// <summary>
@@ -242,45 +250,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
             return exception;
         }
 
-        /// <summary>
-        ///     Creates and initialise instance of HttpClient
-        /// </summary>
-        /// <returns></returns>
-        private static HttpClient CreateStorageServiceHttpClient(WindowsAzureSubscription subscription)
-        {
-            var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(subscription.Certificate);
-            var endpoint = new StringBuilder(General.EnsureTrailingSlash(subscription.ServiceEndpoint.ToString()));
-            endpoint.Append(subscription.SubscriptionId);
-
-            //Please note that / is nessesary here
-            endpoint.Append("/services/storageservices/");
-            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
-            client.DefaultRequestHeaders.Add(Constants.VersionHeaderName, MediaServiceVersion);
-            client.DefaultRequestHeaders.Accept.Clear();
-            //In version 2013-03-01 there is not support of json output in storage services REST api's
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            return client;
-        }
-
-        /// <summary>
-        ///     Creates and initialise instance of HttpClient
-        /// </summary>
-        /// <returns></returns>
-        private static HttpClient CreateIMediaServicesHttpClient(WindowsAzureSubscription subscription)
-        {
-            var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(subscription.Certificate);
-            var endpoint = new StringBuilder(General.EnsureTrailingSlash(subscription.ServiceEndpoint.ToString()));
-            endpoint.Append(subscription.SubscriptionId);
-
-            //Please note that / is nessesary here
-            endpoint.Append("/services/mediaservices/");
-            HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
-            client.DefaultRequestHeaders.Add(Constants.VersionHeaderName, MediaServiceVersion);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return client;
-        }
+     
     }
 }
