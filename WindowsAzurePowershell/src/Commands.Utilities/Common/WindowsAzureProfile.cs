@@ -44,9 +44,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             () => new WindowsAzureProfile(new PowershellProfileStore());
 
         // Singleton instance management
-        private static Lazy<WindowsAzureProfile> instance =
+        // The default profile
+        private static readonly Lazy<WindowsAzureProfile> defaultInstance =
             new Lazy<WindowsAzureProfile>(defaultCreator);
 
+        // The current profile
+        private static WindowsAzureProfile currentInstance;
 
         /// <summary>
         /// Create an instance of <see cref="WindowsAzureProfile"/> that
@@ -60,19 +63,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
+        /// The default profile - this always points to the default
+        /// configuration store.
+        /// </summary>
+        public static WindowsAzureProfile DefaultInstance
+        {
+            get { return defaultInstance.Value; }
+        }
+
+        /// <summary>
         /// The default instance shared across the process.
         /// </summary>
         public static WindowsAzureProfile Instance
         {
             get
             {
-                return instance.Value;
+                return currentInstance ?? DefaultInstance;
             }
 
-            set
-            {
-                instance = new Lazy<WindowsAzureProfile>(() => value);
-            }
+            set { currentInstance = value; }
         }
 
         /// <summary>
@@ -80,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         public static void ResetInstance()
         {
-            instance = new Lazy<WindowsAzureProfile>(defaultCreator);
+            currentInstance = null;
         }
 
         /// <summary>
@@ -195,6 +204,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set { currentSubscription = value; }
         }
 
+        public bool CurrentSubscriptionIsSet
+        {
+            get { return currentSubscription != null; }
+        }
+
         public WindowsAzureSubscription DefaultSubscription
         {
             get { return subscriptions.FirstOrDefault(s => s.IsDefault); }
@@ -203,10 +217,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public void AddSubscription(WindowsAzureSubscription s)
         {
             if (subscriptions.Contains(s) ||
-                subscriptions.Any(es => string.Compare(s.Name, s.Name, StringComparison.OrdinalIgnoreCase) == 0))
+                subscriptions.Any(es => string.Compare(es.SubscriptionName, s.SubscriptionName, StringComparison.OrdinalIgnoreCase) == 0))
             {
                 throw new ArgumentException(
-                    string.Format(Resources.SubscriptionAlreadyExists, s.Name));
+                    string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));
             }
 
             subscriptions.Add(s);
@@ -241,7 +255,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new ArgumentException(
                     string.Format(Resources.CannotUpdateUnknownSubscription, 
-                        s.Name, s.SubscriptionId));
+                        s.SubscriptionName, s.SubscriptionId));
             }
 
             if (s.IsDefault)
@@ -383,7 +397,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new ArgumentException(
                     string.Format(Resources.CannotUpdateUnknownSubscription, 
-                        s.Name,s.SubscriptionId));
+                        s.SubscriptionName,s.SubscriptionId));
             }
         }
     }

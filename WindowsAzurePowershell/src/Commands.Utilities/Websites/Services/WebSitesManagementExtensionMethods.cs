@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 NumberOfWorkers = getConfigResponse.NumberOfWorkers,
                 PhpVersion = getConfigResponse.PhpVersion,
                 PublishingPassword = getConfigResponse.PublishingPassword,
-                PublishingUserName = getConfigResponse.PublishingUsername,
+                PublishingUserName = getConfigResponse.PublishingUserName,
                 RequestTracingEnabled = getConfigResponse.RequestTracingEnabled,
                 RequestTracingExpirationTime = getConfigResponse.RequestTracingExpirationTime,
                 ScmType = getConfigResponse.ScmType,
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 RequestTracingEnabled = getConfigResponse.RequestTracingEnabled,
                 HttpLoggingEnabled = getConfigResponse.HttpLoggingEnabled,
                 DetailedErrorLoggingEnabled = getConfigResponse.DetailedErrorLoggingEnabled,
-                PublishingUsername = getConfigResponse.PublishingUsername,
+                PublishingUsername = getConfigResponse.PublishingUserName,
                 PublishingPassword = getConfigResponse.PublishingPassword,
                 AppSettings = getConfigResponse.AppSettings.Select(ToNameValuePair).ToList(),
                 Metadata = getConfigResponse.Metadata.Select(ToNameValuePair).ToList(),
@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 // Verify site still exists
                 try
                 {
-                    return client.WebSites.Get(site.WebSpace, site.Name).ToSite();
+                    return client.WebSites.Get(site.WebSpace, site.Name, new WebSiteGetParameters()).ToSite();
                 }
                 catch
                 {
@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             var spaces = client.WebSpaces.List();
             foreach (var space in spaces.WebSpaces)
             {
-                var sites = client.WebSpaces.ListWebsites(space.Name);
+                var sites = client.WebSpaces.ListWebSites(space.Name, new WebSiteListParameters());
                 var site = sites.WebSites.FirstOrDefault(
                     ws => ws.Name.Equals(website, StringComparison.InvariantCultureIgnoreCase));
                 if (site != null)

@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Properties {
         ///    &lt;Thumbprint&gt;12D09EC0008EEE10C1B80AB70B3739E6BC509BB3&lt;/Thumbprint&gt;
         ///    &lt;ServiceEndpoint&gt;0853C43B56C81CE8FC44C8ACDC8C54783C6080E2&lt;/ServiceEndpoint&gt;
         ///    &lt;SQLAzureServiceEndpoint&gt;0853C43B56C81CE8FC44C8ACDC8C54783C6080E2&lt;/SQLAzureServiceEndpoint&gt;
-        ///    &lt;CurrentStorageAccount&gt; [rest of string was truncated]&quot;;.
+        ///    &lt;CurrentStorageAccountName&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string subscriptions {
             get {
