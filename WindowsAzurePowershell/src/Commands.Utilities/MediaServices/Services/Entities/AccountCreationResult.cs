@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Runtime.Serialization;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Newtonsoft.Json;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
@@ -21,6 +22,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entit
     [JsonObject(Title = "AccountCreationResult")]
     public sealed class AccountCreationResult
     {
+
+        public AccountCreationResult(MediaServicesAccountCreateResponse response)
+        {
+            this.AccountId = response.AccountId;
+            this.Name = response.AccountName;
+            this.Subscription = response.SubscriptionId;
+        }
+
         /// <summary>
         ///     Gets or sets the account id.
         /// </summary>
