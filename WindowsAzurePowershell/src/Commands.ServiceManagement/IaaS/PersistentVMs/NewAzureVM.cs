@@ -513,8 +513,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     ExecuteClientActionNewSM(
                         parameters,
                         operationDescription,
-                        () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters),
-                        (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                        () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters));
 
                     if(this.WaitForBoot.IsPresent)
                     {
@@ -555,24 +554,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 var operationDescription = string.Format(Resources.AzureVMCommandCreateVM, CommandRuntime, persistentVMs[i].RoleName);
                 
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/115
-                //TOOD: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/118
                 var parameter = new VirtualMachineCreateParameters
                 {
                     AvailabilitySetName = persistentVMs[i].AvailabilitySetName,
-                    OSVirtualHardDisk = Mapper.Map(persistentVMs[i].OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
+                    OSVirtualHardDisk = persistentVMs[i].OSVirtualHardDisk,
                     RoleName = persistentVMs[i].RoleName,
-                    RoleSize = persistentVMs[i].RoleSize,
+                    RoleSize = persistentVMs[i].RoleSize
                 };
 
-                parameter.DataVirtualHardDisks.ForEach(c => persistentVMs[i].DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
-                parameter.ConfigurationSets.ForEach(c => persistentVMs[i].ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
+                persistentVMs[i].DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                persistentVMs[i].ConfigurationSets.ForEach(c => parameter.ConfigurationSets.Add(c));
 
                 ExecuteClientActionNewSM(
                     persistentVMs[i],
                     operationDescription,
-                    () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.DeploymentName, parameter),
-                    (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                    () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.DeploymentName ?? this.ServiceName, parameter));
             }
 
             if(this.WaitForBoot.IsPresent)

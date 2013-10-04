@@ -684,8 +684,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     ExecuteClientActionNewSM(
                         parameters,
                         operationDescription,
-                        () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters),
-                        (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                        () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters));
                         
                     if (WaitForBoot.IsPresent)
                     {
@@ -728,14 +727,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         RoleSize = vm.RoleSize,
                     };
 
-                    parameter.DataVirtualHardDisks.ForEach(c => vm.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
-                    parameter.ConfigurationSets.ForEach(c => vm.ConfigurationSets.Add(Mapper.Map(c, new Management.Compute.Models.ConfigurationSet())));
+                    vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                    vm.ConfigurationSets.ForEach(c => parameter.ConfigurationSets.Add(c));
 
                     ExecuteClientActionNewSM(
                         vm,
                         operationDescription,
-                        () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.ServiceName, parameter),
-                        (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                        () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.ServiceName, parameter));
 
                     if(WaitForBoot.IsPresent)
                     {
