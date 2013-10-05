@@ -140,7 +140,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             }
             foreach (var windowsConfig in configurationSets.OfType<WindowsProvisioningConfigurationSet>())
             {
-                result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig));
+                var newWinCfg = Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig);
+                if (windowsConfig.WinRM != null)
+                {
+                    newWinCfg.WindowsRemoteManagement = new WindowsRemoteManagementSettings();
+
+                    // AutoMapper doesn't work for WinRM.Listeners -> WindowsRemoteManagement.Listeners
+                    if (windowsConfig.WinRM.Listeners != null)
+                    {
+                        foreach (var s in windowsConfig.WinRM.Listeners)
+                        {
+                            newWinCfg.WindowsRemoteManagement.Listeners.Add(new WindowsRemoteManagementListener
+                            {
+                                ListenerType = (VirtualMachineWindowsRemoteManagementListenerType)Enum.Parse(typeof(VirtualMachineWindowsRemoteManagementListenerType), s.Protocol, true),
+                                CertificateThumbprint = s.CertificateThumbprint
+                            });
+                        }
+                    }
+                }
+                result.Add(newWinCfg);
             }
             foreach (var linuxConfig in configurationSets.OfType<LinuxProvisioningConfigurationSet>())
             {
