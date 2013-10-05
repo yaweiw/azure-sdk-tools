@@ -870,7 +870,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
-                this.NewAzureVMProcessNewSM();
+                //TODO: Issue of WinRM Listener Protocal Element
+                // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
+                //this.NewAzureVMProcessNewSM();
+                this.NewAzureVMProcess();
             }
             catch (Exception ex)
             {
