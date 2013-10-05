@@ -627,8 +627,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             //    result.OSVirtualHardDisk.HostCaching = VirtualHardDiskHostCaching.ReadWrite;
             //}
 
-            persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
-            PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
+            //persistentVM.DataVirtualHardDisks.ForEach(c => result.DataVirtualHardDisks.Add(Mapper.Map(c, new Management.Compute.Models.DataVirtualHardDisk())));
+            //PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
+
+            if (persistentVM.DataVirtualHardDisks != null)
+            {
+                persistentVM.DataVirtualHardDisks.ForEach(c => 
+                {
+                    var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
+                    // Modify the LUN, so that it won't show up in the request
+                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber == "0" ? null : dataDisk.LogicalUnitNumber;
+                    result.DataVirtualHardDisks.Add(dataDisk);
+                });
+            }
+
+            if (persistentVM.ConfigurationSets != null)
+            {
+                PersistentVMHelper.MapConfigurationSets(persistentVM.ConfigurationSets).ForEach(c => result.ConfigurationSets.Add(c));
+            }
 
             return result;
         }
@@ -640,8 +656,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
-                //this.NewAzureVMProcess();
-                this.NewAzureVMProcessNewSM();
+                this.NewAzureVMProcess();
+                //this.NewAzureVMProcessNewSM();
             }
             catch (Exception ex)
             {

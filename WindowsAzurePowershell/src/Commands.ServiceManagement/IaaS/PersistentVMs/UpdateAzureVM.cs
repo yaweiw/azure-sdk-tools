@@ -117,9 +117,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 RoleSize = roleSizeResult,
 //                RoleType = VM.RoleType
             };
-            VM.DataVirtualHardDisks.ForEach(c => parameters.DataVirtualHardDisks.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk())));
-            //VM.ConfigurationSets.ForEach(c => parameters.ConfigurationSets.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.ConfigurationSet())));
-            Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers.PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
+
+            if (VM.DataVirtualHardDisks != null)
+            {
+                VM.DataVirtualHardDisks.ForEach(c => parameters.DataVirtualHardDisks.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk())));
+            }
+
+            if (VM.ConfigurationSets != null)
+            {
+                //VM.ConfigurationSets.ForEach(c => parameters.ConfigurationSets.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.ConfigurationSet())));
+                Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers.PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
+            }
 
             ExecuteClientActionNewSM(
                 parameters,
