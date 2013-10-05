@@ -15,8 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
-    using System.Collections.Generic;
-    using IdentityModel.Clients.ActiveDirectory;
 
     /// <summary>
     /// Class storing the configuration information needed
@@ -49,16 +47,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         private static readonly Uri powershellRedirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
         private const string rdfeResourceUri = "https://management.core.windows.net/";
 
-        public static AdalConfiguration Create(WindowsAzureEnvironment environment)
+        public AdalConfiguration()
         {
-            return new AdalConfiguration()
-            {
-                AdEndpoint = environment.AdTenantUrl,
-                AdDomain = environment.CommonTenantId,
-                ClientId = powershellClientId,
-                ClientRedirectUri = powershellRedirectUri,
-                ResourceClientUri = rdfeResourceUri
-            };
+            
+        }
+
+        public AdalConfiguration(WindowsAzureEnvironment environment)
+        {
+            AdEndpoint = environment.AdTenantUrl;
+            AdDomain = environment.CommonTenantId;
+            ClientId = powershellClientId;
+            ClientRedirectUri = powershellRedirectUri;
+            ResourceClientUri = rdfeResourceUri;
         }
     }
 }
