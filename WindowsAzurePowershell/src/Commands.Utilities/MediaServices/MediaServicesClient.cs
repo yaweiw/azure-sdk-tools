@@ -48,11 +48,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// <summary>
         ///     Creates new MediaServicesClient.
         /// </summary>
-        /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
         /// <param name="mediaServicesManagementClient"></param>
         /// <param name="storageClient"></param>
-        public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger, IMediaServicesManagementClient mediaServicesManagementClient, IStorageManagementClient storageClient)
+        public MediaServicesClient(Action<string> logger, IMediaServicesManagementClient mediaServicesManagementClient, IStorageManagementClient storageClient)
         {
             
             Logger = logger;
@@ -67,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// <param name="subscription">The Windows Azure subscription data object</param>
         /// <param name="logger">The logger action</param>
         public MediaServicesClient(WindowsAzureSubscription subscription, Action<string> logger)
-            : this(subscription, logger, subscription.CreateClient<MediaServicesManagementClient>(), subscription.CreateClient<StorageManagementClient>())
+            : this(logger, subscription.CreateClient<MediaServicesManagementClient>(), subscription.CreateClient<StorageManagementClient>())
         {
         }
 
