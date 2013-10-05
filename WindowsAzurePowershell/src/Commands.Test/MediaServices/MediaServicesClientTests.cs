@@ -35,8 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             clientMock.Setup(m => m.Accounts).Returns(() => iAccountOperations.Object);
 
             StorageManagementClient storageClient = StorageClient.WithHandler(new FakeHttpMessageHandler());
-            MediaServicesClient target = new MediaServicesClient(GetWindowsAzureSubscription(),
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientMock.Object,
                 storageClient);
 
@@ -60,8 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            MediaServicesClient target = new MediaServicesClient(GetWindowsAzureSubscription(),
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientWithHandler,
                 StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
@@ -92,11 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             clientMock.Setup(m => m.Accounts).Returns(() => iAccountOperations.Object);
 
-            MediaServicesClient target = new MediaServicesClient(new WindowsAzureSubscription
-            {
-                SubscriptionId = SubscriptionId
-            },
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientMock.Object,
                 StorageClient);
 
@@ -129,8 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            MediaServicesClient target = new MediaServicesClient(GetWindowsAzureSubscription(),
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientWithHandler,
                 StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
@@ -170,8 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            MediaServicesClient target = new MediaServicesClient(GetWindowsAzureSubscription(),
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientWithHandler,
                 StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
@@ -200,9 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            MediaServicesClient target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = SubscriptionId },
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientWithHandler,
                 StorageClient);
 
@@ -237,9 +227,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             fakeHttpHandler.Send = request => response;
 
-            MediaServicesClient target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = SubscriptionId },
-                null,
+            MediaServicesClient target = new MediaServicesClient(null,
                 clientWithHandler,
                 StorageClient);
 
