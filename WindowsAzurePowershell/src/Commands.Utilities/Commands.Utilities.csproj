@@ -220,6 +220,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -268,6 +269,8 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\Authentication\AccessTokenCredential.cs" />
     <Compile Include="Common\Authentication\AdalConfiguration.cs" />
+    <Compile Include="Common\Authentication\AdalTokenProvider.cs" />
+    <Compile Include="Common\Authentication\ConsoleParentWindow.cs" />
     <Compile Include="Common\Authentication\IAccessToken.cs" />
     <Compile Include="Common\Authentication\ITokenProvider.cs" />
     <Compile Include="Common\Authentication\LoginType.cs" />

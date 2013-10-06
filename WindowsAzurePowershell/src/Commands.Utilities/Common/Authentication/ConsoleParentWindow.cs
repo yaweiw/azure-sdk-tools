@@ -15,10 +15,21 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
 
-    public interface IAccessToken
+    /// <summary>
+    /// An implementation of <see cref="IWin32Window"/> that gives the
+    /// windows handle for the current console window.
+    /// </summary>
+    public class ConsoleParentWindow : IWin32Window
     {
-        void AuthorizeRequest(Action<string, string> authTokenSetter);
-        LoginType LoginType { get; }
+        public IntPtr Handle { get { return NativeMethods.GetConsoleWindow(); } }
+
+        static class NativeMethods
+        {
+            [DllImport("kernel32.dll")]
+            internal static extern IntPtr GetConsoleWindow();
+        }
     }
 }
