@@ -47,8 +47,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             };
 
             Func<AuthenticationResult> acquireFunc = () => context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                config.ClientRedirectUri, PromptBehavior.Auto);
+                config.ClientRedirectUri, PromptBehavior.Always);
             return new AdalAccessToken(AcquireToken(acquireFunc), this);
+        }
+
+        private void Renew(AdalAccessToken token)
+        {
+            // TODO: Update the token. Need to update in place to preserve identity.
+            token.AuthResult = null;
         }
 
         private AuthenticationResult AcquireToken(Func<AuthenticationResult> acquireFunc)
@@ -84,25 +90,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         /// </summary>
         private class AdalAccessToken : IAccessToken
         {
-            private readonly AuthenticationResult authResult;
+            internal AuthenticationResult AuthResult;
             private readonly AdalTokenProvider tokenProvider;
 
             public AdalAccessToken(AuthenticationResult authResult, AdalTokenProvider tokenProvider)
             {
-                this.authResult = authResult;
+                this.AuthResult = authResult;
                 this.tokenProvider = tokenProvider;
             }
 
             public void AuthorizeRequest(Action<string, string> authTokenSetter)
             {
-                throw new NotImplementedException();
+                tokenProvider.Renew(this);
+                authTokenSetter(AuthResult.AccessTokenType, AuthResult.AccessToken);
             }
+
+            public string UserId { get { return AuthResult.UserInfo.UserId; } }
 
             public LoginType LoginType
             {
                 get
                 {
-                    if (authResult.UserInfo.IdentityProvider != null)
+                    if (AuthResult.UserInfo.IdentityProvider != null)
                     {
                         return LoginType.LiveId;
                     }

@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     public interface IAccessToken
     {
         void AuthorizeRequest(Action<string, string> authTokenSetter);
+
+        string UserId { get; }
         LoginType LoginType { get; }
     }
 }
