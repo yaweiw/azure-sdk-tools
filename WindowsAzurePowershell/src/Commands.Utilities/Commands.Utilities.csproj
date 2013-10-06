@@ -163,6 +163,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Store">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
     </Reference>
@@ -301,7 +304,6 @@
     <Compile Include="Common\HttpRestMessageInspector.cs" />
     <Compile Include="Common\InnerDataServiceException.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
-    <Compile Include="Common\SubscriptionData.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
@@ -314,9 +316,6 @@
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
-    <Compile Include="Common\XmlSchema\SubscriptionsData.cs">
-      <DependentUpon>SubscriptionsData.xsd</DependentUpon>
-    </Compile>
     <Compile Include="MediaServices\IMediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesClient.cs" />
     <Compile Include="MediaServices\MediaServicesUriElements.cs" />
@@ -373,6 +372,7 @@
     <Compile Include="Subscription\ProviderRegistrationConstants.cs" />
     <Compile Include="Subscription\SubscriptionClient.cs" />
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
+    <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
     <Compile Include="Websites\Common\IGithubCmdlet.cs" />
     <Compile Include="Websites\Common\NewWebsitesBaseCmdlet.cs" />
@@ -743,9 +743,6 @@
     <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Common\XmlSchema\SubscriptionsData.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

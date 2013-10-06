@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 try
                 {
                     SubscriptionId =
-                        WindowsAzureProfile.Instance.Subscriptions.Where(s => s.Name == settings.Subscription)
+                        WindowsAzureProfile.Instance.Subscriptions.Where(s => s.SubscriptionName == settings.Subscription)
                             .Select(s => s.SubscriptionId)
                             .First();
                 }

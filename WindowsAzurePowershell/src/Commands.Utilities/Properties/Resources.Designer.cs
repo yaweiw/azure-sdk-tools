@@ -3398,6 +3398,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The subscription data file {0} does not exist..
+        /// </summary>
+        public static string SubscriptionDataFileNotFound {
+            get {
+                return ResourceManager.GetString("SubscriptionDataFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The provided subscription name doesn&apos;t exist in the imported publish profile. If subscriptions have changed for the hosted service, retrieve an updated profile by using Get-AzurePublishSettingsFile then import the profile using Import-AzurePublishSettingsFile.
         /// </summary>
         public static string SubscriptionIdNotFoundMessage {
