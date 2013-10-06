@@ -120,7 +120,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (VM.DataVirtualHardDisks != null)
             {
-                VM.DataVirtualHardDisks.ForEach(c => parameters.DataVirtualHardDisks.Add(Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk())));
+                VM.DataVirtualHardDisks.ForEach(c =>
+                {
+                    var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
+                    // Modify the LUN, so that it won't show up in the request
+                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber == "0" ? null : dataDisk.LogicalUnitNumber;
+                    parameters.DataVirtualHardDisks.Add(dataDisk);
+                });
             }
 
             if (VM.ConfigurationSets != null)
@@ -137,6 +143,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         
         internal override void ExecuteCommand()
         {
+            //TODO: Update-AzureVM Issue (maybe caused by the Lun value '0'
+            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/187
+            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/240
+            //this.ExecuteCommandNewSM();
             this.ExecuteCommandOldSM();
         }
 
