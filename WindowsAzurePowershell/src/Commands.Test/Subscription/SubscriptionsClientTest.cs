@@ -33,15 +33,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
     [TestClass]
     public class SubscriptionsClientTest
     {
-        private SubscriptionData subscriptionData;
+        private WindowsAzureSubscription windowsAzureSubscription;
 
         [TestInitialize]
         public void Setup()
         {
-            subscriptionData = new SubscriptionData
+            windowsAzureSubscription = new WindowsAzureSubscription
             {
                 SubscriptionId = "test-id",
-                ServiceEndpoint = "https://fake.endpoint.example"
+                ServiceEndpoint = new Uri("https://fake.endpoint.example")
             };
 
         }
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
                 new ProviderResource {Type = "Mobileservice", State = "Registered"}
                 ));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
             IEnumerable<ProviderResource> actualResourceTypes = client.ListResources(knownResourceTypes);
 
             CollectionAssert.AreEquivalent(knownResourceTypes, actualResourceTypes.Select(rt => rt.Type.ToLower()).ToList());
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.OK));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
             bool worked = client.RegisterResourceType("someResource");
 
             Assert.IsTrue(worked);
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.Conflict));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
             bool worked = client.RegisterResourceType("someResource");
 
             Assert.IsFalse(worked);
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.BadRequest));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
 
             try
             {
@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.OK));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
             bool worked = client.UnregisterResourceType("someResource");
 
             Assert.IsTrue(worked);
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.Conflict));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
             bool worked = client.UnregisterResourceType("someResource");
 
             Assert.IsFalse(worked);
@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         {
             var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.BadRequest));
 
-            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            ISubscriptionClient client = new SubscriptionClient(windowsAzureSubscription, mockHandler);
 
             try
             {

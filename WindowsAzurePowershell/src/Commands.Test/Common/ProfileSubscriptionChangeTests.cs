@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
         public void RemovingCurrentSubscriptionResetsCurrentToDefault()
         {
             var defaultSubscriptionId = profile.DefaultSubscription.SubscriptionId;
-            profile.CurrentSubscription = profile.Subscriptions.First(s => s.Name == Data.SampleSubscription1);
+            profile.CurrentSubscription = profile.Subscriptions.First(s => s.SubscriptionName == Data.SampleSubscription1);
             var deletedSubscriptionId = profile.CurrentSubscription.SubscriptionId;
             Assert.IsFalse(profile.CurrentSubscription.IsDefault);
 
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
         public void DeletingDefaultWhenCurrentIsDifferentDoesntChangeCurrent()
         {
             var oldDefault = profile.DefaultSubscription;
-            var current = profile.Subscriptions.First(s => s.Name == Data.SampleSubscription1);
+            var current = profile.Subscriptions.First(s => s.SubscriptionName == Data.SampleSubscription1);
             profile.CurrentSubscription = current;
 
             profile.RemoveSubscription(oldDefault);

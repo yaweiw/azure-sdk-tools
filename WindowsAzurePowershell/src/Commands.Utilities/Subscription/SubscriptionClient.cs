@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
     public class SubscriptionClient : ISubscriptionClient
     {
         private readonly HttpClient httpClient;
-        private readonly SubscriptionData subscription;
+        private readonly WindowsAzureSubscription subscription;
 
         private static readonly XNamespace azureNS = ManagementConstants.ServiceManagementNS;
 
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
         /// works against the given <paramref name="subscription"/>.
         /// </summary>
         /// <param name="subscription">The subscription to manipulate</param>
-        public SubscriptionClient(SubscriptionData subscription)
+        public SubscriptionClient(WindowsAzureSubscription subscription)
             : this(subscription, CreateDefaultFinalHandler(subscription))
         {
         }
@@ -56,11 +56,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
         /// </summary>
         /// <param name="subscription">Subscription to manipulate</param>
         /// <param name="finalHandler">HttpMessageHandler used to send the messages to the server.</param>
-        public SubscriptionClient(SubscriptionData subscription, HttpMessageHandler finalHandler)
+        public SubscriptionClient(WindowsAzureSubscription subscription, HttpMessageHandler finalHandler)
         {
             httpClient = CreateHttpClient(finalHandler);
             this.subscription = subscription;
-            httpClient.BaseAddress = new Uri(subscription.ServiceEndpoint);
+            httpClient.BaseAddress = subscription.ServiceEndpoint;
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
             return new HttpClient(handler);
         }
 
-        private static HttpMessageHandler CreateDefaultFinalHandler(SubscriptionData subscription)
+        private static HttpMessageHandler CreateDefaultFinalHandler(WindowsAzureSubscription subscription)
         {
             var handler = new WebRequestHandler();
             handler.ClientCertificates.Add(subscription.Certificate);

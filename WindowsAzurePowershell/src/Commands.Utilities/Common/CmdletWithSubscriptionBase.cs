@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private WindowsAzureProfile profile;
 
-        public WindowsAzureProfile Profile
+        public virtual WindowsAzureProfile Profile
         {
             get { return profile ?? WindowsAzureProfile.Instance; }
 

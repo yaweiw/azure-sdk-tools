@@ -100,7 +100,7 @@ namespace Commands.Storage.ScenarioTest
             ps.AddStatement();
             ps.AddCommand("Set-AzureSubscription");
             ps.BindParameter("SubscriptionName", subscriptionName);
-            ps.BindParameter("CurrentStorageAccount", storageAccountName);
+            ps.BindParameter("CurrentStorageAccountName", storageAccountName);
             Test.Info("set current storage account in subscription, Cmdline: {0}", GetCommandLine(ps));
             ps.Invoke();
 

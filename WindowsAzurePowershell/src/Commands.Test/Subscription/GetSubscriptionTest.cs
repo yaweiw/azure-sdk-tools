@@ -57,15 +57,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
         public void CanGetSubscriptionByName()
         {
             var expected = profile.CurrentSubscription;
-            cmdlet.SubscriptionName = expected.Name;
+            cmdlet.SubscriptionName = expected.SubscriptionName;
 
             cmdlet.GetByName();
 
             Assert.AreEqual(1, mockCommandRuntime.OutputPipeline.Count);
-            Assert.IsInstanceOfType(mockCommandRuntime.OutputPipeline[0], typeof (SubscriptionData));
-            Assert.AreEqual(expected.Name, ((SubscriptionData) mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
+            Assert.IsInstanceOfType(mockCommandRuntime.OutputPipeline[0], typeof (WindowsAzureSubscription));
+            Assert.AreEqual(expected.SubscriptionName, ((WindowsAzureSubscription) mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
             Assert.AreEqual(expected.SubscriptionId,
-                ((SubscriptionData) (mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
+                ((WindowsAzureSubscription) (mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
         }
 
         [TestMethod]
@@ -77,10 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
             cmdlet.GetCurrent();
 
             Assert.AreEqual(1, mockCommandRuntime.OutputPipeline.Count);
-            Assert.AreEqual(profile.CurrentSubscription.Name, 
-                ((SubscriptionData)mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
+            Assert.AreEqual(profile.CurrentSubscription.SubscriptionName, 
+                ((WindowsAzureSubscription)mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
             Assert.AreEqual(profile.CurrentSubscription.SubscriptionId,
-                ((SubscriptionData)(mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
+                ((WindowsAzureSubscription)(mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
         }
 
         [TestMethod]
@@ -92,10 +92,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Subscription
             cmdlet.GetDefault();
 
             Assert.AreEqual(1, mockCommandRuntime.OutputPipeline.Count);
-            Assert.AreEqual(profile.DefaultSubscription.Name,
-                ((SubscriptionData)mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
+            Assert.AreEqual(profile.DefaultSubscription.SubscriptionName,
+                ((WindowsAzureSubscription)mockCommandRuntime.OutputPipeline[0]).SubscriptionName);
             Assert.AreEqual(profile.DefaultSubscription.SubscriptionId,
-                ((SubscriptionData)(mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
+                ((WindowsAzureSubscription)(mockCommandRuntime.OutputPipeline[0])).SubscriptionId);
             
         }
     }

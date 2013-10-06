@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (!string.IsNullOrEmpty(subscriptionName))
             {
-                CurrentSubscription = Profile.Subscriptions.First(s => s.Name == subscriptionName);
+                CurrentSubscription = Profile.Subscriptions.First(s => s.SubscriptionName == subscriptionName);
             }
         }
 
