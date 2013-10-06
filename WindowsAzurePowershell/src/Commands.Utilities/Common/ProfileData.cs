@@ -131,6 +131,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
+            ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint.ToString();
+            ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             IsDefault = inMemorySubscription.IsDefault;
             ManagementCertificate = inMemorySubscription.Certificate.Thumbprint;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
@@ -147,6 +149,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = new Uri(ManagementEndpoint),
+                ActiveDirectoryEndpoint = new Uri(ActiveDirectoryEndpoint),
+                ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 IsDefault = this.IsDefault,
                 Certificate = WindowsAzureCertificate.FromThumbprint(ManagementCertificate),
                 CurrentStorageAccountName = CloudStorageAccount
@@ -161,6 +165,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string ManagementEndpoint { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryEndpoint { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryTenantId { get; set; }
 
         [DataMember]
         public bool IsDefault { get; set; }
