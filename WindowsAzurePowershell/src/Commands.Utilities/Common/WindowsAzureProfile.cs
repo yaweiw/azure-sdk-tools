@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Authentication;
     using Properties;
 
     /// <summary>
@@ -32,6 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Store - responsible for loading and saving a profile to a particular location
         private readonly IProfileStore profileStore;
 
+        // Token provider - talks to Active Directory to get access tokens
+        private readonly ITokenProvider tokenProvider;
+
         // Azure environments
         private readonly Dictionary<string, WindowsAzureEnvironment> environments = new Dictionary<string, WindowsAzureEnvironment>(
             WindowsAzureEnvironment.PublicEnvironments, StringComparer.OrdinalIgnoreCase);
@@ -41,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
-            () => new WindowsAzureProfile(new PowershellProfileStore());
+            () => new WindowsAzureProfile(new PowershellProfileStore(), new AdalTokenProvider());
 
         // Singleton instance management
         // The default profile
@@ -56,9 +60,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// stores data in the given store.
         /// </summary>
         /// <param name="profileStore">Data store to read and write from.</param>
-        public WindowsAzureProfile(IProfileStore profileStore)
+        /// <param name="tokenProvider">Token provider used to look up Active Directory tokens</param>
+        public WindowsAzureProfile(IProfileStore profileStore, ITokenProvider tokenProvider)
         {
             this.profileStore = profileStore;
+            this.tokenProvider = tokenProvider;
             Load();
         }
 

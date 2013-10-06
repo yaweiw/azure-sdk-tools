@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Authentication;
 
     /// <summary>
     /// This class provides the representation of
@@ -131,8 +132,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
-            ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint.ToString();
+            ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
+            ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
+            LoginType = inMemorySubscription.ActiveDirectoryLoginType.ToString();
             IsDefault = inMemorySubscription.IsDefault;
             ManagementCertificate = inMemorySubscription.Certificate.Thumbprint;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
@@ -149,8 +152,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = new Uri(ManagementEndpoint),
-                ActiveDirectoryEndpoint = new Uri(ActiveDirectoryEndpoint),
+                ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
+                ActiveDirectoryUserId = ActiveDirectoryUserId,
+                ActiveDirectoryLoginType = (LoginType)Enum.Parse(typeof(LoginType), LoginType),
                 IsDefault = this.IsDefault,
                 Certificate = WindowsAzureCertificate.FromThumbprint(ManagementCertificate),
                 CurrentStorageAccountName = CloudStorageAccount
@@ -171,6 +176,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string ActiveDirectoryTenantId { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryUserId { get; set; }
+
+        [DataMember]
+        public string LoginType { get; set; }
 
         [DataMember]
         public bool IsDefault { get; set; }

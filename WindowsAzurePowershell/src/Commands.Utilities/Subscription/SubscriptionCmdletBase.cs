@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
     using System.IO;
     using System.Management.Automation;
     using Common;
+    using Common.Authentication;
     using Properties;
 
     /// <summary>
@@ -72,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
             {
                 throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
             }
-            return new WindowsAzureProfile(new PowershellProfileStore(path));
+            return new WindowsAzureProfile(new PowershellProfileStore(path), new AdalTokenProvider());
         }
     }
 }

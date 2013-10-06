@@ -25,29 +25,45 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class AdalTokenProvider : ITokenProvider
     {
+        // ID for site to pass to enable EBD (email-based differentiation)
+        // This gets passed in the call to get the azure branding on the
+        // login window.
+        private const string ebdSiteId = "501385";
+
         // TODO: Add storage for token cache
-        private IWin32Window parentWindow;
+        private readonly IWin32Window parentWindow;
 
         public AdalTokenProvider()
+            : this(new ConsoleParentWindow())
         {
-            parentWindow = new ConsoleParentWindow();
         }
 
-        public IAccessToken GetToken(WindowsAzureEnvironment environment, string userId, LoginType loginType)
+        public AdalTokenProvider(IWin32Window parentWindow)
         {
-            throw new System.NotImplementedException();
+            this.parentWindow = parentWindow;
+        }
+
+        public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId, LoginType loginType)
+        {
+            var config = new AdalConfiguration(subscription);
+            var context = CreateContext(config);
+
+            Func<string, AuthenticationResult> acquireFunc = (string eqp) =>
+                context.AcquireToken(config.ResourceClientUri, config.ClientId, config.ClientRedirectUri,
+                    userId, eqp);
+
+            return new AdalAccessToken(AcquireToken(acquireFunc), this);
         }
 
         public IAccessToken GetNewToken(WindowsAzureEnvironment environment, LoginType loginType)
         {
             var config = new AdalConfiguration(environment);
-            var context = new AuthenticationContext(config.AdEndpoint + config., config.ValidateAuthority)
-            {
-                OwnerWindow = parentWindow
-            };
+            var context = CreateContext(config);
 
-            Func<AuthenticationResult> acquireFunc = () => context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                config.ClientRedirectUri, PromptBehavior.Always);
+            Func<string, AuthenticationResult> acquireFunc = (string eqp) => 
+                context.AcquireToken(config.ResourceClientUri, config.ClientId, 
+                    config.ClientRedirectUri, PromptBehavior.Always, eqp);
+
             return new AdalAccessToken(AcquireToken(acquireFunc), this);
         }
 
@@ -57,7 +73,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             token.AuthResult = null;
         }
 
-        private AuthenticationResult AcquireToken(Func<AuthenticationResult> acquireFunc)
+        private AuthenticationContext CreateContext(AdalConfiguration config)
+        {
+            return new AuthenticationContext(config.AdEndpoint + config.AdDomain, config.ValidateAuthority)
+            {
+                OwnerWindow = parentWindow
+            };
+        }
+
+        // We have to run this in a separate thread to guarantee that it's STA. This method
+        // handles the threading details.
+        private AuthenticationResult AcquireToken(Func<string, AuthenticationResult> acquireFunc)
         {
             AuthenticationResult result = null;
             Exception ex = null;
@@ -66,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             {
                 try
                 {
-                    result = acquireFunc();
+                    result = acquireFunc("siteid=" + ebdSiteId);
                 }
                 catch (Exception threadEx)
                 {
@@ -79,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             thread.Join();
             if (ex != null)
             {
-                throw new Exception("Could not acquire token", ex);
+                throw new Exception(string.Format("Could not acquire access token: {0}", ex.Message), ex);
             }
 
             return result;
@@ -119,6 +145,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 }
             }
         }
-
     }
 }

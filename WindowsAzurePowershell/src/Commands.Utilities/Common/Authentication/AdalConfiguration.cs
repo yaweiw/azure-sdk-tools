@@ -49,16 +49,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         public AdalConfiguration()
         {
-            
-        }
-
-        public AdalConfiguration(WindowsAzureEnvironment environment)
-        {
-            AdEndpoint = environment.AdTenantUrl;
-            AdDomain = environment.CommonTenantId;
             ClientId = powershellClientId;
             ClientRedirectUri = powershellRedirectUri;
             ResourceClientUri = rdfeResourceUri;
+        }
+
+        public AdalConfiguration(WindowsAzureEnvironment environment)
+            : this()
+        {
+            AdEndpoint = environment.AdTenantUrl;
+            AdDomain = environment.CommonTenantId;
+        }
+
+        public AdalConfiguration(WindowsAzureSubscription subscription)
+            : this()
+        {
+            AdEndpoint = subscription.ActiveDirectoryEndpoint;
+            AdDomain = subscription.ActiveDirectoryTenantId;
         }
     }
 }
