@@ -23,12 +23,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         /// <summary>
         /// Get a token for the given userID and login type.
         /// </summary>
-        /// <param name="environment">The environment to request a token for.</param>
+        /// <param name="subscription">The subscription to request a token for.</param>
         /// <param name="userId">ID of user to retrieve token for. If null,
         /// requests a whole new token, prompting user for credentials.</param>
         /// <param name="loginType">What kind of login user is doing.</param>
         /// <returns>An access token or null if authentication is canceled.</returns>
-        IAccessToken GetToken(WindowsAzureEnvironment environment, string userId, LoginType loginType);
+        IAccessToken GetToken(WindowsAzureSubscription subscription, string userId, LoginType loginType);
 
         /// <summary>
         /// Get a new login token, prompting user for credentials.
