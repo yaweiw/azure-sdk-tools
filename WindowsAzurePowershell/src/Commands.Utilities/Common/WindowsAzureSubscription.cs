@@ -33,6 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
         public Uri SqlAzureServiceEndpoint { get; set; }
+        public Uri ActiveDirectoryEndpoint { get; set; }
+        public string ActiveDirectoryTenantId { get; set; }
         public bool IsDefault { get; set; }
         public X509Certificate2 Certificate { get; set; }
 
