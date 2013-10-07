@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using System.Windows.Forms;
     using IdentityModel.Clients.ActiveDirectory;
@@ -77,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     var context = CreateContext(config);
                     if (string.IsNullOrEmpty(userId))
                     {
+                        ClearCookies();
                         result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
                             config.ClientRedirectUri, PromptBehavior.Always, AdalConfiguration.EnableEbdMagicCookie);
                     }
@@ -140,6 +142,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     return LoginType.OrgId;
                 }
             }
+        }
+
+        private const int INTERNET_OPTION_END_BROWSER_SESSION = 42;
+
+        private void ClearCookies()
+        {
+            NativeMethods.InternetSetOption(IntPtr.Zero, INTERNET_OPTION_END_BROWSER_SESSION, IntPtr.Zero, 0);
+        }
+
+        private static class NativeMethods
+        {
+            [DllImport("wininet.dll", SetLastError = true)]
+            internal static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer,
+                int lpdwBufferLength);
         }
     }
 }
