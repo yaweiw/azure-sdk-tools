@@ -412,7 +412,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void SetSubscriptionData(ProfileData data)
         {
-            data.Subscriptions = Subscriptions.Select(s => new AzureSubscriptionData(s));
+            data.Subscriptions = Subscriptions.Select(s => new AzureSubscriptionData(s)).ToList();
         }
 
         private void LoadSubscriptionData(ProfileData data)
@@ -421,7 +421,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 foreach (var s in data.Subscriptions)
                 {
-                    subscriptions.Add(s.ToAzureSubscription());
+                    var newSub = s.ToAzureSubscription();
+                    newSub.TokenProvider = tokenProvider;
+                    subscriptions.Add(newSub);
                 }
             }
         }

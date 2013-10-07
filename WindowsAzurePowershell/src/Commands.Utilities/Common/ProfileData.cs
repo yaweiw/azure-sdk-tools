@@ -135,9 +135,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
-            LoginType = inMemorySubscription.ActiveDirectoryLoginType.ToString();
+            LoginType = inMemorySubscription.ActiveDirectoryLoginType.HasValue ? inMemorySubscription.ActiveDirectoryLoginType.ToString() : null;
             IsDefault = inMemorySubscription.IsDefault;
-            ManagementCertificate = inMemorySubscription.Certificate.Thumbprint;
+            ManagementCertificate = inMemorySubscription.Certificate != null ? inMemorySubscription.Certificate.Thumbprint : null;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
         }
 
@@ -155,9 +155,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 ActiveDirectoryUserId = ActiveDirectoryUserId,
-                ActiveDirectoryLoginType = (LoginType)Enum.Parse(typeof(LoginType), LoginType),
+                ActiveDirectoryLoginType = string.IsNullOrEmpty(LoginType) ? (LoginType?)null : (LoginType)Enum.Parse(typeof(LoginType), LoginType),
                 IsDefault = this.IsDefault,
-                Certificate = WindowsAzureCertificate.FromThumbprint(ManagementCertificate),
+                Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount
             };
         }

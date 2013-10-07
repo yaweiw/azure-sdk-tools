@@ -168,6 +168,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
         {
+            if (AdTenantUrl == null)
+            {
+                throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
+            }
+
             IAccessToken mainToken = tokenProvider.GetNewToken(this);
             var credentials = new TokenCloudCredentials(mainToken.AccessToken);
 
@@ -184,6 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ActiveDirectoryUserId = mainToken.UserId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
+                        ServiceEndpoint = new Uri(ServiceEndpoint),
                         TokenProvider = tokenProvider
                     };
 
