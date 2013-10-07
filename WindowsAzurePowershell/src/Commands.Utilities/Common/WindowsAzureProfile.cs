@@ -55,6 +55,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // The current profile
         private static WindowsAzureProfile currentInstance;
 
+        public WindowsAzureProfile(IProfileStore profileStore)
+            : this(profileStore, new AdalTokenProvider())
+        {
+            
+        }
+
         /// <summary>
         /// Create an instance of <see cref="WindowsAzureProfile"/> that
         /// stores data in the given store.
@@ -294,16 +300,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             foreach (var newSubscription in newSubscriptions)
             {
-                var existingSubscription =
-                    subscriptions.FirstOrDefault(s => s.SubscriptionId == newSubscription.SubscriptionId);
-                if (existingSubscription != null)
-                {
-                    UpdateExistingSubscription(existingSubscription, newSubscription);
-                }
-                else
-                {
-                    subscriptions.Add(newSubscription);
-                }
+                InternalAddSubscription(newSubscription);
             }
 
             if (DefaultSubscription == null && subscriptions.Count > 0)
@@ -313,6 +310,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             Save();
         }
+
+        /// <summary>
+        /// Log in to the given environment, and download and add subscriptions
+        /// for the given account in that environment.
+        /// </summary>
+        /// <param name="environment">environment that the subscription is in.</param>
+        public void AddAccounts(WindowsAzureEnvironment environment)
+        {
+            environment = environment ?? CurrentEnvironment;
+
+            var newSubscriptions = environment.AddAccount(tokenProvider).ToList();
+            foreach (var subscription in newSubscriptions)
+            {
+                InternalAddSubscription(subscription);
+            }
+            Save();
+        }
+
+        private void InternalAddSubscription(WindowsAzureSubscription newSubscription)
+        {
+            var existingSubscription =
+                subscriptions.FirstOrDefault(s => s.SubscriptionId == newSubscription.SubscriptionId);
+            if (existingSubscription != null)
+            {
+                UpdateExistingSubscription(existingSubscription, newSubscription);
+            }
+            else
+            {
+                subscriptions.Add(newSubscription);
+            }
+        }
+
 
         private void UpdateExistingSubscription(WindowsAzureSubscription existingSubscription,
             WindowsAzureSubscription newSubscription)
@@ -394,16 +423,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     subscriptions.Add(s.ToAzureSubscription());
                 }
-            }
-        }
-
-        private void GuardKnownSubscription(WindowsAzureSubscription s)
-        {
-            if (!subscriptions.Contains(s))
-            {
-                throw new ArgumentException(
-                    string.Format(Resources.CannotUpdateUnknownSubscription, 
-                        s.SubscriptionName,s.SubscriptionId));
             }
         }
     }
