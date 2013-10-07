@@ -43,24 +43,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             this.parentWindow = parentWindow;
         }
 
-        public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId, LoginType loginType)
+        public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId)
         {
             var config = new AdalConfiguration(subscription);
             var context = CreateContext(config);
 
-            Func<string, AuthenticationResult> acquireFunc = (string eqp) =>
+            Func<string, AuthenticationResult> acquireFunc = eqp =>
                 context.AcquireToken(config.ResourceClientUri, config.ClientId, config.ClientRedirectUri,
                     userId, eqp);
 
             return new AdalAccessToken(AcquireToken(acquireFunc), this);
         }
 
-        public IAccessToken GetNewToken(WindowsAzureEnvironment environment, LoginType loginType)
+        public IAccessToken GetNewToken(WindowsAzureEnvironment environment)
         {
             var config = new AdalConfiguration(environment);
             var context = CreateContext(config);
 
-            Func<string, AuthenticationResult> acquireFunc = (string eqp) => 
+            Func<string, AuthenticationResult> acquireFunc = eqp => 
                 context.AcquireToken(config.ResourceClientUri, config.ClientId, 
                     config.ClientRedirectUri, PromptBehavior.Always, eqp);
 
@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
             public AdalAccessToken(AuthenticationResult authResult, AdalTokenProvider tokenProvider)
             {
-                this.AuthResult = authResult;
+                AuthResult = authResult;
                 this.tokenProvider = tokenProvider;
             }
 
@@ -131,6 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 authTokenSetter(AuthResult.AccessTokenType, AuthResult.AccessToken);
             }
 
+            public string AccessToken { get { return AuthResult.AccessToken; } }
             public string UserId { get { return AuthResult.UserInfo.UserId; } }
 
             public LoginType LoginType
