@@ -792,7 +792,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
                     StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                    WinRM = GetWinRmConfiguration()
+                    // TODO: Issue 239
+                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
+                    //WinRM = GetWinRmConfiguration()
+                    WinRM = null
                 };
 
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
@@ -872,8 +875,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 base.ProcessRecord();
                 //TODO: Issue of WinRM Listener Protocal Element
                 // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
-                //this.NewAzureVMProcessNewSM();
-                this.NewAzureVMProcess();
+                this.NewAzureVMProcessNewSM();
+                //this.NewAzureVMProcess();
             }
             catch (Exception ex)
             {

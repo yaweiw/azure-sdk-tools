@@ -157,6 +157,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                             });
                         }
                     }
+
+                    // TODO: Issue 239
+                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
+                    newWinCfg.WindowsRemoteManagement = null;
                 }
                 result.Add(newWinCfg);
             }
