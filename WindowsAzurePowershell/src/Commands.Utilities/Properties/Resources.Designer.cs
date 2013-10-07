@@ -1098,6 +1098,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment {0} does not currently support Active Directory authentication..
+        /// </summary>
+        public static string EnvironmentDoesNotSupportActiveDirectory {
+            get {
+                return ResourceManager.GetString("EnvironmentDoesNotSupportActiveDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment &apos;{0}&apos; already exists..
         /// </summary>
         public static string EnvironmentExists {
