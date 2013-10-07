@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
-            () => new WindowsAzureProfile(new PowershellProfileStore(), new AdalTokenProvider());
+            () => new WindowsAzureProfile(new PowershellProfileStore());
 
         // Singleton instance management
         // The default profile

@@ -23,7 +23,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class AdalConfiguration
     {
+        //
+        // These constants define the default values to use for AD authentication
+        // against RDFE
+        //
+        private const string powershellClientId = "1950a258-227b-4e31-a9cf-717495945fc2";
+        private static readonly Uri powershellRedirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+        private const string rdfeResourceUri = "https://management.core.windows.net/";
+
+        // Adal uses this to turn on or off endpoint validation
         private const string publicAdEndpoint = "https://login.windows.net/";
+
+        // ID for site to pass to enable EBD (email-based differentiation)
+        // This gets passed in the call to get the azure branding on the
+        // login window.
+        internal const string EnableEbdMagicCookie = "site_id=501358";
+
         private string adEndpoint = publicAdEndpoint;
 
         public string AdEndpoint
@@ -32,20 +47,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             set { adEndpoint = value; }
         }
 
-        public bool ValidateAuthority { get { return adEndpoint == publicAdEndpoint; } }
+        public bool ValidateAuthority
+        {
+            get
+            {
+                return string.Compare(adEndpoint, publicAdEndpoint, StringComparison.OrdinalIgnoreCase) == 0;
+            }
+        }
 
         public string AdDomain { get; set; }
         public string ClientId { get; set; }
         public Uri ClientRedirectUri { get; set; }
         public string ResourceClientUri { get; set; }
 
-        //
-        // These constants define the default values to use for AD authentication
-        // against RDFE
-        //
-        private const string powershellClientId = "1950a258-227b-4e31-a9cf-717495945fc2";
-        private static readonly Uri powershellRedirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
-        private const string rdfeResourceUri = "https://management.core.windows.net/";
 
         public AdalConfiguration()
         {
