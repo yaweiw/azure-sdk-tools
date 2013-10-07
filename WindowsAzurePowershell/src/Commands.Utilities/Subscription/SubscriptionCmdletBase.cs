@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
             {
                 throw new Exception(string.Format(Resources.SubscriptionDataFileNotFound, SubscriptionDataFile));
             }
-            return new WindowsAzureProfile(new PowershellProfileStore(path), new AdalTokenProvider());
+            return new WindowsAzureProfile(new PowershellProfileStore(path));
         }
     }
 }

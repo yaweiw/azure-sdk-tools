@@ -25,11 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class AdalTokenProvider : ITokenProvider
     {
-        // ID for site to pass to enable EBD (email-based differentiation)
-        // This gets passed in the call to get the azure branding on the
-        // login window.
-        private const string ebdSiteId = "501385";
-
         // TODO: Add storage for token cache
         private readonly IWin32Window parentWindow;
 
@@ -83,12 +78,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     if (string.IsNullOrEmpty(userId))
                     {
                         result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                            config.ClientRedirectUri, "siteid=" + ebdSiteId);
+                            config.ClientRedirectUri, PromptBehavior.Always, AdalConfiguration.EnableEbdMagicCookie);
                     }
                     else
                     {
                         result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
-                            config.ClientRedirectUri, userId, "siteid=" + ebdSiteId);
+                            config.ClientRedirectUri, userId, AdalConfiguration.EnableEbdMagicCookie);
                     }
                 }
                 catch (Exception threadEx)
