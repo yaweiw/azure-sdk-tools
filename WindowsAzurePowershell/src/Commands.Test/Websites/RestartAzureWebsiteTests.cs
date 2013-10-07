@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test
             RestartAzureWebsiteCommand restartAzureWebsiteCommand = new RestartAzureWebsiteCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },

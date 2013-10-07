@@ -60,7 +60,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
@@ -94,7 +93,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
@@ -129,7 +127,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription
