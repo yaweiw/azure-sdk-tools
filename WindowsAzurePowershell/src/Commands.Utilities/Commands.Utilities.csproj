@@ -124,6 +124,14 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.1\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.1\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.ServiceBus.dll</HintPath>
@@ -195,6 +203,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -241,6 +250,13 @@
     <Compile Include="CloudService\Scaffolding\Scaffold.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldFile.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
+    <Compile Include="Common\Authentication\AccessTokenCredential.cs" />
+    <Compile Include="Common\Authentication\AdalConfiguration.cs" />
+    <Compile Include="Common\Authentication\AdalTokenProvider.cs" />
+    <Compile Include="Common\Authentication\ConsoleParentWindow.cs" />
+    <Compile Include="Common\Authentication\IAccessToken.cs" />
+    <Compile Include="Common\Authentication\ITokenProvider.cs" />
+    <Compile Include="Common\Authentication\LoginType.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
