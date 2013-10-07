@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Storage;
     using Helpers;
     using Properties;
-    // TODO: Wait for the fix for issue #193
+    // TODO: Wait for the fix for issue #193 #239
     using Microsoft.WindowsAzure.ServiceManagement;
     using System.ServiceModel;
     using System.Collections.Generic;
@@ -656,8 +656,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
-                this.NewAzureVMProcess();
-                //this.NewAzureVMProcessNewSM();
+                //this.NewAzureVMProcess();
+                this.NewAzureVMProcessNewSM();
             }
             catch (Exception ex)
             {
