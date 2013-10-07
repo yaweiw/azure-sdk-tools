@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
     using System.IO;
     using System.Management.Automation;
     using Common;
+    using Common.Authentication;
     using Properties;
 
     /// <summary>
