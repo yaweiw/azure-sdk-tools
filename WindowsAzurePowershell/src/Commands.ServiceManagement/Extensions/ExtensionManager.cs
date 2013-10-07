@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 ExtendedExtensionList = Cmdlet.ComputeClient.HostedServices.ListExtensions(ServiceName).Extensions;
             }
 
-            return ExtendedExtensionList == null || !ExtendedExtensionList.Any() ? null : ExtendedExtensionList.First(e => e.Id == extensionId);
+            return ExtendedExtensionList == null || !ExtendedExtensionList.Any(e => e.Id == extensionId) ? null : ExtendedExtensionList.First(e => e.Id == extensionId);
         }
 
         public void DeleteExtension(string extensionId)
