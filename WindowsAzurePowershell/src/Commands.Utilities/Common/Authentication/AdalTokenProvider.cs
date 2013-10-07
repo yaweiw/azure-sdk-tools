@@ -46,31 +46,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId)
         {
             var config = new AdalConfiguration(subscription);
-            var context = CreateContext(config);
-
-            Func<string, AuthenticationResult> acquireFunc = eqp =>
-                context.AcquireToken(config.ResourceClientUri, config.ClientId, config.ClientRedirectUri,
-                    userId, eqp);
-
-            return new AdalAccessToken(AcquireToken(acquireFunc), this);
+            return new AdalAccessToken(AcquireToken(config, userId), this, config);
         }
 
         public IAccessToken GetNewToken(WindowsAzureEnvironment environment)
         {
             var config = new AdalConfiguration(environment);
-            var context = CreateContext(config);
-
-            Func<string, AuthenticationResult> acquireFunc = eqp => 
-                context.AcquireToken(config.ResourceClientUri, config.ClientId, 
-                    config.ClientRedirectUri, PromptBehavior.Always, eqp);
-
-            return new AdalAccessToken(AcquireToken(acquireFunc), this);
+            return new AdalAccessToken(AcquireToken(config), this, config);
         }
 
         private void Renew(AdalAccessToken token)
         {
-            // TODO: Update the token. Need to update in place to preserve identity.
-            token.AuthResult = null;
+            token.AuthResult = AcquireToken(token.Configuration, token.UserId);
         }
 
         private AuthenticationContext CreateContext(AdalConfiguration config)
@@ -83,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         // We have to run this in a separate thread to guarantee that it's STA. This method
         // handles the threading details.
-        private AuthenticationResult AcquireToken(Func<string, AuthenticationResult> acquireFunc)
+        private AuthenticationResult AcquireToken(AdalConfiguration config, string userId = null)
         {
             AuthenticationResult result = null;
             Exception ex = null;
@@ -92,7 +79,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             {
                 try
                 {
-                    result = acquireFunc("siteid=" + ebdSiteId);
+                    var context = CreateContext(config);
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
+                            config.ClientRedirectUri, "siteid=" + ebdSiteId);
+                    }
+                    else
+                    {
+                        result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
+                            config.ClientRedirectUri, userId, "siteid=" + ebdSiteId);
+                    }
                 }
                 catch (Exception threadEx)
                 {
@@ -101,6 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             });
 
             thread.SetApartmentState(ApartmentState.STA);
+            thread.Name = "AcquireTokenThread";
             thread.Start();
             thread.Join();
             if (ex != null)
@@ -116,13 +114,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         /// </summary>
         private class AdalAccessToken : IAccessToken
         {
+            internal AdalConfiguration Configuration;
             internal AuthenticationResult AuthResult;
             private readonly AdalTokenProvider tokenProvider;
 
-            public AdalAccessToken(AuthenticationResult authResult, AdalTokenProvider tokenProvider)
+            public AdalAccessToken(AuthenticationResult authResult, AdalTokenProvider tokenProvider, AdalConfiguration configuration)
             {
                 AuthResult = authResult;
                 this.tokenProvider = tokenProvider;
+                Configuration = configuration;
             }
 
             public void AuthorizeRequest(Action<string, string> authTokenSetter)
