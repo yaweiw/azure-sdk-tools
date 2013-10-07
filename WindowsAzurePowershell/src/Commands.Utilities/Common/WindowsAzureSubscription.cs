@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Access token / account name for Active Directory
         public string ActiveDirectoryUserId { get; set; }
         public LoginType? ActiveDirectoryLoginType { get; set; }
-        public ITokenProvider TokenProvider { get; set; }
+        internal ITokenProvider TokenProvider { get; set; }
 
         private IAccessToken accessToken;
         
