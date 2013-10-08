@@ -37,7 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test
             StopAzureWebsiteCommand stopAzureWebsiteCommand = new StopAzureWebsiteCommand()
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
