@@ -146,15 +146,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             }
         }
 
-        private const int INTERNET_OPTION_END_BROWSER_SESSION = 42;
 
         private void ClearCookies()
         {
-            NativeMethods.InternetSetOption(IntPtr.Zero, INTERNET_OPTION_END_BROWSER_SESSION, IntPtr.Zero, 0);
+            NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_END_BROWSER_SESSION, IntPtr.Zero, 0);
         }
 
         private static class NativeMethods
         {
+            internal const int INTERNET_OPTION_END_BROWSER_SESSION = 42;
+
             [DllImport("wininet.dll", SetLastError = true)]
             internal static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer,
                 int lpdwBufferLength);
