@@ -16,14 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using ResourceModel;
 
     public static class ServiceBusPowerShellUtility
     {
-        public static PSObject GetNamespacePSObject(AuthorizationRule rule)
+        public static PSObject GetNamespacePSObject(ExtendedAuthorizationRule rule)
         {
             return (null == rule? null : PowerShellUtility.ConstructPSObject(
-                typeof(AuthorizationRule).FullName,
+                typeof(ExtendedAuthorizationRule).FullName,
                 "Namespace", rule.Namespace,
                 "Name", rule.Name,
                 "ConnectionString", rule.ConnectionString,
@@ -31,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 "Rule", rule.Rule));
         }
 
-        public static PSObject GetEntityPSObject(AuthorizationRule rule)
+        public static PSObject GetEntityPSObject(ExtendedAuthorizationRule rule)
         {
             return (null == rule? null : new PSObject(rule));
         }

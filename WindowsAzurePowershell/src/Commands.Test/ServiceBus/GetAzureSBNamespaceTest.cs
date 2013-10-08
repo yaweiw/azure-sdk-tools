@@ -20,9 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
     using Utilities.Common;
-    using Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -12,29 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
-    using Utilities.Common;
+    using System;
 
-    /// <summary>
-    /// Base class for Websites Cmdlets that don't use WCF channel for service management
-    /// </summary>
-    public abstract class NewWebsitesBaseCmdlet : CmdletWithSubscriptionBase
+    public interface IAccessToken
     {
-        private IWebsitesClient websitesClient;
+        void AuthorizeRequest(Action<string, string> authTokenSetter);
 
-        public IWebsitesClient WebsitesClient
-        {
-            get
-            {
-                if (websitesClient == null)
-                {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return websitesClient;
-            }
-
-            set { websitesClient = value; }
-        }
+        string AccessToken { get; }
+        string UserId { get; }
+        LoginType LoginType { get; }
     }
 }

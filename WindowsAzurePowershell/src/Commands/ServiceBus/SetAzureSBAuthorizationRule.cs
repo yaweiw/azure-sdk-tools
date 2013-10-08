@@ -19,14 +19,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.Contract;
-    using Commands.Utilities.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Updates new service bus authorization rule.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(AuthorizationRule))]
-    public class SetAzureSBAuthorizationRuleCommand : CloudBaseCmdlet<IServiceBusManagement>
+    [Cmdlet(VerbsCommon.Set, "AzureSBAuthorizationRule"), OutputType(typeof(ExtendedAuthorizationRule))]
+    public class SetAzureSBAuthorizationRuleCommand : CmdletWithSubscriptionBase
     {
         public const string EntitySASParameterSet = "EntitySAS";
 
@@ -68,8 +66,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
 
         public override void ExecuteCmdlet()
         {
-            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription, WriteDebug);
-            AuthorizationRule rule = null;
+            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription);
+            ExtendedAuthorizationRule rule = null;
             PSObject output = null;
 
             switch (ParameterSetName)

@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation"), OutputType(typeof(ICollection<string>))]
-    public class GetAzureWebsiteLocationCommand : WebsiteClientBaseCmdlet
+    public class GetAzureWebsiteLocationCommand : WebsiteBaseCmdlet
     {
         public override void ExecuteCmdlet()
         {

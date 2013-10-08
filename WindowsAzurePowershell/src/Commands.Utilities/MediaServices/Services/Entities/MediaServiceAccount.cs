@@ -11,6 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {
     using System;
@@ -21,6 +24,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entit
     [JsonObject(Title = "ServiceResource")]
     public class MediaServiceAccount
     {
+
+        public MediaServiceAccount(MediaServicesAccountListResponse.MediaServiceAccount response)
+        {
+            this.AccountId = Guid.Parse(response.AccountId);
+            this.Name = response.Name;
+            this.State = response.State;
+        }
+
         [DataMember(EmitDefaultValue = false, Order = 5)]
         public Guid AccountId { get; set; }
 
