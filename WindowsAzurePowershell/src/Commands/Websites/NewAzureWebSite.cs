@@ -91,6 +91,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
+        public bool ShareChannel { get; set; }
+
         public IGithubServiceManagement GithubChannel { get; set; }
 
         /// <summary>
