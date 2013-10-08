@@ -125,19 +125,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             }
 
             return storageCredentialsFactory;
-
-            /*StorageCredentialsFactory storageCredentialsFactory;
-            if (StorageCredentialsFactory.IsChannelRequired(Destination))
-            {
-                storageCredentialsFactory = new StorageCredentialsFactory(this.Channel, this.CurrentSubscription);
-            }
-            else
-            {
-                storageCredentialsFactory = new StorageCredentialsFactory();
-            }
-            return storageCredentialsFactory;*/
         }
 
+        // TODO: To remove this function which is not referenced anywhere.
         protected override void InitChannelCurrentSubscription(bool force)
         {
             if(StorageCredentialsFactory.IsChannelRequired(this.Destination))

@@ -15,11 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
-    using AutoMapper;
-    using Management.Compute.Models;
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -27,13 +22,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Serialization;
+    using AutoMapper;
+    using Management.Compute.Models;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
     using ConfigurationSet                    = Model.PersistentVMModel.ConfigurationSet;
     using DataVirtualHardDisk                 = Model.PersistentVMModel.DataVirtualHardDisk;
     using LinuxProvisioningConfigurationSet   = Model.PersistentVMModel.LinuxProvisioningConfigurationSet;
     using NetworkConfigurationSet             = Model.PersistentVMModel.NetworkConfigurationSet;
     using OSVirtualHardDisk                   = Model.PersistentVMModel.OSVirtualHardDisk;
-    using WindowsProvisioningConfigurationSet = Model.PersistentVMModel.WindowsProvisioningConfigurationSet;
     using RoleInstance                        = Management.Compute.Models.RoleInstance;
+    using WindowsProvisioningConfigurationSet = Model.PersistentVMModel.WindowsProvisioningConfigurationSet;
 
     public static class PersistentVMHelper
     {
@@ -143,6 +143,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                 var newWinCfg = Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig);
                 if (windowsConfig.WinRM != null)
                 {
+                    // TODO: Issue 239
+                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
                     newWinCfg.WindowsRemoteManagement = new WindowsRemoteManagementSettings();
 
                     // AutoMapper doesn't work for WinRM.Listeners -> WindowsRemoteManagement.Listeners
@@ -157,10 +159,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                             });
                         }
                     }
-
-                    // TODO: Issue 239
-                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
-                    newWinCfg.WindowsRemoteManagement = null;
                 }
                 result.Add(newWinCfg);
             }
