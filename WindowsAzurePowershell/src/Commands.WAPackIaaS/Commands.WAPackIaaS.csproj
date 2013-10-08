@@ -122,6 +122,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContract\proxy.cs" />
+    <Compile Include="Operations\CloudOperationsBase.cs" />
+    <Compile Include="Operations\HardwareProfileOperationsBase.cs" />
+    <Compile Include="Operations\OperationsBase.cs" />
+    <Compile Include="Operations\JobOperationsBase.cs" />
+    <Compile Include="Operations\VirtualHardDiskOperationsBase.cs" />
+    <Compile Include="Operations\VirtualMachineOperationsBase.cs" />
+    <Compile Include="Operations\VMNetworkOperationsBase.cs" />
+    <Compile Include="Operations\VMTemplateOperationsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
