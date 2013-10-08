@@ -272,11 +272,13 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\Authentication\AccessTokenCredential.cs" />
     <Compile Include="Common\Authentication\AdalConfiguration.cs" />
+    <Compile Include="Common\Authentication\AdalRegistryTokenCache.cs" />
     <Compile Include="Common\Authentication\AdalTokenProvider.cs" />
     <Compile Include="Common\Authentication\ConsoleParentWindow.cs" />
     <Compile Include="Common\Authentication\IAccessToken.cs" />
     <Compile Include="Common\Authentication\ITokenProvider.cs" />
     <Compile Include="Common\Authentication\LoginType.cs" />
+    <Compile Include="Common\Authentication\RegistryBackedDictionary.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
