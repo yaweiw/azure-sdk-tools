@@ -138,13 +138,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             {
                 fields[i] = fields[i].Replace("`:", ":");
                 fields[i] = fields[i].Replace("``", "`");
+                if (string.IsNullOrEmpty(fields[i]))
+                {
+                    fields[i] = null;
+                }
             }
 
             return new TokenCacheKey
             {
                 Authority = fields[0],
                 ClientId = fields[1],
-                ExpiresOn = DateTimeOffset.Parse(fields[2], CultureInfo.InvariantCulture),
+                ExpiresOn = DateTimeOffset.Parse(fields[2], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind),
                 FamilyName = fields[3],
                 GivenName = fields[4],
                 IdentityProviderName = fields[5],
@@ -161,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             string[] fields = new[] {
                 key.Authority,
                 key.ClientId,
-                key.ExpiresOn.ToString("zzz", CultureInfo.InvariantCulture),
+                key.ExpiresOn.ToString("o", CultureInfo.InvariantCulture),
                 key.FamilyName,
                 key.GivenName,
                 key.IdentityProviderName,
@@ -176,6 +180,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             // of \ because hey, powershell.
             for (int i = 0; i < fields.Length; ++i)
             {
+                if (fields[i] == null)
+                {
+                    fields[i] = string.Empty;
+                }
                 fields[i] = fields[i].Replace("`", "``");
                 fields[i] = fields[i].Replace(":", "`:");
             }
