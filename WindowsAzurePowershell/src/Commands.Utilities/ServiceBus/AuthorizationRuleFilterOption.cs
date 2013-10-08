@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus.ResourceModel
+namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
     using System.Collections.Generic;
     using Microsoft.ServiceBus.Messaging;
