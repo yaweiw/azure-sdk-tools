@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             processInfo.RedirectStandardOutput = true;
             processInfo.RedirectStandardError = true;
 
+           
             Process p = Process.Start(processInfo);
             p.WaitForExit();
             standardOutput = p.StandardOutput.ReadToEnd();
