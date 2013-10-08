@@ -44,7 +44,6 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get/Set database server service objective.
 * Service Bus
   * Manage service bus namespaces.
-  * Manage service bus authorization rules on namespace, queue, topic, relay and notification hub.
 * VM
   * Manage VM, such as CRUD, import/export and start/stop/restart.
   * Manage VM image, such as CRUD.
