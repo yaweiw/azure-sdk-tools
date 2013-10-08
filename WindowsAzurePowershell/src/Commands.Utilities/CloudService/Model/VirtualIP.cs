@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
 
         public VirtualIP(Management.Compute.Models.VirtualIPAddress vip)
         {
-            Address = vip.Address;
+            Address = IPAddress.Parse(vip.Address);
         }
 
         public IPAddress Address { get; set; }
