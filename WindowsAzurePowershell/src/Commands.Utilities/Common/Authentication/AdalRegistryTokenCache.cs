@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using IdentityModel.Clients.ActiveDirectory;
     using Win32;
@@ -133,61 +132,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         
         private TokenCacheKey CacheKeyFromString(string key)
         {
-            var fields = key.Split(new[] { "::" }, StringSplitOptions.None);
-            for (var i = 0; i < fields.Length; ++i)
-            {
-                fields[i] = fields[i].Replace("`:", ":");
-                fields[i] = fields[i].Replace("``", "`");
-                if (string.IsNullOrEmpty(fields[i]))
-                {
-                    fields[i] = null;
-                }
-            }
-
-            return new TokenCacheKey
-            {
-                Authority = fields[0],
-                ClientId = fields[1],
-                ExpiresOn = DateTimeOffset.Parse(fields[2], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind),
-                FamilyName = fields[3],
-                GivenName = fields[4],
-                IdentityProviderName = fields[5],
-                IsMultipleResourceRefreshToken = bool.Parse(fields[6]),
-                IsUserIdDisplayable = bool.Parse(fields[7]),
-                Resource = fields[8],
-                TenantId = fields[9],
-                UserId = fields[10]
-            };
+            return new CacheKeyStringifier().FromString(key);
         }
 
         private string StringFromCacheKey(TokenCacheKey key)
         {
-            string[] fields = new[] {
-                key.Authority,
-                key.ClientId,
-                key.ExpiresOn.ToString("o", CultureInfo.InvariantCulture),
-                key.FamilyName,
-                key.GivenName,
-                key.IdentityProviderName,
-                key.IsMultipleResourceRefreshToken.ToString(),
-                key.IsUserIdDisplayable.ToString(),
-                key.Resource,
-                key.TenantId,
-                key.UserId
-            };
-
-            // Escape our separator characters. Using ` instead
-            // of \ because hey, powershell.
-            for (int i = 0; i < fields.Length; ++i)
-            {
-                if (fields[i] == null)
-                {
-                    fields[i] = string.Empty;
-                }
-                fields[i] = fields[i].Replace("`", "``");
-                fields[i] = fields[i].Replace(":", "`:");
-            }
-            return string.Join("::", fields);
+            return new CacheKeyStringifier().ToString(key);
         }
 
         private KeyValuePair<string, string> ToRegistryItem(KeyValuePair<TokenCacheKey, string> item)
