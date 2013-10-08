@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         {
             foreach (var server in settings.DnsServers)
             {
-                DnsServers[server.Name] = server.Address;
+                DnsServers[server.Name] = IPAddress.Parse(server.Address);
             }
         }
 
