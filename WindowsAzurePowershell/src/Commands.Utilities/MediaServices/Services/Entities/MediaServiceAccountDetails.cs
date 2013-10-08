@@ -11,6 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {
 
@@ -21,11 +24,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entit
     [DataContract(Namespace = MediaServicesUriElements.AccountDetailsNamespace, Name = "AccountDetails")]
     public class MediaServiceAccountDetails
     {
+        public MediaServiceAccountDetails(MediaServicesAccountGetResponse response)
+        {
+            this.AccountKeys = response.StorageAccountKeys;
+            this.Location = response.AccountRegion;
+            this.StorageAccountName = response.StorageAccountName;
+            this.Name = response.AccountName;
+        }
         [DataMember]
         internal string AccountKey { get; set; }
 
         [DataMember]
-        internal AccountKeys AccountKeys { get; set; }
+        internal MediaServicesAccountGetResponse.AccountKeys AccountKeys { get; set; }
 
         [DataMember]
         [JsonProperty(PropertyName = "AccountName")]

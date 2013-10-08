@@ -43,7 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test
             ShowAzureWebsiteCommand showAzureWebsiteCommand = new ShowAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1",
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
