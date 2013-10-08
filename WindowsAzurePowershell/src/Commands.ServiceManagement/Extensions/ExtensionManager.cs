@@ -66,12 +66,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public void DeleteExtension(string extensionId)
         {
-            Cmdlet.ComputeClient.HostedServices.DeleteExtension(ServiceName, extensionId);
+            var operationResponse = Cmdlet.ComputeClient.HostedServices.DeleteExtension(ServiceName, extensionId);
+            Cmdlet.WaitForOperationSucceededStatus(operationResponse.RequestId);
         }
 
         public void AddExtension(HostedServiceAddExtensionParameters extensionInput)
         {
-            Cmdlet.ComputeClient.HostedServices.AddExtension(ServiceName, extensionInput);
+            var operationResponse = Cmdlet.ComputeClient.HostedServices.AddExtension(ServiceName, extensionInput);
+            Cmdlet.WaitForOperationSucceededStatus(operationResponse.RequestId);
         }
 
         public bool CheckNameSpaceType(HostedServiceListExtensionsResponse.Extension extension, string nameSpace, string type)
