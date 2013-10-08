@@ -363,10 +363,8 @@
     <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
     <Compile Include="Websites\Common\IGithubCmdlet.cs" />
-    <Compile Include="Websites\Common\NewWebsitesBaseCmdlet.cs" />
-    <Compile Include="Websites\Common\WebsiteClientBaseCmdlet.cs" />
+    <Compile Include="Websites\Common\WebsiteBaseCmdlet.cs" />
     <Compile Include="Websites\Common\WebsiteContextBaseCmdlet.cs" />
-    <Compile Include="Websites\Common\WebsitesBaseCmdlet.cs" />
     <Compile Include="Websites\IWebsitesClient.cs" />
     <Compile Include="Websites\KuduRemoteClientBase.cs" />
     <Compile Include="Websites\LogStreamWaitHandle.cs" />
