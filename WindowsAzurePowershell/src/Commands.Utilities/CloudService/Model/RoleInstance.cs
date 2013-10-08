@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             InstanceSize = roleInstance.InstanceSize.ToString();
             InstanceStateDetails = roleInstance.InstanceStateDetails;
             InstanceErrorCode = roleInstance.InstanceErrorCode;
-            IPAddress = roleInstance.IPAddress;
+            IPAddress = IPAddress.Parse(roleInstance.IPAddress);
             InstanceEndpoints = new List<InstanceEndpoint>(roleInstance.InstanceEndpoints.Select(ep => new InstanceEndpoint(ep)));
             PowerState = roleInstance.PowerState.ToString();
             HostName = roleInstance.HostName;
