@@ -149,6 +149,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
@@ -311,12 +314,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBus\Contract\Namespace.cs" />
-    <Compile Include="ServiceBus\ResourceModel\AuthorizationRuleFilterOption.cs" />
+    <Compile Include="ServiceBus\AuthorizationRule.cs" />
+    <Compile Include="ServiceBus\AuthorizationRuleFilterOption.cs" />
     <Compile Include="ServiceBus\ServiceBusPowerShellUtility.cs" />
-    <Compile Include="ServiceBus\ResourceModel\AuthorizationRule.cs" />
     <Compile Include="ServiceBus\ServiceBusClientExtensions.cs" />
-    <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
     <Compile Include="ServiceBus\ServiceBusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\MarketplaceServiceReference\Reference.cs">
@@ -324,7 +325,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBus\UriElement.cs" />
     <Compile Include="Store\AddOnSearchOptions.cs" />
     <Compile Include="Store\Constants.cs" />
     <Compile Include="Store\Contract\IStoreManagement.cs" />
