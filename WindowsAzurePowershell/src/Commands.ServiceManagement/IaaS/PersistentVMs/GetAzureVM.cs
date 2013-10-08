@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         Label = vm.Label,
                         InstanceSize = vm.RoleSize.ToString(),
                         InstanceStatus = roleInstance.InstanceStatus,
-                        IpAddress = roleInstance.IPAddress.ToString(),
+                        IpAddress = roleInstance.IPAddress,
                         InstanceStateDetails = roleInstance.InstanceStateDetails,
                         PowerState = roleInstance.PowerState.ToString(),
                         InstanceErrorCode = roleInstance.InstanceErrorCode,
