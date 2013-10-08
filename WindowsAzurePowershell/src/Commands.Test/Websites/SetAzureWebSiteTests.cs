@@ -68,7 +68,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
@@ -85,7 +84,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             updatedSiteConfig = false;
             setAzureWebsiteCommand = new SetAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
