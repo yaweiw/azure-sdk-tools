@@ -11,6 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
     using Utilities.Properties;
@@ -39,15 +42,15 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
                           Resources.RemoveMediaAccountWhatIfMessage,
                           string.Empty,
                           () =>
-                              {
-                                  MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
+                          {
+                              MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-                                  bool result = false;
+                              OperationResponse result = null;
 
-                                  CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.DeleteAzureMediaServiceAccountAsync(Name).Result; });
+                              CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.DeleteAzureMediaServiceAccountAsync(Name).Result; });
 
-                                  WriteObject(result);
-                              });
+                              WriteObject(result.StatusCode == HttpStatusCode.NoContent);
+                          });
         }
     }
 }
