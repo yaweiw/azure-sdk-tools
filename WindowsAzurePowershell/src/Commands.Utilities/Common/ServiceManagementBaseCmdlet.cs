@@ -353,7 +353,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     {
                         WriteWarning(ex.ToString());
                         string operationId = ex.Response.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                        var op = this.WaitForCloudExceptionAcceptedStatusOperation(operationId, operationDescription);
+                        var op = this.WaitForOperationSucceededStatus(operationId);
                     }
                 }
 
@@ -400,7 +400,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             this.ExecuteClientActionNewSM(input, operationDescription, action, waitOperation, (s, response) => this.ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
         }
 
-        protected OperationStatusResponse WaitForCloudExceptionAcceptedStatusOperation(string operationId, string opdesc)
+        public OperationStatusResponse WaitForOperationSucceededStatus(string operationId)
         {
             try
             {
