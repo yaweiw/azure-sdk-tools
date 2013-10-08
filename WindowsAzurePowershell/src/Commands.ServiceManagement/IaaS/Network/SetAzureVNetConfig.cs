@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             netParams.DnsServers.Add(
                                 new NetworkSetConfigurationParameters.DnsServer
                                 {
-                                    IPAddress = IPAddress.Parse(ds.IPAddress),
+                                    IPAddress = ds.IPAddress,
                                     Name = ds.name
                                 });
                         }
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             }
 
                             newItem.Name = lns.name;
-                            newItem.VpnGatewayAddress = IPAddress.Parse(lns.VPNGatewayAddress);
+                            newItem.VpnGatewayAddress = lns.VPNGatewayAddress;
                             netParams.LocalNetworkSites.Add(newItem);
                         }
                     }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             {
                                 foreach (var dsr in vns.DnsServersRef)
                                 {
-                                    newItem.DnsServersReference.Add(
+                                    newItem.DnsServerReferences.Add(
                                         new NetworkSetConfigurationParameters.DnsServerReference
                                         {
                                             Name = dsr.name
