@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public ExtensionManager(ServiceManagementBaseCmdlet cmdlet, string serviceName)
         {
-            if (cmdlet == null || cmdlet.Channel == null || cmdlet.CurrentSubscription == null)
+            if (cmdlet == null || cmdlet.CurrentSubscription == null)
             {
                 throw new ArgumentNullException("cmdlet");
             }

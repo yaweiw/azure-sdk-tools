@@ -201,12 +201,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     if (removePackage == true)
                     {
-                        this.RetryCall(s =>
-                        AzureBlob.DeletePackageFromBlob(
-                                this.Channel,
-                                storageName,
-                                s,
-                                packageUrl));
+                        this.RetryCall(s => AzureBlob.DeletePackageFromBlob(
+                            this.StorageClient,
+                            storageName,
+                            packageUrl));
                     }
                 }
                 catch (CloudException ex)

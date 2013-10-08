@@ -25,10 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Properties;
     using Utilities.Common;
-    // TODO: Wait for fix
-    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/191
-    using System.ServiceModel;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
     public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
@@ -41,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        public VirtualNetworkConfigContext GetVirtualNetworkConfigProcessNewSM()
+        public VirtualNetworkConfigContext GetVirtualNetworkConfigProcess()
         {
             this.ValidateParameters();
 
@@ -58,9 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                     if (netcfg != null)
                     {
-                        // TODO: might want to change this to an XML object of some kind...
-                        //var configReader = new StreamReader(netConfigStream);
-                        //var xml = configReader.ReadToEnd();
                         NetworkConfiguration netobj = new NetworkConfiguration();
                         int i = 0; 
                         if (netcfg.DnsServers.Count > 0)
@@ -178,59 +171,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             });
 
             return result;
-        }
-
-        public VirtualNetworkConfigContext GetVirtualNetworkConfigProcess()
-        {
-            this.ValidateParameters();
-
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                try
-                {
-                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigBeginOperation, CommandRuntime.ToString()));
-
-                    var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfiguration(s)) as Stream;
-                    Operation operation = GetOperation();
-
-                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
-
-                    if (netConfigStream != null)
-                    {
-                        // TODO: might want to change this to an XML object of some kind...
-                        var configReader = new StreamReader(netConfigStream);
-                        var xml = configReader.ReadToEnd();
-
-                        var networkConfig = new VirtualNetworkConfigContext
-                        {
-                            XMLConfiguration = xml,
-                            OperationId = operation.OperationTrackingId,
-                            OperationDescription = CommandRuntime.ToString(),
-                            OperationStatus = operation.Status
-                        };
-
-                        if (!string.IsNullOrEmpty(this.ExportToFile))
-                        {
-                            networkConfig.ExportToFile(this.ExportToFile);
-                        }
-
-                        return networkConfig;
-                    }
-                }
-                catch (ServiceManagementClientException ex)
-                {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        this.WriteExceptionError(ex);
-                    }
-                }
-
-                return null;
-            }
         }
 
         protected override void OnProcessRecord()
