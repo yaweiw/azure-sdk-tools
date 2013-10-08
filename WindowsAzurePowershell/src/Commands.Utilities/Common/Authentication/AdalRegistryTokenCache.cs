@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Linq;
     using IdentityModel.Clients.ActiveDirectory;
     using Win32;
+    using Properties;
 
     /// <summary>
     /// An implementation of the Adal token cache that stores the cache items
@@ -30,7 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     {
         private const string hivePath = "Software\\Microsoft\\WindowsAzurePowershell\\TokenCache";
         private readonly IDictionary<string, string> registry;
-
 
         public AdalRegistryTokenCache()
         {
@@ -70,11 +70,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             }
             if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException("arrayIndex", "less than zero");
+                throw new ArgumentOutOfRangeException("arrayIndex", Resources.DictionaryCopyToArrayIndexLessThanZero);
             }
             if (arrayIndex + Count > array.Length)
             {
-                throw new ArgumentException("No room");
+                throw new ArgumentException(Resources.DictionaryCopyToArrayTooShort);
             }
 
             int index = 0;

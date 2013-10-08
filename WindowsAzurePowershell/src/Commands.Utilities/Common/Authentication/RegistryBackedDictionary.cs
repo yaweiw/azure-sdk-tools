@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Collections.Generic;
     using System.Linq;
     using Win32;
+    using Properties;
 
     /// <summary>
     /// Class that implements <see cref="System.Collections.Generic.IDictionary{String,String}"/>
@@ -64,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 TryGetValue(key, out value);
                 return value;
             }
-            set { Add(new KeyValuePair<string, string>(key, value)); }
+            set { AddOrOverwrite(new KeyValuePair<string, string>(key, value)); }
         }
 
         public bool TryGetValue(string key, out string value)
@@ -125,12 +126,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             using (RegistryKey regKey = GetKey(false))
             {
                 var value = (string)regKey.GetValue(item.Key);
+                if (value == null) return false;
                 return string.Compare(item.Value, value, StringComparison.Ordinal) == 0;
             }
         }
 
         public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("arrayIndex", Resources.DictionaryCopyToArrayIndexLessThanZero);
+            }
+            if (arrayIndex + Count > array.Length)
+            {
+                throw new ArgumentException(Resources.DictionaryCopyToArrayTooShort);
+            }
+
             foreach (var kvp in this)
             {
                 array[arrayIndex++] = kvp;
@@ -149,6 +164,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         }
 
         public void Add(KeyValuePair<string, string> item)
+        {
+            if (ContainsKey(item.Key))
+            {
+                throw new ArgumentException(Resources.DictionaryAddAlreadyContainsKey);
+            }
+            AddOrOverwrite(item);
+        }
+
+        private void AddOrOverwrite(KeyValuePair<string, string> item)
         {
             using (RegistryKey regKey = GetKey(true))
             {
