@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         // Test cleanup settings
         protected const bool deleteDefaultStorageAccount = false; // Temporarily set to false
         protected bool cleanupIfPassed = true;
-        protected bool cleanupIfFailed = false;
+        protected bool cleanupIfFailed = true;
         protected const string vhdContainerName = "vhdstore";
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
