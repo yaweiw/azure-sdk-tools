@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Threading;
     using System.Windows.Forms;
@@ -26,17 +27,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class AdalTokenProvider : ITokenProvider
     {
-        // TODO: Add storage for token cache
+        private readonly IDictionary<TokenCacheKey, string> tokenCache;
         private readonly IWin32Window parentWindow;
 
         public AdalTokenProvider()
-            : this(new ConsoleParentWindow())
+            : this(new ConsoleParentWindow(), new AdalRegistryTokenCache())
         {
         }
 
-        public AdalTokenProvider(IWin32Window parentWindow)
+        public AdalTokenProvider(IWin32Window parentWindow, IDictionary<TokenCacheKey, string> tokenCache)
         {
             this.parentWindow = parentWindow;
+            this.tokenCache = tokenCache;
         }
 
         public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId)
@@ -58,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         private AuthenticationContext CreateContext(AdalConfiguration config)
         {
-            return new AuthenticationContext(config.AdEndpoint + config.AdDomain, config.ValidateAuthority)
+            return new AuthenticationContext(config.AdEndpoint + config.AdDomain, config.ValidateAuthority, tokenCache)
             {
                 OwnerWindow = parentWindow
             };
@@ -111,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         /// </summary>
         private class AdalAccessToken : IAccessToken
         {
-            internal AdalConfiguration Configuration;
+            internal readonly AdalConfiguration Configuration;
             internal AuthenticationResult AuthResult;
             private readonly AdalTokenProvider tokenProvider;
 
