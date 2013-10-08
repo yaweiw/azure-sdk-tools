@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                     {
                                         name = vns.Label
                                     },
-                                    DnsServersRef = vns.DnsServersReference == null ? null : (from dsr in vns.DnsServersReference
+                                    DnsServersRef = vns.DnsServerReferences == null ? null : (from dsr in vns.DnsServerReferences
                                                                                               select new DnsServerRef
                                                                                               {
                                                                                                   name = dsr.Name

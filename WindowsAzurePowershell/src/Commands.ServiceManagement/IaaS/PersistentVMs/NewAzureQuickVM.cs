@@ -676,7 +676,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                         foreach (var dns in this.DnsSettings)
                         {
-                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = IPAddress.Parse(dns.Address) });
+                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = dns.Address });
                         }
                     }
 
