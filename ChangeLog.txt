@@ -1,11 +1,3 @@
-2013.07.31 Version 0.6.18
-* Service Bus authorization rule cmdlets
-  * Add-AzureSBAuthorizationRule
-  * Get-AzureSBAuthorizationRule
-  * Set-AzureSBAuthorizationRule
-  * Remove-AzureSBAuthorizationRule
-* Some Windows Azure Pack fixes.
-
 2013.07.18 Version 0.6.17
 * Upgraded Windows Azure SDK dependency from 1.8 to 2.0.
 * SQL Azure databse CRUD cmdlets don't require SQL auth anymore if the user owns the belonging subscription.
