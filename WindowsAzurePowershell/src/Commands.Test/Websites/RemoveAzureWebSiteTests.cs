@@ -39,7 +39,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Test
             RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand
             {
-                ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 WebsitesClient = mockClient.Object,
                 Name = "website1",

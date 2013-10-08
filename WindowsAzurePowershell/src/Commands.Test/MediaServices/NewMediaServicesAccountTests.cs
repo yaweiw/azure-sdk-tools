@@ -12,14 +12,15 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.MediaServices;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
-using Microsoft.WindowsAzure.ServiceManagement;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Microsoft.WindowsAzure.Management.Storage.Models;
 using Moq;
+using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 {
@@ -30,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         public void NewMediaServiceAccountShouldPassWithValidParameters()
         {
             // Setup
-            var clientMock = new Mock<IMediaServicesClient>();
+            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
 
             const string storageAccountName = "teststorage";
             const string storageAccountKey = "key";
@@ -38,57 +39,47 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             const string region = "West US";
             const string blobStorageEndpointUri = "http://awesome.blob.core.windows.net/";
 
-            AccountCreationRequest request = new AccountCreationRequest()
+            MediaServicesAccountCreateParameters request = new MediaServicesAccountCreateParameters
             {
                 AccountName = accountName,
-                BlobStorageEndpointUri = blobStorageEndpointUri,
+                BlobStorageEndpointUri = new Uri(blobStorageEndpointUri),
                 Region = region,
                 StorageAccountKey = storageAccountKey,
                 StorageAccountName = storageAccountName
 
             };
 
-            clientMock.Setup(f => f.CreateNewAzureMediaServiceAsync(It.Is<AccountCreationRequest>(creationRequest => request.AccountName == accountName))).Returns(Task.Factory.StartNew(() =>
-            {
-                return new AccountCreationResult()
+            clientMock.Setup(f => f.CreateNewAzureMediaServiceAsync(It.Is<MediaServicesAccountCreateParameters>(creationRequest => request.AccountName == accountName))).Returns(
+                Task.Factory.StartNew(() => new MediaServicesAccountCreateResponse
                 {
                     AccountId = Guid.NewGuid().ToString(),
-                    Name = request.AccountName,
-                    Subscription = Guid.NewGuid().ToString()
-                };
-            }));
+                    AccountName = request.AccountName,
+                    SubscriptionId = Guid.NewGuid().ToString()
+                }));
 
 
-            clientMock.Setup(f => f.GetStorageServiceKeysAsync(storageAccountName)).Returns(Task.Factory.StartNew(() =>
+            clientMock.Setup(f => f.GetStorageServiceKeysAsync(storageAccountName)).Returns(
+                Task.Factory.StartNew(() => new StorageAccountGetKeysResponse
             {
-                return new StorageService()
-                {
-                    StorageServiceKeys = new StorageServiceKeys()
-                    {
-                        Primary = storageAccountKey,
-                        Secondary = storageAccountKey
+                PrimaryKey = storageAccountKey,
+                SecondaryKey = storageAccountKey
 
-                    }
-                };
+
             }));
 
 
             clientMock.Setup(f => f.GetStorageServicePropertiesAsync(storageAccountName)).Returns(Task.Factory.StartNew(() =>
             {
-                return new StorageService()
+                StorageServiceGetResponse response = new StorageServiceGetResponse
                 {
-                    StorageServiceProperties = new StorageServiceProperties()
-                    {
-                        Endpoints = new EndpointList()
-					{
-						blobStorageEndpointUri
-					}
-                    }
+                    Properties = new StorageServiceProperties()
                 };
+                response.Properties.Endpoints.Add(new Uri(blobStorageEndpointUri));
+                return response;
             }));
 
             // Test
-            var command = new NewAzureMediaServiceCommand()
+            NewAzureMediaServiceCommand command = new NewAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 Name = accountName,
@@ -99,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             command.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            var accountCreationResult = (AccountCreationResult)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AccountCreationResult accountCreationResult = (AccountCreationResult)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(accountCreationResult);
             Assert.AreEqual(accountName, accountCreationResult.Name);
         }
