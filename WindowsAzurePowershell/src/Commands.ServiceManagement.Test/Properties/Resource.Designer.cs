@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to \\watest\public\PSTest\oneGBFixedWS2008R2.vhd.
         /// </summary>
         internal static string Vhd {
             get {
