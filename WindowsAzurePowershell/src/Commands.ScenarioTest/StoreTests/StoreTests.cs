@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
     using Commands.Utilities.Store;
 
     [TestClass]
-    //[Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184
+    [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184
     public class StoreTests : WindowsAzurePowerShellTest
     {
         public static string StoreCredentialFile = "store.publishsettings";
