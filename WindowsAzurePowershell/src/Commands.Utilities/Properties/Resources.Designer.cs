@@ -70,6 +70,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account &quot;{0}&quot; has been added..
+        /// </summary>
+        public static string AddAccountAdded {
+            get {
+                return ResourceManager.GetString("AddAccountAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To switch to a different subscription, please use Select-AzureSubscription..
+        /// </summary>
+        public static string AddAccountChangeSubscription {
+            get {
+                return ResourceManager.GetString("AddAccountChangeSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription &quot;{0}&quot; is selected as the default subscription..
+        /// </summary>
+        public static string AddAccountShowDefaultSubscription {
+            get {
+                return ResourceManager.GetString("AddAccountShowDefaultSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To view all the subscriptions, please use Get-AzureSubscription..
+        /// </summary>
+        public static string AddAccountViewSubscriptions {
+            get {
+                return ResourceManager.GetString("AddAccountViewSubscriptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add-On {0} is created successfully..
         /// </summary>
         public static string AddOnCreatedMessage {

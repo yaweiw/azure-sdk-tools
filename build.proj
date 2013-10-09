@@ -187,18 +187,31 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
+    <CallTarget Targets="TestManagement; TestServiceManagement; TestSqlDatabase; TestStorage" />
+  </Target>
+
+  <Target Name="TestManagement">
     <Exec
       Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
       ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
-      ContinueOnError="false" />
+  </Target>
+
+  <Target Name="TestServiceManagement">
+    <Exec
+        Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
+        ContinueOnError="false" />
+  </Target>
+
+  <Target Name="TestSqlDatabase">
+    <Exec
+        Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+        ContinueOnError="false" />
+  </Target>
+
+  <Target Name="TestStorage">
+    <Exec
+        Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
+        ContinueOnError="false" />
   </Target>
 
   <!-- Run the scenario tests -->

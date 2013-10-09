@@ -316,16 +316,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// for the given account in that environment.
         /// </summary>
         /// <param name="environment">environment that the subscription is in.</param>
-        public void AddAccounts(WindowsAzureEnvironment environment)
+        public string AddAccounts(WindowsAzureEnvironment environment)
         {
             environment = environment ?? CurrentEnvironment;
 
             var newSubscriptions = environment.AddAccount(tokenProvider).ToList();
+            if (DefaultSubscription == null)
+            {
+                newSubscriptions[0].IsDefault = true;
+            }
+
             foreach (var subscription in newSubscriptions)
             {
                 InternalAddSubscription(subscription);
             }
             Save();
+
+            return newSubscriptions[0].ActiveDirectoryUserId;
         }
 
         private void InternalAddSubscription(WindowsAzureSubscription newSubscription)
