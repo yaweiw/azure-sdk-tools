@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -27,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         {
             Mock<MediaServicesManagementClient> clientMock = InitMediaManagementClientMock();
             Mock<IAccountOperations> iAccountOperations = new Mock<IAccountOperations>();
-            iAccountOperations.Setup(m => m.DeleteAsync(It.IsAny<string>())).Returns(() => Task.Factory.StartNew(() => new OperationResponse
+            iAccountOperations.Setup(m => m.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(() => Task.Factory.StartNew(() => new OperationResponse
             {
                 RequestId = "request",
                 StatusCode = HttpStatusCode.OK
@@ -82,11 +83,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         {
             Mock<MediaServicesManagementClient> clientMock = InitMediaManagementClientMock();
             Mock<IAccountOperations> iAccountOperations = new Mock<IAccountOperations>();
-            iAccountOperations.Setup(m => m.RegenerateKeyAsync(It.IsAny<string>(), It.IsAny<MediaServicesKeyType>())).Returns(() => Task.Factory.StartNew(() => new OperationResponse
-            {
-                RequestId = "request",
-                StatusCode = HttpStatusCode.OK
-            }));
+            iAccountOperations
+                .Setup(m => m.RegenerateKeyAsync(It.IsAny<string>(), It.IsAny<MediaServicesKeyType>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(
+                    () => new OperationResponse
+                    {
+                        RequestId = "request",
+                        StatusCode = HttpStatusCode.OK
+                    }));
 
             clientMock.Setup(m => m.Accounts).Returns(() => iAccountOperations.Object);
 

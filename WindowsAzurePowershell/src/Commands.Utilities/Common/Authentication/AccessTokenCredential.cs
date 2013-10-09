@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Threading;
+    using System.Threading.Tasks;
     using WindowsAzure.Common;
 
     public class AccessTokenCredential : SubscriptionCloudCredentials
@@ -28,18 +30,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             this.subscriptionId = subscriptionId;
             this.token = token;
         }
-
-        public override void InitializeServiceClient<T>(ServiceClient<T> client)
-        {
-            // Deliberately blank, nothing to do here but must supply implementation
-            // of abstract method.
-        }
-
-        public override void ProcessHttpRequest(HttpRequestMessage request)
+        
+        public override Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             token.AuthorizeRequest((tokenType, tokenValue) => {
                 request.Headers.Authorization = new AuthenticationHeaderValue(tokenType, tokenValue);
             });
+            return base.ProcessHttpRequestAsync(request, cancellationToken);
         }
 
         public override string SubscriptionId
