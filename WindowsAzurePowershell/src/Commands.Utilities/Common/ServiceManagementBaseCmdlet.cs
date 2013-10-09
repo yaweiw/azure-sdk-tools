@@ -345,14 +345,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 catch (CloudException ex)
                 {
                     // TODO: Handle 202 Status Code Return Correctly
-                    if (ex.Response.StatusCode != System.Net.HttpStatusCode.Accepted || !ex.Response.IsSuccessStatusCode)
+                    if (ex.Response.StatusCode != System.Net.HttpStatusCode.Accepted)
                     {
                         WriteExceptionDetails(ex);
                     }
                     else
                     {
                         WriteWarning(ex.ToString());
-                        string operationId = ex.Response.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                        string operationId = ex.Response.Headers["x-ms-request-id"].FirstOrDefault();
                         var op = this.WaitForOperationSucceededStatus(operationId);
                     }
                 }
