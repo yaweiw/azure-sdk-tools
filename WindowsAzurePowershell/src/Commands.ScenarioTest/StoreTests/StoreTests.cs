@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
     using Commands.Utilities.Store;
 
     [TestClass]
-    [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184
+    //[Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184
     public class StoreTests : WindowsAzurePowerShellTest
     {
         public static string StoreCredentialFile = "store.publishsettings";
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
             expectedPromptCaptions = new List<string>();
             defaultAnswer = PromptAnswer.Yes;
             powershell.ImportCredentials(StoreCredentialFile);
-            powershell.AddScript(string.Format("Set-AzureSubscription -Default {0}", StoreSubscriptionName));
+            powershell.AddScript(string.Format("Select-AzureSubscription -Default {0}", StoreSubscriptionName));
         }
 
         private void PromptSetup()
@@ -71,8 +71,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
             customHost.CustomUI.DefaultAnswer = defaultAnswer;
             powershell.Runspace = RunspaceFactory.CreateRunspace(customHost);
             powershell.Runspace.Open();
-            powershell.SetVariable(PromotionCodeVariable, credentials.PowerShellVariables[PromotionCodeVariable]);
-            powershell.SetVariable("freeAddOnIds", new string[] { "activecloudmonitoring", "sendgrid_azure" });
+            if (credentials.PowerShellVariables.ContainsKey(PromotionCodeVariable))
+            {
+                powershell.SetVariable(PromotionCodeVariable, credentials.PowerShellVariables[PromotionCodeVariable]);
+            }
+            powershell.SetVariable("freeAddOnIds", new string[] { "sendgrid_azure" });
         }
 
         #region Get-AzureStoreAddOn Scenario Tests
