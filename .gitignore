@@ -13,3 +13,7 @@ TestResults
 /Package
 /WindowsAzurePowershell/src/packages
 msbuild.log
+
+# app.config is not useful for PowerShell.
+# please do not commit any app.config files.
+app.config
