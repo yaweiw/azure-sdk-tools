@@ -137,7 +137,7 @@
     <comment>A blob Url for a publish settings file and a local vhd</comment>
   </data>
   <data name="Vhd" xml:space="preserve">
-    <value />
+    <value>\\watest\public\PSTest\oneGBFixedWS2008R2.vhd</value>
   </data>
   <data name="TestSettings" xml:space="preserve">
     <value>UseDefaults</value>
