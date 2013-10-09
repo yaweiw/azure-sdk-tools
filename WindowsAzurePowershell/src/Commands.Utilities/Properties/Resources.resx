@@ -1339,5 +1339,13 @@ Please follow these steps in the portal:
   </data>
   <data name="GatewayOperationStatus" xml:space="preserve">
     <value>Operation Status:</value>
+  </data>  <data name="DictionaryAddAlreadyContainsKey" xml:space="preserve">
+    <value>The key to add already exists in the dictionary.</value>
+  </data>
+  <data name="DictionaryCopyToArrayIndexLessThanZero" xml:space="preserve">
+    <value>The array index cannot be less than zero.</value>
+  </data>
+  <data name="DictionaryCopyToArrayTooShort" xml:space="preserve">
+    <value>The supplied array does not have enough room to contain the copied elements.</value>
   </data>
 </root>
