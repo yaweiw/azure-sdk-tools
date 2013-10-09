@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
     using Commands.Utilities.Store.ResourceModel;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
 
     [TestClass]
     public class RemoveAzureStoreAddOnTests : TestBase

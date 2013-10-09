@@ -22,12 +22,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
     using System.Text;
     using System.Threading;
     using Commands.Utilities.Common;
-    using Contract;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Compute;
+    using Microsoft.WindowsAzure.Management.Compute.Models;
+    using Microsoft.WindowsAzure.Management.Store;
+    using Microsoft.WindowsAzure.Management.Store.Models;
     using Microsoft.WindowsAzure.ServiceManagement;
-    using ResourceModel;
     using ServiceManagementConstants = Microsoft.WindowsAzure.ServiceManagement.Constants;
+    using CloudService = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
 
     public class StoreClient
     {
@@ -41,19 +45,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 
         private const string IfMatchHeader = "If-Match";
 
-        private IStoreManagement storeChannel;
+        private StoreManagementClient StoreBasicClient;
 
-        private IServiceManagement serviceManagementChannel;
+        internal ComputeManagementClient ComputeClient { get; set; }
 
         private string subscriptionId;
 
-        private HeadersInspector headersInspector;
-
         private List<CloudService> GetStoreCloudServices()
         {
-            CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
+            List<CloudService> cloudServices = new List<CloudService>(StoreBasicClient.CloudServices.List().CloudServices);
             List<CloudService> storeServices = cloudServices.FindAll(
                 c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
+
             return storeServices;
         }
 
@@ -98,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         private string CreateCloudServiceIfNotExists(string location)
         {
             string cloudServiceName = GetCloudServiceName(subscriptionId, location);
-            CloudService cloudService = new CloudService()
+            CloudServiceCreateParameters cloudService = new CloudServiceCreateParameters()
             {
                 Name = cloudServiceName,
                 Label = cloudServiceName,
@@ -107,8 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                storeChannel.CreateCloudService(subscriptionId, cloudServiceName, cloudService);
-                WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
+                StoreBasicClient.CloudServices.Create(cloudService);
             }
             catch (Exception)
             {
@@ -118,24 +120,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             return cloudServiceName;
         }
 
-        private void WaitForOperation(string operationId)
-        {
-            Operation operation = new Operation();
-            do
-            {
-                operation = serviceManagementChannel.GetOperationStatus(subscriptionId, operationId);
-                Thread.Sleep(SleepDuration);
-            }
-            while (operation.Status == OperationState.InProgress);
-
-            if (operation.Status == OperationState.Failed)
-            {
-                throw new Exception(string.Format(
-                    Resources.OperationFailedMessage,
-                    operation.Error.Message,
-                    operation.Error.Code));
-            }
-        }
 
         private bool IsDataService(string type)
         {
@@ -160,26 +144,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         /// <param name="cert">The authentication certificate</param>
         /// <param name="logger">The logger for http request/response</param>
         /// <param name="serviceManagementChannel">The service management channel</param>
-        public StoreClient(
-            string subscriptionId,
-            string storeEndpointUri,
-            X509Certificate2 cert,
-            Action<string> logger,
-            IServiceManagement serviceManagementChannel)
+        public StoreClient(WindowsAzureSubscription subscription)
         {
-            Validate.ValidateStringIsNullOrEmpty(storeEndpointUri, null, true);
-            Validate.ValidateStringIsNullOrEmpty(subscriptionId, null, true);
-            Validate.ValidateNullArgument(cert, Resources.NullCertificateMessage);
+            Validate.ValidateStringIsNullOrEmpty(subscription.SubscriptionId, null, true);
 
-            this.subscriptionId = subscriptionId;
-            headersInspector = new HeadersInspector();
-            storeChannel = ChannelHelper.CreateServiceManagementChannel<IStoreManagement>(
-                ConfigurationConstants.WebHttpBinding(0),
-                new Uri(storeEndpointUri),
-                cert,
-                new HttpRestMessageInspector(logger),
-                headersInspector);
-            this.serviceManagementChannel = serviceManagementChannel;
+            this.subscriptionId = subscription.SubscriptionId;
+            StoreBasicClient = subscription.CreateClient<StoreManagementClient>();
+            ComputeClient = subscription.CreateClient<ComputeManagementClient>();
             MarketplaceClient = new MarketplaceClient();
         }
 
@@ -200,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                     foreach (Resource resource in storeService.Resources)
                     {
                         if (General.TryEquals(searchOptions.Name, resource.Name) &&
-                            General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
+                            General.TryEquals(searchOptions.Provider, resource.Namespace))
                         {
                             addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion, storeService.Name));
                         }
@@ -230,15 +201,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             string addonId;
             addonId = GetResourceInformation(addon.AddOn, addon.Location, out type, out cloudService);
 
-            storeChannel.DeleteResource(
-                subscriptionId,
-                cloudService,
-                type,
-                addonId,
-                name
-            );
-
-            WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
+            StoreBasicClient.AddOns.Delete(cloudService, type, addonId, name);
         }
 
         public virtual void NewAddOn(
@@ -249,19 +212,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             string promotionCode)
         {
             string type;
-            string cloudService;
-            addon = GetResourceInformation(addon, location, out type, out cloudService);
+            string cloudServiceName;
+            addon = GetResourceInformation(addon, location, out type, out cloudServiceName);
 
-            Resource resource = new Resource()
+            AddOnCreateParameters parameters = new AddOnCreateParameters()
             {
                 Plan = plan,
                 Type = type,
                 PromotionCode = promotionCode
             };
-
             try
             {
-                storeChannel.CreateResource(subscriptionId, cloudService, type, addon, name, resource);
+                StoreBasicClient.AddOns.Create(cloudServiceName, type, addon, parameters);
             }
             catch (Exception ex)
             {
@@ -270,8 +232,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                     throw new Exception(Resources.FirstPurchaseMessage);
                 }
             }
-
-            WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
         }
 
         private string GetResourceInformation(string addon, string location, out string type, out string cloudService)
@@ -387,7 +347,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                 throw new Exception(Resources.PromotionCodeWithCurrentPlanMessage);
             }
 
-            headersInspector.RequestHeaders.Add(IfMatchHeader, addon.ETag);
+            // To Do: Make sure Update AddOn API uses the IfMatchHeader
 
             NewAddOn(name, addon.AddOn, plan, addon.Location, promotionCode);
         }
