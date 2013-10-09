@@ -30,8 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
-
     using PIRCmdletInfo;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public class ServiceManagementCmdletTestHelper
     {
