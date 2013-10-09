@@ -87,8 +87,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestInitialize]
         public void Initialize()
         {
-            vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
-            CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
+            vhdName = vhdNamePrefix;
+            //vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
+            //CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
             pass = false;
             testStartTime = DateTime.Now;
         }
