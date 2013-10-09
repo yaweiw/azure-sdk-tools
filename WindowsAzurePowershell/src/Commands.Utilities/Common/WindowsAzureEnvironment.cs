@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     {
                         ActiveDirectoryEndpoint = AdTenantUrl,
                         ActiveDirectoryLoginType = mainToken.LoginType,
-                        ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantID,
+                        ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantId,
                         ActiveDirectoryUserId = mainToken.UserId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,

@@ -20,12 +20,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Moq;
-
+    
     /// <summary>
     /// This class simulates querying and updating hosted services.
     /// </summary>
@@ -86,27 +87,30 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public void InitializeMocks(Mock<ComputeManagementClient> mock)
         {
-            mock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>()))
-                .Returns((string s) => CreateGetDetailedResponse(s));
+            mock.Setup(c => c.HostedServices.GetDetailedAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns((string s, CancellationToken cancellationToken) => CreateGetDetailedResponse(s));
 
-            mock.Setup(c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>()))
-                .Returns((string serviceName, DeploymentSlot slot) => CreateDeploymentGetResponse(serviceName, slot));
+            mock.Setup(c => c.Deployments.GetBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<CancellationToken>()))
+                .Returns((string serviceName, DeploymentSlot slot, CancellationToken cancellationToken) => CreateDeploymentGetResponse(serviceName, slot));
 
             mock.Setup(
                 c =>
-                c.Deployments.CreateAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(),
-                                          It.IsAny<DeploymentCreateParameters>()))
+                c.Deployments.CreateAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<DeploymentSlot>(),
+                    It.IsAny<DeploymentCreateParameters>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback(
-                    (string name, DeploymentSlot slot, DeploymentCreateParameters createParameters) =>
+                    (string name, DeploymentSlot slot, DeploymentCreateParameters createParameters, CancellationToken cancellationToken) =>
                     CreateDeployment(name, slot, createParameters))
                 .Returns(CreateDeploymentCreateResponse);
 
-            mock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>()))
+            mock.Setup(c => c.ServiceCertificates.ListAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .Returns(Tasks.FromResult<ServiceCertificateListResponse>(null));
 
             mock.Setup(c => c.Deployments.UpdateStatusByDeploymentSlotAsync(
-                It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<DeploymentUpdateStatusParameters>()))
-                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters p) =>
+                It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<DeploymentUpdateStatusParameters>(), It.IsAny<CancellationToken>()))
+                .Callback((string name, DeploymentSlot slot, DeploymentUpdateStatusParameters p, CancellationToken cancellationToken) =>
                 {
                     LastDeploymentStatusUpdate = p.Status;
                 })
@@ -138,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             }
             else
             {
-                resultTask = Tasks.FromException<HostedServiceGetDetailedResponse>(Make404Exception());
+                resultTask = Tasks.FromException<HostedServiceGetDetailedResponse>(ClientMocks.Make404Exception());
             }
             return resultTask;
         }
@@ -166,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         private Task<DeploymentGetResponse> CreateDeploymentGetResponse(string serviceName, DeploymentSlot slot)
         {
             var service = Services.FirstOrDefault(s => s.Name == serviceName);
-            var failedResponse = Tasks.FromException<DeploymentGetResponse>(Make404Exception());
+            var failedResponse = Tasks.FromException<DeploymentGetResponse>(ClientMocks.Make404Exception());
             if (service == null)
             {
                 return failedResponse;
@@ -222,11 +226,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             {
                 Status = OperationStatus.InProgress
             });
-        }
-
-        private CloudException Make404Exception()
-        {
-            return new CloudException("Not found", null, new HttpResponseMessage(HttpStatusCode.NotFound), "");
         }
     }
 }

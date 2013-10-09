@@ -30,9 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.UserAgent.Add(ApiConstants.UserAgentValue);
             request.Headers.Remove(ApiConstants.VSDebuggerCausalityDataHeaderName);
-
             return base.SendAsync(request, cancellationToken);
         }
     }
