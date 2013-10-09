@@ -1346,4 +1346,16 @@ Please follow these steps in the portal:
   <data name="DictionaryCopyToArrayTooShort" xml:space="preserve">
     <value>The supplied array does not have enough room to contain the copied elements.</value>
   </data>
+  <data name="AddAccountAdded" xml:space="preserve">
+    <value>Account "{0}" has been added.</value>
+  </data>
+  <data name="AddAccountChangeSubscription" xml:space="preserve">
+    <value>To switch to a different subscription, please use Select-AzureSubscription.</value>
+  </data>
+  <data name="AddAccountShowDefaultSubscription" xml:space="preserve">
+    <value>Subscription "{0}" is selected as the default subscription.</value>
+  </data>
+  <data name="AddAccountViewSubscriptions" xml:space="preserve">
+    <value>To view all the subscriptions, please use Get-AzureSubscription.</value>
+  </data>
 </root>
