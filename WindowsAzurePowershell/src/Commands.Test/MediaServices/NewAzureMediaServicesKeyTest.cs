@@ -11,12 +11,13 @@
 // ----------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.MediaServices;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices;
-using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Moq;
 
 namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
@@ -28,36 +29,37 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         public void RegenerateMediaServicesAccountTest()
         {
             // Setup
-            var clientMock = new Mock<IMediaServicesClient>();
+            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
 
-            string newKey = "newkey";
-            string expectedName = "testacc";
+            const string newKey = "newkey";
+            const string expectedName = "testacc";
 
-            clientMock.Setup(f => f.RegenerateMediaServicesAccountAsync(expectedName, "Primary")).Returns(Task.Factory.StartNew(() => true));
+            clientMock.Setup(f => f.RegenerateMediaServicesAccountAsync(expectedName, MediaServicesKeyType.Primary)).Returns(
+                Task.Factory.StartNew(() => new OperationResponse { StatusCode = HttpStatusCode.OK }));
 
-            var detail = new MediaServiceAccountDetails
+            MediaServicesAccountGetResponse detail = new MediaServicesAccountGetResponse
             {
-                Name = expectedName,
-                AccountKeys = new AccountKeys
+                AccountName = expectedName,
+                StorageAccountKeys = new MediaServicesAccountGetResponse.AccountKeys
                 {
                     Primary = newKey
                 }
             };
 
-            clientMock.Setup(f => f.GetMediaServiceAsync(expectedName)).Returns(Task.Factory.StartNew(() => { return detail; }));
+            clientMock.Setup(f => f.GetMediaServiceAsync(expectedName)).Returns(Task.Factory.StartNew(() => detail));
 
             // Test
-            var command = new NewAzureMediaServiceKeyCommand
+            NewAzureMediaServiceKeyCommand command = new NewAzureMediaServiceKeyCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 Name = expectedName,
-                KeyType = KeyType.Primary,
+                KeyType = MediaServicesKeyType.Primary,
                 MediaServicesClient = clientMock.Object,
             };
 
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.Count);
-            var key = (string) ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            string key = (string)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(newKey, key);
         }
     }
