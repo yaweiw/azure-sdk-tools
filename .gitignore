@@ -12,3 +12,4 @@ TestResults
 /Publish
 /Package
 /WindowsAzurePowershell/src/packages
+msbuild.log
