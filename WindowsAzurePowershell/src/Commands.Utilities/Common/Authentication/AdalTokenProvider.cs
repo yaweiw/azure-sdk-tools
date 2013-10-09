@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Threading;
     using System.Windows.Forms;
     using IdentityModel.Clients.ActiveDirectory;
@@ -25,17 +27,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     /// </summary>
     public class AdalTokenProvider : ITokenProvider
     {
-        // TODO: Add storage for token cache
+        private readonly IDictionary<TokenCacheKey, string> tokenCache;
         private readonly IWin32Window parentWindow;
 
         public AdalTokenProvider()
-            : this(new ConsoleParentWindow())
+            : this(new ConsoleParentWindow(), new AdalRegistryTokenCache())
         {
         }
 
-        public AdalTokenProvider(IWin32Window parentWindow)
+        public AdalTokenProvider(IWin32Window parentWindow, IDictionary<TokenCacheKey, string> tokenCache)
         {
             this.parentWindow = parentWindow;
+            this.tokenCache = tokenCache;
         }
 
         public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId)
@@ -57,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         private AuthenticationContext CreateContext(AdalConfiguration config)
         {
-            return new AuthenticationContext(config.AdEndpoint + config.AdDomain, config.ValidateAuthority)
+            return new AuthenticationContext(config.AdEndpoint + config.AdDomain, config.ValidateAuthority, tokenCache)
             {
                 OwnerWindow = parentWindow
             };
@@ -77,6 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     var context = CreateContext(config);
                     if (string.IsNullOrEmpty(userId))
                     {
+                        ClearCookies();
                         result = context.AcquireToken(config.ResourceClientUri, config.ClientId,
                             config.ClientRedirectUri, PromptBehavior.Always, AdalConfiguration.EnableEbdMagicCookie);
                     }
@@ -109,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         /// </summary>
         private class AdalAccessToken : IAccessToken
         {
-            internal AdalConfiguration Configuration;
+            internal readonly AdalConfiguration Configuration;
             internal AuthenticationResult AuthResult;
             private readonly AdalTokenProvider tokenProvider;
 
@@ -140,6 +144,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                     return LoginType.OrgId;
                 }
             }
+        }
+
+
+        private void ClearCookies()
+        {
+            NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_END_BROWSER_SESSION, IntPtr.Zero, 0);
+        }
+
+        private static class NativeMethods
+        {
+            internal const int INTERNET_OPTION_END_BROWSER_SESSION = 42;
+
+            [DllImport("wininet.dll", SetLastError = true)]
+            internal static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer,
+                int lpdwBufferLength);
         }
     }
 }
