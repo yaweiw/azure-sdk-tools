@@ -223,7 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                StoreBasicClient.AddOns.Create(cloudServiceName, type, addon, parameters);
+                StoreBasicClient.AddOns.Create(cloudServiceName, name, addon, parameters);
             }
             catch (Exception ex)
             {
