@@ -19,12 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Management.Storage;
     using Management.Storage.Models;
     using Moq;
-
+    
     /// <summary>
     /// A class used to simulate the behavior of a storage account as far as existing,
     /// creation, and querying are concerned.
@@ -95,14 +96,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public void InitializeMocks(Mock<StorageManagementClient> mock)
         {
-            mock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>()))
-                .Returns((string serviceName) => CreateGetResponse(serviceName));
+            mock.Setup(c => c.StorageAccounts.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns((string serviceName, CancellationToken cancellationToken) => CreateGetResponse(serviceName));
 
-            mock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>()))
-                .Returns((string serviceName) => CreateGetKeysResponse(serviceName));
+            mock.Setup(c => c.StorageAccounts.GetKeysAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns((string serviceName, CancellationToken cancellationToken) => CreateGetKeysResponse(serviceName));
 
-            mock.Setup(c => c.StorageAccounts.CreateAsync(It.IsAny<StorageAccountCreateParameters>()))
-                .Callback((StorageAccountCreateParameters createParameters) => AddService(createParameters))
+            mock.Setup(c => c.StorageAccounts.CreateAsync(It.IsAny<StorageAccountCreateParameters>(), It.IsAny<CancellationToken>()))
+                .Callback((StorageAccountCreateParameters createParameters, CancellationToken cancellationToken) => AddService(createParameters))
                 .Returns(CreateCreateResponse);
         }
 
@@ -129,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             }
             else
             {
-                resultTask = Tasks.FromException<StorageServiceGetResponse>(Make404Exception());
+                resultTask = Tasks.FromException<StorageServiceGetResponse>(ClientMocks.Make404Exception());
             }
             return resultTask;
         }
@@ -150,7 +151,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             }
             else
             {
-                resultTask = Tasks.FromException<StorageAccountGetKeysResponse>(Make404Exception());
+                resultTask = Tasks.FromException<StorageAccountGetKeysResponse>(ClientMocks.Make404Exception());
             }
             return resultTask;
         }
@@ -170,11 +171,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                 StatusCode = HttpStatusCode.OK,
                 Status = OperationStatus.Succeeded
             });
-        }
-
-        private CloudException Make404Exception()
-        {
-            return new CloudException("Not found", null, new HttpResponseMessage(HttpStatusCode.NotFound), "");
         }
     }
 }

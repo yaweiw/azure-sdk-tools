@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffold
 
             if (stdOut.IndexOf("django-admin.py") == -1)
             {
-                Assert.Inconclusive("Django is not installed on this machine and therefore the Python tests cannot be run");
+                Assert.Inconclusive("Django is not installed on this machine and therefore the Python tests cannot be run.  Please 'pip install Django==1.5'");
                 return;
             }
 
