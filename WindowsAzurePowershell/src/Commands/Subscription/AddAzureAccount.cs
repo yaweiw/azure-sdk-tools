@@ -36,7 +36,11 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public override void ExecuteCmdlet()
         {
             WindowsAzureEnvironment env = ChosenEnvironment() ?? Profile.CurrentEnvironment;
-            Profile.AddAccounts(env);
+            string accountName = Profile.AddAccounts(env);
+            WriteVerbose(string.Format(Resources.AddAccountAdded, accountName));
+            WriteVerbose(string.Format(Resources.AddAccountShowDefaultSubscription, Profile.DefaultSubscription.SubscriptionName));
+            WriteVerbose(Resources.AddAccountViewSubscriptions);
+            WriteVerbose(Resources.AddAccountChangeSubscription);
         }
 
         private WindowsAzureEnvironment ChosenEnvironment()
