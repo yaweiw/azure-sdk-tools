@@ -133,11 +133,14 @@
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Store">
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage">
-      <HintPath>..\packages\WindowsAzure.Storage.2.1.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.1.1308.2321, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
