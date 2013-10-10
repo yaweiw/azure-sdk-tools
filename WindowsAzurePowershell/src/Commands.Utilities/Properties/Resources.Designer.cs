@@ -2677,6 +2677,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove account &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveAccountConfirmation {
+            get {
+                return ResourceManager.GetString("RemoveAccountConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing account.
+        /// </summary>
+        public static string RemoveAccountMessage {
+            get {
+                return ResourceManager.GetString("RemoveAccountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove Add-On Confirmation.
         /// </summary>
         public static string RemoveAddOnConformation {
