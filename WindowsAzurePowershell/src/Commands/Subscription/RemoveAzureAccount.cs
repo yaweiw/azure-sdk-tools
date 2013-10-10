@@ -46,7 +46,6 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             {
                 if (subscription.Certificate != null)
                 {
-                    subscription.ActiveDirectoryUserId = null;
                     subscription.SetAccessToken(null);
                     Profile.UpdateSubscription(subscription);
                 }
