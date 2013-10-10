@@ -98,7 +98,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\lib\private\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <!--
     TODO: Resolve version dependency when an updated library is available for
