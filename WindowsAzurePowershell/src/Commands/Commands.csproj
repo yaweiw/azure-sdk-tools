@@ -244,6 +244,8 @@
     <Compile Include="Store\SetAzureStoreAddOn.cs" />
     <Compile Include="Subscription\AddAzureAccount.cs" />
     <Compile Include="Subscription\RemoveAzureSubscription.cs" />
+    <Compile Include="Subscription\GetAzureAccount.cs" />
+    <Compile Include="Subscription\RemoveAzureAccount.cs" />
     <Compile Include="Subscription\GetAzurePublishSettingsFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
