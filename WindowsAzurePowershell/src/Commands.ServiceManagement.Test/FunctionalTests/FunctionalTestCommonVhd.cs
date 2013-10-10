@@ -196,7 +196,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize)")]
         public void AzureVMImageSizeTest()
         {
-
+            vhdName = "os2.vhd";
             string newImageName = Utilities.GetUniqueShortName("vmimage");
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
