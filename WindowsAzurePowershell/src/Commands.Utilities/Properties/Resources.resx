@@ -640,13 +640,13 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_sdk22.xml</value>
   </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.0</value>
+    <value>v2.2</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -655,7 +655,7 @@
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.0</value>
+    <value>v2.2</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
@@ -1359,5 +1359,11 @@ Please follow these steps in the portal:
   </data>
   <data name="AddAccountViewSubscriptions" xml:space="preserve">
     <value>To view all the subscriptions, please use Get-AzureSubscription.</value>
+  </data>
+  <data name="RemoveAccountConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove account '{0}'?</value>
+  </data>
+  <data name="RemoveAccountMessage" xml:space="preserve">
+    <value>Removing account</value>
   </data>
 </root>

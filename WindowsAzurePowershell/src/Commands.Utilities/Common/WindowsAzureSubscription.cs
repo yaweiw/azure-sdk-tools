@@ -68,10 +68,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private IAccessToken accessToken;
         
+        /// <summary>
+        /// Set the access token to use for authentication
+        /// when creating azure management clients from this
+        /// subscription. This also updates the <see cref="ActiveDirectoryUserId"/> and
+        /// <see cref="ActiveDirectoryLoginType"/> fields.
+        /// </summary>
+        /// <param name="token">The access token to use. If null,
+        /// clears out the token and the active directory login information.</param>
         public void SetAccessToken(IAccessToken token)
         {
-            ActiveDirectoryUserId = token.UserId;
-            ActiveDirectoryLoginType = token.LoginType;
+            if (token != null)
+            {
+                ActiveDirectoryUserId = token.UserId;
+                ActiveDirectoryLoginType = token.LoginType;
+            }
+            else
+            {
+                ActiveDirectoryUserId = null;
+                ActiveDirectoryLoginType = null;
+            }
             accessToken = token;
         }
 
@@ -86,6 +102,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 accessToken = TokenProvider.GetToken(this, ActiveDirectoryUserId);
             }
             return new AccessTokenCredential(SubscriptionId, accessToken);
+        }
+
+        /// <summary>
+        /// Update the contents of this subscription with the data from the
+        /// given new subscription. Does a merge of the data, leaving for example
+        /// existing certificate if subscription is also download from azure AD.
+        /// </summary>
+        /// <param name="newSubscription">Subscription data to update from</param>
+        public void Update(WindowsAzureSubscription newSubscription)
+        {
+            // AD Data - if present in new subscription, take it else preserve existing
+            ActiveDirectoryEndpoint = newSubscription.ActiveDirectoryEndpoint ??
+                ActiveDirectoryEndpoint;
+            ActiveDirectoryLoginType = newSubscription.ActiveDirectoryLoginType ??
+                ActiveDirectoryLoginType;
+            ActiveDirectoryTenantId = newSubscription.ActiveDirectoryTenantId ??
+                ActiveDirectoryTenantId;
+            ActiveDirectoryUserId = newSubscription.ActiveDirectoryUserId ??
+                ActiveDirectoryUserId;
+
+            // Certificate - if present in new take it, else preserve
+            Certificate = newSubscription.Certificate ??
+                Certificate;
+
+            // One of them is the default
+            IsDefault = newSubscription.IsDefault || IsDefault;
+
+            // And overwrite the rest
+            SubscriptionId = newSubscription.SubscriptionId;
+            ServiceEndpoint = newSubscription.ServiceEndpoint;
+            SubscriptionName = newSubscription.SubscriptionName;
         }
 
         /// <summary>
