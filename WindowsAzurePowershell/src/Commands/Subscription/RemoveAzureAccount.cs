@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using Utilities.Subscription;
 
     /// <summary>
-    /// Removes a previously imported subscription.
+    /// Removes subscriptions associated with an account
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureAccountCommand : SubscriptionCmdletBase
