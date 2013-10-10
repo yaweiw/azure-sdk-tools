@@ -1,0 +1,177 @@
+﻿// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+{
+    using System;
+    using System.Management.Automation;
+    using System.Security;
+    using System.Text;
+    using System.Xml.Linq;
+    using ADDomain;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Utilities.Websites.Services;
+
+    public abstract class BaseAzureServiceADDomainExtensionCmdlet : BaseAzureServiceExtensionCmdlet
+    {
+        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
+        protected const string DomainExtensionType = "ADDomain";
+
+        protected const string ADDomainExtensionNoun = "AzureServiceADDomainExtension";
+        protected const string ADDomainExtensionConfigNoun = "AzureServiceADDomainExtensionConfig";
+
+        protected const string DomainParameterSet = "DomainName";
+        protected const string DomainThumbprintParameterSet = "DomainNameThumbprint";
+        protected const string WorkgroupParameterSet = "WorkGroupName";
+        protected const string WorkgroupThumbprintParameterSet = "WorkGroupNameThumbprint";
+
+        protected PublicConfig PublicConfig { get; private set; }
+        protected PrivateConfig PrivateConfig { get; private set; }
+
+        public virtual string DomainName
+        {
+            get
+            {
+                return (Options & JoinOptions.JoinDomain) == JoinOptions.JoinDomain ? PublicConfig.Name : null;
+            }
+            set
+            {
+                Options |= JoinOptions.JoinDomain;
+                PublicConfig.Name = value;
+            }
+        }
+
+        public virtual string WorkgroupName
+        {
+            get
+            {
+                return (Options & JoinOptions.JoinDomain) != JoinOptions.JoinDomain ? PublicConfig.Name : null;
+            }
+            set
+            {
+                Options &= (Options ^ JoinOptions.JoinDomain);
+                PublicConfig.Name = value;
+            }
+        }
+
+        public virtual JoinOptions Options
+        {
+            get
+            {
+                return (JoinOptions)PublicConfig.Options;
+            }
+            set
+            {
+                PublicConfig.Options = (uint)value;
+            }
+        }
+
+        public virtual uint AdditionalOptions
+        {
+            set
+            {
+                PublicConfig.Options |= value;
+            }
+        }
+
+        public virtual string OUPath
+        {
+            get
+            {
+                return PublicConfig.OUPath;
+            }
+            set
+            {
+                PublicConfig.OUPath = value;
+            }
+        }
+
+        public virtual SwitchParameter Restart
+        {
+            get
+            {
+                return PublicConfig.Restart;
+            }
+            set
+            {
+                PublicConfig.Restart = value;
+            }
+        }
+
+        public virtual PSCredential Credential
+        {
+            get
+            {
+                return new PSCredential(PublicConfig.User, GetSecurePassword(PrivateConfig.Password));
+            }
+            set
+            {
+                PublicConfig.User = value.UserName;
+                PrivateConfig.Password = value.Password.ConvertToUnsecureString();
+            }
+        }
+
+        public virtual PSCredential UnjoinDomainCredential
+        {
+            get
+            {
+                return new PSCredential(PublicConfig.User, GetSecurePassword(PrivateConfig.UnjoinDomainPassword));
+            }
+            set
+            {
+                PublicConfig.UnjoinDomainUser = value.UserName;
+                PrivateConfig.UnjoinDomainPassword = value.Password.ConvertToUnsecureString();
+            }
+        }
+
+        public BaseAzureServiceADDomainExtensionCmdlet()
+            : base()
+        {
+            Initialize();
+        }
+
+        protected void Initialize()
+        {
+            ExtensionNameSpace = DomainExtensionNamespace;
+            ExtensionType = DomainExtensionType;
+            PublicConfig = new PublicConfig();
+            PrivateConfig = new PrivateConfig();
+        }
+
+        protected override void ValidateConfiguration()
+        {
+            PublicConfiguration = Serialize(PublicConfig);
+            PrivateConfiguration = Serialize(PrivateConfig);
+        }
+
+        protected override ExtensionContext GetContext(OperationStatusResponse op, ExtensionRole role, HostedServiceListExtensionsResponse.Extension ext)
+        {
+            var config = Deserialize(ext.PublicConfiguration, typeof(PublicConfig)) as PublicConfig;
+            return new ADDomainExtensionContext
+            {
+                OperationId = op.RequestId,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = op.Status.ToString(),
+                Extension = ext.Type,
+                ProviderNameSpace = ext.ProviderNamespace,
+                Id = ext.Id,
+                Role = role,
+                Name = config.Name,
+                OUPath = config.OUPath,
+                Options = config.Options,
+                User = config.User,
+                UnjoinDomainUser = config.UnjoinDomainUser,
+                Restart = config.Restart
+            };
+        }
+    }
+}
