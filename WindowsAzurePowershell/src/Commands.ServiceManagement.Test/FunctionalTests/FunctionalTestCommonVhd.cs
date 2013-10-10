@@ -171,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
-                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, false);
                 Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName));
 
                 pass = true;
@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName))
                 {
-                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, false);
                 }
             }
         }

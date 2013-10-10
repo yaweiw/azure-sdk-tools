@@ -292,7 +292,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 try
                 {
-                        vmPowershellCmdlets.RemoveAzureVMImage(image, true);
+                        vmPowershellCmdlets.RemoveAzureVMImage(image, false);
                 }
                 catch (Exception e)
                 {
