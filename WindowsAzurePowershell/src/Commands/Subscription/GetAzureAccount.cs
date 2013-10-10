@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public override void ExecuteCmdlet()
         {
-            IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions;
+            IEnumerable<WindowsAzureSubscription> subscriptions = Profile.Subscriptions.Where(s => s.ActiveDirectoryUserId != null);
             if (!string.IsNullOrEmpty(Name))
             {
                 subscriptions = subscriptions.Where(s => s.ActiveDirectoryUserId == Name);
