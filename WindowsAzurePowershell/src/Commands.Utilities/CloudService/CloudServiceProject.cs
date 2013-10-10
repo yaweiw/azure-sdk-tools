@@ -262,9 +262,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void VerifyCloudServiceProjectComponents()
         {
-            const string CacheVersion = "2.0.0";
+            const string CacheVersion = "2.2.0";
 
-            // Verify caching version is 2.0
+            // Verify caching version is 2.2
             foreach (string roleName in Components.GetRoles())
             {
                 string value = Components.GetStartupTaskVariable(
@@ -273,7 +273,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     Resources.WebRoleStartupTaskCommandLine,
                     Resources.WorkerRoleStartupTaskCommandLine);
 
-                if (!string.IsNullOrEmpty(value) && value != CacheVersion)
+                if (!string.IsNullOrEmpty(value) && !string.Equals(value, CacheVersion, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new Exception(string.Format(Resources.CacheMismatchMessage, roleName, CacheVersion));
                 }
