@@ -14,60 +14,62 @@
 
 namespace Microsoft.WindowsAzure.Commands.Subscription
 {
-    using System;
-    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.Properties;
     using Utilities.Subscription;
 
     /// <summary>
     /// Removes a previously imported subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureSubscriptionCommand : SubscriptionCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureAccountCommand : SubscriptionCmdletBase
     {
-        public RemoveAzureSubscriptionCommand() : base(false)
+        public RemoveAzureAccountCommand() : base(false)
         {
         }
 
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
         [ValidateNotNullOrEmpty]
-        public string SubscriptionName { get; set; }
+        public string Name { get; set; }
 
-        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of subscription")]
+        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of account")]
         public SwitchParameter Force { get; set; }
 
         [Parameter(Position = 3, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        public void RemoveSubscriptionProcess()
+        public void RemoveAccountProcess()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
-            if (subscription != null)
+            var subscriptions = Profile.Subscriptions.Where(s => s.ActiveDirectoryUserId == Name).ToList();
+            foreach (var subscription in subscriptions)
             {
-                // Warn the user if the removed subscription is the default one.
-                if (subscription.IsDefault)
+                if (subscription.Certificate != null)
                 {
-                    WriteWarning(Resources.RemoveDefaultSubscription);
+                    subscription.ActiveDirectoryUserId = null;
+                    subscription.SetAccessToken(null);
+                    Profile.UpdateSubscription(subscription);
                 }
-
-                // Warn the user if the removed subscription is the current one.
-                if (subscription == Profile.CurrentSubscription)
+                else
                 {
-                    WriteWarning(Resources.RemoveCurrentSubscription);
-                }
+                    // Warn the user if the removed subscription is the default one.
+                    if (subscription.IsDefault)
+                    {
+                        WriteWarning(Resources.RemoveDefaultSubscription);
+                    }
 
-                Profile.RemoveSubscription(subscription);
-                if (PassThru.IsPresent)
-                {
-                    WriteObject(true);
+                    // Warn the user if the removed subscription is the current one.
+                    if (subscription == Profile.CurrentSubscription)
+                    {
+                        WriteWarning(Resources.RemoveCurrentSubscription);
+                    }
+
+                    Profile.RemoveSubscription(subscription);
                 }
             }
-            else
+            if (PassThru.IsPresent)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidSubscription, SubscriptionName));
+                WriteObject(true);
             }
         }
 
@@ -75,10 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemoveSubscriptionConfirmation, SubscriptionName),
-                Resources.RemoveSubscriptionMessage,
-                SubscriptionName,
-                RemoveSubscriptionProcess);
+                string.Format(Resources.RemoveAccountConfirmation, Name),
+                Resources.RemoveAccountMessage,
+                Name,
+                RemoveAccountProcess);
         }
     }
 }
