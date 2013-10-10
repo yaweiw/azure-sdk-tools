@@ -49,12 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Store
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            StoreClient = StoreClient ?? new StoreClient(
-                CurrentSubscription.SubscriptionId,
-                ServiceEndpoint,
-                CurrentSubscription.Certificate,
-                text => this.WriteDebug(text),
-                Channel);
+            StoreClient = StoreClient ?? new StoreClient(CurrentSubscription);
             WindowsAzureAddOn addon;
             CustomConfirmation = CustomConfirmation ?? new PowerShellCustomConfirmation(Host);
 
