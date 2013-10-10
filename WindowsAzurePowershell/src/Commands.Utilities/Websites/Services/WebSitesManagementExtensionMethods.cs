@@ -271,7 +271,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 // Verify site still exists
                 try
                 {
-                    return client.WebSites.Get(site.WebSpace, site.Name, new WebSiteGetParameters()).ToSite();
+                    WebSiteGetParameters input = new WebSiteGetParameters();
+                    input.PropertiesToInclude.Add("repositoryuri");
+                    input.PropertiesToInclude.Add("publishingpassword");
+                    input.PropertiesToInclude.Add("publishingusername");
+
+                    return client.WebSites.Get(site.WebSpace, site.Name, input).ToSite();
                 }
                 catch
                 {
@@ -290,7 +295,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             var spaces = client.WebSpaces.List();
             foreach (var space in spaces.WebSpaces)
             {
-                var sites = client.WebSpaces.ListWebSites(space.Name, new WebSiteListParameters());
+                WebSiteListParameters input = new WebSiteListParameters();
+                input.PropertiesToInclude.Add("repositoryuri");
+                input.PropertiesToInclude.Add("publishingpassword");
+                input.PropertiesToInclude.Add("publishingusername");
+                var sites = client.WebSpaces.ListWebSites(space.Name, input);
                 var site = sites.WebSites.FirstOrDefault(
                     ws => ws.Name.Equals(website, StringComparison.InvariantCultureIgnoreCase));
                 if (site != null)
