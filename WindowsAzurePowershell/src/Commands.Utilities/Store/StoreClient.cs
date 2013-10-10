@@ -35,25 +35,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 
     public class StoreClient
     {
-        private const int SleepDuration = 1000;
-
         private const string DataMarketResourceProviderNamespace = "DataMarket";
 
         private const string AppService = "AzureDevService";
 
         private const string StoreServicePrefix = "Azure-Stores";
 
-        private const string IfMatchHeader = "If-Match";
+        private StoreManagementClient storeClient;
 
-        private StoreManagementClient StoreBasicClient;
-
-        internal ComputeManagementClient ComputeClient { get; set; }
+        private ComputeManagementClient computeClient { get; set; }
 
         private string subscriptionId;
 
         private List<CloudService> GetStoreCloudServices()
         {
-            List<CloudService> cloudServices = new List<CloudService>(StoreBasicClient.CloudServices.List().CloudServices);
+            List<CloudService> cloudServices = new List<CloudService>(storeClient.CloudServices.List().CloudServices);
             List<CloudService> storeServices = cloudServices.FindAll(
                 c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
 
@@ -110,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                StoreBasicClient.CloudServices.Create(cloudService);
+                storeClient.CloudServices.Create(cloudService);
             }
             catch (Exception)
             {
@@ -119,7 +115,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 
             return cloudServiceName;
         }
-
 
         private bool IsDataService(string type)
         {
@@ -145,13 +140,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         /// <param name="logger">The logger for http request/response</param>
         /// <param name="serviceManagementChannel">The service management channel</param>
         public StoreClient(WindowsAzureSubscription subscription)
+            : this(
+                subscription,
+                subscription.CreateClient<ComputeManagementClient>(),
+                subscription.CreateClient<StoreManagementClient>(),
+                new MarketplaceClient()) { }
+
+        public StoreClient(
+            WindowsAzureSubscription subscription,
+            ComputeManagementClient compute,
+            StoreManagementClient store,
+            MarketplaceClient marketplace)
         {
             Validate.ValidateStringIsNullOrEmpty(subscription.SubscriptionId, null, true);
-
             this.subscriptionId = subscription.SubscriptionId;
-            StoreBasicClient = subscription.CreateClient<StoreManagementClient>();
-            ComputeClient = subscription.CreateClient<ComputeManagementClient>();
-            MarketplaceClient = new MarketplaceClient();
+
+            computeClient = compute;
+            storeClient = store;
+            MarketplaceClient = marketplace;
         }
 
         /// <summary>
@@ -201,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             string addonId;
             addonId = GetResourceInformation(addon.AddOn, addon.Location, out type, out cloudService);
 
-            StoreBasicClient.AddOns.Delete(cloudService, type, addonId, name);
+            storeClient.AddOns.Delete(cloudService, type, addonId, name);
         }
 
         public virtual void NewAddOn(
@@ -223,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                StoreBasicClient.AddOns.Create(cloudServiceName, name, addon, parameters);
+                storeClient.AddOns.Create(cloudServiceName, name, addon, parameters);
             }
             catch (Exception ex)
             {
@@ -347,9 +353,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                 throw new Exception(Resources.PromotionCodeWithCurrentPlanMessage);
             }
 
-            // To Do: Make sure Update AddOn API uses the IfMatchHeader
+            string type;
+            string cloudServiceName;
+            addon.AddOn = GetResourceInformation(addon.AddOn, addon.Location, out type, out cloudServiceName);
 
-            NewAddOn(name, addon.AddOn, plan, addon.Location, promotionCode);
+            AddOnUpdateParameters parameters = new AddOnUpdateParameters()
+            {
+                Plan = plan,
+                Type = type,
+                PromotionCode = promotionCode
+            };
+            try
+            {
+                storeClient.AddOns.Update(cloudServiceName, name, addon.AddOn, parameters);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals(Resources.FirstPurchaseErrorMessage, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception(Resources.FirstPurchaseMessage);
+                }
+            }
         }
     }
 

@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
     using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Commands.Utilities.Store;
-    using Commands.Utilities.Store.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
