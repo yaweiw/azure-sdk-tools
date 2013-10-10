@@ -281,6 +281,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             provisioningConfiguration.StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(Certificates, X509Certificates);
             provisioningConfiguration.EnableAutomaticUpdates = !DisableAutomaticUpdates.IsPresent;
 
+            if (provisioningConfiguration.StoredCertificateSettings == null)
+            {
+                provisioningConfiguration.StoredCertificateSettings = new CertificateSettingList();
+            }
+
             if (!string.IsNullOrEmpty(TimeZone))
             {
                 provisioningConfiguration.TimeZone = TimeZone;
