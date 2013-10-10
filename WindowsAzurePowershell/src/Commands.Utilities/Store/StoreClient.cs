@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                storeClient.AddOns.Create(cloudServiceName, name, addon, parameters);
+                storeClient.AddOns.Create(cloudServiceName, addon, name, parameters);
             }
             catch (Exception ex)
             {
@@ -365,7 +365,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             };
             try
             {
-                storeClient.AddOns.Update(cloudServiceName, name, addon.AddOn, parameters);
+                storeClient.AddOns.Update(cloudServiceName, addon.AddOn, name, parameters);
             }
             catch (Exception ex)
             {
