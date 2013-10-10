@@ -246,6 +246,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
+            // New SM to Model
+            Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>();
+            Mapper.CreateMap<NSM.StoredCertificateSettings, PVM.CertificateSetting>();
+
+            // Model to New SM
+            Mapper.CreateMap<PVM.CertificateSettingList, IList<NSM.StoredCertificateSettings>>();
+            Mapper.CreateMap<PVM.CertificateSetting, NSM.StoredCertificateSettings>();
+
             // SM to Model
             Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
             Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancedEndpointList,                                    PVM.LoadBalancerProbe>();
