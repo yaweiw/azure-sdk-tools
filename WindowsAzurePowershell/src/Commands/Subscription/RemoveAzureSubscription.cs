@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.Properties;
     using Utilities.Subscription;
 
     /// <summary>
