@@ -238,7 +238,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
+        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
         public string InstanceSize
         {
             get;
@@ -496,6 +496,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
                     WinRM = GetWinRmConfiguration()
                 };
+
+                if (windowsConfig.StoredCertificateSettings == null)
+                {
+                    windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                }
 
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
                 if (!this.NoWinRMEndpoint.IsPresent && !this.DisableWinRMHttps.IsPresent)
