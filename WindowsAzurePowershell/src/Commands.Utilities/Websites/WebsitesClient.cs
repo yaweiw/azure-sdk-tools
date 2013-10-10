@@ -326,13 +326,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="hostNames">The new host names.</param>
         public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames)
         {
-            var update = new WebSiteUpdateHostNamesParameters();
+            var update = new WebSiteUpdateParameters();
             foreach (var name in hostNames)
             {
                 update.HostNames.Add(name);
             }
 
-            WebsiteManagementClient.WebSites.UpdateHostNames(site.WebSpace, site.Name, update);
+            WebsiteManagementClient.WebSites.Update(site.WebSpace, site.Name, update);
         }
 
         /// <summary>
