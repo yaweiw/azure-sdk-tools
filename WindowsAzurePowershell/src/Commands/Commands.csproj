@@ -124,7 +124,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
- 
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -252,6 +251,7 @@
     <Compile Include="Store\RemoveAzureStoreAddOn.cs" />
     <Compile Include="Store\SetAzureStoreAddOn.cs" />
     <Compile Include="Subscription\AddAzureAccount.cs" />
+    <Compile Include="Subscription\GetAzureAccount.cs" />
     <Compile Include="Subscription\RemoveAzureSubscription.cs" />
     <Compile Include="Subscription\GetAzurePublishSettingsFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
