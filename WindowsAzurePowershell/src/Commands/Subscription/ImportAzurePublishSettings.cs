@@ -21,10 +21,15 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Security.Permissions;
     using Utilities.Common;
     using Utilities.Properties;
+    using Utilities.Subscription;
 
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
-    public class ImportAzurePublishSettingsCommand : CmdletWithSubscriptionBase
+    public class ImportAzurePublishSettingsCommand : SubscriptionCmdletBase
     {
+        public ImportAzurePublishSettingsCommand() : base(true)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "Path to the publish settings file.")]
         public string PublishSettingsFile { get; set; }
@@ -91,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             {
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
-                    Profile.DefaultSubscription.Name));
+                    Profile.DefaultSubscription.SubscriptionName));
             }
         }
 

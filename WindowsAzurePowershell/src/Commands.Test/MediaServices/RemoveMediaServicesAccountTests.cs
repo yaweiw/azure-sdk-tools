@@ -11,6 +11,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.MediaServices;
@@ -27,14 +28,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         public void ProcessRemoveMediaServicesAccountTest()
         {
             // Setup
-            var clientMock = new Mock<IMediaServicesClient>();
+            Mock<IMediaServicesClient> clientMock = new Mock<IMediaServicesClient>();
 
-            string expectedName = "testacc";
+            const string expectedName = "testacc";
 
-            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(Task.Factory.StartNew(() => { return true; }));
+            clientMock.Setup(f => f.DeleteAzureMediaServiceAccountAsync(expectedName)).Returns(
+                Task.Factory.StartNew(() => new OperationResponse { StatusCode = HttpStatusCode.NoContent }));
 
             // Test
-            var command = new RemoveAzureMediaServiceCommand
+            RemoveAzureMediaServiceCommand command = new RemoveAzureMediaServiceCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 Name = expectedName,
@@ -42,9 +44,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             };
 
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.Count);
-            var deleted = (bool) ((MockCommandRuntime) command.CommandRuntime).OutputPipeline.FirstOrDefault();
-            Assert.IsTrue(deleted);
+            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            bool response = (bool)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.IsTrue(response);
         }
     }
 }

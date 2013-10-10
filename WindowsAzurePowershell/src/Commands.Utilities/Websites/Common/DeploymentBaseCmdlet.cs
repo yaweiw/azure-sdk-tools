@@ -38,6 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
             return null;
         }
 
+        public bool ShareChannel { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Repository repository = GetRepository(Name);

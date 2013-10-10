@@ -15,7 +15,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using Authentication;
     using Properties;
+    using Subscriptions;
 
     [Serializable]
     public class WindowsAzureEnvironment
@@ -162,6 +164,46 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 baseUrl += string.Format(Resources.PublishSettingsFileRealmFormat, realm);
             }
             return baseUrl;
+        }
+
+        public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
+        {
+            if (AdTenantUrl == null)
+            {
+                throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
+            }
+
+            IAccessToken mainToken = tokenProvider.GetNewToken(this);
+            var credentials = new TokenCloudCredentials(mainToken.AccessToken);
+
+            using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
+            {
+                var result = subscriptionClient.Subscriptions.List();
+                foreach (var subscription in result.Subscriptions)
+                {
+                    var azureSubscription = new WindowsAzureSubscription
+                    {
+                        ActiveDirectoryEndpoint = AdTenantUrl,
+                        ActiveDirectoryLoginType = mainToken.LoginType,
+                        ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantId,
+                        ActiveDirectoryUserId = mainToken.UserId,
+                        SubscriptionId = subscription.SubscriptionId,
+                        SubscriptionName = subscription.SubscriptionName,
+                        ServiceEndpoint = new Uri(ServiceEndpoint),
+                        TokenProvider = tokenProvider
+                    };
+
+                    if (mainToken.LoginType == LoginType.LiveId)
+                    {
+                        azureSubscription.SetAccessToken(tokenProvider.GetToken(azureSubscription, mainToken.UserId));
+                    }
+                    else
+                    {
+                        azureSubscription.SetAccessToken(mainToken);
+                    }
+                    yield return azureSubscription;
+                }
+            }
         }
 
         /// <summary>

@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 }
                 return
                     WindowsAzureProfile.Instance.Subscriptions.First(
-                        s => SubscriptionName == s.Name);
+                        s => SubscriptionName == s.SubscriptionName);
             }
         }
 

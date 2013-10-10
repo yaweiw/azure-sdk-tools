@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Net.Http;
-    using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
+    using Authentication;
     using Management.Storage;
     using Storage;
     using Storage.Auth;
@@ -29,10 +29,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// </summary>
     public class WindowsAzureSubscription
     {
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
         public Uri SqlAzureServiceEndpoint { get; set; }
+
+        public string ActiveDirectoryEndpoint { get; set; }
+        public string ActiveDirectoryTenantId { get; set; }
+
         public bool IsDefault { get; set; }
         public X509Certificate2 Certificate { get; set; }
 
@@ -57,7 +61,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return cloudStorageAccount; }
         }
 
-        // Access token / account name goes here once we hook up AD
+        // Access token / account name for Active Directory
+        public string ActiveDirectoryUserId { get; set; }
+        public LoginType? ActiveDirectoryLoginType { get; set; }
+        internal ITokenProvider TokenProvider { get; set; }
+
+        private IAccessToken accessToken;
+        
+        public void SetAccessToken(IAccessToken token)
+        {
+            ActiveDirectoryUserId = token.UserId;
+            ActiveDirectoryLoginType = token.LoginType;
+            accessToken = token;
+        }
+
+        private SubscriptionCloudCredentials CreateCredentials()
+        {
+            if (accessToken == null && ActiveDirectoryUserId == null)
+            {
+                return new CertificateCloudCredentials(SubscriptionId, Certificate);
+            }
+            if (accessToken == null)
+            {
+                accessToken = TokenProvider.GetToken(this, ActiveDirectoryUserId);
+            }
+            return new AccessTokenCredential(SubscriptionId, accessToken);
+        }
 
         /// <summary>
         /// Create a service management client for this subscription,
@@ -67,16 +96,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>The service client instance</returns>
         public TClient CreateClient<TClient>() where TClient : ServiceClient<TClient>
         {
-            var credential = new CertificateCloudCredentials(SubscriptionId, Certificate);
+            var credential = CreateCredentials();
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
             if (constructor == null)
             {
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
-            TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
 
-            var withHandlerMethod = typeof (TClient).GetMethod("WithHandler", new[] {typeof (DelegatingHandler)});
-            return (TClient)withHandlerMethod.Invoke(client, new[] {new HttpRestCallLogger()});
+            // Dispose the client because the WithHandler call will create a
+            // new instance that we'll be using with our commands
+            using (var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint }))
+            {
+                // Set the UserAgent
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+
+                // Add the logging handler
+                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+                return (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            }
         }
 
         public CloudStorageAccount GetCloudStorageAccount()
