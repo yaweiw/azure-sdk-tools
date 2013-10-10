@@ -254,6 +254,7 @@
     <Compile Include="Common\Authentication\AdalConfiguration.cs" />
     <Compile Include="Common\Authentication\AdalRegistryTokenCache.cs" />
     <Compile Include="Common\Authentication\AdalTokenProvider.cs" />
+    <Compile Include="Common\Authentication\AadAuthenticationException.cs" />
     <Compile Include="Common\Authentication\CacheKeyStringifier.cs" />
     <Compile Include="Common\Authentication\ConsoleParentWindow.cs" />
     <Compile Include="Common\Authentication\IAccessToken.cs" />
