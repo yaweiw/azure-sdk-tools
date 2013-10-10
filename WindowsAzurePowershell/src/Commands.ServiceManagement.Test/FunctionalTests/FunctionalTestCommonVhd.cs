@@ -87,7 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestInitialize]
         public void Initialize()
         {
-            vhdName = vhdNamePrefix;
             //vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
             //CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
             pass = false;
@@ -98,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public void AzureDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
+            vhdName = "os0.vhd";
             string mediaLocation = String.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             try
@@ -153,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public void AzureVMImageTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
+            vhdName = "os1.vhd";
             string newImageName = Utilities.GetUniqueShortName("vmimage");
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
@@ -172,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                 Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
-                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                vmPowershellCmdlets.RemoveAzureVMImage(newImageName, false);
                 Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName));
 
                 pass = true;
@@ -186,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureVMImage, newImageName))
                 {
-                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, true);
+                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName, false);
                 }
             }
         }
@@ -197,7 +196,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize)")]
         public void AzureVMImageSizeTest()
         {
-
+            vhdName = "os2.vhd";
             string newImageName = Utilities.GetUniqueShortName("vmimage");
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 

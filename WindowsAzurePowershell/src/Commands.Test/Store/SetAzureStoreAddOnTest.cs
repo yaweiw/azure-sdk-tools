@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
     using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.Store;
-    using Commands.Utilities.Store.ResourceModel;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
 
     [TestClass]
     public class SetAzureStoreAddOnTests : TestBase
