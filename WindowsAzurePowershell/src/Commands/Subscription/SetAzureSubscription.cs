@@ -19,13 +19,18 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
+    using Utilities.Subscription;
 
     /// <summary>
     /// Sets an azure subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSubscription", DefaultParameterSetName = "CommonSettings"), OutputType(typeof(bool))]
-    public class SetAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class SetAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public SetAzureSubscriptionCommand() : base(true)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "CommonSettings")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ResetCurrentStorageAccount")]
         [ValidateNotNullOrEmpty]
@@ -42,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         [Parameter(Mandatory = false, HelpMessage = "Current storage account name.", ParameterSetName = "CommonSettings")]
         [ValidateNotNullOrEmpty]
-        public string CurrentStorageAccount { get; set; }
+        public string CurrentStorageAccountName { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
@@ -57,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         /// </summary>
         internal void SetSubscriptionProcess()
         {
-            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            WindowsAzureSubscription subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription == null)
             {
                 CreateNewSubscription();
@@ -72,10 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             var subscription = new WindowsAzureSubscription
             {
-                Name = SubscriptionName,
+                SubscriptionName = SubscriptionName,
                 SubscriptionId = SubscriptionId,
                 Certificate = Certificate,
-                CurrentStorageAccountName = CurrentStorageAccount
+                CurrentStorageAccountName = CurrentStorageAccountName
             };
 
             if (string.IsNullOrEmpty(ServiceEndpoint))
@@ -107,9 +112,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 subscription.ServiceEndpoint = new Uri(ServiceEndpoint);
             }
 
-            if (CurrentStorageAccount != null)
+            if (CurrentStorageAccountName != null)
             {
-                subscription.CurrentStorageAccountName = CurrentStorageAccount;
+                subscription.CurrentStorageAccountName = CurrentStorageAccountName;
             }
 
             Profile.UpdateSubscription(subscription);

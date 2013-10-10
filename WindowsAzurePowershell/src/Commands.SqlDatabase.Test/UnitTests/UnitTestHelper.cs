@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         {
             return new WindowsAzureSubscription
             {
-                Name = "TestSubscription",
+                SubscriptionName = "TestSubscription",
                 SubscriptionId = "00000000-0000-0000-0000-000000000000",
                 Certificate = new X509Certificate2()
             };

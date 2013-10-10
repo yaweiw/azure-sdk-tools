@@ -20,13 +20,18 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.Subscription;
 
     /// <summary>
     /// Removes a previously imported subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureSubscriptionCommand : CmdletWithSubscriptionBase
+    public class RemoveAzureSubscriptionCommand : SubscriptionCmdletBase
     {
+        public RemoveAzureSubscriptionCommand() : base(false)
+        {
+        }
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
@@ -39,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
         public void RemoveSubscriptionProcess()
         {
-            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.Name == SubscriptionName);
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
             if (subscription != null)
             {
                 // Warn the user if the removed subscription is the default one.

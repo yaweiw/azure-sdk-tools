@@ -12,29 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
-    using Utilities.Common;
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
 
     /// <summary>
-    /// Base class for Websites Cmdlets that don't use WCF channel for service management
+    /// An implementation of <see cref="IWin32Window"/> that gives the
+    /// windows handle for the current console window.
     /// </summary>
-    public abstract class NewWebsitesBaseCmdlet : CmdletWithSubscriptionBase
+    public class ConsoleParentWindow : IWin32Window
     {
-        private IWebsitesClient websitesClient;
+        public IntPtr Handle { get { return NativeMethods.GetConsoleWindow(); } }
 
-        public IWebsitesClient WebsitesClient
+        static class NativeMethods
         {
-            get
-            {
-                if (websitesClient == null)
-                {
-                    websitesClient = new WebsitesClient(CurrentSubscription, WriteDebug);
-                }
-                return websitesClient;
-            }
-
-            set { websitesClient = value; }
+            [DllImport("kernel32.dll")]
+            internal static extern IntPtr GetConsoleWindow();
         }
     }
 }

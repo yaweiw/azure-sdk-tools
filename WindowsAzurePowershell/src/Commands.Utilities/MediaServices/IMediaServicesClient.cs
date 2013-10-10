@@ -14,6 +14,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Microsoft.WindowsAzure.Management.Storage.Models;
 using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
@@ -27,28 +29,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         ///     Gets the media service accounts async.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<MediaServiceAccount>> GetMediaServiceAccountsAsync();
+        Task<MediaServicesAccountListResponse> GetMediaServiceAccountsAsync();
 
         /// <summary>
         ///     Gets the media service account details async.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        Task<MediaServiceAccountDetails> GetMediaServiceAsync(string name);
+        Task<MediaServicesAccountGetResponse> GetMediaServiceAsync(string name);
 
         /// <summary>
         ///     Create new azure media service async.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        Task<AccountCreationResult> CreateNewAzureMediaServiceAsync(AccountCreationRequest request);
+        Task<MediaServicesAccountCreateResponse> CreateNewAzureMediaServiceAsync(MediaServicesAccountCreateParameters request);
 
         /// <summary>
         ///     Deletes azure media service account async.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        Task<bool> DeleteAzureMediaServiceAccountAsync(string name);
+        Task<OperationResponse> DeleteAzureMediaServiceAccountAsync(string name);
 
         /// <summary>
         ///     Regenerates azure media service account key async.
@@ -56,20 +58,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// <param name="name">The name.</param>
         /// <param name="keyType">Key Type</param>
         /// <returns></returns>
-        Task<bool> RegenerateMediaServicesAccountAsync(string name, string keyType);
+        Task<OperationResponse> RegenerateMediaServicesAccountAsync(string name, MediaServicesKeyType keyType);
 
         /// <summary>
         /// Gets the storage service keys.
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        Task<StorageService> GetStorageServiceKeysAsync(string storageAccountName);
+        Task<StorageAccountGetKeysResponse> GetStorageServiceKeysAsync(string storageAccountName);
 
         /// <summary>
         /// Gets the storage service properties.
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        Task<StorageService> GetStorageServicePropertiesAsync(string storageAccountName);
+        Task<StorageServiceGetResponse> GetStorageServicePropertiesAsync(string storageAccountName);
     }
 }

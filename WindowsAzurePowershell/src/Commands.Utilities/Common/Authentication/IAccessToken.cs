@@ -12,27 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
-    using System.Security.Cryptography.X509Certificates;
-    using Storage;
+    using System;
 
-    public class SubscriptionData
+    public interface IAccessToken
     {
-        public string SubscriptionName { get; set; }
+        void AuthorizeRequest(Action<string, string> authTokenSetter);
 
-        public string SubscriptionId { get; set; }
-
-        public X509Certificate2 Certificate { get; set; }
-
-        public string ServiceEndpoint { get; set; }
-
-        public string SqlAzureServiceEndpoint { get; set; }
-
-        public string CurrentStorageAccount { get; set; }
-
-        public bool IsDefault { get; set; }
-
-        public CloudStorageAccount CurrentCloudStorageAccount { get; set; }
+        string AccessToken { get; }
+        string UserId { get; }
+        LoginType LoginType { get; }
     }
 }
