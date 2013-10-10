@@ -18,34 +18,33 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Utilities.Properties;
     using Utilities.Subscription;
 
     /// <summary>
     /// Removes a previously imported subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureAccount", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureAccountCommand : SubscriptionCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureSubscriptionCommand : SubscriptionCmdletBase
     {
-        public RemoveAzureAccountCommand() : base(false)
+        public RemoveAzureSubscriptionCommand() : base(false)
         {
         }
 
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
 
-        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of account")]
+        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of subscription")]
         public SwitchParameter Force { get; set; }
 
         [Parameter(Position = 3, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        public void RemoveAccountProcess()
+        public void RemoveSubscriptionProcess()
         {
-            var subscriptions = Profile.Subscriptions.Where(s => s.ActiveDirectoryUserId == Name);
-            foreach (var subscription in subscriptions)
+            var subscription = Profile.Subscriptions.FirstOrDefault(s => s.SubscriptionName == SubscriptionName);
+            if (subscription != null)
             {
                 // Warn the user if the removed subscription is the default one.
                 if (subscription.IsDefault)
@@ -60,10 +59,14 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 }
 
                 Profile.RemoveSubscription(subscription);
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
-            if (PassThru.IsPresent)
+            else
             {
-                WriteObject(true);
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidSubscription, SubscriptionName));
             }
         }
 
@@ -71,10 +74,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemoveAccountConfirmation, Name),
-                Resources.RemoveAccountMessage,
-                Name,
-                RemoveAccountProcess);
+                string.Format(Resources.RemoveSubscriptionConfirmation, SubscriptionName),
+                Resources.RemoveSubscriptionMessage,
+                SubscriptionName,
+                RemoveSubscriptionProcess);
         }
     }
 }
