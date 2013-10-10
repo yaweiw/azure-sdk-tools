@@ -497,6 +497,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     WinRM = GetWinRmConfiguration()
                 };
 
+                if (windowsConfig.StoredCertificateSettings == null)
+                {
+                    windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                }
+
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
                 if (!this.NoWinRMEndpoint.IsPresent && !this.DisableWinRMHttps.IsPresent)
                 {
