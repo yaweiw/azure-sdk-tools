@@ -199,6 +199,18 @@
     <Compile Include="AffinityGroups\GetAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
+    <Compile Include="Extensions\ADDomain\BaseAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\ADDomainExtensionContext.cs" />
+    <Compile Include="Extensions\ADDomain\GetAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\JoinOptions.cs" />
+    <Compile Include="Extensions\ADDomain\NewAzureServiceADDomainExtensionConfig.cs" />
+    <Compile Include="Extensions\ADDomain\PrivateSchema.cs" />
+    <Compile Include="Extensions\ADDomain\PublicSchema.cs" />
+    <Compile Include="Extensions\ADDomain\RemoveAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\SetAzureServiceDomainExtension.cs" />
+    <Compile Include="Extensions\Common\ExtensionContext.cs" />
+    <Compile Include="Extensions\Common\ExtensionImageContext.cs" />
+    <Compile Include="Extensions\Common\GetAzureServiceExtensionImage.cs" />
     <Compile Include="IaaS\Network\NetworkConfigurationSchema.cs">
       <DependentUpon>NetworkConfigurationSchema.xsd</DependentUpon>
     </Compile>
@@ -401,6 +413,13 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extensions\ADDomain\PrivateSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Extensions\ADDomain\PublicSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Extensions\ADDomain\XsdGenCode.cmd" />
     <None Include="IaaS\Network\NetworkConfigurationSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -449,6 +468,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
