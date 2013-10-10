@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
@@ -40,7 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
-        private IList<IDisposable> clientsToDispose = new List<IDisposable>();
         private Lazy<Runspace> runspace;
 
         protected ServiceManagementBaseCmdlet()
@@ -55,72 +55,40 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             storageClient = new Lazy<StorageManagementClient>(CreateStorageClient);
             networkClient = new Lazy<VirtualNetworkManagementClient>(CreateNetworkClient);
         }
+
         public ManagementClient CreateClient()
         {
-            var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
-            var client = CloudContext.Clients.CreateManagementClient(credentials, new Uri(this.ServiceEndpoint));
-            var restMH = client.WithHandler(new HttpRestMessageHandler(this.LogDebug));
-            var userAgentMH = client.WithHandler(new UserAgentMessageProcessingHandler());
-
-            clientsToDispose.Add(client);
-            clientsToDispose.Add(restMH);
-            clientsToDispose.Add(userAgentMH);
-
-            return restMH;
+            return this.CurrentSubscription.CreateClient<ManagementClient>();
         }
 
         public ComputeManagementClient CreateComputeClient()
         {
-            var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
-            var client = CloudContext.Clients.CreateComputeManagementClient(credentials, new Uri(this.ServiceEndpoint));
-            var restMH = client.WithHandler(new HttpRestMessageHandler(this.LogDebug));
-            var userAgentMH = client.WithHandler(new UserAgentMessageProcessingHandler());
-
-            clientsToDispose.Add(client);
-            clientsToDispose.Add(restMH);
-            clientsToDispose.Add(userAgentMH);
-
-            return restMH;
+            return this.CurrentSubscription.CreateClient<ComputeManagementClient>();
         }
 
         public StorageManagementClient CreateStorageClient()
         {
-            var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
-            var client = CloudContext.Clients.CreateStorageManagementClient(credentials, new Uri(this.ServiceEndpoint));
-            var restMH = client.WithHandler(new HttpRestMessageHandler(this.LogDebug));
-            var userAgentMH = client.WithHandler(new UserAgentMessageProcessingHandler());
-
-            clientsToDispose.Add(client);
-            clientsToDispose.Add(restMH);
-            clientsToDispose.Add(userAgentMH);
-
-            return restMH;
+            return this.CurrentSubscription.CreateClient<StorageManagementClient>();
         }
 
         public VirtualNetworkManagementClient CreateNetworkClient()
         {
-            var credentials = new CertificateCloudCredentials(CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate);
-            var client = CloudContext.Clients.CreateVirtualNetworkManagementClient(credentials, new Uri(this.ServiceEndpoint));
-            var restMH = client.WithHandler(new HttpRestMessageHandler(this.LogDebug));
-            var userAgentMH = client.WithHandler(new UserAgentMessageProcessingHandler());
-
-            clientsToDispose.Add(client);
-            clientsToDispose.Add(restMH);
-            clientsToDispose.Add(userAgentMH);
-
-            return restMH;
+            return this.CurrentSubscription.CreateClient<VirtualNetworkManagementClient>();
         }
 
         private void LogDebug(string message)
         {
-//            var debugMessage = String.Format("Write-Debug -Message '{0}'", message);
-            using (var ps = PowerShell.Create())
-            {
-                ps.Runspace = runspace.Value;
-                ps.AddCommand("Write-Debug");
-                ps.AddParameter("Message", message);
-                ps.Invoke();
-            }
+//            lock (runspaceLock)
+//            {
+//                using (var ps = PowerShell.Create())
+//                {
+//                    ps.Runspace = runspace.Value;
+//                    ps.AddCommand("Write-Debug");
+//                    ps.AddParameter("Message", message);
+//                    ps.AddParameter("Debug");
+//                    ps.Invoke();
+//                }
+//            }
         }
 
         private Lazy<ManagementClient> client;
