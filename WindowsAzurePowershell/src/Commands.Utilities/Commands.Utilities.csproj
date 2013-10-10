@@ -157,7 +157,8 @@
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus">
+    <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus, Version=1.0.5024.16650, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Sql">
