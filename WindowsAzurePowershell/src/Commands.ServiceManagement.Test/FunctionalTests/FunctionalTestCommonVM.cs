@@ -216,7 +216,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 try
                 {
-                    vmPowershellCmdlets.RemoveAzureDisk(diskName, true);
+                    vmPowershellCmdlets.RemoveAzureDisk(diskName, false);
                     break;
                 }
                 catch (Exception e)

@@ -2450,7 +2450,7 @@
           <maml:name>RecommendedVMSize</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.
+              Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -2587,7 +2587,7 @@
         <maml:name>RecommendedVMSize</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.
+            Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.
           </maml:para>
 
         </maml:description>
@@ -7174,7 +7174,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7314,7 +7314,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -7509,7 +7509,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>InstanceSize</maml:name>
         <maml:description>
-          <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+          <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -9426,7 +9426,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;</maml:para>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -9471,7 +9471,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;</maml:para>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -9589,7 +9589,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
         <maml:name>InstanceSize</maml:name>
         <maml:description>
-          <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;</maml:para>
+          <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -13931,7 +13931,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the machine. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+            <maml:para>Specifies the size of the machine. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -13949,7 +13949,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>InstanceSize</maml:name>
         <maml:description>
-          <maml:para>Specifies the size of the machine. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+          <maml:para>Specifies the size of the machine. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -15509,7 +15509,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           <maml:name>RecommendedVMSize</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.
+              Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -15613,7 +15613,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <maml:name>RecommendedVMSize</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.
+            Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;, &quot;A5&quot;, &quot;A6&quot;,, &quot;A7&quot;.
           </maml:para>
 
         </maml:description>

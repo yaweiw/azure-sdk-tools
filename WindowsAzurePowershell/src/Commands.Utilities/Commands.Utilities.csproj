@@ -177,9 +177,9 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.2.1.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Subscriptions">
       <HintPath>..\lib\Microsoft.WindowsAzure.Subscriptions.dll</HintPath>
@@ -337,21 +337,9 @@
     <Compile Include="ServiceBus\UriElement.cs" />
     <Compile Include="Store\AddOnSearchOptions.cs" />
     <Compile Include="Store\Constants.cs" />
-    <Compile Include="Store\Contract\IStoreManagement.cs" />
-    <Compile Include="Store\Contract\StoreExtensionMethods.cs" />
     <Compile Include="Store\MarketplaceClient.cs" />
     <Compile Include="Store\Parameter.cs" />
     <Compile Include="Store\PowerShellCustomConfirmation.cs" />
-    <Compile Include="Store\ResourceModel\CloudService.cs" />
-    <Compile Include="Store\ResourceModel\CloudServiceList.cs" />
-    <Compile Include="Store\ResourceModel\Error.cs" />
-    <Compile Include="Store\ResourceModel\OperationStatus.cs" />
-    <Compile Include="Store\ResourceModel\OutputItem.cs" />
-    <Compile Include="Store\ResourceModel\OutputItemList.cs" />
-    <Compile Include="Store\ResourceModel\Resource.cs" />
-    <Compile Include="Store\ResourceModel\ResourceList.cs" />
-    <Compile Include="Store\ResourceModel\UsageMeter.cs" />
-    <Compile Include="Store\ResourceModel\UsageMeterList.cs" />
     <Compile Include="Common\SetHeaderInspector.cs" />
     <Compile Include="Store\StoreClient.cs" />
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
