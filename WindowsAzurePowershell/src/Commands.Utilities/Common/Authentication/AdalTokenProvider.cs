@@ -102,12 +102,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             thread.Join();
             if (ex != null)
             {
-                throw new Exception(string.Format("Could not acquire access token: {0}", ex.Message), ex);
+                var adex = ex as ActiveDirectoryAuthenticationException;
+                if (adex != null)
+                {
+                    if (adex.ErrorCode == ActiveDirectoryAuthenticationError.AuthenticationCanceled)
+                    {
+                        throw new AadAuthenticationCanceledException();
+                    }
+                }
+                throw new AadAuthenticationFailedException(GetExceptionMessage(ex));
             }
 
             return result;
         }
 
+        private string GetExceptionMessage(Exception ex)
+        {
+            string message = ex.Message;
+            if (ex.InnerException != null)
+            {
+                message += ": " + ex.InnerException.Message;
+            }
+            return message;
+        }
         /// <summary>
         /// Implementation of <see cref="IAccessToken"/> using data from ADAL
         /// </summary>
