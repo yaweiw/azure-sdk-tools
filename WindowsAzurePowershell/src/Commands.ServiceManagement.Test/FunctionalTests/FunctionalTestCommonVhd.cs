@@ -87,7 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestInitialize]
         public void Initialize()
         {
-            vhdName = vhdNamePrefix;
             //vhdName = Utilities.GetUniqueShortName(vhdNamePrefix);
             //CopyCommonVhd(vhdContainerName, vhdNamePrefix, vhdName);
             pass = false;
@@ -98,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public void AzureDiskTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
+            vhdName = "os.vhd";
             string mediaLocation = String.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
             try
@@ -153,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public void AzureVMImageTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
+            vhdName = "os1.vhd";
             string newImageName = Utilities.GetUniqueShortName("vmimage");
             string mediaLocation = string.Format("{0}{1}/{2}", blobUrlRoot, vhdContainerName, vhdName);
 
