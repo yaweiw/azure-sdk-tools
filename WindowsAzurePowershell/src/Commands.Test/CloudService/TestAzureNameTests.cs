@@ -18,27 +18,31 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
     using Commands.CloudService;
     using Test.Utilities.CloudService;
     using Test.Utilities.Common;
-    using Test.Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.ResourceModel;
     using ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
     {
         SimpleServiceManagement channel;
-        SimpleServiceBusManagement serviceBusChannel;
         MockCommandRuntime mockCommandRuntime;
         TestAzureNameCommand cmdlet;
+        Mock<ServiceBusClientExtensions> serviceBusClient;
         string subscriptionId = "my subscription Id";
 
         [TestInitialize]
         public void SetupTest()
         {
             channel = new SimpleServiceManagement();
-            serviceBusChannel = new SimpleServiceBusManagement();
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new TestAzureNameCommand(channel, serviceBusChannel) { CommandRuntime = mockCommandRuntime };
+            serviceBusClient = new Mock<ServiceBusClientExtensions>();
+            cmdlet = new TestAzureNameCommand(channel)
+            {
+                CommandRuntime = mockCommandRuntime,
+                ServiceBusClient = serviceBusClient.Object
+            };
         }
 
         [TestMethod]
@@ -93,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceBusNamespaceUsed()
         {
             string name = "test";
-            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabilityResponse { Result = false }; };
+            serviceBusClient.Setup(f => f.IsAvailableNamespace(name)).Returns(false);
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
@@ -106,13 +110,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceBusNamespaceIsNotUsed()
         {
             string name = "test";
-            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabilityResponse { Result = false }; };
+            serviceBusClient.Setup(f => f.IsAvailableNamespace(name)).Returns(true);
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             
-            Assert.IsTrue(actual);
+            Assert.IsFalse(actual);
         }
     }
 }
