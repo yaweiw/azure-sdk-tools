@@ -399,7 +399,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The sites</returns>
         public IList<Site> ListSitesInWebSpace(string spaceName)
         {
-            return WebsiteManagementClient.WebSpaces.ListWebSites(spaceName, new WebSiteListParameters()).WebSites.Select(s => s.ToSite()).ToList();
+            WebSiteListParameters input = new WebSiteListParameters();
+            input.PropertiesToInclude.Add("repositoryuri");
+            input.PropertiesToInclude.Add("publishingpassword");
+            input.PropertiesToInclude.Add("publishingusername");
+            return WebsiteManagementClient.WebSpaces.ListWebSites(spaceName, input).WebSites.Select(s => s.ToSite()).ToList();
         }
 
         /// <summary>
