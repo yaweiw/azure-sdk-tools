@@ -73,53 +73,6 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         }
         
         /// <summary>
-        /// Credentials for getting the DAC
-        /// </summary>
-        public partial class BlobCredentialsParameter
-        {
-            private Uri _uri;
-            
-            /// <summary>
-            /// The URI of the DAC file in stored in Windows Azure Blob Storage.
-            /// </summary>
-            public Uri Uri
-            {
-                get { return this._uri; }
-                set { this._uri = value; }
-            }
-            
-            private string _storageAccessKey;
-            
-            /// <summary>
-            /// The key for the Windows Azure Storage account.
-            /// </summary>
-            public string StorageAccessKey
-            {
-                get { return this._storageAccessKey; }
-                set { this._storageAccessKey = value; }
-            }
-            
-            private string _type;
-            
-            /// <summary>
-            /// The type of object to be passed.
-            /// </summary>
-            public string Type
-            {
-                get { return this._type; }
-                set { this._type = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the BlobCredentialsParameter
-            /// class.
-            /// </summary>
-            public BlobCredentialsParameter()
-            {
-            }
-        }
-        
-        /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
         public partial class ConnectionInfoParameter
@@ -172,6 +125,42 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             /// Initializes a new instance of the ConnectionInfoParameter class.
             /// </summary>
             public ConnectionInfoParameter()
+            {
+            }
+        }
+        
+        /// <summary>
+        /// Credentials for getting the DAC
+        /// </summary>
+        public partial class BlobCredentialsParameter
+        {
+            private Uri _uri;
+            
+            /// <summary>
+            /// The URI of the DAC file in stored in Windows Azure Blob Storage.
+            /// </summary>
+            public Uri Uri
+            {
+                get { return this._uri; }
+                set { this._uri = value; }
+            }
+            
+            private string _storageAccessKey;
+            
+            /// <summary>
+            /// The key for the Windows Azure Storage account.
+            /// </summary>
+            public string StorageAccessKey
+            {
+                get { return this._storageAccessKey; }
+                set { this._storageAccessKey = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the BlobCredentialsParameter
+            /// class.
+            /// </summary>
+            public BlobCredentialsParameter()
             {
             }
         }
@@ -405,53 +394,6 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         }
         
         /// <summary>
-        /// Credentials for getting the DAC
-        /// </summary>
-        public partial class BlobCredentialsParameter
-        {
-            private Uri _uri;
-            
-            /// <summary>
-            /// The URI of the DAC file in stored in Windows Azure Blob Storage.
-            /// </summary>
-            public Uri Uri
-            {
-                get { return this._uri; }
-                set { this._uri = value; }
-            }
-            
-            private string _storageAccessKey;
-            
-            /// <summary>
-            /// The key for the Windows Azure Storage account.
-            /// </summary>
-            public string StorageAccessKey
-            {
-                get { return this._storageAccessKey; }
-                set { this._storageAccessKey = value; }
-            }
-            
-            private string _type;
-            
-            /// <summary>
-            /// The type of object to be passed.
-            /// </summary>
-            public string Type
-            {
-                get { return this._type; }
-                set { this._type = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the BlobCredentialsParameter
-            /// class.
-            /// </summary>
-            public BlobCredentialsParameter()
-            {
-            }
-        }
-        
-        /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
         public partial class ConnectionInfoParameter
@@ -504,6 +446,39 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             /// Initializes a new instance of the ConnectionInfoParameter class.
             /// </summary>
             public ConnectionInfoParameter()
+            {
+            }
+        }
+        
+        /// <summary>
+        /// Credentials for getting the DAC
+        /// </summary>
+        public partial class BlobCredentialsParameter
+        {
+            private Uri _uri;
+            
+            public Uri Uri
+            {
+                get { return this._uri; }
+                set { this._uri = value; }
+            }
+            
+            private string _storageAccessKey;
+            
+            /// <summary>
+            /// The key for the Windows Azure Storage account.
+            /// </summary>
+            public string StorageAccessKey
+            {
+                get { return this._storageAccessKey; }
+                set { this._storageAccessKey = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the BlobCredentialsParameter
+            /// class.
+            /// </summary>
+            public BlobCredentialsParameter()
             {
             }
         }
@@ -2067,19 +2042,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
         }
         
         /// <summary>
-        /// The SQL DAC Management API includes operations for importing and
-        /// exporting SQL Databases into and out of Windows Azure.
-        /// </summary>
-        IDacOperations Dacs
-        {
-            get; 
-        }
-        
-        /// <summary>
         /// The SQL Database Management API includes operations for managing
-        /// SQL Databases for a subscription.
+        /// SQL Database servers for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx
+        /// for more information)
         /// </summary>
-        IDatabaseOperations Databases
+        IServerOperations Servers
         {
             get; 
         }
@@ -2101,11 +2069,18 @@ namespace Microsoft.WindowsAzure.Management.Sql
         
         /// <summary>
         /// The SQL Database Management API includes operations for managing
-        /// SQL Database servers for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx
-        /// for more information)
+        /// SQL Databases for a subscription.
         /// </summary>
-        IServerOperations Servers
+        IDatabaseOperations Databases
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// The SQL DAC Management API includes operations for importing and
+        /// exporting SQL Databases into and out of Windows Azure.
+        /// </summary>
+        IDacOperations Dacs
         {
             get; 
         }
@@ -2157,26 +2132,17 @@ namespace Microsoft.WindowsAzure.Management.Sql
             get { return this._baseUri; }
         }
         
-        private IDacOperations _dacs;
-        
-        /// <summary>
-        /// The SQL DAC Management API includes operations for importing and
-        /// exporting SQL Databases into and out of Windows Azure.
-        /// </summary>
-        public virtual IDacOperations Dacs
-        {
-            get { return this._dacs; }
-        }
-        
-        private IDatabaseOperations _databases;
+        private IServerOperations _servers;
         
         /// <summary>
         /// The SQL Database Management API includes operations for managing
-        /// SQL Databases for a subscription.
+        /// SQL Database servers for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx
+        /// for more information)
         /// </summary>
-        public virtual IDatabaseOperations Databases
+        public virtual IServerOperations Servers
         {
-            get { return this._databases; }
+            get { return this._servers; }
         }
         
         private IFirewallRuleOperations _firewallRules;
@@ -2196,17 +2162,26 @@ namespace Microsoft.WindowsAzure.Management.Sql
             get { return this._firewallRules; }
         }
         
-        private IServerOperations _servers;
+        private IDatabaseOperations _databases;
         
         /// <summary>
         /// The SQL Database Management API includes operations for managing
-        /// SQL Database servers for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx
-        /// for more information)
+        /// SQL Databases for a subscription.
         /// </summary>
-        public virtual IServerOperations Servers
+        public virtual IDatabaseOperations Databases
         {
-            get { return this._servers; }
+            get { return this._databases; }
+        }
+        
+        private IDacOperations _dacs;
+        
+        /// <summary>
+        /// The SQL DAC Management API includes operations for importing and
+        /// exporting SQL Databases into and out of Windows Azure.
+        /// </summary>
+        public virtual IDacOperations Dacs
+        {
+            get { return this._dacs; }
         }
         
         /// <summary>
@@ -2215,10 +2190,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
         private SqlManagementClient()
             : base()
         {
-            this._dacs = new DacOperations(this);
-            this._databases = new DatabaseOperations(this);
-            this._firewallRules = new FirewallRuleOperations(this);
             this._servers = new ServerOperations(this);
+            this._firewallRules = new FirewallRuleOperations(this);
+            this._databases = new DatabaseOperations(this);
+            this._dacs = new DacOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -2281,224 +2256,339 @@ namespace Microsoft.WindowsAzure.Management.Sql
     }
     
     /// <summary>
-    /// The SQL DAC Management API includes operations for importing and
-    /// exporting SQL Databases into and out of Windows Azure.
+    /// The SQL Database Management API includes operations for managing SQL
+    /// Database servers for a subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
+    /// more information)
     /// </summary>
-    public partial interface IDacOperations
-    {
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        Task<DacImportExportResponse> ImportAsync(string serverName, DacImportParameters parameters, CancellationToken cancellationToken);
-        
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='username'>
-        /// The server's username
-        /// </param>
-        /// <param name='password'>
-        /// The server's password
-        /// </param>
-        /// <param name='requestId'>
-        /// The request ID of the operation being queried
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the DAC GetStatus operation
-        /// </returns>
-        Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken);
-        
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        Task<DacImportExportResponse> ExportAsync(string serverName, DacExportParameters parameters, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The SQL DAC Management API includes operations for importing and
-    /// exporting SQL Databases into and out of Windows Azure.
-    /// </summary>
-    public static partial class DacOperationsExtensions
-    {
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        public static DacImportExportResponse Import(this IDacOperations operations, string serverName, DacImportParameters parameters)
-        {
-            try
-            {
-                return operations.ImportAsync(serverName, parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        public static Task<DacImportExportResponse> ImportAsync(this IDacOperations operations, string serverName, DacImportParameters parameters)
-        {
-            return operations.ImportAsync(serverName, parameters, CancellationToken.None);
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='username'>
-        /// The server's username
-        /// </param>
-        /// <param name='password'>
-        /// The server's password
-        /// </param>
-        /// <param name='requestId'>
-        /// The request ID of the operation being queried
-        /// </param>
-        /// <returns>
-        /// The response structure for the DAC GetStatus operation
-        /// </returns>
-        public static DacGetStatusResponse GetStatus(this IDacOperations operations, string serverName, string username, string password, string requestId)
-        {
-            try
-            {
-                return operations.GetStatusAsync(serverName, username, password, requestId).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='username'>
-        /// The server's username
-        /// </param>
-        /// <param name='password'>
-        /// The server's password
-        /// </param>
-        /// <param name='requestId'>
-        /// The request ID of the operation being queried
-        /// </param>
-        /// <returns>
-        /// The response structure for the DAC GetStatus operation
-        /// </returns>
-        public static Task<DacGetStatusResponse> GetStatusAsync(this IDacOperations operations, string serverName, string username, string password, string requestId)
-        {
-            return operations.GetStatusAsync(serverName, username, password, requestId, CancellationToken.None);
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        public static DacImportExportResponse Export(this IDacOperations operations, string serverName, DacExportParameters parameters)
-        {
-            try
-            {
-                return operations.ExportAsync(serverName, parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <returns>
-        /// Response for an DAC Import/Export request.
-        /// </returns>
-        public static Task<DacImportExportResponse> ExportAsync(this IDacOperations operations, string serverName, DacExportParameters parameters)
-        {
-            return operations.ExportAsync(serverName, parameters, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The SQL DAC Management API includes operations for importing and
-    /// exporting SQL Databases into and out of Windows Azure.
-    /// </summary>
-    internal partial class DacOperations : IServiceOperations<SqlManagementClient>, IDacOperations
+    public partial interface IServerOperations
     {
         /// <summary>
-        /// Initializes a new instance of the DacOperations class.
+        /// The Set Server Administrator Password operation sets the
+        /// administrative password of a SQL Database server for a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The server that will have the change made to the administrative user
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Manage Administrator Password operation
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> ChangeAdministratorPasswordAsync(string serverName, ServerChangeAdministratorPasswordParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Create Server operation adds a new SQL Database server to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Server operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response returned from the Create Server operation
+        /// </returns>
+        Task<ServerCreateResponse> CreateAsync(ServerCreateParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Drop Server operation drops a SQL Database server from a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server to be deleted
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> DeleteAsync(string serverName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Get Servers operation enumerates SQL Database servers that are
+        /// provisioned for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Server List operation
+        /// </returns>
+        Task<ServerListResponse> ListAsync(CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The SQL Database Management API includes operations for managing SQL
+    /// Database servers for a subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
+    /// more information)
+    /// </summary>
+    public static partial class ServerOperationsExtensions
+    {
+        /// <summary>
+        /// The Set Server Administrator Password operation sets the
+        /// administrative password of a SQL Database server for a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The server that will have the change made to the administrative user
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Manage Administrator Password operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse ChangeAdministratorPassword(this IServerOperations operations, string serverName, ServerChangeAdministratorPasswordParameters parameters)
+        {
+            try
+            {
+                return operations.ChangeAdministratorPasswordAsync(serverName, parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Set Server Administrator Password operation sets the
+        /// administrative password of a SQL Database server for a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The server that will have the change made to the administrative user
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Manage Administrator Password operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> ChangeAdministratorPasswordAsync(this IServerOperations operations, string serverName, ServerChangeAdministratorPasswordParameters parameters)
+        {
+            return operations.ChangeAdministratorPasswordAsync(serverName, parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Create Server operation adds a new SQL Database server to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Server operation.
+        /// </param>
+        /// <returns>
+        /// The response returned from the Create Server operation
+        /// </returns>
+        public static ServerCreateResponse Create(this IServerOperations operations, ServerCreateParameters parameters)
+        {
+            try
+            {
+                return operations.CreateAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Create Server operation adds a new SQL Database server to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Server operation.
+        /// </param>
+        /// <returns>
+        /// The response returned from the Create Server operation
+        /// </returns>
+        public static Task<ServerCreateResponse> CreateAsync(this IServerOperations operations, ServerCreateParameters parameters)
+        {
+            return operations.CreateAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Drop Server operation drops a SQL Database server from a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server to be deleted
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse Delete(this IServerOperations operations, string serverName)
+        {
+            try
+            {
+                return operations.DeleteAsync(serverName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Drop Server operation drops a SQL Database server from a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server to be deleted
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> DeleteAsync(this IServerOperations operations, string serverName)
+        {
+            return operations.DeleteAsync(serverName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Get Servers operation enumerates SQL Database servers that are
+        /// provisioned for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Server List operation
+        /// </returns>
+        public static ServerListResponse List(this IServerOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Servers operation enumerates SQL Database servers that are
+        /// provisioned for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Server List operation
+        /// </returns>
+        public static Task<ServerListResponse> ListAsync(this IServerOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The SQL Database Management API includes operations for managing SQL
+    /// Database servers for a subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
+    /// more information)
+    /// </summary>
+    internal partial class ServerOperations : IServiceOperations<SqlManagementClient>, IServerOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the ServerOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        internal DacOperations(SqlManagementClient client)
+        internal ServerOperations(SqlManagementClient client)
         {
             this._client = client;
         }
@@ -2514,54 +2604,40 @@ namespace Microsoft.WindowsAzure.Management.Sql
             get { return this._client; }
         }
         
+        /// <summary>
+        /// The Set Server Administrator Password operation sets the
+        /// administrative password of a SQL Database server for a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
+        /// for more information)
+        /// </summary>
         /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
+        /// The server that will have the change made to the administrative user
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Manage Administrator Password operation
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// Response for an DAC Import/Export request.
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
         /// </returns>
-        public async Task<DacImportExportResponse> ImportAsync(string serverName, DacImportParameters parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> ChangeAdministratorPasswordAsync(string serverName, ServerChangeAdministratorPasswordParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
             }
-            if (parameters != null)
+            if (parameters == null)
             {
-                if (parameters.BlobCredentials != null)
-                {
-                    if (parameters.BlobCredentials.Uri == null)
-                    {
-                        throw new ArgumentNullException("parameters.BlobCredentials.Uri");
-                    }
-                    if (parameters.BlobCredentials.StorageAccessKey == null)
-                    {
-                        throw new ArgumentNullException("parameters.BlobCredentials.StorageAccessKey");
-                    }
-                }
-                if (parameters.ConnectionInfo != null)
-                {
-                    if (parameters.ConnectionInfo.DatabaseName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.DatabaseName");
-                    }
-                    if (parameters.ConnectionInfo.Password == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.Password");
-                    }
-                    if (parameters.ConnectionInfo.ServerName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.ServerName");
-                    }
-                    if (parameters.ConnectionInfo.UserName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.UserName");
-                    }
-                }
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.NewPassword == null)
+            {
+                throw new ArgumentNullException("parameters.NewPassword");
             }
             
             // Tracing
@@ -2573,11 +2649,11 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "ImportAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "ChangeAdministratorPasswordAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Import";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "?op=ResetPassword";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -2598,58 +2674,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
                 
-                if (parameters != null)
-                {
-                    XElement importInputElement = new XElement(XName.Get("ImportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                    requestDoc.Add(importInputElement);
-                    
-                    if (parameters.BlobCredentials != null)
-                    {
-                        XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        importInputElement.Add(blobCredentialsElement);
-                        
-                        if (parameters.BlobCredentials.Type != null)
-                        {
-                            XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
-                            typeAttribute.Value = "BlobStorageAccessKeyCredentials";
-                            blobCredentialsElement.Add(typeAttribute);
-                        }
-                        
-                        XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        uriElement.Value = parameters.BlobCredentials.Uri.ToString();
-                        blobCredentialsElement.Add(uriElement);
-                        
-                        XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
-                        blobCredentialsElement.Add(storageAccessKeyElement);
-                    }
-                    
-                    if (parameters.ConnectionInfo != null)
-                    {
-                        XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        importInputElement.Add(connectionInfoElement);
-                        
-                        XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
-                        connectionInfoElement.Add(databaseNameElement);
-                        
-                        XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        passwordElement.Value = parameters.ConnectionInfo.Password;
-                        connectionInfoElement.Add(passwordElement);
-                        
-                        XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        serverNameElement.Value = parameters.ConnectionInfo.ServerName;
-                        connectionInfoElement.Add(serverNameElement);
-                        
-                        XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        userNameElement.Value = parameters.ConnectionInfo.UserName;
-                        connectionInfoElement.Add(userNameElement);
-                    }
-                    
-                    XElement databaseSizeInGBElement = new XElement(XName.Get("DatabaseSizeInGB", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                    databaseSizeInGBElement.Value = parameters.DatabaseSizeInGB.ToString();
-                    importInputElement.Add(databaseSizeInGBElement);
-                }
+                XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                requestDoc.Add(administratorLoginPasswordElement);
+                
+                administratorLoginPasswordElement.Value = parameters.NewPassword;
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -2682,17 +2710,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    DacImportExportResponse result = new DacImportExportResponse();
+                    OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     if (shouldTrace)
                     {
@@ -2717,42 +2740,183 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
-        /// </param>
-        /// <param name='username'>
-        /// The server's username
-        /// </param>
-        /// <param name='password'>
-        /// The server's password
-        /// </param>
-        /// <param name='requestId'>
-        /// The request ID of the operation being queried
+        /// <summary>
+        /// The Create Server operation adds a new SQL Database server to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Server operation.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response structure for the DAC GetStatus operation
+        /// The response returned from the Create Server operation
         /// </returns>
-        public async Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken)
+        public async Task<ServerCreateResponse> CreateAsync(ServerCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.AdministratorUserName == null)
+            {
+                throw new ArgumentNullException("parameters.AdministratorUserName");
+            }
+            if (parameters.AdministratorPassword == null)
+            {
+                throw new ArgumentNullException("parameters.AdministratorPassword");
+            }
+            if (parameters.Location == null)
+            {
+                throw new ArgumentNullException("parameters.Location");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement serverElement = new XElement(XName.Get("Server", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                requestDoc.Add(serverElement);
+                
+                XElement administratorLoginElement = new XElement(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                administratorLoginElement.Value = parameters.AdministratorUserName;
+                serverElement.Add(administratorLoginElement);
+                
+                XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                administratorLoginPasswordElement.Value = parameters.AdministratorPassword;
+                serverElement.Add(administratorLoginPasswordElement);
+                
+                XElement locationElement = new XElement(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                locationElement.Value = parameters.Location;
+                serverElement.Add(locationElement);
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Created)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServerCreateResponse result = new ServerCreateResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement serverNameElement = responseDoc.Element(XName.Get("ServerName", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                    if (serverNameElement != null)
+                    {
+                        result.ServerName = serverNameElement.Value;
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Drop Server operation drops a SQL Database server from a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server to be deleted
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> DeleteAsync(string serverName, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
-            }
-            if (username == null)
-            {
-                throw new ArgumentNullException("username");
-            }
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
-            if (requestId == null)
-            {
-                throw new ArgumentNullException("requestId");
             }
             
             // Tracing
@@ -2763,14 +2927,112 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
-                tracingParameters.Add("username", username);
-                tracingParameters.Add("password", password);
-                tracingParameters.Add("requestId", requestId);
-                Tracing.Enter(invocationId, this, "GetStatusAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Status?servername=" + serverName + "&username=" + username + "&password=" + password + "&reqId=" + requestId;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Servers operation enumerates SQL Database servers that are
+        /// provisioned for a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Server List operation
+        /// </returns>
+        public async Task<ServerListResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -2814,7 +3076,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    DacGetStatusResponse result = new DacGetStatusResponse();
+                    ServerListResponse result = new ServerListResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -2826,75 +3088,946 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement statusInfoSequenceElement = responseDoc.Element(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                    if (statusInfoSequenceElement != null)
+                    XElement serversSequenceElement = responseDoc.Element(XName.Get("Servers", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                    if (serversSequenceElement != null)
                     {
-                        foreach (XElement statusInfoElement in statusInfoSequenceElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
+                        foreach (XElement serversElement in serversSequenceElement.Elements(XName.Get("Server", "http://schemas.microsoft.com/sqlazure/2010/12/")))
                         {
-                            DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
-                            result.StatusInfoList.Add(statusInfoInstance);
+                            ServerListResponse.Server serverInstance = new ServerListResponse.Server();
+                            result.Servers.Add(serverInstance);
                             
-                            XElement blobUriElement = statusInfoElement.Element(XName.Get("BlobUri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (blobUriElement != null)
+                            XElement nameElement = serversElement.Element(XName.Get("Name", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                            if (nameElement != null)
                             {
-                                Uri blobUriInstance = TypeConversion.TryParseUri(blobUriElement.Value);
-                                statusInfoInstance.BlobUri = blobUriInstance;
+                                string nameInstance = nameElement.Value;
+                                serverInstance.Name = nameInstance;
                             }
                             
-                            XElement databaseNameElement = statusInfoElement.Element(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (databaseNameElement != null)
+                            XElement administratorLoginElement = serversElement.Element(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                            if (administratorLoginElement != null)
                             {
-                                string databaseNameInstance = databaseNameElement.Value;
-                                statusInfoInstance.DatabaseName = databaseNameInstance;
+                                string administratorLoginInstance = administratorLoginElement.Value;
+                                serverInstance.AdministratorUserName = administratorLoginInstance;
                             }
                             
-                            XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (errorMessageElement != null)
+                            XElement locationElement = serversElement.Element(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                            if (locationElement != null)
                             {
-                                string errorMessageInstance = errorMessageElement.Value;
-                                statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                string locationInstance = locationElement.Value;
+                                serverInstance.Location = locationInstance;
                             }
                             
-                            XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (lastModifiedTimeElement != null)
+                            XElement featuresSequenceElement = serversElement.Element(XName.Get("Features", "http://schemas.microsoft.com/sqlazure/2010/12/"));
+                            if (featuresSequenceElement != null)
                             {
-                                DateTime lastModifiedTimeInstance = DateTime.Parse(lastModifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                statusInfoInstance.LastModifiedTime = lastModifiedTimeInstance;
+                                foreach (XElement featuresElement in featuresSequenceElement.Elements(XName.Get("Feature", "http://schemas.microsoft.com/sqlazure/2010/12/")))
+                                {
+                                    string featuresKey = featuresElement.Element(XName.Get("Name", "http://schemas.microsoft.com/sqlazure/2010/12/")).Value;
+                                    string featuresValue = featuresElement.Element(XName.Get("Value", "http://schemas.microsoft.com/sqlazure/2010/12/")).Value;
+                                    serverInstance.Features.Add(featuresKey, featuresValue);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Windows Azure SQL Database Management API includes operations for
+    /// managing the server-level firewall rules for SQL Database servers.You
+    /// cannot manage the database-level firewall rules using the Windows
+    /// Azure SQL Database Management API; they can only be managed by running
+    /// the  Transact-SQL statements against the master or individual user
+    /// databases.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
+    /// more information)
+    /// </summary>
+    public partial interface IFirewallRuleOperations
+    {
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Create Firewall Rule operation
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<FirewallRuleCreateResponse> CreateAsync(string serverName, FirewallRuleCreateParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Delete Server Firewall Rule operation deletes a server-level
+        /// firewall rule from a SQL Database server that belongs to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server that will be have new firewall rule applied
+        /// to it
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the new firewall rule
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> DeleteAsync(string serverName, string ruleName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Get Server Firewall Rules operation retrieves a list of all the
+        /// server-level firewall rules for a SQL Database server that belongs
+        /// to a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server for which the call is being made
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<FirewallRuleListResponse> ListAsync(string serverName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the firewall rule to be updated.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Update Firewall Rule operation
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<FirewallRuleUpdateResponse> UpdateAsync(string serverName, string ruleName, FirewallRuleUpdateParameters parameters, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Windows Azure SQL Database Management API includes operations for
+    /// managing the server-level firewall rules for SQL Database servers.You
+    /// cannot manage the database-level firewall rules using the Windows
+    /// Azure SQL Database Management API; they can only be managed by running
+    /// the  Transact-SQL statements against the master or individual user
+    /// databases.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
+    /// more information)
+    /// </summary>
+    public static partial class FirewallRuleOperationsExtensions
+    {
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Create Firewall Rule operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static FirewallRuleCreateResponse Create(this IFirewallRuleOperations operations, string serverName, FirewallRuleCreateParameters parameters)
+        {
+            try
+            {
+                return operations.CreateAsync(serverName, parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Create Firewall Rule operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<FirewallRuleCreateResponse> CreateAsync(this IFirewallRuleOperations operations, string serverName, FirewallRuleCreateParameters parameters)
+        {
+            return operations.CreateAsync(serverName, parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Delete Server Firewall Rule operation deletes a server-level
+        /// firewall rule from a SQL Database server that belongs to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server that will be have new firewall rule applied
+        /// to it
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the new firewall rule
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse Delete(this IFirewallRuleOperations operations, string serverName, string ruleName)
+        {
+            try
+            {
+                return operations.DeleteAsync(serverName, ruleName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Server Firewall Rule operation deletes a server-level
+        /// firewall rule from a SQL Database server that belongs to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server that will be have new firewall rule applied
+        /// to it
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the new firewall rule
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> DeleteAsync(this IFirewallRuleOperations operations, string serverName, string ruleName)
+        {
+            return operations.DeleteAsync(serverName, ruleName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Get Server Firewall Rules operation retrieves a list of all the
+        /// server-level firewall rules for a SQL Database server that belongs
+        /// to a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server for which the call is being made
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static FirewallRuleListResponse List(this IFirewallRuleOperations operations, string serverName)
+        {
+            try
+            {
+                return operations.ListAsync(serverName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Server Firewall Rules operation retrieves a list of all the
+        /// server-level firewall rules for a SQL Database server that belongs
+        /// to a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the server for which the call is being made
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<FirewallRuleListResponse> ListAsync(this IFirewallRuleOperations operations, string serverName)
+        {
+            return operations.ListAsync(serverName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the firewall rule to be updated.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Update Firewall Rule operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static FirewallRuleUpdateResponse Update(this IFirewallRuleOperations operations, string serverName, string ruleName, FirewallRuleUpdateParameters parameters)
+        {
+            try
+            {
+                return operations.UpdateAsync(serverName, ruleName, parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the firewall rule to be updated.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Update Firewall Rule operation
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<FirewallRuleUpdateResponse> UpdateAsync(this IFirewallRuleOperations operations, string serverName, string ruleName, FirewallRuleUpdateParameters parameters)
+        {
+            return operations.UpdateAsync(serverName, ruleName, parameters, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Windows Azure SQL Database Management API includes operations for
+    /// managing the server-level firewall rules for SQL Database servers.You
+    /// cannot manage the database-level firewall rules using the Windows
+    /// Azure SQL Database Management API; they can only be managed by running
+    /// the  Transact-SQL statements against the master or individual user
+    /// databases.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
+    /// more information)
+    /// </summary>
+    internal partial class FirewallRuleOperations : IServiceOperations<SqlManagementClient>, IFirewallRuleOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the FirewallRuleOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal FirewallRuleOperations(SqlManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private SqlManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
+        /// </summary>
+        public SqlManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Create Firewall Rule operation
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<FirewallRuleCreateResponse> CreateAsync(string serverName, FirewallRuleCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.Name == null)
+            {
+                throw new ArgumentNullException("parameters.Name");
+            }
+            if (parameters.StartIPAddress == null)
+            {
+                throw new ArgumentNullException("parameters.StartIPAddress");
+            }
+            if (parameters.EndIPAddress == null)
+            {
+                throw new ArgumentNullException("parameters.EndIPAddress");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                requestDoc.Add(serviceResourceElement);
+                
+                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                nameElement.Value = parameters.Name;
+                serviceResourceElement.Add(nameElement);
+                
+                XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                startIPAddressElement.Value = parameters.StartIPAddress;
+                serviceResourceElement.Add(startIPAddressElement);
+                
+                XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                endIPAddressElement.Value = parameters.EndIPAddress;
+                serviceResourceElement.Add(endIPAddressElement);
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Created)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    FirewallRuleCreateResponse result = new FirewallRuleCreateResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourceElement2 != null)
+                    {
+                        XElement nameElement2 = serviceResourceElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                        if (nameElement2 != null)
+                        {
+                            string nameInstance = nameElement2.Value;
+                            result.Name = nameInstance;
+                        }
+                        
+                        XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                        if (typeElement != null)
+                        {
+                            string typeInstance = typeElement.Value;
+                            result.Type = typeInstance;
+                        }
+                        
+                        XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateElement != null)
+                        {
+                            string stateInstance = stateElement.Value;
+                            result.State = stateInstance;
+                        }
+                        
+                        XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                        if (startIPAddressElement2 != null)
+                        {
+                            string startIPAddressInstance = startIPAddressElement2.Value;
+                            result.StartIPAddress = startIPAddressInstance;
+                        }
+                        
+                        XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                        if (endIPAddressElement2 != null)
+                        {
+                            string endIPAddressInstance = endIPAddressElement2.Value;
+                            result.EndIPAddress = endIPAddressInstance;
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Server Firewall Rule operation deletes a server-level
+        /// firewall rule from a SQL Database server that belongs to a
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server that will be have new firewall rule applied
+        /// to it
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the new firewall rule
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> DeleteAsync(string serverName, string ruleName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            if (ruleName == null)
+            {
+                throw new ArgumentNullException("ruleName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("ruleName", ruleName);
+                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Server Firewall Rules operation retrieves a list of all the
+        /// server-level firewall rules for a SQL Database server that belongs
+        /// to a subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the server for which the call is being made
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<FirewallRuleListResponse> ListAsync(string serverName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    FirewallRuleListResponse result = new FirewallRuleListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourcesSequenceElement != null)
+                    {
+                        foreach (XElement serviceResourcesElement in serviceResourcesSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            FirewallRuleListResponse.FirewallRule serviceResourceInstance = new FirewallRuleListResponse.FirewallRule();
+                            result.FirewallRules.Add(serviceResourceInstance);
+                            
+                            XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                serviceResourceInstance.Name = nameInstance;
                             }
                             
-                            XElement queuedTimeElement = statusInfoElement.Element(XName.Get("QueuedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (queuedTimeElement != null)
+                            XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                            if (typeElement != null)
                             {
-                                DateTime queuedTimeInstance = DateTime.Parse(queuedTimeElement.Value, CultureInfo.InvariantCulture);
-                                statusInfoInstance.QueuedTime = queuedTimeInstance;
+                                string typeInstance = typeElement.Value;
+                                serviceResourceInstance.Type = typeInstance;
                             }
                             
-                            XElement requestIdElement = statusInfoElement.Element(XName.Get("RequestId", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (requestIdElement != null)
+                            XElement startIPAddressElement = serviceResourcesElement.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                            if (startIPAddressElement != null)
                             {
-                                string requestIdInstance = requestIdElement.Value;
-                                statusInfoInstance.RequestId = requestIdInstance;
+                                string startIPAddressInstance = startIPAddressElement.Value;
+                                serviceResourceInstance.StartIPAddress = startIPAddressInstance;
                             }
                             
-                            XElement requestTypeElement = statusInfoElement.Element(XName.Get("RequestType", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (requestTypeElement != null)
+                            XElement endIPAddressElement = serviceResourcesElement.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                            if (endIPAddressElement != null)
                             {
-                                string requestTypeInstance = requestTypeElement.Value;
-                                statusInfoInstance.RequestType = requestTypeInstance;
-                            }
-                            
-                            XElement serverNameElement = statusInfoElement.Element(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (serverNameElement != null)
-                            {
-                                string serverNameInstance = serverNameElement.Value;
-                                statusInfoInstance.ServerName = serverNameInstance;
-                            }
-                            
-                            XElement statusElement = statusInfoElement.Element(XName.Get("Status", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (statusElement != null)
-                            {
-                                string statusInstance = statusElement.Value;
-                                statusInfoInstance.Status = statusInstance;
+                                string endIPAddressInstance = endIPAddressElement.Value;
+                                serviceResourceInstance.EndIPAddress = endIPAddressInstance;
                             }
                         }
                     }
@@ -2922,54 +4055,57 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
+        /// <summary>
+        /// The Set Server Firewall Rule operation updates an existing
+        /// server-level firewall rule or adds a new server-level firewall
+        /// rule for a SQL Database server that belongs to a subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
+        /// for more information)
+        /// </summary>
         /// <param name='serverName'>
-        /// The name of the server being imported to or exported from
+        /// The name of the SQL database server to which this rule will be
+        /// applied.
+        /// </param>
+        /// <param name='ruleName'>
+        /// The name of the firewall rule to be updated.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters for the Update Firewall Rule operation
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// Response for an DAC Import/Export request.
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
         /// </returns>
-        public async Task<DacImportExportResponse> ExportAsync(string serverName, DacExportParameters parameters, CancellationToken cancellationToken)
+        public async Task<FirewallRuleUpdateResponse> UpdateAsync(string serverName, string ruleName, FirewallRuleUpdateParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
             }
-            if (parameters != null)
+            if (ruleName == null)
             {
-                if (parameters.BlobCredentials != null)
-                {
-                    if (parameters.BlobCredentials.Uri == null)
-                    {
-                        throw new ArgumentNullException("parameters.BlobCredentials.Uri");
-                    }
-                    if (parameters.BlobCredentials.StorageAccessKey == null)
-                    {
-                        throw new ArgumentNullException("parameters.BlobCredentials.StorageAccessKey");
-                    }
-                }
-                if (parameters.ConnectionInfo != null)
-                {
-                    if (parameters.ConnectionInfo.DatabaseName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.DatabaseName");
-                    }
-                    if (parameters.ConnectionInfo.Password == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.Password");
-                    }
-                    if (parameters.ConnectionInfo.ServerName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.ServerName");
-                    }
-                    if (parameters.ConnectionInfo.UserName == null)
-                    {
-                        throw new ArgumentNullException("parameters.ConnectionInfo.UserName");
-                    }
-                }
+                throw new ArgumentNullException("ruleName");
+            }
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.Name == null)
+            {
+                throw new ArgumentNullException("parameters.Name");
+            }
+            if (parameters.StartIPAddress == null)
+            {
+                throw new ArgumentNullException("parameters.StartIPAddress");
+            }
+            if (parameters.EndIPAddress == null)
+            {
+                throw new ArgumentNullException("parameters.EndIPAddress");
             }
             
             // Tracing
@@ -2980,19 +4116,20 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("ruleName", ruleName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "ExportAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Export";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
+                httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
@@ -3006,54 +4143,20 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
                 
-                if (parameters != null)
-                {
-                    XElement exportInputElement = new XElement(XName.Get("ExportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                    requestDoc.Add(exportInputElement);
-                    
-                    if (parameters.BlobCredentials != null)
-                    {
-                        XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        exportInputElement.Add(blobCredentialsElement);
-                        
-                        if (parameters.BlobCredentials.Type != null)
-                        {
-                            XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
-                            typeAttribute.Value = "BlobStorageAccessKeyCredentials";
-                            blobCredentialsElement.Add(typeAttribute);
-                        }
-                        
-                        XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        uriElement.Value = parameters.BlobCredentials.Uri.ToString();
-                        blobCredentialsElement.Add(uriElement);
-                        
-                        XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
-                        blobCredentialsElement.Add(storageAccessKeyElement);
-                    }
-                    
-                    if (parameters.ConnectionInfo != null)
-                    {
-                        XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        exportInputElement.Add(connectionInfoElement);
-                        
-                        XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
-                        connectionInfoElement.Add(databaseNameElement);
-                        
-                        XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        passwordElement.Value = parameters.ConnectionInfo.Password;
-                        connectionInfoElement.Add(passwordElement);
-                        
-                        XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        serverNameElement.Value = parameters.ConnectionInfo.ServerName;
-                        connectionInfoElement.Add(serverNameElement);
-                        
-                        XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        userNameElement.Value = parameters.ConnectionInfo.UserName;
-                        connectionInfoElement.Add(userNameElement);
-                    }
-                }
+                XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                requestDoc.Add(serviceResourceElement);
+                
+                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                nameElement.Value = parameters.Name;
+                serviceResourceElement.Add(nameElement);
+                
+                XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                startIPAddressElement.Value = parameters.StartIPAddress;
+                serviceResourceElement.Add(startIPAddressElement);
+                
+                XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                endIPAddressElement.Value = parameters.EndIPAddress;
+                serviceResourceElement.Add(endIPAddressElement);
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -3086,7 +4189,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    DacImportExportResponse result = new DacImportExportResponse();
+                    FirewallRuleUpdateResponse result = new FirewallRuleUpdateResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -3097,6 +4200,45 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourceElement2 != null)
+                    {
+                        XElement nameElement2 = serviceResourceElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                        if (nameElement2 != null)
+                        {
+                            string nameInstance = nameElement2.Value;
+                            result.Name = nameInstance;
+                        }
+                        
+                        XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                        if (typeElement != null)
+                        {
+                            string typeInstance = typeElement.Value;
+                            result.Type = typeInstance;
+                        }
+                        
+                        XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateElement != null)
+                        {
+                            string stateInstance = stateElement.Value;
+                            result.State = stateInstance;
+                        }
+                        
+                        XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                        if (startIPAddressElement2 != null)
+                        {
+                            string startIPAddressInstance = startIPAddressElement2.Value;
+                            result.StartIPAddress = startIPAddressInstance;
+                        }
+                        
+                        XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                        if (endIPAddressElement2 != null)
+                        {
+                            string endIPAddressInstance = endIPAddressElement2.Value;
+                            result.EndIPAddress = endIPAddressInstance;
+                        }
+                    }
                     
                     if (shouldTrace)
                     {
@@ -4726,151 +5868,75 @@ namespace Microsoft.WindowsAzure.Management.Sql
     }
     
     /// <summary>
-    /// The Windows Azure SQL Database Management API includes operations for
-    /// managing the server-level firewall rules for SQL Database servers.You
-    /// cannot manage the database-level firewall rules using the Windows
-    /// Azure SQL Database Management API; they can only be managed by running
-    /// the  Transact-SQL statements against the master or individual user
-    /// databases.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
-    /// more information)
+    /// The SQL DAC Management API includes operations for importing and
+    /// exporting SQL Databases into and out of Windows Azure.
     /// </summary>
-    public partial interface IFirewallRuleOperations
+    public partial interface IDacOperations
     {
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Create Firewall Rule operation
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        Task<FirewallRuleCreateResponse> CreateAsync(string serverName, FirewallRuleCreateParameters parameters, CancellationToken cancellationToken);
+        Task<DacImportExportResponse> ImportAsync(string serverName, DacImportParameters parameters, CancellationToken cancellationToken);
         
-        /// <summary>
-        /// The Delete Server Firewall Rule operation deletes a server-level
-        /// firewall rule from a SQL Database server that belongs to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the server that will be have new firewall rule applied
-        /// to it
+        /// The name of the server being imported to or exported from
         /// </param>
-        /// <param name='ruleName'>
-        /// The name of the new firewall rule
+        /// <param name='username'>
+        /// The server's username
+        /// </param>
+        /// <param name='password'>
+        /// The server's password
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID of the operation being queried
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the DAC GetStatus operation
         /// </returns>
-        Task<OperationResponse> DeleteAsync(string serverName, string ruleName, CancellationToken cancellationToken);
+        Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken);
         
-        /// <summary>
-        /// The Get Server Firewall Rules operation retrieves a list of all the
-        /// server-level firewall rules for a SQL Database server that belongs
-        /// to a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the server for which the call is being made
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        Task<FirewallRuleListResponse> ListAsync(string serverName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='ruleName'>
-        /// The name of the firewall rule to be updated.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Update Firewall Rule operation
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<FirewallRuleUpdateResponse> UpdateAsync(string serverName, string ruleName, FirewallRuleUpdateParameters parameters, CancellationToken cancellationToken);
+        Task<DacImportExportResponse> ExportAsync(string serverName, DacExportParameters parameters, CancellationToken cancellationToken);
     }
     
     /// <summary>
-    /// The Windows Azure SQL Database Management API includes operations for
-    /// managing the server-level firewall rules for SQL Database servers.You
-    /// cannot manage the database-level firewall rules using the Windows
-    /// Azure SQL Database Management API; they can only be managed by running
-    /// the  Transact-SQL statements against the master or individual user
-    /// databases.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
-    /// more information)
+    /// The SQL DAC Management API includes operations for importing and
+    /// exporting SQL Databases into and out of Windows Azure.
     /// </summary>
-    public static partial class FirewallRuleOperationsExtensions
+    public static partial class DacOperationsExtensions
     {
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Create Firewall Rule operation
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public static FirewallRuleCreateResponse Create(this IFirewallRuleOperations operations, string serverName, FirewallRuleCreateParameters parameters)
+        public static DacImportExportResponse Import(this IDacOperations operations, string serverName, DacImportParameters parameters)
         {
             try
             {
-                return operations.CreateAsync(serverName, parameters).Result;
+                return operations.ImportAsync(serverName, parameters).Result;
             }
             catch (AggregateException ex)
             {
@@ -4885,61 +5951,45 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Create Firewall Rule operation
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public static Task<FirewallRuleCreateResponse> CreateAsync(this IFirewallRuleOperations operations, string serverName, FirewallRuleCreateParameters parameters)
+        public static Task<DacImportExportResponse> ImportAsync(this IDacOperations operations, string serverName, DacImportParameters parameters)
         {
-            return operations.CreateAsync(serverName, parameters, CancellationToken.None);
+            return operations.ImportAsync(serverName, parameters, CancellationToken.None);
         }
         
-        /// <summary>
-        /// The Delete Server Firewall Rule operation deletes a server-level
-        /// firewall rule from a SQL Database server that belongs to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the server that will be have new firewall rule applied
-        /// to it
+        /// The name of the server being imported to or exported from
         /// </param>
-        /// <param name='ruleName'>
-        /// The name of the new firewall rule
+        /// <param name='username'>
+        /// The server's username
+        /// </param>
+        /// <param name='password'>
+        /// The server's password
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID of the operation being queried
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public static OperationResponse Delete(this IFirewallRuleOperations operations, string serverName, string ruleName)
+        public static DacGetStatusResponse GetStatus(this IDacOperations operations, string serverName, string username, string password, string requestId)
         {
             try
             {
-                return operations.DeleteAsync(serverName, ruleName).Result;
+                return operations.GetStatusAsync(serverName, username, password, requestId).Result;
             }
             catch (AggregateException ex)
             {
@@ -4954,56 +6004,45 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <summary>
-        /// The Delete Server Firewall Rule operation deletes a server-level
-        /// firewall rule from a SQL Database server that belongs to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the server that will be have new firewall rule applied
-        /// to it
+        /// The name of the server being imported to or exported from
         /// </param>
-        /// <param name='ruleName'>
-        /// The name of the new firewall rule
+        /// <param name='username'>
+        /// The server's username
+        /// </param>
+        /// <param name='password'>
+        /// The server's password
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID of the operation being queried
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public static Task<OperationResponse> DeleteAsync(this IFirewallRuleOperations operations, string serverName, string ruleName)
+        public static Task<DacGetStatusResponse> GetStatusAsync(this IDacOperations operations, string serverName, string username, string password, string requestId)
         {
-            return operations.DeleteAsync(serverName, ruleName, CancellationToken.None);
+            return operations.GetStatusAsync(serverName, username, password, requestId, CancellationToken.None);
         }
         
-        /// <summary>
-        /// The Get Server Firewall Rules operation retrieves a list of all the
-        /// server-level firewall rules for a SQL Database server that belongs
-        /// to a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the server for which the call is being made
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public static FirewallRuleListResponse List(this IFirewallRuleOperations operations, string serverName)
+        public static DacImportExportResponse Export(this IDacOperations operations, string serverName, DacExportParameters parameters)
         {
             try
             {
-                return operations.ListAsync(serverName).Result;
+                return operations.ExportAsync(serverName, parameters).Result;
             }
             catch (AggregateException ex)
             {
@@ -5018,125 +6057,35 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <summary>
-        /// The Get Server Firewall Rules operation retrieves a list of all the
-        /// server-level firewall rules for a SQL Database server that belongs
-        /// to a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
+        /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
         /// </param>
         /// <param name='serverName'>
-        /// The name of the server for which the call is being made
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public static Task<FirewallRuleListResponse> ListAsync(this IFirewallRuleOperations operations, string serverName)
+        public static Task<DacImportExportResponse> ExportAsync(this IDacOperations operations, string serverName, DacExportParameters parameters)
         {
-            return operations.ListAsync(serverName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='ruleName'>
-        /// The name of the firewall rule to be updated.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Update Firewall Rule operation
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static FirewallRuleUpdateResponse Update(this IFirewallRuleOperations operations, string serverName, string ruleName, FirewallRuleUpdateParameters parameters)
-        {
-            try
-            {
-                return operations.UpdateAsync(serverName, ruleName, parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IFirewallRuleOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='ruleName'>
-        /// The name of the firewall rule to be updated.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Update Firewall Rule operation
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<FirewallRuleUpdateResponse> UpdateAsync(this IFirewallRuleOperations operations, string serverName, string ruleName, FirewallRuleUpdateParameters parameters)
-        {
-            return operations.UpdateAsync(serverName, ruleName, parameters, CancellationToken.None);
+            return operations.ExportAsync(serverName, parameters, CancellationToken.None);
         }
     }
     
     /// <summary>
-    /// The Windows Azure SQL Database Management API includes operations for
-    /// managing the server-level firewall rules for SQL Database servers.You
-    /// cannot manage the database-level firewall rules using the Windows
-    /// Azure SQL Database Management API; they can only be managed by running
-    /// the  Transact-SQL statements against the master or individual user
-    /// databases.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715276.aspx for
-    /// more information)
+    /// The SQL DAC Management API includes operations for importing and
+    /// exporting SQL Databases into and out of Windows Azure.
     /// </summary>
-    internal partial class FirewallRuleOperations : IServiceOperations<SqlManagementClient>, IFirewallRuleOperations
+    internal partial class DacOperations : IServiceOperations<SqlManagementClient>, IDacOperations
     {
         /// <summary>
-        /// Initializes a new instance of the FirewallRuleOperations class.
+        /// Initializes a new instance of the DacOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        internal FirewallRuleOperations(SqlManagementClient client)
+        internal DacOperations(SqlManagementClient client)
         {
             this._client = client;
         }
@@ -5152,50 +6101,54 @@ namespace Microsoft.WindowsAzure.Management.Sql
             get { return this._client; }
         }
         
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Create Firewall Rule operation
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public async Task<FirewallRuleCreateResponse> CreateAsync(string serverName, FirewallRuleCreateParameters parameters, CancellationToken cancellationToken)
+        public async Task<DacImportExportResponse> ImportAsync(string serverName, DacImportParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
             }
-            if (parameters == null)
+            if (parameters != null)
             {
-                throw new ArgumentNullException("parameters");
-            }
-            if (parameters.Name == null)
-            {
-                throw new ArgumentNullException("parameters.Name");
-            }
-            if (parameters.StartIPAddress == null)
-            {
-                throw new ArgumentNullException("parameters.StartIPAddress");
-            }
-            if (parameters.EndIPAddress == null)
-            {
-                throw new ArgumentNullException("parameters.EndIPAddress");
+                if (parameters.BlobCredentials != null)
+                {
+                    if (parameters.BlobCredentials.Uri == null)
+                    {
+                        throw new ArgumentNullException("parameters.BlobCredentials.Uri");
+                    }
+                    if (parameters.BlobCredentials.StorageAccessKey == null)
+                    {
+                        throw new ArgumentNullException("parameters.BlobCredentials.StorageAccessKey");
+                    }
+                }
+                if (parameters.ConnectionInfo != null)
+                {
+                    if (parameters.ConnectionInfo.DatabaseName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.DatabaseName");
+                    }
+                    if (parameters.ConnectionInfo.Password == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.Password");
+                    }
+                    if (parameters.ConnectionInfo.ServerName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.ServerName");
+                    }
+                    if (parameters.ConnectionInfo.UserName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.UserName");
+                    }
+                }
             }
             
             // Tracing
@@ -5207,11 +6160,11 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "ImportAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Import";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -5232,20 +6185,55 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
                 
-                XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
-                requestDoc.Add(serviceResourceElement);
-                
-                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                nameElement.Value = parameters.Name;
-                serviceResourceElement.Add(nameElement);
-                
-                XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                startIPAddressElement.Value = parameters.StartIPAddress;
-                serviceResourceElement.Add(startIPAddressElement);
-                
-                XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                endIPAddressElement.Value = parameters.EndIPAddress;
-                serviceResourceElement.Add(endIPAddressElement);
+                if (parameters != null)
+                {
+                    XElement importInputElement = new XElement(XName.Get("ImportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                    requestDoc.Add(importInputElement);
+                    
+                    if (parameters.BlobCredentials != null)
+                    {
+                        XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        importInputElement.Add(blobCredentialsElement);
+                        
+                        XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                        typeAttribute.Value = "BlobStorageAccessKeyCredentials";
+                        blobCredentialsElement.Add(typeAttribute);
+                        
+                        XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        uriElement.Value = parameters.BlobCredentials.Uri.ToString();
+                        blobCredentialsElement.Add(uriElement);
+                        
+                        XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
+                        blobCredentialsElement.Add(storageAccessKeyElement);
+                    }
+                    
+                    if (parameters.ConnectionInfo != null)
+                    {
+                        XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        importInputElement.Add(connectionInfoElement);
+                        
+                        XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
+                        connectionInfoElement.Add(databaseNameElement);
+                        
+                        XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        passwordElement.Value = parameters.ConnectionInfo.Password;
+                        connectionInfoElement.Add(passwordElement);
+                        
+                        XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        serverNameElement.Value = parameters.ConnectionInfo.ServerName;
+                        connectionInfoElement.Add(serverNameElement);
+                        
+                        XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        userNameElement.Value = parameters.ConnectionInfo.UserName;
+                        connectionInfoElement.Add(userNameElement);
+                    }
+                    
+                    XElement databaseSizeInGBElement = new XElement(XName.Get("DatabaseSizeInGB", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                    databaseSizeInGBElement.Value = parameters.DatabaseSizeInGB.ToString();
+                    importInputElement.Add(databaseSizeInGBElement);
+                }
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -5266,7 +6254,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         Tracing.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Created)
+                    if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -5278,7 +6266,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    FirewallRuleCreateResponse result = new FirewallRuleCreateResponse();
+                    DacImportExportResponse result = new DacImportExportResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -5290,45 +6278,6 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceResourceElement2 != null)
-                    {
-                        XElement nameElement2 = serviceResourceElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                        if (nameElement2 != null)
-                        {
-                            string nameInstance = nameElement2.Value;
-                            result.Name = nameInstance;
-                        }
-                        
-                        XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                        if (typeElement != null)
-                        {
-                            string typeInstance = typeElement.Value;
-                            result.Type = typeInstance;
-                        }
-                        
-                        XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                        if (stateElement != null)
-                        {
-                            string stateInstance = stateElement.Value;
-                            result.State = stateInstance;
-                        }
-                        
-                        XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                        if (startIPAddressElement2 != null)
-                        {
-                            string startIPAddressInstance = startIPAddressElement2.Value;
-                            result.StartIPAddress = startIPAddressInstance;
-                        }
-                        
-                        XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                        if (endIPAddressElement2 != null)
-                        {
-                            string endIPAddressInstance = endIPAddressElement2.Value;
-                            result.EndIPAddress = endIPAddressInstance;
-                        }
-                    }
-                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -5352,37 +6301,42 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <summary>
-        /// The Delete Server Firewall Rule operation deletes a server-level
-        /// firewall rule from a SQL Database server that belongs to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715277.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the server that will be have new firewall rule applied
-        /// to it
+        /// The name of the server being imported to or exported from
         /// </param>
-        /// <param name='ruleName'>
-        /// The name of the new firewall rule
+        /// <param name='username'>
+        /// The server's username
+        /// </param>
+        /// <param name='password'>
+        /// The server's password
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID of the operation being queried
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public async Task<OperationResponse> DeleteAsync(string serverName, string ruleName, CancellationToken cancellationToken)
+        public async Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
             }
-            if (ruleName == null)
+            if (username == null)
             {
-                throw new ArgumentNullException("ruleName");
+                throw new ArgumentNullException("username");
+            }
+            if (password == null)
+            {
+                throw new ArgumentNullException("password");
+            }
+            if (requestId == null)
+            {
+                throw new ArgumentNullException("requestId");
             }
             
             // Tracing
@@ -5393,123 +6347,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
-                tracingParameters.Add("ruleName", ruleName);
-                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
+                tracingParameters.Add("username", username);
+                tracingParameters.Add("password", password);
+                tracingParameters.Add("requestId", requestId);
+                Tracing.Enter(invocationId, this, "GetStatusAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Server Firewall Rules operation retrieves a list of all the
-        /// server-level firewall rules for a SQL Database server that belongs
-        /// to a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715278.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The name of the server for which the call is being made
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<FirewallRuleListResponse> ListAsync(string serverName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (serverName == null)
-            {
-                throw new ArgumentNullException("serverName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("serverName", serverName);
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Status?servername=" + serverName + "&username=" + username + "&password=" + password + "&reqId=" + requestId;
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -5553,7 +6398,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    FirewallRuleListResponse result = new FirewallRuleListResponse();
+                    DacGetStatusResponse result = new DacGetStatusResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -5565,40 +6410,75 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceResourcesSequenceElement != null)
+                    XElement statusInfoSequenceElement = responseDoc.Element(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                    if (statusInfoSequenceElement != null)
                     {
-                        foreach (XElement serviceResourcesElement in serviceResourcesSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                        foreach (XElement statusInfoElement in statusInfoSequenceElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
                         {
-                            FirewallRuleListResponse.FirewallRule serviceResourceInstance = new FirewallRuleListResponse.FirewallRule();
-                            result.FirewallRules.Add(serviceResourceInstance);
+                            DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
+                            result.StatusInfoList.Add(statusInfoInstance);
                             
-                            XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                            if (nameElement != null)
+                            XElement blobUriElement = statusInfoElement.Element(XName.Get("BlobUri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (blobUriElement != null)
                             {
-                                string nameInstance = nameElement.Value;
-                                serviceResourceInstance.Name = nameInstance;
+                                Uri blobUriInstance = TypeConversion.TryParseUri(blobUriElement.Value);
+                                statusInfoInstance.BlobUri = blobUriInstance;
                             }
                             
-                            XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                            if (typeElement != null)
+                            XElement databaseNameElement = statusInfoElement.Element(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (databaseNameElement != null)
                             {
-                                string typeInstance = typeElement.Value;
-                                serviceResourceInstance.Type = typeInstance;
+                                string databaseNameInstance = databaseNameElement.Value;
+                                statusInfoInstance.DatabaseName = databaseNameInstance;
                             }
                             
-                            XElement startIPAddressElement = serviceResourcesElement.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                            if (startIPAddressElement != null)
+                            XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (errorMessageElement != null)
                             {
-                                string startIPAddressInstance = startIPAddressElement.Value;
-                                serviceResourceInstance.StartIPAddress = startIPAddressInstance;
+                                string errorMessageInstance = errorMessageElement.Value;
+                                statusInfoInstance.ErrorMessage = errorMessageInstance;
                             }
                             
-                            XElement endIPAddressElement = serviceResourcesElement.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                            if (endIPAddressElement != null)
+                            XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (lastModifiedTimeElement != null)
                             {
-                                string endIPAddressInstance = endIPAddressElement.Value;
-                                serviceResourceInstance.EndIPAddress = endIPAddressInstance;
+                                DateTime lastModifiedTimeInstance = DateTime.Parse(lastModifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                statusInfoInstance.LastModifiedTime = lastModifiedTimeInstance;
+                            }
+                            
+                            XElement queuedTimeElement = statusInfoElement.Element(XName.Get("QueuedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (queuedTimeElement != null)
+                            {
+                                DateTime queuedTimeInstance = DateTime.Parse(queuedTimeElement.Value, CultureInfo.InvariantCulture);
+                                statusInfoInstance.QueuedTime = queuedTimeInstance;
+                            }
+                            
+                            XElement requestIdElement = statusInfoElement.Element(XName.Get("RequestId", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (requestIdElement != null)
+                            {
+                                string requestIdInstance = requestIdElement.Value;
+                                statusInfoInstance.RequestId = requestIdInstance;
+                            }
+                            
+                            XElement requestTypeElement = statusInfoElement.Element(XName.Get("RequestType", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (requestTypeElement != null)
+                            {
+                                string requestTypeInstance = requestTypeElement.Value;
+                                statusInfoInstance.RequestType = requestTypeInstance;
+                            }
+                            
+                            XElement serverNameElement = statusInfoElement.Element(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (serverNameElement != null)
+                            {
+                                string serverNameInstance = serverNameElement.Value;
+                                statusInfoInstance.ServerName = serverNameInstance;
+                            }
+                            
+                            XElement statusElement = statusInfoElement.Element(XName.Get("Status", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                            if (statusElement != null)
+                            {
+                                string statusInstance = statusElement.Value;
+                                statusInfoInstance.Status = statusInstance;
                             }
                         }
                     }
@@ -5626,598 +6506,54 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
         
-        /// <summary>
-        /// The Set Server Firewall Rule operation updates an existing
-        /// server-level firewall rule or adds a new server-level firewall
-        /// rule for a SQL Database server that belongs to a subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715280.aspx
-        /// for more information)
-        /// </summary>
         /// <param name='serverName'>
-        /// The name of the SQL database server to which this rule will be
-        /// applied.
-        /// </param>
-        /// <param name='ruleName'>
-        /// The name of the firewall rule to be updated.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Update Firewall Rule operation
+        /// The name of the server being imported to or exported from
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// Response for an DAC Import/Export request.
         /// </returns>
-        public async Task<FirewallRuleUpdateResponse> UpdateAsync(string serverName, string ruleName, FirewallRuleUpdateParameters parameters, CancellationToken cancellationToken)
+        public async Task<DacImportExportResponse> ExportAsync(string serverName, DacExportParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
             }
-            if (ruleName == null)
+            if (parameters != null)
             {
-                throw new ArgumentNullException("ruleName");
-            }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            if (parameters.Name == null)
-            {
-                throw new ArgumentNullException("parameters.Name");
-            }
-            if (parameters.StartIPAddress == null)
-            {
-                throw new ArgumentNullException("parameters.StartIPAddress");
-            }
-            if (parameters.EndIPAddress == null)
-            {
-                throw new ArgumentNullException("parameters.EndIPAddress");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("serverName", serverName);
-                tracingParameters.Add("ruleName", ruleName);
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
-                requestDoc.Add(serviceResourceElement);
-                
-                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                nameElement.Value = parameters.Name;
-                serviceResourceElement.Add(nameElement);
-                
-                XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                startIPAddressElement.Value = parameters.StartIPAddress;
-                serviceResourceElement.Add(startIPAddressElement);
-                
-                XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                endIPAddressElement.Value = parameters.EndIPAddress;
-                serviceResourceElement.Add(endIPAddressElement);
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
+                if (parameters.BlobCredentials != null)
                 {
-                    if (shouldTrace)
+                    if (parameters.BlobCredentials.Uri == null)
                     {
-                        Tracing.SendRequest(invocationId, httpRequest);
+                        throw new ArgumentNullException("parameters.BlobCredentials.Uri");
                     }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
+                    if (parameters.BlobCredentials.StorageAccessKey == null)
                     {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    FirewallRuleUpdateResponse result = new FirewallRuleUpdateResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceResourceElement2 != null)
-                    {
-                        XElement nameElement2 = serviceResourceElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                        if (nameElement2 != null)
-                        {
-                            string nameInstance = nameElement2.Value;
-                            result.Name = nameInstance;
-                        }
-                        
-                        XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                        if (typeElement != null)
-                        {
-                            string typeInstance = typeElement.Value;
-                            result.Type = typeInstance;
-                        }
-                        
-                        XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                        if (stateElement != null)
-                        {
-                            string stateInstance = stateElement.Value;
-                            result.State = stateInstance;
-                        }
-                        
-                        XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                        if (startIPAddressElement2 != null)
-                        {
-                            string startIPAddressInstance = startIPAddressElement2.Value;
-                            result.StartIPAddress = startIPAddressInstance;
-                        }
-                        
-                        XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
-                        if (endIPAddressElement2 != null)
-                        {
-                            string endIPAddressInstance = endIPAddressElement2.Value;
-                            result.EndIPAddress = endIPAddressInstance;
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
+                        throw new ArgumentNullException("parameters.BlobCredentials.StorageAccessKey");
                     }
                 }
-            }
-            finally
-            {
-                if (httpRequest != null)
+                if (parameters.ConnectionInfo != null)
                 {
-                    httpRequest.Dispose();
+                    if (parameters.ConnectionInfo.DatabaseName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.DatabaseName");
+                    }
+                    if (parameters.ConnectionInfo.Password == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.Password");
+                    }
+                    if (parameters.ConnectionInfo.ServerName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.ServerName");
+                    }
+                    if (parameters.ConnectionInfo.UserName == null)
+                    {
+                        throw new ArgumentNullException("parameters.ConnectionInfo.UserName");
+                    }
                 }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The SQL Database Management API includes operations for managing SQL
-    /// Database servers for a subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
-    /// more information)
-    /// </summary>
-    public partial interface IServerOperations
-    {
-        /// <summary>
-        /// The Set Server Administrator Password operation sets the
-        /// administrative password of a SQL Database server for a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The server that will have the change made to the administrative user
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Manage Administrator Password operation
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> ChangeAdministratorPasswordAsync(string serverName, ServerChangeAdministratorPasswordParameters parameters, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Create Server operation adds a new SQL Database server to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Server operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response returned from the Create Server operation
-        /// </returns>
-        Task<ServerCreateResponse> CreateAsync(ServerCreateParameters parameters, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Drop Server operation drops a SQL Database server from a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The name of the server to be deleted
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> DeleteAsync(string serverName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Get Servers operation enumerates SQL Database servers that are
-        /// provisioned for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        Task<ServerListResponse> ListAsync(CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The SQL Database Management API includes operations for managing SQL
-    /// Database servers for a subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
-    /// more information)
-    /// </summary>
-    public static partial class ServerOperationsExtensions
-    {
-        /// <summary>
-        /// The Set Server Administrator Password operation sets the
-        /// administrative password of a SQL Database server for a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The server that will have the change made to the administrative user
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Manage Administrator Password operation
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse ChangeAdministratorPassword(this IServerOperations operations, string serverName, ServerChangeAdministratorPasswordParameters parameters)
-        {
-            try
-            {
-                return operations.ChangeAdministratorPasswordAsync(serverName, parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Set Server Administrator Password operation sets the
-        /// administrative password of a SQL Database server for a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The server that will have the change made to the administrative user
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Manage Administrator Password operation
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> ChangeAdministratorPasswordAsync(this IServerOperations operations, string serverName, ServerChangeAdministratorPasswordParameters parameters)
-        {
-            return operations.ChangeAdministratorPasswordAsync(serverName, parameters, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Create Server operation adds a new SQL Database server to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Server operation.
-        /// </param>
-        /// <returns>
-        /// The response returned from the Create Server operation
-        /// </returns>
-        public static ServerCreateResponse Create(this IServerOperations operations, ServerCreateParameters parameters)
-        {
-            try
-            {
-                return operations.CreateAsync(parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Create Server operation adds a new SQL Database server to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Server operation.
-        /// </param>
-        /// <returns>
-        /// The response returned from the Create Server operation
-        /// </returns>
-        public static Task<ServerCreateResponse> CreateAsync(this IServerOperations operations, ServerCreateParameters parameters)
-        {
-            return operations.CreateAsync(parameters, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Drop Server operation drops a SQL Database server from a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server to be deleted
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse Delete(this IServerOperations operations, string serverName)
-        {
-            try
-            {
-                return operations.DeleteAsync(serverName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Drop Server operation drops a SQL Database server from a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <param name='serverName'>
-        /// The name of the server to be deleted
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> DeleteAsync(this IServerOperations operations, string serverName)
-        {
-            return operations.DeleteAsync(serverName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Get Servers operation enumerates SQL Database servers that are
-        /// provisioned for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public static ServerListResponse List(this IServerOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Servers operation enumerates SQL Database servers that are
-        /// provisioned for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.IServerOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public static Task<ServerListResponse> ListAsync(this IServerOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The SQL Database Management API includes operations for managing SQL
-    /// Database servers for a subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715271.aspx for
-    /// more information)
-    /// </summary>
-    internal partial class ServerOperations : IServiceOperations<SqlManagementClient>, IServerOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the ServerOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal ServerOperations(SqlManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private SqlManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
-        /// </summary>
-        public SqlManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// The Set Server Administrator Password operation sets the
-        /// administrative password of a SQL Database server for a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715272.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The server that will have the change made to the administrative user
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters for the Manage Administrator Password operation
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> ChangeAdministratorPasswordAsync(string serverName, ServerChangeAdministratorPasswordParameters parameters, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (serverName == null)
-            {
-                throw new ArgumentNullException("serverName");
-            }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            if (parameters.NewPassword == null)
-            {
-                throw new ArgumentNullException("parameters.NewPassword");
             }
             
             // Tracing
@@ -6229,11 +6565,11 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "ChangeAdministratorPasswordAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "ExportAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "?op=ResetPassword";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Export";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -6254,10 +6590,51 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
                 
-                XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                requestDoc.Add(administratorLoginPasswordElement);
-                
-                administratorLoginPasswordElement.Value = parameters.NewPassword;
+                if (parameters != null)
+                {
+                    XElement exportInputElement = new XElement(XName.Get("ExportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                    requestDoc.Add(exportInputElement);
+                    
+                    if (parameters.BlobCredentials != null)
+                    {
+                        XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        exportInputElement.Add(blobCredentialsElement);
+                        
+                        XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                        typeAttribute.Value = "BlobStorageAccessKeyCredentials";
+                        blobCredentialsElement.Add(typeAttribute);
+                        
+                        XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        uriElement.Value = parameters.BlobCredentials.Uri.ToString();
+                        blobCredentialsElement.Add(uriElement);
+                        
+                        XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
+                        blobCredentialsElement.Add(storageAccessKeyElement);
+                    }
+                    
+                    if (parameters.ConnectionInfo != null)
+                    {
+                        XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        exportInputElement.Add(connectionInfoElement);
+                        
+                        XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
+                        connectionInfoElement.Add(databaseNameElement);
+                        
+                        XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        passwordElement.Value = parameters.ConnectionInfo.Password;
+                        connectionInfoElement.Add(passwordElement);
+                        
+                        XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        serverNameElement.Value = parameters.ConnectionInfo.ServerName;
+                        connectionInfoElement.Add(serverNameElement);
+                        
+                        XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        userNameElement.Value = parameters.ConnectionInfo.UserName;
+                        connectionInfoElement.Add(userNameElement);
+                    }
+                }
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -6290,151 +6667,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                     
                     // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Create Server operation adds a new SQL Database server to a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715274.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Server operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response returned from the Create Server operation
-        /// </returns>
-        public async Task<ServerCreateResponse> CreateAsync(ServerCreateParameters parameters, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            if (parameters.AdministratorUserName == null)
-            {
-                throw new ArgumentNullException("parameters.AdministratorUserName");
-            }
-            if (parameters.AdministratorPassword == null)
-            {
-                throw new ArgumentNullException("parameters.AdministratorPassword");
-            }
-            if (parameters.Location == null)
-            {
-                throw new ArgumentNullException("parameters.Location");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement serverElement = new XElement(XName.Get("Server", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                requestDoc.Add(serverElement);
-                
-                XElement administratorLoginElement = new XElement(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                administratorLoginElement.Value = parameters.AdministratorUserName;
-                serverElement.Add(administratorLoginElement);
-                
-                XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                administratorLoginPasswordElement.Value = parameters.AdministratorPassword;
-                serverElement.Add(administratorLoginPasswordElement);
-                
-                XElement locationElement = new XElement(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                locationElement.Value = parameters.Location;
-                serverElement.Add(locationElement);
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Created)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServerCreateResponse result = new ServerCreateResponse();
+                    DacImportExportResponse result = new DacImportExportResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -6445,270 +6678,6 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement serverNameElement = responseDoc.Element(XName.Get("ServerName", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                    if (serverNameElement != null)
-                    {
-                        result.ServerName = serverNameElement.Value;
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Drop Server operation drops a SQL Database server from a
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715285.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='serverName'>
-        /// The name of the server to be deleted
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> DeleteAsync(string serverName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (serverName == null)
-            {
-                throw new ArgumentNullException("serverName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("serverName", serverName);
-                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Servers operation enumerates SQL Database servers that are
-        /// provisioned for a subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715269.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public async Task<ServerListResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServerListResponse result = new ServerListResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement serversSequenceElement = responseDoc.Element(XName.Get("Servers", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                    if (serversSequenceElement != null)
-                    {
-                        foreach (XElement serversElement in serversSequenceElement.Elements(XName.Get("Server", "http://schemas.microsoft.com/sqlazure/2010/12/")))
-                        {
-                            ServerListResponse.Server serverInstance = new ServerListResponse.Server();
-                            result.Servers.Add(serverInstance);
-                            
-                            XElement nameElement = serversElement.Element(XName.Get("Name", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                            if (nameElement != null)
-                            {
-                                string nameInstance = nameElement.Value;
-                                serverInstance.Name = nameInstance;
-                            }
-                            
-                            XElement administratorLoginElement = serversElement.Element(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                            if (administratorLoginElement != null)
-                            {
-                                string administratorLoginInstance = administratorLoginElement.Value;
-                                serverInstance.AdministratorUserName = administratorLoginInstance;
-                            }
-                            
-                            XElement locationElement = serversElement.Element(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                            if (locationElement != null)
-                            {
-                                string locationInstance = locationElement.Value;
-                                serverInstance.Location = locationInstance;
-                            }
-                            
-                            XElement featuresSequenceElement = serversElement.Element(XName.Get("Features", "http://schemas.microsoft.com/sqlazure/2010/12/"));
-                            if (featuresSequenceElement != null)
-                            {
-                                foreach (XElement featuresElement in featuresSequenceElement.Elements(XName.Get("Feature", "http://schemas.microsoft.com/sqlazure/2010/12/")))
-                                {
-                                    string featuresKey = featuresElement.Element(XName.Get("Name", "http://schemas.microsoft.com/sqlazure/2010/12/")).Value;
-                                    string featuresValue = featuresElement.Element(XName.Get("Value", "http://schemas.microsoft.com/sqlazure/2010/12/")).Value;
-                                    serverInstance.Features.Add(featuresKey, featuresValue);
-                                }
-                            }
-                        }
-                    }
                     
                     if (shouldTrace)
                     {

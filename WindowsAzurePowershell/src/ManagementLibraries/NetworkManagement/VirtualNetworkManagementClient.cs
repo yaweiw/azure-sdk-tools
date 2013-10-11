@@ -775,15 +775,12 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             this._vendors = new List<GatewayListSupportedDevicesResponse.Vendor>();
         }
         
-        /// <summary>
-        /// The name and supported platforms for the vendor.
-        /// </summary>
-        public partial class Vendor
+        public partial class OSFamily
         {
             private string _name;
             
             /// <summary>
-            /// The vendor name
+            /// The name of the os family
             /// </summary>
             public string Name
             {
@@ -791,23 +788,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
                 set { this._name = value; }
             }
             
-            private IList<GatewayListSupportedDevicesResponse.Platform> _platforms;
-            
             /// <summary>
-            /// The supported platforms for the vendor.
+            /// Initializes a new instance of the OSFamily class.
             /// </summary>
-            public IList<GatewayListSupportedDevicesResponse.Platform> Platforms
+            public OSFamily()
             {
-                get { return this._platforms; }
-                set { this._platforms = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Vendor class.
-            /// </summary>
-            public Vendor()
-            {
-                this._platforms = new List<GatewayListSupportedDevicesResponse.Platform>();
             }
         }
         
@@ -847,12 +832,15 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             }
         }
         
-        public partial class OSFamily
+        /// <summary>
+        /// The name and supported platforms for the vendor.
+        /// </summary>
+        public partial class Vendor
         {
             private string _name;
             
             /// <summary>
-            /// The name of the os family
+            /// The vendor name
             /// </summary>
             public string Name
             {
@@ -860,11 +848,23 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
                 set { this._name = value; }
             }
             
+            private IList<GatewayListSupportedDevicesResponse.Platform> _platforms;
+            
             /// <summary>
-            /// Initializes a new instance of the OSFamily class.
+            /// The supported platforms for the vendor.
             /// </summary>
-            public OSFamily()
+            public IList<GatewayListSupportedDevicesResponse.Platform> Platforms
             {
+                get { return this._platforms; }
+                set { this._platforms = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the Vendor class.
+            /// </summary>
+            public Vendor()
+            {
+                this._platforms = new List<GatewayListSupportedDevicesResponse.Platform>();
             }
         }
     }
@@ -925,9 +925,15 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     /// <summary>
     /// Possible values for Gateway Profile
     /// </summary>
-    public static partial class GatewayProfiles
+    public enum GatewayProfile
     {
-        public const string Small = "Small";
+        Small = 0,
+        
+        Medium = 1,
+        
+        Large = 2,
+        
+        ExtraLarge = 3,
     }
     
     /// <summary>
@@ -985,48 +991,19 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The response structure for the Server get configuration operation
+    /// The Get Network Configuration operation response.
     /// </summary>
     public partial class NetworkGetConfigurationResponse : OperationResponse
     {
-        private IList<NetworkGetConfigurationResponse.DnsServer> _dnsServers;
+        private string _configuration;
         
         /// <summary>
-        /// Contains the collection of DNS servers. By default, you can specify
-        /// up to nine DNS servers in this section. You can change the DNS
-        /// server limit to a value other than nine by contacting Azure
-        /// support. When you specify a DNS server here, it must be part of an
-        /// external site, not a part of a Windows Azure Virtual Network. DNS
-        /// server names must be uniquely identifiable within the subscription.
+        /// The network configuration for this subscription.
         /// </summary>
-        public IList<NetworkGetConfigurationResponse.DnsServer> DnsServers
+        public string Configuration
         {
-            get { return this._dnsServers; }
-            set { this._dnsServers = value; }
-        }
-        
-        private IList<NetworkGetConfigurationResponse.LocalNetworkSite> _localNetworkSites;
-        
-        /// <summary>
-        /// Contains the collection parameters used to configure local network
-        /// sites used in cross-premise network configurations.
-        /// </summary>
-        public IList<NetworkGetConfigurationResponse.LocalNetworkSite> LocalNetworkSites
-        {
-            get { return this._localNetworkSites; }
-            set { this._localNetworkSites = value; }
-        }
-        
-        private IList<NetworkGetConfigurationResponse.VirtualNetworkSite> _virtualNetworkSites;
-        
-        /// <summary>
-        /// Contains the collection parameters that describe the virtual
-        /// networks.
-        /// </summary>
-        public IList<NetworkGetConfigurationResponse.VirtualNetworkSite> VirtualNetworkSites
-        {
-            get { return this._virtualNetworkSites; }
-            set { this._virtualNetworkSites = value; }
+            get { return this._configuration; }
+            set { this._configuration = value; }
         }
         
         /// <summary>
@@ -1035,382 +1012,6 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         /// </summary>
         public NetworkGetConfigurationResponse()
         {
-            this._dnsServers = new List<NetworkGetConfigurationResponse.DnsServer>();
-            this._localNetworkSites = new List<NetworkGetConfigurationResponse.LocalNetworkSite>();
-            this._virtualNetworkSites = new List<NetworkGetConfigurationResponse.VirtualNetworkSite>();
-        }
-        
-        /// <summary>
-        /// Contains the name and IPv4 address of the DNS server.
-        /// </summary>
-        public partial class DnsServer
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the DNS server. DNS server names must be
-            /// uniquely identifiable within the subscription.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _iPAddress;
-            
-            /// <summary>
-            /// Specifies the IPv4 address of the DNS server
-            /// </summary>
-            public string IPAddress
-            {
-                get { return this._iPAddress; }
-                set { this._iPAddress = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the DnsServer class.
-            /// </summary>
-            public DnsServer()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies the parameters that are used to configure a local network
-        /// site
-        /// </summary>
-        public partial class LocalNetworkSite
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the identifier for the local network. Each local
-            /// network site is referred to by a name. The name must be
-            /// uniquely identifiable within the subscription. The name must
-            /// not contain any spaces and cannot begin with a number.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private IList<string> _addressSpace;
-            
-            /// <summary>
-            /// Contains a collection of Classless Inter-Domain Routing (CIDR)
-            /// identifiers that specify the address space that you will use
-            /// for your local network site. It is recommended that you
-            /// specify only one public IPv4 address space per local network
-            /// site. Address space identifiers must conform to the following
-            /// parameters: (1) This is the address space of your on-premises
-            /// network. (2) The IP address ranges that you specify must not
-            /// overlap with the IP address ranges of any other local network
-            /// sites or virtual network sites. Addresses can be either public
-            /// or private
-            /// </summary>
-            public IList<string> AddressSpace
-            {
-                get { return this._addressSpace; }
-                set { this._addressSpace = value; }
-            }
-            
-            private string _vpnGatewayAddress;
-            
-            /// <summary>
-            /// Specifies the IPv4 Address of the VPN Gateway. You can specify
-            /// only one IP address per local network site. To establish the
-            /// VPN tunnel, you must configure a VPN gateway appliance on your
-            /// local premises (either software or hardware) that supports the
-            /// IKE v1 protocol and can be reached by a public IP address. You
-            /// can specify only one public IPv4 address per local network
-            /// site.
-            /// </summary>
-            public string VpnGatewayAddress
-            {
-                get { return this._vpnGatewayAddress; }
-                set { this._vpnGatewayAddress = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the LocalNetworkSite class.
-            /// </summary>
-            public LocalNetworkSite()
-            {
-                this._addressSpace = new List<string>();
-            }
-        }
-        
-        /// <summary>
-        /// Contains the parameters for a specific subnet. You can specify
-        /// multiple subnets for the virtual network. The IP addresses of the
-        /// subnets you specify must be fully contained within the IP address
-        /// range for the virtual network it resides in. To configure a subnet
-        /// for cross-premises connectivity, specify a subnet with the name
-        /// GatewaySubnet.
-        /// </summary>
-        public partial class Subnet
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the subnet. Subnet names must be unique
-            /// with the virtual network. The name GatewaySubnet is reserved
-            /// for use in corss-premises connectivity.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _addressPrefix;
-            
-            /// <summary>
-            /// Specifies the address space of the subnet.
-            /// </summary>
-            public string AddressPrefix
-            {
-                get { return this._addressPrefix; }
-                set { this._addressPrefix = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Subnet class.
-            /// </summary>
-            public Subnet()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies a DNS server to use for name resolution. If you do not
-        /// set any DNS server references, Windows Azure DNS service is set as
-        /// the default for the virtual. If you do not specify any DNS
-        /// servers, name resolution will not work across a VPN link. You can
-        /// specify up to nine DNS servers.
-        /// </summary>
-        public partial class DnsServerReference
-        {
-            private string _name;
-            
-            /// <summary>
-            /// The name of the DNS server to use for name resolution on the
-            /// virtual network.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the DnsServerReference class.
-            /// </summary>
-            public DnsServerReference()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies the name of the local network. Any site that you
-        /// reference must be defined in the LocalNetworkSite element of this
-        /// request.
-        /// </summary>
-        public partial class LocalNetworkSiteReference
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the local network.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private LocalNetworkConnectionType _connectionType;
-            
-            /// <summary>
-            /// Specifies the type of connection of the local network site. The
-            /// value of this element can be either IPsec or Dedicated. The
-            /// default value is IPsec.
-            /// </summary>
-            public LocalNetworkConnectionType ConnectionType
-            {
-                get { return this._connectionType; }
-                set { this._connectionType = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the LocalNetworkSiteReference
-            /// class.
-            /// </summary>
-            public LocalNetworkSiteReference()
-            {
-            }
-        }
-        
-        public partial class Gateway
-        {
-            private string _profile;
-            
-            /// <summary>
-            /// Specifies the gateway connection size.
-            /// </summary>
-            public string Profile
-            {
-                get { return this._profile; }
-                set { this._profile = value; }
-            }
-            
-            private IList<string> _vpnClientAddressPool;
-            
-            /// <summary>
-            /// The VPNClientAddressPool reserves a pool of IP addresses for
-            /// VPN clients. This object is used for point-to-site
-            /// connectivity.
-            /// </summary>
-            public IList<string> VpnClientAddressPool
-            {
-                get { return this._vpnClientAddressPool; }
-                set { this._vpnClientAddressPool = value; }
-            }
-            
-            private IList<NetworkGetConfigurationResponse.LocalNetworkSiteReference> _connectionsToLocalNetwork;
-            
-            /// <summary>
-            /// Required for cross-premises connections only. Contains the list
-            /// of local networks that the virtual network can connect to.
-            /// Currently you can only specify one site. Any site that you
-            /// reference in this section must be defined in the network
-            /// configuration and must fall within the total address space
-            /// </summary>
-            public IList<NetworkGetConfigurationResponse.LocalNetworkSiteReference> ConnectionsToLocalNetwork
-            {
-                get { return this._connectionsToLocalNetwork; }
-                set { this._connectionsToLocalNetwork = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Gateway class.
-            /// </summary>
-            public Gateway()
-            {
-                this._vpnClientAddressPool = new List<string>();
-                this._connectionsToLocalNetwork = new List<NetworkGetConfigurationResponse.LocalNetworkSiteReference>();
-            }
-        }
-        
-        /// <summary>
-        /// Contains parameters that describe a virtual network site. Each
-        /// virtual network site must have a unique name and must be
-        /// associated with an affinity group that has been previously created.
-        /// </summary>
-        public partial class VirtualNetworkSite
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies a name for the virtual network. The name must be
-            /// unique within the subscription.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _affinityGroup;
-            
-            /// <summary>
-            /// The name of the affinity group that you want this virtual
-            /// network site to be associated with.  The affinity group must
-            /// already exist in order to refer to it in this section.
-            /// </summary>
-            public string AffinityGroup
-            {
-                get { return this._affinityGroup; }
-                set { this._affinityGroup = value; }
-            }
-            
-            private string _label;
-            
-            /// <summary>
-            /// Specifies a friendly identifier for the virtual network.  There
-            /// are no guarantees for uniqueness. Labels can be a maximum of
-            /// 100 characters in length and can contain special characters.
-            /// </summary>
-            public string Label
-            {
-                get { return this._label; }
-                set { this._label = value; }
-            }
-            
-            private IList<string> _addressSpace;
-            
-            /// <summary>
-            /// Specifies the address space for the virtual network. This is a
-            /// private IP address space that conforms to RFC 1918.  Addresses
-            /// that you specify must not overlap with those specified for
-            /// other virtual network sites or local network sites.
-            /// </summary>
-            public IList<string> AddressSpace
-            {
-                get { return this._addressSpace; }
-                set { this._addressSpace = value; }
-            }
-            
-            private IList<NetworkGetConfigurationResponse.Subnet> _subnets;
-            
-            /// <summary>
-            /// Contains the specification for the subnets that you want to
-            /// create within the address space of your virtual network sites.
-            /// </summary>
-            public IList<NetworkGetConfigurationResponse.Subnet> Subnets
-            {
-                get { return this._subnets; }
-                set { this._subnets = value; }
-            }
-            
-            private IList<NetworkGetConfigurationResponse.DnsServerReference> _dnsServerReferences;
-            
-            /// <summary>
-            /// Contains the specification of DNS servers that are used for
-            /// name resolution in this virtual network.  You must reference
-            /// the DNS servers that you already declared in the Dns element.
-            /// </summary>
-            public IList<NetworkGetConfigurationResponse.DnsServerReference> DnsServerReferences
-            {
-                get { return this._dnsServerReferences; }
-                set { this._dnsServerReferences = value; }
-            }
-            
-            private NetworkGetConfigurationResponse.Gateway _gateway;
-            
-            /// <summary>
-            /// Required for cross-premises connections only. Contains gateway
-            /// references to the local network sites that the virtual network
-            /// can connect to. If you don’t require cross-premises
-            /// connectivity, this property is optional.
-            /// </summary>
-            public NetworkGetConfigurationResponse.Gateway Gateway
-            {
-                get { return this._gateway; }
-                set { this._gateway = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the VirtualNetworkSite class.
-            /// </summary>
-            public VirtualNetworkSite()
-            {
-                this._addressSpace = new List<string>();
-                this._subnets = new List<NetworkGetConfigurationResponse.Subnet>();
-                this._dnsServerReferences = new List<NetworkGetConfigurationResponse.DnsServerReference>();
-            }
         }
     }
     
@@ -1449,6 +1050,251 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+        
+        /// <summary>
+        /// The VPNClientAddressPool reserves a pool of IP addresses for VPN
+        /// clients. This object is used for point-to-site connectivity.
+        /// </summary>
+        public partial class VPNClientAddressPool
+        {
+            private IList<string> _addressPrefixes;
+            
+            /// <summary>
+            /// The CIDR identifiers that identify addresses in the pool.
+            /// </summary>
+            public IList<string> AddressPrefixes
+            {
+                get { return this._addressPrefixes; }
+                set { this._addressPrefixes = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the VPNClientAddressPool class.
+            /// </summary>
+            public VPNClientAddressPool()
+            {
+                this._addressPrefixes = new List<string>();
+            }
+        }
+        
+        /// <summary>
+        /// Specifies the type of connection of the local network site. The
+        /// value of this element can be either IPsec or Dedicated. The
+        /// default value is IPsec.
+        /// </summary>
+        public partial class Connection
+        {
+            private LocalNetworkConnectionType _type;
+            
+            public LocalNetworkConnectionType Type
+            {
+                get { return this._type; }
+                set { this._type = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the Connection class.
+            /// </summary>
+            public Connection()
+            {
+            }
+        }
+        
+        /// <summary>
+        /// Contains the list of parameters defining the local network site.
+        /// </summary>
+        public partial class LocalNetworkSite
+        {
+            private string _name;
+            
+            /// <summary>
+            /// The name of the local network site
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+            
+            private string _vpnGatewayAddress;
+            
+            /// <summary>
+            /// The IPv4 address of the local network site
+            /// </summary>
+            public string VpnGatewayAddress
+            {
+                get { return this._vpnGatewayAddress; }
+                set { this._vpnGatewayAddress = value; }
+            }
+            
+            private NetworkListResponse.AddressSpace _addressSpace;
+            
+            /// <summary>
+            /// The address space of the local network site
+            /// </summary>
+            public NetworkListResponse.AddressSpace AddressSpace
+            {
+                get { return this._addressSpace; }
+                set { this._addressSpace = value; }
+            }
+            
+            private IList<NetworkListResponse.Connection> _connections;
+            
+            /// <summary>
+            /// Specifies the types of connections to the local network site
+            /// </summary>
+            public IList<NetworkListResponse.Connection> Connections
+            {
+                get { return this._connections; }
+                set { this._connections = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the LocalNetworkSite class.
+            /// </summary>
+            public LocalNetworkSite()
+            {
+                this._connections = new List<NetworkListResponse.Connection>();
+            }
+        }
+        
+        /// <summary>
+        /// Contains gateway references to the local network sites that the
+        /// virtual network can connect to.
+        /// </summary>
+        public partial class Gateway
+        {
+            private GatewayProfile _profile;
+            
+            /// <summary>
+            /// The gateway connection size
+            /// </summary>
+            public GatewayProfile Profile
+            {
+                get { return this._profile; }
+                set { this._profile = value; }
+            }
+            
+            private IList<NetworkListResponse.LocalNetworkSite> _sites;
+            
+            /// <summary>
+            /// The list of local network sites that the virtual network can
+            /// connect to.
+            /// </summary>
+            public IList<NetworkListResponse.LocalNetworkSite> Sites
+            {
+                get { return this._sites; }
+                set { this._sites = value; }
+            }
+            
+            private NetworkListResponse.VPNClientAddressPool _vPNClientAddressPool;
+            
+            /// <summary>
+            /// The VPNClientAddressPool reserves a pool of IP addresses for
+            /// VPN clients. This object is used for point-to-site
+            /// connectivity.
+            /// </summary>
+            public NetworkListResponse.VPNClientAddressPool VPNClientAddressPool
+            {
+                get { return this._vPNClientAddressPool; }
+                set { this._vPNClientAddressPool = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the Gateway class.
+            /// </summary>
+            public Gateway()
+            {
+                this._sites = new List<NetworkListResponse.LocalNetworkSite>();
+            }
+        }
+        
+        public partial class DnsServer
+        {
+            private string _name;
+            
+            /// <summary>
+            /// The name of the DNS server
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+            
+            private string _address;
+            
+            /// <summary>
+            /// The IPv4 address of the DNS server
+            /// </summary>
+            public string Address
+            {
+                get { return this._address; }
+                set { this._address = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the DnsServer class.
+            /// </summary>
+            public DnsServer()
+            {
+            }
+        }
+        
+        public partial class Subnet
+        {
+            private string _name;
+            
+            /// <summary>
+            /// Name for the subnet
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+            
+            private string _addressPrefix;
+            
+            /// <summary>
+            /// Represents an address space, in CIDR format that defines the
+            /// subnet
+            /// </summary>
+            public string AddressPrefix
+            {
+                get { return this._addressPrefix; }
+                set { this._addressPrefix = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the Subnet class.
+            /// </summary>
+            public Subnet()
+            {
+            }
+        }
+        
+        public partial class AddressSpace
+        {
+            private IList<string> _addressPrefixes;
+            
+            /// <summary>
+            /// Address spaces, in CIDR format in the virtual network
+            /// </summary>
+            public IList<string> AddressPrefixes
+            {
+                get { return this._addressPrefixes; }
+                set { this._addressPrefixes = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the AddressSpace class.
+            /// </summary>
+            public AddressSpace()
+            {
+                this._addressPrefixes = new List<string>();
+            }
         }
         
         /// <summary>
@@ -1576,296 +1422,22 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
                 this._dnsServers = new List<NetworkListResponse.DnsServer>();
             }
         }
-        
-        public partial class AddressSpace
-        {
-            private IList<string> _addressPrefixes;
-            
-            /// <summary>
-            /// Address spaces, in CIDR format in the virtual network
-            /// </summary>
-            public IList<string> AddressPrefixes
-            {
-                get { return this._addressPrefixes; }
-                set { this._addressPrefixes = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the AddressSpace class.
-            /// </summary>
-            public AddressSpace()
-            {
-                this._addressPrefixes = new List<string>();
-            }
-        }
-        
-        public partial class Subnet
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Name for the subnet
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _addressPrefix;
-            
-            /// <summary>
-            /// Represents an address space, in CIDR format that defines the
-            /// subnet
-            /// </summary>
-            public string AddressPrefix
-            {
-                get { return this._addressPrefix; }
-                set { this._addressPrefix = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Subnet class.
-            /// </summary>
-            public Subnet()
-            {
-            }
-        }
-        
-        public partial class DnsServer
-        {
-            private string _name;
-            
-            /// <summary>
-            /// The name of the DNS server
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _address;
-            
-            /// <summary>
-            /// The IPv4 address of the DNS server
-            /// </summary>
-            public string Address
-            {
-                get { return this._address; }
-                set { this._address = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the DnsServer class.
-            /// </summary>
-            public DnsServer()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Contains gateway references to the local network sites that the
-        /// virtual network can connect to.
-        /// </summary>
-        public partial class Gateway
-        {
-            private string _profile;
-            
-            /// <summary>
-            /// The gateway connection size
-            /// </summary>
-            public string Profile
-            {
-                get { return this._profile; }
-                set { this._profile = value; }
-            }
-            
-            private IList<NetworkListResponse.LocalNetworkSite> _sites;
-            
-            /// <summary>
-            /// The list of local network sites that the virtual network can
-            /// connect to.
-            /// </summary>
-            public IList<NetworkListResponse.LocalNetworkSite> Sites
-            {
-                get { return this._sites; }
-                set { this._sites = value; }
-            }
-            
-            private NetworkListResponse.VPNClientAddressPool _vPNClientAddressPool;
-            
-            /// <summary>
-            /// The VPNClientAddressPool reserves a pool of IP addresses for
-            /// VPN clients. This object is used for point-to-site
-            /// connectivity.
-            /// </summary>
-            public NetworkListResponse.VPNClientAddressPool VPNClientAddressPool
-            {
-                get { return this._vPNClientAddressPool; }
-                set { this._vPNClientAddressPool = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Gateway class.
-            /// </summary>
-            public Gateway()
-            {
-                this._sites = new List<NetworkListResponse.LocalNetworkSite>();
-            }
-        }
-        
-        /// <summary>
-        /// Contains the list of parameters defining the local network site.
-        /// </summary>
-        public partial class LocalNetworkSite
-        {
-            private string _name;
-            
-            /// <summary>
-            /// The name of the local network site
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _vpnGatewayAddress;
-            
-            /// <summary>
-            /// The IPv4 address of the local network site
-            /// </summary>
-            public string VpnGatewayAddress
-            {
-                get { return this._vpnGatewayAddress; }
-                set { this._vpnGatewayAddress = value; }
-            }
-            
-            private NetworkListResponse.AddressSpace _addressSpace;
-            
-            /// <summary>
-            /// The address space of the local network site
-            /// </summary>
-            public NetworkListResponse.AddressSpace AddressSpace
-            {
-                get { return this._addressSpace; }
-                set { this._addressSpace = value; }
-            }
-            
-            private IList<NetworkListResponse.Connection> _connections;
-            
-            /// <summary>
-            /// Specifies the types of connections to the local network site
-            /// </summary>
-            public IList<NetworkListResponse.Connection> Connections
-            {
-                get { return this._connections; }
-                set { this._connections = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the LocalNetworkSite class.
-            /// </summary>
-            public LocalNetworkSite()
-            {
-                this._connections = new List<NetworkListResponse.Connection>();
-            }
-        }
-        
-        /// <summary>
-        /// Specifies the type of connection of the local network site. The
-        /// value of this element can be either IPsec or Dedicated. The
-        /// default value is IPsec.
-        /// </summary>
-        public partial class Connection
-        {
-            private LocalNetworkConnectionType _type;
-            
-            public LocalNetworkConnectionType Type
-            {
-                get { return this._type; }
-                set { this._type = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Connection class.
-            /// </summary>
-            public Connection()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// The VPNClientAddressPool reserves a pool of IP addresses for VPN
-        /// clients. This object is used for point-to-site connectivity.
-        /// </summary>
-        public partial class VPNClientAddressPool
-        {
-            private IList<string> _addressPrefixes;
-            
-            /// <summary>
-            /// The CIDR identifiers that identify addresses in the pool.
-            /// </summary>
-            public IList<string> AddressPrefixes
-            {
-                get { return this._addressPrefixes; }
-                set { this._addressPrefixes = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the VPNClientAddressPool class.
-            /// </summary>
-            public VPNClientAddressPool()
-            {
-                this._addressPrefixes = new List<string>();
-            }
-        }
     }
     
     /// <summary>
-    /// The request structure for the Server set configuration operation
+    /// Parameters supplied to the Set Network Configuration operation.
     /// </summary>
     public partial class NetworkSetConfigurationParameters
     {
-        private IList<NetworkSetConfigurationParameters.DnsServer> _dnsServers;
+        private string _configuration;
         
         /// <summary>
-        /// Contains the collection of DNS servers. By default, you can specify
-        /// up to nine DNS servers in this section. You can change the DNS
-        /// server limit to a value other than nine by contacting Azure
-        /// support. When you specify a DNS server here, it must be part of an
-        /// external site, not a part of a Windows Azure Virtual Network. DNS
-        /// server names must be uniquely identifiable within the subscription.
+        /// The network configuration for this subscription.
         /// </summary>
-        public IList<NetworkSetConfigurationParameters.DnsServer> DnsServers
+        public string Configuration
         {
-            get { return this._dnsServers; }
-            set { this._dnsServers = value; }
-        }
-        
-        private IList<NetworkSetConfigurationParameters.LocalNetworkSite> _localNetworkSites;
-        
-        /// <summary>
-        /// Contains the collection parameters used to configure local network
-        /// sites used in cross-premise network configurations.
-        /// </summary>
-        public IList<NetworkSetConfigurationParameters.LocalNetworkSite> LocalNetworkSites
-        {
-            get { return this._localNetworkSites; }
-            set { this._localNetworkSites = value; }
-        }
-        
-        private IList<NetworkSetConfigurationParameters.VirtualNetworkSite> _virtualNetworkSites;
-        
-        /// <summary>
-        /// Contains the collection parameters that describe the virtual
-        /// networks.
-        /// </summary>
-        public IList<NetworkSetConfigurationParameters.VirtualNetworkSite> VirtualNetworkSites
-        {
-            get { return this._virtualNetworkSites; }
-            set { this._virtualNetworkSites = value; }
+            get { return this._configuration; }
+            set { this._configuration = value; }
         }
         
         /// <summary>
@@ -1874,382 +1446,6 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         /// </summary>
         public NetworkSetConfigurationParameters()
         {
-            this._dnsServers = new List<NetworkSetConfigurationParameters.DnsServer>();
-            this._localNetworkSites = new List<NetworkSetConfigurationParameters.LocalNetworkSite>();
-            this._virtualNetworkSites = new List<NetworkSetConfigurationParameters.VirtualNetworkSite>();
-        }
-        
-        /// <summary>
-        /// Contains the name and IPv4 address of the DNS server.
-        /// </summary>
-        public partial class DnsServer
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the DNS server. DNS server names must be
-            /// uniquely identifiable within the subscription.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _iPAddress;
-            
-            /// <summary>
-            /// Specifies the IPv4 address of the DNS server
-            /// </summary>
-            public string IPAddress
-            {
-                get { return this._iPAddress; }
-                set { this._iPAddress = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the DnsServer class.
-            /// </summary>
-            public DnsServer()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies the parameters that are used to configure a local network
-        /// site
-        /// </summary>
-        public partial class LocalNetworkSite
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the identifier for the local network. Each local
-            /// network site is referred to by a name. The name must be
-            /// uniquely identifiable within the subscription. The name must
-            /// not contain any spaces and cannot begin with a number.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private IList<string> _addressSpace;
-            
-            /// <summary>
-            /// Contains a collection of Classless Inter-Domain Routing (CIDR)
-            /// identifiers that specify the address space that you will use
-            /// for your local network site. It is recommended that you
-            /// specify only one public IPv4 address space per local network
-            /// site. Address space identifiers must conform to the following
-            /// parameters: (1) This is the address space of your on-premises
-            /// network. (2) The IP address ranges that you specify must not
-            /// overlap with the IP address ranges of any other local network
-            /// sites or virtual network sites. Addresses can be either public
-            /// or private
-            /// </summary>
-            public IList<string> AddressSpace
-            {
-                get { return this._addressSpace; }
-                set { this._addressSpace = value; }
-            }
-            
-            private string _vpnGatewayAddress;
-            
-            /// <summary>
-            /// Specifies the IPv4 Address of the VPN Gateway. You can specify
-            /// only one IP address per local network site. To establish the
-            /// VPN tunnel, you must configure a VPN gateway appliance on your
-            /// local premises (either software or hardware) that supports the
-            /// IKE v1 protocol and can be reached by a public IP address. You
-            /// can specify only one public IPv4 address per local network
-            /// site.
-            /// </summary>
-            public string VpnGatewayAddress
-            {
-                get { return this._vpnGatewayAddress; }
-                set { this._vpnGatewayAddress = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the LocalNetworkSite class.
-            /// </summary>
-            public LocalNetworkSite()
-            {
-                this._addressSpace = new List<string>();
-            }
-        }
-        
-        /// <summary>
-        /// Contains the parameters for a specific subnet. You can specify
-        /// multiple subnets for the virtual network. The IP addresses of the
-        /// subnets you specify must be fully contained within the IP address
-        /// range for the virtual network it resides in. To configure a subnet
-        /// for cross-premises connectivity, specify a subnet with the name
-        /// GatewaySubnet.
-        /// </summary>
-        public partial class Subnet
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the subnet. Subnet names must be unique
-            /// with the virtual network. The name GatewaySubnet is reserved
-            /// for use in corss-premises connectivity.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _addressPrefix;
-            
-            /// <summary>
-            /// Specifies the address space of the subnet.
-            /// </summary>
-            public string AddressPrefix
-            {
-                get { return this._addressPrefix; }
-                set { this._addressPrefix = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Subnet class.
-            /// </summary>
-            public Subnet()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies a DNS server to use for name resolution. If you do not
-        /// set any DNS server references, Windows Azure DNS service is set as
-        /// the default for the virtual. If you do not specify any DNS
-        /// servers, name resolution will not work across a VPN link. You can
-        /// specify up to nine DNS servers.
-        /// </summary>
-        public partial class DnsServerReference
-        {
-            private string _name;
-            
-            /// <summary>
-            /// The name of the DNS server to use for name resolution on the
-            /// virtual network.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the DnsServerReference class.
-            /// </summary>
-            public DnsServerReference()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Specifies the name of the local network. Any site that you
-        /// reference must be defined in the LocalNetworkSite element of this
-        /// request.
-        /// </summary>
-        public partial class LocalNetworkSiteReference
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies the name of the local network.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private LocalNetworkConnectionType _connectionType;
-            
-            /// <summary>
-            /// Specifies the type of connection of the local network site. The
-            /// value of this element can be either IPsec or Dedicated. The
-            /// default value is IPsec.
-            /// </summary>
-            public LocalNetworkConnectionType ConnectionType
-            {
-                get { return this._connectionType; }
-                set { this._connectionType = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the LocalNetworkSiteReference
-            /// class.
-            /// </summary>
-            public LocalNetworkSiteReference()
-            {
-            }
-        }
-        
-        public partial class Gateway
-        {
-            private string _profile;
-            
-            /// <summary>
-            /// Specifies the gateway connection size.
-            /// </summary>
-            public string Profile
-            {
-                get { return this._profile; }
-                set { this._profile = value; }
-            }
-            
-            private IList<string> _vpnClientAddressPool;
-            
-            /// <summary>
-            /// The VPNClientAddressPool reserves a pool of IP addresses for
-            /// VPN clients. This object is used for point-to-site
-            /// connectivity.
-            /// </summary>
-            public IList<string> VpnClientAddressPool
-            {
-                get { return this._vpnClientAddressPool; }
-                set { this._vpnClientAddressPool = value; }
-            }
-            
-            private IList<NetworkSetConfigurationParameters.LocalNetworkSiteReference> _connectionsToLocalNetwork;
-            
-            /// <summary>
-            /// Required for cross-premises connections only. Contains the list
-            /// of local networks that the virtual network can connect to.
-            /// Currently you can only specify one site. Any site that you
-            /// reference in this section must be defined in the network
-            /// configuration and must fall within the total address space
-            /// </summary>
-            public IList<NetworkSetConfigurationParameters.LocalNetworkSiteReference> ConnectionsToLocalNetwork
-            {
-                get { return this._connectionsToLocalNetwork; }
-                set { this._connectionsToLocalNetwork = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Gateway class.
-            /// </summary>
-            public Gateway()
-            {
-                this._vpnClientAddressPool = new List<string>();
-                this._connectionsToLocalNetwork = new List<NetworkSetConfigurationParameters.LocalNetworkSiteReference>();
-            }
-        }
-        
-        /// <summary>
-        /// Contains parameters that describe a virtual network site. Each
-        /// virtual network site must have a unique name and must be
-        /// associated with an affinity group that has been previously created.
-        /// </summary>
-        public partial class VirtualNetworkSite
-        {
-            private string _name;
-            
-            /// <summary>
-            /// Specifies a name for the virtual network. The name must be
-            /// unique within the subscription.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private string _affinityGroup;
-            
-            /// <summary>
-            /// The name of the affinity group that you want this virtual
-            /// network site to be associated with.  The affinity group must
-            /// already exist in order to refer to it in this section.
-            /// </summary>
-            public string AffinityGroup
-            {
-                get { return this._affinityGroup; }
-                set { this._affinityGroup = value; }
-            }
-            
-            private string _label;
-            
-            /// <summary>
-            /// Specifies a friendly identifier for the virtual network.  There
-            /// are no guarantees for uniqueness. Labels can be a maximum of
-            /// 100 characters in length and can contain special characters.
-            /// </summary>
-            public string Label
-            {
-                get { return this._label; }
-                set { this._label = value; }
-            }
-            
-            private IList<string> _addressSpace;
-            
-            /// <summary>
-            /// Specifies the address space for the virtual network. This is a
-            /// private IP address space that conforms to RFC 1918.  Addresses
-            /// that you specify must not overlap with those specified for
-            /// other virtual network sites or local network sites.
-            /// </summary>
-            public IList<string> AddressSpace
-            {
-                get { return this._addressSpace; }
-                set { this._addressSpace = value; }
-            }
-            
-            private IList<NetworkSetConfigurationParameters.Subnet> _subnets;
-            
-            /// <summary>
-            /// Contains the specification for the subnets that you want to
-            /// create within the address space of your virtual network sites.
-            /// </summary>
-            public IList<NetworkSetConfigurationParameters.Subnet> Subnets
-            {
-                get { return this._subnets; }
-                set { this._subnets = value; }
-            }
-            
-            private IList<NetworkSetConfigurationParameters.DnsServerReference> _dnsServerReferences;
-            
-            /// <summary>
-            /// Contains the specification of DNS servers that are used for
-            /// name resolution in this virtual network.  You must reference
-            /// the DNS servers that you already declared in the Dns element.
-            /// </summary>
-            public IList<NetworkSetConfigurationParameters.DnsServerReference> DnsServerReferences
-            {
-                get { return this._dnsServerReferences; }
-                set { this._dnsServerReferences = value; }
-            }
-            
-            private NetworkSetConfigurationParameters.Gateway _gateway;
-            
-            /// <summary>
-            /// Required for cross-premises connections only. Contains gateway
-            /// references to the local network sites that the virtual network
-            /// can connect to. If you don’t require cross-premises
-            /// connectivity, this property is optional.
-            /// </summary>
-            public NetworkSetConfigurationParameters.Gateway Gateway
-            {
-                get { return this._gateway; }
-                set { this._gateway = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the VirtualNetworkSite class.
-            /// </summary>
-            public VirtualNetworkSite()
-            {
-                this._addressSpace = new List<string>();
-                this._subnets = new List<NetworkSetConfigurationParameters.Subnet>();
-                this._dnsServerReferences = new List<NetworkSetConfigurationParameters.DnsServerReference>();
-            }
         }
     }
     
@@ -2299,7 +1495,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get; 
         }
         
-        IClientRootCertificateOperations ClientRootCertificates
+        INetworkOperations Networks
         {
             get; 
         }
@@ -2309,7 +1505,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get; 
         }
         
-        INetworkOperations Networks
+        IClientRootCertificateOperations ClientRootCertificates
         {
             get; 
         }
@@ -2359,11 +1555,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get { return this._baseUri; }
         }
         
-        private IClientRootCertificateOperations _clientRootCertificates;
+        private INetworkOperations _networks;
         
-        public virtual IClientRootCertificateOperations ClientRootCertificates
+        public virtual INetworkOperations Networks
         {
-            get { return this._clientRootCertificates; }
+            get { return this._networks; }
         }
         
         private IGatewayOperations _gateways;
@@ -2373,11 +1569,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get { return this._gateways; }
         }
         
-        private INetworkOperations _networks;
+        private IClientRootCertificateOperations _clientRootCertificates;
         
-        public virtual INetworkOperations Networks
+        public virtual IClientRootCertificateOperations ClientRootCertificates
         {
-            get { return this._networks; }
+            get { return this._clientRootCertificates; }
         }
         
         /// <summary>
@@ -2387,9 +1583,9 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         private VirtualNetworkManagementClient()
             : base()
         {
-            this._clientRootCertificates = new ClientRootCertificateOperations(this);
-            this._gateways = new GatewayOperations(this);
             this._networks = new NetworkOperations(this);
+            this._gateways = new GatewayOperations(this);
+            this._clientRootCertificates = new ClientRootCertificateOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -2497,81 +1693,44 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
     }
     
-    public partial interface IClientRootCertificateOperations
+    public partial interface INetworkOperations
     {
         /// <summary>
-        /// The Delete Client Root Certificate operation deletes a previously
-        /// uploaded client root certificate. from Windows Azure  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
+        /// The Get Network Configuration operation retrieves the network
+        /// configuration file for the given subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
-        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The Get Network Configuration operation response.
         /// </returns>
-        Task<GatewayOperationResponse> DeleteAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken);
+        Task<NetworkGetConfigurationResponse> GetConfigurationAsync(CancellationToken cancellationToken);
         
         /// <summary>
-        /// The Get Client Root Certificate operation returns the public
-        /// portion of a previously uploaded client root certificate in a
-        /// base-64 encoded format from Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// The List Virtual network sites operation retrieves the virtual
+        /// networks configured for the subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
-        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the Server List operation
         /// </returns>
-        Task<ClientRootCertificateGetResponse> GetAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken);
+        Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken);
         
         /// <summary>
-        /// The List Client Root Certificates operation returns a list of all
-        /// the client root certificates that are associated with the
-        /// specified virtual network in Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to the list client root certificates request
-        /// </returns>
-        Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Upload Client Root Certificate operation is used to upload a
-        /// new client root certificate to Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
         /// <param name='parameters'>
-        /// Parameters supplied to the Upload client certificate Virtual
-        /// Network Gateway operation.
+        /// The updated network configuration
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -2580,36 +1739,29 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<GatewayOperationResponse> CreateAsync(string virtualNetworkName, ClientRootCertificateCreateParameters parameters, CancellationToken cancellationToken);
+        Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken);
     }
     
-    public static partial class ClientRootCertificateOperationsExtensions
+    public static partial class NetworkOperationsExtensions
     {
         /// <summary>
-        /// The Delete Client Root Certificate operation deletes a previously
-        /// uploaded client root certificate. from Windows Azure  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
+        /// The Get Network Configuration operation retrieves the network
+        /// configuration file for the given subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The Get Network Configuration operation response.
         /// </returns>
-        public static GatewayOperationResponse Delete(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        public static NetworkGetConfigurationResponse GetConfiguration(this INetworkOperations operations)
         {
             try
             {
-                return operations.DeleteAsync(virtualNetworkName, certificateThumbprint).Result;
+                return operations.GetConfigurationAsync().Result;
             }
             catch (AggregateException ex)
             {
@@ -2625,56 +1777,41 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Delete Client Root Certificate operation deletes a previously
-        /// uploaded client root certificate. from Windows Azure  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
+        /// The Get Network Configuration operation retrieves the network
+        /// configuration file for the given subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The Get Network Configuration operation response.
         /// </returns>
-        public static Task<GatewayOperationResponse> DeleteAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        public static Task<NetworkGetConfigurationResponse> GetConfigurationAsync(this INetworkOperations operations)
         {
-            return operations.DeleteAsync(virtualNetworkName, certificateThumbprint, CancellationToken.None);
+            return operations.GetConfigurationAsync(CancellationToken.None);
         }
         
         /// <summary>
-        /// The Get Client Root Certificate operation returns the public
-        /// portion of a previously uploaded client root certificate in a
-        /// base-64 encoded format from Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// The List Virtual network sites operation retrieves the virtual
+        /// networks configured for the subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the Server List operation
         /// </returns>
-        public static ClientRootCertificateGetResponse Get(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        public static NetworkListResponse List(this INetworkOperations operations)
         {
             try
             {
-                return operations.GetAsync(virtualNetworkName, certificateThumbprint).Result;
+                return operations.ListAsync().Result;
             }
             catch (AggregateException ex)
             {
@@ -2690,115 +1827,45 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Get Client Root Certificate operation returns the public
-        /// portion of a previously uploaded client root certificate in a
-        /// base-64 encoded format from Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// The List Virtual network sites operation retrieves the virtual
+        /// networks configured for the subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response structure for the Server List operation
         /// </returns>
-        public static Task<ClientRootCertificateGetResponse> GetAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        public static Task<NetworkListResponse> ListAsync(this INetworkOperations operations)
         {
-            return operations.GetAsync(virtualNetworkName, certificateThumbprint, CancellationToken.None);
+            return operations.ListAsync(CancellationToken.None);
         }
         
         /// <summary>
-        /// The List Client Root Certificates operation returns a list of all
-        /// the client root certificates that are associated with the
-        /// specified virtual network in Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <returns>
-        /// The response to the list client root certificates request
-        /// </returns>
-        public static ClientRootCertificateListResponse List(this IClientRootCertificateOperations operations, string virtualNetworkName)
-        {
-            try
-            {
-                return operations.ListAsync(virtualNetworkName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Client Root Certificates operation returns a list of all
-        /// the client root certificates that are associated with the
-        /// specified virtual network in Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <returns>
-        /// The response to the list client root certificates request
-        /// </returns>
-        public static Task<ClientRootCertificateListResponse> ListAsync(this IClientRootCertificateOperations operations, string virtualNetworkName)
-        {
-            return operations.ListAsync(virtualNetworkName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Upload Client Root Certificate operation is used to upload a
-        /// new client root certificate to Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// Parameters supplied to the Upload client certificate Virtual
-        /// Network Gateway operation.
+        /// The updated network configuration
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static GatewayOperationResponse Create(this IClientRootCertificateOperations operations, string virtualNetworkName, ClientRootCertificateCreateParameters parameters)
+        public static OperationResponse SetConfiguration(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
         {
             try
             {
-                return operations.CreateAsync(virtualNetworkName, parameters).Result;
+                return operations.SetConfigurationAsync(parameters).Result;
             }
             catch (AggregateException ex)
             {
@@ -2814,42 +1881,37 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Upload Client Root Certificate operation is used to upload a
-        /// new client root certificate to Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
-        /// </param>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// Parameters supplied to the Upload client certificate Virtual
-        /// Network Gateway operation.
+        /// The updated network configuration
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static Task<GatewayOperationResponse> CreateAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, ClientRootCertificateCreateParameters parameters)
+        public static Task<OperationResponse> SetConfigurationAsync(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
         {
-            return operations.CreateAsync(virtualNetworkName, parameters, CancellationToken.None);
+            return operations.SetConfigurationAsync(parameters, CancellationToken.None);
         }
     }
     
-    internal partial class ClientRootCertificateOperations : IServiceOperations<VirtualNetworkManagementClient>, IClientRootCertificateOperations
+    internal partial class NetworkOperations : IServiceOperations<VirtualNetworkManagementClient>, INetworkOperations
     {
         /// <summary>
-        /// Initializes a new instance of the ClientRootCertificateOperations
-        /// class.
+        /// Initializes a new instance of the NetworkOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        internal ClientRootCertificateOperations(VirtualNetworkManagementClient client)
+        internal NetworkOperations(VirtualNetworkManagementClient client)
         {
             this._client = client;
         }
@@ -2866,35 +1928,20 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Delete Client Root Certificate operation deletes a previously
-        /// uploaded client root certificate. from Windows Azure  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
+        /// The Get Network Configuration operation retrieves the network
+        /// configuration file for the given subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
-        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The Get Network Configuration operation response.
         /// </returns>
-        public async Task<GatewayOperationResponse> DeleteAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken)
+        public async Task<NetworkGetConfigurationResponse> GetConfigurationAsync(CancellationToken cancellationToken)
         {
             // Validate
-            if (virtualNetworkName == null)
-            {
-                throw new ArgumentNullException("virtualNetworkName");
-            }
-            if (certificateThumbprint == null)
-            {
-                throw new ArgumentNullException("certificateThumbprint");
-            }
             
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
@@ -2903,148 +1950,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             {
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
-                tracingParameters.Add("certificateThumbprint", certificateThumbprint);
-                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "GetConfigurationAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates/" + certificateThumbprint;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    GatewayOperationResponse result = new GatewayOperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement gatewayOperationAsyncResponseElement = responseDoc.Element(XName.Get("GatewayOperationAsyncResponse", "http://schemas.microsoft.com/windowsazure"));
-                    if (gatewayOperationAsyncResponseElement != null)
-                    {
-                        XElement idElement = gatewayOperationAsyncResponseElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
-                        if (idElement != null)
-                        {
-                            string idInstance = idElement.Value;
-                            result.OperationId = idInstance;
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Client Root Certificate operation returns the public
-        /// portion of a previously uploaded client root certificate in a
-        /// base-64 encoded format from Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
-        /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<ClientRootCertificateGetResponse> GetAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (virtualNetworkName == null)
-            {
-                throw new ArgumentNullException("virtualNetworkName");
-            }
-            if (certificateThumbprint == null)
-            {
-                throw new ArgumentNullException("certificateThumbprint");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
-                tracingParameters.Add("certificateThumbprint", certificateThumbprint);
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates/" + certificateThumbprint;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/media";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -3088,7 +1998,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     }
                     
                     // Create Result
-                    ClientRootCertificateGetResponse result = new ClientRootCertificateGetResponse();
+                    NetworkGetConfigurationResponse result = new NetworkGetConfigurationResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -3098,7 +2008,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    result.Certificate = responseContent;
+                    result.Configuration = responseContent;
                     
                     if (shouldTrace)
                     {
@@ -3124,28 +2034,20 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The List Client Root Certificates operation returns a list of all
-        /// the client root certificates that are associated with the
-        /// specified virtual network in Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// The List Virtual network sites operation retrieves the virtual
+        /// networks configured for the subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response to the list client root certificates request
+        /// The response structure for the Server List operation
         /// </returns>
-        public async Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken)
+        public async Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken)
         {
             // Validate
-            if (virtualNetworkName == null)
-            {
-                throw new ArgumentNullException("virtualNetworkName");
-            }
             
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
@@ -3154,12 +2056,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             {
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
                 Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/virtualnetwork";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -3203,7 +2104,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     }
                     
                     // Create Result
-                    ClientRootCertificateListResponse result = new ClientRootCertificateListResponse();
+                    NetworkListResponse result = new NetworkListResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -3215,33 +2116,198 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement clientRootCertificatesSequenceElement = responseDoc.Element(XName.Get("ClientRootCertificates", "http://schemas.microsoft.com/windowsazure"));
-                    if (clientRootCertificatesSequenceElement != null)
+                    XElement virtualNetworkSitesSequenceElement = responseDoc.Element(XName.Get("VirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
+                    if (virtualNetworkSitesSequenceElement != null)
                     {
-                        foreach (XElement clientRootCertificatesElement in clientRootCertificatesSequenceElement.Elements(XName.Get("ClientRootCertificate", "http://schemas.microsoft.com/windowsazure")))
+                        foreach (XElement virtualNetworkSitesElement in virtualNetworkSitesSequenceElement.Elements(XName.Get("VirtualNetworkSite", "http://schemas.microsoft.com/windowsazure")))
                         {
-                            ClientRootCertificateListResponse.ClientRootCertificate clientRootCertificateInstance = new ClientRootCertificateListResponse.ClientRootCertificate();
-                            result.ClientRootCertificates.Add(clientRootCertificateInstance);
+                            NetworkListResponse.VirtualNetworkSite virtualNetworkSiteInstance = new NetworkListResponse.VirtualNetworkSite();
+                            result.VirtualNetworkSites.Add(virtualNetworkSiteInstance);
                             
-                            XElement expirationTimeElement = clientRootCertificatesElement.Element(XName.Get("ExpirationTime", "http://schemas.microsoft.com/windowsazure"));
-                            if (expirationTimeElement != null)
+                            XElement nameElement = virtualNetworkSitesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
                             {
-                                DateTime expirationTimeInstance = DateTime.Parse(expirationTimeElement.Value, CultureInfo.InvariantCulture);
-                                clientRootCertificateInstance.ExpirationTime = expirationTimeInstance;
+                                string nameInstance = nameElement.Value;
+                                virtualNetworkSiteInstance.Name = nameInstance;
                             }
                             
-                            XElement subjectElement = clientRootCertificatesElement.Element(XName.Get("Subject", "http://schemas.microsoft.com/windowsazure"));
-                            if (subjectElement != null)
+                            XElement labelElement = virtualNetworkSitesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
+                            if (labelElement != null)
                             {
-                                string subjectInstance = subjectElement.Value;
-                                clientRootCertificateInstance.Subject = subjectInstance;
+                                string labelInstance = labelElement.Value;
+                                virtualNetworkSiteInstance.Label = labelInstance;
                             }
                             
-                            XElement thumbprintElement = clientRootCertificatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
-                            if (thumbprintElement != null)
+                            XElement idElement = virtualNetworkSitesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                            if (idElement != null)
                             {
-                                string thumbprintInstance = thumbprintElement.Value;
-                                clientRootCertificateInstance.Thumbprint = thumbprintInstance;
+                                string idInstance = idElement.Value;
+                                virtualNetworkSiteInstance.Id = idInstance;
+                            }
+                            
+                            XElement affinityGroupElement = virtualNetworkSitesElement.Element(XName.Get("AffinityGroup", "http://schemas.microsoft.com/windowsazure"));
+                            if (affinityGroupElement != null)
+                            {
+                                string affinityGroupInstance = affinityGroupElement.Value;
+                                virtualNetworkSiteInstance.AffinityGroup = affinityGroupInstance;
+                            }
+                            
+                            XElement stateElement = virtualNetworkSitesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateElement != null)
+                            {
+                                string stateInstance = stateElement.Value;
+                                virtualNetworkSiteInstance.State = stateInstance;
+                            }
+                            
+                            XElement addressSpaceElement = virtualNetworkSitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/windowsazure"));
+                            if (addressSpaceElement != null)
+                            {
+                                NetworkListResponse.AddressSpace addressSpaceInstance = new NetworkListResponse.AddressSpace();
+                                virtualNetworkSiteInstance.AddressSpace = addressSpaceInstance;
+                                
+                                XElement addressPrefixesSequenceElement = addressSpaceElement.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
+                                if (addressPrefixesSequenceElement != null)
+                                {
+                                    foreach (XElement addressPrefixesElement in addressPrefixesSequenceElement.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
+                                    {
+                                        addressSpaceInstance.AddressPrefixes.Add(addressPrefixesElement.Value);
+                                    }
+                                }
+                            }
+                            
+                            XElement subnetsSequenceElement = virtualNetworkSitesElement.Element(XName.Get("Subnets", "http://schemas.microsoft.com/windowsazure"));
+                            if (subnetsSequenceElement != null)
+                            {
+                                foreach (XElement subnetsElement in subnetsSequenceElement.Elements(XName.Get("Subnet", "http://schemas.microsoft.com/windowsazure")))
+                                {
+                                    NetworkListResponse.Subnet subnetInstance = new NetworkListResponse.Subnet();
+                                    virtualNetworkSiteInstance.Subnets.Add(subnetInstance);
+                                    
+                                    XElement nameElement2 = subnetsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                    if (nameElement2 != null)
+                                    {
+                                        string nameInstance2 = nameElement2.Value;
+                                        subnetInstance.Name = nameInstance2;
+                                    }
+                                    
+                                    XElement addressPrefixElement = subnetsElement.Element(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure"));
+                                    if (addressPrefixElement != null)
+                                    {
+                                        string addressPrefixInstance = addressPrefixElement.Value;
+                                        subnetInstance.AddressPrefix = addressPrefixInstance;
+                                    }
+                                }
+                            }
+                            
+                            XElement dnsServersSequenceElement = virtualNetworkSitesElement.Element(XName.Get("DnsServers", "http://schemas.microsoft.com/windowsazure"));
+                            if (dnsServersSequenceElement != null)
+                            {
+                                foreach (XElement dnsServersElement in dnsServersSequenceElement.Elements(XName.Get("DnsServer", "http://schemas.microsoft.com/windowsazure")))
+                                {
+                                    NetworkListResponse.DnsServer dnsServerInstance = new NetworkListResponse.DnsServer();
+                                    virtualNetworkSiteInstance.DnsServers.Add(dnsServerInstance);
+                                    
+                                    XElement nameElement3 = dnsServersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                    if (nameElement3 != null)
+                                    {
+                                        string nameInstance3 = nameElement3.Value;
+                                        dnsServerInstance.Name = nameInstance3;
+                                    }
+                                    
+                                    XElement addressElement = dnsServersElement.Element(XName.Get("Address", "http://schemas.microsoft.com/windowsazure"));
+                                    if (addressElement != null)
+                                    {
+                                        string addressInstance = addressElement.Value;
+                                        dnsServerInstance.Address = addressInstance;
+                                    }
+                                }
+                            }
+                            
+                            XElement gatewayElement = virtualNetworkSitesElement.Element(XName.Get("Gateway", "http://schemas.microsoft.com/windowsazure"));
+                            if (gatewayElement != null)
+                            {
+                                NetworkListResponse.Gateway gatewayInstance = new NetworkListResponse.Gateway();
+                                virtualNetworkSiteInstance.Gateway = gatewayInstance;
+                                
+                                XElement profileElement = gatewayElement.Element(XName.Get("Profile", "http://schemas.microsoft.com/windowsazure"));
+                                if (profileElement != null)
+                                {
+                                    GatewayProfile profileInstance = (GatewayProfile)Enum.Parse(typeof(GatewayProfile), profileElement.Value, false);
+                                    gatewayInstance.Profile = profileInstance;
+                                }
+                                
+                                XElement sitesSequenceElement = gatewayElement.Element(XName.Get("Sites", "http://schemas.microsoft.com/windowsazure"));
+                                if (sitesSequenceElement != null)
+                                {
+                                    foreach (XElement sitesElement in sitesSequenceElement.Elements(XName.Get("LocalNetworkSite", "http://schemas.microsoft.com/windowsazure")))
+                                    {
+                                        NetworkListResponse.LocalNetworkSite localNetworkSiteInstance = new NetworkListResponse.LocalNetworkSite();
+                                        gatewayInstance.Sites.Add(localNetworkSiteInstance);
+                                        
+                                        XElement nameElement4 = sitesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                        if (nameElement4 != null)
+                                        {
+                                            string nameInstance4 = nameElement4.Value;
+                                            localNetworkSiteInstance.Name = nameInstance4;
+                                        }
+                                        
+                                        XElement vpnGatewayAddressElement = sitesElement.Element(XName.Get("VpnGatewayAddress", "http://schemas.microsoft.com/windowsazure"));
+                                        if (vpnGatewayAddressElement != null)
+                                        {
+                                            string vpnGatewayAddressInstance = vpnGatewayAddressElement.Value;
+                                            localNetworkSiteInstance.VpnGatewayAddress = vpnGatewayAddressInstance;
+                                        }
+                                        
+                                        XElement addressSpaceElement2 = sitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/windowsazure"));
+                                        if (addressSpaceElement2 != null)
+                                        {
+                                            NetworkListResponse.AddressSpace addressSpaceInstance2 = new NetworkListResponse.AddressSpace();
+                                            localNetworkSiteInstance.AddressSpace = addressSpaceInstance2;
+                                            
+                                            XElement addressPrefixesSequenceElement2 = addressSpaceElement2.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
+                                            if (addressPrefixesSequenceElement2 != null)
+                                            {
+                                                foreach (XElement addressPrefixesElement2 in addressPrefixesSequenceElement2.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
+                                                {
+                                                    addressSpaceInstance2.AddressPrefixes.Add(addressPrefixesElement2.Value);
+                                                }
+                                            }
+                                        }
+                                        
+                                        XElement connectionsSequenceElement = sitesElement.Element(XName.Get("Connections", "http://schemas.microsoft.com/windowsazure"));
+                                        if (connectionsSequenceElement != null)
+                                        {
+                                            foreach (XElement connectionsElement in connectionsSequenceElement.Elements(XName.Get("Connection", "http://schemas.microsoft.com/windowsazure")))
+                                            {
+                                                NetworkListResponse.Connection connectionInstance = new NetworkListResponse.Connection();
+                                                localNetworkSiteInstance.Connections.Add(connectionInstance);
+                                                
+                                                XElement typeElement = connectionsElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                                                if (typeElement != null)
+                                                {
+                                                    LocalNetworkConnectionType typeInstance = VirtualNetworkManagementClient.ParseLocalNetworkConnectionType(typeElement.Value);
+                                                    connectionInstance.Type = typeInstance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                XElement vPNClientAddressPoolElement = gatewayElement.Element(XName.Get("VPNClientAddressPool", "http://schemas.microsoft.com/windowsazure"));
+                                if (vPNClientAddressPoolElement != null)
+                                {
+                                    NetworkListResponse.VPNClientAddressPool vPNClientAddressPoolInstance = new NetworkListResponse.VPNClientAddressPool();
+                                    gatewayInstance.VPNClientAddressPool = vPNClientAddressPoolInstance;
+                                    
+                                    XElement addressPrefixesSequenceElement3 = vPNClientAddressPoolElement.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
+                                    if (addressPrefixesSequenceElement3 != null)
+                                    {
+                                        foreach (XElement addressPrefixesElement3 in addressPrefixesSequenceElement3.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
+                                        {
+                                            vPNClientAddressPoolInstance.AddressPrefixes.Add(addressPrefixesElement3.Value);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -3270,17 +2336,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Upload Client Root Certificate operation is used to upload a
-        /// new client root certificate to Windows Azure.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
         /// for more information)
         /// </summary>
-        /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
-        /// </param>
         /// <param name='parameters'>
-        /// Parameters supplied to the Upload client certificate Virtual
-        /// Network Gateway operation.
+        /// The updated network configuration
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3289,20 +2351,16 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<GatewayOperationResponse> CreateAsync(string virtualNetworkName, ClientRootCertificateCreateParameters parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
-            if (virtualNetworkName == null)
-            {
-                throw new ArgumentNullException("virtualNetworkName");
-            }
             if (parameters == null)
             {
                 throw new ArgumentNullException("parameters");
             }
-            if (parameters.Certificate == null)
+            if (parameters.Configuration == null)
             {
-                throw new ArgumentNullException("parameters.Certificate");
+                throw new ArgumentNullException("parameters.Configuration");
             }
             
             // Tracing
@@ -3312,20 +2370,19 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             {
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "SetConfigurationAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/media";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
+                httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
@@ -3337,9 +2394,9 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                 
                 // Serialize Request
                 string requestContent = null;
-                requestContent = parameters.Certificate;
+                requestContent = parameters.Configuration;
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 
                 // Send Request
                 HttpResponseMessage httpResponse = null;
@@ -3368,27 +2425,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     }
                     
                     // Create Result
-                    GatewayOperationResponse result = new GatewayOperationResponse();
+                    OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement gatewayOperationAsyncResponseElement = responseDoc.Element(XName.Get("GatewayOperationAsyncResponse", "http://schemas.microsoft.com/windowsazure"));
-                    if (gatewayOperationAsyncResponseElement != null)
-                    {
-                        XElement idElement = gatewayOperationAsyncResponseElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
-                        if (idElement != null)
-                        {
-                            string idInstance = idElement.Value;
-                            result.OperationId = idInstance;
-                        }
                     }
                     
                     if (shouldTrace)
@@ -7255,44 +6296,19 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
     }
     
-    public partial interface INetworkOperations
+    public partial interface IClientRootCertificateOperations
     {
         /// <summary>
-        /// The Get Network Configuration operation retrieves the network
-        /// configuration file for the given subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
+        /// The Delete Client Root Certificate operation deletes a previously
+        /// uploaded client root certificate. from Windows Azure  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
         /// for more information)
         /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
         /// </param>
-        /// <returns>
-        /// The response structure for the Server get configuration operation
-        /// </returns>
-        Task<NetworkGetConfigurationResponse> GetConfigurationAsync(CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The List Virtual network sites operation retrieves the virtual
-        /// networks configured for the subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Set Network Configuration operation asynchronously configures
-        /// the virtual network  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// The updated network configuration
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -7301,133 +6317,98 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken);
+        Task<GatewayOperationResponse> DeleteAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Get Client Root Certificate operation returns the public
+        /// portion of a previously uploaded client root certificate in a
+        /// base-64 encoded format from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<ClientRootCertificateGetResponse> GetAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The List Client Root Certificates operation returns a list of all
+        /// the client root certificates that are associated with the
+        /// specified virtual network in Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to the list client root certificates request
+        /// </returns>
+        Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Upload Client Root Certificate operation is used to upload a
+        /// new client root certificate to Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Upload client certificate Virtual
+        /// Network Gateway operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<GatewayOperationResponse> CreateAsync(string virtualNetworkName, ClientRootCertificateCreateParameters parameters, CancellationToken cancellationToken);
     }
     
-    public static partial class NetworkOperationsExtensions
+    public static partial class ClientRootCertificateOperationsExtensions
     {
         /// <summary>
-        /// The Get Network Configuration operation retrieves the network
-        /// configuration file for the given subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
+        /// The Delete Client Root Certificate operation deletes a previously
+        /// uploaded client root certificate. from Windows Azure  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
-        /// <returns>
-        /// The response structure for the Server get configuration operation
-        /// </returns>
-        public static NetworkGetConfigurationResponse GetConfiguration(this INetworkOperations operations)
-        {
-            try
-            {
-                return operations.GetConfigurationAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Network Configuration operation retrieves the network
-        /// configuration file for the given subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
         /// </param>
-        /// <returns>
-        /// The response structure for the Server get configuration operation
-        /// </returns>
-        public static Task<NetworkGetConfigurationResponse> GetConfigurationAsync(this INetworkOperations operations)
-        {
-            return operations.GetConfigurationAsync(CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The List Virtual network sites operation retrieves the virtual
-        /// networks configured for the subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public static NetworkListResponse List(this INetworkOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Virtual network sites operation retrieves the virtual
-        /// networks configured for the subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public static Task<NetworkListResponse> ListAsync(this INetworkOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Set Network Configuration operation asynchronously configures
-        /// the virtual network  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// The updated network configuration
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse SetConfiguration(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        public static GatewayOperationResponse Delete(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
         {
             try
             {
-                return operations.SetConfigurationAsync(parameters).Result;
+                return operations.DeleteAsync(virtualNetworkName, certificateThumbprint).Result;
             }
             catch (AggregateException ex)
             {
@@ -7443,37 +6424,231 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Set Network Configuration operation asynchronously configures
-        /// the virtual network  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
+        /// The Delete Client Root Certificate operation deletes a previously
+        /// uploaded client root certificate. from Windows Azure  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
         /// for more information)
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
-        /// <param name='parameters'>
-        /// The updated network configuration
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static Task<OperationResponse> SetConfigurationAsync(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        public static Task<GatewayOperationResponse> DeleteAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
         {
-            return operations.SetConfigurationAsync(parameters, CancellationToken.None);
+            return operations.DeleteAsync(virtualNetworkName, certificateThumbprint, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Get Client Root Certificate operation returns the public
+        /// portion of a previously uploaded client root certificate in a
+        /// base-64 encoded format from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static ClientRootCertificateGetResponse Get(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        {
+            try
+            {
+                return operations.GetAsync(virtualNetworkName, certificateThumbprint).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Client Root Certificate operation returns the public
+        /// portion of a previously uploaded client root certificate in a
+        /// base-64 encoded format from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<ClientRootCertificateGetResponse> GetAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, string certificateThumbprint)
+        {
+            return operations.GetAsync(virtualNetworkName, certificateThumbprint, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The List Client Root Certificates operation returns a list of all
+        /// the client root certificates that are associated with the
+        /// specified virtual network in Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <returns>
+        /// The response to the list client root certificates request
+        /// </returns>
+        public static ClientRootCertificateListResponse List(this IClientRootCertificateOperations operations, string virtualNetworkName)
+        {
+            try
+            {
+                return operations.ListAsync(virtualNetworkName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Client Root Certificates operation returns a list of all
+        /// the client root certificates that are associated with the
+        /// specified virtual network in Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <returns>
+        /// The response to the list client root certificates request
+        /// </returns>
+        public static Task<ClientRootCertificateListResponse> ListAsync(this IClientRootCertificateOperations operations, string virtualNetworkName)
+        {
+            return operations.ListAsync(virtualNetworkName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Upload Client Root Certificate operation is used to upload a
+        /// new client root certificate to Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Upload client certificate Virtual
+        /// Network Gateway operation.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static GatewayOperationResponse Create(this IClientRootCertificateOperations operations, string virtualNetworkName, ClientRootCertificateCreateParameters parameters)
+        {
+            try
+            {
+                return operations.CreateAsync(virtualNetworkName, parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Upload Client Root Certificate operation is used to upload a
+        /// new client root certificate to Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Upload client certificate Virtual
+        /// Network Gateway operation.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<GatewayOperationResponse> CreateAsync(this IClientRootCertificateOperations operations, string virtualNetworkName, ClientRootCertificateCreateParameters parameters)
+        {
+            return operations.CreateAsync(virtualNetworkName, parameters, CancellationToken.None);
         }
     }
     
-    internal partial class NetworkOperations : IServiceOperations<VirtualNetworkManagementClient>, INetworkOperations
+    internal partial class ClientRootCertificateOperations : IServiceOperations<VirtualNetworkManagementClient>, IClientRootCertificateOperations
     {
         /// <summary>
-        /// Initializes a new instance of the NetworkOperations class.
+        /// Initializes a new instance of the ClientRootCertificateOperations
+        /// class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        internal NetworkOperations(VirtualNetworkManagementClient client)
+        internal ClientRootCertificateOperations(VirtualNetworkManagementClient client)
         {
             this._client = client;
         }
@@ -7490,609 +6665,16 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Get Network Configuration operation retrieves the network
-        /// configuration file for the given subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157196.aspx
+        /// The Delete Client Root Certificate operation deletes a previously
+        /// uploaded client root certificate. from Windows Azure  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205128.aspx
         /// for more information)
         /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
         /// </param>
-        /// <returns>
-        /// The response structure for the Server get configuration operation
-        /// </returns>
-        public async Task<NetworkGetConfigurationResponse> GetConfigurationAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "GetConfigurationAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/media";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    NetworkGetConfigurationResponse result = new NetworkGetConfigurationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement networkConfigurationElement = responseDoc.Element(XName.Get("NetworkConfiguration", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                    if (networkConfigurationElement != null)
-                    {
-                        XElement virtualNetworkConfigurationElement = networkConfigurationElement.Element(XName.Get("VirtualNetworkConfiguration", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                        if (virtualNetworkConfigurationElement != null)
-                        {
-                            XElement dnsElement = virtualNetworkConfigurationElement.Element(XName.Get("Dns", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            if (dnsElement != null)
-                            {
-                                XElement dnsServersSequenceElement = dnsElement.Element(XName.Get("DnsServers", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                if (dnsServersSequenceElement != null)
-                                {
-                                    foreach (XElement dnsServersElement in dnsServersSequenceElement.Elements(XName.Get("DnsServer", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                    {
-                                        NetworkGetConfigurationResponse.DnsServer dnsServerInstance = new NetworkGetConfigurationResponse.DnsServer();
-                                        result.DnsServers.Add(dnsServerInstance);
-                                        
-                                        XAttribute nameAttribute = dnsServersElement.Attribute(XName.Get("name", ""));
-                                        if (nameAttribute != null)
-                                        {
-                                            dnsServerInstance.Name = nameAttribute.Value;
-                                        }
-                                        
-                                        XAttribute iPAddressAttribute = dnsServersElement.Attribute(XName.Get("IPAddress", ""));
-                                        if (iPAddressAttribute != null)
-                                        {
-                                            dnsServerInstance.IPAddress = iPAddressAttribute.Value;
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            XElement localNetworkSitesSequenceElement = virtualNetworkConfigurationElement.Element(XName.Get("LocalNetworkSites", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            if (localNetworkSitesSequenceElement != null)
-                            {
-                                foreach (XElement localNetworkSitesElement in localNetworkSitesSequenceElement.Elements(XName.Get("LocalNetworkSite", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                {
-                                    NetworkGetConfigurationResponse.LocalNetworkSite localNetworkSiteInstance = new NetworkGetConfigurationResponse.LocalNetworkSite();
-                                    result.LocalNetworkSites.Add(localNetworkSiteInstance);
-                                    
-                                    XAttribute nameAttribute2 = localNetworkSitesElement.Attribute(XName.Get("name", ""));
-                                    if (nameAttribute2 != null)
-                                    {
-                                        localNetworkSiteInstance.Name = nameAttribute2.Value;
-                                    }
-                                    
-                                    XElement addressSpaceSequenceElement = localNetworkSitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (addressSpaceSequenceElement != null)
-                                    {
-                                        foreach (XElement addressSpaceElement in addressSpaceSequenceElement.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                        {
-                                            localNetworkSiteInstance.AddressSpace.Add(addressSpaceElement.Value);
-                                        }
-                                    }
-                                    
-                                    XElement vPNGatewayAddressElement = localNetworkSitesElement.Element(XName.Get("VPNGatewayAddress", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (vPNGatewayAddressElement != null)
-                                    {
-                                        string vPNGatewayAddressInstance = vPNGatewayAddressElement.Value;
-                                        localNetworkSiteInstance.VpnGatewayAddress = vPNGatewayAddressInstance;
-                                    }
-                                }
-                            }
-                            
-                            XElement virtualNetworkSitesSequenceElement = virtualNetworkConfigurationElement.Element(XName.Get("VirtualNetworkSites", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            if (virtualNetworkSitesSequenceElement != null)
-                            {
-                                foreach (XElement virtualNetworkSitesElement in virtualNetworkSitesSequenceElement.Elements(XName.Get("VirtualNetworkSite", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                {
-                                    NetworkGetConfigurationResponse.VirtualNetworkSite virtualNetworkSiteInstance = new NetworkGetConfigurationResponse.VirtualNetworkSite();
-                                    result.VirtualNetworkSites.Add(virtualNetworkSiteInstance);
-                                    
-                                    XAttribute nameAttribute3 = virtualNetworkSitesElement.Attribute(XName.Get("name", ""));
-                                    if (nameAttribute3 != null)
-                                    {
-                                        virtualNetworkSiteInstance.Name = nameAttribute3.Value;
-                                    }
-                                    
-                                    XAttribute affinityGroupAttribute = virtualNetworkSitesElement.Attribute(XName.Get("AffinityGroup", ""));
-                                    if (affinityGroupAttribute != null)
-                                    {
-                                        virtualNetworkSiteInstance.AffinityGroup = affinityGroupAttribute.Value;
-                                    }
-                                    
-                                    XElement labelElement = virtualNetworkSitesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (labelElement != null)
-                                    {
-                                        string labelInstance = labelElement.Value;
-                                        virtualNetworkSiteInstance.Label = labelInstance;
-                                    }
-                                    
-                                    XElement addressSpaceSequenceElement2 = virtualNetworkSitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (addressSpaceSequenceElement2 != null)
-                                    {
-                                        foreach (XElement addressSpaceElement2 in addressSpaceSequenceElement2.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                        {
-                                            virtualNetworkSiteInstance.AddressSpace.Add(addressSpaceElement2.Value);
-                                        }
-                                    }
-                                    
-                                    XElement subnetsSequenceElement = virtualNetworkSitesElement.Element(XName.Get("Subnets", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (subnetsSequenceElement != null)
-                                    {
-                                        foreach (XElement subnetsElement in subnetsSequenceElement.Elements(XName.Get("Subnet", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                        {
-                                            NetworkGetConfigurationResponse.Subnet subnetInstance = new NetworkGetConfigurationResponse.Subnet();
-                                            virtualNetworkSiteInstance.Subnets.Add(subnetInstance);
-                                            
-                                            XAttribute nameAttribute4 = subnetsElement.Attribute(XName.Get("name", ""));
-                                            if (nameAttribute4 != null)
-                                            {
-                                                subnetInstance.Name = nameAttribute4.Value;
-                                            }
-                                            
-                                            XElement addressPrefixElement = subnetsElement.Element(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                            if (addressPrefixElement != null)
-                                            {
-                                                string addressPrefixInstance = addressPrefixElement.Value;
-                                                subnetInstance.AddressPrefix = addressPrefixInstance;
-                                            }
-                                        }
-                                    }
-                                    
-                                    XElement dnsServersRefSequenceElement = virtualNetworkSitesElement.Element(XName.Get("DnsServersRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (dnsServersRefSequenceElement != null)
-                                    {
-                                        foreach (XElement dnsServersRefElement in dnsServersRefSequenceElement.Elements(XName.Get("DnsServerRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                        {
-                                            NetworkGetConfigurationResponse.DnsServerReference dnsServerRefInstance = new NetworkGetConfigurationResponse.DnsServerReference();
-                                            virtualNetworkSiteInstance.DnsServerReferences.Add(dnsServerRefInstance);
-                                            
-                                            XAttribute nameAttribute5 = dnsServersRefElement.Attribute(XName.Get("name", ""));
-                                            if (nameAttribute5 != null)
-                                            {
-                                                dnsServerRefInstance.Name = nameAttribute5.Value;
-                                            }
-                                        }
-                                    }
-                                    
-                                    XElement gatewayElement = virtualNetworkSitesElement.Element(XName.Get("Gateway", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    if (gatewayElement != null)
-                                    {
-                                        NetworkGetConfigurationResponse.Gateway gatewayInstance = new NetworkGetConfigurationResponse.Gateway();
-                                        virtualNetworkSiteInstance.Gateway = gatewayInstance;
-                                        
-                                        XAttribute profileAttribute = gatewayElement.Attribute(XName.Get("profile", ""));
-                                        if (profileAttribute != null)
-                                        {
-                                            gatewayInstance.Profile = profileAttribute.Value;
-                                        }
-                                        
-                                        XElement vPMClientAddressPoolSequenceElement = gatewayElement.Element(XName.Get("VPMClientAddressPool", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                        if (vPMClientAddressPoolSequenceElement != null)
-                                        {
-                                            foreach (XElement vPMClientAddressPoolElement in vPMClientAddressPoolSequenceElement.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                            {
-                                                gatewayInstance.VpnClientAddressPool.Add(vPMClientAddressPoolElement.Value);
-                                            }
-                                        }
-                                        
-                                        XElement connectionsToLocalNetworkSequenceElement = gatewayElement.Element(XName.Get("ConnectionsToLocalNetwork", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                        if (connectionsToLocalNetworkSequenceElement != null)
-                                        {
-                                            foreach (XElement connectionsToLocalNetworkElement in connectionsToLocalNetworkSequenceElement.Elements(XName.Get("LocalNetworkSiteRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration")))
-                                            {
-                                                NetworkGetConfigurationResponse.LocalNetworkSiteReference localNetworkSiteRefInstance = new NetworkGetConfigurationResponse.LocalNetworkSiteReference();
-                                                gatewayInstance.ConnectionsToLocalNetwork.Add(localNetworkSiteRefInstance);
-                                                
-                                                XAttribute nameAttribute6 = connectionsToLocalNetworkElement.Attribute(XName.Get("name", ""));
-                                                if (nameAttribute6 != null)
-                                                {
-                                                    localNetworkSiteRefInstance.Name = nameAttribute6.Value;
-                                                }
-                                                
-                                                XElement connectionTypeElement = connectionsToLocalNetworkElement.Element(XName.Get("ConnectionType", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                                if (connectionTypeElement != null)
-                                                {
-                                                    LocalNetworkConnectionType connectionTypeInstance = VirtualNetworkManagementClient.ParseLocalNetworkConnectionType(connectionTypeElement.Value);
-                                                    localNetworkSiteRefInstance.ConnectionType = connectionTypeInstance;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Virtual network sites operation retrieves the virtual
-        /// networks configured for the subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157185.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Server List operation
-        /// </returns>
-        public async Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/virtualnetwork";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    NetworkListResponse result = new NetworkListResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement virtualNetworkSitesSequenceElement = responseDoc.Element(XName.Get("VirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
-                    if (virtualNetworkSitesSequenceElement != null)
-                    {
-                        foreach (XElement virtualNetworkSitesElement in virtualNetworkSitesSequenceElement.Elements(XName.Get("VirtualNetworkSite", "http://schemas.microsoft.com/windowsazure")))
-                        {
-                            NetworkListResponse.VirtualNetworkSite virtualNetworkSiteInstance = new NetworkListResponse.VirtualNetworkSite();
-                            result.VirtualNetworkSites.Add(virtualNetworkSiteInstance);
-                            
-                            XElement nameElement = virtualNetworkSitesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                            if (nameElement != null)
-                            {
-                                string nameInstance = nameElement.Value;
-                                virtualNetworkSiteInstance.Name = nameInstance;
-                            }
-                            
-                            XElement labelElement = virtualNetworkSitesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
-                            if (labelElement != null)
-                            {
-                                string labelInstance = labelElement.Value;
-                                virtualNetworkSiteInstance.Label = labelInstance;
-                            }
-                            
-                            XElement idElement = virtualNetworkSitesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
-                            if (idElement != null)
-                            {
-                                string idInstance = idElement.Value;
-                                virtualNetworkSiteInstance.Id = idInstance;
-                            }
-                            
-                            XElement affinityGroupElement = virtualNetworkSitesElement.Element(XName.Get("AffinityGroup", "http://schemas.microsoft.com/windowsazure"));
-                            if (affinityGroupElement != null)
-                            {
-                                string affinityGroupInstance = affinityGroupElement.Value;
-                                virtualNetworkSiteInstance.AffinityGroup = affinityGroupInstance;
-                            }
-                            
-                            XElement stateElement = virtualNetworkSitesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                            if (stateElement != null)
-                            {
-                                string stateInstance = stateElement.Value;
-                                virtualNetworkSiteInstance.State = stateInstance;
-                            }
-                            
-                            XElement addressSpaceElement = virtualNetworkSitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/windowsazure"));
-                            if (addressSpaceElement != null)
-                            {
-                                NetworkListResponse.AddressSpace addressSpaceInstance = new NetworkListResponse.AddressSpace();
-                                virtualNetworkSiteInstance.AddressSpace = addressSpaceInstance;
-                                
-                                XElement addressPrefixesSequenceElement = addressSpaceElement.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
-                                if (addressPrefixesSequenceElement != null)
-                                {
-                                    foreach (XElement addressPrefixesElement in addressPrefixesSequenceElement.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
-                                    {
-                                        addressSpaceInstance.AddressPrefixes.Add(addressPrefixesElement.Value);
-                                    }
-                                }
-                            }
-                            
-                            XElement subnetsSequenceElement = virtualNetworkSitesElement.Element(XName.Get("Subnets", "http://schemas.microsoft.com/windowsazure"));
-                            if (subnetsSequenceElement != null)
-                            {
-                                foreach (XElement subnetsElement in subnetsSequenceElement.Elements(XName.Get("Subnet", "http://schemas.microsoft.com/windowsazure")))
-                                {
-                                    NetworkListResponse.Subnet subnetInstance = new NetworkListResponse.Subnet();
-                                    virtualNetworkSiteInstance.Subnets.Add(subnetInstance);
-                                    
-                                    XElement nameElement2 = subnetsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                    if (nameElement2 != null)
-                                    {
-                                        string nameInstance2 = nameElement2.Value;
-                                        subnetInstance.Name = nameInstance2;
-                                    }
-                                    
-                                    XElement addressPrefixElement = subnetsElement.Element(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure"));
-                                    if (addressPrefixElement != null)
-                                    {
-                                        string addressPrefixInstance = addressPrefixElement.Value;
-                                        subnetInstance.AddressPrefix = addressPrefixInstance;
-                                    }
-                                }
-                            }
-                            
-                            XElement dnsServersSequenceElement = virtualNetworkSitesElement.Element(XName.Get("DnsServers", "http://schemas.microsoft.com/windowsazure"));
-                            if (dnsServersSequenceElement != null)
-                            {
-                                foreach (XElement dnsServersElement in dnsServersSequenceElement.Elements(XName.Get("DnsServer", "http://schemas.microsoft.com/windowsazure")))
-                                {
-                                    NetworkListResponse.DnsServer dnsServerInstance = new NetworkListResponse.DnsServer();
-                                    virtualNetworkSiteInstance.DnsServers.Add(dnsServerInstance);
-                                    
-                                    XElement nameElement3 = dnsServersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                    if (nameElement3 != null)
-                                    {
-                                        string nameInstance3 = nameElement3.Value;
-                                        dnsServerInstance.Name = nameInstance3;
-                                    }
-                                    
-                                    XElement addressElement = dnsServersElement.Element(XName.Get("Address", "http://schemas.microsoft.com/windowsazure"));
-                                    if (addressElement != null)
-                                    {
-                                        string addressInstance = addressElement.Value;
-                                        dnsServerInstance.Address = addressInstance;
-                                    }
-                                }
-                            }
-                            
-                            XElement gatewayElement = virtualNetworkSitesElement.Element(XName.Get("Gateway", "http://schemas.microsoft.com/windowsazure"));
-                            if (gatewayElement != null)
-                            {
-                                NetworkListResponse.Gateway gatewayInstance = new NetworkListResponse.Gateway();
-                                virtualNetworkSiteInstance.Gateway = gatewayInstance;
-                                
-                                XElement profileElement = gatewayElement.Element(XName.Get("Profile", "http://schemas.microsoft.com/windowsazure"));
-                                if (profileElement != null)
-                                {
-                                    string profileInstance = profileElement.Value;
-                                    gatewayInstance.Profile = profileInstance;
-                                }
-                                
-                                XElement sitesSequenceElement = gatewayElement.Element(XName.Get("Sites", "http://schemas.microsoft.com/windowsazure"));
-                                if (sitesSequenceElement != null)
-                                {
-                                    foreach (XElement sitesElement in sitesSequenceElement.Elements(XName.Get("LocalNetworkSite", "http://schemas.microsoft.com/windowsazure")))
-                                    {
-                                        NetworkListResponse.LocalNetworkSite localNetworkSiteInstance = new NetworkListResponse.LocalNetworkSite();
-                                        gatewayInstance.Sites.Add(localNetworkSiteInstance);
-                                        
-                                        XElement nameElement4 = sitesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                        if (nameElement4 != null)
-                                        {
-                                            string nameInstance4 = nameElement4.Value;
-                                            localNetworkSiteInstance.Name = nameInstance4;
-                                        }
-                                        
-                                        XElement vpnGatewayAddressElement = sitesElement.Element(XName.Get("VpnGatewayAddress", "http://schemas.microsoft.com/windowsazure"));
-                                        if (vpnGatewayAddressElement != null)
-                                        {
-                                            string vpnGatewayAddressInstance = vpnGatewayAddressElement.Value;
-                                            localNetworkSiteInstance.VpnGatewayAddress = vpnGatewayAddressInstance;
-                                        }
-                                        
-                                        XElement addressSpaceElement2 = sitesElement.Element(XName.Get("AddressSpace", "http://schemas.microsoft.com/windowsazure"));
-                                        if (addressSpaceElement2 != null)
-                                        {
-                                            NetworkListResponse.AddressSpace addressSpaceInstance2 = new NetworkListResponse.AddressSpace();
-                                            localNetworkSiteInstance.AddressSpace = addressSpaceInstance2;
-                                            
-                                            XElement addressPrefixesSequenceElement2 = addressSpaceElement2.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
-                                            if (addressPrefixesSequenceElement2 != null)
-                                            {
-                                                foreach (XElement addressPrefixesElement2 in addressPrefixesSequenceElement2.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
-                                                {
-                                                    addressSpaceInstance2.AddressPrefixes.Add(addressPrefixesElement2.Value);
-                                                }
-                                            }
-                                        }
-                                        
-                                        XElement connectionsSequenceElement = sitesElement.Element(XName.Get("Connections", "http://schemas.microsoft.com/windowsazure"));
-                                        if (connectionsSequenceElement != null)
-                                        {
-                                            foreach (XElement connectionsElement in connectionsSequenceElement.Elements(XName.Get("Connection", "http://schemas.microsoft.com/windowsazure")))
-                                            {
-                                                NetworkListResponse.Connection connectionInstance = new NetworkListResponse.Connection();
-                                                localNetworkSiteInstance.Connections.Add(connectionInstance);
-                                                
-                                                XElement typeElement = connectionsElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                                if (typeElement != null)
-                                                {
-                                                    LocalNetworkConnectionType typeInstance = VirtualNetworkManagementClient.ParseLocalNetworkConnectionType(typeElement.Value);
-                                                    connectionInstance.Type = typeInstance;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                XElement vPNClientAddressPoolElement = gatewayElement.Element(XName.Get("VPNClientAddressPool", "http://schemas.microsoft.com/windowsazure"));
-                                if (vPNClientAddressPoolElement != null)
-                                {
-                                    NetworkListResponse.VPNClientAddressPool vPNClientAddressPoolInstance = new NetworkListResponse.VPNClientAddressPool();
-                                    gatewayInstance.VPNClientAddressPool = vPNClientAddressPoolInstance;
-                                    
-                                    XElement addressPrefixesSequenceElement3 = vPNClientAddressPoolElement.Element(XName.Get("AddressPrefixes", "http://schemas.microsoft.com/windowsazure"));
-                                    if (addressPrefixesSequenceElement3 != null)
-                                    {
-                                        foreach (XElement addressPrefixesElement3 in addressPrefixesSequenceElement3.Elements(XName.Get("AddressPrefix", "http://schemas.microsoft.com/windowsazure")))
-                                        {
-                                            vPNClientAddressPoolInstance.AddressPrefixes.Add(addressPrefixesElement3.Value);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Set Network Configuration operation asynchronously configures
-        /// the virtual network  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// The updated network configuration
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -8101,69 +6683,16 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken)
+        public async Task<GatewayOperationResponse> DeleteAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken)
         {
             // Validate
-            if (parameters == null)
+            if (virtualNetworkName == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException("virtualNetworkName");
             }
-            foreach (NetworkSetConfigurationParameters.DnsServer dnsServersParameterItem in parameters.DnsServers)
+            if (certificateThumbprint == null)
             {
-                if (dnsServersParameterItem.IPAddress == null)
-                {
-                    throw new ArgumentNullException("parameters.DnsServers.IPAddress");
-                }
-            }
-            foreach (NetworkSetConfigurationParameters.LocalNetworkSite localNetworkSitesParameterItem in parameters.LocalNetworkSites)
-            {
-                if (localNetworkSitesParameterItem.Name == null)
-                {
-                    throw new ArgumentNullException("parameters.LocalNetworkSites.Name");
-                }
-            }
-            foreach (NetworkSetConfigurationParameters.VirtualNetworkSite virtualNetworkSitesParameterItem in parameters.VirtualNetworkSites)
-            {
-                if (virtualNetworkSitesParameterItem.Name == null)
-                {
-                    throw new ArgumentNullException("parameters.VirtualNetworkSites.Name");
-                }
-                if (virtualNetworkSitesParameterItem.Label == null)
-                {
-                    throw new ArgumentNullException("parameters.VirtualNetworkSites.Label");
-                }
-                foreach (NetworkSetConfigurationParameters.Subnet subnetsParameterItem in virtualNetworkSitesParameterItem.Subnets)
-                {
-                    if (subnetsParameterItem.Name == null)
-                    {
-                        throw new ArgumentNullException("parameters.VirtualNetworkSites.Subnets.Name");
-                    }
-                    if (subnetsParameterItem.AddressPrefix == null)
-                    {
-                        throw new ArgumentNullException("parameters.VirtualNetworkSites.Subnets.AddressPrefix");
-                    }
-                }
-                foreach (NetworkSetConfigurationParameters.DnsServerReference dnsServerReferencesParameterItem in virtualNetworkSitesParameterItem.DnsServerReferences)
-                {
-                    if (dnsServerReferencesParameterItem.Name == null)
-                    {
-                        throw new ArgumentNullException("parameters.VirtualNetworkSites.DnsServerReferences.Name");
-                    }
-                }
-                if (virtualNetworkSitesParameterItem.Gateway != null)
-                {
-                    if (virtualNetworkSitesParameterItem.Gateway.Profile == null)
-                    {
-                        throw new ArgumentNullException("parameters.VirtualNetworkSites.Gateway.Profile");
-                    }
-                    foreach (NetworkSetConfigurationParameters.LocalNetworkSiteReference connectionsToLocalNetworkParameterItem in virtualNetworkSitesParameterItem.Gateway.ConnectionsToLocalNetwork)
-                    {
-                        if (connectionsToLocalNetworkParameterItem.Name == null)
-                        {
-                            throw new ArgumentNullException("parameters.VirtualNetworkSites.Gateway.ConnectionsToLocalNetwork.Name");
-                        }
-                    }
-                }
+                throw new ArgumentNullException("certificateThumbprint");
             }
             
             // Tracing
@@ -8173,19 +6702,429 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             {
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "SetConfigurationAsync", tracingParameters);
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                tracingParameters.Add("certificateThumbprint", certificateThumbprint);
+                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/media";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates/" + certificateThumbprint;
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    GatewayOperationResponse result = new GatewayOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement gatewayOperationAsyncResponseElement = responseDoc.Element(XName.Get("GatewayOperationAsyncResponse", "http://schemas.microsoft.com/windowsazure"));
+                    if (gatewayOperationAsyncResponseElement != null)
+                    {
+                        XElement idElement = gatewayOperationAsyncResponseElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            string idInstance = idElement.Value;
+                            result.OperationId = idInstance;
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Client Root Certificate operation returns the public
+        /// portion of a previously uploaded client root certificate in a
+        /// base-64 encoded format from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='certificateThumbprint'>
+        /// The X509 certificate thumbprint
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<ClientRootCertificateGetResponse> GetAsync(string virtualNetworkName, string certificateThumbprint, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (virtualNetworkName == null)
+            {
+                throw new ArgumentNullException("virtualNetworkName");
+            }
+            if (certificateThumbprint == null)
+            {
+                throw new ArgumentNullException("certificateThumbprint");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                tracingParameters.Add("certificateThumbprint", certificateThumbprint);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates/" + certificateThumbprint;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ClientRootCertificateGetResponse result = new ClientRootCertificateGetResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    result.Certificate = responseContent;
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Client Root Certificates operation returns a list of all
+        /// the client root certificates that are associated with the
+        /// specified virtual network in Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205130.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to the list client root certificates request
+        /// </returns>
+        public async Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (virtualNetworkName == null)
+            {
+                throw new ArgumentNullException("virtualNetworkName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ClientRootCertificateListResponse result = new ClientRootCertificateListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement clientRootCertificatesSequenceElement = responseDoc.Element(XName.Get("ClientRootCertificates", "http://schemas.microsoft.com/windowsazure"));
+                    if (clientRootCertificatesSequenceElement != null)
+                    {
+                        foreach (XElement clientRootCertificatesElement in clientRootCertificatesSequenceElement.Elements(XName.Get("ClientRootCertificate", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            ClientRootCertificateListResponse.ClientRootCertificate clientRootCertificateInstance = new ClientRootCertificateListResponse.ClientRootCertificate();
+                            result.ClientRootCertificates.Add(clientRootCertificateInstance);
+                            
+                            XElement expirationTimeElement = clientRootCertificatesElement.Element(XName.Get("ExpirationTime", "http://schemas.microsoft.com/windowsazure"));
+                            if (expirationTimeElement != null)
+                            {
+                                DateTime expirationTimeInstance = DateTime.Parse(expirationTimeElement.Value, CultureInfo.InvariantCulture);
+                                clientRootCertificateInstance.ExpirationTime = expirationTimeInstance;
+                            }
+                            
+                            XElement subjectElement = clientRootCertificatesElement.Element(XName.Get("Subject", "http://schemas.microsoft.com/windowsazure"));
+                            if (subjectElement != null)
+                            {
+                                string subjectInstance = subjectElement.Value;
+                                clientRootCertificateInstance.Subject = subjectInstance;
+                            }
+                            
+                            XElement thumbprintElement = clientRootCertificatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
+                            if (thumbprintElement != null)
+                            {
+                                string thumbprintInstance = thumbprintElement.Value;
+                                clientRootCertificateInstance.Thumbprint = thumbprintInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Upload Client Root Certificate operation is used to upload a
+        /// new client root certificate to Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn205129.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network for this gateway
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Upload client certificate Virtual
+        /// Network Gateway operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<GatewayOperationResponse> CreateAsync(string virtualNetworkName, ClientRootCertificateCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (virtualNetworkName == null)
+            {
+                throw new ArgumentNullException("virtualNetworkName");
+            }
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.Certificate == null)
+            {
+                throw new ArgumentNullException("parameters.Certificate");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "/gateway/clientrootcertificates";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
@@ -8197,190 +7136,9 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                 
                 // Serialize Request
                 string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement networkConfigurationElement = new XElement(XName.Get("NetworkConfiguration", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                requestDoc.Add(networkConfigurationElement);
-                
-                XElement virtualNetworkConfigurationElement = new XElement(XName.Get("VirtualNetworkConfiguration", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                networkConfigurationElement.Add(virtualNetworkConfigurationElement);
-                
-                XElement dnsElement = new XElement(XName.Get("Dns", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                virtualNetworkConfigurationElement.Add(dnsElement);
-                
-                if (parameters.DnsServers != null)
-                {
-                    XElement dnsServersSequenceElement = new XElement(XName.Get("DnsServers", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                    foreach (NetworkSetConfigurationParameters.DnsServer dnsServersItem in parameters.DnsServers)
-                    {
-                        XElement dnsServerElement = new XElement(XName.Get("DnsServer", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                        dnsServersSequenceElement.Add(dnsServerElement);
-                        
-                        if (dnsServersItem.Name != null)
-                        {
-                            XAttribute nameAttribute = new XAttribute(XName.Get("name", ""), "");
-                            nameAttribute.Value = dnsServersItem.Name;
-                            dnsServerElement.Add(nameAttribute);
-                        }
-                        
-                        XAttribute iPAddressAttribute = new XAttribute(XName.Get("IPAddress", ""), "");
-                        iPAddressAttribute.Value = dnsServersItem.IPAddress;
-                        dnsServerElement.Add(iPAddressAttribute);
-                    }
-                    dnsElement.Add(dnsServersSequenceElement);
-                }
-                
-                if (parameters.LocalNetworkSites != null)
-                {
-                    XElement localNetworkSitesSequenceElement = new XElement(XName.Get("LocalNetworkSites", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                    foreach (NetworkSetConfigurationParameters.LocalNetworkSite localNetworkSitesItem in parameters.LocalNetworkSites)
-                    {
-                        XElement localNetworkSiteElement = new XElement(XName.Get("LocalNetworkSite", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                        localNetworkSitesSequenceElement.Add(localNetworkSiteElement);
-                        
-                        XAttribute nameAttribute2 = new XAttribute(XName.Get("name", ""), "");
-                        nameAttribute2.Value = localNetworkSitesItem.Name;
-                        localNetworkSiteElement.Add(nameAttribute2);
-                        
-                        if (localNetworkSitesItem.VpnGatewayAddress != null)
-                        {
-                            XElement vPNGatewayAddressElement = new XElement(XName.Get("VPNGatewayAddress", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            vPNGatewayAddressElement.Value = localNetworkSitesItem.VpnGatewayAddress;
-                            localNetworkSiteElement.Add(vPNGatewayAddressElement);
-                        }
-                        
-                        if (localNetworkSitesItem.AddressSpace != null)
-                        {
-                            XElement addressSpaceSequenceElement = new XElement(XName.Get("AddressSpace", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            foreach (string addressSpaceItem in localNetworkSitesItem.AddressSpace)
-                            {
-                                XElement addressSpaceItemElement = new XElement(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                addressSpaceItemElement.Value = addressSpaceItem;
-                                addressSpaceSequenceElement.Add(addressSpaceItemElement);
-                            }
-                            localNetworkSiteElement.Add(addressSpaceSequenceElement);
-                        }
-                    }
-                    virtualNetworkConfigurationElement.Add(localNetworkSitesSequenceElement);
-                }
-                
-                if (parameters.VirtualNetworkSites != null)
-                {
-                    XElement virtualNetworkSitesSequenceElement = new XElement(XName.Get("VirtualNetworkSites", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                    foreach (NetworkSetConfigurationParameters.VirtualNetworkSite virtualNetworkSitesItem in parameters.VirtualNetworkSites)
-                    {
-                        XElement virtualNetworkSiteElement = new XElement(XName.Get("VirtualNetworkSite", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                        virtualNetworkSitesSequenceElement.Add(virtualNetworkSiteElement);
-                        
-                        XAttribute nameAttribute3 = new XAttribute(XName.Get("name", ""), "");
-                        nameAttribute3.Value = virtualNetworkSitesItem.Name;
-                        virtualNetworkSiteElement.Add(nameAttribute3);
-                        
-                        if (virtualNetworkSitesItem.AffinityGroup != null)
-                        {
-                            XAttribute affinityGroupAttribute = new XAttribute(XName.Get("AffinityGroup", ""), "");
-                            affinityGroupAttribute.Value = virtualNetworkSitesItem.AffinityGroup;
-                            virtualNetworkSiteElement.Add(affinityGroupAttribute);
-                        }
-                        
-                        XElement labelElement = new XElement(XName.Get("Label", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                        labelElement.Value = virtualNetworkSitesItem.Label;
-                        virtualNetworkSiteElement.Add(labelElement);
-                        
-                        if (virtualNetworkSitesItem.Gateway != null)
-                        {
-                            XElement gatewayElement = new XElement(XName.Get("Gateway", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            virtualNetworkSiteElement.Add(gatewayElement);
-                            
-                            XAttribute profileAttribute = new XAttribute(XName.Get("profile", ""), "");
-                            profileAttribute.Value = virtualNetworkSitesItem.Gateway.Profile;
-                            gatewayElement.Add(profileAttribute);
-                            
-                            if (virtualNetworkSitesItem.Gateway.VpnClientAddressPool != null)
-                            {
-                                XElement vPMClientAddressPoolSequenceElement = new XElement(XName.Get("VPMClientAddressPool", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                foreach (string vPMClientAddressPoolItem in virtualNetworkSitesItem.Gateway.VpnClientAddressPool)
-                                {
-                                    XElement vPMClientAddressPoolItemElement = new XElement(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    vPMClientAddressPoolItemElement.Value = vPMClientAddressPoolItem;
-                                    vPMClientAddressPoolSequenceElement.Add(vPMClientAddressPoolItemElement);
-                                }
-                                gatewayElement.Add(vPMClientAddressPoolSequenceElement);
-                            }
-                            
-                            if (virtualNetworkSitesItem.Gateway.ConnectionsToLocalNetwork != null)
-                            {
-                                XElement connectionsToLocalNetworkSequenceElement = new XElement(XName.Get("ConnectionsToLocalNetwork", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                foreach (NetworkSetConfigurationParameters.LocalNetworkSiteReference connectionsToLocalNetworkItem in virtualNetworkSitesItem.Gateway.ConnectionsToLocalNetwork)
-                                {
-                                    XElement localNetworkSiteRefElement = new XElement(XName.Get("LocalNetworkSiteRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    connectionsToLocalNetworkSequenceElement.Add(localNetworkSiteRefElement);
-                                    
-                                    XAttribute nameAttribute4 = new XAttribute(XName.Get("name", ""), "");
-                                    nameAttribute4.Value = connectionsToLocalNetworkItem.Name;
-                                    localNetworkSiteRefElement.Add(nameAttribute4);
-                                    
-                                    XElement connectionTypeElement = new XElement(XName.Get("ConnectionType", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                    connectionTypeElement.Value = VirtualNetworkManagementClient.LocalNetworkConnectionTypeToString(connectionsToLocalNetworkItem.ConnectionType);
-                                    localNetworkSiteRefElement.Add(connectionTypeElement);
-                                }
-                                gatewayElement.Add(connectionsToLocalNetworkSequenceElement);
-                            }
-                        }
-                        
-                        if (virtualNetworkSitesItem.DnsServerReferences != null)
-                        {
-                            XElement dnsServersRefSequenceElement = new XElement(XName.Get("DnsServersRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            foreach (NetworkSetConfigurationParameters.DnsServerReference dnsServersRefItem in virtualNetworkSitesItem.DnsServerReferences)
-                            {
-                                XElement dnsServerRefElement = new XElement(XName.Get("DnsServerRef", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                dnsServersRefSequenceElement.Add(dnsServerRefElement);
-                                
-                                XAttribute nameAttribute5 = new XAttribute(XName.Get("name", ""), "");
-                                nameAttribute5.Value = dnsServersRefItem.Name;
-                                dnsServerRefElement.Add(nameAttribute5);
-                            }
-                            virtualNetworkSiteElement.Add(dnsServersRefSequenceElement);
-                        }
-                        
-                        if (virtualNetworkSitesItem.Subnets != null)
-                        {
-                            XElement subnetsSequenceElement = new XElement(XName.Get("Subnets", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            foreach (NetworkSetConfigurationParameters.Subnet subnetsItem in virtualNetworkSitesItem.Subnets)
-                            {
-                                XElement subnetElement = new XElement(XName.Get("Subnet", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                subnetsSequenceElement.Add(subnetElement);
-                                
-                                XAttribute nameAttribute6 = new XAttribute(XName.Get("name", ""), "");
-                                nameAttribute6.Value = subnetsItem.Name;
-                                subnetElement.Add(nameAttribute6);
-                                
-                                XElement addressPrefixElement = new XElement(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                addressPrefixElement.Value = subnetsItem.AddressPrefix;
-                                subnetElement.Add(addressPrefixElement);
-                            }
-                            virtualNetworkSiteElement.Add(subnetsSequenceElement);
-                        }
-                        
-                        if (virtualNetworkSitesItem.AddressSpace != null)
-                        {
-                            XElement addressSpaceSequenceElement2 = new XElement(XName.Get("AddressSpace", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                            foreach (string addressSpaceItem2 in virtualNetworkSitesItem.AddressSpace)
-                            {
-                                XElement addressSpaceItemElement2 = new XElement(XName.Get("AddressPrefix", "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration"));
-                                addressSpaceItemElement2.Value = addressSpaceItem2;
-                                addressSpaceSequenceElement2.Add(addressSpaceItemElement2);
-                            }
-                            virtualNetworkSiteElement.Add(addressSpaceSequenceElement2);
-                        }
-                    }
-                    virtualNetworkConfigurationElement.Add(virtualNetworkSitesSequenceElement);
-                }
-                
-                requestContent = requestDoc.ToString();
-                requestContent = "<Binary>" + TypeConversion.ToBase64String(requestContent) + "</Binary>";
+                requestContent = parameters.Certificate;
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
                 
                 // Send Request
                 HttpResponseMessage httpResponse = null;
@@ -8397,7 +7155,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                         Tracing.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
+                    if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -8409,11 +7167,27 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     }
                     
                     // Create Result
-                    OperationResponse result = new OperationResponse();
+                    GatewayOperationResponse result = new GatewayOperationResponse();
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement gatewayOperationAsyncResponseElement = responseDoc.Element(XName.Get("GatewayOperationAsyncResponse", "http://schemas.microsoft.com/windowsazure"));
+                    if (gatewayOperationAsyncResponseElement != null)
+                    {
+                        XElement idElement = gatewayOperationAsyncResponseElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            string idInstance = idElement.Value;
+                            result.OperationId = idInstance;
+                        }
                     }
                     
                     if (shouldTrace)

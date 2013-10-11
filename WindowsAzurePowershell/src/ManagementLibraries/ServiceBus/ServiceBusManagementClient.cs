@@ -1799,27 +1799,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         
         /// <summary>
         /// The Service Bus Management API includes operations for managing
-        /// Service Bus namespaces.
+        /// Service Bus topics for a namespace.
         /// </summary>
-        INamespaceOperations Namespaces
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// The Service Bus Management API includes operations for managing
-        /// Service Bus queues.
-        /// </summary>
-        INotificationHubOperations NotificationHubs
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// The Service Bus Management API includes operations for managing
-        /// Service Bus queues.
-        /// </summary>
-        IQueueOperations Queues
+        ITopicOperations Topics
         {
             get; 
         }
@@ -1835,9 +1817,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         
         /// <summary>
         /// The Service Bus Management API includes operations for managing
-        /// Service Bus topics for a namespace.
+        /// Service Bus queues.
         /// </summary>
-        ITopicOperations Topics
+        IQueueOperations Queues
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// The Service Bus Management API includes operations for managing
+        /// Service Bus queues.
+        /// </summary>
+        INotificationHubOperations NotificationHubs
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// The Service Bus Management API includes operations for managing
+        /// Service Bus namespaces.
+        /// </summary>
+        INamespaceOperations Namespaces
         {
             get; 
         }
@@ -2056,37 +2056,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             get { return this._baseUri; }
         }
         
-        private INamespaceOperations _namespaces;
+        private ITopicOperations _topics;
         
         /// <summary>
         /// The Service Bus Management API includes operations for managing
-        /// Service Bus namespaces.
+        /// Service Bus topics for a namespace.
         /// </summary>
-        public virtual INamespaceOperations Namespaces
+        public virtual ITopicOperations Topics
         {
-            get { return this._namespaces; }
-        }
-        
-        private INotificationHubOperations _notificationHubs;
-        
-        /// <summary>
-        /// The Service Bus Management API includes operations for managing
-        /// Service Bus queues.
-        /// </summary>
-        public virtual INotificationHubOperations NotificationHubs
-        {
-            get { return this._notificationHubs; }
-        }
-        
-        private IQueueOperations _queues;
-        
-        /// <summary>
-        /// The Service Bus Management API includes operations for managing
-        /// Service Bus queues.
-        /// </summary>
-        public virtual IQueueOperations Queues
-        {
-            get { return this._queues; }
+            get { return this._topics; }
         }
         
         private IRelayOperations _relays;
@@ -2100,15 +2078,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
             get { return this._relays; }
         }
         
-        private ITopicOperations _topics;
+        private IQueueOperations _queues;
         
         /// <summary>
         /// The Service Bus Management API includes operations for managing
-        /// Service Bus topics for a namespace.
+        /// Service Bus queues.
         /// </summary>
-        public virtual ITopicOperations Topics
+        public virtual IQueueOperations Queues
         {
-            get { return this._topics; }
+            get { return this._queues; }
+        }
+        
+        private INotificationHubOperations _notificationHubs;
+        
+        /// <summary>
+        /// The Service Bus Management API includes operations for managing
+        /// Service Bus queues.
+        /// </summary>
+        public virtual INotificationHubOperations NotificationHubs
+        {
+            get { return this._notificationHubs; }
+        }
+        
+        private INamespaceOperations _namespaces;
+        
+        /// <summary>
+        /// The Service Bus Management API includes operations for managing
+        /// Service Bus namespaces.
+        /// </summary>
+        public virtual INamespaceOperations Namespaces
+        {
+            get { return this._namespaces; }
         }
         
         /// <summary>
@@ -2117,11 +2117,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         private ServiceBusManagementClient()
             : base()
         {
-            this._namespaces = new NamespaceOperations(this);
-            this._notificationHubs = new NotificationHubOperations(this);
-            this._queues = new QueueOperations(this);
-            this._relays = new RelayOperations(this);
             this._topics = new TopicOperations(this);
+            this._relays = new RelayOperations(this);
+            this._queues = new QueueOperations(this);
+            this._notificationHubs = new NotificationHubOperations(this);
+            this._namespaces = new NamespaceOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -2464,6282 +2464,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                                         {
                                             string fullNameInstance = fullNameElement.Value;
                                             entryInstance.FullName = fullNameInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus namespaces.
-    /// </summary>
-    public partial interface INamespaceOperations
-    {
-        /// <summary>
-        /// Checks the availability of the given service namespace across all
-        /// Windows Azure subscriptions. This is useful because the domain
-        /// name is created based on the service namespace name.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a query for the availability status of a namespace
-        /// name.
-        /// </returns>
-        Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Creates a new service namespace. Once created, this namespace's
-        /// resource manifest is immutable. This operation is idempotent.
-        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        Task<ServiceBusNamespaceResponse> CreateAsync(string namespaceName, string region, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The create namespace authorization rule operation creates an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Deletes an existing namespace. This operation also removes all
-        /// associated entities including queues, topics, relay points, and
-        /// messages stored under the namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> DeleteAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The delete namespace authorization rule operation deletes an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> DeleteAuthorizationRuleAsync(string namespaceName, string ruleName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Returns the description for the specified namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        Task<ServiceBusNamespaceResponse> GetAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The namespace description is an XML AtomPub document that defines
-        /// the desired semantics for a service namespace. The namespace
-        /// description contains the following properties.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of namespaces.
-        /// </returns>
-        Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Lists the available namespaces.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to the request for a listing of namespaces
-        /// </returns>
-        Task<ServiceBusNamespacesResponse> ListAsync(CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The get authorization rules operation gets the authorization rules
-        /// for a namespace
-        /// </summary>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of authorization rules.
-        /// </returns>
-        Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The get authorization rule operation gets an authorization rule for
-        /// a namespace by name
-        /// </summary>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='entityName'>
-        /// The entity name to get the authorization rule for.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(string namespaceName, string entityName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The update authorization rule operation updates an authorization
-        /// rule for a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus namespaces.
-    /// </summary>
-    public static partial class NamespaceOperationsExtensions
-    {
-        /// <summary>
-        /// Checks the availability of the given service namespace across all
-        /// Windows Azure subscriptions. This is useful because the domain
-        /// name is created based on the service namespace name.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a query for the availability status of a namespace
-        /// name.
-        /// </returns>
-        public static CheckNamespaceAvailabilityResponse CheckAvailability(this INamespaceOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.CheckAvailabilityAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Checks the availability of the given service namespace across all
-        /// Windows Azure subscriptions. This is useful because the domain
-        /// name is created based on the service namespace name.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a query for the availability status of a namespace
-        /// name.
-        /// </returns>
-        public static Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(this INamespaceOperations operations, string namespaceName)
-        {
-            return operations.CheckAvailabilityAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Creates a new service namespace. Once created, this namespace's
-        /// resource manifest is immutable. This operation is idempotent.
-        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public static ServiceBusNamespaceResponse Create(this INamespaceOperations operations, string namespaceName, string region)
-        {
-            try
-            {
-                return operations.CreateAsync(namespaceName, region).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Creates a new service namespace. Once created, this namespace's
-        /// resource manifest is immutable. This operation is idempotent.
-        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public static Task<ServiceBusNamespaceResponse> CreateAsync(this INamespaceOperations operations, string namespaceName, string region)
-        {
-            return operations.CreateAsync(namespaceName, region, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The create namespace authorization rule operation creates an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static ServiceBusAuthorizationRuleResponse CreateAuthorizationRule(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
-        {
-            try
-            {
-                return operations.CreateAuthorizationRuleAsync(namespaceName, rule).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The create namespace authorization rule operation creates an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
-        {
-            return operations.CreateAuthorizationRuleAsync(namespaceName, rule, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Deletes an existing namespace. This operation also removes all
-        /// associated entities including queues, topics, relay points, and
-        /// messages stored under the namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse Delete(this INamespaceOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.DeleteAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deletes an existing namespace. This operation also removes all
-        /// associated entities including queues, topics, relay points, and
-        /// messages stored under the namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> DeleteAsync(this INamespaceOperations operations, string namespaceName)
-        {
-            return operations.DeleteAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The delete namespace authorization rule operation deletes an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse DeleteAuthorizationRule(this INamespaceOperations operations, string namespaceName, string ruleName)
-        {
-            try
-            {
-                return operations.DeleteAuthorizationRuleAsync(namespaceName, ruleName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The delete namespace authorization rule operation deletes an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> DeleteAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, string ruleName)
-        {
-            return operations.DeleteAuthorizationRuleAsync(namespaceName, ruleName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Returns the description for the specified namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public static ServiceBusNamespaceResponse Get(this INamespaceOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.GetAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Returns the description for the specified namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public static Task<ServiceBusNamespaceResponse> GetAsync(this INamespaceOperations operations, string namespaceName)
-        {
-            return operations.GetAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The namespace description is an XML AtomPub document that defines
-        /// the desired semantics for a service namespace. The namespace
-        /// description contains the following properties.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of namespaces.
-        /// </returns>
-        public static ServiceBusNamespaceDescriptionResponse GetNamespaceDescription(this INamespaceOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.GetNamespaceDescriptionAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The namespace description is an XML AtomPub document that defines
-        /// the desired semantics for a service namespace. The namespace
-        /// description contains the following properties.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of namespaces.
-        /// </returns>
-        public static Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(this INamespaceOperations operations, string namespaceName)
-        {
-            return operations.GetNamespaceDescriptionAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Lists the available namespaces.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to the request for a listing of namespaces
-        /// </returns>
-        public static ServiceBusNamespacesResponse List(this INamespaceOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the available namespaces.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// The response to the request for a listing of namespaces
-        /// </returns>
-        public static Task<ServiceBusNamespacesResponse> ListAsync(this INamespaceOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The get authorization rules operation gets the authorization rules
-        /// for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of authorization rules.
-        /// </returns>
-        public static ServiceBusAuthorizationRulesResponse ListAuthorizationRules(this INamespaceOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.ListAuthorizationRulesAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The get authorization rules operation gets the authorization rules
-        /// for a namespace
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of authorization rules.
-        /// </returns>
-        public static Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(this INamespaceOperations operations, string namespaceName)
-        {
-            return operations.ListAuthorizationRulesAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The get authorization rule operation gets an authorization rule for
-        /// a namespace by name
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='entityName'>
-        /// The entity name to get the authorization rule for.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static ServiceBusAuthorizationRuleResponse GetAuthorizationRule(this INamespaceOperations operations, string namespaceName, string entityName)
-        {
-            try
-            {
-                return operations.GetAuthorizationRuleAsync(namespaceName, entityName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The get authorization rule operation gets an authorization rule for
-        /// a namespace by name
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='entityName'>
-        /// The entity name to get the authorization rule for.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, string entityName)
-        {
-            return operations.GetAuthorizationRuleAsync(namespaceName, entityName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The update authorization rule operation updates an authorization
-        /// rule for a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static ServiceBusAuthorizationRuleResponse UpdateAuthorizationRule(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
-        {
-            try
-            {
-                return operations.UpdateAuthorizationRuleAsync(namespaceName, rule).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The update authorization rule operation updates an authorization
-        /// rule for a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public static Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
-        {
-            return operations.UpdateAuthorizationRuleAsync(namespaceName, rule, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus namespaces.
-    /// </summary>
-    internal partial class NamespaceOperations : IServiceOperations<ServiceBusManagementClient>, INamespaceOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the NamespaceOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal NamespaceOperations(ServiceBusManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ServiceBusManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
-        /// </summary>
-        public ServiceBusManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// Checks the availability of the given service namespace across all
-        /// Windows Azure subscriptions. This is useful because the domain
-        /// name is created based on the service namespace name.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a query for the availability status of a namespace
-        /// name.
-        /// </returns>
-        public async Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "CheckAvailabilityAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/ServiceBus/CheckNamespaceAvailability?namespace=" + namespaceName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-                // TODO: Ensure certificate is added to the root handler
-                // (MethodInvocationExpression:
-                // httpHandler.ClientCertificates.Add(this.Client.Credentials.ManagementCertificate))
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    CheckNamespaceAvailabilityResponse result = new CheckNamespaceAvailabilityResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement != null)
-                    {
-                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement != null)
-                        {
-                            XElement namespaceAvailabilityElement = contentElement.Element(XName.Get("NamespaceAvailability", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (namespaceAvailabilityElement != null)
-                            {
-                                XElement resultElement = namespaceAvailabilityElement.Element(XName.Get("Result", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (resultElement != null)
-                                {
-                                    bool resultInstance = bool.Parse(resultElement.Value);
-                                    result.IsAvailable = resultInstance;
-                                }
-                                
-                                XElement reasonDetailElement = namespaceAvailabilityElement.Element(XName.Get("ReasonDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (reasonDetailElement != null)
-                                {
-                                    string reasonDetailInstance = reasonDetailElement.Value;
-                                    result.ReasonDetails = reasonDetailInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Creates a new service namespace. Once created, this namespace's
-        /// resource manifest is immutable. This operation is idempotent.
-        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public async Task<ServiceBusNamespaceResponse> CreateAsync(string namespaceName, string region, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("region", region);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("type", "entry");
-                httpRequest.Headers.Add("x-ms-version", "2013-07-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                requestDoc.Add(entryElement);
-                
-                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                entryElement.Add(contentElement);
-                
-                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
-                typeAttribute.Value = "application/xml";
-                contentElement.Add(typeAttribute);
-                
-                XElement namespaceDescriptionElement = new XElement(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                contentElement.Add(namespaceDescriptionElement);
-                
-                if (region != null)
-                {
-                    XElement regionElement = new XElement(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    regionElement.Value = region;
-                    namespaceDescriptionElement.Add(regionElement);
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNamespaceResponse result = new ServiceBusNamespaceResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement2 != null)
-                    {
-                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement2 != null)
-                        {
-                            XElement namespaceDescriptionElement2 = contentElement2.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (namespaceDescriptionElement2 != null)
-                            {
-                                ServiceBusNamespace namespaceDescriptionInstance = new ServiceBusNamespace();
-                                result.Namespace = namespaceDescriptionInstance;
-                                
-                                XElement nameElement = namespaceDescriptionElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (nameElement != null)
-                                {
-                                    string nameInstance = nameElement.Value;
-                                    namespaceDescriptionInstance.Name = nameInstance;
-                                }
-                                
-                                XElement regionElement2 = namespaceDescriptionElement2.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (regionElement2 != null)
-                                {
-                                    string regionInstance = regionElement2.Value;
-                                    namespaceDescriptionInstance.Region = regionInstance;
-                                }
-                                
-                                XElement statusElement = namespaceDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (statusElement != null)
-                                {
-                                    string statusInstance = statusElement.Value;
-                                    namespaceDescriptionInstance.Status = statusInstance;
-                                }
-                                
-                                XElement createdAtElement = namespaceDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdAtElement != null)
-                                {
-                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
-                                    namespaceDescriptionInstance.CreatedAt = createdAtInstance;
-                                }
-                                
-                                XElement acsManagementEndpointElement = namespaceDescriptionElement2.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (acsManagementEndpointElement != null)
-                                {
-                                    Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
-                                    namespaceDescriptionInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
-                                }
-                                
-                                XElement serviceBusEndpointElement = namespaceDescriptionElement2.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (serviceBusEndpointElement != null)
-                                {
-                                    Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
-                                    namespaceDescriptionInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
-                                }
-                                
-                                XElement subscriptionIdElement = namespaceDescriptionElement2.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (subscriptionIdElement != null)
-                                {
-                                    string subscriptionIdInstance = subscriptionIdElement.Value;
-                                    namespaceDescriptionInstance.SubscriptionId = subscriptionIdInstance;
-                                }
-                                
-                                XElement enabledElement = namespaceDescriptionElement2.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (enabledElement != null)
-                                {
-                                    bool enabledInstance = bool.Parse(enabledElement.Value);
-                                    namespaceDescriptionInstance.Enabled = enabledInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The create namespace authorization rule operation creates an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public async Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (namespaceName == null)
-            {
-                throw new ArgumentNullException("namespaceName");
-            }
-            if (rule == null)
-            {
-                throw new ArgumentNullException("rule");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("rule", rule);
-                Tracing.Enter(invocationId, this, "CreateAuthorizationRuleAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                httpRequest.Headers.Add("type", "entry");
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                requestDoc.Add(entryElement);
-                
-                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                entryElement.Add(contentElement);
-                
-                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
-                typeAttribute.Value = "application/atom+xml";
-                contentElement.Add(typeAttribute);
-                
-                XElement sharedAccessAuthorizationRuleElement = new XElement(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                contentElement.Add(sharedAccessAuthorizationRuleElement);
-                
-                if (rule.ClaimType != null)
-                {
-                    XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    claimTypeElement.Value = rule.ClaimType;
-                    sharedAccessAuthorizationRuleElement.Add(claimTypeElement);
-                }
-                
-                if (rule.ClaimValue != null)
-                {
-                    XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    claimValueElement.Value = rule.ClaimValue;
-                    sharedAccessAuthorizationRuleElement.Add(claimValueElement);
-                }
-                
-                if (rule.Rights != null)
-                {
-                    XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    foreach (AccessRight rightsItem in rule.Rights)
-                    {
-                        XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        rightsItemElement.Value = rightsItem.ToString();
-                        rightsSequenceElement.Add(rightsItemElement);
-                    }
-                    sharedAccessAuthorizationRuleElement.Add(rightsSequenceElement);
-                }
-                
-                XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                createdTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.CreatedTime.ToUniversalTime());
-                sharedAccessAuthorizationRuleElement.Add(createdTimeElement);
-                
-                XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                modifiedTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.ModifiedTime.ToUniversalTime());
-                sharedAccessAuthorizationRuleElement.Add(modifiedTimeElement);
-                
-                XElement revisionElement = new XElement(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                revisionElement.Value = rule.Revision.ToString();
-                sharedAccessAuthorizationRuleElement.Add(revisionElement);
-                
-                if (rule.KeyName != null)
-                {
-                    XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    keyNameElement.Value = rule.KeyName;
-                    sharedAccessAuthorizationRuleElement.Add(keyNameElement);
-                }
-                
-                if (rule.PrimaryKey != null)
-                {
-                    XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    primaryKeyElement.Value = rule.PrimaryKey;
-                    sharedAccessAuthorizationRuleElement.Add(primaryKeyElement);
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Created)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement2 != null)
-                    {
-                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement2 != null)
-                        {
-                            XElement sharedAccessAuthorizationRuleElement2 = contentElement2.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (sharedAccessAuthorizationRuleElement2 != null)
-                            {
-                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
-                                
-                                XElement claimTypeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimTypeElement2 != null)
-                                {
-                                    string claimTypeInstance = claimTypeElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
-                                }
-                                
-                                XElement claimValueElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimValueElement2 != null)
-                                {
-                                    string claimValueInstance = claimValueElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
-                                }
-                                
-                                XElement rightsSequenceElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (rightsSequenceElement2 != null)
-                                {
-                                    foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                    }
-                                }
-                                
-                                XElement createdTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdTimeElement2 != null)
-                                {
-                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                }
-                                
-                                XElement modifiedTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (modifiedTimeElement2 != null)
-                                {
-                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                }
-                                
-                                XElement keyNameElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (keyNameElement2 != null)
-                                {
-                                    string keyNameInstance = keyNameElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
-                                }
-                                
-                                XElement primaryKeyElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (primaryKeyElement2 != null)
-                                {
-                                    string primaryKeyInstance = primaryKeyElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                }
-                                
-                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement2.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (secondaryKeyElement != null)
-                                {
-                                    string secondaryKeyInstance = secondaryKeyElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                }
-                                
-                                XElement revisionElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (revisionElement2 != null)
-                                {
-                                    int revisionInstance = int.Parse(revisionElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deletes an existing namespace. This operation also removes all
-        /// associated entities including queues, topics, relay points, and
-        /// messages stored under the namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> DeleteAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The delete namespace authorization rule operation deletes an
-        /// authorization rule for a namespace
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> DeleteAuthorizationRuleAsync(string namespaceName, string ruleName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (namespaceName == null)
-            {
-                throw new ArgumentNullException("namespaceName");
-            }
-            if (ruleName == null)
-            {
-                throw new ArgumentNullException("ruleName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("ruleName", ruleName);
-                Tracing.Enter(invocationId, this, "DeleteAuthorizationRuleAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + ruleName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.NoContent)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Returns the description for the specified namespace.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to a request for a particular namespace.
-        /// </returns>
-        public async Task<ServiceBusNamespaceResponse> GetAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNamespaceResponse result = new ServiceBusNamespaceResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement != null)
-                    {
-                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement != null)
-                        {
-                            XElement namespaceDescriptionElement = contentElement.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (namespaceDescriptionElement != null)
-                            {
-                                ServiceBusNamespace namespaceDescriptionInstance = new ServiceBusNamespace();
-                                result.Namespace = namespaceDescriptionInstance;
-                                
-                                XElement nameElement = namespaceDescriptionElement.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (nameElement != null)
-                                {
-                                    string nameInstance = nameElement.Value;
-                                    namespaceDescriptionInstance.Name = nameInstance;
-                                }
-                                
-                                XElement regionElement = namespaceDescriptionElement.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (regionElement != null)
-                                {
-                                    string regionInstance = regionElement.Value;
-                                    namespaceDescriptionInstance.Region = regionInstance;
-                                }
-                                
-                                XElement statusElement = namespaceDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (statusElement != null)
-                                {
-                                    string statusInstance = statusElement.Value;
-                                    namespaceDescriptionInstance.Status = statusInstance;
-                                }
-                                
-                                XElement createdAtElement = namespaceDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdAtElement != null)
-                                {
-                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
-                                    namespaceDescriptionInstance.CreatedAt = createdAtInstance;
-                                }
-                                
-                                XElement acsManagementEndpointElement = namespaceDescriptionElement.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (acsManagementEndpointElement != null)
-                                {
-                                    Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
-                                    namespaceDescriptionInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
-                                }
-                                
-                                XElement serviceBusEndpointElement = namespaceDescriptionElement.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (serviceBusEndpointElement != null)
-                                {
-                                    Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
-                                    namespaceDescriptionInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
-                                }
-                                
-                                XElement subscriptionIdElement = namespaceDescriptionElement.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (subscriptionIdElement != null)
-                                {
-                                    string subscriptionIdInstance = subscriptionIdElement.Value;
-                                    namespaceDescriptionInstance.SubscriptionId = subscriptionIdInstance;
-                                }
-                                
-                                XElement enabledElement = namespaceDescriptionElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (enabledElement != null)
-                                {
-                                    bool enabledInstance = bool.Parse(enabledElement.Value);
-                                    namespaceDescriptionInstance.Enabled = enabledInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The namespace description is an XML AtomPub document that defines
-        /// the desired semantics for a service namespace. The namespace
-        /// description contains the following properties.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of namespaces.
-        /// </returns>
-        public async Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "GetNamespaceDescriptionAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/ConnectionDetails";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNamespaceDescriptionResponse result = new ServiceBusNamespaceDescriptionResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                NamespaceDescription entryInstance = new NamespaceDescription();
-                                result.NamespaceDescriptions.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (connectionDetailElement != null)
-                                    {
-                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            entryInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (connectionStringElement != null)
-                                        {
-                                            string connectionStringInstance = connectionStringElement.Value;
-                                            entryInstance.ConnectionString = connectionStringInstance;
-                                        }
-                                        
-                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationTypeElement != null)
-                                        {
-                                            string authorizationTypeInstance = authorizationTypeElement.Value;
-                                            entryInstance.AuthorizationType = authorizationTypeInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement secondaryConnectionStringElement = connectionDetailElement.Element(XName.Get("SecondaryConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryConnectionStringElement != null)
-                                        {
-                                            string secondaryConnectionStringInstance = secondaryConnectionStringElement.Value;
-                                            entryInstance.SecondaryConnectionString = secondaryConnectionStringInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the available namespaces.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response to the request for a listing of namespaces
-        /// </returns>
-        public async Task<ServiceBusNamespacesResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNamespacesResponse result = new ServiceBusNamespacesResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusNamespace entryInstance = new ServiceBusNamespace();
-                                result.Namespaces.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement namespaceDescriptionElement = contentElement.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (namespaceDescriptionElement != null)
-                                    {
-                                        XElement nameElement = namespaceDescriptionElement.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (nameElement != null)
-                                        {
-                                            string nameInstance = nameElement.Value;
-                                            entryInstance.Name = nameInstance;
-                                        }
-                                        
-                                        XElement regionElement = namespaceDescriptionElement.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (regionElement != null)
-                                        {
-                                            string regionInstance = regionElement.Value;
-                                            entryInstance.Region = regionInstance;
-                                        }
-                                        
-                                        XElement statusElement = namespaceDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (statusElement != null)
-                                        {
-                                            string statusInstance = statusElement.Value;
-                                            entryInstance.Status = statusInstance;
-                                        }
-                                        
-                                        XElement createdAtElement = namespaceDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdAtElement != null)
-                                        {
-                                            DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.CreatedAt = createdAtInstance;
-                                        }
-                                        
-                                        XElement acsManagementEndpointElement = namespaceDescriptionElement.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (acsManagementEndpointElement != null)
-                                        {
-                                            Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
-                                            entryInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
-                                        }
-                                        
-                                        XElement serviceBusEndpointElement = namespaceDescriptionElement.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (serviceBusEndpointElement != null)
-                                        {
-                                            Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
-                                            entryInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
-                                        }
-                                        
-                                        XElement subscriptionIdElement = namespaceDescriptionElement.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (subscriptionIdElement != null)
-                                        {
-                                            string subscriptionIdInstance = subscriptionIdElement.Value;
-                                            entryInstance.SubscriptionId = subscriptionIdInstance;
-                                        }
-                                        
-                                        XElement enabledElement = namespaceDescriptionElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (enabledElement != null)
-                                        {
-                                            bool enabledInstance = bool.Parse(enabledElement.Value);
-                                            entryInstance.Enabled = enabledInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The get authorization rules operation gets the authorization rules
-        /// for a namespace
-        /// </summary>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of authorization rules.
-        /// </returns>
-        public async Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (namespaceName == null)
-            {
-                throw new ArgumentNullException("namespaceName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "ListAuthorizationRulesAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusAuthorizationRulesResponse result = new ServiceBusAuthorizationRulesResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusSharedAccessAuthorizationRule entryInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                result.AuthorizationRules.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement sharedAccessAuthorizationRuleElement = contentElement.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (sharedAccessAuthorizationRuleElement != null)
-                                    {
-                                        XElement claimTypeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimTypeElement != null)
-                                        {
-                                            string claimTypeInstance = claimTypeElement.Value;
-                                            entryInstance.ClaimType = claimTypeInstance;
-                                        }
-                                        
-                                        XElement claimValueElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimValueElement != null)
-                                        {
-                                            string claimValueInstance = claimValueElement.Value;
-                                            entryInstance.ClaimValue = claimValueInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement createdTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdTimeElement != null)
-                                        {
-                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.CreatedTime = createdTimeInstance;
-                                        }
-                                        
-                                        XElement modifiedTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (modifiedTimeElement != null)
-                                        {
-                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.ModifiedTime = modifiedTimeInstance;
-                                        }
-                                        
-                                        XElement keyNameElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            entryInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement primaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (primaryKeyElement != null)
-                                        {
-                                            string primaryKeyInstance = primaryKeyElement.Value;
-                                            entryInstance.PrimaryKey = primaryKeyInstance;
-                                        }
-                                        
-                                        XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryKeyElement != null)
-                                        {
-                                            string secondaryKeyInstance = secondaryKeyElement.Value;
-                                            entryInstance.SecondaryKey = secondaryKeyInstance;
-                                        }
-                                        
-                                        XElement revisionElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (revisionElement != null)
-                                        {
-                                            int revisionInstance = int.Parse(revisionElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.Revision = revisionInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The get authorization rule operation gets an authorization rule for
-        /// a namespace by name
-        /// </summary>
-        /// <param name='namespaceName'>
-        /// The namespace to get the authorization rule for.
-        /// </param>
-        /// <param name='entityName'>
-        /// The entity name to get the authorization rule for.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public async Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(string namespaceName, string entityName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (namespaceName == null)
-            {
-                throw new ArgumentNullException("namespaceName");
-            }
-            if (entityName == null)
-            {
-                throw new ArgumentNullException("entityName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("entityName", entityName);
-                Tracing.Enter(invocationId, this, "GetAuthorizationRuleAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + entityName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement != null)
-                    {
-                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement != null)
-                        {
-                            XElement sharedAccessAuthorizationRuleElement = contentElement.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (sharedAccessAuthorizationRuleElement != null)
-                            {
-                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
-                                
-                                XElement claimTypeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimTypeElement != null)
-                                {
-                                    string claimTypeInstance = claimTypeElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
-                                }
-                                
-                                XElement claimValueElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimValueElement != null)
-                                {
-                                    string claimValueInstance = claimValueElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
-                                }
-                                
-                                XElement rightsSequenceElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (rightsSequenceElement != null)
-                                {
-                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                    }
-                                }
-                                
-                                XElement createdTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdTimeElement != null)
-                                {
-                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                }
-                                
-                                XElement modifiedTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (modifiedTimeElement != null)
-                                {
-                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                }
-                                
-                                XElement keyNameElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (keyNameElement != null)
-                                {
-                                    string keyNameInstance = keyNameElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
-                                }
-                                
-                                XElement primaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (primaryKeyElement != null)
-                                {
-                                    string primaryKeyInstance = primaryKeyElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                }
-                                
-                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (secondaryKeyElement != null)
-                                {
-                                    string secondaryKeyInstance = secondaryKeyElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                }
-                                
-                                XElement revisionElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (revisionElement != null)
-                                {
-                                    int revisionInstance = int.Parse(revisionElement.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The update authorization rule operation updates an authorization
-        /// rule for a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular authorization rule.
-        /// </returns>
-        public async Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("rule", rule);
-                Tracing.Enter(invocationId, this, "UpdateAuthorizationRuleAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + rule.KeyName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                httpRequest.Headers.Add("type", "entry");
-                httpRequest.Headers.Add("if-match", "*");
-                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                if (rule != null)
-                {
-                    XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    requestDoc.Add(entryElement);
-                    
-                    XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                    entryElement.Add(contentElement);
-                    
-                    XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
-                    typeAttribute.Value = "application/atom+xml";
-                    contentElement.Add(typeAttribute);
-                    
-                    XElement sharedAccessAuthorizationRuleElement = new XElement(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    contentElement.Add(sharedAccessAuthorizationRuleElement);
-                    
-                    if (rule.ClaimType != null)
-                    {
-                        XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        claimTypeElement.Value = rule.ClaimType;
-                        sharedAccessAuthorizationRuleElement.Add(claimTypeElement);
-                    }
-                    
-                    if (rule.ClaimValue != null)
-                    {
-                        XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        claimValueElement.Value = rule.ClaimValue;
-                        sharedAccessAuthorizationRuleElement.Add(claimValueElement);
-                    }
-                    
-                    if (rule.Rights != null)
-                    {
-                        XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        foreach (AccessRight rightsItem in rule.Rights)
-                        {
-                            XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            rightsItemElement.Value = rightsItem.ToString();
-                            rightsSequenceElement.Add(rightsItemElement);
-                        }
-                        sharedAccessAuthorizationRuleElement.Add(rightsSequenceElement);
-                    }
-                    
-                    XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    createdTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.CreatedTime.ToUniversalTime());
-                    sharedAccessAuthorizationRuleElement.Add(createdTimeElement);
-                    
-                    XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    modifiedTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.ModifiedTime.ToUniversalTime());
-                    sharedAccessAuthorizationRuleElement.Add(modifiedTimeElement);
-                    
-                    XElement revisionElement = new XElement(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    revisionElement.Value = rule.Revision.ToString();
-                    sharedAccessAuthorizationRuleElement.Add(revisionElement);
-                    
-                    if (rule.KeyName != null)
-                    {
-                        XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        keyNameElement.Value = rule.KeyName;
-                        sharedAccessAuthorizationRuleElement.Add(keyNameElement);
-                    }
-                    
-                    if (rule.PrimaryKey != null)
-                    {
-                        XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        primaryKeyElement.Value = rule.PrimaryKey;
-                        sharedAccessAuthorizationRuleElement.Add(primaryKeyElement);
-                    }
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Created)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement2 != null)
-                    {
-                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement2 != null)
-                        {
-                            XElement sharedAccessAuthorizationRuleElement2 = contentElement2.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (sharedAccessAuthorizationRuleElement2 != null)
-                            {
-                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
-                                
-                                XElement claimTypeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimTypeElement2 != null)
-                                {
-                                    string claimTypeInstance = claimTypeElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
-                                }
-                                
-                                XElement claimValueElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (claimValueElement2 != null)
-                                {
-                                    string claimValueInstance = claimValueElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
-                                }
-                                
-                                XElement rightsSequenceElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (rightsSequenceElement2 != null)
-                                {
-                                    foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                    }
-                                }
-                                
-                                XElement createdTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdTimeElement2 != null)
-                                {
-                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                }
-                                
-                                XElement modifiedTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (modifiedTimeElement2 != null)
-                                {
-                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                }
-                                
-                                XElement keyNameElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (keyNameElement2 != null)
-                                {
-                                    string keyNameInstance = keyNameElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
-                                }
-                                
-                                XElement primaryKeyElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (primaryKeyElement2 != null)
-                                {
-                                    string primaryKeyInstance = primaryKeyElement2.Value;
-                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                }
-                                
-                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement2.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (secondaryKeyElement != null)
-                                {
-                                    string secondaryKeyInstance = secondaryKeyElement.Value;
-                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                }
-                                
-                                XElement revisionElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (revisionElement2 != null)
-                                {
-                                    int revisionInstance = int.Parse(revisionElement2.Value, CultureInfo.InvariantCulture);
-                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    public partial interface INotificationHubOperations
-    {
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<ServiceBusNotificationHubResponse> GetAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<ServiceBusNotificationHubsResponse> ListAsync(string namespaceName, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    public static partial class NotificationHubOperationsExtensions
-    {
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static ServiceBusNotificationHubResponse Get(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
-        {
-            try
-            {
-                return operations.GetAsync(namespaceName, notificationHubName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<ServiceBusNotificationHubResponse> GetAsync(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
-        {
-            return operations.GetAsync(namespaceName, notificationHubName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
-        {
-            try
-            {
-                return operations.GetConnectionDetailsAsync(namespaceName, notificationHubName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
-        {
-            return operations.GetConnectionDetailsAsync(namespaceName, notificationHubName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static ServiceBusNotificationHubsResponse List(this INotificationHubOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.ListAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<ServiceBusNotificationHubsResponse> ListAsync(this INotificationHubOperations operations, string namespaceName)
-        {
-            return operations.ListAsync(namespaceName, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    internal partial class NotificationHubOperations : IServiceOperations<ServiceBusManagementClient>, INotificationHubOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the NotificationHubOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal NotificationHubOperations(ServiceBusManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ServiceBusManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
-        /// </summary>
-        public ServiceBusManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<ServiceBusNotificationHubResponse> GetAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("notificationHubName", notificationHubName);
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs/" + notificationHubName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNotificationHubResponse result = new ServiceBusNotificationHubResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement != null)
-                    {
-                        XElement titleElement = entryElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                        if (titleElement != null)
-                        {
-                        }
-                        
-                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement != null)
-                        {
-                            XElement notificationHubDescriptionElement = contentElement.Element(XName.Get("NotificationHubDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (notificationHubDescriptionElement != null)
-                            {
-                                ServiceBusNotificationHub notificationHubDescriptionInstance = new ServiceBusNotificationHub();
-                                result.NotificationHub = notificationHubDescriptionInstance;
-                                
-                                XElement registrationTtlElement = notificationHubDescriptionElement.Element(XName.Get("RegistrationTtl", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (registrationTtlElement != null)
-                                {
-                                    string registrationTtlInstance = registrationTtlElement.Value;
-                                    notificationHubDescriptionInstance.RegistrationTtl = registrationTtlInstance;
-                                }
-                                
-                                XElement authorizationRulesSequenceElement = notificationHubDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (authorizationRulesSequenceElement != null)
-                                {
-                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                        notificationHubDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                        
-                                        XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimTypeElement != null)
-                                        {
-                                            string claimTypeInstance = claimTypeElement.Value;
-                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                        }
-                                        
-                                        XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimValueElement != null)
-                                        {
-                                            string claimValueInstance = claimValueElement.Value;
-                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdTimeElement != null)
-                                        {
-                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                        }
-                                        
-                                        XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            authorizationRuleInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (modifiedTimeElement != null)
-                                        {
-                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                        }
-                                        
-                                        XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (primaryKeyElement != null)
-                                        {
-                                            string primaryKeyInstance = primaryKeyElement.Value;
-                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                        }
-                                        
-                                        XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryKeyElement != null)
-                                        {
-                                            string secondaryKeyInstance = secondaryKeyElement.Value;
-                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("notificationHubName", notificationHubName);
-                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs/" + notificationHubName + "/ConnectionDetails";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
-                                result.ConnectionDetails.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (connectionDetailElement != null)
-                                    {
-                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            entryInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (connectionStringElement != null)
-                                        {
-                                            string connectionStringInstance = connectionStringElement.Value;
-                                            entryInstance.ConnectionString = connectionStringInstance;
-                                        }
-                                        
-                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationTypeElement != null)
-                                        {
-                                            string authorizationTypeInstance = authorizationTypeElement.Value;
-                                            entryInstance.AuthorizationType = authorizationTypeInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Lists the notification hubs associated with a namespace.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<ServiceBusNotificationHubsResponse> ListAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusNotificationHubsResponse result = new ServiceBusNotificationHubsResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusNotificationHub entryInstance = new ServiceBusNotificationHub();
-                                result.NotificationHubs.Add(entryInstance);
-                                
-                                XElement titleElement = entriesElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                                if (titleElement != null)
-                                {
-                                    string titleInstance = titleElement.Value;
-                                    entryInstance.Name = titleInstance;
-                                }
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement notificationHubDescriptionElement = contentElement.Element(XName.Get("NotificationHubDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (notificationHubDescriptionElement != null)
-                                    {
-                                        XElement registrationTtlElement = notificationHubDescriptionElement.Element(XName.Get("RegistrationTtl", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (registrationTtlElement != null)
-                                        {
-                                            string registrationTtlInstance = registrationTtlElement.Value;
-                                            entryInstance.RegistrationTtl = registrationTtlInstance;
-                                        }
-                                        
-                                        XElement authorizationRulesSequenceElement = notificationHubDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationRulesSequenceElement != null)
-                                        {
-                                            foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                                entryInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                                
-                                                XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (claimTypeElement != null)
-                                                {
-                                                    string claimTypeInstance = claimTypeElement.Value;
-                                                    authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                                }
-                                                
-                                                XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (claimValueElement != null)
-                                                {
-                                                    string claimValueInstance = claimValueElement.Value;
-                                                    authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                                }
-                                                
-                                                XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (rightsSequenceElement != null)
-                                                {
-                                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                                    {
-                                                        authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                                    }
-                                                }
-                                                
-                                                XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (createdTimeElement != null)
-                                                {
-                                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                                    authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                                }
-                                                
-                                                XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (keyNameElement != null)
-                                                {
-                                                    string keyNameInstance = keyNameElement.Value;
-                                                    authorizationRuleInstance.KeyName = keyNameInstance;
-                                                }
-                                                
-                                                XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (modifiedTimeElement != null)
-                                                {
-                                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                                    authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                                }
-                                                
-                                                XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (primaryKeyElement != null)
-                                                {
-                                                    string primaryKeyInstance = primaryKeyElement.Value;
-                                                    authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                                }
-                                                
-                                                XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (secondaryKeyElement != null)
-                                                {
-                                                    string secondaryKeyInstance = secondaryKeyElement.Value;
-                                                    authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    public partial interface IQueueOperations
-    {
-        /// <summary>
-        /// Creates a new queue. Once created, this queue’s resource manifest
-        /// is immutable. This operation is idempotent. Repeating the create
-        /// call, after a queue with same name has been created successfully,
-        /// will result in a 409 Conflict error message.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        Task<ServiceBusQueueResponse> CreateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Gets the set of connection strings for a queue.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string queueName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Enumerates the queues in the service namespace. The result is
-        /// returned in pages, each containing up to 100 queues. If the
-        /// namespace contains more than 100 queues, a feed is returned that
-        /// contains the first page and a next link with the URI to view the
-        /// next page of data.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of queues.
-        /// </returns>
-        Task<ServiceBusQueuesResponse> ListAsync(string namespaceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The queue description is an XML AtomPub document that defines the
-        /// desired semantics for a subscription. The queue description
-        /// contains the following properties. For more information, see the
-        /// QueueDescription Properties topic.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        Task<ServiceBusQueueResponse> GetAsync(string namespaceName, string queueName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        Task<ServiceBusQueueResponse> UpdateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    public static partial class QueueOperationsExtensions
-    {
-        /// <summary>
-        /// Creates a new queue. Once created, this queue’s resource manifest
-        /// is immutable. This operation is idempotent. Repeating the create
-        /// call, after a queue with same name has been created successfully,
-        /// will result in a 409 Conflict error message.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static ServiceBusQueueResponse Create(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
-        {
-            try
-            {
-                return operations.CreateAsync(namespaceName, queue).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Creates a new queue. Once created, this queue’s resource manifest
-        /// is immutable. This operation is idempotent. Repeating the create
-        /// call, after a queue with same name has been created successfully,
-        /// will result in a 409 Conflict error message.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static Task<ServiceBusQueueResponse> CreateAsync(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
-        {
-            return operations.CreateAsync(namespaceName, queue, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Gets the set of connection strings for a queue.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this IQueueOperations operations, string namespaceName, string queueName)
-        {
-            try
-            {
-                return operations.GetConnectionDetailsAsync(namespaceName, queueName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Gets the set of connection strings for a queue.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this IQueueOperations operations, string namespaceName, string queueName)
-        {
-            return operations.GetConnectionDetailsAsync(namespaceName, queueName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Enumerates the queues in the service namespace. The result is
-        /// returned in pages, each containing up to 100 queues. If the
-        /// namespace contains more than 100 queues, a feed is returned that
-        /// contains the first page and a next link with the URI to view the
-        /// next page of data.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of queues.
-        /// </returns>
-        public static ServiceBusQueuesResponse List(this IQueueOperations operations, string namespaceName)
-        {
-            try
-            {
-                return operations.ListAsync(namespaceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Enumerates the queues in the service namespace. The result is
-        /// returned in pages, each containing up to 100 queues. If the
-        /// namespace contains more than 100 queues, a feed is returned that
-        /// contains the first page and a next link with the URI to view the
-        /// next page of data.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of queues.
-        /// </returns>
-        public static Task<ServiceBusQueuesResponse> ListAsync(this IQueueOperations operations, string namespaceName)
-        {
-            return operations.ListAsync(namespaceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The queue description is an XML AtomPub document that defines the
-        /// desired semantics for a subscription. The queue description
-        /// contains the following properties. For more information, see the
-        /// QueueDescription Properties topic.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static ServiceBusQueueResponse Get(this IQueueOperations operations, string namespaceName, string queueName)
-        {
-            try
-            {
-                return operations.GetAsync(namespaceName, queueName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The queue description is an XML AtomPub document that defines the
-        /// desired semantics for a subscription. The queue description
-        /// contains the following properties. For more information, see the
-        /// QueueDescription Properties topic.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static Task<ServiceBusQueueResponse> GetAsync(this IQueueOperations operations, string namespaceName, string queueName)
-        {
-            return operations.GetAsync(namespaceName, queueName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static ServiceBusQueueResponse Update(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
-        {
-            try
-            {
-                return operations.UpdateAsync(namespaceName, queue).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public static Task<ServiceBusQueueResponse> UpdateAsync(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
-        {
-            return operations.UpdateAsync(namespaceName, queue, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus queues.
-    /// </summary>
-    internal partial class QueueOperations : IServiceOperations<ServiceBusManagementClient>, IQueueOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the QueueOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal QueueOperations(ServiceBusManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ServiceBusManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
-        /// </summary>
-        public ServiceBusManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// Creates a new queue. Once created, this queue’s resource manifest
-        /// is immutable. This operation is idempotent. Repeating the create
-        /// call, after a queue with same name has been created successfully,
-        /// will result in a 409 Conflict error message.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public async Task<ServiceBusQueueResponse> CreateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (namespaceName == null)
-            {
-                throw new ArgumentNullException("namespaceName");
-            }
-            if (queue == null)
-            {
-                throw new ArgumentNullException("queue");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("queue", queue);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/queues/" + queue.Name + "/";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-process-at", "ServiceBus");
-                httpRequest.Headers.Add("type", "entry");
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                requestDoc.Add(entryElement);
-                
-                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                entryElement.Add(contentElement);
-                
-                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
-                typeAttribute.Value = "application/atom+xml;type=entry;charset=utf-8";
-                contentElement.Add(typeAttribute);
-                
-                XElement queueDescriptionElement = new XElement(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                contentElement.Add(queueDescriptionElement);
-                
-                if (queue.LockDuration != null)
-                {
-                    XElement lockDurationElement = new XElement(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    lockDurationElement.Value = queue.LockDuration;
-                    queueDescriptionElement.Add(lockDurationElement);
-                }
-                
-                XElement maxSizeInMegabytesElement = new XElement(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                maxSizeInMegabytesElement.Value = queue.MaxSizeInMegabytes.ToString();
-                queueDescriptionElement.Add(maxSizeInMegabytesElement);
-                
-                XElement requiresDuplicateDetectionElement = new XElement(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                requiresDuplicateDetectionElement.Value = queue.RequiresDuplicateDetection.ToString().ToLower();
-                queueDescriptionElement.Add(requiresDuplicateDetectionElement);
-                
-                XElement requiresSessionElement = new XElement(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                requiresSessionElement.Value = queue.RequiresSession.ToString().ToLower();
-                queueDescriptionElement.Add(requiresSessionElement);
-                
-                if (queue.DefaultMessageTimeToLive != null)
-                {
-                    XElement defaultMessageTimeToLiveElement = new XElement(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    defaultMessageTimeToLiveElement.Value = queue.DefaultMessageTimeToLive;
-                    queueDescriptionElement.Add(defaultMessageTimeToLiveElement);
-                }
-                
-                XElement deadLetteringOnMessageExpirationElement = new XElement(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                deadLetteringOnMessageExpirationElement.Value = queue.DeadLetteringOnMessageExpiration.ToString().ToLower();
-                queueDescriptionElement.Add(deadLetteringOnMessageExpirationElement);
-                
-                if (queue.DuplicateDetectionHistoryTimeWindow != null)
-                {
-                    XElement duplicateDetectionHistoryTimeWindowElement = new XElement(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    duplicateDetectionHistoryTimeWindowElement.Value = queue.DuplicateDetectionHistoryTimeWindow;
-                    queueDescriptionElement.Add(duplicateDetectionHistoryTimeWindowElement);
-                }
-                
-                XElement maxDeliveryCountElement = new XElement(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                maxDeliveryCountElement.Value = queue.MaxDeliveryCount.ToString();
-                queueDescriptionElement.Add(maxDeliveryCountElement);
-                
-                XElement enableBatchedOperationsElement = new XElement(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                enableBatchedOperationsElement.Value = queue.EnableBatchedOperations.ToString().ToLower();
-                queueDescriptionElement.Add(enableBatchedOperationsElement);
-                
-                XElement sizeInBytesElement = new XElement(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                sizeInBytesElement.Value = queue.SizeInBytes.ToString();
-                queueDescriptionElement.Add(sizeInBytesElement);
-                
-                XElement messageCountElement = new XElement(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                messageCountElement.Value = queue.MessageCount.ToString();
-                queueDescriptionElement.Add(messageCountElement);
-                
-                XElement isAnonymousAccessibleElement = new XElement(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                isAnonymousAccessibleElement.Value = queue.IsAnonymousAccessible.ToString().ToLower();
-                queueDescriptionElement.Add(isAnonymousAccessibleElement);
-                
-                if (queue.AuthorizationRules != null)
-                {
-                    XElement authorizationRulesSequenceElement = new XElement(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    foreach (ServiceBusSharedAccessAuthorizationRule authorizationRulesItem in queue.AuthorizationRules)
-                    {
-                        XElement authorizationRuleElement = new XElement(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        authorizationRulesSequenceElement.Add(authorizationRuleElement);
-                        
-                        XAttribute typeAttribute2 = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
-                        typeAttribute2.Value = "SharedAccessAuthorizationRule";
-                        authorizationRuleElement.Add(typeAttribute2);
-                        
-                        if (authorizationRulesItem.ClaimType != null)
-                        {
-                            XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            claimTypeElement.Value = authorizationRulesItem.ClaimType;
-                            authorizationRuleElement.Add(claimTypeElement);
-                        }
-                        
-                        if (authorizationRulesItem.ClaimValue != null)
-                        {
-                            XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            claimValueElement.Value = authorizationRulesItem.ClaimValue;
-                            authorizationRuleElement.Add(claimValueElement);
-                        }
-                        
-                        if (authorizationRulesItem.Rights != null)
-                        {
-                            XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            foreach (AccessRight rightsItem in authorizationRulesItem.Rights)
-                            {
-                                XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                rightsItemElement.Value = rightsItem.ToString();
-                                rightsSequenceElement.Add(rightsItemElement);
-                            }
-                            authorizationRuleElement.Add(rightsSequenceElement);
-                        }
-                        
-                        XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        createdTimeElement.Value = authorizationRulesItem.CreatedTime.ToString();
-                        authorizationRuleElement.Add(createdTimeElement);
-                        
-                        if (authorizationRulesItem.KeyName != null)
-                        {
-                            XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            keyNameElement.Value = authorizationRulesItem.KeyName;
-                            authorizationRuleElement.Add(keyNameElement);
-                        }
-                        
-                        XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        modifiedTimeElement.Value = authorizationRulesItem.ModifiedTime.ToString();
-                        authorizationRuleElement.Add(modifiedTimeElement);
-                        
-                        if (authorizationRulesItem.PrimaryKey != null)
-                        {
-                            XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            primaryKeyElement.Value = authorizationRulesItem.PrimaryKey;
-                            authorizationRuleElement.Add(primaryKeyElement);
-                        }
-                        
-                        if (authorizationRulesItem.SecondaryKey != null)
-                        {
-                            XElement secondaryKeyElement = new XElement(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            secondaryKeyElement.Value = authorizationRulesItem.SecondaryKey;
-                            authorizationRuleElement.Add(secondaryKeyElement);
-                        }
-                    }
-                    queueDescriptionElement.Add(authorizationRulesSequenceElement);
-                }
-                
-                if (queue.Status != null)
-                {
-                    XElement statusElement = new XElement(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    statusElement.Value = queue.Status;
-                    queueDescriptionElement.Add(statusElement);
-                }
-                
-                XElement createdAtElement = new XElement(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                createdAtElement.Value = queue.CreatedAt.ToString();
-                queueDescriptionElement.Add(createdAtElement);
-                
-                XElement updatedAtElement = new XElement(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                updatedAtElement.Value = queue.UpdatedAt.ToString();
-                queueDescriptionElement.Add(updatedAtElement);
-                
-                XElement accessedAtElement = new XElement(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                accessedAtElement.Value = queue.AccessedAt.ToString();
-                queueDescriptionElement.Add(accessedAtElement);
-                
-                XElement supportOrderingElement = new XElement(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                supportOrderingElement.Value = queue.SupportOrdering.ToString().ToLower();
-                queueDescriptionElement.Add(supportOrderingElement);
-                
-                if (queue.CountDetails != null)
-                {
-                    XElement countDetailsElement = new XElement(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    queueDescriptionElement.Add(countDetailsElement);
-                    
-                    XElement activeMessageCountElement = new XElement(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                    activeMessageCountElement.Value = queue.CountDetails.ActiveMessageCount.ToString();
-                    countDetailsElement.Add(activeMessageCountElement);
-                    
-                    XElement deadLetterMessageCountElement = new XElement(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                    deadLetterMessageCountElement.Value = queue.CountDetails.DeadLetterMessageCount.ToString();
-                    countDetailsElement.Add(deadLetterMessageCountElement);
-                    
-                    XElement scheduledMessageCountElement = new XElement(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                    scheduledMessageCountElement.Value = queue.CountDetails.ScheduledMessageCount.ToString();
-                    countDetailsElement.Add(scheduledMessageCountElement);
-                    
-                    XElement transferDeadLetterMessageCountElement = new XElement(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                    transferDeadLetterMessageCountElement.Value = queue.CountDetails.TransferDeadLetterMessageCount.ToString();
-                    countDetailsElement.Add(transferDeadLetterMessageCountElement);
-                    
-                    XElement transferMessageCountElement = new XElement(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                    transferMessageCountElement.Value = queue.CountDetails.TransferMessageCount.ToString();
-                    countDetailsElement.Add(transferMessageCountElement);
-                }
-                
-                if (queue.AutoDeleteOnIdle != null)
-                {
-                    XElement autoDeleteOnIdleElement = new XElement(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    autoDeleteOnIdleElement.Value = queue.AutoDeleteOnIdle;
-                    queueDescriptionElement.Add(autoDeleteOnIdleElement);
-                }
-                
-                if (queue.EntityAvailabilityStatus != null)
-                {
-                    XElement entityAvailabilityStatusElement = new XElement(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    entityAvailabilityStatusElement.Value = queue.EntityAvailabilityStatus;
-                    queueDescriptionElement.Add(entityAvailabilityStatusElement);
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Created)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement2 != null)
-                    {
-                        XElement titleElement = entryElement2.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                        if (titleElement != null)
-                        {
-                        }
-                        
-                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement2 != null)
-                        {
-                            XElement queueDescriptionElement2 = contentElement2.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (queueDescriptionElement2 != null)
-                            {
-                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
-                                result.Queue = queueDescriptionInstance;
-                                
-                                XElement lockDurationElement2 = queueDescriptionElement2.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (lockDurationElement2 != null)
-                                {
-                                    string lockDurationInstance = lockDurationElement2.Value;
-                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
-                                }
-                                
-                                XElement maxSizeInMegabytesElement2 = queueDescriptionElement2.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxSizeInMegabytesElement2 != null)
-                                {
-                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
-                                }
-                                
-                                XElement requiresDuplicateDetectionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresDuplicateDetectionElement2 != null)
-                                {
-                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement2.Value);
-                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
-                                }
-                                
-                                XElement requiresSessionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresSessionElement2 != null)
-                                {
-                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement2.Value);
-                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
-                                }
-                                
-                                XElement defaultMessageTimeToLiveElement2 = queueDescriptionElement2.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (defaultMessageTimeToLiveElement2 != null)
-                                {
-                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement2.Value;
-                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
-                                }
-                                
-                                XElement deadLetteringOnMessageExpirationElement2 = queueDescriptionElement2.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (deadLetteringOnMessageExpirationElement2 != null)
-                                {
-                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement2.Value);
-                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
-                                }
-                                
-                                XElement duplicateDetectionHistoryTimeWindowElement2 = queueDescriptionElement2.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (duplicateDetectionHistoryTimeWindowElement2 != null)
-                                {
-                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement2.Value;
-                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
-                                }
-                                
-                                XElement maxDeliveryCountElement2 = queueDescriptionElement2.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxDeliveryCountElement2 != null)
-                                {
-                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
-                                }
-                                
-                                XElement enableBatchedOperationsElement2 = queueDescriptionElement2.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (enableBatchedOperationsElement2 != null)
-                                {
-                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement2.Value);
-                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
-                                }
-                                
-                                XElement sizeInBytesElement2 = queueDescriptionElement2.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (sizeInBytesElement2 != null)
-                                {
-                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
-                                }
-                                
-                                XElement messageCountElement2 = queueDescriptionElement2.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (messageCountElement2 != null)
-                                {
-                                    int messageCountInstance = int.Parse(messageCountElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MessageCount = messageCountInstance;
-                                }
-                                
-                                XElement isAnonymousAccessibleElement2 = queueDescriptionElement2.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (isAnonymousAccessibleElement2 != null)
-                                {
-                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement2.Value);
-                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
-                                }
-                                
-                                XElement authorizationRulesSequenceElement2 = queueDescriptionElement2.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (authorizationRulesSequenceElement2 != null)
-                                {
-                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement2.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                        
-                                        XElement claimTypeElement2 = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimTypeElement2 != null)
-                                        {
-                                            string claimTypeInstance = claimTypeElement2.Value;
-                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                        }
-                                        
-                                        XElement claimValueElement2 = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimValueElement2 != null)
-                                        {
-                                            string claimValueInstance = claimValueElement2.Value;
-                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement2 = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement2 != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement createdTimeElement2 = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdTimeElement2 != null)
-                                        {
-                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                        }
-                                        
-                                        XElement keyNameElement2 = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement2 != null)
-                                        {
-                                            string keyNameInstance = keyNameElement2.Value;
-                                            authorizationRuleInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement modifiedTimeElement2 = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (modifiedTimeElement2 != null)
-                                        {
-                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                        }
-                                        
-                                        XElement primaryKeyElement2 = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (primaryKeyElement2 != null)
-                                        {
-                                            string primaryKeyInstance = primaryKeyElement2.Value;
-                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                        }
-                                        
-                                        XElement secondaryKeyElement2 = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryKeyElement2 != null)
-                                        {
-                                            string secondaryKeyInstance = secondaryKeyElement2.Value;
-                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                        }
-                                    }
-                                }
-                                
-                                XElement statusElement2 = queueDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (statusElement2 != null)
-                                {
-                                    string statusInstance = statusElement2.Value;
-                                    queueDescriptionInstance.Status = statusInstance;
-                                }
-                                
-                                XElement createdAtElement2 = queueDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdAtElement2 != null)
-                                {
-                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
-                                }
-                                
-                                XElement updatedAtElement2 = queueDescriptionElement2.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (updatedAtElement2 != null)
-                                {
-                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
-                                }
-                                
-                                XElement accessedAtElement2 = queueDescriptionElement2.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (accessedAtElement2 != null)
-                                {
-                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
-                                }
-                                
-                                XElement supportOrderingElement2 = queueDescriptionElement2.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (supportOrderingElement2 != null)
-                                {
-                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement2.Value);
-                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
-                                }
-                                
-                                XElement countDetailsElement2 = queueDescriptionElement2.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (countDetailsElement2 != null)
-                                {
-                                    CountDetails countDetailsInstance = new CountDetails();
-                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
-                                    
-                                    XElement activeMessageCountElement2 = countDetailsElement2.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (activeMessageCountElement2 != null)
-                                    {
-                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
-                                    }
-                                    
-                                    XElement deadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (deadLetterMessageCountElement2 != null)
-                                    {
-                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement scheduledMessageCountElement2 = countDetailsElement2.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (scheduledMessageCountElement2 != null)
-                                    {
-                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferDeadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferDeadLetterMessageCountElement2 != null)
-                                    {
-                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferMessageCountElement2 != null)
-                                    {
-                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
-                                    }
-                                }
-                                
-                                XElement autoDeleteOnIdleElement2 = queueDescriptionElement2.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (autoDeleteOnIdleElement2 != null)
-                                {
-                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement2.Value;
-                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
-                                }
-                                
-                                XElement entityAvailabilityStatusElement2 = queueDescriptionElement2.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (entityAvailabilityStatusElement2 != null)
-                                {
-                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement2.Value;
-                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Gets the set of connection strings for a queue.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string queueName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("queueName", queueName);
-                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues/" + queueName + "/ConnectionDetails";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
-                                result.ConnectionDetails.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (connectionDetailElement != null)
-                                    {
-                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            entryInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (connectionStringElement != null)
-                                        {
-                                            string connectionStringInstance = connectionStringElement.Value;
-                                            entryInstance.ConnectionString = connectionStringInstance;
-                                        }
-                                        
-                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationTypeElement != null)
-                                        {
-                                            string authorizationTypeInstance = authorizationTypeElement.Value;
-                                            entryInstance.AuthorizationType = authorizationTypeInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Enumerates the queues in the service namespace. The result is
-        /// returned in pages, each containing up to 100 queues. If the
-        /// namespace contains more than 100 queues, a feed is returned that
-        /// contains the first page and a next link with the URI to view the
-        /// next page of data.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a list of queues.
-        /// </returns>
-        public async Task<ServiceBusQueuesResponse> ListAsync(string namespaceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusQueuesResponse result = new ServiceBusQueuesResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusQueue entryInstance = new ServiceBusQueue();
-                                result.Queues.Add(entryInstance);
-                                
-                                XElement titleElement = entriesElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                                if (titleElement != null)
-                                {
-                                    string titleInstance = titleElement.Value;
-                                    entryInstance.Name = titleInstance;
-                                }
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement queueDescriptionElement = contentElement.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (queueDescriptionElement != null)
-                                    {
-                                        XElement lockDurationElement = queueDescriptionElement.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (lockDurationElement != null)
-                                        {
-                                            string lockDurationInstance = lockDurationElement.Value;
-                                            entryInstance.LockDuration = lockDurationInstance;
-                                        }
-                                        
-                                        XElement maxSizeInMegabytesElement = queueDescriptionElement.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (maxSizeInMegabytesElement != null)
-                                        {
-                                            int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
-                                        }
-                                        
-                                        XElement requiresDuplicateDetectionElement = queueDescriptionElement.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (requiresDuplicateDetectionElement != null)
-                                        {
-                                            bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement.Value);
-                                            entryInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
-                                        }
-                                        
-                                        XElement requiresSessionElement = queueDescriptionElement.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (requiresSessionElement != null)
-                                        {
-                                            bool requiresSessionInstance = bool.Parse(requiresSessionElement.Value);
-                                            entryInstance.RequiresSession = requiresSessionInstance;
-                                        }
-                                        
-                                        XElement defaultMessageTimeToLiveElement = queueDescriptionElement.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (defaultMessageTimeToLiveElement != null)
-                                        {
-                                            string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement.Value;
-                                            entryInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
-                                        }
-                                        
-                                        XElement deadLetteringOnMessageExpirationElement = queueDescriptionElement.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (deadLetteringOnMessageExpirationElement != null)
-                                        {
-                                            bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement.Value);
-                                            entryInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
-                                        }
-                                        
-                                        XElement duplicateDetectionHistoryTimeWindowElement = queueDescriptionElement.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (duplicateDetectionHistoryTimeWindowElement != null)
-                                        {
-                                            string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement.Value;
-                                            entryInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
-                                        }
-                                        
-                                        XElement maxDeliveryCountElement = queueDescriptionElement.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (maxDeliveryCountElement != null)
-                                        {
-                                            int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.MaxDeliveryCount = maxDeliveryCountInstance;
-                                        }
-                                        
-                                        XElement enableBatchedOperationsElement = queueDescriptionElement.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (enableBatchedOperationsElement != null)
-                                        {
-                                            bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement.Value);
-                                            entryInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
-                                        }
-                                        
-                                        XElement sizeInBytesElement = queueDescriptionElement.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (sizeInBytesElement != null)
-                                        {
-                                            int sizeInBytesInstance = int.Parse(sizeInBytesElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.SizeInBytes = sizeInBytesInstance;
-                                        }
-                                        
-                                        XElement messageCountElement = queueDescriptionElement.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (messageCountElement != null)
-                                        {
-                                            int messageCountInstance = int.Parse(messageCountElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.MessageCount = messageCountInstance;
-                                        }
-                                        
-                                        XElement isAnonymousAccessibleElement = queueDescriptionElement.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (isAnonymousAccessibleElement != null)
-                                        {
-                                            bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement.Value);
-                                            entryInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
-                                        }
-                                        
-                                        XElement authorizationRulesSequenceElement = queueDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationRulesSequenceElement != null)
-                                        {
-                                            foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                                entryInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                                
-                                                XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (claimTypeElement != null)
-                                                {
-                                                    string claimTypeInstance = claimTypeElement.Value;
-                                                    authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                                }
-                                                
-                                                XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (claimValueElement != null)
-                                                {
-                                                    string claimValueInstance = claimValueElement.Value;
-                                                    authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                                }
-                                                
-                                                XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (rightsSequenceElement != null)
-                                                {
-                                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                                    {
-                                                        authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                                    }
-                                                }
-                                                
-                                                XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (createdTimeElement != null)
-                                                {
-                                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                                    authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                                }
-                                                
-                                                XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (keyNameElement != null)
-                                                {
-                                                    string keyNameInstance = keyNameElement.Value;
-                                                    authorizationRuleInstance.KeyName = keyNameInstance;
-                                                }
-                                                
-                                                XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (modifiedTimeElement != null)
-                                                {
-                                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                                    authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                                }
-                                                
-                                                XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (primaryKeyElement != null)
-                                                {
-                                                    string primaryKeyInstance = primaryKeyElement.Value;
-                                                    authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                                }
-                                                
-                                                XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                                if (secondaryKeyElement != null)
-                                                {
-                                                    string secondaryKeyInstance = secondaryKeyElement.Value;
-                                                    authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                                }
-                                            }
-                                        }
-                                        
-                                        XElement statusElement = queueDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (statusElement != null)
-                                        {
-                                            string statusInstance = statusElement.Value;
-                                            entryInstance.Status = statusInstance;
-                                        }
-                                        
-                                        XElement createdAtElement = queueDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdAtElement != null)
-                                        {
-                                            DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.CreatedAt = createdAtInstance;
-                                        }
-                                        
-                                        XElement updatedAtElement = queueDescriptionElement.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (updatedAtElement != null)
-                                        {
-                                            DateTime updatedAtInstance = DateTime.Parse(updatedAtElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.UpdatedAt = updatedAtInstance;
-                                        }
-                                        
-                                        XElement accessedAtElement = queueDescriptionElement.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (accessedAtElement != null)
-                                        {
-                                            DateTime accessedAtInstance = DateTime.Parse(accessedAtElement.Value, CultureInfo.InvariantCulture);
-                                            entryInstance.AccessedAt = accessedAtInstance;
-                                        }
-                                        
-                                        XElement supportOrderingElement = queueDescriptionElement.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (supportOrderingElement != null)
-                                        {
-                                            bool supportOrderingInstance = bool.Parse(supportOrderingElement.Value);
-                                            entryInstance.SupportOrdering = supportOrderingInstance;
-                                        }
-                                        
-                                        XElement countDetailsElement = queueDescriptionElement.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (countDetailsElement != null)
-                                        {
-                                            CountDetails countDetailsInstance = new CountDetails();
-                                            entryInstance.CountDetails = countDetailsInstance;
-                                            
-                                            XElement activeMessageCountElement = countDetailsElement.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                            if (activeMessageCountElement != null)
-                                            {
-                                                int activeMessageCountInstance = int.Parse(activeMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                                countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
-                                            }
-                                            
-                                            XElement deadLetterMessageCountElement = countDetailsElement.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                            if (deadLetterMessageCountElement != null)
-                                            {
-                                                int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                                countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
-                                            }
-                                            
-                                            XElement scheduledMessageCountElement = countDetailsElement.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                            if (scheduledMessageCountElement != null)
-                                            {
-                                                int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                                countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
-                                            }
-                                            
-                                            XElement transferDeadLetterMessageCountElement = countDetailsElement.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                            if (transferDeadLetterMessageCountElement != null)
-                                            {
-                                                int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                                countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
-                                            }
-                                            
-                                            XElement transferMessageCountElement = countDetailsElement.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                            if (transferMessageCountElement != null)
-                                            {
-                                                int transferMessageCountInstance = int.Parse(transferMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                                countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
-                                            }
-                                        }
-                                        
-                                        XElement autoDeleteOnIdleElement = queueDescriptionElement.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (autoDeleteOnIdleElement != null)
-                                        {
-                                            string autoDeleteOnIdleInstance = autoDeleteOnIdleElement.Value;
-                                            entryInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
-                                        }
-                                        
-                                        XElement entityAvailabilityStatusElement = queueDescriptionElement.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (entityAvailabilityStatusElement != null)
-                                        {
-                                            string entityAvailabilityStatusInstance = entityAvailabilityStatusElement.Value;
-                                            entryInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The queue description is an XML AtomPub document that defines the
-        /// desired semantics for a subscription. The queue description
-        /// contains the following properties. For more information, see the
-        /// QueueDescription Properties topic.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public async Task<ServiceBusQueueResponse> GetAsync(string namespaceName, string queueName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("queueName", queueName);
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues/" + queueName;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement != null)
-                    {
-                        XElement titleElement = entryElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                        if (titleElement != null)
-                        {
-                        }
-                        
-                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement != null)
-                        {
-                            XElement queueDescriptionElement = contentElement.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (queueDescriptionElement != null)
-                            {
-                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
-                                result.Queue = queueDescriptionInstance;
-                                
-                                XElement lockDurationElement = queueDescriptionElement.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (lockDurationElement != null)
-                                {
-                                    string lockDurationInstance = lockDurationElement.Value;
-                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
-                                }
-                                
-                                XElement maxSizeInMegabytesElement = queueDescriptionElement.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxSizeInMegabytesElement != null)
-                                {
-                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
-                                }
-                                
-                                XElement requiresDuplicateDetectionElement = queueDescriptionElement.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresDuplicateDetectionElement != null)
-                                {
-                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement.Value);
-                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
-                                }
-                                
-                                XElement requiresSessionElement = queueDescriptionElement.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresSessionElement != null)
-                                {
-                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement.Value);
-                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
-                                }
-                                
-                                XElement defaultMessageTimeToLiveElement = queueDescriptionElement.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (defaultMessageTimeToLiveElement != null)
-                                {
-                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement.Value;
-                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
-                                }
-                                
-                                XElement deadLetteringOnMessageExpirationElement = queueDescriptionElement.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (deadLetteringOnMessageExpirationElement != null)
-                                {
-                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement.Value);
-                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
-                                }
-                                
-                                XElement duplicateDetectionHistoryTimeWindowElement = queueDescriptionElement.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (duplicateDetectionHistoryTimeWindowElement != null)
-                                {
-                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement.Value;
-                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
-                                }
-                                
-                                XElement maxDeliveryCountElement = queueDescriptionElement.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxDeliveryCountElement != null)
-                                {
-                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
-                                }
-                                
-                                XElement enableBatchedOperationsElement = queueDescriptionElement.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (enableBatchedOperationsElement != null)
-                                {
-                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement.Value);
-                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
-                                }
-                                
-                                XElement sizeInBytesElement = queueDescriptionElement.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (sizeInBytesElement != null)
-                                {
-                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
-                                }
-                                
-                                XElement messageCountElement = queueDescriptionElement.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (messageCountElement != null)
-                                {
-                                    int messageCountInstance = int.Parse(messageCountElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MessageCount = messageCountInstance;
-                                }
-                                
-                                XElement isAnonymousAccessibleElement = queueDescriptionElement.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (isAnonymousAccessibleElement != null)
-                                {
-                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement.Value);
-                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
-                                }
-                                
-                                XElement authorizationRulesSequenceElement = queueDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (authorizationRulesSequenceElement != null)
-                                {
-                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                        
-                                        XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimTypeElement != null)
-                                        {
-                                            string claimTypeInstance = claimTypeElement.Value;
-                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                        }
-                                        
-                                        XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimValueElement != null)
-                                        {
-                                            string claimValueInstance = claimValueElement.Value;
-                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdTimeElement != null)
-                                        {
-                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                        }
-                                        
-                                        XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            authorizationRuleInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (modifiedTimeElement != null)
-                                        {
-                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                        }
-                                        
-                                        XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (primaryKeyElement != null)
-                                        {
-                                            string primaryKeyInstance = primaryKeyElement.Value;
-                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                        }
-                                        
-                                        XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryKeyElement != null)
-                                        {
-                                            string secondaryKeyInstance = secondaryKeyElement.Value;
-                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                        }
-                                    }
-                                }
-                                
-                                XElement statusElement = queueDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (statusElement != null)
-                                {
-                                    string statusInstance = statusElement.Value;
-                                    queueDescriptionInstance.Status = statusInstance;
-                                }
-                                
-                                XElement createdAtElement = queueDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdAtElement != null)
-                                {
-                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
-                                }
-                                
-                                XElement updatedAtElement = queueDescriptionElement.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (updatedAtElement != null)
-                                {
-                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
-                                }
-                                
-                                XElement accessedAtElement = queueDescriptionElement.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (accessedAtElement != null)
-                                {
-                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
-                                }
-                                
-                                XElement supportOrderingElement = queueDescriptionElement.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (supportOrderingElement != null)
-                                {
-                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement.Value);
-                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
-                                }
-                                
-                                XElement countDetailsElement = queueDescriptionElement.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (countDetailsElement != null)
-                                {
-                                    CountDetails countDetailsInstance = new CountDetails();
-                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
-                                    
-                                    XElement activeMessageCountElement = countDetailsElement.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (activeMessageCountElement != null)
-                                    {
-                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
-                                    }
-                                    
-                                    XElement deadLetterMessageCountElement = countDetailsElement.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (deadLetterMessageCountElement != null)
-                                    {
-                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement scheduledMessageCountElement = countDetailsElement.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (scheduledMessageCountElement != null)
-                                    {
-                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferDeadLetterMessageCountElement = countDetailsElement.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferDeadLetterMessageCountElement != null)
-                                    {
-                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferMessageCountElement = countDetailsElement.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferMessageCountElement != null)
-                                    {
-                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
-                                    }
-                                }
-                                
-                                XElement autoDeleteOnIdleElement = queueDescriptionElement.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (autoDeleteOnIdleElement != null)
-                                {
-                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement.Value;
-                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
-                                }
-                                
-                                XElement entityAvailabilityStatusElement = queueDescriptionElement.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (entityAvailabilityStatusElement != null)
-                                {
-                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement.Value;
-                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A response to a request for a particular queue.
-        /// </returns>
-        public async Task<ServiceBusQueueResponse> UpdateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("queue", queue);
-                Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/queues/" + queue.Name + "/";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("if-match", "*");
-                httpRequest.Headers.Add("type", "entry");
-                httpRequest.Headers.Add("x-process-at", "ServiceBus");
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                if (queue != null)
-                {
-                    XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    requestDoc.Add(entryElement);
-                    
-                    XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                    entryElement.Add(contentElement);
-                    
-                    XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
-                    typeAttribute.Value = "application/atom+xml;type=entry;charset=utf-8";
-                    contentElement.Add(typeAttribute);
-                    
-                    XElement queueDescriptionElement = new XElement(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    contentElement.Add(queueDescriptionElement);
-                    
-                    if (queue.LockDuration != null)
-                    {
-                        XElement lockDurationElement = new XElement(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        lockDurationElement.Value = queue.LockDuration;
-                        queueDescriptionElement.Add(lockDurationElement);
-                    }
-                    
-                    XElement maxSizeInMegabytesElement = new XElement(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    maxSizeInMegabytesElement.Value = queue.MaxSizeInMegabytes.ToString();
-                    queueDescriptionElement.Add(maxSizeInMegabytesElement);
-                    
-                    XElement requiresDuplicateDetectionElement = new XElement(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    requiresDuplicateDetectionElement.Value = queue.RequiresDuplicateDetection.ToString().ToLower();
-                    queueDescriptionElement.Add(requiresDuplicateDetectionElement);
-                    
-                    XElement requiresSessionElement = new XElement(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    requiresSessionElement.Value = queue.RequiresSession.ToString().ToLower();
-                    queueDescriptionElement.Add(requiresSessionElement);
-                    
-                    if (queue.DefaultMessageTimeToLive != null)
-                    {
-                        XElement defaultMessageTimeToLiveElement = new XElement(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        defaultMessageTimeToLiveElement.Value = queue.DefaultMessageTimeToLive;
-                        queueDescriptionElement.Add(defaultMessageTimeToLiveElement);
-                    }
-                    
-                    XElement deadLetteringOnMessageExpirationElement = new XElement(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    deadLetteringOnMessageExpirationElement.Value = queue.DeadLetteringOnMessageExpiration.ToString().ToLower();
-                    queueDescriptionElement.Add(deadLetteringOnMessageExpirationElement);
-                    
-                    if (queue.DuplicateDetectionHistoryTimeWindow != null)
-                    {
-                        XElement duplicateDetectionHistoryTimeWindowElement = new XElement(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        duplicateDetectionHistoryTimeWindowElement.Value = queue.DuplicateDetectionHistoryTimeWindow;
-                        queueDescriptionElement.Add(duplicateDetectionHistoryTimeWindowElement);
-                    }
-                    
-                    XElement maxDeliveryCountElement = new XElement(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    maxDeliveryCountElement.Value = queue.MaxDeliveryCount.ToString();
-                    queueDescriptionElement.Add(maxDeliveryCountElement);
-                    
-                    XElement enableBatchedOperationsElement = new XElement(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    enableBatchedOperationsElement.Value = queue.EnableBatchedOperations.ToString().ToLower();
-                    queueDescriptionElement.Add(enableBatchedOperationsElement);
-                    
-                    XElement sizeInBytesElement = new XElement(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    sizeInBytesElement.Value = queue.SizeInBytes.ToString();
-                    queueDescriptionElement.Add(sizeInBytesElement);
-                    
-                    XElement messageCountElement = new XElement(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    messageCountElement.Value = queue.MessageCount.ToString();
-                    queueDescriptionElement.Add(messageCountElement);
-                    
-                    XElement isAnonymousAccessibleElement = new XElement(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    isAnonymousAccessibleElement.Value = queue.IsAnonymousAccessible.ToString().ToLower();
-                    queueDescriptionElement.Add(isAnonymousAccessibleElement);
-                    
-                    if (queue.AuthorizationRules != null)
-                    {
-                        XElement authorizationRulesSequenceElement = new XElement(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        foreach (ServiceBusSharedAccessAuthorizationRule authorizationRulesItem in queue.AuthorizationRules)
-                        {
-                            XElement authorizationRuleElement = new XElement(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            authorizationRulesSequenceElement.Add(authorizationRuleElement);
-                            
-                            XAttribute typeAttribute2 = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
-                            typeAttribute2.Value = "SharedAccessAuthorizationRule";
-                            authorizationRuleElement.Add(typeAttribute2);
-                            
-                            if (authorizationRulesItem.ClaimType != null)
-                            {
-                                XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                claimTypeElement.Value = authorizationRulesItem.ClaimType;
-                                authorizationRuleElement.Add(claimTypeElement);
-                            }
-                            
-                            if (authorizationRulesItem.ClaimValue != null)
-                            {
-                                XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                claimValueElement.Value = authorizationRulesItem.ClaimValue;
-                                authorizationRuleElement.Add(claimValueElement);
-                            }
-                            
-                            if (authorizationRulesItem.Rights != null)
-                            {
-                                XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                foreach (AccessRight rightsItem in authorizationRulesItem.Rights)
-                                {
-                                    XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    rightsItemElement.Value = rightsItem.ToString();
-                                    rightsSequenceElement.Add(rightsItemElement);
-                                }
-                                authorizationRuleElement.Add(rightsSequenceElement);
-                            }
-                            
-                            XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            createdTimeElement.Value = authorizationRulesItem.CreatedTime.ToString();
-                            authorizationRuleElement.Add(createdTimeElement);
-                            
-                            if (authorizationRulesItem.KeyName != null)
-                            {
-                                XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                keyNameElement.Value = authorizationRulesItem.KeyName;
-                                authorizationRuleElement.Add(keyNameElement);
-                            }
-                            
-                            XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            modifiedTimeElement.Value = authorizationRulesItem.ModifiedTime.ToString();
-                            authorizationRuleElement.Add(modifiedTimeElement);
-                            
-                            if (authorizationRulesItem.PrimaryKey != null)
-                            {
-                                XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                primaryKeyElement.Value = authorizationRulesItem.PrimaryKey;
-                                authorizationRuleElement.Add(primaryKeyElement);
-                            }
-                            
-                            if (authorizationRulesItem.SecondaryKey != null)
-                            {
-                                XElement secondaryKeyElement = new XElement(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                secondaryKeyElement.Value = authorizationRulesItem.SecondaryKey;
-                                authorizationRuleElement.Add(secondaryKeyElement);
-                            }
-                        }
-                        queueDescriptionElement.Add(authorizationRulesSequenceElement);
-                    }
-                    
-                    if (queue.Status != null)
-                    {
-                        XElement statusElement = new XElement(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        statusElement.Value = queue.Status;
-                        queueDescriptionElement.Add(statusElement);
-                    }
-                    
-                    XElement createdAtElement = new XElement(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    createdAtElement.Value = queue.CreatedAt.ToString();
-                    queueDescriptionElement.Add(createdAtElement);
-                    
-                    XElement updatedAtElement = new XElement(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    updatedAtElement.Value = queue.UpdatedAt.ToString();
-                    queueDescriptionElement.Add(updatedAtElement);
-                    
-                    XElement accessedAtElement = new XElement(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    accessedAtElement.Value = queue.AccessedAt.ToString();
-                    queueDescriptionElement.Add(accessedAtElement);
-                    
-                    XElement supportOrderingElement = new XElement(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                    supportOrderingElement.Value = queue.SupportOrdering.ToString().ToLower();
-                    queueDescriptionElement.Add(supportOrderingElement);
-                    
-                    if (queue.CountDetails != null)
-                    {
-                        XElement countDetailsElement = new XElement(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        queueDescriptionElement.Add(countDetailsElement);
-                        
-                        XElement activeMessageCountElement = new XElement(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                        activeMessageCountElement.Value = queue.CountDetails.ActiveMessageCount.ToString();
-                        countDetailsElement.Add(activeMessageCountElement);
-                        
-                        XElement deadLetterMessageCountElement = new XElement(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                        deadLetterMessageCountElement.Value = queue.CountDetails.DeadLetterMessageCount.ToString();
-                        countDetailsElement.Add(deadLetterMessageCountElement);
-                        
-                        XElement scheduledMessageCountElement = new XElement(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                        scheduledMessageCountElement.Value = queue.CountDetails.ScheduledMessageCount.ToString();
-                        countDetailsElement.Add(scheduledMessageCountElement);
-                        
-                        XElement transferDeadLetterMessageCountElement = new XElement(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                        transferDeadLetterMessageCountElement.Value = queue.CountDetails.TransferDeadLetterMessageCount.ToString();
-                        countDetailsElement.Add(transferDeadLetterMessageCountElement);
-                        
-                        XElement transferMessageCountElement = new XElement(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                        transferMessageCountElement.Value = queue.CountDetails.TransferMessageCount.ToString();
-                        countDetailsElement.Add(transferMessageCountElement);
-                    }
-                    
-                    if (queue.AutoDeleteOnIdle != null)
-                    {
-                        XElement autoDeleteOnIdleElement = new XElement(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        autoDeleteOnIdleElement.Value = queue.AutoDeleteOnIdle;
-                        queueDescriptionElement.Add(autoDeleteOnIdleElement);
-                    }
-                    
-                    if (queue.EntityAvailabilityStatus != null)
-                    {
-                        XElement entityAvailabilityStatusElement = new XElement(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                        entityAvailabilityStatusElement.Value = queue.EntityAvailabilityStatus;
-                        queueDescriptionElement.Add(entityAvailabilityStatusElement);
-                    }
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
-                    if (entryElement2 != null)
-                    {
-                        XElement titleElement = entryElement2.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
-                        if (titleElement != null)
-                        {
-                        }
-                        
-                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                        if (contentElement2 != null)
-                        {
-                            XElement queueDescriptionElement2 = contentElement2.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                            if (queueDescriptionElement2 != null)
-                            {
-                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
-                                result.Queue = queueDescriptionInstance;
-                                
-                                XElement lockDurationElement2 = queueDescriptionElement2.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (lockDurationElement2 != null)
-                                {
-                                    string lockDurationInstance = lockDurationElement2.Value;
-                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
-                                }
-                                
-                                XElement maxSizeInMegabytesElement2 = queueDescriptionElement2.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxSizeInMegabytesElement2 != null)
-                                {
-                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
-                                }
-                                
-                                XElement requiresDuplicateDetectionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresDuplicateDetectionElement2 != null)
-                                {
-                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement2.Value);
-                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
-                                }
-                                
-                                XElement requiresSessionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (requiresSessionElement2 != null)
-                                {
-                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement2.Value);
-                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
-                                }
-                                
-                                XElement defaultMessageTimeToLiveElement2 = queueDescriptionElement2.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (defaultMessageTimeToLiveElement2 != null)
-                                {
-                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement2.Value;
-                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
-                                }
-                                
-                                XElement deadLetteringOnMessageExpirationElement2 = queueDescriptionElement2.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (deadLetteringOnMessageExpirationElement2 != null)
-                                {
-                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement2.Value);
-                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
-                                }
-                                
-                                XElement duplicateDetectionHistoryTimeWindowElement2 = queueDescriptionElement2.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (duplicateDetectionHistoryTimeWindowElement2 != null)
-                                {
-                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement2.Value;
-                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
-                                }
-                                
-                                XElement maxDeliveryCountElement2 = queueDescriptionElement2.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (maxDeliveryCountElement2 != null)
-                                {
-                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
-                                }
-                                
-                                XElement enableBatchedOperationsElement2 = queueDescriptionElement2.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (enableBatchedOperationsElement2 != null)
-                                {
-                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement2.Value);
-                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
-                                }
-                                
-                                XElement sizeInBytesElement2 = queueDescriptionElement2.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (sizeInBytesElement2 != null)
-                                {
-                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
-                                }
-                                
-                                XElement messageCountElement2 = queueDescriptionElement2.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (messageCountElement2 != null)
-                                {
-                                    int messageCountInstance = int.Parse(messageCountElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.MessageCount = messageCountInstance;
-                                }
-                                
-                                XElement isAnonymousAccessibleElement2 = queueDescriptionElement2.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (isAnonymousAccessibleElement2 != null)
-                                {
-                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement2.Value);
-                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
-                                }
-                                
-                                XElement authorizationRulesSequenceElement2 = queueDescriptionElement2.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (authorizationRulesSequenceElement2 != null)
-                                {
-                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement2.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                    {
-                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
-                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
-                                        
-                                        XElement claimTypeElement2 = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimTypeElement2 != null)
-                                        {
-                                            string claimTypeInstance = claimTypeElement2.Value;
-                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
-                                        }
-                                        
-                                        XElement claimValueElement2 = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (claimValueElement2 != null)
-                                        {
-                                            string claimValueInstance = claimValueElement2.Value;
-                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement2 = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement2 != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
-                                        }
-                                        
-                                        XElement createdTimeElement2 = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (createdTimeElement2 != null)
-                                        {
-                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
-                                        }
-                                        
-                                        XElement keyNameElement2 = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement2 != null)
-                                        {
-                                            string keyNameInstance = keyNameElement2.Value;
-                                            authorizationRuleInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement modifiedTimeElement2 = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (modifiedTimeElement2 != null)
-                                        {
-                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
-                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
-                                        }
-                                        
-                                        XElement primaryKeyElement2 = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (primaryKeyElement2 != null)
-                                        {
-                                            string primaryKeyInstance = primaryKeyElement2.Value;
-                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
-                                        }
-                                        
-                                        XElement secondaryKeyElement2 = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (secondaryKeyElement2 != null)
-                                        {
-                                            string secondaryKeyInstance = secondaryKeyElement2.Value;
-                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
-                                        }
-                                    }
-                                }
-                                
-                                XElement statusElement2 = queueDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (statusElement2 != null)
-                                {
-                                    string statusInstance = statusElement2.Value;
-                                    queueDescriptionInstance.Status = statusInstance;
-                                }
-                                
-                                XElement createdAtElement2 = queueDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (createdAtElement2 != null)
-                                {
-                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
-                                }
-                                
-                                XElement updatedAtElement2 = queueDescriptionElement2.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (updatedAtElement2 != null)
-                                {
-                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
-                                }
-                                
-                                XElement accessedAtElement2 = queueDescriptionElement2.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (accessedAtElement2 != null)
-                                {
-                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement2.Value, CultureInfo.InvariantCulture);
-                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
-                                }
-                                
-                                XElement supportOrderingElement2 = queueDescriptionElement2.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (supportOrderingElement2 != null)
-                                {
-                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement2.Value);
-                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
-                                }
-                                
-                                XElement countDetailsElement2 = queueDescriptionElement2.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (countDetailsElement2 != null)
-                                {
-                                    CountDetails countDetailsInstance = new CountDetails();
-                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
-                                    
-                                    XElement activeMessageCountElement2 = countDetailsElement2.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (activeMessageCountElement2 != null)
-                                    {
-                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
-                                    }
-                                    
-                                    XElement deadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (deadLetterMessageCountElement2 != null)
-                                    {
-                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement scheduledMessageCountElement2 = countDetailsElement2.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (scheduledMessageCountElement2 != null)
-                                    {
-                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferDeadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferDeadLetterMessageCountElement2 != null)
-                                    {
-                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
-                                    }
-                                    
-                                    XElement transferMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
-                                    if (transferMessageCountElement2 != null)
-                                    {
-                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement2.Value, CultureInfo.InvariantCulture);
-                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
-                                    }
-                                }
-                                
-                                XElement autoDeleteOnIdleElement2 = queueDescriptionElement2.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (autoDeleteOnIdleElement2 != null)
-                                {
-                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement2.Value;
-                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
-                                }
-                                
-                                XElement entityAvailabilityStatusElement2 = queueDescriptionElement2.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                if (entityAvailabilityStatusElement2 != null)
-                                {
-                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement2.Value;
-                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus relays.
-    /// </summary>
-    public partial interface IRelayOperations
-    {
-        /// <summary>
-        /// Gets the set of connection strings for a relay.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string relayName, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus relays.
-    /// </summary>
-    public static partial class RelayOperationsExtensions
-    {
-        /// <summary>
-        /// Gets the set of connection strings for a relay.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IRelayOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this IRelayOperations operations, string namespaceName, string relayName)
-        {
-            try
-            {
-                return operations.GetConnectionDetailsAsync(namespaceName, relayName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Gets the set of connection strings for a relay.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.IRelayOperations.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this IRelayOperations operations, string namespaceName, string relayName)
-        {
-            return operations.GetConnectionDetailsAsync(namespaceName, relayName, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The Service Bus Management API includes operations for managing Service
-    /// Bus relays.
-    /// </summary>
-    internal partial class RelayOperations : IServiceOperations<ServiceBusManagementClient>, IRelayOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the RelayOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal RelayOperations(ServiceBusManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ServiceBusManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
-        /// </summary>
-        public ServiceBusManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// Gets the set of connection strings for a relay.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The set of connection details for a service bus entity.
-        /// </returns>
-        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string relayName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("namespaceName", namespaceName);
-                tracingParameters.Add("relayName", relayName);
-                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Relays/" + relayName + "/ConnectionDetails";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
-                    if (feedElement != null)
-                    {
-                        if (feedElement != null)
-                        {
-                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
-                            {
-                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
-                                result.ConnectionDetails.Add(entryInstance);
-                                
-                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
-                                if (contentElement != null)
-                                {
-                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                    if (connectionDetailElement != null)
-                                    {
-                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (keyNameElement != null)
-                                        {
-                                            string keyNameInstance = keyNameElement.Value;
-                                            entryInstance.KeyName = keyNameInstance;
-                                        }
-                                        
-                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (connectionStringElement != null)
-                                        {
-                                            string connectionStringInstance = connectionStringElement.Value;
-                                            entryInstance.ConnectionString = connectionStringInstance;
-                                        }
-                                        
-                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (authorizationTypeElement != null)
-                                        {
-                                            string authorizationTypeInstance = authorizationTypeElement.Value;
-                                            entryInstance.AuthorizationType = authorizationTypeInstance;
-                                        }
-                                        
-                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
-                                        if (rightsSequenceElement != null)
-                                        {
-                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
-                                            {
-                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
-                                            }
                                         }
                                     }
                                 }
@@ -10485,9 +4209,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
+                httpRequest.Headers.Add("if-match", "*");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
                 httpRequest.Headers.Add("x-process-at", "ServiceBus");
-                httpRequest.Headers.Add("if-match", "*");
                 httpRequest.Headers.Add("type", "entry");
                 
                 // Set Credentials
@@ -10934,6 +4658,6282 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                                 {
                                     string entityAvailabilityStatusInstance = entityAvailabilityStatusElement2.Value;
                                     topicDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus relays.
+    /// </summary>
+    public partial interface IRelayOperations
+    {
+        /// <summary>
+        /// Gets the set of connection strings for a relay.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string relayName, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus relays.
+    /// </summary>
+    public static partial class RelayOperationsExtensions
+    {
+        /// <summary>
+        /// Gets the set of connection strings for a relay.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IRelayOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this IRelayOperations operations, string namespaceName, string relayName)
+        {
+            try
+            {
+                return operations.GetConnectionDetailsAsync(namespaceName, relayName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets the set of connection strings for a relay.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IRelayOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this IRelayOperations operations, string namespaceName, string relayName)
+        {
+            return operations.GetConnectionDetailsAsync(namespaceName, relayName, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus relays.
+    /// </summary>
+    internal partial class RelayOperations : IServiceOperations<ServiceBusManagementClient>, IRelayOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the RelayOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal RelayOperations(ServiceBusManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ServiceBusManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
+        /// </summary>
+        public ServiceBusManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// Gets the set of connection strings for a relay.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string relayName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("relayName", relayName);
+                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Relays/" + relayName + "/ConnectionDetails";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
+                                result.ConnectionDetails.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (connectionDetailElement != null)
+                                    {
+                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            entryInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (connectionStringElement != null)
+                                        {
+                                            string connectionStringInstance = connectionStringElement.Value;
+                                            entryInstance.ConnectionString = connectionStringInstance;
+                                        }
+                                        
+                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationTypeElement != null)
+                                        {
+                                            string authorizationTypeInstance = authorizationTypeElement.Value;
+                                            entryInstance.AuthorizationType = authorizationTypeInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    public partial interface IQueueOperations
+    {
+        /// <summary>
+        /// Creates a new queue. Once created, this queue’s resource manifest
+        /// is immutable. This operation is idempotent. Repeating the create
+        /// call, after a queue with same name has been created successfully,
+        /// will result in a 409 Conflict error message.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        Task<ServiceBusQueueResponse> CreateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Gets the set of connection strings for a queue.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string queueName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Enumerates the queues in the service namespace. The result is
+        /// returned in pages, each containing up to 100 queues. If the
+        /// namespace contains more than 100 queues, a feed is returned that
+        /// contains the first page and a next link with the URI to view the
+        /// next page of data.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of queues.
+        /// </returns>
+        Task<ServiceBusQueuesResponse> ListAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The queue description is an XML AtomPub document that defines the
+        /// desired semantics for a subscription. The queue description
+        /// contains the following properties. For more information, see the
+        /// QueueDescription Properties topic.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        Task<ServiceBusQueueResponse> GetAsync(string namespaceName, string queueName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Updates the queue description and sends the updates status to the
+        /// FE/BE to update corresponding DB entries.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        Task<ServiceBusQueueResponse> UpdateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    public static partial class QueueOperationsExtensions
+    {
+        /// <summary>
+        /// Creates a new queue. Once created, this queue’s resource manifest
+        /// is immutable. This operation is idempotent. Repeating the create
+        /// call, after a queue with same name has been created successfully,
+        /// will result in a 409 Conflict error message.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static ServiceBusQueueResponse Create(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
+        {
+            try
+            {
+                return operations.CreateAsync(namespaceName, queue).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Creates a new queue. Once created, this queue’s resource manifest
+        /// is immutable. This operation is idempotent. Repeating the create
+        /// call, after a queue with same name has been created successfully,
+        /// will result in a 409 Conflict error message.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static Task<ServiceBusQueueResponse> CreateAsync(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
+        {
+            return operations.CreateAsync(namespaceName, queue, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Gets the set of connection strings for a queue.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this IQueueOperations operations, string namespaceName, string queueName)
+        {
+            try
+            {
+                return operations.GetConnectionDetailsAsync(namespaceName, queueName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets the set of connection strings for a queue.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this IQueueOperations operations, string namespaceName, string queueName)
+        {
+            return operations.GetConnectionDetailsAsync(namespaceName, queueName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Enumerates the queues in the service namespace. The result is
+        /// returned in pages, each containing up to 100 queues. If the
+        /// namespace contains more than 100 queues, a feed is returned that
+        /// contains the first page and a next link with the URI to view the
+        /// next page of data.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of queues.
+        /// </returns>
+        public static ServiceBusQueuesResponse List(this IQueueOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.ListAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Enumerates the queues in the service namespace. The result is
+        /// returned in pages, each containing up to 100 queues. If the
+        /// namespace contains more than 100 queues, a feed is returned that
+        /// contains the first page and a next link with the URI to view the
+        /// next page of data.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of queues.
+        /// </returns>
+        public static Task<ServiceBusQueuesResponse> ListAsync(this IQueueOperations operations, string namespaceName)
+        {
+            return operations.ListAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The queue description is an XML AtomPub document that defines the
+        /// desired semantics for a subscription. The queue description
+        /// contains the following properties. For more information, see the
+        /// QueueDescription Properties topic.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static ServiceBusQueueResponse Get(this IQueueOperations operations, string namespaceName, string queueName)
+        {
+            try
+            {
+                return operations.GetAsync(namespaceName, queueName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The queue description is an XML AtomPub document that defines the
+        /// desired semantics for a subscription. The queue description
+        /// contains the following properties. For more information, see the
+        /// QueueDescription Properties topic.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static Task<ServiceBusQueueResponse> GetAsync(this IQueueOperations operations, string namespaceName, string queueName)
+        {
+            return operations.GetAsync(namespaceName, queueName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Updates the queue description and sends the updates status to the
+        /// FE/BE to update corresponding DB entries.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static ServiceBusQueueResponse Update(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
+        {
+            try
+            {
+                return operations.UpdateAsync(namespaceName, queue).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Updates the queue description and sends the updates status to the
+        /// FE/BE to update corresponding DB entries.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.IQueueOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public static Task<ServiceBusQueueResponse> UpdateAsync(this IQueueOperations operations, string namespaceName, ServiceBusQueue queue)
+        {
+            return operations.UpdateAsync(namespaceName, queue, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    internal partial class QueueOperations : IServiceOperations<ServiceBusManagementClient>, IQueueOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the QueueOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal QueueOperations(ServiceBusManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ServiceBusManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
+        /// </summary>
+        public ServiceBusManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// Creates a new queue. Once created, this queue’s resource manifest
+        /// is immutable. This operation is idempotent. Repeating the create
+        /// call, after a queue with same name has been created successfully,
+        /// will result in a 409 Conflict error message.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856295.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public async Task<ServiceBusQueueResponse> CreateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (namespaceName == null)
+            {
+                throw new ArgumentNullException("namespaceName");
+            }
+            if (queue == null)
+            {
+                throw new ArgumentNullException("queue");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("queue", queue);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/queues/" + queue.Name + "/";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("x-process-at", "ServiceBus");
+                httpRequest.Headers.Add("type", "entry");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                requestDoc.Add(entryElement);
+                
+                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                entryElement.Add(contentElement);
+                
+                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
+                typeAttribute.Value = "application/atom+xml;type=entry;charset=utf-8";
+                contentElement.Add(typeAttribute);
+                
+                XElement queueDescriptionElement = new XElement(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                contentElement.Add(queueDescriptionElement);
+                
+                if (queue.LockDuration != null)
+                {
+                    XElement lockDurationElement = new XElement(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    lockDurationElement.Value = queue.LockDuration;
+                    queueDescriptionElement.Add(lockDurationElement);
+                }
+                
+                XElement maxSizeInMegabytesElement = new XElement(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                maxSizeInMegabytesElement.Value = queue.MaxSizeInMegabytes.ToString();
+                queueDescriptionElement.Add(maxSizeInMegabytesElement);
+                
+                XElement requiresDuplicateDetectionElement = new XElement(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                requiresDuplicateDetectionElement.Value = queue.RequiresDuplicateDetection.ToString().ToLower();
+                queueDescriptionElement.Add(requiresDuplicateDetectionElement);
+                
+                XElement requiresSessionElement = new XElement(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                requiresSessionElement.Value = queue.RequiresSession.ToString().ToLower();
+                queueDescriptionElement.Add(requiresSessionElement);
+                
+                if (queue.DefaultMessageTimeToLive != null)
+                {
+                    XElement defaultMessageTimeToLiveElement = new XElement(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    defaultMessageTimeToLiveElement.Value = queue.DefaultMessageTimeToLive;
+                    queueDescriptionElement.Add(defaultMessageTimeToLiveElement);
+                }
+                
+                XElement deadLetteringOnMessageExpirationElement = new XElement(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                deadLetteringOnMessageExpirationElement.Value = queue.DeadLetteringOnMessageExpiration.ToString().ToLower();
+                queueDescriptionElement.Add(deadLetteringOnMessageExpirationElement);
+                
+                if (queue.DuplicateDetectionHistoryTimeWindow != null)
+                {
+                    XElement duplicateDetectionHistoryTimeWindowElement = new XElement(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    duplicateDetectionHistoryTimeWindowElement.Value = queue.DuplicateDetectionHistoryTimeWindow;
+                    queueDescriptionElement.Add(duplicateDetectionHistoryTimeWindowElement);
+                }
+                
+                XElement maxDeliveryCountElement = new XElement(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                maxDeliveryCountElement.Value = queue.MaxDeliveryCount.ToString();
+                queueDescriptionElement.Add(maxDeliveryCountElement);
+                
+                XElement enableBatchedOperationsElement = new XElement(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                enableBatchedOperationsElement.Value = queue.EnableBatchedOperations.ToString().ToLower();
+                queueDescriptionElement.Add(enableBatchedOperationsElement);
+                
+                XElement sizeInBytesElement = new XElement(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                sizeInBytesElement.Value = queue.SizeInBytes.ToString();
+                queueDescriptionElement.Add(sizeInBytesElement);
+                
+                XElement messageCountElement = new XElement(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                messageCountElement.Value = queue.MessageCount.ToString();
+                queueDescriptionElement.Add(messageCountElement);
+                
+                XElement isAnonymousAccessibleElement = new XElement(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                isAnonymousAccessibleElement.Value = queue.IsAnonymousAccessible.ToString().ToLower();
+                queueDescriptionElement.Add(isAnonymousAccessibleElement);
+                
+                if (queue.AuthorizationRules != null)
+                {
+                    XElement authorizationRulesSequenceElement = new XElement(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    foreach (ServiceBusSharedAccessAuthorizationRule authorizationRulesItem in queue.AuthorizationRules)
+                    {
+                        XElement authorizationRuleElement = new XElement(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        authorizationRulesSequenceElement.Add(authorizationRuleElement);
+                        
+                        XAttribute typeAttribute2 = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                        typeAttribute2.Value = "SharedAccessAuthorizationRule";
+                        authorizationRuleElement.Add(typeAttribute2);
+                        
+                        if (authorizationRulesItem.ClaimType != null)
+                        {
+                            XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            claimTypeElement.Value = authorizationRulesItem.ClaimType;
+                            authorizationRuleElement.Add(claimTypeElement);
+                        }
+                        
+                        if (authorizationRulesItem.ClaimValue != null)
+                        {
+                            XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            claimValueElement.Value = authorizationRulesItem.ClaimValue;
+                            authorizationRuleElement.Add(claimValueElement);
+                        }
+                        
+                        if (authorizationRulesItem.Rights != null)
+                        {
+                            XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            foreach (AccessRight rightsItem in authorizationRulesItem.Rights)
+                            {
+                                XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                rightsItemElement.Value = rightsItem.ToString();
+                                rightsSequenceElement.Add(rightsItemElement);
+                            }
+                            authorizationRuleElement.Add(rightsSequenceElement);
+                        }
+                        
+                        XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        createdTimeElement.Value = authorizationRulesItem.CreatedTime.ToString();
+                        authorizationRuleElement.Add(createdTimeElement);
+                        
+                        if (authorizationRulesItem.KeyName != null)
+                        {
+                            XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            keyNameElement.Value = authorizationRulesItem.KeyName;
+                            authorizationRuleElement.Add(keyNameElement);
+                        }
+                        
+                        XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        modifiedTimeElement.Value = authorizationRulesItem.ModifiedTime.ToString();
+                        authorizationRuleElement.Add(modifiedTimeElement);
+                        
+                        if (authorizationRulesItem.PrimaryKey != null)
+                        {
+                            XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            primaryKeyElement.Value = authorizationRulesItem.PrimaryKey;
+                            authorizationRuleElement.Add(primaryKeyElement);
+                        }
+                        
+                        if (authorizationRulesItem.SecondaryKey != null)
+                        {
+                            XElement secondaryKeyElement = new XElement(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            secondaryKeyElement.Value = authorizationRulesItem.SecondaryKey;
+                            authorizationRuleElement.Add(secondaryKeyElement);
+                        }
+                    }
+                    queueDescriptionElement.Add(authorizationRulesSequenceElement);
+                }
+                
+                if (queue.Status != null)
+                {
+                    XElement statusElement = new XElement(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    statusElement.Value = queue.Status;
+                    queueDescriptionElement.Add(statusElement);
+                }
+                
+                XElement createdAtElement = new XElement(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                createdAtElement.Value = queue.CreatedAt.ToString();
+                queueDescriptionElement.Add(createdAtElement);
+                
+                XElement updatedAtElement = new XElement(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                updatedAtElement.Value = queue.UpdatedAt.ToString();
+                queueDescriptionElement.Add(updatedAtElement);
+                
+                XElement accessedAtElement = new XElement(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                accessedAtElement.Value = queue.AccessedAt.ToString();
+                queueDescriptionElement.Add(accessedAtElement);
+                
+                XElement supportOrderingElement = new XElement(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                supportOrderingElement.Value = queue.SupportOrdering.ToString().ToLower();
+                queueDescriptionElement.Add(supportOrderingElement);
+                
+                if (queue.CountDetails != null)
+                {
+                    XElement countDetailsElement = new XElement(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    queueDescriptionElement.Add(countDetailsElement);
+                    
+                    XElement activeMessageCountElement = new XElement(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                    activeMessageCountElement.Value = queue.CountDetails.ActiveMessageCount.ToString();
+                    countDetailsElement.Add(activeMessageCountElement);
+                    
+                    XElement deadLetterMessageCountElement = new XElement(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                    deadLetterMessageCountElement.Value = queue.CountDetails.DeadLetterMessageCount.ToString();
+                    countDetailsElement.Add(deadLetterMessageCountElement);
+                    
+                    XElement scheduledMessageCountElement = new XElement(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                    scheduledMessageCountElement.Value = queue.CountDetails.ScheduledMessageCount.ToString();
+                    countDetailsElement.Add(scheduledMessageCountElement);
+                    
+                    XElement transferDeadLetterMessageCountElement = new XElement(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                    transferDeadLetterMessageCountElement.Value = queue.CountDetails.TransferDeadLetterMessageCount.ToString();
+                    countDetailsElement.Add(transferDeadLetterMessageCountElement);
+                    
+                    XElement transferMessageCountElement = new XElement(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                    transferMessageCountElement.Value = queue.CountDetails.TransferMessageCount.ToString();
+                    countDetailsElement.Add(transferMessageCountElement);
+                }
+                
+                if (queue.AutoDeleteOnIdle != null)
+                {
+                    XElement autoDeleteOnIdleElement = new XElement(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    autoDeleteOnIdleElement.Value = queue.AutoDeleteOnIdle;
+                    queueDescriptionElement.Add(autoDeleteOnIdleElement);
+                }
+                
+                if (queue.EntityAvailabilityStatus != null)
+                {
+                    XElement entityAvailabilityStatusElement = new XElement(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    entityAvailabilityStatusElement.Value = queue.EntityAvailabilityStatus;
+                    queueDescriptionElement.Add(entityAvailabilityStatusElement);
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Created)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement2 != null)
+                    {
+                        XElement titleElement = entryElement2.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                        if (titleElement != null)
+                        {
+                        }
+                        
+                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement2 != null)
+                        {
+                            XElement queueDescriptionElement2 = contentElement2.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (queueDescriptionElement2 != null)
+                            {
+                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
+                                result.Queue = queueDescriptionInstance;
+                                
+                                XElement lockDurationElement2 = queueDescriptionElement2.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (lockDurationElement2 != null)
+                                {
+                                    string lockDurationInstance = lockDurationElement2.Value;
+                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
+                                }
+                                
+                                XElement maxSizeInMegabytesElement2 = queueDescriptionElement2.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxSizeInMegabytesElement2 != null)
+                                {
+                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
+                                }
+                                
+                                XElement requiresDuplicateDetectionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresDuplicateDetectionElement2 != null)
+                                {
+                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement2.Value);
+                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
+                                }
+                                
+                                XElement requiresSessionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresSessionElement2 != null)
+                                {
+                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement2.Value);
+                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
+                                }
+                                
+                                XElement defaultMessageTimeToLiveElement2 = queueDescriptionElement2.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (defaultMessageTimeToLiveElement2 != null)
+                                {
+                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement2.Value;
+                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
+                                }
+                                
+                                XElement deadLetteringOnMessageExpirationElement2 = queueDescriptionElement2.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (deadLetteringOnMessageExpirationElement2 != null)
+                                {
+                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement2.Value);
+                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
+                                }
+                                
+                                XElement duplicateDetectionHistoryTimeWindowElement2 = queueDescriptionElement2.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (duplicateDetectionHistoryTimeWindowElement2 != null)
+                                {
+                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement2.Value;
+                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
+                                }
+                                
+                                XElement maxDeliveryCountElement2 = queueDescriptionElement2.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxDeliveryCountElement2 != null)
+                                {
+                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
+                                }
+                                
+                                XElement enableBatchedOperationsElement2 = queueDescriptionElement2.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (enableBatchedOperationsElement2 != null)
+                                {
+                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement2.Value);
+                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
+                                }
+                                
+                                XElement sizeInBytesElement2 = queueDescriptionElement2.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (sizeInBytesElement2 != null)
+                                {
+                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
+                                }
+                                
+                                XElement messageCountElement2 = queueDescriptionElement2.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (messageCountElement2 != null)
+                                {
+                                    int messageCountInstance = int.Parse(messageCountElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MessageCount = messageCountInstance;
+                                }
+                                
+                                XElement isAnonymousAccessibleElement2 = queueDescriptionElement2.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (isAnonymousAccessibleElement2 != null)
+                                {
+                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement2.Value);
+                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
+                                }
+                                
+                                XElement authorizationRulesSequenceElement2 = queueDescriptionElement2.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (authorizationRulesSequenceElement2 != null)
+                                {
+                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement2.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                        
+                                        XElement claimTypeElement2 = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimTypeElement2 != null)
+                                        {
+                                            string claimTypeInstance = claimTypeElement2.Value;
+                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                        }
+                                        
+                                        XElement claimValueElement2 = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimValueElement2 != null)
+                                        {
+                                            string claimValueInstance = claimValueElement2.Value;
+                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement2 = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement2 != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement createdTimeElement2 = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdTimeElement2 != null)
+                                        {
+                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                        }
+                                        
+                                        XElement keyNameElement2 = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement2 != null)
+                                        {
+                                            string keyNameInstance = keyNameElement2.Value;
+                                            authorizationRuleInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement modifiedTimeElement2 = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (modifiedTimeElement2 != null)
+                                        {
+                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                        }
+                                        
+                                        XElement primaryKeyElement2 = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (primaryKeyElement2 != null)
+                                        {
+                                            string primaryKeyInstance = primaryKeyElement2.Value;
+                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                        }
+                                        
+                                        XElement secondaryKeyElement2 = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryKeyElement2 != null)
+                                        {
+                                            string secondaryKeyInstance = secondaryKeyElement2.Value;
+                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                        }
+                                    }
+                                }
+                                
+                                XElement statusElement2 = queueDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (statusElement2 != null)
+                                {
+                                    string statusInstance = statusElement2.Value;
+                                    queueDescriptionInstance.Status = statusInstance;
+                                }
+                                
+                                XElement createdAtElement2 = queueDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdAtElement2 != null)
+                                {
+                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
+                                }
+                                
+                                XElement updatedAtElement2 = queueDescriptionElement2.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (updatedAtElement2 != null)
+                                {
+                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
+                                }
+                                
+                                XElement accessedAtElement2 = queueDescriptionElement2.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (accessedAtElement2 != null)
+                                {
+                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
+                                }
+                                
+                                XElement supportOrderingElement2 = queueDescriptionElement2.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (supportOrderingElement2 != null)
+                                {
+                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement2.Value);
+                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
+                                }
+                                
+                                XElement countDetailsElement2 = queueDescriptionElement2.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (countDetailsElement2 != null)
+                                {
+                                    CountDetails countDetailsInstance = new CountDetails();
+                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
+                                    
+                                    XElement activeMessageCountElement2 = countDetailsElement2.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (activeMessageCountElement2 != null)
+                                    {
+                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
+                                    }
+                                    
+                                    XElement deadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (deadLetterMessageCountElement2 != null)
+                                    {
+                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement scheduledMessageCountElement2 = countDetailsElement2.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (scheduledMessageCountElement2 != null)
+                                    {
+                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferDeadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferDeadLetterMessageCountElement2 != null)
+                                    {
+                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferMessageCountElement2 != null)
+                                    {
+                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
+                                    }
+                                }
+                                
+                                XElement autoDeleteOnIdleElement2 = queueDescriptionElement2.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (autoDeleteOnIdleElement2 != null)
+                                {
+                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement2.Value;
+                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
+                                }
+                                
+                                XElement entityAvailabilityStatusElement2 = queueDescriptionElement2.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (entityAvailabilityStatusElement2 != null)
+                                {
+                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement2.Value;
+                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets the set of connection strings for a queue.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string queueName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("queueName", queueName);
+                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues/" + queueName + "/ConnectionDetails";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
+                                result.ConnectionDetails.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (connectionDetailElement != null)
+                                    {
+                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            entryInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (connectionStringElement != null)
+                                        {
+                                            string connectionStringInstance = connectionStringElement.Value;
+                                            entryInstance.ConnectionString = connectionStringInstance;
+                                        }
+                                        
+                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationTypeElement != null)
+                                        {
+                                            string authorizationTypeInstance = authorizationTypeElement.Value;
+                                            entryInstance.AuthorizationType = authorizationTypeInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Enumerates the queues in the service namespace. The result is
+        /// returned in pages, each containing up to 100 queues. If the
+        /// namespace contains more than 100 queues, a feed is returned that
+        /// contains the first page and a next link with the URI to view the
+        /// next page of data.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780759.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of queues.
+        /// </returns>
+        public async Task<ServiceBusQueuesResponse> ListAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusQueuesResponse result = new ServiceBusQueuesResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusQueue entryInstance = new ServiceBusQueue();
+                                result.Queues.Add(entryInstance);
+                                
+                                XElement titleElement = entriesElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                                if (titleElement != null)
+                                {
+                                    string titleInstance = titleElement.Value;
+                                    entryInstance.Name = titleInstance;
+                                }
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement queueDescriptionElement = contentElement.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (queueDescriptionElement != null)
+                                    {
+                                        XElement lockDurationElement = queueDescriptionElement.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (lockDurationElement != null)
+                                        {
+                                            string lockDurationInstance = lockDurationElement.Value;
+                                            entryInstance.LockDuration = lockDurationInstance;
+                                        }
+                                        
+                                        XElement maxSizeInMegabytesElement = queueDescriptionElement.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (maxSizeInMegabytesElement != null)
+                                        {
+                                            int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
+                                        }
+                                        
+                                        XElement requiresDuplicateDetectionElement = queueDescriptionElement.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (requiresDuplicateDetectionElement != null)
+                                        {
+                                            bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement.Value);
+                                            entryInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
+                                        }
+                                        
+                                        XElement requiresSessionElement = queueDescriptionElement.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (requiresSessionElement != null)
+                                        {
+                                            bool requiresSessionInstance = bool.Parse(requiresSessionElement.Value);
+                                            entryInstance.RequiresSession = requiresSessionInstance;
+                                        }
+                                        
+                                        XElement defaultMessageTimeToLiveElement = queueDescriptionElement.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (defaultMessageTimeToLiveElement != null)
+                                        {
+                                            string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement.Value;
+                                            entryInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
+                                        }
+                                        
+                                        XElement deadLetteringOnMessageExpirationElement = queueDescriptionElement.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (deadLetteringOnMessageExpirationElement != null)
+                                        {
+                                            bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement.Value);
+                                            entryInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
+                                        }
+                                        
+                                        XElement duplicateDetectionHistoryTimeWindowElement = queueDescriptionElement.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (duplicateDetectionHistoryTimeWindowElement != null)
+                                        {
+                                            string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement.Value;
+                                            entryInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
+                                        }
+                                        
+                                        XElement maxDeliveryCountElement = queueDescriptionElement.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (maxDeliveryCountElement != null)
+                                        {
+                                            int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.MaxDeliveryCount = maxDeliveryCountInstance;
+                                        }
+                                        
+                                        XElement enableBatchedOperationsElement = queueDescriptionElement.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (enableBatchedOperationsElement != null)
+                                        {
+                                            bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement.Value);
+                                            entryInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
+                                        }
+                                        
+                                        XElement sizeInBytesElement = queueDescriptionElement.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (sizeInBytesElement != null)
+                                        {
+                                            int sizeInBytesInstance = int.Parse(sizeInBytesElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.SizeInBytes = sizeInBytesInstance;
+                                        }
+                                        
+                                        XElement messageCountElement = queueDescriptionElement.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (messageCountElement != null)
+                                        {
+                                            int messageCountInstance = int.Parse(messageCountElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.MessageCount = messageCountInstance;
+                                        }
+                                        
+                                        XElement isAnonymousAccessibleElement = queueDescriptionElement.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (isAnonymousAccessibleElement != null)
+                                        {
+                                            bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement.Value);
+                                            entryInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
+                                        }
+                                        
+                                        XElement authorizationRulesSequenceElement = queueDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationRulesSequenceElement != null)
+                                        {
+                                            foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                                entryInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                                
+                                                XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (claimTypeElement != null)
+                                                {
+                                                    string claimTypeInstance = claimTypeElement.Value;
+                                                    authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                                }
+                                                
+                                                XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (claimValueElement != null)
+                                                {
+                                                    string claimValueInstance = claimValueElement.Value;
+                                                    authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                                }
+                                                
+                                                XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (rightsSequenceElement != null)
+                                                {
+                                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                                    {
+                                                        authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                                    }
+                                                }
+                                                
+                                                XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (createdTimeElement != null)
+                                                {
+                                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                                    authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                                }
+                                                
+                                                XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (keyNameElement != null)
+                                                {
+                                                    string keyNameInstance = keyNameElement.Value;
+                                                    authorizationRuleInstance.KeyName = keyNameInstance;
+                                                }
+                                                
+                                                XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (modifiedTimeElement != null)
+                                                {
+                                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                                    authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                                }
+                                                
+                                                XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (primaryKeyElement != null)
+                                                {
+                                                    string primaryKeyInstance = primaryKeyElement.Value;
+                                                    authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                                }
+                                                
+                                                XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (secondaryKeyElement != null)
+                                                {
+                                                    string secondaryKeyInstance = secondaryKeyElement.Value;
+                                                    authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                                }
+                                            }
+                                        }
+                                        
+                                        XElement statusElement = queueDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (statusElement != null)
+                                        {
+                                            string statusInstance = statusElement.Value;
+                                            entryInstance.Status = statusInstance;
+                                        }
+                                        
+                                        XElement createdAtElement = queueDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdAtElement != null)
+                                        {
+                                            DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.CreatedAt = createdAtInstance;
+                                        }
+                                        
+                                        XElement updatedAtElement = queueDescriptionElement.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (updatedAtElement != null)
+                                        {
+                                            DateTime updatedAtInstance = DateTime.Parse(updatedAtElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.UpdatedAt = updatedAtInstance;
+                                        }
+                                        
+                                        XElement accessedAtElement = queueDescriptionElement.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (accessedAtElement != null)
+                                        {
+                                            DateTime accessedAtInstance = DateTime.Parse(accessedAtElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.AccessedAt = accessedAtInstance;
+                                        }
+                                        
+                                        XElement supportOrderingElement = queueDescriptionElement.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (supportOrderingElement != null)
+                                        {
+                                            bool supportOrderingInstance = bool.Parse(supportOrderingElement.Value);
+                                            entryInstance.SupportOrdering = supportOrderingInstance;
+                                        }
+                                        
+                                        XElement countDetailsElement = queueDescriptionElement.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (countDetailsElement != null)
+                                        {
+                                            CountDetails countDetailsInstance = new CountDetails();
+                                            entryInstance.CountDetails = countDetailsInstance;
+                                            
+                                            XElement activeMessageCountElement = countDetailsElement.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                            if (activeMessageCountElement != null)
+                                            {
+                                                int activeMessageCountInstance = int.Parse(activeMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                                countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
+                                            }
+                                            
+                                            XElement deadLetterMessageCountElement = countDetailsElement.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                            if (deadLetterMessageCountElement != null)
+                                            {
+                                                int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                                countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
+                                            }
+                                            
+                                            XElement scheduledMessageCountElement = countDetailsElement.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                            if (scheduledMessageCountElement != null)
+                                            {
+                                                int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                                countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
+                                            }
+                                            
+                                            XElement transferDeadLetterMessageCountElement = countDetailsElement.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                            if (transferDeadLetterMessageCountElement != null)
+                                            {
+                                                int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                                countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
+                                            }
+                                            
+                                            XElement transferMessageCountElement = countDetailsElement.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                            if (transferMessageCountElement != null)
+                                            {
+                                                int transferMessageCountInstance = int.Parse(transferMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                                countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
+                                            }
+                                        }
+                                        
+                                        XElement autoDeleteOnIdleElement = queueDescriptionElement.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (autoDeleteOnIdleElement != null)
+                                        {
+                                            string autoDeleteOnIdleInstance = autoDeleteOnIdleElement.Value;
+                                            entryInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
+                                        }
+                                        
+                                        XElement entityAvailabilityStatusElement = queueDescriptionElement.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (entityAvailabilityStatusElement != null)
+                                        {
+                                            string entityAvailabilityStatusInstance = entityAvailabilityStatusElement.Value;
+                                            entryInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The queue description is an XML AtomPub document that defines the
+        /// desired semantics for a subscription. The queue description
+        /// contains the following properties. For more information, see the
+        /// QueueDescription Properties topic.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh780773.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public async Task<ServiceBusQueueResponse> GetAsync(string namespaceName, string queueName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("queueName", queueName);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/Queues/" + queueName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement != null)
+                    {
+                        XElement titleElement = entryElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                        if (titleElement != null)
+                        {
+                        }
+                        
+                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement != null)
+                        {
+                            XElement queueDescriptionElement = contentElement.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (queueDescriptionElement != null)
+                            {
+                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
+                                result.Queue = queueDescriptionInstance;
+                                
+                                XElement lockDurationElement = queueDescriptionElement.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (lockDurationElement != null)
+                                {
+                                    string lockDurationInstance = lockDurationElement.Value;
+                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
+                                }
+                                
+                                XElement maxSizeInMegabytesElement = queueDescriptionElement.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxSizeInMegabytesElement != null)
+                                {
+                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
+                                }
+                                
+                                XElement requiresDuplicateDetectionElement = queueDescriptionElement.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresDuplicateDetectionElement != null)
+                                {
+                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement.Value);
+                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
+                                }
+                                
+                                XElement requiresSessionElement = queueDescriptionElement.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresSessionElement != null)
+                                {
+                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement.Value);
+                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
+                                }
+                                
+                                XElement defaultMessageTimeToLiveElement = queueDescriptionElement.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (defaultMessageTimeToLiveElement != null)
+                                {
+                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement.Value;
+                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
+                                }
+                                
+                                XElement deadLetteringOnMessageExpirationElement = queueDescriptionElement.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (deadLetteringOnMessageExpirationElement != null)
+                                {
+                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement.Value);
+                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
+                                }
+                                
+                                XElement duplicateDetectionHistoryTimeWindowElement = queueDescriptionElement.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (duplicateDetectionHistoryTimeWindowElement != null)
+                                {
+                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement.Value;
+                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
+                                }
+                                
+                                XElement maxDeliveryCountElement = queueDescriptionElement.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxDeliveryCountElement != null)
+                                {
+                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
+                                }
+                                
+                                XElement enableBatchedOperationsElement = queueDescriptionElement.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (enableBatchedOperationsElement != null)
+                                {
+                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement.Value);
+                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
+                                }
+                                
+                                XElement sizeInBytesElement = queueDescriptionElement.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (sizeInBytesElement != null)
+                                {
+                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
+                                }
+                                
+                                XElement messageCountElement = queueDescriptionElement.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (messageCountElement != null)
+                                {
+                                    int messageCountInstance = int.Parse(messageCountElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MessageCount = messageCountInstance;
+                                }
+                                
+                                XElement isAnonymousAccessibleElement = queueDescriptionElement.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (isAnonymousAccessibleElement != null)
+                                {
+                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement.Value);
+                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
+                                }
+                                
+                                XElement authorizationRulesSequenceElement = queueDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (authorizationRulesSequenceElement != null)
+                                {
+                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                        
+                                        XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimTypeElement != null)
+                                        {
+                                            string claimTypeInstance = claimTypeElement.Value;
+                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                        }
+                                        
+                                        XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimValueElement != null)
+                                        {
+                                            string claimValueInstance = claimValueElement.Value;
+                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdTimeElement != null)
+                                        {
+                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                        }
+                                        
+                                        XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            authorizationRuleInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (modifiedTimeElement != null)
+                                        {
+                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                        }
+                                        
+                                        XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (primaryKeyElement != null)
+                                        {
+                                            string primaryKeyInstance = primaryKeyElement.Value;
+                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                        }
+                                        
+                                        XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryKeyElement != null)
+                                        {
+                                            string secondaryKeyInstance = secondaryKeyElement.Value;
+                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                        }
+                                    }
+                                }
+                                
+                                XElement statusElement = queueDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (statusElement != null)
+                                {
+                                    string statusInstance = statusElement.Value;
+                                    queueDescriptionInstance.Status = statusInstance;
+                                }
+                                
+                                XElement createdAtElement = queueDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdAtElement != null)
+                                {
+                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
+                                }
+                                
+                                XElement updatedAtElement = queueDescriptionElement.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (updatedAtElement != null)
+                                {
+                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
+                                }
+                                
+                                XElement accessedAtElement = queueDescriptionElement.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (accessedAtElement != null)
+                                {
+                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
+                                }
+                                
+                                XElement supportOrderingElement = queueDescriptionElement.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (supportOrderingElement != null)
+                                {
+                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement.Value);
+                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
+                                }
+                                
+                                XElement countDetailsElement = queueDescriptionElement.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (countDetailsElement != null)
+                                {
+                                    CountDetails countDetailsInstance = new CountDetails();
+                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
+                                    
+                                    XElement activeMessageCountElement = countDetailsElement.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (activeMessageCountElement != null)
+                                    {
+                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
+                                    }
+                                    
+                                    XElement deadLetterMessageCountElement = countDetailsElement.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (deadLetterMessageCountElement != null)
+                                    {
+                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement scheduledMessageCountElement = countDetailsElement.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (scheduledMessageCountElement != null)
+                                    {
+                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferDeadLetterMessageCountElement = countDetailsElement.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferDeadLetterMessageCountElement != null)
+                                    {
+                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferMessageCountElement = countDetailsElement.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferMessageCountElement != null)
+                                    {
+                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
+                                    }
+                                }
+                                
+                                XElement autoDeleteOnIdleElement = queueDescriptionElement.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (autoDeleteOnIdleElement != null)
+                                {
+                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement.Value;
+                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
+                                }
+                                
+                                XElement entityAvailabilityStatusElement = queueDescriptionElement.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (entityAvailabilityStatusElement != null)
+                                {
+                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement.Value;
+                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Updates the queue description and sends the updates status to the
+        /// FE/BE to update corresponding DB entries.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular queue.
+        /// </returns>
+        public async Task<ServiceBusQueueResponse> UpdateAsync(string namespaceName, ServiceBusQueue queue, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("queue", queue);
+                Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/queues/" + queue.Name + "/";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("if-match", "*");
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("x-process-at", "ServiceBus");
+                httpRequest.Headers.Add("type", "entry");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                if (queue != null)
+                {
+                    XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    requestDoc.Add(entryElement);
+                    
+                    XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                    entryElement.Add(contentElement);
+                    
+                    XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
+                    typeAttribute.Value = "application/atom+xml;type=entry;charset=utf-8";
+                    contentElement.Add(typeAttribute);
+                    
+                    XElement queueDescriptionElement = new XElement(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    contentElement.Add(queueDescriptionElement);
+                    
+                    if (queue.LockDuration != null)
+                    {
+                        XElement lockDurationElement = new XElement(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        lockDurationElement.Value = queue.LockDuration;
+                        queueDescriptionElement.Add(lockDurationElement);
+                    }
+                    
+                    XElement maxSizeInMegabytesElement = new XElement(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    maxSizeInMegabytesElement.Value = queue.MaxSizeInMegabytes.ToString();
+                    queueDescriptionElement.Add(maxSizeInMegabytesElement);
+                    
+                    XElement requiresDuplicateDetectionElement = new XElement(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    requiresDuplicateDetectionElement.Value = queue.RequiresDuplicateDetection.ToString().ToLower();
+                    queueDescriptionElement.Add(requiresDuplicateDetectionElement);
+                    
+                    XElement requiresSessionElement = new XElement(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    requiresSessionElement.Value = queue.RequiresSession.ToString().ToLower();
+                    queueDescriptionElement.Add(requiresSessionElement);
+                    
+                    if (queue.DefaultMessageTimeToLive != null)
+                    {
+                        XElement defaultMessageTimeToLiveElement = new XElement(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        defaultMessageTimeToLiveElement.Value = queue.DefaultMessageTimeToLive;
+                        queueDescriptionElement.Add(defaultMessageTimeToLiveElement);
+                    }
+                    
+                    XElement deadLetteringOnMessageExpirationElement = new XElement(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    deadLetteringOnMessageExpirationElement.Value = queue.DeadLetteringOnMessageExpiration.ToString().ToLower();
+                    queueDescriptionElement.Add(deadLetteringOnMessageExpirationElement);
+                    
+                    if (queue.DuplicateDetectionHistoryTimeWindow != null)
+                    {
+                        XElement duplicateDetectionHistoryTimeWindowElement = new XElement(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        duplicateDetectionHistoryTimeWindowElement.Value = queue.DuplicateDetectionHistoryTimeWindow;
+                        queueDescriptionElement.Add(duplicateDetectionHistoryTimeWindowElement);
+                    }
+                    
+                    XElement maxDeliveryCountElement = new XElement(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    maxDeliveryCountElement.Value = queue.MaxDeliveryCount.ToString();
+                    queueDescriptionElement.Add(maxDeliveryCountElement);
+                    
+                    XElement enableBatchedOperationsElement = new XElement(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    enableBatchedOperationsElement.Value = queue.EnableBatchedOperations.ToString().ToLower();
+                    queueDescriptionElement.Add(enableBatchedOperationsElement);
+                    
+                    XElement sizeInBytesElement = new XElement(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    sizeInBytesElement.Value = queue.SizeInBytes.ToString();
+                    queueDescriptionElement.Add(sizeInBytesElement);
+                    
+                    XElement messageCountElement = new XElement(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    messageCountElement.Value = queue.MessageCount.ToString();
+                    queueDescriptionElement.Add(messageCountElement);
+                    
+                    XElement isAnonymousAccessibleElement = new XElement(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    isAnonymousAccessibleElement.Value = queue.IsAnonymousAccessible.ToString().ToLower();
+                    queueDescriptionElement.Add(isAnonymousAccessibleElement);
+                    
+                    if (queue.AuthorizationRules != null)
+                    {
+                        XElement authorizationRulesSequenceElement = new XElement(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        foreach (ServiceBusSharedAccessAuthorizationRule authorizationRulesItem in queue.AuthorizationRules)
+                        {
+                            XElement authorizationRuleElement = new XElement(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            authorizationRulesSequenceElement.Add(authorizationRuleElement);
+                            
+                            XAttribute typeAttribute2 = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                            typeAttribute2.Value = "SharedAccessAuthorizationRule";
+                            authorizationRuleElement.Add(typeAttribute2);
+                            
+                            if (authorizationRulesItem.ClaimType != null)
+                            {
+                                XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                claimTypeElement.Value = authorizationRulesItem.ClaimType;
+                                authorizationRuleElement.Add(claimTypeElement);
+                            }
+                            
+                            if (authorizationRulesItem.ClaimValue != null)
+                            {
+                                XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                claimValueElement.Value = authorizationRulesItem.ClaimValue;
+                                authorizationRuleElement.Add(claimValueElement);
+                            }
+                            
+                            if (authorizationRulesItem.Rights != null)
+                            {
+                                XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                foreach (AccessRight rightsItem in authorizationRulesItem.Rights)
+                                {
+                                    XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    rightsItemElement.Value = rightsItem.ToString();
+                                    rightsSequenceElement.Add(rightsItemElement);
+                                }
+                                authorizationRuleElement.Add(rightsSequenceElement);
+                            }
+                            
+                            XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            createdTimeElement.Value = authorizationRulesItem.CreatedTime.ToString();
+                            authorizationRuleElement.Add(createdTimeElement);
+                            
+                            if (authorizationRulesItem.KeyName != null)
+                            {
+                                XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                keyNameElement.Value = authorizationRulesItem.KeyName;
+                                authorizationRuleElement.Add(keyNameElement);
+                            }
+                            
+                            XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            modifiedTimeElement.Value = authorizationRulesItem.ModifiedTime.ToString();
+                            authorizationRuleElement.Add(modifiedTimeElement);
+                            
+                            if (authorizationRulesItem.PrimaryKey != null)
+                            {
+                                XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                primaryKeyElement.Value = authorizationRulesItem.PrimaryKey;
+                                authorizationRuleElement.Add(primaryKeyElement);
+                            }
+                            
+                            if (authorizationRulesItem.SecondaryKey != null)
+                            {
+                                XElement secondaryKeyElement = new XElement(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                secondaryKeyElement.Value = authorizationRulesItem.SecondaryKey;
+                                authorizationRuleElement.Add(secondaryKeyElement);
+                            }
+                        }
+                        queueDescriptionElement.Add(authorizationRulesSequenceElement);
+                    }
+                    
+                    if (queue.Status != null)
+                    {
+                        XElement statusElement = new XElement(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        statusElement.Value = queue.Status;
+                        queueDescriptionElement.Add(statusElement);
+                    }
+                    
+                    XElement createdAtElement = new XElement(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    createdAtElement.Value = queue.CreatedAt.ToString();
+                    queueDescriptionElement.Add(createdAtElement);
+                    
+                    XElement updatedAtElement = new XElement(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    updatedAtElement.Value = queue.UpdatedAt.ToString();
+                    queueDescriptionElement.Add(updatedAtElement);
+                    
+                    XElement accessedAtElement = new XElement(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    accessedAtElement.Value = queue.AccessedAt.ToString();
+                    queueDescriptionElement.Add(accessedAtElement);
+                    
+                    XElement supportOrderingElement = new XElement(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    supportOrderingElement.Value = queue.SupportOrdering.ToString().ToLower();
+                    queueDescriptionElement.Add(supportOrderingElement);
+                    
+                    if (queue.CountDetails != null)
+                    {
+                        XElement countDetailsElement = new XElement(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        queueDescriptionElement.Add(countDetailsElement);
+                        
+                        XElement activeMessageCountElement = new XElement(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                        activeMessageCountElement.Value = queue.CountDetails.ActiveMessageCount.ToString();
+                        countDetailsElement.Add(activeMessageCountElement);
+                        
+                        XElement deadLetterMessageCountElement = new XElement(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                        deadLetterMessageCountElement.Value = queue.CountDetails.DeadLetterMessageCount.ToString();
+                        countDetailsElement.Add(deadLetterMessageCountElement);
+                        
+                        XElement scheduledMessageCountElement = new XElement(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                        scheduledMessageCountElement.Value = queue.CountDetails.ScheduledMessageCount.ToString();
+                        countDetailsElement.Add(scheduledMessageCountElement);
+                        
+                        XElement transferDeadLetterMessageCountElement = new XElement(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                        transferDeadLetterMessageCountElement.Value = queue.CountDetails.TransferDeadLetterMessageCount.ToString();
+                        countDetailsElement.Add(transferDeadLetterMessageCountElement);
+                        
+                        XElement transferMessageCountElement = new XElement(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                        transferMessageCountElement.Value = queue.CountDetails.TransferMessageCount.ToString();
+                        countDetailsElement.Add(transferMessageCountElement);
+                    }
+                    
+                    if (queue.AutoDeleteOnIdle != null)
+                    {
+                        XElement autoDeleteOnIdleElement = new XElement(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        autoDeleteOnIdleElement.Value = queue.AutoDeleteOnIdle;
+                        queueDescriptionElement.Add(autoDeleteOnIdleElement);
+                    }
+                    
+                    if (queue.EntityAvailabilityStatus != null)
+                    {
+                        XElement entityAvailabilityStatusElement = new XElement(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        entityAvailabilityStatusElement.Value = queue.EntityAvailabilityStatus;
+                        queueDescriptionElement.Add(entityAvailabilityStatusElement);
+                    }
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusQueueResponse result = new ServiceBusQueueResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement2 != null)
+                    {
+                        XElement titleElement = entryElement2.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                        if (titleElement != null)
+                        {
+                        }
+                        
+                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement2 != null)
+                        {
+                            XElement queueDescriptionElement2 = contentElement2.Element(XName.Get("QueueDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (queueDescriptionElement2 != null)
+                            {
+                                ServiceBusQueue queueDescriptionInstance = new ServiceBusQueue();
+                                result.Queue = queueDescriptionInstance;
+                                
+                                XElement lockDurationElement2 = queueDescriptionElement2.Element(XName.Get("LockDuration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (lockDurationElement2 != null)
+                                {
+                                    string lockDurationInstance = lockDurationElement2.Value;
+                                    queueDescriptionInstance.LockDuration = lockDurationInstance;
+                                }
+                                
+                                XElement maxSizeInMegabytesElement2 = queueDescriptionElement2.Element(XName.Get("MaxSizeInMegabytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxSizeInMegabytesElement2 != null)
+                                {
+                                    int maxSizeInMegabytesInstance = int.Parse(maxSizeInMegabytesElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxSizeInMegabytes = maxSizeInMegabytesInstance;
+                                }
+                                
+                                XElement requiresDuplicateDetectionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresDuplicateDetection", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresDuplicateDetectionElement2 != null)
+                                {
+                                    bool requiresDuplicateDetectionInstance = bool.Parse(requiresDuplicateDetectionElement2.Value);
+                                    queueDescriptionInstance.RequiresDuplicateDetection = requiresDuplicateDetectionInstance;
+                                }
+                                
+                                XElement requiresSessionElement2 = queueDescriptionElement2.Element(XName.Get("RequiresSession", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (requiresSessionElement2 != null)
+                                {
+                                    bool requiresSessionInstance = bool.Parse(requiresSessionElement2.Value);
+                                    queueDescriptionInstance.RequiresSession = requiresSessionInstance;
+                                }
+                                
+                                XElement defaultMessageTimeToLiveElement2 = queueDescriptionElement2.Element(XName.Get("DefaultMessageTimeToLive", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (defaultMessageTimeToLiveElement2 != null)
+                                {
+                                    string defaultMessageTimeToLiveInstance = defaultMessageTimeToLiveElement2.Value;
+                                    queueDescriptionInstance.DefaultMessageTimeToLive = defaultMessageTimeToLiveInstance;
+                                }
+                                
+                                XElement deadLetteringOnMessageExpirationElement2 = queueDescriptionElement2.Element(XName.Get("DeadLetteringOnMessageExpiration", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (deadLetteringOnMessageExpirationElement2 != null)
+                                {
+                                    bool deadLetteringOnMessageExpirationInstance = bool.Parse(deadLetteringOnMessageExpirationElement2.Value);
+                                    queueDescriptionInstance.DeadLetteringOnMessageExpiration = deadLetteringOnMessageExpirationInstance;
+                                }
+                                
+                                XElement duplicateDetectionHistoryTimeWindowElement2 = queueDescriptionElement2.Element(XName.Get("DuplicateDetectionHistoryTimeWindow", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (duplicateDetectionHistoryTimeWindowElement2 != null)
+                                {
+                                    string duplicateDetectionHistoryTimeWindowInstance = duplicateDetectionHistoryTimeWindowElement2.Value;
+                                    queueDescriptionInstance.DuplicateDetectionHistoryTimeWindow = duplicateDetectionHistoryTimeWindowInstance;
+                                }
+                                
+                                XElement maxDeliveryCountElement2 = queueDescriptionElement2.Element(XName.Get("MaxDeliveryCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (maxDeliveryCountElement2 != null)
+                                {
+                                    int maxDeliveryCountInstance = int.Parse(maxDeliveryCountElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MaxDeliveryCount = maxDeliveryCountInstance;
+                                }
+                                
+                                XElement enableBatchedOperationsElement2 = queueDescriptionElement2.Element(XName.Get("EnableBatchedOperations", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (enableBatchedOperationsElement2 != null)
+                                {
+                                    bool enableBatchedOperationsInstance = bool.Parse(enableBatchedOperationsElement2.Value);
+                                    queueDescriptionInstance.EnableBatchedOperations = enableBatchedOperationsInstance;
+                                }
+                                
+                                XElement sizeInBytesElement2 = queueDescriptionElement2.Element(XName.Get("SizeInBytes", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (sizeInBytesElement2 != null)
+                                {
+                                    int sizeInBytesInstance = int.Parse(sizeInBytesElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.SizeInBytes = sizeInBytesInstance;
+                                }
+                                
+                                XElement messageCountElement2 = queueDescriptionElement2.Element(XName.Get("MessageCount", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (messageCountElement2 != null)
+                                {
+                                    int messageCountInstance = int.Parse(messageCountElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.MessageCount = messageCountInstance;
+                                }
+                                
+                                XElement isAnonymousAccessibleElement2 = queueDescriptionElement2.Element(XName.Get("IsAnonymousAccessible", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (isAnonymousAccessibleElement2 != null)
+                                {
+                                    bool isAnonymousAccessibleInstance = bool.Parse(isAnonymousAccessibleElement2.Value);
+                                    queueDescriptionInstance.IsAnonymousAccessible = isAnonymousAccessibleInstance;
+                                }
+                                
+                                XElement authorizationRulesSequenceElement2 = queueDescriptionElement2.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (authorizationRulesSequenceElement2 != null)
+                                {
+                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement2.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                        queueDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                        
+                                        XElement claimTypeElement2 = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimTypeElement2 != null)
+                                        {
+                                            string claimTypeInstance = claimTypeElement2.Value;
+                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                        }
+                                        
+                                        XElement claimValueElement2 = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimValueElement2 != null)
+                                        {
+                                            string claimValueInstance = claimValueElement2.Value;
+                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement2 = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement2 != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement createdTimeElement2 = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdTimeElement2 != null)
+                                        {
+                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                        }
+                                        
+                                        XElement keyNameElement2 = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement2 != null)
+                                        {
+                                            string keyNameInstance = keyNameElement2.Value;
+                                            authorizationRuleInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement modifiedTimeElement2 = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (modifiedTimeElement2 != null)
+                                        {
+                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                        }
+                                        
+                                        XElement primaryKeyElement2 = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (primaryKeyElement2 != null)
+                                        {
+                                            string primaryKeyInstance = primaryKeyElement2.Value;
+                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                        }
+                                        
+                                        XElement secondaryKeyElement2 = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryKeyElement2 != null)
+                                        {
+                                            string secondaryKeyInstance = secondaryKeyElement2.Value;
+                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                        }
+                                    }
+                                }
+                                
+                                XElement statusElement2 = queueDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (statusElement2 != null)
+                                {
+                                    string statusInstance = statusElement2.Value;
+                                    queueDescriptionInstance.Status = statusInstance;
+                                }
+                                
+                                XElement createdAtElement2 = queueDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdAtElement2 != null)
+                                {
+                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.CreatedAt = createdAtInstance;
+                                }
+                                
+                                XElement updatedAtElement2 = queueDescriptionElement2.Element(XName.Get("UpdatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (updatedAtElement2 != null)
+                                {
+                                    DateTime updatedAtInstance = DateTime.Parse(updatedAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.UpdatedAt = updatedAtInstance;
+                                }
+                                
+                                XElement accessedAtElement2 = queueDescriptionElement2.Element(XName.Get("AccessedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (accessedAtElement2 != null)
+                                {
+                                    DateTime accessedAtInstance = DateTime.Parse(accessedAtElement2.Value, CultureInfo.InvariantCulture);
+                                    queueDescriptionInstance.AccessedAt = accessedAtInstance;
+                                }
+                                
+                                XElement supportOrderingElement2 = queueDescriptionElement2.Element(XName.Get("SupportOrdering", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (supportOrderingElement2 != null)
+                                {
+                                    bool supportOrderingInstance = bool.Parse(supportOrderingElement2.Value);
+                                    queueDescriptionInstance.SupportOrdering = supportOrderingInstance;
+                                }
+                                
+                                XElement countDetailsElement2 = queueDescriptionElement2.Element(XName.Get("CountDetails", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (countDetailsElement2 != null)
+                                {
+                                    CountDetails countDetailsInstance = new CountDetails();
+                                    queueDescriptionInstance.CountDetails = countDetailsInstance;
+                                    
+                                    XElement activeMessageCountElement2 = countDetailsElement2.Element(XName.Get("ActiveMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (activeMessageCountElement2 != null)
+                                    {
+                                        int activeMessageCountInstance = int.Parse(activeMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ActiveMessageCount = activeMessageCountInstance;
+                                    }
+                                    
+                                    XElement deadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("DeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (deadLetterMessageCountElement2 != null)
+                                    {
+                                        int deadLetterMessageCountInstance = int.Parse(deadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.DeadLetterMessageCount = deadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement scheduledMessageCountElement2 = countDetailsElement2.Element(XName.Get("ScheduledMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (scheduledMessageCountElement2 != null)
+                                    {
+                                        int scheduledMessageCountInstance = int.Parse(scheduledMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.ScheduledMessageCount = scheduledMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferDeadLetterMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferDeadLetterMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferDeadLetterMessageCountElement2 != null)
+                                    {
+                                        int transferDeadLetterMessageCountInstance = int.Parse(transferDeadLetterMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferDeadLetterMessageCount = transferDeadLetterMessageCountInstance;
+                                    }
+                                    
+                                    XElement transferMessageCountElement2 = countDetailsElement2.Element(XName.Get("TransferMessageCount", "http://schemas.microsoft.com/netservices/2011/06/servicebus"));
+                                    if (transferMessageCountElement2 != null)
+                                    {
+                                        int transferMessageCountInstance = int.Parse(transferMessageCountElement2.Value, CultureInfo.InvariantCulture);
+                                        countDetailsInstance.TransferMessageCount = transferMessageCountInstance;
+                                    }
+                                }
+                                
+                                XElement autoDeleteOnIdleElement2 = queueDescriptionElement2.Element(XName.Get("AutoDeleteOnIdle", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (autoDeleteOnIdleElement2 != null)
+                                {
+                                    string autoDeleteOnIdleInstance = autoDeleteOnIdleElement2.Value;
+                                    queueDescriptionInstance.AutoDeleteOnIdle = autoDeleteOnIdleInstance;
+                                }
+                                
+                                XElement entityAvailabilityStatusElement2 = queueDescriptionElement2.Element(XName.Get("EntityAvailabilityStatus", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (entityAvailabilityStatusElement2 != null)
+                                {
+                                    string entityAvailabilityStatusInstance = entityAvailabilityStatusElement2.Value;
+                                    queueDescriptionInstance.EntityAvailabilityStatus = entityAvailabilityStatusInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    public partial interface INotificationHubOperations
+    {
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<ServiceBusNotificationHubResponse> GetAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<ServiceBusNotificationHubsResponse> ListAsync(string namespaceName, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    public static partial class NotificationHubOperationsExtensions
+    {
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static ServiceBusNotificationHubResponse Get(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
+        {
+            try
+            {
+                return operations.GetAsync(namespaceName, notificationHubName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<ServiceBusNotificationHubResponse> GetAsync(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
+        {
+            return operations.GetAsync(namespaceName, notificationHubName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static ServiceBusConnectionDetailsResponse GetConnectionDetails(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
+        {
+            try
+            {
+                return operations.GetConnectionDetailsAsync(namespaceName, notificationHubName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public static Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(this INotificationHubOperations operations, string namespaceName, string notificationHubName)
+        {
+            return operations.GetConnectionDetailsAsync(namespaceName, notificationHubName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static ServiceBusNotificationHubsResponse List(this INotificationHubOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.ListAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INotificationHubOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<ServiceBusNotificationHubsResponse> ListAsync(this INotificationHubOperations operations, string namespaceName)
+        {
+            return operations.ListAsync(namespaceName, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus queues.
+    /// </summary>
+    internal partial class NotificationHubOperations : IServiceOperations<ServiceBusManagementClient>, INotificationHubOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the NotificationHubOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal NotificationHubOperations(ServiceBusManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ServiceBusManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
+        /// </summary>
+        public ServiceBusManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<ServiceBusNotificationHubResponse> GetAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("notificationHubName", notificationHubName);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs/" + notificationHubName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNotificationHubResponse result = new ServiceBusNotificationHubResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement != null)
+                    {
+                        XElement titleElement = entryElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                        if (titleElement != null)
+                        {
+                        }
+                        
+                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement != null)
+                        {
+                            XElement notificationHubDescriptionElement = contentElement.Element(XName.Get("NotificationHubDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (notificationHubDescriptionElement != null)
+                            {
+                                ServiceBusNotificationHub notificationHubDescriptionInstance = new ServiceBusNotificationHub();
+                                result.NotificationHub = notificationHubDescriptionInstance;
+                                
+                                XElement registrationTtlElement = notificationHubDescriptionElement.Element(XName.Get("RegistrationTtl", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (registrationTtlElement != null)
+                                {
+                                    string registrationTtlInstance = registrationTtlElement.Value;
+                                    notificationHubDescriptionInstance.RegistrationTtl = registrationTtlInstance;
+                                }
+                                
+                                XElement authorizationRulesSequenceElement = notificationHubDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (authorizationRulesSequenceElement != null)
+                                {
+                                    foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                        notificationHubDescriptionInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                        
+                                        XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimTypeElement != null)
+                                        {
+                                            string claimTypeInstance = claimTypeElement.Value;
+                                            authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                        }
+                                        
+                                        XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimValueElement != null)
+                                        {
+                                            string claimValueInstance = claimValueElement.Value;
+                                            authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdTimeElement != null)
+                                        {
+                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                        }
+                                        
+                                        XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            authorizationRuleInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (modifiedTimeElement != null)
+                                        {
+                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                            authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                        }
+                                        
+                                        XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (primaryKeyElement != null)
+                                        {
+                                            string primaryKeyInstance = primaryKeyElement.Value;
+                                            authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                        }
+                                        
+                                        XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryKeyElement != null)
+                                        {
+                                            string secondaryKeyInstance = secondaryKeyElement.Value;
+                                            authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The set of connection details for a service bus entity.
+        /// </returns>
+        public async Task<ServiceBusConnectionDetailsResponse> GetConnectionDetailsAsync(string namespaceName, string notificationHubName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("notificationHubName", notificationHubName);
+                Tracing.Enter(invocationId, this, "GetConnectionDetailsAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs/" + notificationHubName + "/ConnectionDetails";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusConnectionDetailsResponse result = new ServiceBusConnectionDetailsResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusConnectionDetail entryInstance = new ServiceBusConnectionDetail();
+                                result.ConnectionDetails.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (connectionDetailElement != null)
+                                    {
+                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            entryInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (connectionStringElement != null)
+                                        {
+                                            string connectionStringInstance = connectionStringElement.Value;
+                                            entryInstance.ConnectionString = connectionStringInstance;
+                                        }
+                                        
+                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationTypeElement != null)
+                                        {
+                                            string authorizationTypeInstance = authorizationTypeElement.Value;
+                                            entryInstance.AuthorizationType = authorizationTypeInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the notification hubs associated with a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<ServiceBusNotificationHubsResponse> ListAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/NotificationHubs";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNotificationHubsResponse result = new ServiceBusNotificationHubsResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusNotificationHub entryInstance = new ServiceBusNotificationHub();
+                                result.NotificationHubs.Add(entryInstance);
+                                
+                                XElement titleElement = entriesElement.Element(XName.Get("title", "http://www.w3.org/2005/Atom"));
+                                if (titleElement != null)
+                                {
+                                    string titleInstance = titleElement.Value;
+                                    entryInstance.Name = titleInstance;
+                                }
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement notificationHubDescriptionElement = contentElement.Element(XName.Get("NotificationHubDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (notificationHubDescriptionElement != null)
+                                    {
+                                        XElement registrationTtlElement = notificationHubDescriptionElement.Element(XName.Get("RegistrationTtl", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (registrationTtlElement != null)
+                                        {
+                                            string registrationTtlInstance = registrationTtlElement.Value;
+                                            entryInstance.RegistrationTtl = registrationTtlInstance;
+                                        }
+                                        
+                                        XElement authorizationRulesSequenceElement = notificationHubDescriptionElement.Element(XName.Get("AuthorizationRules", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationRulesSequenceElement != null)
+                                        {
+                                            foreach (XElement authorizationRulesElement in authorizationRulesSequenceElement.Elements(XName.Get("AuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                ServiceBusSharedAccessAuthorizationRule authorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                                entryInstance.AuthorizationRules.Add(authorizationRuleInstance);
+                                                
+                                                XElement claimTypeElement = authorizationRulesElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (claimTypeElement != null)
+                                                {
+                                                    string claimTypeInstance = claimTypeElement.Value;
+                                                    authorizationRuleInstance.ClaimType = claimTypeInstance;
+                                                }
+                                                
+                                                XElement claimValueElement = authorizationRulesElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (claimValueElement != null)
+                                                {
+                                                    string claimValueInstance = claimValueElement.Value;
+                                                    authorizationRuleInstance.ClaimValue = claimValueInstance;
+                                                }
+                                                
+                                                XElement rightsSequenceElement = authorizationRulesElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (rightsSequenceElement != null)
+                                                {
+                                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                                    {
+                                                        authorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                                    }
+                                                }
+                                                
+                                                XElement createdTimeElement = authorizationRulesElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (createdTimeElement != null)
+                                                {
+                                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                                    authorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                                }
+                                                
+                                                XElement keyNameElement = authorizationRulesElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (keyNameElement != null)
+                                                {
+                                                    string keyNameInstance = keyNameElement.Value;
+                                                    authorizationRuleInstance.KeyName = keyNameInstance;
+                                                }
+                                                
+                                                XElement modifiedTimeElement = authorizationRulesElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (modifiedTimeElement != null)
+                                                {
+                                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                                    authorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                                }
+                                                
+                                                XElement primaryKeyElement = authorizationRulesElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (primaryKeyElement != null)
+                                                {
+                                                    string primaryKeyInstance = primaryKeyElement.Value;
+                                                    authorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                                }
+                                                
+                                                XElement secondaryKeyElement = authorizationRulesElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                                if (secondaryKeyElement != null)
+                                                {
+                                                    string secondaryKeyInstance = secondaryKeyElement.Value;
+                                                    authorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus namespaces.
+    /// </summary>
+    public partial interface INamespaceOperations
+    {
+        /// <summary>
+        /// Checks the availability of the given service namespace across all
+        /// Windows Azure subscriptions. This is useful because the domain
+        /// name is created based on the service namespace name.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a query for the availability status of a namespace
+        /// name.
+        /// </returns>
+        Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Creates a new service namespace. Once created, this namespace's
+        /// resource manifest is immutable. This operation is idempotent.
+        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        Task<ServiceBusNamespaceResponse> CreateAsync(string namespaceName, string region, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The create namespace authorization rule operation creates an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Deletes an existing namespace. This operation also removes all
+        /// associated entities including queues, topics, relay points, and
+        /// messages stored under the namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> DeleteAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The delete namespace authorization rule operation deletes an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> DeleteAuthorizationRuleAsync(string namespaceName, string ruleName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Returns the description for the specified namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        Task<ServiceBusNamespaceResponse> GetAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The namespace description is an XML AtomPub document that defines
+        /// the desired semantics for a service namespace. The namespace
+        /// description contains the following properties.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of namespaces.
+        /// </returns>
+        Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Lists the available namespaces.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to the request for a listing of namespaces
+        /// </returns>
+        Task<ServiceBusNamespacesResponse> ListAsync(CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The get authorization rules operation gets the authorization rules
+        /// for a namespace
+        /// </summary>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of authorization rules.
+        /// </returns>
+        Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(string namespaceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The get authorization rule operation gets an authorization rule for
+        /// a namespace by name
+        /// </summary>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='entityName'>
+        /// The entity name to get the authorization rule for.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(string namespaceName, string entityName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The update authorization rule operation updates an authorization
+        /// rule for a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus namespaces.
+    /// </summary>
+    public static partial class NamespaceOperationsExtensions
+    {
+        /// <summary>
+        /// Checks the availability of the given service namespace across all
+        /// Windows Azure subscriptions. This is useful because the domain
+        /// name is created based on the service namespace name.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a query for the availability status of a namespace
+        /// name.
+        /// </returns>
+        public static CheckNamespaceAvailabilityResponse CheckAvailability(this INamespaceOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.CheckAvailabilityAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Checks the availability of the given service namespace across all
+        /// Windows Azure subscriptions. This is useful because the domain
+        /// name is created based on the service namespace name.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a query for the availability status of a namespace
+        /// name.
+        /// </returns>
+        public static Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(this INamespaceOperations operations, string namespaceName)
+        {
+            return operations.CheckAvailabilityAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Creates a new service namespace. Once created, this namespace's
+        /// resource manifest is immutable. This operation is idempotent.
+        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public static ServiceBusNamespaceResponse Create(this INamespaceOperations operations, string namespaceName, string region)
+        {
+            try
+            {
+                return operations.CreateAsync(namespaceName, region).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Creates a new service namespace. Once created, this namespace's
+        /// resource manifest is immutable. This operation is idempotent.
+        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public static Task<ServiceBusNamespaceResponse> CreateAsync(this INamespaceOperations operations, string namespaceName, string region)
+        {
+            return operations.CreateAsync(namespaceName, region, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The create namespace authorization rule operation creates an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static ServiceBusAuthorizationRuleResponse CreateAuthorizationRule(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
+        {
+            try
+            {
+                return operations.CreateAuthorizationRuleAsync(namespaceName, rule).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The create namespace authorization rule operation creates an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
+        {
+            return operations.CreateAuthorizationRuleAsync(namespaceName, rule, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Deletes an existing namespace. This operation also removes all
+        /// associated entities including queues, topics, relay points, and
+        /// messages stored under the namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse Delete(this INamespaceOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.DeleteAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deletes an existing namespace. This operation also removes all
+        /// associated entities including queues, topics, relay points, and
+        /// messages stored under the namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> DeleteAsync(this INamespaceOperations operations, string namespaceName)
+        {
+            return operations.DeleteAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The delete namespace authorization rule operation deletes an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse DeleteAuthorizationRule(this INamespaceOperations operations, string namespaceName, string ruleName)
+        {
+            try
+            {
+                return operations.DeleteAuthorizationRuleAsync(namespaceName, ruleName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The delete namespace authorization rule operation deletes an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> DeleteAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, string ruleName)
+        {
+            return operations.DeleteAuthorizationRuleAsync(namespaceName, ruleName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Returns the description for the specified namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public static ServiceBusNamespaceResponse Get(this INamespaceOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.GetAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Returns the description for the specified namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public static Task<ServiceBusNamespaceResponse> GetAsync(this INamespaceOperations operations, string namespaceName)
+        {
+            return operations.GetAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The namespace description is an XML AtomPub document that defines
+        /// the desired semantics for a service namespace. The namespace
+        /// description contains the following properties.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of namespaces.
+        /// </returns>
+        public static ServiceBusNamespaceDescriptionResponse GetNamespaceDescription(this INamespaceOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.GetNamespaceDescriptionAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The namespace description is an XML AtomPub document that defines
+        /// the desired semantics for a service namespace. The namespace
+        /// description contains the following properties.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of namespaces.
+        /// </returns>
+        public static Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(this INamespaceOperations operations, string namespaceName)
+        {
+            return operations.GetNamespaceDescriptionAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Lists the available namespaces.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to the request for a listing of namespaces
+        /// </returns>
+        public static ServiceBusNamespacesResponse List(this INamespaceOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the available namespaces.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// The response to the request for a listing of namespaces
+        /// </returns>
+        public static Task<ServiceBusNamespacesResponse> ListAsync(this INamespaceOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The get authorization rules operation gets the authorization rules
+        /// for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of authorization rules.
+        /// </returns>
+        public static ServiceBusAuthorizationRulesResponse ListAuthorizationRules(this INamespaceOperations operations, string namespaceName)
+        {
+            try
+            {
+                return operations.ListAuthorizationRulesAsync(namespaceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The get authorization rules operation gets the authorization rules
+        /// for a namespace
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of authorization rules.
+        /// </returns>
+        public static Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(this INamespaceOperations operations, string namespaceName)
+        {
+            return operations.ListAuthorizationRulesAsync(namespaceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The get authorization rule operation gets an authorization rule for
+        /// a namespace by name
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='entityName'>
+        /// The entity name to get the authorization rule for.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static ServiceBusAuthorizationRuleResponse GetAuthorizationRule(this INamespaceOperations operations, string namespaceName, string entityName)
+        {
+            try
+            {
+                return operations.GetAuthorizationRuleAsync(namespaceName, entityName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The get authorization rule operation gets an authorization rule for
+        /// a namespace by name
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='entityName'>
+        /// The entity name to get the authorization rule for.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, string entityName)
+        {
+            return operations.GetAuthorizationRuleAsync(namespaceName, entityName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The update authorization rule operation updates an authorization
+        /// rule for a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static ServiceBusAuthorizationRuleResponse UpdateAuthorizationRule(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
+        {
+            try
+            {
+                return operations.UpdateAuthorizationRuleAsync(namespaceName, rule).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The update authorization rule operation updates an authorization
+        /// rule for a namespace.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.INamespaceOperations.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public static Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(this INamespaceOperations operations, string namespaceName, ServiceBusSharedAccessAuthorizationRule rule)
+        {
+            return operations.UpdateAuthorizationRuleAsync(namespaceName, rule, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Bus Management API includes operations for managing Service
+    /// Bus namespaces.
+    /// </summary>
+    internal partial class NamespaceOperations : IServiceOperations<ServiceBusManagementClient>, INamespaceOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the NamespaceOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal NamespaceOperations(ServiceBusManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ServiceBusManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient.
+        /// </summary>
+        public ServiceBusManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// Checks the availability of the given service namespace across all
+        /// Windows Azure subscriptions. This is useful because the domain
+        /// name is created based on the service namespace name.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj870968.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a query for the availability status of a namespace
+        /// name.
+        /// </returns>
+        public async Task<CheckNamespaceAvailabilityResponse> CheckAvailabilityAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "CheckAvailabilityAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/ServiceBus/CheckNamespaceAvailability?namespace=" + namespaceName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
+                // TODO: Ensure certificate is added to the root handler
+                // (MethodInvocationExpression:
+                // httpHandler.ClientCertificates.Add(this.Client.Credentials.ManagementCertificate))
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    CheckNamespaceAvailabilityResponse result = new CheckNamespaceAvailabilityResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement != null)
+                    {
+                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement != null)
+                        {
+                            XElement namespaceAvailabilityElement = contentElement.Element(XName.Get("NamespaceAvailability", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (namespaceAvailabilityElement != null)
+                            {
+                                XElement resultElement = namespaceAvailabilityElement.Element(XName.Get("Result", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (resultElement != null)
+                                {
+                                    bool resultInstance = bool.Parse(resultElement.Value);
+                                    result.IsAvailable = resultInstance;
+                                }
+                                
+                                XElement reasonDetailElement = namespaceAvailabilityElement.Element(XName.Get("ReasonDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (reasonDetailElement != null)
+                                {
+                                    string reasonDetailInstance = reasonDetailElement.Value;
+                                    result.ReasonDetails = reasonDetailInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Creates a new service namespace. Once created, this namespace's
+        /// resource manifest is immutable. This operation is idempotent.
+        /// (see http://msdn.microsoft.com/en-us/library/windowsazure/jj856303.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public async Task<ServiceBusNamespaceResponse> CreateAsync(string namespaceName, string region, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("region", region);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-07-01");
+                httpRequest.Headers.Add("type", "entry");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                requestDoc.Add(entryElement);
+                
+                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                entryElement.Add(contentElement);
+                
+                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
+                typeAttribute.Value = "application/xml";
+                contentElement.Add(typeAttribute);
+                
+                XElement namespaceDescriptionElement = new XElement(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                contentElement.Add(namespaceDescriptionElement);
+                
+                if (region != null)
+                {
+                    XElement regionElement = new XElement(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    regionElement.Value = region;
+                    namespaceDescriptionElement.Add(regionElement);
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNamespaceResponse result = new ServiceBusNamespaceResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement2 != null)
+                    {
+                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement2 != null)
+                        {
+                            XElement namespaceDescriptionElement2 = contentElement2.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (namespaceDescriptionElement2 != null)
+                            {
+                                ServiceBusNamespace namespaceDescriptionInstance = new ServiceBusNamespace();
+                                result.Namespace = namespaceDescriptionInstance;
+                                
+                                XElement nameElement = namespaceDescriptionElement2.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (nameElement != null)
+                                {
+                                    string nameInstance = nameElement.Value;
+                                    namespaceDescriptionInstance.Name = nameInstance;
+                                }
+                                
+                                XElement regionElement2 = namespaceDescriptionElement2.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (regionElement2 != null)
+                                {
+                                    string regionInstance = regionElement2.Value;
+                                    namespaceDescriptionInstance.Region = regionInstance;
+                                }
+                                
+                                XElement statusElement = namespaceDescriptionElement2.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (statusElement != null)
+                                {
+                                    string statusInstance = statusElement.Value;
+                                    namespaceDescriptionInstance.Status = statusInstance;
+                                }
+                                
+                                XElement createdAtElement = namespaceDescriptionElement2.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdAtElement != null)
+                                {
+                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
+                                    namespaceDescriptionInstance.CreatedAt = createdAtInstance;
+                                }
+                                
+                                XElement acsManagementEndpointElement = namespaceDescriptionElement2.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (acsManagementEndpointElement != null)
+                                {
+                                    Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
+                                    namespaceDescriptionInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
+                                }
+                                
+                                XElement serviceBusEndpointElement = namespaceDescriptionElement2.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (serviceBusEndpointElement != null)
+                                {
+                                    Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
+                                    namespaceDescriptionInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
+                                }
+                                
+                                XElement subscriptionIdElement = namespaceDescriptionElement2.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (subscriptionIdElement != null)
+                                {
+                                    string subscriptionIdInstance = subscriptionIdElement.Value;
+                                    namespaceDescriptionInstance.SubscriptionId = subscriptionIdInstance;
+                                }
+                                
+                                XElement enabledElement = namespaceDescriptionElement2.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (enabledElement != null)
+                                {
+                                    bool enabledInstance = bool.Parse(enabledElement.Value);
+                                    namespaceDescriptionInstance.Enabled = enabledInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The create namespace authorization rule operation creates an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public async Task<ServiceBusAuthorizationRuleResponse> CreateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (namespaceName == null)
+            {
+                throw new ArgumentNullException("namespaceName");
+            }
+            if (rule == null)
+            {
+                throw new ArgumentNullException("rule");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("rule", rule);
+                Tracing.Enter(invocationId, this, "CreateAuthorizationRuleAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("type", "entry");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                requestDoc.Add(entryElement);
+                
+                XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                entryElement.Add(contentElement);
+                
+                XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
+                typeAttribute.Value = "application/atom+xml";
+                contentElement.Add(typeAttribute);
+                
+                XElement sharedAccessAuthorizationRuleElement = new XElement(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                contentElement.Add(sharedAccessAuthorizationRuleElement);
+                
+                if (rule.ClaimType != null)
+                {
+                    XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    claimTypeElement.Value = rule.ClaimType;
+                    sharedAccessAuthorizationRuleElement.Add(claimTypeElement);
+                }
+                
+                if (rule.ClaimValue != null)
+                {
+                    XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    claimValueElement.Value = rule.ClaimValue;
+                    sharedAccessAuthorizationRuleElement.Add(claimValueElement);
+                }
+                
+                if (rule.Rights != null)
+                {
+                    XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    foreach (AccessRight rightsItem in rule.Rights)
+                    {
+                        XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        rightsItemElement.Value = rightsItem.ToString();
+                        rightsSequenceElement.Add(rightsItemElement);
+                    }
+                    sharedAccessAuthorizationRuleElement.Add(rightsSequenceElement);
+                }
+                
+                XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                createdTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.CreatedTime.ToUniversalTime());
+                sharedAccessAuthorizationRuleElement.Add(createdTimeElement);
+                
+                XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                modifiedTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.ModifiedTime.ToUniversalTime());
+                sharedAccessAuthorizationRuleElement.Add(modifiedTimeElement);
+                
+                XElement revisionElement = new XElement(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                revisionElement.Value = rule.Revision.ToString();
+                sharedAccessAuthorizationRuleElement.Add(revisionElement);
+                
+                if (rule.KeyName != null)
+                {
+                    XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    keyNameElement.Value = rule.KeyName;
+                    sharedAccessAuthorizationRuleElement.Add(keyNameElement);
+                }
+                
+                if (rule.PrimaryKey != null)
+                {
+                    XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    primaryKeyElement.Value = rule.PrimaryKey;
+                    sharedAccessAuthorizationRuleElement.Add(primaryKeyElement);
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Created)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement2 != null)
+                    {
+                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement2 != null)
+                        {
+                            XElement sharedAccessAuthorizationRuleElement2 = contentElement2.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (sharedAccessAuthorizationRuleElement2 != null)
+                            {
+                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
+                                
+                                XElement claimTypeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimTypeElement2 != null)
+                                {
+                                    string claimTypeInstance = claimTypeElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
+                                }
+                                
+                                XElement claimValueElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimValueElement2 != null)
+                                {
+                                    string claimValueInstance = claimValueElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
+                                }
+                                
+                                XElement rightsSequenceElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (rightsSequenceElement2 != null)
+                                {
+                                    foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                    }
+                                }
+                                
+                                XElement createdTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdTimeElement2 != null)
+                                {
+                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                }
+                                
+                                XElement modifiedTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (modifiedTimeElement2 != null)
+                                {
+                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                }
+                                
+                                XElement keyNameElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (keyNameElement2 != null)
+                                {
+                                    string keyNameInstance = keyNameElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
+                                }
+                                
+                                XElement primaryKeyElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (primaryKeyElement2 != null)
+                                {
+                                    string primaryKeyInstance = primaryKeyElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                }
+                                
+                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement2.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (secondaryKeyElement != null)
+                                {
+                                    string secondaryKeyInstance = secondaryKeyElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                }
+                                
+                                XElement revisionElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (revisionElement2 != null)
+                                {
+                                    int revisionInstance = int.Parse(revisionElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deletes an existing namespace. This operation also removes all
+        /// associated entities including queues, topics, relay points, and
+        /// messages stored under the namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856296.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> DeleteAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The delete namespace authorization rule operation deletes an
+        /// authorization rule for a namespace
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> DeleteAuthorizationRuleAsync(string namespaceName, string ruleName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (namespaceName == null)
+            {
+                throw new ArgumentNullException("namespaceName");
+            }
+            if (ruleName == null)
+            {
+                throw new ArgumentNullException("ruleName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("ruleName", ruleName);
+                Tracing.Enter(invocationId, this, "DeleteAuthorizationRuleAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + ruleName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.NoContent)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Returns the description for the specified namespace.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to a request for a particular namespace.
+        /// </returns>
+        public async Task<ServiceBusNamespaceResponse> GetAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNamespaceResponse result = new ServiceBusNamespaceResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement != null)
+                    {
+                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement != null)
+                        {
+                            XElement namespaceDescriptionElement = contentElement.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (namespaceDescriptionElement != null)
+                            {
+                                ServiceBusNamespace namespaceDescriptionInstance = new ServiceBusNamespace();
+                                result.Namespace = namespaceDescriptionInstance;
+                                
+                                XElement nameElement = namespaceDescriptionElement.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (nameElement != null)
+                                {
+                                    string nameInstance = nameElement.Value;
+                                    namespaceDescriptionInstance.Name = nameInstance;
+                                }
+                                
+                                XElement regionElement = namespaceDescriptionElement.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (regionElement != null)
+                                {
+                                    string regionInstance = regionElement.Value;
+                                    namespaceDescriptionInstance.Region = regionInstance;
+                                }
+                                
+                                XElement statusElement = namespaceDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (statusElement != null)
+                                {
+                                    string statusInstance = statusElement.Value;
+                                    namespaceDescriptionInstance.Status = statusInstance;
+                                }
+                                
+                                XElement createdAtElement = namespaceDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdAtElement != null)
+                                {
+                                    DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
+                                    namespaceDescriptionInstance.CreatedAt = createdAtInstance;
+                                }
+                                
+                                XElement acsManagementEndpointElement = namespaceDescriptionElement.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (acsManagementEndpointElement != null)
+                                {
+                                    Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
+                                    namespaceDescriptionInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
+                                }
+                                
+                                XElement serviceBusEndpointElement = namespaceDescriptionElement.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (serviceBusEndpointElement != null)
+                                {
+                                    Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
+                                    namespaceDescriptionInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
+                                }
+                                
+                                XElement subscriptionIdElement = namespaceDescriptionElement.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (subscriptionIdElement != null)
+                                {
+                                    string subscriptionIdInstance = subscriptionIdElement.Value;
+                                    namespaceDescriptionInstance.SubscriptionId = subscriptionIdInstance;
+                                }
+                                
+                                XElement enabledElement = namespaceDescriptionElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (enabledElement != null)
+                                {
+                                    bool enabledInstance = bool.Parse(enabledElement.Value);
+                                    namespaceDescriptionInstance.Enabled = enabledInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The namespace description is an XML AtomPub document that defines
+        /// the desired semantics for a service namespace. The namespace
+        /// description contains the following properties.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj873988.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of namespaces.
+        /// </returns>
+        public async Task<ServiceBusNamespaceDescriptionResponse> GetNamespaceDescriptionAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "GetNamespaceDescriptionAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/ConnectionDetails";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNamespaceDescriptionResponse result = new ServiceBusNamespaceDescriptionResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                NamespaceDescription entryInstance = new NamespaceDescription();
+                                result.NamespaceDescriptions.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement connectionDetailElement = contentElement.Element(XName.Get("ConnectionDetail", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (connectionDetailElement != null)
+                                    {
+                                        XElement keyNameElement = connectionDetailElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            entryInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement connectionStringElement = connectionDetailElement.Element(XName.Get("ConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (connectionStringElement != null)
+                                        {
+                                            string connectionStringInstance = connectionStringElement.Value;
+                                            entryInstance.ConnectionString = connectionStringInstance;
+                                        }
+                                        
+                                        XElement authorizationTypeElement = connectionDetailElement.Element(XName.Get("AuthorizationType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (authorizationTypeElement != null)
+                                        {
+                                            string authorizationTypeInstance = authorizationTypeElement.Value;
+                                            entryInstance.AuthorizationType = authorizationTypeInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = connectionDetailElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement secondaryConnectionStringElement = connectionDetailElement.Element(XName.Get("SecondaryConnectionString", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryConnectionStringElement != null)
+                                        {
+                                            string secondaryConnectionStringInstance = secondaryConnectionStringElement.Value;
+                                            entryInstance.SecondaryConnectionString = secondaryConnectionStringInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Lists the available namespaces.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn140232.asp
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response to the request for a listing of namespaces
+        /// </returns>
+        public async Task<ServiceBusNamespacesResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusNamespacesResponse result = new ServiceBusNamespacesResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusNamespace entryInstance = new ServiceBusNamespace();
+                                result.Namespaces.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement namespaceDescriptionElement = contentElement.Element(XName.Get("NamespaceDescription", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (namespaceDescriptionElement != null)
+                                    {
+                                        XElement nameElement = namespaceDescriptionElement.Element(XName.Get("Name", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (nameElement != null)
+                                        {
+                                            string nameInstance = nameElement.Value;
+                                            entryInstance.Name = nameInstance;
+                                        }
+                                        
+                                        XElement regionElement = namespaceDescriptionElement.Element(XName.Get("Region", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (regionElement != null)
+                                        {
+                                            string regionInstance = regionElement.Value;
+                                            entryInstance.Region = regionInstance;
+                                        }
+                                        
+                                        XElement statusElement = namespaceDescriptionElement.Element(XName.Get("Status", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (statusElement != null)
+                                        {
+                                            string statusInstance = statusElement.Value;
+                                            entryInstance.Status = statusInstance;
+                                        }
+                                        
+                                        XElement createdAtElement = namespaceDescriptionElement.Element(XName.Get("CreatedAt", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdAtElement != null)
+                                        {
+                                            DateTime createdAtInstance = DateTime.Parse(createdAtElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.CreatedAt = createdAtInstance;
+                                        }
+                                        
+                                        XElement acsManagementEndpointElement = namespaceDescriptionElement.Element(XName.Get("AcsManagementEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (acsManagementEndpointElement != null)
+                                        {
+                                            Uri acsManagementEndpointInstance = TypeConversion.TryParseUri(acsManagementEndpointElement.Value);
+                                            entryInstance.AcsManagementEndpoint = acsManagementEndpointInstance;
+                                        }
+                                        
+                                        XElement serviceBusEndpointElement = namespaceDescriptionElement.Element(XName.Get("ServiceBusEndpoint", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (serviceBusEndpointElement != null)
+                                        {
+                                            Uri serviceBusEndpointInstance = TypeConversion.TryParseUri(serviceBusEndpointElement.Value);
+                                            entryInstance.ServiceBusEndpoint = serviceBusEndpointInstance;
+                                        }
+                                        
+                                        XElement subscriptionIdElement = namespaceDescriptionElement.Element(XName.Get("SubscriptionId", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (subscriptionIdElement != null)
+                                        {
+                                            string subscriptionIdInstance = subscriptionIdElement.Value;
+                                            entryInstance.SubscriptionId = subscriptionIdInstance;
+                                        }
+                                        
+                                        XElement enabledElement = namespaceDescriptionElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (enabledElement != null)
+                                        {
+                                            bool enabledInstance = bool.Parse(enabledElement.Value);
+                                            entryInstance.Enabled = enabledInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The get authorization rules operation gets the authorization rules
+        /// for a namespace
+        /// </summary>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a list of authorization rules.
+        /// </returns>
+        public async Task<ServiceBusAuthorizationRulesResponse> ListAuthorizationRulesAsync(string namespaceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (namespaceName == null)
+            {
+                throw new ArgumentNullException("namespaceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                Tracing.Enter(invocationId, this, "ListAuthorizationRulesAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusAuthorizationRulesResponse result = new ServiceBusAuthorizationRulesResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement feedElement = responseDoc.Element(XName.Get("feed", "http://www.w3.org/2005/Atom"));
+                    if (feedElement != null)
+                    {
+                        if (feedElement != null)
+                        {
+                            foreach (XElement entriesElement in feedElement.Elements(XName.Get("entry", "http://www.w3.org/2005/Atom")))
+                            {
+                                ServiceBusSharedAccessAuthorizationRule entryInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                result.AuthorizationRules.Add(entryInstance);
+                                
+                                XElement contentElement = entriesElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                                if (contentElement != null)
+                                {
+                                    XElement sharedAccessAuthorizationRuleElement = contentElement.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                    if (sharedAccessAuthorizationRuleElement != null)
+                                    {
+                                        XElement claimTypeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimTypeElement != null)
+                                        {
+                                            string claimTypeInstance = claimTypeElement.Value;
+                                            entryInstance.ClaimType = claimTypeInstance;
+                                        }
+                                        
+                                        XElement claimValueElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (claimValueElement != null)
+                                        {
+                                            string claimValueInstance = claimValueElement.Value;
+                                            entryInstance.ClaimValue = claimValueInstance;
+                                        }
+                                        
+                                        XElement rightsSequenceElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (rightsSequenceElement != null)
+                                        {
+                                            foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                            {
+                                                entryInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                            }
+                                        }
+                                        
+                                        XElement createdTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (createdTimeElement != null)
+                                        {
+                                            DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.CreatedTime = createdTimeInstance;
+                                        }
+                                        
+                                        XElement modifiedTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (modifiedTimeElement != null)
+                                        {
+                                            DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.ModifiedTime = modifiedTimeInstance;
+                                        }
+                                        
+                                        XElement keyNameElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (keyNameElement != null)
+                                        {
+                                            string keyNameInstance = keyNameElement.Value;
+                                            entryInstance.KeyName = keyNameInstance;
+                                        }
+                                        
+                                        XElement primaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (primaryKeyElement != null)
+                                        {
+                                            string primaryKeyInstance = primaryKeyElement.Value;
+                                            entryInstance.PrimaryKey = primaryKeyInstance;
+                                        }
+                                        
+                                        XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (secondaryKeyElement != null)
+                                        {
+                                            string secondaryKeyInstance = secondaryKeyElement.Value;
+                                            entryInstance.SecondaryKey = secondaryKeyInstance;
+                                        }
+                                        
+                                        XElement revisionElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                        if (revisionElement != null)
+                                        {
+                                            int revisionInstance = int.Parse(revisionElement.Value, CultureInfo.InvariantCulture);
+                                            entryInstance.Revision = revisionInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The get authorization rule operation gets an authorization rule for
+        /// a namespace by name
+        /// </summary>
+        /// <param name='namespaceName'>
+        /// The namespace to get the authorization rule for.
+        /// </param>
+        /// <param name='entityName'>
+        /// The entity name to get the authorization rule for.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public async Task<ServiceBusAuthorizationRuleResponse> GetAuthorizationRuleAsync(string namespaceName, string entityName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (namespaceName == null)
+            {
+                throw new ArgumentNullException("namespaceName");
+            }
+            if (entityName == null)
+            {
+                throw new ArgumentNullException("entityName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("entityName", entityName);
+                Tracing.Enter(invocationId, this, "GetAuthorizationRuleAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + entityName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement != null)
+                    {
+                        XElement contentElement = entryElement.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement != null)
+                        {
+                            XElement sharedAccessAuthorizationRuleElement = contentElement.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (sharedAccessAuthorizationRuleElement != null)
+                            {
+                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
+                                
+                                XElement claimTypeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimTypeElement != null)
+                                {
+                                    string claimTypeInstance = claimTypeElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
+                                }
+                                
+                                XElement claimValueElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimValueElement != null)
+                                {
+                                    string claimValueInstance = claimValueElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
+                                }
+                                
+                                XElement rightsSequenceElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (rightsSequenceElement != null)
+                                {
+                                    foreach (XElement rightsElement in rightsSequenceElement.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                    }
+                                }
+                                
+                                XElement createdTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdTimeElement != null)
+                                {
+                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                }
+                                
+                                XElement modifiedTimeElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (modifiedTimeElement != null)
+                                {
+                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                }
+                                
+                                XElement keyNameElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (keyNameElement != null)
+                                {
+                                    string keyNameInstance = keyNameElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
+                                }
+                                
+                                XElement primaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (primaryKeyElement != null)
+                                {
+                                    string primaryKeyInstance = primaryKeyElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                }
+                                
+                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (secondaryKeyElement != null)
+                                {
+                                    string secondaryKeyInstance = secondaryKeyElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                }
+                                
+                                XElement revisionElement = sharedAccessAuthorizationRuleElement.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (revisionElement != null)
+                                {
+                                    int revisionInstance = int.Parse(revisionElement.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The update authorization rule operation updates an authorization
+        /// rule for a namespace.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response to a request for a particular authorization rule.
+        /// </returns>
+        public async Task<ServiceBusAuthorizationRuleResponse> UpdateAuthorizationRuleAsync(string namespaceName, ServiceBusSharedAccessAuthorizationRule rule, CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("namespaceName", namespaceName);
+                tracingParameters.Add("rule", rule);
+                Tracing.Enter(invocationId, this, "UpdateAuthorizationRuleAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/servicebus/namespaces/" + namespaceName + "/AuthorizationRules/" + rule.KeyName;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                httpRequest.Headers.Add("if-match", "*");
+                httpRequest.Headers.Add("type", "entry");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                if (rule != null)
+                {
+                    XElement entryElement = new XElement(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    requestDoc.Add(entryElement);
+                    
+                    XElement contentElement = new XElement(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                    entryElement.Add(contentElement);
+                    
+                    XAttribute typeAttribute = new XAttribute(XName.Get("type", ""), "");
+                    typeAttribute.Value = "application/atom+xml";
+                    contentElement.Add(typeAttribute);
+                    
+                    XElement sharedAccessAuthorizationRuleElement = new XElement(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    contentElement.Add(sharedAccessAuthorizationRuleElement);
+                    
+                    if (rule.ClaimType != null)
+                    {
+                        XElement claimTypeElement = new XElement(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        claimTypeElement.Value = rule.ClaimType;
+                        sharedAccessAuthorizationRuleElement.Add(claimTypeElement);
+                    }
+                    
+                    if (rule.ClaimValue != null)
+                    {
+                        XElement claimValueElement = new XElement(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        claimValueElement.Value = rule.ClaimValue;
+                        sharedAccessAuthorizationRuleElement.Add(claimValueElement);
+                    }
+                    
+                    if (rule.Rights != null)
+                    {
+                        XElement rightsSequenceElement = new XElement(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        foreach (AccessRight rightsItem in rule.Rights)
+                        {
+                            XElement rightsItemElement = new XElement(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            rightsItemElement.Value = rightsItem.ToString();
+                            rightsSequenceElement.Add(rightsItemElement);
+                        }
+                        sharedAccessAuthorizationRuleElement.Add(rightsSequenceElement);
+                    }
+                    
+                    XElement createdTimeElement = new XElement(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    createdTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.CreatedTime.ToUniversalTime());
+                    sharedAccessAuthorizationRuleElement.Add(createdTimeElement);
+                    
+                    XElement modifiedTimeElement = new XElement(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    modifiedTimeElement.Value = string.Format(CultureInfo.InvariantCulture, "{0:O}", rule.ModifiedTime.ToUniversalTime());
+                    sharedAccessAuthorizationRuleElement.Add(modifiedTimeElement);
+                    
+                    XElement revisionElement = new XElement(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                    revisionElement.Value = rule.Revision.ToString();
+                    sharedAccessAuthorizationRuleElement.Add(revisionElement);
+                    
+                    if (rule.KeyName != null)
+                    {
+                        XElement keyNameElement = new XElement(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        keyNameElement.Value = rule.KeyName;
+                        sharedAccessAuthorizationRuleElement.Add(keyNameElement);
+                    }
+                    
+                    if (rule.PrimaryKey != null)
+                    {
+                        XElement primaryKeyElement = new XElement(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                        primaryKeyElement.Value = rule.PrimaryKey;
+                        sharedAccessAuthorizationRuleElement.Add(primaryKeyElement);
+                    }
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Created)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ServiceBusAuthorizationRuleResponse result = new ServiceBusAuthorizationRuleResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement entryElement2 = responseDoc.Element(XName.Get("entry", "http://www.w3.org/2005/Atom"));
+                    if (entryElement2 != null)
+                    {
+                        XElement contentElement2 = entryElement2.Element(XName.Get("content", "http://www.w3.org/2005/Atom"));
+                        if (contentElement2 != null)
+                        {
+                            XElement sharedAccessAuthorizationRuleElement2 = contentElement2.Element(XName.Get("SharedAccessAuthorizationRule", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                            if (sharedAccessAuthorizationRuleElement2 != null)
+                            {
+                                ServiceBusSharedAccessAuthorizationRule sharedAccessAuthorizationRuleInstance = new ServiceBusSharedAccessAuthorizationRule();
+                                result.AuthorizationRule = sharedAccessAuthorizationRuleInstance;
+                                
+                                XElement claimTypeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimType", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimTypeElement2 != null)
+                                {
+                                    string claimTypeInstance = claimTypeElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimType = claimTypeInstance;
+                                }
+                                
+                                XElement claimValueElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ClaimValue", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (claimValueElement2 != null)
+                                {
+                                    string claimValueInstance = claimValueElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.ClaimValue = claimValueInstance;
+                                }
+                                
+                                XElement rightsSequenceElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Rights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (rightsSequenceElement2 != null)
+                                {
+                                    foreach (XElement rightsElement in rightsSequenceElement2.Elements(XName.Get("AccessRights", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect")))
+                                    {
+                                        sharedAccessAuthorizationRuleInstance.Rights.Add((AccessRight)Enum.Parse(typeof(AccessRight), rightsElement.Value, false));
+                                    }
+                                }
+                                
+                                XElement createdTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("CreatedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (createdTimeElement2 != null)
+                                {
+                                    DateTime createdTimeInstance = DateTime.Parse(createdTimeElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.CreatedTime = createdTimeInstance;
+                                }
+                                
+                                XElement modifiedTimeElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("ModifiedTime", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (modifiedTimeElement2 != null)
+                                {
+                                    DateTime modifiedTimeInstance = DateTime.Parse(modifiedTimeElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.ModifiedTime = modifiedTimeInstance;
+                                }
+                                
+                                XElement keyNameElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("KeyName", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (keyNameElement2 != null)
+                                {
+                                    string keyNameInstance = keyNameElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.KeyName = keyNameInstance;
+                                }
+                                
+                                XElement primaryKeyElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("PrimaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (primaryKeyElement2 != null)
+                                {
+                                    string primaryKeyInstance = primaryKeyElement2.Value;
+                                    sharedAccessAuthorizationRuleInstance.PrimaryKey = primaryKeyInstance;
+                                }
+                                
+                                XElement secondaryKeyElement = sharedAccessAuthorizationRuleElement2.Element(XName.Get("SecondaryKey", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (secondaryKeyElement != null)
+                                {
+                                    string secondaryKeyInstance = secondaryKeyElement.Value;
+                                    sharedAccessAuthorizationRuleInstance.SecondaryKey = secondaryKeyInstance;
+                                }
+                                
+                                XElement revisionElement2 = sharedAccessAuthorizationRuleElement2.Element(XName.Get("Revision", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"));
+                                if (revisionElement2 != null)
+                                {
+                                    int revisionInstance = int.Parse(revisionElement2.Value, CultureInfo.InvariantCulture);
+                                    sharedAccessAuthorizationRuleInstance.Revision = revisionInstance;
                                 }
                             }
                         }
