@@ -348,7 +348,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="username">The user principle name</param>
         /// <param name="permissions">Set of permissions given to the rule</param>
         /// <returns>The created Windows authorization rule</returns>
-        /// Uncomment for now we will need this part in the future when adding Katal Authentication Rules.
+        /// Comment for now we will need this part in the future when adding Katal Authentication Rules.
         //public virtual AllowRule CreateWindowsAuthorization(
         //    string namespaceName,
         //    string ruleName,
