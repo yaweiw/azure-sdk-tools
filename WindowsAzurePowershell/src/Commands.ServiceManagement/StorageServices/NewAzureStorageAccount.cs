@@ -78,8 +78,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                 Label =  this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
-                Location = this.Location
+                Location = this.Location,
+                GeoReplicationEnabled = true
             };
+
             ExecuteClientActionNewSM(
                 parameters,
                 CommandRuntime.ToString(),
