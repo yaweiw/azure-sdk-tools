@@ -21,19 +21,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     public interface ITokenProvider
     {
         /// <summary>
-        /// Get a token for the given userID and login type.
+        /// Get a token for the given userID and login type from the token cache.
+        /// Does not request token from underlying provider.
         /// </summary>
         /// <param name="subscription">The subscription to request a token for.</param>
         /// <param name="userId">ID of user to retrieve token for. If null,
         /// requests a whole new token, prompting user for credentials.</param>
         /// <returns>An access token or null if authentication is canceled.</returns>
-        IAccessToken GetToken(WindowsAzureSubscription subscription, string userId);
+        IAccessToken GetCachedToken(WindowsAzureSubscription subscription, string userId);
 
         /// <summary>
         /// Get a new login token, prompting user for credentials.
         /// </summary>
         /// <param name="environment">Environment to request a token for.</param>
-        /// <returns>An access token or null if authentication is canceled.</returns>
+        /// <returns>An access token.</returns>
         IAccessToken GetNewToken(WindowsAzureEnvironment environment);
+
+        /// <summary>
+        /// Get a new login token for the given subscription and user id.
+        /// </summary>
+        /// <param name="subscription">Subscription containing which tenant to request token from.</param>
+        /// <param name="userId">User ID to get the token for.</param>
+        /// <returns>An access token.</returns>
+        IAccessToken GetNewToken(WindowsAzureSubscription subscription, string userId);
+
     }
 }
