@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
     using HydraServiceBusNamespace = Microsoft.WindowsAzure.Management.ServiceBus.Models.ServiceBusNamespace;
     using System.Text.RegularExpressions;
+    using ServiceBusNamespaceDescription = Microsoft.WindowsAzure.Management.ServiceBus.Models.NamespaceDescription;
 
     public class ServiceBusClientExtensions
     {
@@ -40,29 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         public WindowsAzureSubscription Subscription { get; set; }
 
-        public Action<string> Logger { get; set; }
-
         public ServiceBusManagementClient ServiceBusClient { get; internal set; }
 
         public const string NamespaceACSConnectionStringKeyName = "ACSOwnerKey";
 
         public const string NamespaceSASConnectionStringKeyName = "RootManageSharedAccessKey";
-
-        //private HttpClient CreateServiceBusHttpClient()
-        //{
-        //    WebRequestHandler requestHandler = new WebRequestHandler()
-        //    {
-        //        ClientCertificateOptions = ClientCertificateOption.Manual
-        //    };
-        //    requestHandler.ClientCertificates.Add(Subscription.Certificate);
-        //    StringBuilder endpoint = new StringBuilder(General.EnsureTrailingSlash(Subscription.ServiceEndpoint.ToString()));
-        //    endpoint.Append(subscriptionId);
-        //    endpoint.Append("/services/servicebus/namespaces/");
-        //    HttpClient client = HttpClientHelper.CreateClient(endpoint.ToString(), handler: requestHandler);
-        //    client.DefaultRequestHeaders.Add(ApiConstants.VersionHeaderName, "2012-03-01");
-
-        //    return client;
-        //}
 
         private NamespaceManager CreateNamespaceManager(string namespaceName)
         {
@@ -205,8 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             }
             else
             {
-                return ServiceBusClient.AuthorizationRules
-                    .GetAuthorizationRulesForNamespace(options.Namespace)
+                return ServiceBusClient.Namespaces.ListAuthorizationRules(options.Namespace)
                     .AuthorizationRules
                     .Select(ar => ar.ToSharedAccessAuthorizationRule())
                     .Select(r => CreateExtendedAuthorizationRule(r, options.Namespace))
@@ -265,11 +247,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// </summary>
         /// <param name="subscription"></param>
         /// <param name="logger">The logger action</param>
-        public ServiceBusClientExtensions(WindowsAzureSubscription subscription, Action<string> logger = null)
+        public ServiceBusClientExtensions(WindowsAzureSubscription subscription)
         {
             subscriptionId = subscription.SubscriptionId;
             Subscription = subscription;
-            Logger = logger;
             ServiceBusClient = Subscription.CreateClient<ServiceBusManagementClient>();
         }
 
@@ -281,8 +262,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <returns>The connection string value</returns>
         public virtual string GetConnectionString(string namespaceName, string keyName)
         {
-            List<ConnectionDetail> connectionStrings = GetConnectionString(namespaceName);
-            ConnectionDetail connectionString = connectionStrings.Find(c => c.KeyName.Equals(
+            List<ServiceBusConnectionDetail> connectionStrings = GetConnectionString(namespaceName);
+            ServiceBusConnectionDetail connectionString = connectionStrings.Find(c => c.KeyName.Equals(
                 keyName,
                 StringComparison.OrdinalIgnoreCase));
 
@@ -301,8 +282,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             ServiceBusEntityType entityType,
             string keyName)
         {
-            List<ConnectionDetail> connectionStrings = GetConnectionString(namespaceName, entityName, entityType);
-            ConnectionDetail connectionString = connectionStrings.Find(c => c.KeyName.Equals(
+            List<ServiceBusConnectionDetail> connectionStrings = GetConnectionString(namespaceName, entityName, entityType);
+            ServiceBusConnectionDetail connectionString = connectionStrings.Find(c => c.KeyName.Equals(
                 keyName,
                 StringComparison.OrdinalIgnoreCase));
 
@@ -316,21 +297,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="entityName">The entity name</param>
         /// <param name="entityType">The entity type</param>
         /// <returns>List of all available connection strings</returns>
-        public virtual List<ConnectionDetail> GetConnectionString(
+        public virtual List<ServiceBusConnectionDetail> GetConnectionString(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType)
         {
-            //using (HttpClient client = CreateServiceBusHttpClient())
-            //{
-            //    client.DefaultRequestHeaders.Add("x-process-at", "servicebus");
-            //    return client.GetJson<List<ConnectionDetail>>(
-            //        UriElement.ConnectionStringUri(namespaceName, entityName, entityType),
-            //        Logger);
-            //}
+            switch (entityType)
+            {
+                case ServiceBusEntityType.Queue:
+                    return ServiceBusClient.Queues.GetConnectionDetails(namespaceName, entityName).ConnectionDetails
+                        .ToList();
 
-            // To Do: get the connection string API for each entity
-            throw new NotImplementedException();
+                case ServiceBusEntityType.Topic:
+                    return ServiceBusClient.Topics.GetConnectionDetails(namespaceName, entityName).ConnectionDetails
+                        .ToList();
+
+                case ServiceBusEntityType.Relay:
+                    return ServiceBusClient.Relays.GetConnectionDetails(namespaceName, entityName).ConnectionDetails
+                        .ToList();
+
+                case ServiceBusEntityType.NotificationHub:
+                    return ServiceBusClient.NotificationHubs.GetConnectionDetails(namespaceName, entityName)
+                        .ConnectionDetails
+                        .ToList();
+
+                default:
+                    throw new Exception(string.Format(Resources.ServiceBusEntityTypeNotFound, entityType.ToString()));
+            }
             
         }
 
@@ -339,17 +332,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// </summary>
         /// <param name="namespaceName">The namespace name</param>
         /// <returns>List of connection strings</returns>
-        public virtual List<ConnectionDetail> GetConnectionString(string namespaceName)
+        public virtual List<ServiceBusConnectionDetail> GetConnectionString(string namespaceName)
         {
-            //using (HttpClient client = CreateServiceBusHttpClient())
-            //{
-            //    return client.GetJson<List<ConnectionDetail>>(
-            //        UriElement.ConnectionStringUri(namespaceName),
-            //        Logger);
-            //}
+            return ServiceBusClient.Namespaces.GetNamespaceDescription(namespaceName).NamespaceDescriptions
+                .Select(d => d.ToServiceBusConnectionDetail())
+                .ToList();
 
-            // To Do: Get API for getting namespace connection string
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -404,25 +392,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 secondaryKey,
                 permissions);
 
-            //using (HttpClient client = CreateServiceBusHttpClient())
-            //{
-            //    rule = client.PostJson(UriElement.GetNamespaceAuthorizationRulesPath(namespaceName), rule, Logger);
-            //}
-
-            ServiceBusSharedAccessAuthorizationRule sbRule = new ServiceBusSharedAccessAuthorizationRule()
-            {
-                ClaimType = rule.ClaimType,
-                ClaimValue = rule.ClaimValue,
-                CreatedTime = rule.CreatedTime,
-                KeyName = rule.KeyName,
-                ModifiedTime = rule.ModifiedTime,
-                PrimaryKey = rule.PrimaryKey,
-                // To Do: get the access rights and set/get
-                // Rights = rule.Rights,
-                SecondaryKey = rule.SecondaryKey
-            };
-
-            rule = ServiceBusClient.AuthorizationRules.CreateNamespaceAuthorizationRule(namespaceName, sbRule)
+            rule = ServiceBusClient.Namespaces.CreateAuthorizationRule(
+                namespaceName,
+                rule.ToServiceBusSharedAccessAuthorizationRule())
                 .AuthorizationRule.ToSharedAccessAuthorizationRule();
             
             return CreateExtendedAuthorizationRule(rule, namespaceName);
@@ -575,13 +547,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 rule.PrimaryKey = SharedAccessAuthorizationRule.GenerateRandomKey();
             }
 
-            //using (HttpClient client = CreateServiceBusHttpClient())
-            //{
-            //    rule = client.PutJson(UriElement.GetAuthorizationRulePath(namespaceName, ruleName), rule, Logger);
-            //}
-
-            // To Do: get the update auth rule API
-            // rule = ServiceBusClient.AuthorizationRules.UpdateNamespaceAuthorizationRule(namespaceName, ruleName, rule);
+            rule = ServiceBusClient.Namespaces.UpdateAuthorizationRule(
+                namespaceName,
+                rule.ToServiceBusSharedAccessAuthorizationRule())
+                .AuthorizationRule.ToSharedAccessAuthorizationRule();
 
             return CreateExtendedAuthorizationRule(rule, namespaceName);
         }
@@ -699,15 +668,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="ruleName">The SAS authorization rule name</param>
         public virtual void RemoveAuthorizationRule(string namespaceName, string ruleName)
         {
-            //using (HttpClient client = CreateServiceBusHttpClient())
-            //{
-            //    client.Delete(UriElement.GetAuthorizationRulePath(namespaceName, ruleName), Logger);
-            //}
-
-            // To Do: get the delete namespace rule API
-            //ServiceBusClient.AuthorizationRules.DeleteNamespaceAuthorizationRule(namespaceName, ruleName);
-            
-            throw new NotImplementedException();
+            ServiceBusClient.Namespaces.DeleteAuthorizationRule(namespaceName, ruleName);
         }
 
         /// <summary>
@@ -835,12 +796,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
             }
 
-            return ServiceBusClient.Namespaces.GetByName(name).Namespace;
+            return ServiceBusClient.Namespaces.Get(name).Namespace;
         }
 
         public List<HydraServiceBusNamespace> GetNamespace()
         {
-            return ServiceBusClient.Namespaces.Get().Namespaces.ToList();
+            return ServiceBusClient.Namespaces.List().Namespaces.ToList();
         }
 
         public bool IsAvailableNamespace(string name)
@@ -909,9 +870,44 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         WindowsAuthorization
     }
 
-    static public class ServiceBusAuthorizationRuleExtensions
+    static public class ServiceBusClientExtensionMethods
     {
-        static public SharedAccessAuthorizationRule ToSharedAccessAuthorizationRule(this ServiceBusSharedAccessAuthorizationRule sbRule)
+        static public ServiceBusSharedAccessAuthorizationRule ToServiceBusSharedAccessAuthorizationRule(
+            this SharedAccessAuthorizationRule rule)
+        {
+            List<AccessRight> rights = new List<AccessRight>();
+
+            if (rule.Rights.Contains(AccessRights.Listen))
+            {
+                rights.Add(AccessRight.Listen);
+            }
+
+            if (rule.Rights.Contains(AccessRights.Manage))
+            {
+                rights.Add(AccessRight.Manage);
+            }
+
+            if (rule.Rights.Contains(AccessRights.Send))
+            {
+                rights.Add(AccessRight.Send);
+            }
+
+            return new ServiceBusSharedAccessAuthorizationRule()
+            {
+                ClaimType = rule.ClaimType,
+                ClaimValue = rule.ClaimValue,
+                CreatedTime = rule.CreatedTime,
+                KeyName = rule.KeyName,
+                ModifiedTime = rule.ModifiedTime,
+                PrimaryKey = rule.PrimaryKey,
+                Revision = (int)rule.Revision,
+                Rights = rights,
+                SecondaryKey = rule.SecondaryKey
+            };
+        }
+
+        static public SharedAccessAuthorizationRule ToSharedAccessAuthorizationRule(
+            this ServiceBusSharedAccessAuthorizationRule sbRule)
         {
             List<AccessRights> rights = new List<AccessRights>();
 
@@ -931,6 +927,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             }
 
             return new SharedAccessAuthorizationRule(sbRule.KeyName, sbRule.PrimaryKey, sbRule.SecondaryKey, rights);
+        }
+
+        static public ServiceBusConnectionDetail ToServiceBusConnectionDetail(this ServiceBusNamespaceDescription namespaceDesc)
+        {
+            return new ServiceBusConnectionDetail()
+            {
+                AuthorizationType = namespaceDesc.AuthorizationType,
+                ConnectionString = namespaceDesc.ConnectionString,
+                KeyName = namespaceDesc.KeyName,
+                Rights = namespaceDesc.Rights
+            };
         }
     }
 }
