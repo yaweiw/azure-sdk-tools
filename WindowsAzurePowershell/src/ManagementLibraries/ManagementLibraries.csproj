@@ -86,8 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloudServiceManagement\CloudServiceManagementClient.cs" />
-    <Compile Include="CloudServiceManagement\CloudServiceManagementClient.Customization.cs" />
     <Compile Include="Common\CloudClients.cs" />
     <Compile Include="Common\CloudContext.cs" />
     <Compile Include="Common\Configuration\CloudConfiguration.cs" />
