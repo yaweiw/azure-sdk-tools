@@ -17,41 +17,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     using System.Collections.Generic;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.Utilities.ServiceBus.Contract;
-    using Commands.Utilities.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSBLocation"), OutputType(typeof(List<ServiceBusRegion>))]
-    public class GetAzureSBLocationCommand : CloudBaseCmdlet<IServiceBusManagement>
+    [Cmdlet(VerbsCommon.Get, "AzureSBLocation"), OutputType(typeof(List<ServiceBusLocation>))]
+    public class GetAzureSBLocationCommand : CmdletWithSubscriptionBase
     {
-        /// <summary>
-        /// Initializes a new instance of the GetAzureSBLocationCommand class.
-        /// </summary>
-        public GetAzureSBLocationCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the GetAzureSBLocationCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureSBLocationCommand(IServiceBusManagement channel)
-        {
-            Channel = channel;
-        }
+        internal ServiceBusClientExtensions Client { get; set; }
 
         /// <summary>
         /// Gets list of service bus regions on the given subscription.
         /// </summary>
         public override void ExecuteCmdlet()
         {
-            List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId);
-            WriteObject(regions, true);
+            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription);
+            WriteObject(Client.GetServiceBusRegions(), true);
         }
     }
 }
