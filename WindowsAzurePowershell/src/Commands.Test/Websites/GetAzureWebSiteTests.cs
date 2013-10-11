@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 Profile = new WindowsAzureProfile(new Mock<IProfileStore>().Object)
             };
 
-            Testing.AssertThrows<Exception>(getAzureWebsiteCommand.ExecuteCmdlet, Resources.NoDefaultSubscriptionMessage);
+            Testing.AssertThrows<Exception>(getAzureWebsiteCommand.ExecuteCmdlet, Resources.InvalidCurrentSubscription);
         }
 
         [TestMethod]
