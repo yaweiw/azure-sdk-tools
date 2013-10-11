@@ -108,7 +108,7 @@ Clears the all created resources while doing the test.
 #>
 function Test-CleanupServiceBus
 {
-	try { foreach ($name in $global:createdNamespaces) { Remove-Namespace $name } }
+	try { foreach ($name in $global:createdNamespaces) { Remove-Namespace $name -Force } }
 	catch { <# Succeed #> }
 	$global:createdNamespaces = @()
 }
