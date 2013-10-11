@@ -45,8 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            EnsureCurrentSubscription();
-
             if (!string.IsNullOrEmpty(Name))
             {
                 GetByName();
@@ -89,14 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                     WriteWebsites(websites);
                 });
-        }
-
-        private void EnsureCurrentSubscription()
-        {
-            if (CurrentSubscription == null)
-            {
-                throw new Exception(Resources.NoDefaultSubscriptionMessage);
-            }
         }
 
         private void Do(Action call)
