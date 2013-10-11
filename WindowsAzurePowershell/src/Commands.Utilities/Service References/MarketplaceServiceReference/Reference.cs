@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name:
-// Generation date: 10/11/2013 8:55:07 AM
+// Generation date: 10/11/2013 9:19:45 AM
 namespace Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference
 {
     
