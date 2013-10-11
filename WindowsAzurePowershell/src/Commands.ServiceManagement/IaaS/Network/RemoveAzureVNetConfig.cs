@@ -15,7 +15,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System.IO;
     using System.Management.Automation;
+    using System.Xml;
+    using System.Xml.Linq;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using Utilities.Common;
@@ -23,13 +26,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
+        private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";
+        private static readonly XNamespace InstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+
         protected override void OnProcessRecord()
         {
-            NetworkSetConfigurationParameters networkConfigParams = new NetworkSetConfigurationParameters();
+            ServiceManagementProfile.Initialize();
 
-            this.ExecuteClientActionNewSM(
-                networkConfigParams,
-                this.CommandRuntime.ToString(),
+            var netConfig = new XElement(
+                NetconfigNamespace + "NetworkConfiguration",
+                new XAttribute("xmlns", NetconfigNamespace.NamespaceName),
+                new XAttribute(XNamespace.Xmlns + "xsi", InstanceNamespace.NamespaceName),
+                new XElement(NetconfigNamespace + "VirtualNetworkConfiguration"));
+
+            NetworkSetConfigurationParameters networkConfigParams = new NetworkSetConfigurationParameters
+            {
+                Configuration = netConfig.ToString()
+            };
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
                 () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
         }
     }
