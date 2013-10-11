@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
 
-            Assert.IsTrue(actual);
+            Assert.IsFalse(actual);
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             
-            Assert.IsFalse(actual);
+            Assert.IsTrue(actual);
         }
     }
 }
