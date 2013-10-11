@@ -107,10 +107,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
                 {
                     if (adex.ErrorCode == ActiveDirectoryAuthenticationError.AuthenticationCanceled)
                     {
-                        throw new AadAuthenticationCanceledException();
+                        throw new AadAuthenticationCanceledException(adex.Message, adex);
                     }
                 }
-                throw new AadAuthenticationFailedException(GetExceptionMessage(ex));
+                throw new AadAuthenticationFailedException(GetExceptionMessage(ex), ex);
             }
 
             return result;
