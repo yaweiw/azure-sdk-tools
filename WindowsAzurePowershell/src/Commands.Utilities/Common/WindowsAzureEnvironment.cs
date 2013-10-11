@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                     if (mainToken.LoginType == LoginType.LiveId)
                     {
-                        azureSubscription.SetAccessToken(tokenProvider.GetToken(azureSubscription, mainToken.UserId));
+                        azureSubscription.SetAccessToken(tokenProvider.GetNewToken(azureSubscription, mainToken.UserId));
                     }
                     else
                     {
