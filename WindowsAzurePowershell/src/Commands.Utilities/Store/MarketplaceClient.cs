@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             countryCode = string.IsNullOrEmpty(countryCode) ? "US" : countryCode;
             List<WindowsAzureOffer> result = new List<WindowsAzureOffer>();
             List<Offer> windowsAzureOffers = new List<Offer>();
-            CatalogServiceContext context = new CatalogServiceContext(new Uri(Resources.MarketplaceEndpoint));
+            CatalogServiceReadOnlyDbContext context = new CatalogServiceReadOnlyDbContext(new Uri(Resources.MarketplaceEndpoint));
             DataServiceQueryContinuation<Offer> nextOfferLink = null;
 
             do
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         /// <returns>The offer instance</returns>
         public virtual Offer GetOffer(string offerId)
         {
-            CatalogServiceContext context = new CatalogServiceContext(new Uri(Resources.MarketplaceEndpoint));
+            CatalogServiceReadOnlyDbContext context = new CatalogServiceReadOnlyDbContext(new Uri(Resources.MarketplaceEndpoint));
             var offers = from o in context.Offers where o.OfferIdentifier == offerId select o;
             
             return offers.FirstOrDefault<Offer>();
