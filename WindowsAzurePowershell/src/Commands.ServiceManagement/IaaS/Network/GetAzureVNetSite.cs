@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                                                        Address = ds.Address.ToString(),
                                                                        Name = ds.Name
                                                                    },
-                        GatewayProfile       = s.Gateway != null ? s.Gateway.Profile : null,
+                        GatewayProfile       = s.Gateway != null ? s.Gateway.Profile.ToString() : null,
                         GatewaySites         = s.Gateway == null ? null : s.Gateway.Sites == null ? null :
                                                s.Gateway.Sites.Select(gs => new Model.PersistentVMModel.LocalNetworkSite
                                                {
