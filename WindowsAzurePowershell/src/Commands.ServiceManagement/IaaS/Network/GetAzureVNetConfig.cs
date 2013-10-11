@@ -52,97 +52,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     var netcfg = this.NetworkClient.Networks.GetConfiguration();
                     var operation = GetOperationNewSM(netcfg.RequestId);
 
+                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
+
                     if (netcfg != null)
                     {
-                        NetworkConfiguration netobj = new NetworkConfiguration();
-                        int i = 0; 
-                        if (netcfg.DnsServers.Count > 0)
-                        {
-                            netobj.VirtualNetworkConfiguration = netobj.VirtualNetworkConfiguration == null ? new VirtualNetworkConfiguration() : netobj.VirtualNetworkConfiguration;
-                            netobj.VirtualNetworkConfiguration.Dns = new Dns();
-                            netobj.VirtualNetworkConfiguration.Dns.DnsServers = new DnsServer[netcfg.DnsServers.Count];
-                            i = 0;
-                            foreach (var ds in netcfg.DnsServers)
-                            {
-                                netobj.VirtualNetworkConfiguration.Dns.DnsServers[i++] = new DnsServer
-                                {
-                                    IPAddress = ds.IPAddress.ToString(),
-                                    name = ds.Name
-                                };
-                            }
-                        }
-
-                        if (netcfg.LocalNetworkSites.Count > 0)
-                        {
-                            netobj.VirtualNetworkConfiguration = netobj.VirtualNetworkConfiguration == null ? new VirtualNetworkConfiguration() : netobj.VirtualNetworkConfiguration;
-                            netobj.VirtualNetworkConfiguration.LocalNetworkSites = new LocalNetworkSite[netcfg.LocalNetworkSites.Count];
-                            i = 0;
-                            foreach (var lns in netcfg.LocalNetworkSites)
-                            {
-                                netobj.VirtualNetworkConfiguration.LocalNetworkSites[i] = new LocalNetworkSite
-                                {
-                                    name = lns.Name,
-                                    VPNGatewayAddress = lns.VpnGatewayAddress.ToString()
-                                };
-
-                                netobj.VirtualNetworkConfiguration.LocalNetworkSites[i].AddressSpace = lns.AddressSpace.ToArray();
-                                i++;
-                            }
-                        }
-
-                        if (netcfg.VirtualNetworkSites.Count > 0)
-                        {
-                            netobj.VirtualNetworkConfiguration = netobj.VirtualNetworkConfiguration == null ? new VirtualNetworkConfiguration() : netobj.VirtualNetworkConfiguration;
-                            netobj.VirtualNetworkConfiguration.VirtualNetworkSites = new VirtualNetworkSite[netcfg.VirtualNetworkSites.Count];
-                            i = 0;
-                            foreach (var vns in netcfg.VirtualNetworkSites)
-                            {
-                                netobj.VirtualNetworkConfiguration.VirtualNetworkSites[i] = new VirtualNetworkSite
-                                {
-                                    AddressSpace = vns.AddressSpace == null ? null : vns.AddressSpace.ToArray(),
-                                    name = vns.Name,
-                                    AffinityGroup = vns.AffinityGroup,
-                                    Gateway = vns.Gateway == null ? null : new Gateway
-                                    {
-                                        profile = string.IsNullOrEmpty(vns.Gateway.Profile) ? GatewaySize.Small : (GatewaySize)Enum.Parse(typeof(GatewaySize), vns.Gateway.Profile, true),
-                                        VPNClientAddressPool = vns.Gateway.VpnClientAddressPool == null ? null : vns.Gateway.VpnClientAddressPool.ToArray(),
-                                        ConnectionsToLocalNetwork = vns.Gateway.ConnectionsToLocalNetwork == null ? null :
-                                                                    (from ln in vns.Gateway.ConnectionsToLocalNetwork
-                                                                     select new LocalNetworkSiteRef
-                                                                     {
-                                                                         name = ln.Name,
-                                                                         Connection = new Connection[1]
-                                                                         {
-                                                                             new Connection
-                                                                             {
-                                                                                 type = ln.ConnectionType == LocalNetworkConnectionType.IPSecurity ? ConnectionType.IPsec : ConnectionType.Dedicated
-                                                                             }
-                                                                         }
-                                                                     }).ToArray(),
-                                    },
-                                    Subnets = new Subnet[vns.Subnets.Count],
-                                    InternetGatewayNetwork = new InternetGatewayNetwork
-                                    {
-                                        name = vns.Label
-                                    },
-                                    DnsServersRef = vns.DnsServerReferences == null ? null : (from dsr in vns.DnsServerReferences
-                                                                                              select new DnsServerRef
-                                                                                              {
-                                                                                                  name = dsr.Name
-                                                                                              }).ToArray()
-                                };
-                            }
-                        }
-
-                        XmlSerializer ser = new XmlSerializer(typeof(NetworkConfiguration));
-                        StringWriter sw = new StringWriter();
-                        ser.Serialize(sw, netobj);
-                        var xml = sw.ToString();
+                        // TODO: might want to change this to an XML object of some kind...
+                        var xml = netcfg.Configuration;
 
                         var networkConfig = new VirtualNetworkConfigContext
                         {
                             XMLConfiguration = xml,
-                            OperationId = operation.Id,
+                            OperationId = operation.RequestId,
                             OperationDescription = CommandRuntime.ToString(),
                             OperationStatus = operation.Status.ToString()
                         };
@@ -154,8 +74,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                         result = networkConfig;
                     }
-
-                    WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
                 }
                 catch (CloudException ex)
                 {
