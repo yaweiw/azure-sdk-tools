@@ -751,7 +751,7 @@ Tests New azure web site with git hub.
 function Test-NewAzureWebSiteGitHubAllParms
 {
 	$GitHub_USERNAME = $env:GITHub_USERNAME
-	$GitHub_PASSWORD = $env:GITHub_USERNAME
+	$GitHub_PASSWORD = $env:GITHub_PASSWORD
 	$GitHub_REPO = $env:GITHub_USERNAME + "/WebChatDefault-0802"
 	
 	# Setup
