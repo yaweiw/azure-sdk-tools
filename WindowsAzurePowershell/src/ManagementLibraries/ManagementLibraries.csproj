@@ -31,6 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -154,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaServices\packages.config" />
+    <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
