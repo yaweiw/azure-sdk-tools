@@ -81,15 +81,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     }
 
                     foreach (var r in roles.Select(role => new RoleContext
-                        {
-                            InstanceCount = currentDeployment.Roles.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)), 
-                            RoleName = role.RoleName, 
-                            OperationDescription = this.CommandRuntime.ToString(), 
-                            OperationStatus = getDeploymentOperation.Status.ToString(), 
-                            OperationId = getDeploymentOperation.Id, 
-                            ServiceName = this.ServiceName, 
-                            DeploymentID = currentDeployment.PrivateId
-                        }))
+                    {
+                        InstanceCount = currentDeployment.RoleInstances.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)),
+                        RoleName = role.RoleName,
+                        OperationDescription = this.CommandRuntime.ToString(),
+                        OperationStatus = getDeploymentOperation.Status.ToString(),
+                        OperationId = getDeploymentOperation.Id,
+                        ServiceName = this.ServiceName,
+                        DeploymentID = currentDeployment.PrivateId
+                    }))
                     {
                         roleContexts.Add(r);
                     }

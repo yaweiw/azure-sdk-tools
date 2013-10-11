@@ -221,6 +221,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             //Storage mapping
             Mapper.CreateMap<StorageServiceGetResponse, StorageServicePropertiesOperationContext>()
+                  .ForMember(c => c.StorageAccountDescription, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.Description))
                   .ForMember(c => c.StorageAccountName, o => o.MapFrom(r => r.ServiceName));
             Mapper.CreateMap<StorageServiceProperties, StorageServicePropertiesOperationContext>()
                   .ForMember(c => c.StorageAccountDescription, o => o.MapFrom(r => r.Description))
@@ -230,6 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.StatusOfPrimary, o => o.MapFrom(r => r.StatusOfGeoPrimaryRegion))
                   .ForMember(c => c.StatusOfSecondary, o => o.MapFrom(r => r.StatusOfGeoSecondaryRegion));
             Mapper.CreateMap<StorageServiceListResponse.StorageService, StorageServicePropertiesOperationContext>()
+                  .ForMember(c => c.StorageAccountDescription, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.Description))
                   .ForMember(c => c.StorageAccountName, o => o.MapFrom(r => r.ServiceName));
             Mapper.CreateMap<OperationStatusResponse, StorageServicePropertiesOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
