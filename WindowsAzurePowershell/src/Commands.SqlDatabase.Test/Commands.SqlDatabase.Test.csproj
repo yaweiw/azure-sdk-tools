@@ -100,14 +100,6 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -226,6 +218,14 @@
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.NetFramework\Common.NetFramework.csproj">
+      <Project>{14529261-9f9f-4d2f-80d5-b26677f51e8b}</Project>
+      <Name>Common.NetFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
+      <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
+      <Name>ManagementLibraries</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
