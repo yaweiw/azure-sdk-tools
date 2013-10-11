@@ -52,14 +52,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             // Setup
             string name = "test";
             cmdlet.Name = name;
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name };
             client.Setup(f => f.GetNamespace(name)).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
         }
 
@@ -69,16 +69,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             // Setup
             string name1 = "test1";
             string name2 = "test2";
-            List<ServiceBusNamespace> expected = new List<ServiceBusNamespace>();
-            expected.Add(new ServiceBusNamespace { Name = name1 });
-            expected.Add(new ServiceBusNamespace { Name = name2 });
+            List<ExtendedServiceBusNamespace> expected = new List<ExtendedServiceBusNamespace>();
+            expected.Add(new ExtendedServiceBusNamespace { Name = name1 });
+            expected.Add(new ExtendedServiceBusNamespace { Name = name2 });
             client.Setup(f => f.GetNamespace()).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusNamespace>;
+            List<ExtendedServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ExtendedServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {
