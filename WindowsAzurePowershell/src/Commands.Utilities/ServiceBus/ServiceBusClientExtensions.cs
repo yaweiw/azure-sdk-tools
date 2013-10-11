@@ -448,7 +448,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="secondaryKey">The SAS secondary key</param>
         /// <param name="permissions">Set of permissions given to the rule</param>
         /// <returns>The created Shared Access Signature authorization rule</returns>
-        public ExtendedAuthorizationRule CreateSharedAccessAuthorization(
+        public virtual ExtendedAuthorizationRule CreateSharedAccessAuthorization(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType,
@@ -507,7 +507,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="namespaceName">The namespace name</param>
         /// <param name="name">The queue name</param>
         /// <returns>The queue description object</returns>
-        public QueueDescription CreateQueue(string namespaceName, string name)
+        public virtual QueueDescription CreateQueue(string namespaceName, string name)
         {
             return CreateNamespaceManager(namespaceName).CreateQueue(name);
         }
@@ -518,7 +518,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="namespaceName">The namespace name</param>
         /// <param name="name">The topic name</param>
         /// <returns>The topic description object</returns>
-        public TopicDescription CreateTopic(string namespaceName, string name)
+        public virtual TopicDescription CreateTopic(string namespaceName, string name)
         {
             return CreateNamespaceManager(namespaceName).CreateTopic(name);
         }
@@ -530,7 +530,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="name">The relay name</param>
         /// <param name="type">The relay type</param>
         /// <returns>The relay description object</returns>
-        public RelayDescription CreateRelay(string namespaceName, string name, RelayType type)
+        public virtual RelayDescription CreateRelay(string namespaceName, string name, RelayType type)
         {
             return CreateNamespaceManager(namespaceName).CreateRelayAsync(name, type).Result;
         }
@@ -541,7 +541,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="namespaceName">The namespace name</param>
         /// <param name="name">The notification hub name</param>
         /// <returns>The notification hub description object</returns>
-        public NotificationHubDescription CreateNotificationHub(string namespaceName, string name)
+        public virtual NotificationHubDescription CreateNotificationHub(string namespaceName, string name)
         {
             NotificationHubDescription description = new NotificationHubDescription(name);
             return CreateNamespaceManager(namespaceName).CreateNotificationHub(description);
@@ -603,7 +603,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="secondaryKey">The SAS secondary key</param>
         /// <param name="permissions">Set of permissions given to the rule</param>
         /// <returns>The created Shared Access Signature authorization rule</returns>
-        public ExtendedAuthorizationRule UpdateSharedAccessAuthorization(
+        public virtual ExtendedAuthorizationRule UpdateSharedAccessAuthorization(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType,
@@ -714,7 +714,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="entityName">The fully qualified service bus entity name</param>
         /// <param name="entityType">The service bus entity type (e.g. Queue)</param>
         /// <param name="ruleName">The SAS authorization rule name</param>
-        public void RemoveAuthorizationRule(
+        public virtual void RemoveAuthorizationRule(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType,
@@ -782,7 +782,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="namespaceName">The namespace name</param>
         /// <param name="ruleName">The rule name</param>
         /// <returns>The authorization rule that matches the specified name</returns>
-        public ExtendedAuthorizationRule GetAuthorizationRule(
+        public virtual ExtendedAuthorizationRule GetAuthorizationRule(
             string namespaceName,
             string ruleName)
         {
@@ -803,7 +803,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <param name="entityType">The entity type</param>
         /// <param name="ruleName">The rule name</param>
         /// <returns>The authorization rule that matches the specified name</returns>
-        public ExtendedAuthorizationRule GetAuthorizationRule(
+        public virtual ExtendedAuthorizationRule GetAuthorizationRule(
             string namespaceName,
             string entityName,
             ServiceBusEntityType entityType,
@@ -820,12 +820,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             return FilterAuthorizationRules(options).FirstOrDefault();
         }
 
-        public List<ServiceBusLocation> GetServiceBusRegions()
+        public virtual List<ServiceBusLocation> GetServiceBusRegions()
         {
             return ServiceBusClient.GetServiceBusRegions().Regions.ToList();
         }
 
-        public ExtendedServiceBusNamespace GetNamespace(string name)
+        public virtual ExtendedServiceBusNamespace GetNamespace(string name)
         {
             if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
             {
@@ -835,8 +835,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             return GetExtendedServiceBusNamespace(name);
         }
 
-
-        public List<ExtendedServiceBusNamespace> GetNamespace()
+        public virtual List<ExtendedServiceBusNamespace> GetNamespace()
         {
             return ServiceBusClient.Namespaces.List().Namespaces.
                 Select(s => GetExtendedServiceBusNamespace(s.Name))
@@ -844,22 +843,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 .ToList();
         }
 
-        public bool IsAvailableNamespace(string name)
+        public virtual bool IsAvailableNamespace(string name)
         {
             return ServiceBusClient.Namespaces.CheckAvailability(name).IsAvailable;
         }
 
-        public string GetDefaultLocation()
+        public virtual string GetDefaultLocation()
         {
             return ServiceBusClient.GetServiceBusRegions().Regions.First().Code;
         }
 
-        public bool NamespaceExists(string name)
+        public virtual bool NamespaceExists(string name)
         {
             return GetNamespace().Exists(ns => ns.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public ExtendedServiceBusNamespace CreateNamespace(string name, string location)
+        public virtual ExtendedServiceBusNamespace CreateNamespace(string name, string location)
         {
             location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
 
@@ -873,26 +872,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             return GetExtendedServiceBusNamespace(name);
         }
 
-        public bool RemoveNamespace(string name)
+        public virtual bool RemoveNamespace(string name)
         {
-            try
-            {
-                if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
-                {
-                    ServiceBusClient.Namespaces.Delete(name);
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Equals(Resources.InternalServerErrorMessage))
-                {
-                    throw new Exception(Resources.RemoveNamespaceErrorMessage);
-                }
-            }
+            ServiceBusClient.Namespaces.Delete(name);
 
             return true;
         }
