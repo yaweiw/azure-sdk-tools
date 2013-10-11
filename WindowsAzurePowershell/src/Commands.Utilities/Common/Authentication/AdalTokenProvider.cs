@@ -16,10 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Text;
     using System.Threading;
     using System.Windows.Forms;
     using IdentityModel.Clients.ActiveDirectory;
+    using Properties;
 
     /// <summary>
     /// A token provider that uses ADAL to retrieve
@@ -41,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             this.tokenCache = tokenCache;
         }
 
-        public IAccessToken GetToken(WindowsAzureSubscription subscription, string userId)
+        public IAccessToken GetNewToken(WindowsAzureSubscription subscription, string userId)
         {
             var config = new AdalConfiguration(subscription);
             return new AdalAccessToken(AcquireToken(config, userId), this, config);
@@ -53,9 +56,54 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             return new AdalAccessToken(AcquireToken(config), this, config);
         }
 
+        public IAccessToken GetCachedToken(WindowsAzureSubscription subscription, string userId)
+        {
+            var key = tokenCache.Keys.FirstOrDefault(k => k.UserId == userId && k.TenantId == subscription.ActiveDirectoryTenantId);
+            if (key == null)
+            {
+                throw new AadAuthenticationFailedException(string.Format(Resources.NoCachedToken,
+                    subscription.SubscriptionName, userId));
+            }
+
+            return new AdalAccessToken(DecodeCachedAuthResult(key), this, new AdalConfiguration(subscription));
+        }
+
+        /// <summary>
+        /// Decode cache contents into something we can feed to AuthenticationResult.Deserialize.
+        /// WARNING: This will be deprecated eventually by ADAL team and replaced by something supported.
+        /// </summary>
+        /// <param name="key">The cache key for the entry to decode</param>
+        /// <returns>The decoded string to pass to AuthenticationResult.Deserialize</returns>
+        private AuthenticationResult DecodeCachedAuthResult(TokenCacheKey key)
+        {
+            string encoded = tokenCache[key];
+            string decoded = Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
+            return AuthenticationResult.Deserialize(decoded);
+        }
+
+        private readonly static TimeSpan thresholdExpiration = new TimeSpan(0, 5, 0);
+
         private void Renew(AdalAccessToken token)
         {
-            token.AuthResult = AcquireToken(token.Configuration, token.UserId);
+            if (token.AuthResult.ExpiresOn - DateTimeOffset.Now < thresholdExpiration)
+            {
+                var context = CreateContext(token.Configuration);
+                try
+                {
+                    var authResult = context.AcquireTokenByRefreshToken(token.AuthResult.RefreshToken,
+                        token.Configuration.ClientId,
+                        token.Configuration.ResourceClientUri);
+                    if (authResult == null)
+                    {
+                        throw new Exception(Resources.ExpiredRefreshToken);
+                    }
+                    token.AuthResult = authResult;
+                }
+                catch (Exception ex)
+                {
+                    throw new AadAuthenticationCantRenewException(Resources.ExpiredRefreshToken, ex);
+                }
+            }
         }
 
         private AuthenticationContext CreateContext(AdalConfiguration config)
@@ -102,12 +150,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             thread.Join();
             if (ex != null)
             {
-                throw new Exception(string.Format("Could not acquire access token: {0}", ex.Message), ex);
+                var adex = ex as ActiveDirectoryAuthenticationException;
+                if (adex != null)
+                {
+                    if (adex.ErrorCode == ActiveDirectoryAuthenticationError.AuthenticationCanceled)
+                    {
+                        throw new AadAuthenticationCanceledException(adex.Message, adex);
+                    }
+                }
+                throw new AadAuthenticationFailedException(GetExceptionMessage(ex), ex);
             }
 
             return result;
         }
 
+        private string GetExceptionMessage(Exception ex)
+        {
+            string message = ex.Message;
+            if (ex.InnerException != null)
+            {
+                message += ": " + ex.InnerException.Message;
+            }
+            return message;
+        }
         /// <summary>
         /// Implementation of <see cref="IAccessToken"/> using data from ADAL
         /// </summary>

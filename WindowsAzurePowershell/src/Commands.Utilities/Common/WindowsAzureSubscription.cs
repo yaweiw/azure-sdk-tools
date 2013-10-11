@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             if (accessToken == null)
             {
-                accessToken = TokenProvider.GetToken(this, ActiveDirectoryUserId);
+                accessToken = TokenProvider.GetCachedToken(this, ActiveDirectoryUserId);
             }
             return new AccessTokenCredential(SubscriptionId, accessToken);
         }
