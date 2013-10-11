@@ -48,16 +48,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void Save(ProfileData profile)
         {
-            // Deliberate - this will never be used, and if it is it's a bug.
-            throw new NotImplementedException();
+            // This will never be used, all writes go to the new format
+            throw new InvalidOperationException();
         }
 
         public ProfileData Load()
         {
             ProfileData profile = new ProfileData();
             LoadEnvironments(profile);
-            LoadSubscriptions(profile);
-            LoadDefaultSubscription(profile);
+            string defaultSubscriptionId = LoadDefaultSubscription();
+            LoadSubscriptions(profile, defaultSubscriptionId);
             return profile;
         }
 
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             profile.DefaultEnvironmentName = EnvironmentName.AzureCloud;
         }
 
-        private void LoadSubscriptions(ProfileData profile)
+        private void LoadSubscriptions(ProfileData profile, string defaultSubscriptionId)
         {
             XNamespace subns = "urn:Microsoft.WindowsAzure.Management:WaPSCmdlets";
 
@@ -89,7 +89,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = el.Attribute("name").Value,
                     SubscriptionId = SafeValue(el.Element(subns + "SubscriptionId")),
                     ManagementCertificate = SafeValue(el.Element(subns + "Thumbprint")),
-                    ManagementEndpoint = SafeValue(el.Element(subns + "ServiceEndpoint"))
+                    ManagementEndpoint = SafeValue(el.Element(subns + "ServiceEndpoint")),
+                    IsDefault = defaultSubscriptionId != null && SafeValue(el.Element(subns + "SubscriptionId")) == defaultSubscriptionId
                 });
         }
 
@@ -100,26 +101,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             public string endpoint { get; set; }
         }
 
-        private void LoadDefaultSubscription(ProfileData profile)
+        private string LoadDefaultSubscription()
         {
             string configPath = PathTo(Resources.ConfigurationFileName);
-            if (File.Exists(configPath))
+            try
             {
-                try
+                if (File.Exists(configPath))
                 {
                     var config = JsonConvert.DeserializeObject<ConfigObject>(File.ReadAllText(configPath));
-                    var defaultSubscription =
-                        profile.Subscriptions.FirstOrDefault(s => s.SubscriptionId == config.subscription);
-                    if (defaultSubscription != null)
-                    {
-                        defaultSubscription.IsDefault = true;
-                    }
-                }
-                catch (Exception)
-                {
-                    // As usual, treat any parse or processing failures as if file doesn't exist.
+                    return config.subscription;
                 }
             }
+            catch (Exception)
+            {
+                // As usual, treat any parse or processing failures as if file doesn't exist.
+            }
+            return null;
         }
 
         private IEnumerable<TResult> Transform<TResult>(string path, XName elementName,
