@@ -435,9 +435,9 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common.NetFramework\Common.NetFramework.csproj">
+    <ProjectReference Include="..\ManagementLibraries.NetFramework\ManagementLibraries.NetFramework.csproj">
       <Project>{14529261-9f9f-4d2f-80d5-b26677f51e8b}</Project>
-      <Name>Common.NetFramework</Name>
+      <Name>ManagementLibraries.NetFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
       <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
