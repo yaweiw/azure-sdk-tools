@@ -123,18 +123,6 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Moq, Version=4.1.1308.2321, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.1.1308.2321\lib\net40\Moq.dll</HintPath>
@@ -225,6 +213,14 @@
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.NetFramework\Common.NetFramework.csproj">
+      <Project>{14529261-9f9f-4d2f-80d5-b26677f51e8b}</Project>
+      <Name>Common.NetFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
+      <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
+      <Name>ManagementLibraries</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
