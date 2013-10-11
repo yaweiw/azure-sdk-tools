@@ -43,11 +43,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
 
             if (string.IsNullOrEmpty(Name))
             {
-                WriteObject(Client.GetNamespace(Name));
+                WriteObject(Client.GetNamespace(), true);
             }
             else
             {
-                WriteObject(Client.GetNamespace(), true);
+                WriteObject(Client.GetNamespace(Name));
             }
         }
     }
