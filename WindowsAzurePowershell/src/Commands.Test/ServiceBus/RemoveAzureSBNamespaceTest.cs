@@ -57,26 +57,5 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             Assert.IsTrue(deleted);
             Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
         }
-
-        [TestMethod]
-        public void RemoveAzureSBNamespaceWithInvalidNamesFail()
-        {
-            // Setup
-            string[] invalidNames = { "1test", "test#", "test invaid", "-test", "_test" };
-
-            foreach (string invalidName in invalidNames)
-            {
-                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-                RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
-                ArgumentException expected = new ArgumentException(string.Format(Resources.InvalidNamespaceName, invalidName), "Name");
-
-                // Test
-                cmdlet.ExecuteCmdlet();
-
-                // Assert
-                ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
-                Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
-            }
-        }
     }
 }
