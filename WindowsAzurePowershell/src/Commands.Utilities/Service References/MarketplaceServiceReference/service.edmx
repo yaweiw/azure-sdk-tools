@@ -154,7 +154,7 @@
           </Dependent>
         </ReferentialConstraint>
       </Association>
-      <EntityContainer Name="CatalogServiceContext" m:IsDefaultEntityContainer="true">
+      <EntityContainer Name="CatalogServiceReadOnlyDbContext" m:IsDefaultEntityContainer="true">
         <EntitySet Name="Offers" EntityType="Microsoft.DataMarket.CatalogService.Model.Offer" />
         <EntitySet Name="OfferLinks" EntityType="Microsoft.DataMarket.CatalogService.Model.OfferLink" />
         <EntitySet Name="VisualizationImages" EntityType="Microsoft.DataMarket.CatalogService.Model.VisualizationImage" />
@@ -164,11 +164,6 @@
         <EntitySet Name="MarketLanguages" EntityType="Microsoft.DataMarket.CatalogService.Model.MarketLanguage" />
         <FunctionImport Name="GetOffer" ReturnType="Microsoft.DataMarket.CatalogService.Model.Offer" EntitySet="Offers" m:HttpMethod="GET">
           <Parameter Name="id" Type="Edm.Guid" />
-        </FunctionImport>
-        <FunctionImport Name="GetOfferPlans" ReturnType="Collection(Microsoft.DataMarket.CatalogService.Model.Plan)" EntitySet="Plans" m:HttpMethod="GET">
-          <Parameter Name="providerIdentifier" Type="Edm.String" />
-          <Parameter Name="offerIdentifier" Type="Edm.String" />
-          <Parameter Name="planIdentifier" Type="Edm.String" />
         </FunctionImport>
         <FunctionImport Name="GetAllAvailableOfferPlansForUser" ReturnType="Collection(Microsoft.DataMarket.CatalogService.Model.Plan)" EntitySet="Plans" m:HttpMethod="GET">
           <Parameter Name="offerId" Type="Edm.Guid" />
