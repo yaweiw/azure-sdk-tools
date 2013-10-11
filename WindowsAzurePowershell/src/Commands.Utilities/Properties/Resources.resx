@@ -1366,4 +1366,10 @@ Please follow these steps in the portal:
   <data name="RemoveAccountMessage" xml:space="preserve">
     <value>Removing account</value>
   </data>
+  <data name="ExpiredRefreshToken" xml:space="preserve">
+    <value>Your credentials have expired. Please use Add-AzureAccount to log in again.</value>
+  </data>
+  <data name="NoCachedToken" xml:space="preserve">
+    <value>There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription.</value>
+  </data>
 </root>

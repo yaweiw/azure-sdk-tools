@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Authentication;
     using Properties;
     using Subscriptions;
@@ -179,7 +180,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
             {
                 var result = subscriptionClient.Subscriptions.List();
-                foreach (var subscription in result.Subscriptions)
+                // Filter out subscriptions with no tenant, backfill's not done on them
+                foreach (var subscription in result.Subscriptions.Where(s => !string.IsNullOrEmpty(s.ActiveDirectoryTenantId)))
                 {
                     var azureSubscription = new WindowsAzureSubscription
                     {
@@ -195,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                     if (mainToken.LoginType == LoginType.LiveId)
                     {
-                        azureSubscription.SetAccessToken(tokenProvider.GetToken(azureSubscription, mainToken.UserId));
+                        azureSubscription.SetAccessToken(tokenProvider.GetNewToken(azureSubscription, mainToken.UserId));
                     }
                     else
                     {
