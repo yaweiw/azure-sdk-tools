@@ -543,7 +543,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._diskName = value; }
         }
         
-        private string _logicalUnitNumber;
+        private int? _logicalUnitNumber;
         
         /// <summary>
         /// Specifies the Logical Unit Number (LUN) for the data disk. The LUN
@@ -551,7 +551,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         /// for usage by the virtual machine. This element is only listed when
         /// more than one data disk is attached to a virtual machine.
         /// </summary>
-        public string LogicalUnitNumber
+        public int? LogicalUnitNumber
         {
             get { return this._logicalUnitNumber; }
             set { this._logicalUnitNumber = value; }
@@ -5146,7 +5146,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._diskName = value; }
         }
         
-        private int _logicalUnitNumber;
+        private int? _logicalUnitNumber;
         
         /// <summary>
         /// Optional. Specifies the Logical Unit Number (LUN) for the disk. The
@@ -5154,7 +5154,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         /// mounted for usage by the virtual machine.  Valid LUN values are 0
         /// through 15.
         /// </summary>
-        public int LogicalUnitNumber
+        public int? LogicalUnitNumber
         {
             get { return this._logicalUnitNumber; }
             set { this._logicalUnitNumber = value; }
@@ -5505,14 +5505,14 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._diskName = value; }
         }
         
-        private int _logicalUnitNumber;
+        private int? _logicalUnitNumber;
         
         /// <summary>
         /// The Logical Unit Number (LUN) for the disk. The LUN specifies the
         /// slot in which the data drive appears when mounted for usage by the
         /// virtual machine.
         /// </summary>
-        public int LogicalUnitNumber
+        public int? LogicalUnitNumber
         {
             get { return this._logicalUnitNumber; }
             set { this._logicalUnitNumber = value; }
@@ -6044,7 +6044,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._diskName = value; }
         }
         
-        private int _logicalUnitNumber;
+        private int? _logicalUnitNumber;
         
         /// <summary>
         /// Optional. Specifies the Logical Unit Number (LUN) for the disk. The
@@ -6052,7 +6052,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         /// mounted for usage by the virtual machine.  Valid LUN values are 0
         /// through 15.
         /// </summary>
-        public int LogicalUnitNumber
+        public int? LogicalUnitNumber
         {
             get { return this._logicalUnitNumber; }
             set { this._logicalUnitNumber = value; }
@@ -16307,9 +16307,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         }
                                         
                                         XElement lunElement = dataVirtualHardDisksElement.Element(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                                        if (lunElement != null)
+                                        if (lunElement != null && string.IsNullOrEmpty(lunElement.Value) == false)
                                         {
-                                            string lunInstance = lunElement.Value;
+                                            int lunInstance = int.Parse(lunElement.Value, CultureInfo.InvariantCulture);
                                             dataVirtualHardDiskInstance.LogicalUnitNumber = lunInstance;
                                         }
                                         
@@ -17419,9 +17419,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         }
                                         
                                         XElement lunElement = dataVirtualHardDisksElement.Element(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                                        if (lunElement != null)
+                                        if (lunElement != null && string.IsNullOrEmpty(lunElement.Value) == false)
                                         {
-                                            string lunInstance = lunElement.Value;
+                                            int lunInstance = int.Parse(lunElement.Value, CultureInfo.InvariantCulture);
                                             dataVirtualHardDiskInstance.LogicalUnitNumber = lunInstance;
                                         }
                                         
@@ -24506,9 +24506,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 }
                                                 
                                                 XElement lunElement = dataVirtualHardDisksElement.Element(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                                                if (lunElement != null)
+                                                if (lunElement != null && string.IsNullOrEmpty(lunElement.Value) == false)
                                                 {
-                                                    string lunInstance = lunElement.Value;
+                                                    int lunInstance = int.Parse(lunElement.Value, CultureInfo.InvariantCulture);
                                                     dataVirtualHardDiskInstance.LogicalUnitNumber = lunInstance;
                                                 }
                                                 
@@ -28109,9 +28109,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     dataVirtualHardDiskElement.Add(diskNameElement);
                 }
                 
-                XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                lunElement.Value = parameters.LogicalUnitNumber.ToString();
-                dataVirtualHardDiskElement.Add(lunElement);
+                if (parameters.LogicalUnitNumber != null)
+                {
+                    XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
+                    lunElement.Value = parameters.LogicalUnitNumber.ToString();
+                    dataVirtualHardDiskElement.Add(lunElement);
+                }
                 
                 XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
                 logicalDiskSizeInGBElement.Value = parameters.LogicalDiskSizeInGB.ToString();
@@ -28826,7 +28829,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         }
                         
                         XElement lunElement = dataVirtualHardDiskElement.Element(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                        if (lunElement != null)
+                        if (lunElement != null && string.IsNullOrEmpty(lunElement.Value) == false)
                         {
                             int lunInstance = int.Parse(lunElement.Value, CultureInfo.InvariantCulture);
                             result.LogicalUnitNumber = lunInstance;
@@ -29412,9 +29415,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     dataVirtualHardDiskElement.Add(diskNameElement);
                 }
                 
-                XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                lunElement.Value = parameters.LogicalUnitNumber.ToString();
-                dataVirtualHardDiskElement.Add(lunElement);
+                if (parameters.LogicalUnitNumber != null)
+                {
+                    XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
+                    lunElement.Value = parameters.LogicalUnitNumber.ToString();
+                    dataVirtualHardDiskElement.Add(lunElement);
+                }
                 
                 XElement logicalDiskSizeInGBElement = new XElement(XName.Get("LogicalDiskSizeInGB", "http://schemas.microsoft.com/windowsazure"));
                 logicalDiskSizeInGBElement.Value = parameters.LogicalDiskSizeInGB.ToString();
@@ -35279,7 +35285,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         if (dataVirtualHardDisksItem.LogicalUnitNumber != null)
                         {
                             XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                            lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber;
+                            lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber.ToString();
                             dataVirtualHardDiskElement.Add(lunElement);
                         }
                         
@@ -36139,7 +36145,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             if (dataVirtualHardDisksItem.LogicalUnitNumber != null)
                             {
                                 XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                                lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber;
+                                lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber.ToString();
                                 dataVirtualHardDiskElement.Add(lunElement);
                             }
                             
@@ -37346,9 +37352,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement lunElement = dataVirtualHardDisksElement.Element(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                                if (lunElement != null)
+                                if (lunElement != null && string.IsNullOrEmpty(lunElement.Value) == false)
                                 {
-                                    string lunInstance = lunElement.Value;
+                                    int lunInstance = int.Parse(lunElement.Value, CultureInfo.InvariantCulture);
                                     dataVirtualHardDiskInstance.LogicalUnitNumber = lunInstance;
                                 }
                                 
@@ -39172,7 +39178,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         if (dataVirtualHardDisksItem.LogicalUnitNumber != null)
                         {
                             XElement lunElement = new XElement(XName.Get("Lun", "http://schemas.microsoft.com/windowsazure"));
-                            lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber;
+                            lunElement.Value = dataVirtualHardDisksItem.LogicalUnitNumber.ToString();
                             dataVirtualHardDiskElement.Add(lunElement);
                         }
                         

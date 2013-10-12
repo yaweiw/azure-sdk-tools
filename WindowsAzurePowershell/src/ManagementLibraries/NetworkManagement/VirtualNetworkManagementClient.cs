@@ -1449,6 +1449,134 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         }
     }
     
+    /// <summary>
+    /// The status of the asynchronous request.
+    /// </summary>
+    public enum OperationStatus
+    {
+        /// <summary>
+        /// The asynchronous request is in progress.
+        /// </summary>
+        InProgress = 0,
+        
+        /// <summary>
+        /// The asynchronous request succeeded.
+        /// </summary>
+        Succeeded = 1,
+        
+        /// <summary>
+        /// The asynchronous request failed.
+        /// </summary>
+        Failed = 2,
+    }
+    
+    /// <summary>
+    /// The response body contains the status of the specified asynchronous
+    /// operation, indicating whether it has succeeded, is inprogress, or has
+    /// failed. Note that this status is distinct from the HTTP status code
+    /// returned for the Get Operation Status operation itself.  If the
+    /// asynchronous operation succeeded, the response body includes the HTTP
+    /// status code for the successful request.  If the asynchronous operation
+    /// failed, the response body includes the HTTP status code for the failed
+    /// request, and also includes error information regarding the failure.
+    /// </summary>
+    public partial class VirtualNetworkOperationStatusResponse : OperationResponse
+    {
+        private string _id;
+        
+        /// <summary>
+        /// The request ID of the asynchronous request. This value is returned
+        /// in the x-ms-request-id response header of the asynchronous request.
+        /// </summary>
+        public string Id
+        {
+            get { return this._id; }
+            set { this._id = value; }
+        }
+        
+        private OperationStatus _status;
+        
+        /// <summary>
+        /// The status of the asynchronous request.
+        /// </summary>
+        public OperationStatus Status
+        {
+            get { return this._status; }
+            set { this._status = value; }
+        }
+        
+        private HttpStatusCode _httpStatusCode;
+        
+        /// <summary>
+        /// The HTTP status code for the asynchronous request.
+        /// </summary>
+        public HttpStatusCode HttpStatusCode
+        {
+            get { return this._httpStatusCode; }
+            set { this._httpStatusCode = value; }
+        }
+        
+        private VirtualNetworkOperationStatusResponse.ErrorDetails _error;
+        
+        /// <summary>
+        /// If the asynchronous operation failed, the response body includes
+        /// the HTTP status code for the failed request, and also includes
+        /// error information regarding the failure.
+        /// </summary>
+        public VirtualNetworkOperationStatusResponse.ErrorDetails Error
+        {
+            get { return this._error; }
+            set { this._error = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// VirtualNetworkOperationStatusResponse class.
+        /// </summary>
+        public VirtualNetworkOperationStatusResponse()
+        {
+        }
+        
+        /// <summary>
+        /// If the asynchronous operation failed, the response body includes
+        /// the HTTP status code for the failed request, and also includes
+        /// error information regarding the failure.
+        /// </summary>
+        public partial class ErrorDetails
+        {
+            private string _code;
+            
+            /// <summary>
+            /// The management service error code returned if the asynchronous
+            /// request failed.
+            /// </summary>
+            public string Code
+            {
+                get { return this._code; }
+                set { this._code = value; }
+            }
+            
+            private string _message;
+            
+            /// <summary>
+            /// The management service error message returned if the
+            /// asynchronous request failed.
+            /// </summary>
+            public string Message
+            {
+                get { return this._message; }
+                set { this._message = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the ErrorDetails class.
+            /// </summary>
+            public ErrorDetails()
+            {
+            }
+        }
+    }
+    
     public static partial class VirtualNetworkState
     {
         public const string Created = "Created";
@@ -1509,6 +1637,34 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         {
             get; 
         }
+        
+        /// <summary>
+        /// The Get Operation Status operation returns the status of
+        /// thespecified operation. After calling an asynchronous operation,
+        /// you can call Get Operation Status to determine whether the
+        /// operation has succeeded, failed, or is still in progress.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460783.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='requestId'>
+        /// The request ID for the request you wish to track. The request ID is
+        /// returned in the x-ms-request-id response header for every request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<VirtualNetworkOperationStatusResponse> GetOperationStatusAsync(string requestId, CancellationToken cancellationToken);
     }
     
     /// <summary>
@@ -1519,6 +1675,83 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
     /// </summary>
     public static partial class VirtualNetworkManagementClientExtensions
     {
+        /// <summary>
+        /// The Get Operation Status operation returns the status of
+        /// thespecified operation. After calling an asynchronous operation,
+        /// you can call Get Operation Status to determine whether the
+        /// operation has succeeded, failed, or is still in progress.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460783.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IVirtualNetworkManagementClient.
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID for the request you wish to track. The request ID is
+        /// returned in the x-ms-request-id response header for every request.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static VirtualNetworkOperationStatusResponse GetOperationStatus(this IVirtualNetworkManagementClient operations, string requestId)
+        {
+            try
+            {
+                return operations.GetOperationStatusAsync(requestId).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Operation Status operation returns the status of
+        /// thespecified operation. After calling an asynchronous operation,
+        /// you can call Get Operation Status to determine whether the
+        /// operation has succeeded, failed, or is still in progress.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460783.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IVirtualNetworkManagementClient.
+        /// </param>
+        /// <param name='requestId'>
+        /// The request ID for the request you wish to track. The request ID is
+        /// returned in the x-ms-request-id response header for every request.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static Task<VirtualNetworkOperationStatusResponse> GetOperationStatusAsync(this IVirtualNetworkManagementClient operations, string requestId)
+        {
+            return operations.GetOperationStatusAsync(requestId, CancellationToken.None);
+        }
     }
     
     /// <summary>
@@ -1646,6 +1879,177 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             this._baseUri = new Uri("https://management.core.windows.net");
             
             this.Credentials.InitializeServiceClient(this);
+        }
+        
+        /// <summary>
+        /// The Get Operation Status operation returns the status of
+        /// thespecified operation. After calling an asynchronous operation,
+        /// you can call Get Operation Status to determine whether the
+        /// operation has succeeded, failed, or is still in progress.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460783.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='requestId'>
+        /// The request ID for the request you wish to track. The request ID is
+        /// returned in the x-ms-request-id response header for every request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<VirtualNetworkOperationStatusResponse> GetOperationStatusAsync(string requestId, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (requestId == null)
+            {
+                throw new ArgumentNullException("requestId");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("requestId", requestId);
+                Tracing.Enter(invocationId, this, "GetOperationStatusAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.BaseUri + "/" + this.Credentials.SubscriptionId + "/operations/" + requestId;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    VirtualNetworkOperationStatusResponse result = new VirtualNetworkOperationStatusResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement operationElement = responseDoc.Element(XName.Get("Operation", "http://schemas.microsoft.com/windowsazure"));
+                    if (operationElement != null)
+                    {
+                        XElement idElement = operationElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            string idInstance = idElement.Value;
+                            result.Id = idInstance;
+                        }
+                        
+                        XElement statusElement = operationElement.Element(XName.Get("Status", "http://schemas.microsoft.com/windowsazure"));
+                        if (statusElement != null)
+                        {
+                            OperationStatus statusInstance = (OperationStatus)Enum.Parse(typeof(OperationStatus), statusElement.Value, false);
+                            result.Status = statusInstance;
+                        }
+                        
+                        XElement httpStatusCodeElement = operationElement.Element(XName.Get("HttpStatusCode", "http://schemas.microsoft.com/windowsazure"));
+                        if (httpStatusCodeElement != null)
+                        {
+                            HttpStatusCode httpStatusCodeInstance = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), httpStatusCodeElement.Value, false);
+                            result.HttpStatusCode = httpStatusCodeInstance;
+                        }
+                        
+                        XElement errorElement = operationElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
+                        if (errorElement != null)
+                        {
+                            VirtualNetworkOperationStatusResponse.ErrorDetails errorInstance = new VirtualNetworkOperationStatusResponse.ErrorDetails();
+                            result.Error = errorInstance;
+                            
+                            XElement codeElement = errorElement.Element(XName.Get("Code", "http://schemas.microsoft.com/windowsazure"));
+                            if (codeElement != null)
+                            {
+                                string codeInstance = codeElement.Value;
+                                errorInstance.Code = codeInstance;
+                            }
+                            
+                            XElement messageElement = errorElement.Element(XName.Get("Message", "http://schemas.microsoft.com/windowsazure"));
+                            if (messageElement != null)
+                            {
+                                string messageInstance = messageElement.Value;
+                                errorInstance.Message = messageInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
         }
         
         /// <summary>
@@ -6497,7 +6901,32 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken);
+        Task<OperationResponse> BeginSettingConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// The updated network configuration
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<VirtualNetworkOperationStatusResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken);
     }
     
     public static partial class NetworkOperationsExtensions
@@ -6619,7 +7048,72 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse SetConfiguration(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        public static OperationResponse BeginSettingConfiguration(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        {
+            try
+            {
+                return operations.BeginSettingConfigurationAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// The updated network configuration
+        /// </param>
+        /// <returns>
+        /// A standard storage response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> BeginSettingConfigurationAsync(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        {
+            return operations.BeginSettingConfigurationAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// The updated network configuration
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static VirtualNetworkOperationStatusResponse SetConfiguration(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
         {
             try
             {
@@ -6652,10 +7146,17 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// The updated network configuration
         /// </param>
         /// <returns>
-        /// A standard storage response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public static Task<OperationResponse> SetConfigurationAsync(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
+        public static Task<VirtualNetworkOperationStatusResponse> SetConfigurationAsync(this INetworkOperations operations, NetworkSetConfigurationParameters parameters)
         {
             return operations.SetConfigurationAsync(parameters, CancellationToken.None);
         }
@@ -7109,7 +7610,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// A standard storage response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> BeginSettingConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (parameters == null)
@@ -7129,7 +7630,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "SetConfigurationAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "BeginSettingConfigurationAsync", tracingParameters);
             }
             
             // Construct URL
@@ -7209,6 +7710,78 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                 if (httpRequest != null)
                 {
                     httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Set Network Configuration operation asynchronously configures
+        /// the virtual network  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157181.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// The updated network configuration
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<VirtualNetworkOperationStatusResponse> SetConfigurationAsync(NetworkSetConfigurationParameters parameters, CancellationToken cancellationToken)
+        {
+            VirtualNetworkManagementClient client = this.Client;
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "SetConfigurationAsync", tracingParameters);
+            }
+            try
+            {
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
+                
+                cancellationToken.ThrowIfCancellationRequested();
+                OperationResponse originalResponse = await client.Networks.BeginSettingConfigurationAsync(parameters, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                VirtualNetworkOperationStatusResponse result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 100;
+                while (result.Status == OperationStatus.InProgress)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
+                }
+                
+                if (shouldTrace)
+                {
+                    Tracing.Exit(invocationId, result);
+                }
+                
+                return result;
+            }
+            finally
+            {
+                if (client != null && shouldTrace)
+                {
+                    client.Dispose();
                 }
             }
         }
