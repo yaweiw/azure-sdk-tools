@@ -47,7 +47,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
+                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams),
+                (s, d) =>
+                {
+                    var r = this.WaitForOperationSucceededStatus(s.RequestId);
+                    return new ManagementOperationContext
+                    {
+                        OperationId = s.RequestId,
+                        OperationStatus = s.Status.ToString()
+                    };
+                });
         }
     }
 }
