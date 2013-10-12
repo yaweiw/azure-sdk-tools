@@ -208,24 +208,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (unregisteredProviders.Count > 0)
             {
-                var client = new ManagementClient(credentials, ServiceEndpoint);
-                foreach (var provider in unregisteredProviders)
+                using(var client = new ManagementClient(credentials, ServiceEndpoint))
                 {
-                    try
+                    foreach (var provider in unregisteredProviders)
                     {
-                        client.Subscriptions.RegisterResource(provider);
-                    }
-                    catch (CloudException ex)
-                    {
-                        if (ex.Response.StatusCode != HttpStatusCode.Conflict)
+                        try
                         {
-                            // Conflict means already registered, that's ok, otherwise it's a failure
-                            throw;
+                            client.Subscriptions.RegisterResource(provider);
                         }
+                        catch (CloudException ex)
+                        {
+                            if (ex.Response.StatusCode != HttpStatusCode.Conflict)
+                            {
+                                // Conflict means already registered, that's ok, otherwise it's a failure
+                                throw;
+                            }
+                        }
+                        RegisteredResourceProviders.Add(provider);
                     }
-                    RegisteredResourceProviders.Add(provider);
+                    Save();
                 }
-                Save();
             }
         }
     }
