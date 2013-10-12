@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using Authentication;
@@ -42,6 +43,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string currentStorageAccountName;
         private CloudStorageAccount cloudStorageAccount;
+
+        private readonly List<string> registeredResourceProviders = new List<string>();
+
+        internal List<string> RegisteredResourceProviders
+        {
+            get { return registeredResourceProviders; }
+        }
 
         public string CurrentStorageAccountName
         {
