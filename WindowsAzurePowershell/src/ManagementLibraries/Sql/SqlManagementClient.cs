@@ -2677,6 +2677,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
+                    XElement guidElement = responseDoc.Element(XName.Get("guid", "http://schemas.microsoft.com/2003/10/Serialization/"));
+                    if (guidElement != null)
+                    {
+                        result.Guid = guidElement.Value;
+                    }
+                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -3077,6 +3083,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement guidElement = responseDoc.Element(XName.Get("guid", "http://schemas.microsoft.com/2003/10/Serialization/"));
+                    if (guidElement != null)
+                    {
+                        result.Guid = guidElement.Value;
+                    }
                     
                     if (shouldTrace)
                     {
