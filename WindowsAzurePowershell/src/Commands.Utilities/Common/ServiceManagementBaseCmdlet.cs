@@ -278,7 +278,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 operation = GetOperationStatusNewSM(operationId);
 
-                if (operation.Status == OperationStatus.Failed)
+                if (operation.Status == Management.Models.OperationStatus.Failed)
                 {
                     var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
                     var exception = new Exception(errorMessage);

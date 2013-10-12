@@ -118,8 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 VM.DataVirtualHardDisks.ForEach(c =>
                 {
                     var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
-                    // Modify the LUN, so that it won't show up in the request
-                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber == "0" ? null : dataDisk.LogicalUnitNumber;
+                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber;
                     parameters.DataVirtualHardDisks.Add(dataDisk);
                 });
             }
