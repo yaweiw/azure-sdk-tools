@@ -312,17 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
                 catch (CloudException ex)
                 {
-                    // TODO: Handle 202 Status Code Return Correctly
-                    if (ex.Response.StatusCode != System.Net.HttpStatusCode.Accepted)
-                    {
-                        WriteExceptionDetails(ex);
-                    }
-                    else
-                    {
-                        WriteWarning(ex.ToString());
-                        string operationId = ex.Response.Headers["x-ms-request-id"].FirstOrDefault();
-                        var op = this.WaitForOperationSucceededStatus(operationId);
-                    }
+                    WriteExceptionDetails(ex);
                 }
 
                 if (waitOperation == null)
@@ -366,33 +356,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         protected void ExecuteClientActionNewSM<TResult>(object input, string operationDescription, Func<TResult> action, Func<string, string, OperationStatusResponse> waitOperation) where TResult : OperationResponse
         {
             this.ExecuteClientActionNewSM(input, operationDescription, action, waitOperation, (s, response) => this.ContextFactory<OperationResponse, ManagementOperationContext>(response, s));
-        }
-
-        public OperationStatusResponse WaitForOperationSucceededStatus(string operationId)
-        {
-            try
-            {
-                var opStatus = this.ComputeClient.GetOperationStatus(operationId);
-
-                while (opStatus.Status != Management.Compute.Models.OperationStatus.Succeeded && opStatus.Status != Management.Compute.Models.OperationStatus.Failed)
-                {
-                    Thread.Sleep(1 * 1000);
-                    opStatus = this.ComputeClient.GetOperationStatus(operationId);
-                }
-
-                if (opStatus.Status == Management.Compute.Models.OperationStatus.Failed)
-                {
-                    var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", opStatus.Status, opStatus.Error.Message);
-                    var exception = new Exception(errorMessage);
-                    WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
-                }
-            }
-            catch (CommunicationException ex)
-            {
-                WriteErrorDetails(ex);
-            }
-
-            return GetOperationNewSM(operationId);
         }
 
         protected OperationStatusResponse WaitForNewGatewayOperation(string operationId, string opdesc)
