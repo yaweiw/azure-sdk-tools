@@ -224,6 +224,42 @@ namespace Microsoft.WindowsAzure.Management.Models
         }
         
         /// <summary>
+        /// Reference to a hosted service associated with an affinity group.
+        /// </summary>
+        public partial class HostedServiceReference
+        {
+            private Uri _uri;
+            
+            /// <summary>
+            /// The Service Management API request URI used to perform Get
+            /// Hosted Service Properties requests against the hosted service.
+            /// </summary>
+            public Uri Uri
+            {
+                get { return this._uri; }
+                set { this._uri = value; }
+            }
+            
+            private string _serviceName;
+            
+            /// <summary>
+            /// The name of the hosted service.
+            /// </summary>
+            public string ServiceName
+            {
+                get { return this._serviceName; }
+                set { this._serviceName = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the HostedServiceReference class.
+            /// </summary>
+            public HostedServiceReference()
+            {
+            }
+        }
+        
+        /// <summary>
         /// Reference to a storage service associated with an affinity group.
         /// </summary>
         public partial class StorageServiceReference
@@ -256,42 +292,6 @@ namespace Microsoft.WindowsAzure.Management.Models
             /// Initializes a new instance of the StorageServiceReference class.
             /// </summary>
             public StorageServiceReference()
-            {
-            }
-        }
-        
-        /// <summary>
-        /// Reference to a hosted service associated with an affinity group.
-        /// </summary>
-        public partial class HostedServiceReference
-        {
-            private Uri _uri;
-            
-            /// <summary>
-            /// The Service Management API request URI used to perform Get
-            /// Hosted Service Properties requests against the hosted service.
-            /// </summary>
-            public Uri Uri
-            {
-                get { return this._uri; }
-                set { this._uri = value; }
-            }
-            
-            private string _serviceName;
-            
-            /// <summary>
-            /// The name of the hosted service.
-            /// </summary>
-            public string ServiceName
-            {
-                get { return this._serviceName; }
-                set { this._serviceName = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the HostedServiceReference class.
-            /// </summary>
-            public HostedServiceReference()
             {
             }
         }
@@ -1253,71 +1253,6 @@ namespace Microsoft.WindowsAzure.Management.Models
         }
         
         /// <summary>
-        /// A collection of attributes that identifies the source of the
-        /// operation.
-        /// </summary>
-        public partial class OperationCallerDetails
-        {
-            private bool _usedServiceManagementApi;
-            
-            /// <summary>
-            /// Indicates whether the operation was initiated by using the
-            /// Service Management API. False if it was initiated by another
-            /// source, such as the Management Portal.
-            /// </summary>
-            public bool UsedServiceManagementApi
-            {
-                get { return this._usedServiceManagementApi; }
-                set { this._usedServiceManagementApi = value; }
-            }
-            
-            private string _userEmailAddress;
-            
-            /// <summary>
-            /// The email associated with the Windows Live ID of the user who
-            /// initiated the operation from the Management Portal. This
-            /// element is returned only if UsedServiceManagementApi is false.
-            /// </summary>
-            public string UserEmailAddress
-            {
-                get { return this._userEmailAddress; }
-                set { this._userEmailAddress = value; }
-            }
-            
-            private string _subscriptionCertificateThumbprint;
-            
-            /// <summary>
-            /// The thumbprint of the subscription certificate used to initiate
-            /// the operation.
-            /// </summary>
-            public string SubscriptionCertificateThumbprint
-            {
-                get { return this._subscriptionCertificateThumbprint; }
-                set { this._subscriptionCertificateThumbprint = value; }
-            }
-            
-            private string _clientIPAddress;
-            
-            /// <summary>
-            /// The IP address of the client computer that initiated the
-            /// operation. This element is returned only if
-            /// UsedServiceManagementApi is true.
-            /// </summary>
-            public string ClientIPAddress
-            {
-                get { return this._clientIPAddress; }
-                set { this._clientIPAddress = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the OperationCallerDetails class.
-            /// </summary>
-            public OperationCallerDetails()
-            {
-            }
-        }
-        
-        /// <summary>
         /// An operation that has been performed on the subscription during the
         /// specified timeframe.
         /// </summary>
@@ -1427,6 +1362,71 @@ namespace Microsoft.WindowsAzure.Management.Models
             public SubscriptionOperation()
             {
                 this._operationParameters = new Dictionary<string, string>();
+            }
+        }
+        
+        /// <summary>
+        /// A collection of attributes that identifies the source of the
+        /// operation.
+        /// </summary>
+        public partial class OperationCallerDetails
+        {
+            private bool _usedServiceManagementApi;
+            
+            /// <summary>
+            /// Indicates whether the operation was initiated by using the
+            /// Service Management API. False if it was initiated by another
+            /// source, such as the Management Portal.
+            /// </summary>
+            public bool UsedServiceManagementApi
+            {
+                get { return this._usedServiceManagementApi; }
+                set { this._usedServiceManagementApi = value; }
+            }
+            
+            private string _userEmailAddress;
+            
+            /// <summary>
+            /// The email associated with the Windows Live ID of the user who
+            /// initiated the operation from the Management Portal. This
+            /// element is returned only if UsedServiceManagementApi is false.
+            /// </summary>
+            public string UserEmailAddress
+            {
+                get { return this._userEmailAddress; }
+                set { this._userEmailAddress = value; }
+            }
+            
+            private string _subscriptionCertificateThumbprint;
+            
+            /// <summary>
+            /// The thumbprint of the subscription certificate used to initiate
+            /// the operation.
+            /// </summary>
+            public string SubscriptionCertificateThumbprint
+            {
+                get { return this._subscriptionCertificateThumbprint; }
+                set { this._subscriptionCertificateThumbprint = value; }
+            }
+            
+            private string _clientIPAddress;
+            
+            /// <summary>
+            /// The IP address of the client computer that initiated the
+            /// operation. This element is returned only if
+            /// UsedServiceManagementApi is true.
+            /// </summary>
+            public string ClientIPAddress
+            {
+                get { return this._clientIPAddress; }
+                set { this._clientIPAddress = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the OperationCallerDetails class.
+            /// </summary>
+            public OperationCallerDetails()
+            {
             }
         }
     }
@@ -1561,11 +1561,24 @@ namespace Microsoft.WindowsAzure.Management
         }
         
         /// <summary>
-        /// Operation for listing subscription operations and details.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx
+        /// Operations for managing affinity groups beneath your subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460798.aspx
         /// for more information)
         /// </summary>
-        ISubscriptionOperations Subscriptions
+        IAffinityGroupOperations AffinityGroups
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// The Service Management API includes operations for listing the
+        /// available data center locations for a hosted service in your
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx
+        /// for more information)
+        /// </summary>
+        ILocationOperations Locations
         {
             get; 
         }
@@ -1584,24 +1597,11 @@ namespace Microsoft.WindowsAzure.Management
         }
         
         /// <summary>
-        /// The Service Management API includes operations for listing the
-        /// available data center locations for a hosted service in your
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx
+        /// Operation for listing subscription operations and details.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx
         /// for more information)
         /// </summary>
-        ILocationOperations Locations
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Operations for managing affinity groups beneath your subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460798.aspx
-        /// for more information)
-        /// </summary>
-        IAffinityGroupOperations AffinityGroups
+        ISubscriptionOperations Subscriptions
         {
             get; 
         }
@@ -1760,16 +1760,31 @@ namespace Microsoft.WindowsAzure.Management
             get { return this._baseUri; }
         }
         
-        private ISubscriptionOperations _subscriptions;
+        private IAffinityGroupOperations _affinityGroups;
         
         /// <summary>
-        /// Operation for listing subscription operations and details.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx
+        /// Operations for managing affinity groups beneath your subscription.
+        /// (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460798.aspx
         /// for more information)
         /// </summary>
-        public virtual ISubscriptionOperations Subscriptions
+        public virtual IAffinityGroupOperations AffinityGroups
         {
-            get { return this._subscriptions; }
+            get { return this._affinityGroups; }
+        }
+        
+        private ILocationOperations _locations;
+        
+        /// <summary>
+        /// The Service Management API includes operations for listing the
+        /// available data center locations for a hosted service in your
+        /// subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx
+        /// for more information)
+        /// </summary>
+        public virtual ILocationOperations Locations
+        {
+            get { return this._locations; }
         }
         
         private IManagementCertificateOperations _managementCertificates;
@@ -1787,31 +1802,16 @@ namespace Microsoft.WindowsAzure.Management
             get { return this._managementCertificates; }
         }
         
-        private ILocationOperations _locations;
+        private ISubscriptionOperations _subscriptions;
         
         /// <summary>
-        /// The Service Management API includes operations for listing the
-        /// available data center locations for a hosted service in your
-        /// subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx
+        /// Operation for listing subscription operations and details.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx
         /// for more information)
         /// </summary>
-        public virtual ILocationOperations Locations
+        public virtual ISubscriptionOperations Subscriptions
         {
-            get { return this._locations; }
-        }
-        
-        private IAffinityGroupOperations _affinityGroups;
-        
-        /// <summary>
-        /// Operations for managing affinity groups beneath your subscription.
-        /// (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460798.aspx
-        /// for more information)
-        /// </summary>
-        public virtual IAffinityGroupOperations AffinityGroups
-        {
-            get { return this._affinityGroups; }
+            get { return this._subscriptions; }
         }
         
         /// <summary>
@@ -1820,10 +1820,10 @@ namespace Microsoft.WindowsAzure.Management
         private ManagementClient()
             : base()
         {
-            this._subscriptions = new SubscriptionOperations(this);
-            this._managementCertificates = new ManagementCertificateOperations(this);
-            this._locations = new LocationOperations(this);
             this._affinityGroups = new AffinityGroupOperations(this);
+            this._locations = new LocationOperations(this);
+            this._managementCertificates = new ManagementCertificateOperations(this);
+            this._subscriptions = new SubscriptionOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -2028,2205 +2028,6 @@ namespace Microsoft.WindowsAzure.Management
                             {
                                 string messageInstance = messageElement.Value;
                                 errorInstance.Message = messageInstance;
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// Operation for listing subscription operations and details.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
-    /// more information)
-    /// </summary>
-    public partial interface ISubscriptionOperations
-    {
-        /// <summary>
-        /// The Get Subscription operation returns account and resource
-        /// allocation information on the specified subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The Get Subscription operation response.
-        /// </returns>
-        Task<SubscriptionGetResponse> GetAsync(CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The List Subscription Operations operation returns a list of
-        /// create, update, and delete operations that were performed on a
-        /// subscription during the specified timeframe.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the List Subscription Operations operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Subscription Operations operation response.
-        /// </returns>
-        Task<SubscriptionListOperationsResponse> ListOperationsAsync(SubscriptionListOperationsParameters parameters, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Register a resource with your subscription.
-        /// </summary>
-        /// <param name='resourceName'>
-        /// Name of the reource to register.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> RegisterResourceAsync(string resourceName, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// Unregister a resource with your subscription.
-        /// </summary>
-        /// <param name='resourceName'>
-        /// Name of the reource to unregister.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> UnregisterResourceAsync(string resourceName, CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// Operation for listing subscription operations and details.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
-    /// more information)
-    /// </summary>
-    public static partial class SubscriptionOperationsExtensions
-    {
-        /// <summary>
-        /// The Get Subscription operation returns account and resource
-        /// allocation information on the specified subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <returns>
-        /// The Get Subscription operation response.
-        /// </returns>
-        public static SubscriptionGetResponse Get(this ISubscriptionOperations operations)
-        {
-            try
-            {
-                return operations.GetAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Subscription operation returns account and resource
-        /// allocation information on the specified subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <returns>
-        /// The Get Subscription operation response.
-        /// </returns>
-        public static Task<SubscriptionGetResponse> GetAsync(this ISubscriptionOperations operations)
-        {
-            return operations.GetAsync(CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The List Subscription Operations operation returns a list of
-        /// create, update, and delete operations that were performed on a
-        /// subscription during the specified timeframe.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the List Subscription Operations operation.
-        /// </param>
-        /// <returns>
-        /// The List Subscription Operations operation response.
-        /// </returns>
-        public static SubscriptionListOperationsResponse ListOperations(this ISubscriptionOperations operations, SubscriptionListOperationsParameters parameters)
-        {
-            try
-            {
-                return operations.ListOperationsAsync(parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Subscription Operations operation returns a list of
-        /// create, update, and delete operations that were performed on a
-        /// subscription during the specified timeframe.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the List Subscription Operations operation.
-        /// </param>
-        /// <returns>
-        /// The List Subscription Operations operation response.
-        /// </returns>
-        public static Task<SubscriptionListOperationsResponse> ListOperationsAsync(this ISubscriptionOperations operations, SubscriptionListOperationsParameters parameters)
-        {
-            return operations.ListOperationsAsync(parameters, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Register a resource with your subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='resourceName'>
-        /// Name of the reource to register.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse RegisterResource(this ISubscriptionOperations operations, string resourceName)
-        {
-            try
-            {
-                return operations.RegisterResourceAsync(resourceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Register a resource with your subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='resourceName'>
-        /// Name of the reource to register.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> RegisterResourceAsync(this ISubscriptionOperations operations, string resourceName)
-        {
-            return operations.RegisterResourceAsync(resourceName, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// Unregister a resource with your subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='resourceName'>
-        /// Name of the reource to unregister.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse UnregisterResource(this ISubscriptionOperations operations, string resourceName)
-        {
-            try
-            {
-                return operations.UnregisterResourceAsync(resourceName).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Unregister a resource with your subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
-        /// </param>
-        /// <param name='resourceName'>
-        /// Name of the reource to unregister.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> UnregisterResourceAsync(this ISubscriptionOperations operations, string resourceName)
-        {
-            return operations.UnregisterResourceAsync(resourceName, CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// Operation for listing subscription operations and details.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
-    /// more information)
-    /// </summary>
-    internal partial class SubscriptionOperations : IServiceOperations<ManagementClient>, ISubscriptionOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the SubscriptionOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal SubscriptionOperations(ManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ManagementClient.
-        /// </summary>
-        public ManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// The Get Subscription operation returns account and resource
-        /// allocation information on the specified subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The Get Subscription operation response.
-        /// </returns>
-        public async Task<SubscriptionGetResponse> GetAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    SubscriptionGetResponse result = new SubscriptionGetResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement subscriptionElement = responseDoc.Element(XName.Get("Subscription", "http://schemas.microsoft.com/windowsazure"));
-                    if (subscriptionElement != null)
-                    {
-                        XElement subscriptionIDElement = subscriptionElement.Element(XName.Get("SubscriptionID", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionIDElement != null)
-                        {
-                            string subscriptionIDInstance = subscriptionIDElement.Value;
-                            result.SubscriptionID = subscriptionIDInstance;
-                        }
-                        
-                        XElement subscriptionNameElement = subscriptionElement.Element(XName.Get("SubscriptionName", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionNameElement != null)
-                        {
-                            string subscriptionNameInstance = subscriptionNameElement.Value;
-                            result.SubscriptionName = subscriptionNameInstance;
-                        }
-                        
-                        XElement subscriptionStatusElement = subscriptionElement.Element(XName.Get("SubscriptionStatus", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionStatusElement != null)
-                        {
-                            SubscriptionStatus subscriptionStatusInstance = (SubscriptionStatus)Enum.Parse(typeof(SubscriptionStatus), subscriptionStatusElement.Value, false);
-                            result.SubscriptionStatus = subscriptionStatusInstance;
-                        }
-                        
-                        XElement accountAdminLiveEmailIdElement = subscriptionElement.Element(XName.Get("AccountAdminLiveEmailId", "http://schemas.microsoft.com/windowsazure"));
-                        if (accountAdminLiveEmailIdElement != null)
-                        {
-                            string accountAdminLiveEmailIdInstance = accountAdminLiveEmailIdElement.Value;
-                            result.AccountAdminLiveEmailId = accountAdminLiveEmailIdInstance;
-                        }
-                        
-                        XElement serviceAdminLiveEmailIdElement = subscriptionElement.Element(XName.Get("ServiceAdminLiveEmailId", "http://schemas.microsoft.com/windowsazure"));
-                        if (serviceAdminLiveEmailIdElement != null)
-                        {
-                            string serviceAdminLiveEmailIdInstance = serviceAdminLiveEmailIdElement.Value;
-                            result.ServiceAdminLiveEmailId = serviceAdminLiveEmailIdInstance;
-                        }
-                        
-                        XElement maxCoreCountElement = subscriptionElement.Element(XName.Get("MaxCoreCount", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxCoreCountElement != null)
-                        {
-                            int maxCoreCountInstance = int.Parse(maxCoreCountElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumCoreCount = maxCoreCountInstance;
-                        }
-                        
-                        XElement maxStorageAccountsElement = subscriptionElement.Element(XName.Get("MaxStorageAccounts", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxStorageAccountsElement != null)
-                        {
-                            int maxStorageAccountsInstance = int.Parse(maxStorageAccountsElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumStorageAccounts = maxStorageAccountsInstance;
-                        }
-                        
-                        XElement maxHostedServicesElement = subscriptionElement.Element(XName.Get("MaxHostedServices", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxHostedServicesElement != null)
-                        {
-                            int maxHostedServicesInstance = int.Parse(maxHostedServicesElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumHostedServices = maxHostedServicesInstance;
-                        }
-                        
-                        XElement currentCoreCountElement = subscriptionElement.Element(XName.Get("CurrentCoreCount", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentCoreCountElement != null)
-                        {
-                            int currentCoreCountInstance = int.Parse(currentCoreCountElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentCoreCount = currentCoreCountInstance;
-                        }
-                        
-                        XElement currentStorageAccountsElement = subscriptionElement.Element(XName.Get("CurrentStorageAccounts", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentStorageAccountsElement != null)
-                        {
-                            int currentStorageAccountsInstance = int.Parse(currentStorageAccountsElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentStorageAccounts = currentStorageAccountsInstance;
-                        }
-                        
-                        XElement currentHostedServicesElement = subscriptionElement.Element(XName.Get("CurrentHostedServices", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentHostedServicesElement != null)
-                        {
-                            int currentHostedServicesInstance = int.Parse(currentHostedServicesElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentHostedServices = currentHostedServicesInstance;
-                        }
-                        
-                        XElement maxVirtualNetworkSitesElement = subscriptionElement.Element(XName.Get("MaxVirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxVirtualNetworkSitesElement != null)
-                        {
-                            int maxVirtualNetworkSitesInstance = int.Parse(maxVirtualNetworkSitesElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumVirtualNetworkSites = maxVirtualNetworkSitesInstance;
-                        }
-                        
-                        XElement currentVirtualNetworkSitesElement = subscriptionElement.Element(XName.Get("CurrentVirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentVirtualNetworkSitesElement != null)
-                        {
-                            int currentVirtualNetworkSitesInstance = int.Parse(currentVirtualNetworkSitesElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentVirtualNetworkSites = currentVirtualNetworkSitesInstance;
-                        }
-                        
-                        XElement maxLocalNetworkSitesElement = subscriptionElement.Element(XName.Get("MaxLocalNetworkSites", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxLocalNetworkSitesElement != null)
-                        {
-                            int maxLocalNetworkSitesInstance = int.Parse(maxLocalNetworkSitesElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumLocalNetworkSites = maxLocalNetworkSitesInstance;
-                        }
-                        
-                        XElement maxDnsServersElement = subscriptionElement.Element(XName.Get("MaxDnsServers", "http://schemas.microsoft.com/windowsazure"));
-                        if (maxDnsServersElement != null)
-                        {
-                            int maxDnsServersInstance = int.Parse(maxDnsServersElement.Value, CultureInfo.InvariantCulture);
-                            result.MaximumDnsServers = maxDnsServersInstance;
-                        }
-                        
-                        XElement currentLocalNetworkSitesElement = subscriptionElement.Element(XName.Get("CurrentLocalNetworkSites", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentLocalNetworkSitesElement != null)
-                        {
-                            int currentLocalNetworkSitesInstance = int.Parse(currentLocalNetworkSitesElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentLocalNetworkSites = currentLocalNetworkSitesInstance;
-                        }
-                        
-                        XElement currentDnsServersElement = subscriptionElement.Element(XName.Get("CurrentDnsServers", "http://schemas.microsoft.com/windowsazure"));
-                        if (currentDnsServersElement != null)
-                        {
-                            int currentDnsServersInstance = int.Parse(currentDnsServersElement.Value, CultureInfo.InvariantCulture);
-                            result.CurrentDnsServers = currentDnsServersInstance;
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Subscription Operations operation returns a list of
-        /// create, update, and delete operations that were performed on a
-        /// subscription during the specified timeframe.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the List Subscription Operations operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Subscription Operations operation response.
-        /// </returns>
-        public async Task<SubscriptionListOperationsResponse> ListOperationsAsync(SubscriptionListOperationsParameters parameters, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "ListOperationsAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/operations?";
-            url = url + "&StartTime=" + Uri.EscapeUriString(string.Format(CultureInfo.InvariantCulture, "{0:O}", parameters.StartTime.ToUniversalTime()));
-            url = url + "&EndTime=" + Uri.EscapeUriString(string.Format(CultureInfo.InvariantCulture, "{0:O}", parameters.EndTime.ToUniversalTime()));
-            if (parameters.ObjectIdFilter != null)
-            {
-                url = url + "&ObjectIdFilter=" + Uri.EscapeUriString(parameters.ObjectIdFilter);
-            }
-            if (parameters.OperationStatus != null)
-            {
-                url = url + "&OperationResultFilter=" + Uri.EscapeUriString(parameters.OperationStatus.Value.ToString());
-            }
-            if (parameters.ContinuationToken != null)
-            {
-                url = url + "&ContinuationToken=" + Uri.EscapeUriString(parameters.ContinuationToken);
-            }
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    SubscriptionListOperationsResponse result = new SubscriptionListOperationsResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement subscriptionOperationCollectionElement = responseDoc.Element(XName.Get("SubscriptionOperationCollection", "http://schemas.microsoft.com/windowsazure"));
-                    if (subscriptionOperationCollectionElement != null)
-                    {
-                        XElement continuationTokenElement = subscriptionOperationCollectionElement.Element(XName.Get("ContinuationToken", "http://schemas.microsoft.com/windowsazure"));
-                        if (continuationTokenElement != null)
-                        {
-                            string continuationTokenInstance = continuationTokenElement.Value;
-                            result.ContinuationToken = continuationTokenInstance;
-                        }
-                        
-                        XElement subscriptionOperationsSequenceElement = subscriptionOperationCollectionElement.Element(XName.Get("SubscriptionOperations", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionOperationsSequenceElement != null)
-                        {
-                            foreach (XElement subscriptionOperationsElement in subscriptionOperationsSequenceElement.Elements(XName.Get("SubscriptionOperation", "http://schemas.microsoft.com/windowsazure")))
-                            {
-                                SubscriptionListOperationsResponse.SubscriptionOperation subscriptionOperationInstance = new SubscriptionListOperationsResponse.SubscriptionOperation();
-                                result.SubscriptionOperations.Add(subscriptionOperationInstance);
-                                
-                                XElement operationIdElement = subscriptionOperationsElement.Element(XName.Get("OperationId", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationIdElement != null)
-                                {
-                                    string operationIdInstance = operationIdElement.Value;
-                                    subscriptionOperationInstance.OperationId = operationIdInstance;
-                                }
-                                
-                                XElement operationObjectIdElement = subscriptionOperationsElement.Element(XName.Get("OperationObjectId", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationObjectIdElement != null)
-                                {
-                                    string operationObjectIdInstance = operationObjectIdElement.Value;
-                                    subscriptionOperationInstance.OperationObjectId = operationObjectIdInstance;
-                                }
-                                
-                                XElement operationNameElement = subscriptionOperationsElement.Element(XName.Get("OperationName", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationNameElement != null)
-                                {
-                                    string operationNameInstance = operationNameElement.Value;
-                                    subscriptionOperationInstance.OperationName = operationNameInstance;
-                                }
-                                
-                                XElement operationParametersSequenceElement = subscriptionOperationsElement.Element(XName.Get("OperationParameters", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationParametersSequenceElement != null)
-                                {
-                                    foreach (XElement operationParametersElement in operationParametersSequenceElement.Elements(XName.Get("OperationParameter", "http://schemas.microsoft.com/windowsazure")))
-                                    {
-                                        string operationParametersKey = operationParametersElement.Element(XName.Get("Name", "http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.ServiceManagement")).Value;
-                                        string operationParametersValue = operationParametersElement.Element(XName.Get("Value", "http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.ServiceManagement")).Value;
-                                        subscriptionOperationInstance.OperationParameters.Add(operationParametersKey, operationParametersValue);
-                                    }
-                                }
-                                
-                                XElement operationCallerElement = subscriptionOperationsElement.Element(XName.Get("OperationCaller", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationCallerElement != null)
-                                {
-                                    SubscriptionListOperationsResponse.OperationCallerDetails operationCallerInstance = new SubscriptionListOperationsResponse.OperationCallerDetails();
-                                    subscriptionOperationInstance.OperationCaller = operationCallerInstance;
-                                    
-                                    XElement usedServiceManagementApiElement = operationCallerElement.Element(XName.Get("UsedServiceManagementApi", "http://schemas.microsoft.com/windowsazure"));
-                                    if (usedServiceManagementApiElement != null)
-                                    {
-                                        bool usedServiceManagementApiInstance = bool.Parse(usedServiceManagementApiElement.Value);
-                                        operationCallerInstance.UsedServiceManagementApi = usedServiceManagementApiInstance;
-                                    }
-                                    
-                                    XElement userEmailAddressElement = operationCallerElement.Element(XName.Get("UserEmailAddress", "http://schemas.microsoft.com/windowsazure"));
-                                    if (userEmailAddressElement != null)
-                                    {
-                                        string userEmailAddressInstance = userEmailAddressElement.Value;
-                                        operationCallerInstance.UserEmailAddress = userEmailAddressInstance;
-                                    }
-                                    
-                                    XElement subscriptionCertificateThumbprintElement = operationCallerElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
-                                    if (subscriptionCertificateThumbprintElement != null)
-                                    {
-                                        string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
-                                        operationCallerInstance.SubscriptionCertificateThumbprint = subscriptionCertificateThumbprintInstance;
-                                    }
-                                    
-                                    XElement clientIPElement = operationCallerElement.Element(XName.Get("ClientIP", "http://schemas.microsoft.com/windowsazure"));
-                                    if (clientIPElement != null)
-                                    {
-                                        string clientIPInstance = clientIPElement.Value;
-                                        operationCallerInstance.ClientIPAddress = clientIPInstance;
-                                    }
-                                }
-                                
-                                XElement operationStatusElement = subscriptionOperationsElement.Element(XName.Get("OperationStatus", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationStatusElement != null)
-                                {
-                                    string operationStatusInstance = operationStatusElement.Value;
-                                    subscriptionOperationInstance.OperationStatus = operationStatusInstance;
-                                }
-                                
-                                XElement operationStartedTimeElement = subscriptionOperationsElement.Element(XName.Get("OperationStartedTime", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationStartedTimeElement != null)
-                                {
-                                    DateTime operationStartedTimeInstance = DateTime.Parse(operationStartedTimeElement.Value, CultureInfo.InvariantCulture);
-                                    subscriptionOperationInstance.OperationStartedTime = operationStartedTimeInstance;
-                                }
-                                
-                                XElement operationCompletedTimeElement = subscriptionOperationsElement.Element(XName.Get("OperationCompletedTime", "http://schemas.microsoft.com/windowsazure"));
-                                if (operationCompletedTimeElement != null)
-                                {
-                                    DateTime operationCompletedTimeInstance = DateTime.Parse(operationCompletedTimeElement.Value, CultureInfo.InvariantCulture);
-                                    subscriptionOperationInstance.OperationCompletedTime = operationCompletedTimeInstance;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Register a resource with your subscription.
-        /// </summary>
-        /// <param name='resourceName'>
-        /// Name of the reource to register.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> RegisterResourceAsync(string resourceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("resourceName", resourceName);
-                Tracing.Enter(invocationId, this, "RegisterResourceAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services?service=" + resourceName + "&action=register";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Unregister a resource with your subscription.
-        /// </summary>
-        /// <param name='resourceName'>
-        /// Name of the reource to unregister.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> UnregisterResourceAsync(string resourceName, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("resourceName", resourceName);
-                Tracing.Enter(invocationId, this, "UnregisterResourceAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services?service=" + resourceName + "&action=unregister";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// You can use management certificates, which are also known as
-    /// subscription certificates, to authenticate clients attempting to
-    /// connect to resources associated with your Windows Azure subscription.
-    /// (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
-    /// more information)
-    /// </summary>
-    public partial interface IManagementCertificateOperations
-    {
-        /// <summary>
-        /// The Add Management Certificate operation adds a certificate to the
-        /// list of management certificates. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Management Certificate operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> CreateAsync(ManagementCertificateCreateParameters parameters, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Delete Management Certificate operation deletes a certificate
-        /// from the list of management certificates. Management certificates,
-        /// which are also known as subscription certificates, authenticate
-        /// clients attempting to connect to resources associated with your
-        /// Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='thumbprint'>
-        /// the thumbprint value of the certificate to delete.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        Task<OperationResponse> DeleteAsync(string thumbprint, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The Get Management Certificate operation retrieves information
-        /// about the management certificate with the specified thumbprint.
-        /// Management certificates, which are also known as subscription
-        /// certificates, authenticate clients attempting to connect to
-        /// resources associated with your Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='thumbprint'>
-        /// The thumbprint value of the certificate to retrieve information
-        /// about.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The Get Management Certificate operation response.
-        /// </returns>
-        Task<ManagementCertificateGetResponse> GetAsync(string thumbprint, CancellationToken cancellationToken);
-        
-        /// <summary>
-        /// The List Management Certificates operation lists and returns basic
-        /// information about all of the management certificates associated
-        /// with the specified subscription. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Management Certificates operation response.
-        /// </returns>
-        Task<ManagementCertificateListResponse> ListAsync(CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// You can use management certificates, which are also known as
-    /// subscription certificates, to authenticate clients attempting to
-    /// connect to resources associated with your Windows Azure subscription.
-    /// (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
-    /// more information)
-    /// </summary>
-    public static partial class ManagementCertificateOperationsExtensions
-    {
-        /// <summary>
-        /// The Add Management Certificate operation adds a certificate to the
-        /// list of management certificates. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Management Certificate operation.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse Create(this IManagementCertificateOperations operations, ManagementCertificateCreateParameters parameters)
-        {
-            try
-            {
-                return operations.CreateAsync(parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Add Management Certificate operation adds a certificate to the
-        /// list of management certificates. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Management Certificate operation.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> CreateAsync(this IManagementCertificateOperations operations, ManagementCertificateCreateParameters parameters)
-        {
-            return operations.CreateAsync(parameters, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Delete Management Certificate operation deletes a certificate
-        /// from the list of management certificates. Management certificates,
-        /// which are also known as subscription certificates, authenticate
-        /// clients attempting to connect to resources associated with your
-        /// Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='thumbprint'>
-        /// the thumbprint value of the certificate to delete.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static OperationResponse Delete(this IManagementCertificateOperations operations, string thumbprint)
-        {
-            try
-            {
-                return operations.DeleteAsync(thumbprint).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Delete Management Certificate operation deletes a certificate
-        /// from the list of management certificates. Management certificates,
-        /// which are also known as subscription certificates, authenticate
-        /// clients attempting to connect to resources associated with your
-        /// Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='thumbprint'>
-        /// the thumbprint value of the certificate to delete.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public static Task<OperationResponse> DeleteAsync(this IManagementCertificateOperations operations, string thumbprint)
-        {
-            return operations.DeleteAsync(thumbprint, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The Get Management Certificate operation retrieves information
-        /// about the management certificate with the specified thumbprint.
-        /// Management certificates, which are also known as subscription
-        /// certificates, authenticate clients attempting to connect to
-        /// resources associated with your Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='thumbprint'>
-        /// The thumbprint value of the certificate to retrieve information
-        /// about.
-        /// </param>
-        /// <returns>
-        /// The Get Management Certificate operation response.
-        /// </returns>
-        public static ManagementCertificateGetResponse Get(this IManagementCertificateOperations operations, string thumbprint)
-        {
-            try
-            {
-                return operations.GetAsync(thumbprint).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Management Certificate operation retrieves information
-        /// about the management certificate with the specified thumbprint.
-        /// Management certificates, which are also known as subscription
-        /// certificates, authenticate clients attempting to connect to
-        /// resources associated with your Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <param name='thumbprint'>
-        /// The thumbprint value of the certificate to retrieve information
-        /// about.
-        /// </param>
-        /// <returns>
-        /// The Get Management Certificate operation response.
-        /// </returns>
-        public static Task<ManagementCertificateGetResponse> GetAsync(this IManagementCertificateOperations operations, string thumbprint)
-        {
-            return operations.GetAsync(thumbprint, CancellationToken.None);
-        }
-        
-        /// <summary>
-        /// The List Management Certificates operation lists and returns basic
-        /// information about all of the management certificates associated
-        /// with the specified subscription. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <returns>
-        /// The List Management Certificates operation response.
-        /// </returns>
-        public static ManagementCertificateListResponse List(this IManagementCertificateOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Management Certificates operation lists and returns basic
-        /// information about all of the management certificates associated
-        /// with the specified subscription. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
-        /// </param>
-        /// <returns>
-        /// The List Management Certificates operation response.
-        /// </returns>
-        public static Task<ManagementCertificateListResponse> ListAsync(this IManagementCertificateOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// You can use management certificates, which are also known as
-    /// subscription certificates, to authenticate clients attempting to
-    /// connect to resources associated with your Windows Azure subscription.
-    /// (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
-    /// more information)
-    /// </summary>
-    internal partial class ManagementCertificateOperations : IServiceOperations<ManagementClient>, IManagementCertificateOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the ManagementCertificateOperations
-        /// class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal ManagementCertificateOperations(ManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ManagementClient.
-        /// </summary>
-        public ManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// The Add Management Certificate operation adds a certificate to the
-        /// list of management certificates. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters supplied to the Create Management Certificate operation.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> CreateAsync(ManagementCertificateCreateParameters parameters, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-                
-                XElement subscriptionCertificateElement = new XElement(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure"));
-                requestDoc.Add(subscriptionCertificateElement);
-                
-                if (parameters.PublicKey != null)
-                {
-                    XElement subscriptionCertificatePublicKeyElement = new XElement(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
-                    subscriptionCertificatePublicKeyElement.Value = Convert.ToBase64String(parameters.PublicKey);
-                    subscriptionCertificateElement.Add(subscriptionCertificatePublicKeyElement);
-                }
-                
-                if (parameters.Thumbprint != null)
-                {
-                    XElement subscriptionCertificateThumbprintElement = new XElement(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
-                    subscriptionCertificateThumbprintElement.Value = parameters.Thumbprint;
-                    subscriptionCertificateElement.Add(subscriptionCertificateThumbprintElement);
-                }
-                
-                if (parameters.Data != null)
-                {
-                    XElement subscriptionCertificateDataElement = new XElement(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
-                    subscriptionCertificateDataElement.Value = Convert.ToBase64String(parameters.Data);
-                    subscriptionCertificateElement.Add(subscriptionCertificateDataElement);
-                }
-                
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Delete Management Certificate operation deletes a certificate
-        /// from the list of management certificates. Management certificates,
-        /// which are also known as subscription certificates, authenticate
-        /// clients attempting to connect to resources associated with your
-        /// Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='thumbprint'>
-        /// the thumbprint value of the certificate to delete.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
-        /// </returns>
-        public async Task<OperationResponse> DeleteAsync(string thumbprint, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (thumbprint == null)
-            {
-                throw new ArgumentNullException("thumbprint");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("thumbprint", thumbprint);
-                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates/" + thumbprint;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.NotFound && statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The Get Management Certificate operation retrieves information
-        /// about the management certificate with the specified thumbprint.
-        /// Management certificates, which are also known as subscription
-        /// certificates, authenticate clients attempting to connect to
-        /// resources associated with your Windows Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='thumbprint'>
-        /// The thumbprint value of the certificate to retrieve information
-        /// about.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The Get Management Certificate operation response.
-        /// </returns>
-        public async Task<ManagementCertificateGetResponse> GetAsync(string thumbprint, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (thumbprint == null)
-            {
-                throw new ArgumentNullException("thumbprint");
-            }
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("thumbprint", thumbprint);
-                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates/" + thumbprint;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ManagementCertificateGetResponse result = new ManagementCertificateGetResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement subscriptionCertificateElement = responseDoc.Element(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure"));
-                    if (subscriptionCertificateElement != null)
-                    {
-                        XElement subscriptionCertificatePublicKeyElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionCertificatePublicKeyElement != null)
-                        {
-                            byte[] subscriptionCertificatePublicKeyInstance = Convert.FromBase64String(subscriptionCertificatePublicKeyElement.Value);
-                            result.PublicKey = subscriptionCertificatePublicKeyInstance;
-                        }
-                        
-                        XElement subscriptionCertificateThumbprintElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionCertificateThumbprintElement != null)
-                        {
-                            string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
-                            result.Thumbprint = subscriptionCertificateThumbprintInstance;
-                        }
-                        
-                        XElement subscriptionCertificateDataElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
-                        if (subscriptionCertificateDataElement != null)
-                        {
-                            byte[] subscriptionCertificateDataInstance = Convert.FromBase64String(subscriptionCertificateDataElement.Value);
-                            result.Data = subscriptionCertificateDataInstance;
-                        }
-                        
-                        XElement createdElement = subscriptionCertificateElement.Element(XName.Get("Created", "http://schemas.microsoft.com/windowsazure"));
-                        if (createdElement != null)
-                        {
-                            DateTime createdInstance = DateTime.Parse(createdElement.Value, CultureInfo.InvariantCulture);
-                            result.Created = createdInstance;
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Management Certificates operation lists and returns basic
-        /// information about all of the management certificates associated
-        /// with the specified subscription. Management certificates, which
-        /// are also known as subscription certificates, authenticate clients
-        /// attempting to connect to resources associated with your Windows
-        /// Azure subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Management Certificates operation response.
-        /// </returns>
-        public async Task<ManagementCertificateListResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    ManagementCertificateListResponse result = new ManagementCertificateListResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement subscriptionCertificatesSequenceElement = responseDoc.Element(XName.Get("SubscriptionCertificates", "http://schemas.microsoft.com/windowsazure"));
-                    if (subscriptionCertificatesSequenceElement != null)
-                    {
-                        foreach (XElement subscriptionCertificatesElement in subscriptionCertificatesSequenceElement.Elements(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure")))
-                        {
-                            ManagementCertificateListResponse.SubscriptionCertificate subscriptionCertificateInstance = new ManagementCertificateListResponse.SubscriptionCertificate();
-                            result.SubscriptionCertificates.Add(subscriptionCertificateInstance);
-                            
-                            XElement subscriptionCertificatePublicKeyElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
-                            if (subscriptionCertificatePublicKeyElement != null)
-                            {
-                                byte[] subscriptionCertificatePublicKeyInstance = Convert.FromBase64String(subscriptionCertificatePublicKeyElement.Value);
-                                subscriptionCertificateInstance.PublicKey = subscriptionCertificatePublicKeyInstance;
-                            }
-                            
-                            XElement subscriptionCertificateThumbprintElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
-                            if (subscriptionCertificateThumbprintElement != null)
-                            {
-                                string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
-                                subscriptionCertificateInstance.Thumbprint = subscriptionCertificateThumbprintInstance;
-                            }
-                            
-                            XElement subscriptionCertificateDataElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
-                            if (subscriptionCertificateDataElement != null)
-                            {
-                                byte[] subscriptionCertificateDataInstance = Convert.FromBase64String(subscriptionCertificateDataElement.Value);
-                                subscriptionCertificateInstance.Data = subscriptionCertificateDataInstance;
-                            }
-                            
-                            XElement createdElement = subscriptionCertificatesElement.Element(XName.Get("Created", "http://schemas.microsoft.com/windowsazure"));
-                            if (createdElement != null)
-                            {
-                                DateTime createdInstance = DateTime.Parse(createdElement.Value, CultureInfo.InvariantCulture);
-                                subscriptionCertificateInstance.Created = createdInstance;
-                            }
-                        }
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-    
-    /// <summary>
-    /// The Service Management API includes operations for listing the
-    /// available data center locations for a hosted service in your
-    /// subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
-    /// more information)
-    /// </summary>
-    public partial interface ILocationOperations
-    {
-        /// <summary>
-        /// The List Locations operation lists all of the data center locations
-        /// that are valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Locations operation response.
-        /// </returns>
-        Task<LocationsListResponse> ListAsync(CancellationToken cancellationToken);
-    }
-    
-    /// <summary>
-    /// The Service Management API includes operations for listing the
-    /// available data center locations for a hosted service in your
-    /// subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
-    /// more information)
-    /// </summary>
-    public static partial class LocationOperationsExtensions
-    {
-        /// <summary>
-        /// The List Locations operation lists all of the data center locations
-        /// that are valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ILocationOperations.
-        /// </param>
-        /// <returns>
-        /// The List Locations operation response.
-        /// </returns>
-        public static LocationsListResponse List(this ILocationOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// The List Locations operation lists all of the data center locations
-        /// that are valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.ILocationOperations.
-        /// </param>
-        /// <returns>
-        /// The List Locations operation response.
-        /// </returns>
-        public static Task<LocationsListResponse> ListAsync(this ILocationOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-    }
-    
-    /// <summary>
-    /// The Service Management API includes operations for listing the
-    /// available data center locations for a hosted service in your
-    /// subscription.  (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
-    /// more information)
-    /// </summary>
-    internal partial class LocationOperations : IServiceOperations<ManagementClient>, ILocationOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the LocationOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal LocationOperations(ManagementClient client)
-        {
-            this._client = client;
-        }
-        
-        private ManagementClient _client;
-        
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.ManagementClient.
-        /// </summary>
-        public ManagementClient Client
-        {
-            get { return this._client; }
-        }
-        
-        /// <summary>
-        /// The List Locations operation lists all of the data center locations
-        /// that are valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The List Locations operation response.
-        /// </returns>
-        public async Task<LocationsListResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/locations";
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    LocationsListResponse result = new LocationsListResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-                    
-                    XElement locationsSequenceElement = responseDoc.Element(XName.Get("Locations", "http://schemas.microsoft.com/windowsazure"));
-                    if (locationsSequenceElement != null)
-                    {
-                        foreach (XElement locationsElement in locationsSequenceElement.Elements(XName.Get("Location", "http://schemas.microsoft.com/windowsazure")))
-                        {
-                            LocationsListResponse.Location locationInstance = new LocationsListResponse.Location();
-                            result.Locations.Add(locationInstance);
-                            
-                            XElement nameElement = locationsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                            if (nameElement != null)
-                            {
-                                string nameInstance = nameElement.Value;
-                                locationInstance.Name = nameInstance;
-                            }
-                            
-                            XElement displayNameElement = locationsElement.Element(XName.Get("DisplayName", "http://schemas.microsoft.com/windowsazure"));
-                            if (displayNameElement != null)
-                            {
-                                string displayNameInstance = displayNameElement.Value;
-                                locationInstance.DisplayName = displayNameInstance;
-                            }
-                            
-                            XElement availableServicesSequenceElement = locationsElement.Element(XName.Get("AvailableServices", "http://schemas.microsoft.com/windowsazure"));
-                            if (availableServicesSequenceElement != null)
-                            {
-                                foreach (XElement availableServicesElement in availableServicesSequenceElement.Elements(XName.Get("AvailableService", "http://schemas.microsoft.com/windowsazure")))
-                                {
-                                    locationInstance.AvailableServices.Add(availableServicesElement.Value);
-                                }
                             }
                         }
                     }
@@ -5435,6 +3236,2205 @@ namespace Microsoft.WindowsAzure.Management
                                 result.Capabilities.Add(capabilitiesElement.Value);
                             }
                         }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available data center locations for a hosted service in your
+    /// subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
+    /// more information)
+    /// </summary>
+    public partial interface ILocationOperations
+    {
+        /// <summary>
+        /// The List Locations operation lists all of the data center locations
+        /// that are valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Locations operation response.
+        /// </returns>
+        Task<LocationsListResponse> ListAsync(CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available data center locations for a hosted service in your
+    /// subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
+    /// more information)
+    /// </summary>
+    public static partial class LocationOperationsExtensions
+    {
+        /// <summary>
+        /// The List Locations operation lists all of the data center locations
+        /// that are valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ILocationOperations.
+        /// </param>
+        /// <returns>
+        /// The List Locations operation response.
+        /// </returns>
+        public static LocationsListResponse List(this ILocationOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Locations operation lists all of the data center locations
+        /// that are valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ILocationOperations.
+        /// </param>
+        /// <returns>
+        /// The List Locations operation response.
+        /// </returns>
+        public static Task<LocationsListResponse> ListAsync(this ILocationOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available data center locations for a hosted service in your
+    /// subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441299.aspx for
+    /// more information)
+    /// </summary>
+    internal partial class LocationOperations : IServiceOperations<ManagementClient>, ILocationOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the LocationOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal LocationOperations(ManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ManagementClient.
+        /// </summary>
+        public ManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The List Locations operation lists all of the data center locations
+        /// that are valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Locations operation response.
+        /// </returns>
+        public async Task<LocationsListResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/locations";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    LocationsListResponse result = new LocationsListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement locationsSequenceElement = responseDoc.Element(XName.Get("Locations", "http://schemas.microsoft.com/windowsazure"));
+                    if (locationsSequenceElement != null)
+                    {
+                        foreach (XElement locationsElement in locationsSequenceElement.Elements(XName.Get("Location", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            LocationsListResponse.Location locationInstance = new LocationsListResponse.Location();
+                            result.Locations.Add(locationInstance);
+                            
+                            XElement nameElement = locationsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                locationInstance.Name = nameInstance;
+                            }
+                            
+                            XElement displayNameElement = locationsElement.Element(XName.Get("DisplayName", "http://schemas.microsoft.com/windowsazure"));
+                            if (displayNameElement != null)
+                            {
+                                string displayNameInstance = displayNameElement.Value;
+                                locationInstance.DisplayName = displayNameInstance;
+                            }
+                            
+                            XElement availableServicesSequenceElement = locationsElement.Element(XName.Get("AvailableServices", "http://schemas.microsoft.com/windowsazure"));
+                            if (availableServicesSequenceElement != null)
+                            {
+                                foreach (XElement availableServicesElement in availableServicesSequenceElement.Elements(XName.Get("AvailableService", "http://schemas.microsoft.com/windowsazure")))
+                                {
+                                    locationInstance.AvailableServices.Add(availableServicesElement.Value);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// You can use management certificates, which are also known as
+    /// subscription certificates, to authenticate clients attempting to
+    /// connect to resources associated with your Windows Azure subscription.
+    /// (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
+    /// more information)
+    /// </summary>
+    public partial interface IManagementCertificateOperations
+    {
+        /// <summary>
+        /// The Add Management Certificate operation adds a certificate to the
+        /// list of management certificates. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Management Certificate operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> CreateAsync(ManagementCertificateCreateParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Delete Management Certificate operation deletes a certificate
+        /// from the list of management certificates. Management certificates,
+        /// which are also known as subscription certificates, authenticate
+        /// clients attempting to connect to resources associated with your
+        /// Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='thumbprint'>
+        /// the thumbprint value of the certificate to delete.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> DeleteAsync(string thumbprint, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Get Management Certificate operation retrieves information
+        /// about the management certificate with the specified thumbprint.
+        /// Management certificates, which are also known as subscription
+        /// certificates, authenticate clients attempting to connect to
+        /// resources associated with your Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='thumbprint'>
+        /// The thumbprint value of the certificate to retrieve information
+        /// about.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Get Management Certificate operation response.
+        /// </returns>
+        Task<ManagementCertificateGetResponse> GetAsync(string thumbprint, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The List Management Certificates operation lists and returns basic
+        /// information about all of the management certificates associated
+        /// with the specified subscription. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Management Certificates operation response.
+        /// </returns>
+        Task<ManagementCertificateListResponse> ListAsync(CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// You can use management certificates, which are also known as
+    /// subscription certificates, to authenticate clients attempting to
+    /// connect to resources associated with your Windows Azure subscription.
+    /// (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
+    /// more information)
+    /// </summary>
+    public static partial class ManagementCertificateOperationsExtensions
+    {
+        /// <summary>
+        /// The Add Management Certificate operation adds a certificate to the
+        /// list of management certificates. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Management Certificate operation.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse Create(this IManagementCertificateOperations operations, ManagementCertificateCreateParameters parameters)
+        {
+            try
+            {
+                return operations.CreateAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Add Management Certificate operation adds a certificate to the
+        /// list of management certificates. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Management Certificate operation.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> CreateAsync(this IManagementCertificateOperations operations, ManagementCertificateCreateParameters parameters)
+        {
+            return operations.CreateAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Delete Management Certificate operation deletes a certificate
+        /// from the list of management certificates. Management certificates,
+        /// which are also known as subscription certificates, authenticate
+        /// clients attempting to connect to resources associated with your
+        /// Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='thumbprint'>
+        /// the thumbprint value of the certificate to delete.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse Delete(this IManagementCertificateOperations operations, string thumbprint)
+        {
+            try
+            {
+                return operations.DeleteAsync(thumbprint).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Management Certificate operation deletes a certificate
+        /// from the list of management certificates. Management certificates,
+        /// which are also known as subscription certificates, authenticate
+        /// clients attempting to connect to resources associated with your
+        /// Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='thumbprint'>
+        /// the thumbprint value of the certificate to delete.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> DeleteAsync(this IManagementCertificateOperations operations, string thumbprint)
+        {
+            return operations.DeleteAsync(thumbprint, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Get Management Certificate operation retrieves information
+        /// about the management certificate with the specified thumbprint.
+        /// Management certificates, which are also known as subscription
+        /// certificates, authenticate clients attempting to connect to
+        /// resources associated with your Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='thumbprint'>
+        /// The thumbprint value of the certificate to retrieve information
+        /// about.
+        /// </param>
+        /// <returns>
+        /// The Get Management Certificate operation response.
+        /// </returns>
+        public static ManagementCertificateGetResponse Get(this IManagementCertificateOperations operations, string thumbprint)
+        {
+            try
+            {
+                return operations.GetAsync(thumbprint).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Management Certificate operation retrieves information
+        /// about the management certificate with the specified thumbprint.
+        /// Management certificates, which are also known as subscription
+        /// certificates, authenticate clients attempting to connect to
+        /// resources associated with your Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <param name='thumbprint'>
+        /// The thumbprint value of the certificate to retrieve information
+        /// about.
+        /// </param>
+        /// <returns>
+        /// The Get Management Certificate operation response.
+        /// </returns>
+        public static Task<ManagementCertificateGetResponse> GetAsync(this IManagementCertificateOperations operations, string thumbprint)
+        {
+            return operations.GetAsync(thumbprint, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The List Management Certificates operation lists and returns basic
+        /// information about all of the management certificates associated
+        /// with the specified subscription. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <returns>
+        /// The List Management Certificates operation response.
+        /// </returns>
+        public static ManagementCertificateListResponse List(this IManagementCertificateOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Management Certificates operation lists and returns basic
+        /// information about all of the management certificates associated
+        /// with the specified subscription. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IManagementCertificateOperations.
+        /// </param>
+        /// <returns>
+        /// The List Management Certificates operation response.
+        /// </returns>
+        public static Task<ManagementCertificateListResponse> ListAsync(this IManagementCertificateOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// You can use management certificates, which are also known as
+    /// subscription certificates, to authenticate clients attempting to
+    /// connect to resources associated with your Windows Azure subscription.
+    /// (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154124.aspx for
+    /// more information)
+    /// </summary>
+    internal partial class ManagementCertificateOperations : IServiceOperations<ManagementClient>, IManagementCertificateOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the ManagementCertificateOperations
+        /// class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal ManagementCertificateOperations(ManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ManagementClient.
+        /// </summary>
+        public ManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Add Management Certificate operation adds a certificate to the
+        /// list of management certificates. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154123.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Create Management Certificate operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> CreateAsync(ManagementCertificateCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement subscriptionCertificateElement = new XElement(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure"));
+                requestDoc.Add(subscriptionCertificateElement);
+                
+                if (parameters.PublicKey != null)
+                {
+                    XElement subscriptionCertificatePublicKeyElement = new XElement(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
+                    subscriptionCertificatePublicKeyElement.Value = Convert.ToBase64String(parameters.PublicKey);
+                    subscriptionCertificateElement.Add(subscriptionCertificatePublicKeyElement);
+                }
+                
+                if (parameters.Thumbprint != null)
+                {
+                    XElement subscriptionCertificateThumbprintElement = new XElement(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
+                    subscriptionCertificateThumbprintElement.Value = parameters.Thumbprint;
+                    subscriptionCertificateElement.Add(subscriptionCertificateThumbprintElement);
+                }
+                
+                if (parameters.Data != null)
+                {
+                    XElement subscriptionCertificateDataElement = new XElement(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
+                    subscriptionCertificateDataElement.Value = Convert.ToBase64String(parameters.Data);
+                    subscriptionCertificateElement.Add(subscriptionCertificateDataElement);
+                }
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Management Certificate operation deletes a certificate
+        /// from the list of management certificates. Management certificates,
+        /// which are also known as subscription certificates, authenticate
+        /// clients attempting to connect to resources associated with your
+        /// Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154127.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='thumbprint'>
+        /// the thumbprint value of the certificate to delete.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> DeleteAsync(string thumbprint, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (thumbprint == null)
+            {
+                throw new ArgumentNullException("thumbprint");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("thumbprint", thumbprint);
+                Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates/" + thumbprint;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.NotFound)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Management Certificate operation retrieves information
+        /// about the management certificate with the specified thumbprint.
+        /// Management certificates, which are also known as subscription
+        /// certificates, authenticate clients attempting to connect to
+        /// resources associated with your Windows Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154131.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='thumbprint'>
+        /// The thumbprint value of the certificate to retrieve information
+        /// about.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Get Management Certificate operation response.
+        /// </returns>
+        public async Task<ManagementCertificateGetResponse> GetAsync(string thumbprint, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (thumbprint == null)
+            {
+                throw new ArgumentNullException("thumbprint");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("thumbprint", thumbprint);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates/" + thumbprint;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ManagementCertificateGetResponse result = new ManagementCertificateGetResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement subscriptionCertificateElement = responseDoc.Element(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure"));
+                    if (subscriptionCertificateElement != null)
+                    {
+                        XElement subscriptionCertificatePublicKeyElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionCertificatePublicKeyElement != null)
+                        {
+                            byte[] subscriptionCertificatePublicKeyInstance = Convert.FromBase64String(subscriptionCertificatePublicKeyElement.Value);
+                            result.PublicKey = subscriptionCertificatePublicKeyInstance;
+                        }
+                        
+                        XElement subscriptionCertificateThumbprintElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionCertificateThumbprintElement != null)
+                        {
+                            string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
+                            result.Thumbprint = subscriptionCertificateThumbprintInstance;
+                        }
+                        
+                        XElement subscriptionCertificateDataElement = subscriptionCertificateElement.Element(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionCertificateDataElement != null)
+                        {
+                            byte[] subscriptionCertificateDataInstance = Convert.FromBase64String(subscriptionCertificateDataElement.Value);
+                            result.Data = subscriptionCertificateDataInstance;
+                        }
+                        
+                        XElement createdElement = subscriptionCertificateElement.Element(XName.Get("Created", "http://schemas.microsoft.com/windowsazure"));
+                        if (createdElement != null)
+                        {
+                            DateTime createdInstance = DateTime.Parse(createdElement.Value, CultureInfo.InvariantCulture);
+                            result.Created = createdInstance;
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Management Certificates operation lists and returns basic
+        /// information about all of the management certificates associated
+        /// with the specified subscription. Management certificates, which
+        /// are also known as subscription certificates, authenticate clients
+        /// attempting to connect to resources associated with your Windows
+        /// Azure subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj154105.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Management Certificates operation response.
+        /// </returns>
+        public async Task<ManagementCertificateListResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/certificates";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    ManagementCertificateListResponse result = new ManagementCertificateListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement subscriptionCertificatesSequenceElement = responseDoc.Element(XName.Get("SubscriptionCertificates", "http://schemas.microsoft.com/windowsazure"));
+                    if (subscriptionCertificatesSequenceElement != null)
+                    {
+                        foreach (XElement subscriptionCertificatesElement in subscriptionCertificatesSequenceElement.Elements(XName.Get("SubscriptionCertificate", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            ManagementCertificateListResponse.SubscriptionCertificate subscriptionCertificateInstance = new ManagementCertificateListResponse.SubscriptionCertificate();
+                            result.SubscriptionCertificates.Add(subscriptionCertificateInstance);
+                            
+                            XElement subscriptionCertificatePublicKeyElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificatePublicKey", "http://schemas.microsoft.com/windowsazure"));
+                            if (subscriptionCertificatePublicKeyElement != null)
+                            {
+                                byte[] subscriptionCertificatePublicKeyInstance = Convert.FromBase64String(subscriptionCertificatePublicKeyElement.Value);
+                                subscriptionCertificateInstance.PublicKey = subscriptionCertificatePublicKeyInstance;
+                            }
+                            
+                            XElement subscriptionCertificateThumbprintElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
+                            if (subscriptionCertificateThumbprintElement != null)
+                            {
+                                string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
+                                subscriptionCertificateInstance.Thumbprint = subscriptionCertificateThumbprintInstance;
+                            }
+                            
+                            XElement subscriptionCertificateDataElement = subscriptionCertificatesElement.Element(XName.Get("SubscriptionCertificateData", "http://schemas.microsoft.com/windowsazure"));
+                            if (subscriptionCertificateDataElement != null)
+                            {
+                                byte[] subscriptionCertificateDataInstance = Convert.FromBase64String(subscriptionCertificateDataElement.Value);
+                                subscriptionCertificateInstance.Data = subscriptionCertificateDataInstance;
+                            }
+                            
+                            XElement createdElement = subscriptionCertificatesElement.Element(XName.Get("Created", "http://schemas.microsoft.com/windowsazure"));
+                            if (createdElement != null)
+                            {
+                                DateTime createdInstance = DateTime.Parse(createdElement.Value, CultureInfo.InvariantCulture);
+                                subscriptionCertificateInstance.Created = createdInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Operation for listing subscription operations and details.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
+    /// more information)
+    /// </summary>
+    public partial interface ISubscriptionOperations
+    {
+        /// <summary>
+        /// The Get Subscription operation returns account and resource
+        /// allocation information on the specified subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Get Subscription operation response.
+        /// </returns>
+        Task<SubscriptionGetResponse> GetAsync(CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The List Subscription Operations operation returns a list of
+        /// create, update, and delete operations that were performed on a
+        /// subscription during the specified timeframe.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the List Subscription Operations operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Subscription Operations operation response.
+        /// </returns>
+        Task<SubscriptionListOperationsResponse> ListOperationsAsync(SubscriptionListOperationsParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Register a resource with your subscription.
+        /// </summary>
+        /// <param name='resourceName'>
+        /// Name of the reource to register.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> RegisterResourceAsync(string resourceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Unregister a resource with your subscription.
+        /// </summary>
+        /// <param name='resourceName'>
+        /// Name of the reource to unregister.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> UnregisterResourceAsync(string resourceName, CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// Operation for listing subscription operations and details.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
+    /// more information)
+    /// </summary>
+    public static partial class SubscriptionOperationsExtensions
+    {
+        /// <summary>
+        /// The Get Subscription operation returns account and resource
+        /// allocation information on the specified subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <returns>
+        /// The Get Subscription operation response.
+        /// </returns>
+        public static SubscriptionGetResponse Get(this ISubscriptionOperations operations)
+        {
+            try
+            {
+                return operations.GetAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Subscription operation returns account and resource
+        /// allocation information on the specified subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <returns>
+        /// The Get Subscription operation response.
+        /// </returns>
+        public static Task<SubscriptionGetResponse> GetAsync(this ISubscriptionOperations operations)
+        {
+            return operations.GetAsync(CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The List Subscription Operations operation returns a list of
+        /// create, update, and delete operations that were performed on a
+        /// subscription during the specified timeframe.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the List Subscription Operations operation.
+        /// </param>
+        /// <returns>
+        /// The List Subscription Operations operation response.
+        /// </returns>
+        public static SubscriptionListOperationsResponse ListOperations(this ISubscriptionOperations operations, SubscriptionListOperationsParameters parameters)
+        {
+            try
+            {
+                return operations.ListOperationsAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Subscription Operations operation returns a list of
+        /// create, update, and delete operations that were performed on a
+        /// subscription during the specified timeframe.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the List Subscription Operations operation.
+        /// </param>
+        /// <returns>
+        /// The List Subscription Operations operation response.
+        /// </returns>
+        public static Task<SubscriptionListOperationsResponse> ListOperationsAsync(this ISubscriptionOperations operations, SubscriptionListOperationsParameters parameters)
+        {
+            return operations.ListOperationsAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Register a resource with your subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Name of the reource to register.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse RegisterResource(this ISubscriptionOperations operations, string resourceName)
+        {
+            try
+            {
+                return operations.RegisterResourceAsync(resourceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Register a resource with your subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Name of the reource to register.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> RegisterResourceAsync(this ISubscriptionOperations operations, string resourceName)
+        {
+            return operations.RegisterResourceAsync(resourceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Unregister a resource with your subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Name of the reource to unregister.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse UnregisterResource(this ISubscriptionOperations operations, string resourceName)
+        {
+            try
+            {
+                return operations.UnregisterResourceAsync(resourceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Unregister a resource with your subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Name of the reource to unregister.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> UnregisterResourceAsync(this ISubscriptionOperations operations, string resourceName)
+        {
+            return operations.UnregisterResourceAsync(resourceName, CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// Operation for listing subscription operations and details.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx for
+    /// more information)
+    /// </summary>
+    internal partial class SubscriptionOperations : IServiceOperations<ManagementClient>, ISubscriptionOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the SubscriptionOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal SubscriptionOperations(ManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ManagementClient.
+        /// </summary>
+        public ManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Get Subscription operation returns account and resource
+        /// allocation information on the specified subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/hh403995.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The Get Subscription operation response.
+        /// </returns>
+        public async Task<SubscriptionGetResponse> GetAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    SubscriptionGetResponse result = new SubscriptionGetResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement subscriptionElement = responseDoc.Element(XName.Get("Subscription", "http://schemas.microsoft.com/windowsazure"));
+                    if (subscriptionElement != null)
+                    {
+                        XElement subscriptionIDElement = subscriptionElement.Element(XName.Get("SubscriptionID", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionIDElement != null)
+                        {
+                            string subscriptionIDInstance = subscriptionIDElement.Value;
+                            result.SubscriptionID = subscriptionIDInstance;
+                        }
+                        
+                        XElement subscriptionNameElement = subscriptionElement.Element(XName.Get("SubscriptionName", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionNameElement != null)
+                        {
+                            string subscriptionNameInstance = subscriptionNameElement.Value;
+                            result.SubscriptionName = subscriptionNameInstance;
+                        }
+                        
+                        XElement subscriptionStatusElement = subscriptionElement.Element(XName.Get("SubscriptionStatus", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionStatusElement != null)
+                        {
+                            SubscriptionStatus subscriptionStatusInstance = (SubscriptionStatus)Enum.Parse(typeof(SubscriptionStatus), subscriptionStatusElement.Value, false);
+                            result.SubscriptionStatus = subscriptionStatusInstance;
+                        }
+                        
+                        XElement accountAdminLiveEmailIdElement = subscriptionElement.Element(XName.Get("AccountAdminLiveEmailId", "http://schemas.microsoft.com/windowsazure"));
+                        if (accountAdminLiveEmailIdElement != null)
+                        {
+                            string accountAdminLiveEmailIdInstance = accountAdminLiveEmailIdElement.Value;
+                            result.AccountAdminLiveEmailId = accountAdminLiveEmailIdInstance;
+                        }
+                        
+                        XElement serviceAdminLiveEmailIdElement = subscriptionElement.Element(XName.Get("ServiceAdminLiveEmailId", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceAdminLiveEmailIdElement != null)
+                        {
+                            string serviceAdminLiveEmailIdInstance = serviceAdminLiveEmailIdElement.Value;
+                            result.ServiceAdminLiveEmailId = serviceAdminLiveEmailIdInstance;
+                        }
+                        
+                        XElement maxCoreCountElement = subscriptionElement.Element(XName.Get("MaxCoreCount", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxCoreCountElement != null)
+                        {
+                            int maxCoreCountInstance = int.Parse(maxCoreCountElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumCoreCount = maxCoreCountInstance;
+                        }
+                        
+                        XElement maxStorageAccountsElement = subscriptionElement.Element(XName.Get("MaxStorageAccounts", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxStorageAccountsElement != null)
+                        {
+                            int maxStorageAccountsInstance = int.Parse(maxStorageAccountsElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumStorageAccounts = maxStorageAccountsInstance;
+                        }
+                        
+                        XElement maxHostedServicesElement = subscriptionElement.Element(XName.Get("MaxHostedServices", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxHostedServicesElement != null)
+                        {
+                            int maxHostedServicesInstance = int.Parse(maxHostedServicesElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumHostedServices = maxHostedServicesInstance;
+                        }
+                        
+                        XElement currentCoreCountElement = subscriptionElement.Element(XName.Get("CurrentCoreCount", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentCoreCountElement != null)
+                        {
+                            int currentCoreCountInstance = int.Parse(currentCoreCountElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentCoreCount = currentCoreCountInstance;
+                        }
+                        
+                        XElement currentStorageAccountsElement = subscriptionElement.Element(XName.Get("CurrentStorageAccounts", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentStorageAccountsElement != null)
+                        {
+                            int currentStorageAccountsInstance = int.Parse(currentStorageAccountsElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentStorageAccounts = currentStorageAccountsInstance;
+                        }
+                        
+                        XElement currentHostedServicesElement = subscriptionElement.Element(XName.Get("CurrentHostedServices", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentHostedServicesElement != null)
+                        {
+                            int currentHostedServicesInstance = int.Parse(currentHostedServicesElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentHostedServices = currentHostedServicesInstance;
+                        }
+                        
+                        XElement maxVirtualNetworkSitesElement = subscriptionElement.Element(XName.Get("MaxVirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxVirtualNetworkSitesElement != null)
+                        {
+                            int maxVirtualNetworkSitesInstance = int.Parse(maxVirtualNetworkSitesElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumVirtualNetworkSites = maxVirtualNetworkSitesInstance;
+                        }
+                        
+                        XElement currentVirtualNetworkSitesElement = subscriptionElement.Element(XName.Get("CurrentVirtualNetworkSites", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentVirtualNetworkSitesElement != null)
+                        {
+                            int currentVirtualNetworkSitesInstance = int.Parse(currentVirtualNetworkSitesElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentVirtualNetworkSites = currentVirtualNetworkSitesInstance;
+                        }
+                        
+                        XElement maxLocalNetworkSitesElement = subscriptionElement.Element(XName.Get("MaxLocalNetworkSites", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxLocalNetworkSitesElement != null)
+                        {
+                            int maxLocalNetworkSitesInstance = int.Parse(maxLocalNetworkSitesElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumLocalNetworkSites = maxLocalNetworkSitesInstance;
+                        }
+                        
+                        XElement maxDnsServersElement = subscriptionElement.Element(XName.Get("MaxDnsServers", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxDnsServersElement != null)
+                        {
+                            int maxDnsServersInstance = int.Parse(maxDnsServersElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumDnsServers = maxDnsServersInstance;
+                        }
+                        
+                        XElement currentLocalNetworkSitesElement = subscriptionElement.Element(XName.Get("CurrentLocalNetworkSites", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentLocalNetworkSitesElement != null)
+                        {
+                            int currentLocalNetworkSitesInstance = int.Parse(currentLocalNetworkSitesElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentLocalNetworkSites = currentLocalNetworkSitesInstance;
+                        }
+                        
+                        XElement currentDnsServersElement = subscriptionElement.Element(XName.Get("CurrentDnsServers", "http://schemas.microsoft.com/windowsazure"));
+                        if (currentDnsServersElement != null)
+                        {
+                            int currentDnsServersInstance = int.Parse(currentDnsServersElement.Value, CultureInfo.InvariantCulture);
+                            result.CurrentDnsServers = currentDnsServersInstance;
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Subscription Operations operation returns a list of
+        /// create, update, and delete operations that were performed on a
+        /// subscription during the specified timeframe.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715318.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters supplied to the List Subscription Operations operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Subscription Operations operation response.
+        /// </returns>
+        public async Task<SubscriptionListOperationsResponse> ListOperationsAsync(SubscriptionListOperationsParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "ListOperationsAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/operations?";
+            url = url + "&StartTime=" + Uri.EscapeUriString(string.Format(CultureInfo.InvariantCulture, "{0:O}", parameters.StartTime.ToUniversalTime()));
+            url = url + "&EndTime=" + Uri.EscapeUriString(string.Format(CultureInfo.InvariantCulture, "{0:O}", parameters.EndTime.ToUniversalTime()));
+            if (parameters.ObjectIdFilter != null)
+            {
+                url = url + "&ObjectIdFilter=" + Uri.EscapeUriString(parameters.ObjectIdFilter);
+            }
+            if (parameters.OperationStatus != null)
+            {
+                url = url + "&OperationResultFilter=" + Uri.EscapeUriString(parameters.OperationStatus.Value.ToString());
+            }
+            if (parameters.ContinuationToken != null)
+            {
+                url = url + "&ContinuationToken=" + Uri.EscapeUriString(parameters.ContinuationToken);
+            }
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    SubscriptionListOperationsResponse result = new SubscriptionListOperationsResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement subscriptionOperationCollectionElement = responseDoc.Element(XName.Get("SubscriptionOperationCollection", "http://schemas.microsoft.com/windowsazure"));
+                    if (subscriptionOperationCollectionElement != null)
+                    {
+                        XElement continuationTokenElement = subscriptionOperationCollectionElement.Element(XName.Get("ContinuationToken", "http://schemas.microsoft.com/windowsazure"));
+                        if (continuationTokenElement != null)
+                        {
+                            string continuationTokenInstance = continuationTokenElement.Value;
+                            result.ContinuationToken = continuationTokenInstance;
+                        }
+                        
+                        XElement subscriptionOperationsSequenceElement = subscriptionOperationCollectionElement.Element(XName.Get("SubscriptionOperations", "http://schemas.microsoft.com/windowsazure"));
+                        if (subscriptionOperationsSequenceElement != null)
+                        {
+                            foreach (XElement subscriptionOperationsElement in subscriptionOperationsSequenceElement.Elements(XName.Get("SubscriptionOperation", "http://schemas.microsoft.com/windowsazure")))
+                            {
+                                SubscriptionListOperationsResponse.SubscriptionOperation subscriptionOperationInstance = new SubscriptionListOperationsResponse.SubscriptionOperation();
+                                result.SubscriptionOperations.Add(subscriptionOperationInstance);
+                                
+                                XElement operationIdElement = subscriptionOperationsElement.Element(XName.Get("OperationId", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationIdElement != null)
+                                {
+                                    string operationIdInstance = operationIdElement.Value;
+                                    subscriptionOperationInstance.OperationId = operationIdInstance;
+                                }
+                                
+                                XElement operationObjectIdElement = subscriptionOperationsElement.Element(XName.Get("OperationObjectId", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationObjectIdElement != null)
+                                {
+                                    string operationObjectIdInstance = operationObjectIdElement.Value;
+                                    subscriptionOperationInstance.OperationObjectId = operationObjectIdInstance;
+                                }
+                                
+                                XElement operationNameElement = subscriptionOperationsElement.Element(XName.Get("OperationName", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationNameElement != null)
+                                {
+                                    string operationNameInstance = operationNameElement.Value;
+                                    subscriptionOperationInstance.OperationName = operationNameInstance;
+                                }
+                                
+                                XElement operationParametersSequenceElement = subscriptionOperationsElement.Element(XName.Get("OperationParameters", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationParametersSequenceElement != null)
+                                {
+                                    foreach (XElement operationParametersElement in operationParametersSequenceElement.Elements(XName.Get("OperationParameter", "http://schemas.microsoft.com/windowsazure")))
+                                    {
+                                        string operationParametersKey = operationParametersElement.Element(XName.Get("Name", "http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.ServiceManagement")).Value;
+                                        string operationParametersValue = operationParametersElement.Element(XName.Get("Value", "http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.ServiceManagement")).Value;
+                                        subscriptionOperationInstance.OperationParameters.Add(operationParametersKey, operationParametersValue);
+                                    }
+                                }
+                                
+                                XElement operationCallerElement = subscriptionOperationsElement.Element(XName.Get("OperationCaller", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationCallerElement != null)
+                                {
+                                    SubscriptionListOperationsResponse.OperationCallerDetails operationCallerInstance = new SubscriptionListOperationsResponse.OperationCallerDetails();
+                                    subscriptionOperationInstance.OperationCaller = operationCallerInstance;
+                                    
+                                    XElement usedServiceManagementApiElement = operationCallerElement.Element(XName.Get("UsedServiceManagementApi", "http://schemas.microsoft.com/windowsazure"));
+                                    if (usedServiceManagementApiElement != null)
+                                    {
+                                        bool usedServiceManagementApiInstance = bool.Parse(usedServiceManagementApiElement.Value);
+                                        operationCallerInstance.UsedServiceManagementApi = usedServiceManagementApiInstance;
+                                    }
+                                    
+                                    XElement userEmailAddressElement = operationCallerElement.Element(XName.Get("UserEmailAddress", "http://schemas.microsoft.com/windowsazure"));
+                                    if (userEmailAddressElement != null)
+                                    {
+                                        string userEmailAddressInstance = userEmailAddressElement.Value;
+                                        operationCallerInstance.UserEmailAddress = userEmailAddressInstance;
+                                    }
+                                    
+                                    XElement subscriptionCertificateThumbprintElement = operationCallerElement.Element(XName.Get("SubscriptionCertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
+                                    if (subscriptionCertificateThumbprintElement != null)
+                                    {
+                                        string subscriptionCertificateThumbprintInstance = subscriptionCertificateThumbprintElement.Value;
+                                        operationCallerInstance.SubscriptionCertificateThumbprint = subscriptionCertificateThumbprintInstance;
+                                    }
+                                    
+                                    XElement clientIPElement = operationCallerElement.Element(XName.Get("ClientIP", "http://schemas.microsoft.com/windowsazure"));
+                                    if (clientIPElement != null)
+                                    {
+                                        string clientIPInstance = clientIPElement.Value;
+                                        operationCallerInstance.ClientIPAddress = clientIPInstance;
+                                    }
+                                }
+                                
+                                XElement operationStatusElement = subscriptionOperationsElement.Element(XName.Get("OperationStatus", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationStatusElement != null)
+                                {
+                                    string operationStatusInstance = operationStatusElement.Value;
+                                    subscriptionOperationInstance.OperationStatus = operationStatusInstance;
+                                }
+                                
+                                XElement operationStartedTimeElement = subscriptionOperationsElement.Element(XName.Get("OperationStartedTime", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationStartedTimeElement != null)
+                                {
+                                    DateTime operationStartedTimeInstance = DateTime.Parse(operationStartedTimeElement.Value, CultureInfo.InvariantCulture);
+                                    subscriptionOperationInstance.OperationStartedTime = operationStartedTimeInstance;
+                                }
+                                
+                                XElement operationCompletedTimeElement = subscriptionOperationsElement.Element(XName.Get("OperationCompletedTime", "http://schemas.microsoft.com/windowsazure"));
+                                if (operationCompletedTimeElement != null)
+                                {
+                                    DateTime operationCompletedTimeInstance = DateTime.Parse(operationCompletedTimeElement.Value, CultureInfo.InvariantCulture);
+                                    subscriptionOperationInstance.OperationCompletedTime = operationCompletedTimeInstance;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Register a resource with your subscription.
+        /// </summary>
+        /// <param name='resourceName'>
+        /// Name of the reource to register.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> RegisterResourceAsync(string resourceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceName", resourceName);
+                Tracing.Enter(invocationId, this, "RegisterResourceAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services?service=" + resourceName + "&action=register";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted && statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Unregister a resource with your subscription.
+        /// </summary>
+        /// <param name='resourceName'>
+        /// Name of the reource to unregister.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> UnregisterResourceAsync(string resourceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceName", resourceName);
+                Tracing.Enter(invocationId, this, "UnregisterResourceAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services?service=" + resourceName + "&action=unregister";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
                     
                     if (shouldTrace)

@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
                 CommandRuntime = mockCommandRuntime,
                 Client = client.Object
             };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
             client.Setup(f => f.CreateNamespace(name, location)).Returns(expected);
             client.Setup(f => f.GetServiceBusRegions()).Returns(new List<ServiceBusLocation>()
             {
@@ -61,8 +61,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
 
         [TestMethod]
@@ -80,15 +80,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
                 Client = client.Object,
                 Location = location
             };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
             client.Setup(f => f.CreateNamespace(name, location)).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
 
         [TestMethod]
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
                 CommandRuntime = mockCommandRuntime,
                 Client = client.Object
             };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
             client.Setup(f => f.CreateNamespace(name, location.ToLower())).Returns(expected);
             client.Setup(f => f.GetServiceBusRegions()).Returns(new List<ServiceBusLocation>()
             {
@@ -133,8 +133,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
     }
 }
