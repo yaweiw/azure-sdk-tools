@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));
             }
 
-            subscriptions.Add(s);
+            AddSubscriptionInternal(s);
             if (s.IsDefault)
             {
                 UpdateDefaultSubscription(s);
@@ -332,7 +332,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
                 else
                 {
-                    subscriptions.Add(newSubscription);
+                    AddSubscriptionInternal(newSubscription);
                 }
             }
         }
@@ -400,10 +400,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 foreach (var s in data.Subscriptions)
                 {
                     var newSub = s.ToAzureSubscription();
-                    newSub.TokenProvider = tokenProvider;
-                    subscriptions.Add(newSub);
+                    AddSubscriptionInternal(newSub);
                 }
             }
+        }
+
+        private void AddSubscriptionInternal(WindowsAzureSubscription subscription)
+        {
+            subscription.TokenProvider = tokenProvider;
+            subscription.Save = Save;
+            subscriptions.Add(subscription);
         }
     }
 }

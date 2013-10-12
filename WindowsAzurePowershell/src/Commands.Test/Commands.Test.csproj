@@ -239,7 +239,6 @@
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
-    <Compile Include="Subscription\SubscriptionsClientTest.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnosticTests.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDiagnosticTests.cs" />
     <Compile Include="Websites\GetAzureWebsiteDeploymentTests.cs" />
