@@ -34,16 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         internal void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
-
-            var disk = this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName);
-
-            var parameters = new VirtualMachineDiskUpdateDiskParameters();
-            parameters.Name = this.DiskName;
-            parameters.Label = this.Label;
-            parameters.OperatingSystemType = disk.OperatingSystemType;
-            parameters.MediaLinkUri = disk.MediaLinkUri;
-            // TODO: How should we set this value, since it's not exposed to users?
-            parameters.HasOperatingSystem = true;
+            var parameters = new VirtualMachineDiskUpdateDiskParameters
+            {
+                Name = this.DiskName,
+                Label = this.Label
+            };
 
             this.ExecuteClientActionNewSM(
                 null,
