@@ -1,4 +1,5 @@
 ﻿// ----------------------------------------------------------------------------------
+//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,30 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System;
+    using System.Collections.Generic;
+    using Management.WebSites;
+    using WindowsAzure.Common;
 
     /// <summary>
-    /// Attribute used to specify which resource providers to register
-    /// with subscriptions.
+    /// This class handles mapping management client types
+    /// to the corresponding required resource provider names.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
-    public sealed class AzureResourceTypeNameAttribute : Attribute
+    internal static class RequiredResourceLookup
     {
-        /// <summary>
-        /// Construct an instance of AzureResourceTypeNameAttribute
-        /// to provide the given resource type name.
-        /// </summary>
-        /// <param name="resourceTypeName">The name</param>
-        public AzureResourceTypeNameAttribute(string resourceTypeName)
+        // Trivial implementation for now, will replace with lookup
+        // based on data in service client types themselves once
+        // it gets implemented.
+        internal static IList<string> RequiredProvidersFor<T>() where T : ServiceClient<T>
         {
-            ResourceTypeName = resourceTypeName;
-        }
+            if (typeof(T) == typeof(WebSiteManagementClient))
+            {
+                return new[] { "website" };
+            }
 
-        /// <summary>
-        /// The resource type name.
-        /// </summary>
-        public string ResourceTypeName { get; private set; }
+            return new string[0];
+        }
     }
 }
