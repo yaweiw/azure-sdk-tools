@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using AutoMapper;
     using IaaS;
+    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Model.PersistentVMModel;
@@ -27,6 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using Utilities.Common;
     using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
     using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
+    using System.Collections.Generic;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureLoadBalancedEndpoint : IaaSDeploymentManagementCmdletBase
@@ -83,7 +85,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             ServiceManagementProfile.Initialize();
 
             base.ExecuteCommand();
-            //if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeployment == null)
             if (string.IsNullOrEmpty(this.ServiceName) || this.CurrentDeploymentNewSM == null)
             {
                 return;
@@ -109,21 +110,50 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             var endpointList = new LoadBalancedEndpointList();
             endpointList.Add(endpoint);
 
-            //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/131
-//            this.ExecuteClientActionInOCS(
-//                null,
-//                this.CommandRuntime.ToString(),
-//                s => this.Channel.UpdateLoadBalancedEndpointSet(
-//                    this.CurrentSubscription.SubscriptionId,
-//                    this.ServiceName,
-//                    this.CurrentDeployment.Name,
-//                    endpointList));
+            var endPointParams = new VirtualMachineUpdateLoadBalancedSetParameters
+            {
+                //TODO: AutoMapper doesn't seem to work for this conversion.
+                //LoadBalancedEndpoints = Mapper.Map<IList<VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>>(endpointList)
+                LoadBalancedEndpoints = new int[1].Select(e => new VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint
+                {
+                    EnableDirectServerReturn = endpoint.EnableDirectServerReturn,
+                    LoadBalancedEndpointSetName = endpoint.LoadBalancedEndpointSetName,
+                    LoadBalancerProbe = endpoint.LoadBalancerProbe == null ? null : new NSM.LoadBalancerProbe
+                    {
+                        IntervalInSeconds = endpoint.LoadBalancerProbe.IntervalInSeconds,
+                        Path = endpoint.LoadBalancerProbe.Path,
+                        Port = endpoint.LoadBalancerProbe.Port,
+                        Protocol = (LoadBalancerProbeTransportProtocol)Enum.Parse(typeof(LoadBalancerProbeTransportProtocol), endpoint.LoadBalancerProbe.Protocol, true),
+                        TimeoutInSeconds = endpoint.LoadBalancerProbe.TimeoutInSeconds
+                    },
+                    LocalPort = endpoint.LocalPort,
+                    Name = endpoint.Name,
+                    Port = endpoint.Port,
+                    Protocol = endpoint.Protocol,
+                    Rules = endpoint.EndpointAccessControlList == null ? null : endpoint.EndpointAccessControlList.Rules == null ? null : endpoint.EndpointAccessControlList.Rules.Select(r => new NSM.AccessControlListRule
+                    {
+                        Action = r.Action,
+                        Description = r.Description,
+                        Order = r.Order,
+                        RemoteSubnet = r.RemoteSubnet
+                    }).ToList(),
+                    VirtualIPAddress = endpoint.Vip
+                }).ToList()
+            };
+
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachines.UpdateLoadBalancedEndpointSet(this.ServiceName, this.CurrentDeploymentNewSM.Name, endPointParams));
         }
 
         private PVM.InputEndpoint GetEndpoint()
         {
             var r = from role in this.CurrentDeploymentNewSM.Roles
-                    from networkConfig in role.ConfigurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.NetworkConfigurationSet)
+                    // TODO: NetworkConfigurationSet's string value should be 'NetworkConfiguration' instead of 'NetworkConfigurationSet'
+                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/293
+                    //from networkConfig in role.ConfigurationSets.Where(c => c.ConfigurationSetType == ConfigurationSetTypes.NetworkConfigurationSet)
+                    from networkConfig in role.ConfigurationSets.Where(c => c.ConfigurationSetType == "NetworkConfiguration")
                     where networkConfig.InputEndpoints != null
                     from endpoint in networkConfig.InputEndpoints
                     where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
@@ -131,13 +161,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                     select endpoint;
 
             return Mapper.Map<NSM.InputEndpoint, PVM.InputEndpoint>(r.FirstOrDefault());
-//            return (from role in this.CurrentDeploymentNewSM.Roles
-//                    where role.NetworkConfigurationSet != null
-//                       && role.NetworkConfigurationSet.InputEndpoints != null
-//                    from endpoint in role.NetworkConfigurationSet.InputEndpoints
-//                    where !string.IsNullOrEmpty(endpoint.LoadBalancedEndpointSetName)
-//                      && endpoint.LoadBalancedEndpointSetName.Equals(this.LBSetName, StringComparison.InvariantCultureIgnoreCase)
-//                    select endpoint).FirstOrDefault<InputEndpoint>();
         }
 
         private void UpdateEndpointProperties(PVM.InputEndpoint endpoint)
