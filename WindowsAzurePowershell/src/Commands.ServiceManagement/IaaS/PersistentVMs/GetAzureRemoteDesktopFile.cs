@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     OperationDescription = CommandRuntime.ToString(),
                     OperationStatus = operation.Status.ToString(),
-                    OperationId = operation.RequestId
+                    OperationId = operation.Id
                 };
             }
 
