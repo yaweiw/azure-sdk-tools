@@ -3965,12 +3965,12 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._oSVirtualHardDisk = value; }
         }
         
-        private VirtualMachineRoleSize _roleSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _roleSize;
         
         /// <summary>
         /// The size of the role instance.
         /// </summary>
-        public VirtualMachineRoleSize RoleSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? RoleSize
         {
             get { return this._roleSize; }
             set { this._roleSize = value; }
@@ -4063,12 +4063,12 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._instanceFaultDomain = value; }
         }
         
-        private VirtualMachineRoleSize _instanceSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _instanceSize;
         
         /// <summary>
         /// The size of the role instance.
         /// </summary>
-        public VirtualMachineRoleSize InstanceSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? InstanceSize
         {
             get { return this._instanceSize; }
             set { this._instanceSize = value; }
@@ -5041,12 +5041,12 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._availabilitySetName = value; }
         }
         
-        private VirtualMachineRoleSize _roleSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _roleSize;
         
         /// <summary>
         /// The size of the virtual machine.
         /// </summary>
-        public VirtualMachineRoleSize RoleSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? RoleSize
         {
             get { return this._roleSize; }
             set { this._roleSize = value; }
@@ -6102,14 +6102,14 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
     /// </summary>
     public partial class VirtualMachineDiskUpdateDiskParameters
     {
-        private bool _hasOperatingSystem;
+        private bool? _hasOperatingSystem;
         
         /// <summary>
-        /// Required.  Specifies whether the disk contains an operation system.
+        /// Optional.  Specifies whether the disk contains an operation system.
         /// Note: Only a disk with an operating system installed can be
         /// mounted as OS Drive.
         /// </summary>
-        public bool HasOperatingSystem
+        public bool? HasOperatingSystem
         {
             get { return this._hasOperatingSystem; }
             set { this._hasOperatingSystem = value; }
@@ -6118,7 +6118,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         private string _operatingSystemType;
         
         /// <summary>
-        /// Required. The operating system type of the disk. Possible values
+        /// Optional. The operating system type of the disk. Possible values
         /// are: Linux, Windows.
         /// </summary>
         public string OperatingSystemType
@@ -6141,7 +6141,7 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         private Uri _mediaLinkUri;
         
         /// <summary>
-        /// Required. Specifies the location of the blob in Windows Azure
+        /// Optional. Specifies the location of the blob in Windows Azure
         /// storage. The blob location must belong to a storage account in the
         /// subscription specified by the SubscriptionId value in the
         /// operation call.  Example:
@@ -6590,13 +6590,13 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._iconUri = value; }
         }
         
-        private VirtualMachineRoleSize _recommendedVMSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _recommendedVMSize;
         
         /// <summary>
         /// Optional. Specifies the size to use for the virtual machine that is
         /// created from the OS image.
         /// </summary>
-        public VirtualMachineRoleSize RecommendedVMSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? RecommendedVMSize
         {
             get { return this._recommendedVMSize; }
             set { this._recommendedVMSize = value; }
@@ -7556,13 +7556,13 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._iconUri = value; }
         }
         
-        private VirtualMachineRoleSize _recommendedVMSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _recommendedVMSize;
         
         /// <summary>
         /// Optional. Specifies the size to use for the virtual machine that is
         /// created from the OS image.
         /// </summary>
-        public VirtualMachineRoleSize RecommendedVMSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? RecommendedVMSize
         {
             get { return this._recommendedVMSize; }
             set { this._recommendedVMSize = value; }
@@ -7854,9 +7854,9 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
     /// </summary>
     public enum VirtualMachineRoleSize
     {
-        ExtraSmall = 0,
+        Small = 0,
         
-        Small = 1,
+        ExtraSmall = 1,
         
         Large = 2,
         
@@ -8176,12 +8176,12 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._availabilitySetName = value; }
         }
         
-        private VirtualMachineRoleSize _roleSize;
+        private Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? _roleSize;
         
         /// <summary>
         /// The size of the virtual machine.
         /// </summary>
-        public VirtualMachineRoleSize RoleSize
+        public Microsoft.WindowsAzure.Management.Compute.Models.VirtualMachineRoleSize? RoleSize
         {
             get { return this._roleSize; }
             set { this._roleSize = value; }
@@ -15691,7 +15691,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement instanceSizeElement = roleInstanceListElement.Element(XName.Get("InstanceSize", "http://schemas.microsoft.com/windowsazure"));
-                                if (instanceSizeElement != null)
+                                if (instanceSizeElement != null && string.IsNullOrEmpty(instanceSizeElement.Value) == false)
                                 {
                                     VirtualMachineRoleSize instanceSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), instanceSizeElement.Value, false);
                                     roleInstanceInstance.InstanceSize = instanceSizeInstance;
@@ -16386,7 +16386,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement roleSizeElement = roleListElement.Element(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                                if (roleSizeElement != null)
+                                if (roleSizeElement != null && string.IsNullOrEmpty(roleSizeElement.Value) == false)
                                 {
                                     VirtualMachineRoleSize roleSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), roleSizeElement.Value, false);
                                     roleInstance.RoleSize = roleSizeInstance;
@@ -16803,7 +16803,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement instanceSizeElement = roleInstanceListElement.Element(XName.Get("InstanceSize", "http://schemas.microsoft.com/windowsazure"));
-                                if (instanceSizeElement != null)
+                                if (instanceSizeElement != null && string.IsNullOrEmpty(instanceSizeElement.Value) == false)
                                 {
                                     VirtualMachineRoleSize instanceSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), instanceSizeElement.Value, false);
                                     roleInstanceInstance.InstanceSize = instanceSizeInstance;
@@ -17498,7 +17498,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                                 
                                 XElement roleSizeElement = roleListElement.Element(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                                if (roleSizeElement != null)
+                                if (roleSizeElement != null && string.IsNullOrEmpty(roleSizeElement.Value) == false)
                                 {
                                     VirtualMachineRoleSize roleSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), roleSizeElement.Value, false);
                                     roleInstance.RoleSize = roleSizeInstance;
@@ -21245,7 +21245,39 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> AddExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken);
+        Task<OperationResponse> BeginAddingExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Add Extension operation adds an available extension to your
+        /// cloud service. In Windows Azure, a process can run as an extension
+        /// of a cloud service. For example, Remote Desktop Access or the
+        /// Windows Azure Diagnostics Agent can run as extensions to the cloud
+        /// service. You can find the available extension by using the List
+        /// Available Extensions operation.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169558.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Add Extension operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<ComputeOperationStatusResponse> AddExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Delete Extension operation deletes the specified extension from
@@ -21267,7 +21299,36 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> DeleteExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken);
+        Task<OperationResponse> BeginDeletingExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Delete Extension operation deletes the specified extension from
+        /// a cloud service.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='extensionId'>
+        /// The identifier that was assigned to the extension when it was added
+        /// to the cloud service
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<ComputeOperationStatusResponse> DeleteExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Get Extension operation retrieves information about a specified
@@ -21486,7 +21547,86 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse AddExtension(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
+        public static OperationResponse BeginAddingExtension(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
+        {
+            try
+            {
+                return operations.BeginAddingExtensionAsync(serviceName, parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Add Extension operation adds an available extension to your
+        /// cloud service. In Windows Azure, a process can run as an extension
+        /// of a cloud service. For example, Remote Desktop Access or the
+        /// Windows Azure Diagnostics Agent can run as extensions to the cloud
+        /// service. You can find the available extension by using the List
+        /// Available Extensions operation.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169558.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Add Extension operation.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> BeginAddingExtensionAsync(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
+        {
+            return operations.BeginAddingExtensionAsync(serviceName, parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Add Extension operation adds an available extension to your
+        /// cloud service. In Windows Azure, a process can run as an extension
+        /// of a cloud service. For example, Remote Desktop Access or the
+        /// Windows Azure Diagnostics Agent can run as extensions to the cloud
+        /// service. You can find the available extension by using the List
+        /// Available Extensions operation.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169558.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Add Extension operation.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static ComputeOperationStatusResponse AddExtension(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
         {
             try
             {
@@ -21526,10 +21666,17 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// Parameters supplied to the Add Extension operation.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public static Task<OperationResponse> AddExtensionAsync(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
+        public static Task<ComputeOperationStatusResponse> AddExtensionAsync(this IHostedServiceOperations operations, string serviceName, HostedServiceAddExtensionParameters parameters)
         {
             return operations.AddExtensionAsync(serviceName, parameters, CancellationToken.None);
         }
@@ -21555,7 +21702,80 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse DeleteExtension(this IHostedServiceOperations operations, string serviceName, string extensionId)
+        public static OperationResponse BeginDeletingExtension(this IHostedServiceOperations operations, string serviceName, string extensionId)
+        {
+            try
+            {
+                return operations.BeginDeletingExtensionAsync(serviceName, extensionId).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Extension operation deletes the specified extension from
+        /// a cloud service.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='extensionId'>
+        /// The identifier that was assigned to the extension when it was added
+        /// to the cloud service
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> BeginDeletingExtensionAsync(this IHostedServiceOperations operations, string serviceName, string extensionId)
+        {
+            return operations.BeginDeletingExtensionAsync(serviceName, extensionId, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Delete Extension operation deletes the specified extension from
+        /// a cloud service.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='extensionId'>
+        /// The identifier that was assigned to the extension when it was added
+        /// to the cloud service
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static ComputeOperationStatusResponse DeleteExtension(this IHostedServiceOperations operations, string serviceName, string extensionId)
         {
             try
             {
@@ -21592,10 +21812,17 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// to the cloud service
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public static Task<OperationResponse> DeleteExtensionAsync(this IHostedServiceOperations operations, string serviceName, string extensionId)
+        public static Task<ComputeOperationStatusResponse> DeleteExtensionAsync(this IHostedServiceOperations operations, string serviceName, string extensionId)
         {
             return operations.DeleteExtensionAsync(serviceName, extensionId, CancellationToken.None);
         }
@@ -22242,7 +22469,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> AddExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> BeginAddingExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (serviceName == null)
@@ -22272,7 +22499,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "AddExtensionAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "BeginAddingExtensionAsync", tracingParameters);
             }
             
             // Construct URL
@@ -22405,6 +22632,86 @@ namespace Microsoft.WindowsAzure.Management.Compute
         }
         
         /// <summary>
+        /// The Add Extension operation adds an available extension to your
+        /// cloud service. In Windows Azure, a process can run as an extension
+        /// of a cloud service. For example, Remote Desktop Access or the
+        /// Windows Azure Diagnostics Agent can run as extensions to the cloud
+        /// service. You can find the available extension by using the List
+        /// Available Extensions operation.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169558.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters supplied to the Add Extension operation.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<ComputeOperationStatusResponse> AddExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "AddExtensionAsync", tracingParameters);
+            }
+            try
+            {
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
+                
+                cancellationToken.ThrowIfCancellationRequested();
+                OperationResponse originalResponse = await client.HostedServices.BeginAddingExtensionAsync(serviceName, parameters, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 100;
+                while (result.Status == OperationStatus.InProgress)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
+                }
+                
+                if (shouldTrace)
+                {
+                    Tracing.Exit(invocationId, result);
+                }
+                
+                return result;
+            }
+            finally
+            {
+                if (client != null && shouldTrace)
+                {
+                    client.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// The Delete Extension operation deletes the specified extension from
         /// a cloud service.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
@@ -22424,7 +22731,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> DeleteExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken)
+        public async Task<OperationResponse> BeginDeletingExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken)
         {
             // Validate
             if (serviceName == null)
@@ -22446,7 +22753,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("extensionId", extensionId);
-                Tracing.Enter(invocationId, this, "DeleteExtensionAsync", tracingParameters);
+                Tracing.Enter(invocationId, this, "BeginDeletingExtensionAsync", tracingParameters);
             }
             
             // Construct URL
@@ -22482,7 +22789,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         Tracing.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -22520,6 +22827,83 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 if (httpRequest != null)
                 {
                     httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Extension operation deletes the specified extension from
+        /// a cloud service.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='extensionId'>
+        /// The identifier that was assigned to the extension when it was added
+        /// to the cloud service
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<ComputeOperationStatusResponse> DeleteExtensionAsync(string serviceName, string extensionId, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                tracingParameters.Add("extensionId", extensionId);
+                Tracing.Enter(invocationId, this, "DeleteExtensionAsync", tracingParameters);
+            }
+            try
+            {
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
+                
+                cancellationToken.ThrowIfCancellationRequested();
+                OperationResponse originalResponse = await client.HostedServices.BeginDeletingExtensionAsync(serviceName, extensionId, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 100;
+                while (result.Status == OperationStatus.InProgress)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
+                }
+                
+                if (shouldTrace)
+                {
+                    Tracing.Exit(invocationId, result);
+                }
+                
+                return result;
+            }
+            finally
+            {
+                if (client != null && shouldTrace)
+                {
+                    client.Dispose();
                 }
             }
         }
@@ -23890,7 +24274,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         }
                                         
                                         XElement instanceSizeElement = roleInstanceListElement.Element(XName.Get("InstanceSize", "http://schemas.microsoft.com/windowsazure"));
-                                        if (instanceSizeElement != null)
+                                        if (instanceSizeElement != null && string.IsNullOrEmpty(instanceSizeElement.Value) == false)
                                         {
                                             VirtualMachineRoleSize instanceSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), instanceSizeElement.Value, false);
                                             roleInstanceInstance.InstanceSize = instanceSizeInstance;
@@ -24585,7 +24969,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         }
                                         
                                         XElement roleSizeElement = roleListElement.Element(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                                        if (roleSizeElement != null)
+                                        if (roleSizeElement != null && string.IsNullOrEmpty(roleSizeElement.Value) == false)
                                         {
                                             VirtualMachineRoleSize roleSizeInstance = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), roleSizeElement.Value, false);
                                             roleInstance.RoleSize = roleSizeInstance;
@@ -29520,17 +29904,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 throw new ArgumentNullException("parameters");
             }
-            if (parameters.OperatingSystemType == null)
-            {
-                throw new ArgumentNullException("parameters.OperatingSystemType");
-            }
             if (parameters.Label == null)
             {
                 throw new ArgumentNullException("parameters.Label");
-            }
-            if (parameters.MediaLinkUri == null)
-            {
-                throw new ArgumentNullException("parameters.MediaLinkUri");
             }
             if (parameters.Name == null)
             {
@@ -29574,21 +29950,30 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 XElement diskElement = new XElement(XName.Get("Disk", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(diskElement);
                 
-                XElement hasOperatingSystemElement = new XElement(XName.Get("HasOperatingSystem", "http://schemas.microsoft.com/windowsazure"));
-                hasOperatingSystemElement.Value = parameters.HasOperatingSystem.ToString().ToLower();
-                diskElement.Add(hasOperatingSystemElement);
+                if (parameters.HasOperatingSystem != null)
+                {
+                    XElement hasOperatingSystemElement = new XElement(XName.Get("HasOperatingSystem", "http://schemas.microsoft.com/windowsazure"));
+                    hasOperatingSystemElement.Value = parameters.HasOperatingSystem.ToString().ToLower();
+                    diskElement.Add(hasOperatingSystemElement);
+                }
                 
-                XElement osElement = new XElement(XName.Get("OS", "http://schemas.microsoft.com/windowsazure"));
-                osElement.Value = parameters.OperatingSystemType;
-                diskElement.Add(osElement);
+                if (parameters.OperatingSystemType != null)
+                {
+                    XElement osElement = new XElement(XName.Get("OS", "http://schemas.microsoft.com/windowsazure"));
+                    osElement.Value = parameters.OperatingSystemType;
+                    diskElement.Add(osElement);
+                }
                 
                 XElement labelElement = new XElement(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
                 labelElement.Value = parameters.Label;
                 diskElement.Add(labelElement);
                 
-                XElement mediaLinkElement = new XElement(XName.Get("MediaLink", "http://schemas.microsoft.com/windowsazure"));
-                mediaLinkElement.Value = parameters.MediaLinkUri.ToString();
-                diskElement.Add(mediaLinkElement);
+                if (parameters.MediaLinkUri != null)
+                {
+                    XElement mediaLinkElement = new XElement(XName.Get("MediaLink", "http://schemas.microsoft.com/windowsazure"));
+                    mediaLinkElement.Value = parameters.MediaLinkUri.ToString();
+                    diskElement.Add(mediaLinkElement);
+                }
                 
                 XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                 nameElement.Value = parameters.Name;
@@ -30295,9 +30680,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     oSImageElement.Add(iconUriElement);
                 }
                 
-                XElement recommendedVMSizeElement = new XElement(XName.Get("RecommendedVMSize", "http://schemas.microsoft.com/windowsazure"));
-                recommendedVMSizeElement.Value = parameters.RecommendedVMSize.ToString();
-                oSImageElement.Add(recommendedVMSizeElement);
+                if (parameters.RecommendedVMSize != null)
+                {
+                    XElement recommendedVMSizeElement = new XElement(XName.Get("RecommendedVMSize", "http://schemas.microsoft.com/windowsazure"));
+                    recommendedVMSizeElement.Value = parameters.RecommendedVMSize.ToString();
+                    oSImageElement.Add(recommendedVMSizeElement);
+                }
                 
                 if (parameters.SmallIconUri != null)
                 {
@@ -31263,9 +31651,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     oSImageElement.Add(iconUriElement);
                 }
                 
-                XElement recommendedVMSizeElement = new XElement(XName.Get("RecommendedVMSize", "http://schemas.microsoft.com/windowsazure"));
-                recommendedVMSizeElement.Value = parameters.RecommendedVMSize.ToString();
-                oSImageElement.Add(recommendedVMSizeElement);
+                if (parameters.RecommendedVMSize != null)
+                {
+                    XElement recommendedVMSizeElement = new XElement(XName.Get("RecommendedVMSize", "http://schemas.microsoft.com/windowsazure"));
+                    recommendedVMSizeElement.Value = parameters.RecommendedVMSize.ToString();
+                    oSImageElement.Add(recommendedVMSizeElement);
+                }
                 
                 if (parameters.SmallIconUri != null)
                 {
@@ -35351,9 +35742,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     }
                 }
                 
-                XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                roleSizeElement.Value = parameters.RoleSize.ToString();
-                persistentVMRoleElement.Add(roleSizeElement);
+                if (parameters.RoleSize != null)
+                {
+                    XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
+                    roleSizeElement.Value = parameters.RoleSize.ToString();
+                    persistentVMRoleElement.Add(roleSizeElement);
+                }
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -36218,9 +36612,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         }
                     }
                     
-                    XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                    roleSizeElement.Value = roleListItem.RoleSize.ToString();
-                    roleElement.Add(roleSizeElement);
+                    if (roleListItem.RoleSize != null)
+                    {
+                        XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
+                        roleSizeElement.Value = roleListItem.RoleSize.ToString();
+                        roleElement.Add(roleSizeElement);
+                    }
                     
                     if (roleListItem.DefaultWinRmCertificateThumbprint != null)
                     {
@@ -39241,9 +39638,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     oSVirtualHardDiskElement.Add(osElement);
                 }
                 
-                XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
-                roleSizeElement.Value = parameters.RoleSize.ToString();
-                persistentVMRoleElement.Add(roleSizeElement);
+                if (parameters.RoleSize != null)
+                {
+                    XElement roleSizeElement = new XElement(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure"));
+                    roleSizeElement.Value = parameters.RoleSize.ToString();
+                    persistentVMRoleElement.Add(roleSizeElement);
+                }
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
