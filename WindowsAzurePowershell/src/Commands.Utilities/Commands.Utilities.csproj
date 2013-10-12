@@ -331,11 +331,6 @@
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
     <Compile Include="Store\WindowsAzureOffer.cs" />
-    <Compile Include="Subscription\AzureResourceTypeNameAttribute.cs" />
-    <Compile Include="Subscription\Contract\ISubscriptionClient.cs" />
-    <Compile Include="Subscription\Contract\ProviderResource.cs" />
-    <Compile Include="Subscription\ProviderRegistrationConstants.cs" />
-    <Compile Include="Subscription\SubscriptionClient.cs" />
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
     <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
