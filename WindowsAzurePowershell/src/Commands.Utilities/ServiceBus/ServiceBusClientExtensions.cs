@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
     using System.Text.RegularExpressions;
     using ServiceBusNamespaceDescription = Microsoft.WindowsAzure.Management.ServiceBus.Models.NamespaceDescription;
+    using System.Threading;
 
     public class ServiceBusClientExtensions
     {
@@ -46,10 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         public const string NamespaceSASConnectionStringKeyName = "RootManageSharedAccessKey";
 
-        private void WaitUntilActive(string name)
-        {
-            while (!ServiceBusClient.Namespaces.Get(name).Namespace.Status.Equals("Active")) ;
-        }
+        public const int SleepDuration = 5000;
 
         private ServiceBusNamespace TryGetNamespace(string name)
         {
@@ -92,14 +90,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             AuthorizationRule rule,
             string namespaceName)
         {
+            string connectionString = string.Empty;
+
+            if (IsActiveNamespace(namespaceName))
+            {
+                connectionString = GetConnectionString(namespaceName, rule.KeyName);
+            }
+
             return new ExtendedAuthorizationRule()
             {
                 Rule = rule,
                 Name = rule.KeyName,
                 Namespace = namespaceName,
                 Permission = rule.Rights.ToList(),
-                ConnectionString = GetConnectionString(namespaceName, rule.KeyName)
+                ConnectionString = connectionString
             };
+        }
+
+        private bool IsActiveNamespace(string name)
+        {
+            return ServiceBusClient.Namespaces.Get(name).Namespace.Status
+                .Equals("Active", StringComparison.OrdinalIgnoreCase);
         }
 
         private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
@@ -368,8 +379,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
         /// <returns>List of connection strings</returns>
         public virtual List<ServiceBusConnectionDetail> GetConnectionString(string namespaceName)
         {
-            WaitUntilActive(namespaceName);
-
             return ServiceBusClient.Namespaces.GetNamespaceDescription(namespaceName).NamespaceDescriptions
                 .Select(d => d.ToServiceBusConnectionDetail())
                 .ToList();
@@ -868,6 +877,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             }
 
             ServiceBusClient.Namespaces.Create(name, location);
+
+            // Wait until the namespace is activated
+            while (!IsActiveNamespace(name))
+            {
+                Thread.Sleep(SleepDuration);
+            }
 
             return GetExtendedServiceBusNamespace(name);
         }
