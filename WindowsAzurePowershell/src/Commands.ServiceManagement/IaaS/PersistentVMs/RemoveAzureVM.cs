@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Management.Compute.Models;
     using Properties;
     using Utilities.Common;
-    //TODO: Issue with CloudException
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -53,21 +51,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (deploymentResponse.RoleInstances.Count > 1)
             {
-                //TODO: Issue with CloudException
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name));
-                //ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeploymentNewSM.Name, Name));
             }
             else
             {
-                //TODO: Issue with CloudException
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
-                //ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
             }
         }
     }

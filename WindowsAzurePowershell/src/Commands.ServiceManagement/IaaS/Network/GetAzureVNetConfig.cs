@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         var networkConfig = new VirtualNetworkConfigContext
                         {
                             XMLConfiguration = xml,
-                            OperationId = operation.RequestId,
+                            OperationId = operation.Id,
                             OperationDescription = CommandRuntime.ToString(),
                             OperationStatus = operation.Status.ToString()
                         };
