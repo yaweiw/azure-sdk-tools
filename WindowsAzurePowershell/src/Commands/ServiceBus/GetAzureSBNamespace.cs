@@ -21,87 +21,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.Contract;
-    using Commands.Utilities.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
 
     /// <summary>
-    /// Lists all service bus namespaces asscoiated with a subscription
+    /// Lists all service bus namespaces associated with a subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBNamespace"), OutputType(typeof(List<ServiceBusNamespace>), typeof(ServiceBusNamespace))]
-    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
+    public class GetAzureSBNamespaceCommand : CmdletWithSubscriptionBase
     {
+        internal ServiceBusClientExtensions Client { get; set; }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the PublishAzureServiceCommand class.
-        /// </summary>
-        public GetAzureSBNamespaceCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the GetAzureServiceBusNamespacesCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureSBNamespaceCommand(IServiceBusManagement channel)
-        {
-            Channel = channel;
-        }
-
-        /// <summary>
-        /// Gets service bus namespace by it's name or lists all namespaces if name is empty.
-        /// </summary>
-        /// <param name="name">The namespace name</param>
-        /// <returns>The namespace instance</returns>
-        internal void GetNamespaceProcess(string subscriptionId, string name)
-        {
-            ServiceBusNamespace serviceBusNamespace = null;
-
-            if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
-            }
-
-            try
-            {
-                serviceBusNamespace = Channel.GetServiceBusNamespace(subscriptionId, name);
-                WriteObject(serviceBusNamespace);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Equals(Resources.InternalServerErrorMessage))
-                {
-                    WriteExceptionError(new Exception(Resources.ServiceBusNamespaceMissingMessage));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a list of all namespaces associated with a subscription.
-        /// </summary>
-        /// <returns>The namespace list</returns>
-        internal void ListNamespacesProcess(string subscriptionId)
-        {
-            List<ServiceBusNamespace> namespaces = Channel.ListServiceBusNamespaces(subscriptionId);
-            WriteObject(namespaces, true);
-        }
 
         /// <summary>
         /// Executes the cmdlet.
         /// </summary>
         public override void ExecuteCmdlet()
         {
+            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription);
+
             if (string.IsNullOrEmpty(Name))
             {
-                ListNamespacesProcess(CurrentSubscription.SubscriptionId);
+                WriteObject(Client.GetNamespace(), true);
             }
             else
             {
-                GetNamespaceProcess(CurrentSubscription.SubscriptionId, Name);
+                WriteObject(Client.GetNamespace(Name));
             }
         }
     }
