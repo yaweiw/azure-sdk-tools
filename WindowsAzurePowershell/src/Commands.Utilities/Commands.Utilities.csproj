@@ -308,7 +308,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBus\AuthorizationRule.cs" />
+    <Compile Include="ServiceBus\ExtendedServiceBusNamespace.cs" />
+    <Compile Include="ServiceBus\ExtendedAuthorizationRule.cs" />
     <Compile Include="ServiceBus\AuthorizationRuleFilterOption.cs" />
     <Compile Include="ServiceBus\ServiceBusPowerShellUtility.cs" />
     <Compile Include="ServiceBus\ServiceBusClientExtensions.cs" />
