@@ -15,12 +15,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.IO;
-    using System.Management.Automation;
-    using System.Xml;
     using System.Xml.Linq;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
@@ -47,16 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams),
-                (s, d) =>
-                {
-                    var r = this.WaitForOperationSucceededStatus(s.RequestId);
-                    return new ManagementOperationContext
-                    {
-                        OperationId = s.RequestId,
-                        OperationStatus = s.Status.ToString()
-                    };
-                });
+                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
         }
     }
 }

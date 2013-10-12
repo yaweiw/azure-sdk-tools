@@ -87,6 +87,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<IList<NSM.RoleInstance>, Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList>();
 
+            // LoadBalancedEndpointList mapping
+            Mapper.CreateMap<PVM.AccessControlListRule, NSM.AccessControlListRule>();
+            Mapper.CreateMap<PVM.EndpointAccessControlList, NSM.AccessControlList>();
+            Mapper.CreateMap<PVM.InputEndpoint, VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>()
+                  .ForMember(c => c.Rules, o => o.MapFrom(r => r.EndpointAccessControlList == null ? null : r.EndpointAccessControlList.Rules))
+                  .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip));
+            Mapper.CreateMap<PVM.LoadBalancedEndpointList, IList<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>>();
+            Mapper.CreateMap<PVM.LoadBalancedEndpointList, List<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>>();
+
+            Mapper.CreateMap<NSM.AccessControlListRule, PVM.AccessControlListRule>();
+            Mapper.CreateMap<NSM.AccessControlList, PVM.EndpointAccessControlList>();
+            Mapper.CreateMap<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint, PVM.InputEndpoint>()
+                  .ForMember(c => c.EndpointAccessControlList, o => o.MapFrom(r => r.Rules == null ? null : r.Rules))
+                  .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress));
+            Mapper.CreateMap<IList<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>, PVM.LoadBalancedEndpointList>();
+            Mapper.CreateMap<List<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>, PVM.LoadBalancedEndpointList>();
+
             //Common mapping
             Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
@@ -258,7 +275,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             // SM to Model
             Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancedEndpointList,                                    PVM.LoadBalancerProbe>();
+            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancedEndpointList,                                    PVM.EndpointAccessControlList>();
             Mapper.CreateMap<WindowsAzure.ServiceManagement.InputEndpoint,                                               PVM.InputEndpoint>();
             Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpoint,                                            PVM.InstanceEndpoint>();
             Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpointList,                                        PVM.InstanceEndpointList>();
@@ -287,7 +304,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             // Model to SM
             Mapper.CreateMap<PVM.LoadBalancerProbe,                                           WindowsAzure.ServiceManagement.LoadBalancerProbe>();
-            Mapper.CreateMap<PVM.LoadBalancedEndpointList,                                    WindowsAzure.ServiceManagement.LoadBalancerProbe>();
+            Mapper.CreateMap<PVM.LoadBalancedEndpointList,                                    WindowsAzure.ServiceManagement.EndpointAccessControlList>();
             Mapper.CreateMap<PVM.InputEndpoint,                                               WindowsAzure.ServiceManagement.InputEndpoint>();
             Mapper.CreateMap<PVM.InstanceEndpoint,                                            WindowsAzure.ServiceManagement.InstanceEndpoint>();
             Mapper.CreateMap<PVM.InstanceEndpointList,                                        WindowsAzure.ServiceManagement.InstanceEndpointList>();
