@@ -18,9 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
     using Utilities.Common;
-    using Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
 
     [TestClass]
     public class GetAzureSBLocationTests : TestBase
@@ -35,19 +36,23 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
         public void GetAzureSBLocationSuccessfull()
         {
             // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
+            Mock<ServiceBusClientExtensions> client = new Mock<ServiceBusClientExtensions>();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            GetAzureSBLocationCommand cmdlet = new GetAzureSBLocationCommand(channel) { CommandRuntime = mockCommandRuntime };
-            List<ServiceBusRegion> expected = new List<ServiceBusRegion>();
-            expected.Add(new ServiceBusRegion { Code = name, FullName = name });
-            channel.ListServiceBusRegionsThunk = gn => { return expected; };
+            GetAzureSBLocationCommand cmdlet = new GetAzureSBLocationCommand()
+            {
+                CommandRuntime = mockCommandRuntime,
+                Client = client.Object
+            };
+            List<ServiceBusLocation> expected = new List<ServiceBusLocation>();
+            expected.Add(new ServiceBusLocation { Code = name, FullName = name });
+            client.Setup(f => f.GetServiceBusRegions()).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusRegion> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusRegion>;
+            List<ServiceBusLocation> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusLocation>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
 
             for (int i = 0; i < expected.Count; i++)
