@@ -452,16 +452,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
-            if (string.IsNullOrEmpty(InstanceSize))
-            {
-                InstanceSize = VirtualMachineRoleSize.Small.ToString();
-            }
-
             var vm = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
+                RoleSize = string.IsNullOrEmpty(InstanceSize) ? null :
+                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
