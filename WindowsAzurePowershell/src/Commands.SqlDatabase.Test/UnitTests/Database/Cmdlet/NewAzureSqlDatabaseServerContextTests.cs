@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
             {
-                UnitTestHelper.ImportSqlDatabaseModule(powershell);
+                UnitTestHelper.ImportAzureModule(powershell);
                 UnitTestHelper.CreateTestCredential(powershell);
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
             {
-                UnitTestHelper.ImportSqlDatabaseModule(powershell);
+                UnitTestHelper.ImportAzureModule(powershell);
                 UnitTestHelper.CreateTestCredential(powershell);
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     }
                 });
 
-            UnitTestHelper.ImportSqlDatabaseModule(powershell);
+            UnitTestHelper.ImportAzureModule(powershell);
             UnitTestHelper.CreateTestCredential(
                 powershell,
                 testSession.SessionProperties["Username"],

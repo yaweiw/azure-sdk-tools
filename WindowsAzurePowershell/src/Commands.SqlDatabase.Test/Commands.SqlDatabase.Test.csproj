@@ -175,9 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\Readme.txt" />
-    <Content Include="Resources\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
     <None Include="TestScripts\CommonFunctions.ps1" />
