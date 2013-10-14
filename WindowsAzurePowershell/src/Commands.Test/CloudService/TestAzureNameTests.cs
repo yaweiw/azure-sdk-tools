@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceNameIsNotUsed()
         {
             string name = "test";
-            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(false);
+            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(true);
 
             cmdlet.IsDNSAvailable(null, name);
 
