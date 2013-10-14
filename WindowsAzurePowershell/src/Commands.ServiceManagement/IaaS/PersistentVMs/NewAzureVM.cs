@@ -219,7 +219,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                     if (this.DnsSettings != null)
                     {
-                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/114
                         parameters.DnsSettings = new Management.Compute.Models.DnsSettings();
 
                         foreach (var dns in this.DnsSettings)
