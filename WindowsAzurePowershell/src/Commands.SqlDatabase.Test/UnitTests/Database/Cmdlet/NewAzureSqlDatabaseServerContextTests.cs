@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         [TestCleanup]
         public void CleanupTest()
         {
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithSqlAuthParamSet));
-            
+
             // Make sure that Manage Url to Manage Url conversion is working properly
             contextCmdlet.ManageUrl = new Uri("https://server0005.database.windows.net");
             Assert.AreEqual(
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             }
 
             // Create context with just ManageUrl and a derived servername
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName");
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
@@ -163,7 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             NewAzureSqlDatabaseServerContext serverContext = new NewAzureSqlDatabaseServerContext();
             ServerDataServiceCertAuth service = serverContext.GetServerDataServiceByCertAuth(
-                "testServer", 
+                "testServer",
                 subscription);
 
             Assert.IsNotNull(service, "The ServerDataServiceCertAuth object returned from "
@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         [TestMethod]
         public void NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases()
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases");
 
             using (System.Management.Automation.PowerShell powershell =
@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             System.Management.Automation.PowerShell powershell,
             string contextVariable)
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTest.Common.NewAzureSqlDatabaseServerContextWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =

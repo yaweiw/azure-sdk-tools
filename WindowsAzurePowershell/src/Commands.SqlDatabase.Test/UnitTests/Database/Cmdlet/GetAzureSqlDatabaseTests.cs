@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
 
             // Save the mock session results
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query the created test databases
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -287,7 +287,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query the created test databases
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuthByPipe");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -382,7 +382,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query a non-existent test database
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuthNonExistentDb");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
