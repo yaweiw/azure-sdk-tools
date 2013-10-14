@@ -488,8 +488,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
                     StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                    // TODO: Issue 239
-                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
                     WinRM = GetWinRmConfiguration()
                 };
 
