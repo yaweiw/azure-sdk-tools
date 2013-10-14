@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
     public partial class AddOnCreateParameters
     {
         private string _type;
-
+        
         /// <summary>
         /// The type of store item to be created.
         /// </summary>
@@ -52,9 +53,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._type; }
             set { this._type = value; }
         }
-
+        
         private string _plan;
-
+        
         /// <summary>
         /// The selected plan for this store addon.
         /// </summary>
@@ -63,9 +64,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._plan; }
             set { this._plan = value; }
         }
-
+        
         private string _promotionCode;
-
+        
         /// <summary>
         /// The promotion code for this store addon.
         /// </summary>
@@ -74,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._promotionCode; }
             set { this._promotionCode = value; }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the AddOnCreateParameters class.
         /// </summary>
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
         }
     }
-
+    
     /// <summary>
     /// The response body contains the status of the specified asynchronous
     /// operation, indicating whether it has succeeded, is inprogress, or has
@@ -96,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
     public partial class AddOnOperationStatusResponse : OperationResponse
     {
         private string _id;
-
+        
         /// <summary>
         /// The request ID of the asynchronous request. This value is returned
         /// in the x-ms-request-id response header of the asynchronous request.
@@ -106,9 +107,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._id; }
             set { this._id = value; }
         }
-
+        
         private OperationStatus _status;
-
+        
         /// <summary>
         /// The status of the asynchronous request.
         /// </summary>
@@ -117,9 +118,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._status; }
             set { this._status = value; }
         }
-
+        
         private HttpStatusCode _httpStatusCode;
-
+        
         /// <summary>
         /// The HTTP status code for the asynchronous request.
         /// </summary>
@@ -128,9 +129,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._httpStatusCode; }
             set { this._httpStatusCode = value; }
         }
-
+        
         private AddOnOperationStatusResponse.ErrorDetails _error;
-
+        
         /// <summary>
         /// If the asynchronous operation failed, the response body includes
         /// the HTTP status code for the failed request, and also includes
@@ -141,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._error; }
             set { this._error = value; }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the AddOnOperationStatusResponse
         /// class.
@@ -149,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         public AddOnOperationStatusResponse()
         {
         }
-
+        
         /// <summary>
         /// If the asynchronous operation failed, the response body includes
         /// the HTTP status code for the failed request, and also includes
@@ -158,7 +159,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         public partial class ErrorDetails
         {
             private string _code;
-
+            
             /// <summary>
             /// The management service error code returned if the asynchronous
             /// request failed.
@@ -168,9 +169,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._code; }
                 set { this._code = value; }
             }
-
+            
             private string _message;
-
+            
             /// <summary>
             /// The management service error message returned if the
             /// asynchronous request failed.
@@ -180,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._message; }
                 set { this._message = value; }
             }
-
+            
             /// <summary>
             /// Initializes a new instance of the ErrorDetails class.
             /// </summary>
@@ -189,14 +190,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             }
         }
     }
-
+    
     /// <summary>
     /// Represents the data passed to the Update Store Resource API method
     /// </summary>
     public partial class AddOnUpdateParameters
     {
         private string _type;
-
+        
         /// <summary>
         /// The type of store item to be created.
         /// </summary>
@@ -205,9 +206,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._type; }
             set { this._type = value; }
         }
-
+        
         private string _plan;
-
+        
         /// <summary>
         /// The selected plan for this store addon.
         /// </summary>
@@ -216,9 +217,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._plan; }
             set { this._plan = value; }
         }
-
+        
         private string _promotionCode;
-
+        
         /// <summary>
         /// The promotion code for this store addon.
         /// </summary>
@@ -227,7 +228,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._promotionCode; }
             set { this._promotionCode = value; }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the AddOnUpdateParameters class.
         /// </summary>
@@ -235,14 +236,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
         }
     }
-
+    
     /// <summary>
     /// Represents the data passed to the Create Cloud Service API method
     /// </summary>
     public partial class CloudServiceCreateParameters
     {
         private string _name;
-
+        
         /// <summary>
         /// The name of the cloud service to be created.
         /// </summary>
@@ -251,9 +252,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._name; }
             set { this._name = value; }
         }
-
+        
         private string _label;
-
+        
         /// <summary>
         /// The label of the cloud service to be created.
         /// </summary>
@@ -262,9 +263,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._label; }
             set { this._label = value; }
         }
-
+        
         private string _description;
-
+        
         /// <summary>
         /// The description for the cloud service to be created.
         /// </summary>
@@ -273,9 +274,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._description; }
             set { this._description = value; }
         }
-
+        
         private string _geoRegion;
-
+        
         /// <summary>
         /// The geographical region to create the cloud service in.
         /// </summary>
@@ -284,7 +285,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._geoRegion; }
             set { this._geoRegion = value; }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the CloudServiceCreateParameters
         /// class.
@@ -293,14 +294,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
         }
     }
-
+    
     /// <summary>
     /// The response structure for the Cloud Service List operation
     /// </summary>
     public partial class CloudServiceListResponse : OperationResponse, IEnumerable<CloudServiceListResponse.CloudService>
     {
         private IList<CloudServiceListResponse.CloudService> _cloudServices;
-
+        
         /// <summary>
         /// The list of cloud service locations for this subscription.
         /// </summary>
@@ -309,7 +310,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             get { return this._cloudServices; }
             set { this._cloudServices = value; }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the CloudServiceListResponse class.
         /// </summary>
@@ -317,7 +318,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
             this._cloudServices = new List<CloudServiceListResponse.CloudService>();
         }
-
+        
         /// <summary>
         /// Gets the sequence of CloudServices.
         /// </summary>
@@ -325,7 +326,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
             return this.CloudServices.GetEnumerator();
         }
-
+        
         /// <summary>
         /// Gets the sequence of CloudServices.
         /// </summary>
@@ -333,7 +334,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         {
             return this.GetEnumerator();
         }
-
+        
         /// <summary>
         /// Defines a cloud service-supporting region in which a storm item is
         /// located.
@@ -341,7 +342,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         public partial class CloudService
         {
             private string _name;
-
+            
             /// <summary>
             /// The name of the cloud service region.
             /// </summary>
@@ -350,9 +351,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._name; }
                 set { this._name = value; }
             }
-
+            
             private string _label;
-
+            
             /// <summary>
             /// The label of the cloud service region.
             /// </summary>
@@ -361,9 +362,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._label; }
                 set { this._label = value; }
             }
-
+            
             private string _description;
-
+            
             /// <summary>
             /// The description of the cloud service region.
             /// </summary>
@@ -372,9 +373,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._description; }
                 set { this._description = value; }
             }
-
+            
             private string _geoRegion;
-
+            
             /// <summary>
             /// The geographical region in which this cloud service can run.
             /// </summary>
@@ -383,9 +384,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._geoRegion; }
                 set { this._geoRegion = value; }
             }
-
+            
             private IList<CloudServiceListResponse.CloudService.AddOnResource> _resources;
-
+            
             /// <summary>
             /// A list of existing store resources installed into a cloud
             /// service region.
@@ -395,7 +396,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 get { return this._resources; }
                 set { this._resources = value; }
             }
-
+            
             /// <summary>
             /// Initializes a new instance of the CloudService class.
             /// </summary>
@@ -403,14 +404,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
             {
                 this._resources = new List<CloudServiceListResponse.CloudService.AddOnResource>();
             }
-
+            
             /// <summary>
             /// A store add-on item.
             /// </summary>
             public partial class AddOnResource
             {
                 private string _namespace;
-
+                
                 /// <summary>
                 /// The namespace in which this store item resides.
                 /// </summary>
@@ -419,9 +420,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._namespace; }
                     set { this._namespace = value; }
                 }
-
+                
                 private string _type;
-
+                
                 /// <summary>
                 /// The type of store item.
                 /// </summary>
@@ -430,9 +431,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._type; }
                     set { this._type = value; }
                 }
-
+                
                 private string _name;
-
+                
                 /// <summary>
                 /// The user-input name of this store item.
                 /// </summary>
@@ -441,9 +442,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._name; }
                     set { this._name = value; }
                 }
-
+                
                 private string _plan;
-
+                
                 /// <summary>
                 /// The plan for this store item as selected by the user.
                 /// </summary>
@@ -452,9 +453,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._plan; }
                     set { this._plan = value; }
                 }
-
+                
                 private string _schemaVersion;
-
+                
                 /// <summary>
                 /// The schema version for this resource.
                 /// </summary>
@@ -463,9 +464,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._schemaVersion; }
                     set { this._schemaVersion = value; }
                 }
-
+                
                 private string _eTag;
-
+                
                 /// <summary>
                 /// The ETag for this store resource.
                 /// </summary>
@@ -474,9 +475,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._eTag; }
                     set { this._eTag = value; }
                 }
-
+                
                 private string _state;
-
+                
                 /// <summary>
                 /// The state of this store resource.
                 /// </summary>
@@ -485,9 +486,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._state; }
                     set { this._state = value; }
                 }
-
+                
                 private IList<CloudServiceListResponse.CloudService.AddOnResource.UsageLimit> _usageLimits;
-
+                
                 /// <summary>
                 /// Usage meters associated with an individual store resource.
                 /// </summary>
@@ -496,9 +497,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._usageLimits; }
                     set { this._usageLimits = value; }
                 }
-
+                
                 private IDictionary<string, string> _outputItems;
-
+                
                 /// <summary>
                 /// Output items associated with an individual store resource.
                 /// </summary>
@@ -507,9 +508,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._outputItems; }
                     set { this._outputItems = value; }
                 }
-
+                
                 private CloudServiceListResponse.CloudService.AddOnResource.OperationStatus _status;
-
+                
                 /// <summary>
                 /// Operation status items associated with an individual store
                 /// resource.
@@ -519,7 +520,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     get { return this._status; }
                     set { this._status = value; }
                 }
-
+                
                 /// <summary>
                 /// Initializes a new instance of the AddOnResource class.
                 /// </summary>
@@ -528,42 +529,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     this._usageLimits = new List<CloudServiceListResponse.CloudService.AddOnResource.UsageLimit>();
                     this._outputItems = new Dictionary<string, string>();
                 }
-
-                /// <summary>
-                /// The operation status of an individual store resource item.
-                /// </summary>
-                public partial class OperationStatus
-                {
-                    private string _type;
-
-                    /// <summary>
-                    /// The type of this operation status.
-                    /// </summary>
-                    public string Type
-                    {
-                        get { return this._type; }
-                        set { this._type = value; }
-                    }
-
-                    private string _result;
-
-                    /// <summary>
-                    /// The result of this operation status.
-                    /// </summary>
-                    public string Result
-                    {
-                        get { return this._result; }
-                        set { this._result = value; }
-                    }
-
-                    /// <summary>
-                    /// Initializes a new instance of the OperationStatus class.
-                    /// </summary>
-                    public OperationStatus()
-                    {
-                    }
-                }
-
+                
                 /// <summary>
                 /// Describes the current utilization and metering of a store
                 /// resource item.
@@ -571,7 +537,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                 public partial class UsageLimit
                 {
                     private string _name;
-
+                    
                     /// <summary>
                     /// The name of this usage limit.
                     /// </summary>
@@ -580,9 +546,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                         get { return this._name; }
                         set { this._name = value; }
                     }
-
+                    
                     private string _unit;
-
+                    
                     /// <summary>
                     /// The unit in which this usage limit is measured.
                     /// </summary>
@@ -591,9 +557,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                         get { return this._unit; }
                         set { this._unit = value; }
                     }
-
+                    
                     private long _amountIncluded;
-
+                    
                     /// <summary>
                     /// Defines the limit of this usage included in this store
                     /// resource's plan.
@@ -603,9 +569,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                         get { return this._amountIncluded; }
                         set { this._amountIncluded = value; }
                     }
-
+                    
                     private long _amountUsed;
-
+                    
                     /// <summary>
                     /// The amount of this store resource that has already been
                     /// used.
@@ -615,7 +581,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                         get { return this._amountUsed; }
                         set { this._amountUsed = value; }
                     }
-
+                    
                     /// <summary>
                     /// Initializes a new instance of the UsageLimit class.
                     /// </summary>
@@ -623,10 +589,45 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
                     {
                     }
                 }
+                
+                /// <summary>
+                /// The operation status of an individual store resource item.
+                /// </summary>
+                public partial class OperationStatus
+                {
+                    private string _type;
+                    
+                    /// <summary>
+                    /// The type of this operation status.
+                    /// </summary>
+                    public string Type
+                    {
+                        get { return this._type; }
+                        set { this._type = value; }
+                    }
+                    
+                    private string _result;
+                    
+                    /// <summary>
+                    /// The result of this operation status.
+                    /// </summary>
+                    public string Result
+                    {
+                        get { return this._result; }
+                        set { this._result = value; }
+                    }
+                    
+                    /// <summary>
+                    /// Initializes a new instance of the OperationStatus class.
+                    /// </summary>
+                    public OperationStatus()
+                    {
+                    }
+                }
             }
         }
     }
-
+    
     /// <summary>
     /// The status of the asynchronous request.
     /// </summary>
@@ -636,12 +637,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Models
         /// The asynchronous request is in progress.
         /// </summary>
         InProgress = 0,
-
+        
         /// <summary>
         /// The asynchronous request succeeded.
         /// </summary>
         Succeeded = 1,
-
+        
         /// <summary>
         /// The asynchronous request failed.
         /// </summary>
@@ -668,35 +669,35 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// </summary>
         SubscriptionCloudCredentials Credentials
         {
-            get;
+            get; 
         }
-
+        
         /// <summary>
         /// The URI used as the base for all Store requests.
         /// </summary>
         Uri BaseUri
         {
-            get;
+            get; 
         }
-
-        /// <summary>
-        /// Provides REST operations for working with cloud services from the
-        /// Windows Azure store service.
-        /// </summary>
-        ICloudServiceOperations CloudServices
-        {
-            get;
-        }
-
+        
         /// <summary>
         /// Provides REST operations for working with Store add-ins from the
         /// Windows Azure store service.
         /// </summary>
         IAddOnOperations AddOns
         {
-            get;
+            get; 
         }
-
+        
+        /// <summary>
+        /// Provides REST operations for working with cloud services from the
+        /// Windows Azure store service.
+        /// </summary>
+        ICloudServiceOperations CloudServices
+        {
+            get; 
+        }
+        
         /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
@@ -725,7 +726,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// </returns>
         Task<AddOnOperationStatusResponse> GetOperationStatusAsync(string requestId, CancellationToken cancellationToken);
     }
-
+    
     /// <summary>
     /// The Windows Azure Store API is a REST API for managing Windows Azure
     /// Store add-ins.
@@ -777,7 +778,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
@@ -810,7 +811,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             return operations.GetOperationStatusAsync(requestId, CancellationToken.None);
         }
     }
-
+    
     /// <summary>
     /// The Windows Azure Store API is a REST API for managing Windows Azure
     /// Store add-ins.
@@ -818,7 +819,7 @@ namespace Microsoft.WindowsAzure.Management.Store
     public partial class StoreManagementClient : ServiceClient<StoreManagementClient>, IStoreManagementClient
     {
         private SubscriptionCloudCredentials _credentials;
-
+        
         /// <summary>
         /// When you create a Windows Azure subscription, it is uniquely
         /// identified by a subscription ID. The subscription ID forms part of
@@ -832,9 +833,9 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             get { return this._credentials; }
         }
-
+        
         private Uri _baseUri;
-
+        
         /// <summary>
         /// The URI used as the base for all Store requests.
         /// </summary>
@@ -842,20 +843,9 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             get { return this._baseUri; }
         }
-
-        private ICloudServiceOperations _cloudServices;
-
-        /// <summary>
-        /// Provides REST operations for working with cloud services from the
-        /// Windows Azure store service.
-        /// </summary>
-        public virtual ICloudServiceOperations CloudServices
-        {
-            get { return this._cloudServices; }
-        }
-
+        
         private IAddOnOperations _addOns;
-
+        
         /// <summary>
         /// Provides REST operations for working with Store add-ins from the
         /// Windows Azure store service.
@@ -864,18 +854,29 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             get { return this._addOns; }
         }
-
+        
+        private ICloudServiceOperations _cloudServices;
+        
+        /// <summary>
+        /// Provides REST operations for working with cloud services from the
+        /// Windows Azure store service.
+        /// </summary>
+        public virtual ICloudServiceOperations CloudServices
+        {
+            get { return this._cloudServices; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the StoreManagementClient class.
         /// </summary>
         private StoreManagementClient()
             : base()
         {
-            this._cloudServices = new CloudServiceOperations(this);
             this._addOns = new AddOnOperations(this);
+            this._cloudServices = new CloudServiceOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the StoreManagementClient class.
         /// </summary>
@@ -904,10 +905,10 @@ namespace Microsoft.WindowsAzure.Management.Store
             }
             this._credentials = credentials;
             this._baseUri = baseUri;
-
+            
             this.Credentials.InitializeServiceClient(this);
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the StoreManagementClient class.
         /// </summary>
@@ -929,10 +930,10 @@ namespace Microsoft.WindowsAzure.Management.Store
             }
             this._credentials = credentials;
             this._baseUri = new Uri("https://management.core.windows.net");
-
+            
             this.Credentials.InitializeServiceClient(this);
         }
-
+        
         /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
@@ -966,7 +967,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             {
                 throw new ArgumentNullException("requestId");
             }
-
+            
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -977,10 +978,10 @@ namespace Microsoft.WindowsAzure.Management.Store
                 tracingParameters.Add("requestId", requestId);
                 Tracing.Enter(invocationId, this, "GetOperationStatusAsync", tracingParameters);
             }
-
+            
             // Construct URL
             string url = this.BaseUri + "/" + this.Credentials.SubscriptionId + "/operations/" + requestId;
-
+            
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -988,14 +989,14 @@ namespace Microsoft.WindowsAzure.Management.Store
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-
+                
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-
+                
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
+                
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -1021,7 +1022,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                         }
                         throw ex;
                     }
-
+                    
                     // Create Result
                     AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
                     result.StatusCode = statusCode;
@@ -1029,12 +1030,12 @@ namespace Microsoft.WindowsAzure.Management.Store
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-
+                    
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-
+                    
                     XElement operationElement = responseDoc.Element(XName.Get("Operation", "http://schemas.microsoft.com/windowsazure"));
                     if (operationElement != null)
                     {
@@ -1044,34 +1045,34 @@ namespace Microsoft.WindowsAzure.Management.Store
                             string idInstance = idElement.Value;
                             result.Id = idInstance;
                         }
-
+                        
                         XElement statusElement = operationElement.Element(XName.Get("Status", "http://schemas.microsoft.com/windowsazure"));
                         if (statusElement != null)
                         {
                             OperationStatus statusInstance = (OperationStatus)Enum.Parse(typeof(OperationStatus), statusElement.Value, false);
                             result.Status = statusInstance;
                         }
-
+                        
                         XElement httpStatusCodeElement = operationElement.Element(XName.Get("HttpStatusCode", "http://schemas.microsoft.com/windowsazure"));
                         if (httpStatusCodeElement != null)
                         {
                             HttpStatusCode httpStatusCodeInstance = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), httpStatusCodeElement.Value, false);
                             result.HttpStatusCode = httpStatusCodeInstance;
                         }
-
+                        
                         XElement errorElement = operationElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
                         if (errorElement != null)
                         {
                             AddOnOperationStatusResponse.ErrorDetails errorInstance = new AddOnOperationStatusResponse.ErrorDetails();
                             result.Error = errorInstance;
-
+                            
                             XElement codeElement = errorElement.Element(XName.Get("Code", "http://schemas.microsoft.com/windowsazure"));
                             if (codeElement != null)
                             {
                                 string codeInstance = codeElement.Value;
                                 errorInstance.Code = codeInstance;
                             }
-
+                            
                             XElement messageElement = errorElement.Element(XName.Get("Message", "http://schemas.microsoft.com/windowsazure"));
                             if (messageElement != null)
                             {
@@ -1080,7 +1081,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                             }
                         }
                     }
-
+                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -1104,789 +1105,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             }
         }
     }
-
-    /// <summary>
-    /// Provides REST operations for working with cloud services from the
-    /// Windows Azure store service.
-    /// </summary>
-    public partial interface ICloudServiceOperations
-    {
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        Task<AddOnOperationStatusResponse> CreateAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        Task<AddOnOperationStatusResponse> BeginCreatingAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
-        /// entries that are provisioned for a subscription.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Cloud Service List operation
-        /// </returns>
-        Task<CloudServiceListResponse> ListAsync(CancellationToken cancellationToken);
-    }
-
-    /// <summary>
-    /// Provides REST operations for working with cloud services from the
-    /// Windows Azure store service.
-    /// </summary>
-    public static partial class CloudServiceOperationsExtensions
-    {
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public static AddOnOperationStatusResponse Create(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
-        {
-            try
-            {
-                return operations.CreateAsync(parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public static Task<AddOnOperationStatusResponse> CreateAsync(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
-        {
-            return operations.CreateAsync(parameters, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public static AddOnOperationStatusResponse BeginCreating(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
-        {
-            try
-            {
-                return operations.BeginCreatingAsync(parameters).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public static Task<AddOnOperationStatusResponse> BeginCreatingAsync(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
-        {
-            return operations.BeginCreatingAsync(parameters, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
-        /// entries that are provisioned for a subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Cloud Service List operation
-        /// </returns>
-        public static CloudServiceListResponse List(this ICloudServiceOperations operations)
-        {
-            try
-            {
-                return operations.ListAsync().Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count > 1)
-                {
-                    throw;
-                }
-                else
-                {
-                    throw ex.InnerException;
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
-        /// entries that are provisioned for a subscription.
-        /// </summary>
-        /// <param name='operations'>
-        /// Reference to the
-        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Cloud Service List operation
-        /// </returns>
-        public static Task<CloudServiceListResponse> ListAsync(this ICloudServiceOperations operations)
-        {
-            return operations.ListAsync(CancellationToken.None);
-        }
-    }
-
-    /// <summary>
-    /// Provides REST operations for working with cloud services from the
-    /// Windows Azure store service.
-    /// </summary>
-    internal partial class CloudServiceOperations : IServiceOperations<StoreManagementClient>, ICloudServiceOperations
-    {
-        /// <summary>
-        /// Initializes a new instance of the CloudServiceOperations class.
-        /// </summary>
-        /// <param name='client'>
-        /// Reference to the service client.
-        /// </param>
-        internal CloudServiceOperations(StoreManagementClient client)
-        {
-            this._client = client;
-        }
-
-        private StoreManagementClient _client;
-
-        /// <summary>
-        /// Gets a reference to the
-        /// Microsoft.WindowsAzure.Management.Store.StoreManagementClient.
-        /// </summary>
-        public StoreManagementClient Client
-        {
-            get { return this._client; }
-        }
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public async Task<AddOnOperationStatusResponse> CreateAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken)
-        {
-            StoreManagementClient client = this.Client;
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
-            }
-            try
-            {
-                if (shouldTrace)
-                {
-                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
-                }
-
-                cancellationToken.ThrowIfCancellationRequested();
-                AddOnOperationStatusResponse originalResponse = await client.CloudServices.BeginCreatingAsync(parameters, cancellationToken).ConfigureAwait(false);
-                cancellationToken.ThrowIfCancellationRequested();
-                AddOnOperationStatusResponse result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
-                int delayInSeconds = 100;
-                while (result.Status == OperationStatus.InProgress)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
-                    cancellationToken.ThrowIfCancellationRequested();
-                    result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
-                    delayInSeconds = 30;
-                }
-
-                if (shouldTrace)
-                {
-                    Tracing.Exit(invocationId, result);
-                }
-
-                return result;
-            }
-            finally
-            {
-                if (client != null && shouldTrace)
-                {
-                    client.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Create Cloud Service operation creates a Windows Azure cloud
-        /// service in a Windows Azure subscription.
-        /// </summary>
-        /// <param name='parameters'>
-        /// Parameters used to specify how the Create procedure will function.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response body contains the status of the specified asynchronous
-        /// operation, indicating whether it has succeeded, is inprogress, or
-        /// has failed. Note that this status is distinct from the HTTP status
-        /// code returned for the Get Operation Status operation itself.  If
-        /// the asynchronous operation succeeded, the response body includes
-        /// the HTTP status code for the successful request.  If the
-        /// asynchronous operation failed, the response body includes the HTTP
-        /// status code for the failed request, and also includes error
-        /// information regarding the failure.
-        /// </returns>
-        public async Task<AddOnOperationStatusResponse> BeginCreatingAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken)
-        {
-            // Validate
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-            if (parameters.Name == null)
-            {
-                throw new ArgumentNullException("parameters.Name");
-            }
-            if (parameters.Label == null)
-            {
-                throw new ArgumentNullException("parameters.Label");
-            }
-            if (parameters.Description == null)
-            {
-                throw new ArgumentNullException("parameters.Description");
-            }
-            if (parameters.GeoRegion == null)
-            {
-                throw new ArgumentNullException("parameters.GeoRegion");
-            }
-
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
-                Tracing.Enter(invocationId, this, "BeginCreatingAsync", tracingParameters);
-            }
-
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + parameters.Name;
-
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Put;
-                httpRequest.RequestUri = new Uri(url);
-
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
-                // Serialize Request
-                string requestContent = null;
-                XDocument requestDoc = new XDocument();
-
-                XElement cloudServiceElement = new XElement(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure"));
-                requestDoc.Add(cloudServiceElement);
-
-                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                nameElement.Value = parameters.Name;
-                cloudServiceElement.Add(nameElement);
-
-                XElement labelElement = new XElement(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
-                labelElement.Value = parameters.Label;
-                cloudServiceElement.Add(labelElement);
-
-                XElement descriptionElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
-                descriptionElement.Value = parameters.Description;
-                cloudServiceElement.Add(descriptionElement);
-
-                XElement geoRegionElement = new XElement(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
-                geoRegionElement.Value = parameters.GeoRegion;
-                cloudServiceElement.Add(geoRegionElement);
-
-                requestContent = requestDoc.ToString();
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.Accepted)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-
-                    // Create Result
-                    AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
-        /// entries that are provisioned for a subscription.
-        /// </summary>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// The response structure for the Cloud Service List operation
-        /// </returns>
-        public async Task<CloudServiceListResponse> ListAsync(CancellationToken cancellationToken)
-        {
-            // Validate
-
-            // Tracing
-            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = Tracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
-            }
-
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices";
-
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-
-                    // Create Result
-                    CloudServiceListResponse result = new CloudServiceListResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-
-                    // Deserialize Response
-                    cancellationToken.ThrowIfCancellationRequested();
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
-
-                    XElement cloudServicesSequenceElement = responseDoc.Element(XName.Get("CloudServices", "http://schemas.microsoft.com/windowsazure"));
-                    if (cloudServicesSequenceElement != null)
-                    {
-                        foreach (XElement cloudServicesElement in cloudServicesSequenceElement.Elements(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure")))
-                        {
-                            CloudServiceListResponse.CloudService cloudServiceInstance = new CloudServiceListResponse.CloudService();
-                            result.CloudServices.Add(cloudServiceInstance);
-
-                            XElement nameElement = cloudServicesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                            if (nameElement != null)
-                            {
-                                string nameInstance = nameElement.Value;
-                                cloudServiceInstance.Name = nameInstance;
-                            }
-
-                            XElement labelElement = cloudServicesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
-                            if (labelElement != null)
-                            {
-                                string labelInstance = labelElement.Value;
-                                cloudServiceInstance.Label = labelInstance;
-                            }
-
-                            XElement descriptionElement = cloudServicesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
-                            if (descriptionElement != null)
-                            {
-                                string descriptionInstance = descriptionElement.Value;
-                                cloudServiceInstance.Description = descriptionInstance;
-                            }
-
-                            XElement geoRegionElement = cloudServicesElement.Element(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
-                            if (geoRegionElement != null)
-                            {
-                                string geoRegionInstance = geoRegionElement.Value;
-                                cloudServiceInstance.GeoRegion = geoRegionInstance;
-                            }
-
-                            XElement resourcesSequenceElement = cloudServicesElement.Element(XName.Get("Resources", "http://schemas.microsoft.com/windowsazure"));
-                            if (resourcesSequenceElement != null)
-                            {
-                                foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
-                                {
-                                    CloudServiceListResponse.CloudService.AddOnResource resourceInstance = new CloudServiceListResponse.CloudService.AddOnResource();
-                                    cloudServiceInstance.Resources.Add(resourceInstance);
-
-                                    XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
-                                    if (resourceProviderNamespaceElement != null)
-                                    {
-                                        string resourceProviderNamespaceInstance = resourceProviderNamespaceElement.Value;
-                                        resourceInstance.Namespace = resourceProviderNamespaceInstance;
-                                    }
-
-                                    XElement typeElement = resourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                    if (typeElement != null)
-                                    {
-                                        string typeInstance = typeElement.Value;
-                                        resourceInstance.Type = typeInstance;
-                                    }
-
-                                    XElement nameElement2 = resourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                    if (nameElement2 != null)
-                                    {
-                                        string nameInstance2 = nameElement2.Value;
-                                        resourceInstance.Name = nameInstance2;
-                                    }
-
-                                    XElement planElement = resourcesElement.Element(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
-                                    if (planElement != null)
-                                    {
-                                        string planInstance = planElement.Value;
-                                        resourceInstance.Plan = planInstance;
-                                    }
-
-                                    XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
-                                    if (schemaVersionElement != null)
-                                    {
-                                        string schemaVersionInstance = schemaVersionElement.Value;
-                                        resourceInstance.SchemaVersion = schemaVersionInstance;
-                                    }
-
-                                    XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
-                                    if (eTagElement != null)
-                                    {
-                                        string eTagInstance = eTagElement.Value;
-                                        resourceInstance.ETag = eTagInstance;
-                                    }
-
-                                    XElement stateElement = resourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                                    if (stateElement != null)
-                                    {
-                                        string stateInstance = stateElement.Value;
-                                        resourceInstance.State = stateInstance;
-                                    }
-
-                                    XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
-                                    if (usageMetersSequenceElement != null)
-                                    {
-                                        foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
-                                        {
-                                            CloudServiceListResponse.CloudService.AddOnResource.UsageLimit usageMeterInstance = new CloudServiceListResponse.CloudService.AddOnResource.UsageLimit();
-                                            resourceInstance.UsageLimits.Add(usageMeterInstance);
-
-                                            XElement nameElement3 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                            if (nameElement3 != null)
-                                            {
-                                                string nameInstance3 = nameElement3.Value;
-                                                usageMeterInstance.Name = nameInstance3;
-                                            }
-
-                                            XElement unitElement = usageMetersElement.Element(XName.Get("Unit", "http://schemas.microsoft.com/windowsazure"));
-                                            if (unitElement != null)
-                                            {
-                                                string unitInstance = unitElement.Value;
-                                                usageMeterInstance.Unit = unitInstance;
-                                            }
-
-                                            XElement includedElement = usageMetersElement.Element(XName.Get("Included", "http://schemas.microsoft.com/windowsazure"));
-                                            if (includedElement != null)
-                                            {
-                                                long includedInstance = new long();
-                                                usageMeterInstance.AmountIncluded = includedInstance;
-                                            }
-
-                                            XElement usedElement = usageMetersElement.Element(XName.Get("Used", "http://schemas.microsoft.com/windowsazure"));
-                                            if (usedElement != null)
-                                            {
-                                                long usedInstance = new long();
-                                                usageMeterInstance.AmountUsed = usedInstance;
-                                            }
-                                        }
-                                    }
-
-                                    XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
-                                    if (outputItemsSequenceElement != null)
-                                    {
-                                        foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
-                                        {
-                                            string outputItemsKey = outputItemsElement.Element(XName.Get("Key", "http://schemas.microsoft.com/windowsazure")).Value;
-                                            string outputItemsValue = outputItemsElement.Element(XName.Get("Value", "http://schemas.microsoft.com/windowsazure")).Value;
-                                            resourceInstance.OutputItems.Add(outputItemsKey, outputItemsValue);
-                                        }
-                                    }
-
-                                    XElement operationStatusElement = resourcesElement.Element(XName.Get("OperationStatus", "http://schemas.microsoft.com/windowsazure"));
-                                    if (operationStatusElement != null)
-                                    {
-                                        CloudServiceListResponse.CloudService.AddOnResource.OperationStatus operationStatusInstance = new CloudServiceListResponse.CloudService.AddOnResource.OperationStatus();
-                                        resourceInstance.Status = operationStatusInstance;
-
-                                        XElement typeElement2 = operationStatusElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                        if (typeElement2 != null)
-                                        {
-                                            string typeInstance2 = typeElement2.Value;
-                                            operationStatusInstance.Type = typeInstance2;
-                                        }
-
-                                        XElement resultElement = operationStatusElement.Element(XName.Get("Result", "http://schemas.microsoft.com/windowsazure"));
-                                        if (resultElement != null)
-                                        {
-                                            string resultInstance = resultElement.Value;
-                                            operationStatusInstance.Result = resultInstance;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-    }
-
+    
     /// <summary>
     /// Provides REST operations for working with Store add-ins from the
     /// Windows Azure store service.
@@ -1925,7 +1144,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// information regarding the failure.
         /// </returns>
         Task<AddOnOperationStatusResponse> UpdateAsync(string cloudServiceName, string resourceName, string addOnName, AddOnUpdateParameters parameters, CancellationToken cancellationToken);
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -1958,7 +1177,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// information regarding the failure.
         /// </returns>
         Task<AddOnOperationStatusResponse> CreateAsync(string cloudServiceName, string resourceName, string addOnName, AddOnCreateParameters parameters, CancellationToken cancellationToken);
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -1991,7 +1210,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// information regarding the failure.
         /// </returns>
         Task<AddOnOperationStatusResponse> BeginCreatingAsync(string cloudServiceName, string resourceName, string addOnName, AddOnCreateParameters parameters, CancellationToken cancellationToken);
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2024,7 +1243,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// information regarding the failure.
         /// </returns>
         Task<AddOnOperationStatusResponse> DeleteAsync(string cloudServiceName, string resourceProviderNamespace, string resourceProviderType, string resourceProviderName, CancellationToken cancellationToken);
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2058,7 +1277,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         /// </returns>
         Task<AddOnOperationStatusResponse> BeginDeletingAsync(string cloudServiceName, string resourceProviderNamespace, string resourceProviderType, string resourceProviderName, CancellationToken cancellationToken);
     }
-
+    
     /// <summary>
     /// Provides REST operations for working with Store add-ins from the
     /// Windows Azure store service.
@@ -2115,7 +1334,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Update Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2152,7 +1371,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             return operations.UpdateAsync(cloudServiceName, resourceName, addOnName, parameters, CancellationToken.None);
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2203,7 +1422,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2240,7 +1459,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             return operations.CreateAsync(cloudServiceName, resourceName, addOnName, parameters, CancellationToken.None);
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2291,7 +1510,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2328,7 +1547,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             return operations.BeginCreatingAsync(cloudServiceName, resourceName, addOnName, parameters, CancellationToken.None);
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2379,7 +1598,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2416,7 +1635,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             return operations.DeleteAsync(cloudServiceName, resourceProviderNamespace, resourceProviderType, resourceProviderName, CancellationToken.None);
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2467,7 +1686,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -2505,7 +1724,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             return operations.BeginDeletingAsync(cloudServiceName, resourceProviderNamespace, resourceProviderType, resourceProviderName, CancellationToken.None);
         }
     }
-
+    
     /// <summary>
     /// Provides REST operations for working with Store add-ins from the
     /// Windows Azure store service.
@@ -2522,9 +1741,9 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             this._client = client;
         }
-
+        
         private StoreManagementClient _client;
-
+        
         /// <summary>
         /// Gets a reference to the
         /// Microsoft.WindowsAzure.Management.Store.StoreManagementClient.
@@ -2533,7 +1752,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         {
             get { return this._client; }
         }
-
+        
         /// <summary>
         /// The Update Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2592,7 +1811,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             {
                 throw new ArgumentNullException("parameters.Plan");
             }
-
+            
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -2606,10 +1825,10 @@ namespace Microsoft.WindowsAzure.Management.Store
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
             }
-
+            
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + cloudServiceName + "/resources/" + parameters.Type + "/" + resourceName + "/" + addOnName;
-
+            
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -2617,41 +1836,41 @@ namespace Microsoft.WindowsAzure.Management.Store
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
-
+                
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-06-01");
                 httpRequest.Headers.TryAddWithoutValidation("If-Match", "*");
-
+                
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
+                
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-
+                
                 XElement resourceElement = new XElement(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(resourceElement);
-
+                
                 XElement typeElement = new XElement(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                 typeElement.Value = parameters.Type;
                 resourceElement.Add(typeElement);
-
+                
                 XElement planElement = new XElement(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
                 planElement.Value = parameters.Plan;
                 resourceElement.Add(planElement);
-
+                
                 if (parameters.PromotionCode != null)
                 {
                     XElement promotionCodeElement = new XElement(XName.Get("PromotionCode", "http://schemas.microsoft.com/windowsazure"));
                     promotionCodeElement.Value = parameters.PromotionCode;
                     resourceElement.Add(promotionCodeElement);
                 }
-
+                
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-
+                
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -2677,7 +1896,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                         }
                         throw ex;
                     }
-
+                    
                     // Create Result
                     AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
                     result.StatusCode = statusCode;
@@ -2685,7 +1904,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-
+                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -2708,7 +1927,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2761,7 +1980,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 {
                     client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
                 }
-
+                
                 cancellationToken.ThrowIfCancellationRequested();
                 AddOnOperationStatusResponse originalResponse = await client.AddOns.BeginCreatingAsync(cloudServiceName, resourceName, addOnName, parameters, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2775,12 +1994,12 @@ namespace Microsoft.WindowsAzure.Management.Store
                     result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
                     delayInSeconds = 30;
                 }
-
+                
                 if (shouldTrace)
                 {
                     Tracing.Exit(invocationId, result);
                 }
-
+                
                 return result;
             }
             finally
@@ -2791,7 +2010,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Create Store Item operation creates Windows Azure Store entries
         /// in a Windows Azure subscription.
@@ -2850,7 +2069,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             {
                 throw new ArgumentNullException("parameters.Plan");
             }
-
+            
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -2864,10 +2083,10 @@ namespace Microsoft.WindowsAzure.Management.Store
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "BeginCreatingAsync", tracingParameters);
             }
-
+            
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + cloudServiceName + "/resources/" + parameters.Type + "/" + resourceName + "/" + addOnName;
-
+            
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -2875,40 +2094,40 @@ namespace Microsoft.WindowsAzure.Management.Store
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
-
+                
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-
+                
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
+                
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-
+                
                 XElement resourceElement = new XElement(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(resourceElement);
-
+                
                 XElement typeElement = new XElement(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                 typeElement.Value = parameters.Type;
                 resourceElement.Add(typeElement);
-
+                
                 XElement planElement = new XElement(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
                 planElement.Value = parameters.Plan;
                 resourceElement.Add(planElement);
-
+                
                 if (parameters.PromotionCode != null)
                 {
                     XElement promotionCodeElement = new XElement(XName.Get("PromotionCode", "http://schemas.microsoft.com/windowsazure"));
                     promotionCodeElement.Value = parameters.PromotionCode;
                     resourceElement.Add(promotionCodeElement);
                 }
-
+                
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-
+                
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -2934,7 +2153,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                         }
                         throw ex;
                     }
-
+                    
                     // Create Result
                     AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
                     result.StatusCode = statusCode;
@@ -2942,7 +2161,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-
+                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -2965,7 +2184,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -3018,7 +2237,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 {
                     client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
                 }
-
+                
                 cancellationToken.ThrowIfCancellationRequested();
                 AddOnOperationStatusResponse originalResponse = await client.AddOns.BeginDeletingAsync(cloudServiceName, resourceProviderNamespace, resourceProviderType, resourceProviderName, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3032,12 +2251,12 @@ namespace Microsoft.WindowsAzure.Management.Store
                     result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
                     delayInSeconds = 30;
                 }
-
+                
                 if (shouldTrace)
                 {
                     Tracing.Exit(invocationId, result);
                 }
-
+                
                 return result;
             }
             finally
@@ -3048,7 +2267,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                 }
             }
         }
-
+        
         /// <summary>
         /// The Delete Store Item operation deletes Windows Azure Store entries
         /// that are provisioned for a subscription.
@@ -3099,7 +2318,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             {
                 throw new ArgumentNullException("resourceProviderName");
             }
-
+            
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -3113,10 +2332,10 @@ namespace Microsoft.WindowsAzure.Management.Store
                 tracingParameters.Add("resourceProviderName", resourceProviderName);
                 Tracing.Enter(invocationId, this, "BeginDeletingAsync", tracingParameters);
             }
-
+            
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + cloudServiceName + "/resources/" + resourceProviderNamespace + "/" + resourceProviderType + "/" + resourceProviderName;
-
+            
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -3124,14 +2343,14 @@ namespace Microsoft.WindowsAzure.Management.Store
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Delete;
                 httpRequest.RequestUri = new Uri(url);
-
+                
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-06-01");
-
+                
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
+                
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -3157,7 +2376,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                         }
                         throw ex;
                     }
-
+                    
                     // Create Result
                     AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
                     result.StatusCode = statusCode;
@@ -3165,7 +2384,789 @@ namespace Microsoft.WindowsAzure.Management.Store
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Provides REST operations for working with cloud services from the
+    /// Windows Azure store service.
+    /// </summary>
+    public partial interface ICloudServiceOperations
+    {
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<AddOnOperationStatusResponse> CreateAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<AddOnOperationStatusResponse> BeginCreatingAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// entries that are provisioned for a subscription.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Cloud Service List operation
+        /// </returns>
+        Task<CloudServiceListResponse> ListAsync(CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// Provides REST operations for working with cloud services from the
+    /// Windows Azure store service.
+    /// </summary>
+    public static partial class CloudServiceOperationsExtensions
+    {
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static AddOnOperationStatusResponse Create(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
+        {
+            try
+            {
+                return operations.CreateAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static Task<AddOnOperationStatusResponse> CreateAsync(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
+        {
+            return operations.CreateAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static AddOnOperationStatusResponse BeginCreating(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
+        {
+            try
+            {
+                return operations.BeginCreatingAsync(parameters).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static Task<AddOnOperationStatusResponse> BeginCreatingAsync(this ICloudServiceOperations operations, CloudServiceCreateParameters parameters)
+        {
+            return operations.BeginCreatingAsync(parameters, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// entries that are provisioned for a subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Cloud Service List operation
+        /// </returns>
+        public static CloudServiceListResponse List(this ICloudServiceOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// entries that are provisioned for a subscription.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Store.ICloudServiceOperations.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Cloud Service List operation
+        /// </returns>
+        public static Task<CloudServiceListResponse> ListAsync(this ICloudServiceOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// Provides REST operations for working with cloud services from the
+    /// Windows Azure store service.
+    /// </summary>
+    internal partial class CloudServiceOperations : IServiceOperations<StoreManagementClient>, ICloudServiceOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the CloudServiceOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal CloudServiceOperations(StoreManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private StoreManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.Store.StoreManagementClient.
+        /// </summary>
+        public StoreManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<AddOnOperationStatusResponse> CreateAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            StoreManagementClient client = this.Client;
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
+            }
+            try
+            {
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
+                
+                cancellationToken.ThrowIfCancellationRequested();
+                AddOnOperationStatusResponse originalResponse = await client.CloudServices.BeginCreatingAsync(parameters, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                AddOnOperationStatusResponse result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 100;
+                while (result.Status == OperationStatus.InProgress)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(originalResponse.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
+                }
+                
+                if (shouldTrace)
+                {
+                    Tracing.Exit(invocationId, result);
+                }
+                
+                return result;
+            }
+            finally
+            {
+                if (client != null && shouldTrace)
+                {
+                    client.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Create Cloud Service operation creates a Windows Azure cloud
+        /// service in a Windows Azure subscription.
+        /// </summary>
+        /// <param name='parameters'>
+        /// Parameters used to specify how the Create procedure will function.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<AddOnOperationStatusResponse> BeginCreatingAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+            if (parameters.Name == null)
+            {
+                throw new ArgumentNullException("parameters.Name");
+            }
+            if (parameters.Label == null)
+            {
+                throw new ArgumentNullException("parameters.Label");
+            }
+            if (parameters.Description == null)
+            {
+                throw new ArgumentNullException("parameters.Description");
+            }
+            if (parameters.GeoRegion == null)
+            {
+                throw new ArgumentNullException("parameters.GeoRegion");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("parameters", parameters);
+                Tracing.Enter(invocationId, this, "BeginCreatingAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + parameters.Name;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Put;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                XDocument requestDoc = new XDocument();
+                
+                XElement cloudServiceElement = new XElement(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure"));
+                requestDoc.Add(cloudServiceElement);
+                
+                XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                nameElement.Value = parameters.Name;
+                cloudServiceElement.Add(nameElement);
+                
+                XElement labelElement = new XElement(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
+                labelElement.Value = parameters.Label;
+                cloudServiceElement.Add(labelElement);
+                
+                XElement descriptionElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                descriptionElement.Value = parameters.Description;
+                cloudServiceElement.Add(descriptionElement);
+                
+                XElement geoRegionElement = new XElement(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
+                geoRegionElement.Value = parameters.GeoRegion;
+                cloudServiceElement.Add(geoRegionElement);
+                
+                requestContent = requestDoc.ToString();
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    AddOnOperationStatusResponse result = new AddOnOperationStatusResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// entries that are provisioned for a subscription.
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response structure for the Cloud Service List operation
+        /// </returns>
+        public async Task<CloudServiceListResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-06-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    CloudServiceListResponse result = new CloudServiceListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement cloudServicesSequenceElement = responseDoc.Element(XName.Get("CloudServices", "http://schemas.microsoft.com/windowsazure"));
+                    if (cloudServicesSequenceElement != null)
+                    {
+                        foreach (XElement cloudServicesElement in cloudServicesSequenceElement.Elements(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            CloudServiceListResponse.CloudService cloudServiceInstance = new CloudServiceListResponse.CloudService();
+                            result.CloudServices.Add(cloudServiceInstance);
+                            
+                            XElement nameElement = cloudServicesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                cloudServiceInstance.Name = nameInstance;
+                            }
+                            
+                            XElement labelElement = cloudServicesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
+                            if (labelElement != null)
+                            {
+                                string labelInstance = labelElement.Value;
+                                cloudServiceInstance.Label = labelInstance;
+                            }
+                            
+                            XElement descriptionElement = cloudServicesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                            if (descriptionElement != null)
+                            {
+                                string descriptionInstance = descriptionElement.Value;
+                                cloudServiceInstance.Description = descriptionInstance;
+                            }
+                            
+                            XElement geoRegionElement = cloudServicesElement.Element(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
+                            if (geoRegionElement != null)
+                            {
+                                string geoRegionInstance = geoRegionElement.Value;
+                                cloudServiceInstance.GeoRegion = geoRegionInstance;
+                            }
+                            
+                            XElement resourcesSequenceElement = cloudServicesElement.Element(XName.Get("Resources", "http://schemas.microsoft.com/windowsazure"));
+                            if (resourcesSequenceElement != null)
+                            {
+                                foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
+                                {
+                                    CloudServiceListResponse.CloudService.AddOnResource resourceInstance = new CloudServiceListResponse.CloudService.AddOnResource();
+                                    cloudServiceInstance.Resources.Add(resourceInstance);
+                                    
+                                    XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
+                                    if (resourceProviderNamespaceElement != null)
+                                    {
+                                        string resourceProviderNamespaceInstance = resourceProviderNamespaceElement.Value;
+                                        resourceInstance.Namespace = resourceProviderNamespaceInstance;
+                                    }
+                                    
+                                    XElement typeElement = resourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                                    if (typeElement != null)
+                                    {
+                                        string typeInstance = typeElement.Value;
+                                        resourceInstance.Type = typeInstance;
+                                    }
+                                    
+                                    XElement nameElement2 = resourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                    if (nameElement2 != null)
+                                    {
+                                        string nameInstance2 = nameElement2.Value;
+                                        resourceInstance.Name = nameInstance2;
+                                    }
+                                    
+                                    XElement planElement = resourcesElement.Element(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
+                                    if (planElement != null)
+                                    {
+                                        string planInstance = planElement.Value;
+                                        resourceInstance.Plan = planInstance;
+                                    }
+                                    
+                                    XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
+                                    if (schemaVersionElement != null)
+                                    {
+                                        string schemaVersionInstance = schemaVersionElement.Value;
+                                        resourceInstance.SchemaVersion = schemaVersionInstance;
+                                    }
+                                    
+                                    XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
+                                    if (eTagElement != null)
+                                    {
+                                        string eTagInstance = eTagElement.Value;
+                                        resourceInstance.ETag = eTagInstance;
+                                    }
+                                    
+                                    XElement stateElement = resourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                                    if (stateElement != null)
+                                    {
+                                        string stateInstance = stateElement.Value;
+                                        resourceInstance.State = stateInstance;
+                                    }
+                                    
+                                    XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
+                                    if (usageMetersSequenceElement != null)
+                                    {
+                                        foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
+                                        {
+                                            CloudServiceListResponse.CloudService.AddOnResource.UsageLimit usageMeterInstance = new CloudServiceListResponse.CloudService.AddOnResource.UsageLimit();
+                                            resourceInstance.UsageLimits.Add(usageMeterInstance);
+                                            
+                                            XElement nameElement3 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                            if (nameElement3 != null)
+                                            {
+                                                string nameInstance3 = nameElement3.Value;
+                                                usageMeterInstance.Name = nameInstance3;
+                                            }
+                                            
+                                            XElement unitElement = usageMetersElement.Element(XName.Get("Unit", "http://schemas.microsoft.com/windowsazure"));
+                                            if (unitElement != null)
+                                            {
+                                                string unitInstance = unitElement.Value;
+                                                usageMeterInstance.Unit = unitInstance;
+                                            }
+                                            
+                                            XElement includedElement = usageMetersElement.Element(XName.Get("Included", "http://schemas.microsoft.com/windowsazure"));
+                                            if (includedElement != null)
+                                            {
+                                                long includedInstance = long.Parse(includedElement.Value, CultureInfo.InvariantCulture);
+                                                usageMeterInstance.AmountIncluded = includedInstance;
+                                            }
+                                            
+                                            XElement usedElement = usageMetersElement.Element(XName.Get("Used", "http://schemas.microsoft.com/windowsazure"));
+                                            if (usedElement != null)
+                                            {
+                                                long usedInstance = long.Parse(usedElement.Value, CultureInfo.InvariantCulture);
+                                                usageMeterInstance.AmountUsed = usedInstance;
+                                            }
+                                        }
+                                    }
+                                    
+                                    XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
+                                    if (outputItemsSequenceElement != null)
+                                    {
+                                        foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
+                                        {
+                                            string outputItemsKey = outputItemsElement.Element(XName.Get("Key", "http://schemas.microsoft.com/windowsazure")).Value;
+                                            string outputItemsValue = outputItemsElement.Element(XName.Get("Value", "http://schemas.microsoft.com/windowsazure")).Value;
+                                            resourceInstance.OutputItems.Add(outputItemsKey, outputItemsValue);
+                                        }
+                                    }
+                                    
+                                    XElement operationStatusElement = resourcesElement.Element(XName.Get("OperationStatus", "http://schemas.microsoft.com/windowsazure"));
+                                    if (operationStatusElement != null)
+                                    {
+                                        CloudServiceListResponse.CloudService.AddOnResource.OperationStatus operationStatusInstance = new CloudServiceListResponse.CloudService.AddOnResource.OperationStatus();
+                                        resourceInstance.Status = operationStatusInstance;
+                                        
+                                        XElement typeElement2 = operationStatusElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                                        if (typeElement2 != null)
+                                        {
+                                            string typeInstance2 = typeElement2.Value;
+                                            operationStatusInstance.Type = typeInstance2;
+                                        }
+                                        
+                                        XElement resultElement = operationStatusElement.Element(XName.Get("Result", "http://schemas.microsoft.com/windowsazure"));
+                                        if (resultElement != null)
+                                        {
+                                            string resultInstance = resultElement.Value;
+                                            operationStatusInstance.Result = resultInstance;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);

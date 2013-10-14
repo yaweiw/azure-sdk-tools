@@ -26,8 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// </summary>
     public class PowershellProfileStore : IProfileStore
     {
-        private string settingsDirectory;
-        private string profileFileName;
+        private readonly string settingsDirectory;
+        private readonly string profileFileName;
 
         public const string DefaultProfileName = "azureProfile.xml";
 
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 fileName = DefaultProfileName;
             }
-            this.profileFileName = fileName;
+            profileFileName = fileName;
             EnsureSettingsDirectoryExists();
             EnsureProfileFileExists();
         }

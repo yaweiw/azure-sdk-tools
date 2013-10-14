@@ -31,9 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     using System.Diagnostics;
     using Microsoft.WindowsAzure.Management.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
-    using HydraServiceBusNamespace = Microsoft.WindowsAzure.Management.ServiceBus.Models.ServiceBusNamespace;
     using System.Text.RegularExpressions;
     using ServiceBusNamespaceDescription = Microsoft.WindowsAzure.Management.ServiceBus.Models.NamespaceDescription;
+    using System.Threading;
 
     public class ServiceBusClientExtensions
     {
@@ -47,6 +47,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         public const string NamespaceSASConnectionStringKeyName = "RootManageSharedAccessKey";
 
+        public const int SleepDuration = 5000;
+
+        private ServiceBusNamespace TryGetNamespace(string name)
+        {
+            try
+            {
+                return ServiceBusClient.Namespaces.Get(name).Namespace;
+            }
+            catch (CloudException)
+            {
+                // The namespace does not exist.
+                return null;
+            }
+        }
+
+        private ExtendedServiceBusNamespace GetExtendedServiceBusNamespace(string name)
+        {
+            ServiceBusNamespace sbNamespace = TryGetNamespace(name);
+
+            if (sbNamespace != null &&
+                sbNamespace.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+            {
+                IList<ServiceBusNamespaceDescription> descriptions = ServiceBusClient.Namespaces
+                    .GetNamespaceDescription(name)
+                    .NamespaceDescriptions;
+
+                return new ExtendedServiceBusNamespace(sbNamespace, descriptions);
+            }
+
+            return null;
+        }
+
         private NamespaceManager CreateNamespaceManager(string namespaceName)
         {
             return NamespaceManager.CreateFromConnectionString(GetConnectionString(
@@ -58,14 +90,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             AuthorizationRule rule,
             string namespaceName)
         {
+            string connectionString = string.Empty;
+
+            if (IsActiveNamespace(namespaceName))
+            {
+                connectionString = GetConnectionString(namespaceName, rule.KeyName);
+            }
+
             return new ExtendedAuthorizationRule()
             {
                 Rule = rule,
                 Name = rule.KeyName,
                 Namespace = namespaceName,
                 Permission = rule.Rights.ToList(),
-                ConnectionString = GetConnectionString(namespaceName, rule.KeyName)
+                ConnectionString = connectionString
             };
+        }
+
+        private bool IsActiveNamespace(string name)
+        {
+            return ServiceBusClient.Namespaces.Get(name).Namespace.Status
+                .Equals("Active", StringComparison.OrdinalIgnoreCase);
         }
 
         private ExtendedAuthorizationRule CreateExtendedAuthorizationRule(
@@ -789,19 +834,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             return ServiceBusClient.GetServiceBusRegions().Regions.ToList();
         }
 
-        public virtual HydraServiceBusNamespace GetNamespace(string name)
+        public virtual ExtendedServiceBusNamespace GetNamespace(string name)
         {
             if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
             {
                 throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
             }
 
-            return ServiceBusClient.Namespaces.Get(name).Namespace;
+            return GetExtendedServiceBusNamespace(name);
         }
 
-        public virtual List<HydraServiceBusNamespace> GetNamespace()
+        public virtual List<ExtendedServiceBusNamespace> GetNamespace()
         {
-            return ServiceBusClient.Namespaces.List().Namespaces.ToList();
+            return ServiceBusClient.Namespaces.List().Namespaces.
+                Select(s => GetExtendedServiceBusNamespace(s.Name))
+                .Where(s => s != null)
+                .ToList();
         }
 
         public virtual bool IsAvailableNamespace(string name)
@@ -819,7 +867,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
             return GetNamespace().Exists(ns => ns.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public virtual ServiceBusNamespace CreateNamespace(string name, string location)
+        public virtual ExtendedServiceBusNamespace CreateNamespace(string name, string location)
         {
             location = string.IsNullOrEmpty(location) ? GetDefaultLocation() : location;
 
@@ -828,7 +876,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
                 throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
             }
 
-            return ServiceBusClient.Namespaces.Create(name, location).Namespace;
+            ServiceBusClient.Namespaces.Create(name, location);
+
+            // Wait until the namespace is activated
+            while (!IsActiveNamespace(name))
+            {
+                Thread.Sleep(SleepDuration);
+            }
+
+            return GetExtendedServiceBusNamespace(name);
         }
 
         public virtual bool RemoveNamespace(string name)
