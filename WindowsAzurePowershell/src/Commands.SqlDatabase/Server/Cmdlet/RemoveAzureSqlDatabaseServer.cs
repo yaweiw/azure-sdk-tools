@@ -64,9 +64,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Issue the delete server request
             OperationResponse response = sqlManagementClient.Servers.Delete(serverName);
             SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
             {

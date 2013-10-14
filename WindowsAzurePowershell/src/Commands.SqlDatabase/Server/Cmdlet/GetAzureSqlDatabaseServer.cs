@@ -51,9 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         internal IEnumerable<SqlDatabaseServerContext> GetAzureSqlDatabaseServersProcess(string serverName)
         {
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Retrieve the list of servers
             ServerListResponse response = sqlManagementClient.Servers.List();
@@ -101,10 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 base.ProcessRecord();
 
                 var servers = this.GetAzureSqlDatabaseServersProcess(this.ServerName);
-                if (servers != null)
-                {
-                    WriteObject(servers, true);
-                }
+                this.WriteObject(servers, true);
             }
             catch (Exception ex)
             {

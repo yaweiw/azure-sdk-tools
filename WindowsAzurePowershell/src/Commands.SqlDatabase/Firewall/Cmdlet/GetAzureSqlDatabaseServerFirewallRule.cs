@@ -57,13 +57,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// </param>
         /// <returns>A list of firewall rules on the server.</returns>
         internal IEnumerable<SqlDatabaseServerFirewallRuleContext> GetAzureSqlDatabaseServerFirewallRuleProcess(
-            string serverName, 
+            string serverName,
             string ruleName)
         {
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Retrieve the list of databases
             FirewallRuleListResponse response = sqlManagementClient.FirewallRules.List(serverName);
@@ -113,10 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                 base.ProcessRecord();
 
                 var rules = this.GetAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
-                if (rules != null)
-                {
-                    WriteObject(rules, true);
-                }
+                this.WriteObject(rules, true);
             }
             catch (Exception ex)
             {

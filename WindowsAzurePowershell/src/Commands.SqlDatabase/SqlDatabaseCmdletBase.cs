@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.Utilities;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
@@ -48,6 +49,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
                 "{0}-{1}",
                 Guid.NewGuid().ToString(),
                 DateTime.UtcNow.ToString("u"));
+        }
+
+        /// <summary>
+        /// Retrieve the SQL Management client for the currently selected subscription.
+        /// </summary>
+        /// <returns>The SQL Management client for the currently selected subscription.</returns>
+        public static SqlManagementClient GetCurrentSqlClient()
+        {
+            // Get the SQL management client for the current subscription
+            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
+            return subscription.CreateClient<SqlManagementClient>();
         }
 
         /// <summary>

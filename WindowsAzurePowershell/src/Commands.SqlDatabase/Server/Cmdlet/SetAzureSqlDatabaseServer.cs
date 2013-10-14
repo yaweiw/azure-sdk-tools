@@ -80,13 +80,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
-            OperationResponse response = sqlManagementClient.Servers.ChangeAdministratorPassword(serverName, new ServerChangeAdministratorPasswordParameters()
-            {
-                NewPassword = newPassword
-            });
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Issue the change admin password request
+            OperationResponse response = sqlManagementClient.Servers.ChangeAdministratorPassword(
+                serverName, 
+                new ServerChangeAdministratorPasswordParameters()
+                {
+                    NewPassword = newPassword
+                });
 
             SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
             {

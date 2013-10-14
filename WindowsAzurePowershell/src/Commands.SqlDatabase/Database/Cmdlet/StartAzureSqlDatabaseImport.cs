@@ -154,9 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             this.WriteVerbose("UserName: " + sqlCredentials.UserName);
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Start the database export operation
             DacImportExportResponse response = sqlManagementClient.Dacs.Import(
@@ -247,10 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                         this.DatabaseMaxSize : 0,
                     this.SqlConnectionContext.SqlCredentials);
 
-                if (context != null)
-                {
-                    this.WriteObject(context);
-                }
+                this.WriteObject(context);
             }
             catch (Exception ex)
             {

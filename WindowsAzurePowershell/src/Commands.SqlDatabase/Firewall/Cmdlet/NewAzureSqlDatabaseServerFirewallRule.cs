@@ -147,11 +147,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             string endIpAddress)
         {
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Create the firewall rule
             FirewallRuleCreateResponse response = sqlManagementClient.FirewallRules.Create(
-                serverName, 
+                serverName,
                 new FirewallRuleCreateParameters()
                 {
                     Name = ruleName,
@@ -231,10 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                         break;
                 }
 
-                if (context != null)
-                {
-                    this.WriteObject(context, true);
-                }
+                this.WriteObject(context, true);
             }
             catch (Exception ex)
             {
