@@ -41,6 +41,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         bool DeploymentExists(string name = null, string slot = null);
 
         /// <summary>
+        /// Checks if the given name is avalable for usage in azure hosted service
+        /// </summary>
+        /// <param name="name">The short name of the hosted service to check</param>
+        /// <returns></returns>
+        bool CheckHostedServiceNameAvailability(string name);
+
+        /// <summary>
         /// Publishes a service project on Windows Azure.
         /// </summary>
         /// <param name="name">The cloud service name</param>
@@ -79,6 +86,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The location name</returns>
         string GetDefaultLocation();
 
+        /// <summary>
+        /// Check iof the given storage service name is available
+        /// </summary>
+        /// <param name="name">The name of the storage service to check</param>
+        /// <returns></returns>
+        bool CheckStorageServiceAvailability(string name);
         /// <summary>
         /// Checks if the provided storage service exists under the subscription or not.
         /// </summary>
