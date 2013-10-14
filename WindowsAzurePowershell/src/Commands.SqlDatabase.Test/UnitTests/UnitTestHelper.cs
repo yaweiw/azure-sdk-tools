@@ -28,11 +28,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
     public static class UnitTestHelper
     {
         /// <summary>
-        /// Manifest file for SqlDatabase Tests
+        /// Manifest file for SqlDatabase Tests.
         /// </summary>
-        private static readonly string SqlDatabaseTestManifest =
-            "Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1";
+        private static readonly string SqlDatabaseTestManifest = "Azure.psd1";
 
+        /// <summary>
+        /// Verifies the ConfirmImpact level on a cmdlet.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet to check.</param>
+        /// <param name="confirmImpact">The expected confirm impact.</param>
         public static void CheckConfirmImpact(Type cmdlet, ConfirmImpact confirmImpact)
         {
             object[] cmdletAttributes = cmdlet.GetCustomAttributes(typeof(CmdletAttribute), true);
@@ -41,6 +45,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
             Assert.AreEqual(confirmImpact, attribute.ConfirmImpact);
         }
 
+        /// <summary>
+        /// Verifies if a cmdlet is suppose to modify data or not.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet to check.</param>
+        /// <param name="supportsShouldProcess">Whether or not the cmdlet is expected to modify data.</param>
         public static void CheckCmdletModifiesData(Type cmdlet, bool supportsShouldProcess)
         {
             // If the Cmdlet modifies data, SupportsShouldProcess should be set to true.
@@ -171,11 +180,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         }
 
         /// <summary>
-        /// Imports the SqlDatabase Test Manifest to the given <paramref name="powershell"/>
-        /// instance.
+        /// Imports the Azure Manifest to the given <paramref name="powershell"/> instance.
         /// </summary>
         /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
-        public static void ImportSqlDatabaseModule(PowerShell powershell)
+        public static void ImportAzureModule(PowerShell powershell)
         {
             // Import the test manifest file
             powershell.InvokeBatchScript(
