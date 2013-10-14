@@ -218,9 +218,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         }
                         catch (CloudException ex)
                         {
-                            if (ex.Response.StatusCode != HttpStatusCode.Conflict)
+                            if (ex.Response.StatusCode != HttpStatusCode.Conflict && ex.Response.StatusCode != HttpStatusCode.NotFound)
                             {
-                                // Conflict means already registered, that's ok, otherwise it's a failure
+                                // Conflict means already registered, that's OK.
+                                // NotFound means there is no registration support.
+                                // Otherwise it's a failure.
                                 throw;
                             }
                         }
