@@ -19,19 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using ServiceManagement;
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : CmdletWithSubscriptionBase
     {
         internal ServiceBusClientExtensions ServiceBusClient { get; set; }
-        internal ICloudServiceClient CloudServiceClient { get; set; } 
-
-        public TestAzureNameCommand()
-        {
-            
-        }
-
+        internal ICloudServiceClient CloudServiceClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
         public SwitchParameter Service
@@ -83,7 +77,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
         public bool IsServiceBusNamespaceAvailable(string subscriptionId, string name)
         {
             bool result = ServiceBusClient.IsAvailableNamespace(name);
-            
+
             WriteObject(!result);
 
             return result;
@@ -99,7 +93,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
                 WriteWarning);
         }
 
-        public override void  ExecuteCmdlet()
+        public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
