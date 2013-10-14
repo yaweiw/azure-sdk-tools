@@ -171,7 +171,6 @@
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />
-    <Compile Include="UnitTests\SimpleSqlDatabaseManagement.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="Utilities\PSScriptExecutor.cs" />
   </ItemGroup>
