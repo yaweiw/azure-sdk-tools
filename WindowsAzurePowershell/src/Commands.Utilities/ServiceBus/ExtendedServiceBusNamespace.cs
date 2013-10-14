@@ -38,25 +38,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
             CreatedAt = serviceBusNamespace.CreatedAt;
 
-            if (serviceBusNamespace.AcsManagementEndpoint != null)
-            {
-                AcsManagementEndpoint = serviceBusNamespace.AcsManagementEndpoint.ToString();
-            }
-            else
-            {
-                AcsManagementEndpoint = string.Empty;
-            }
+            AcsManagementEndpoint = serviceBusNamespace.AcsManagementEndpoint != null ? serviceBusNamespace.AcsManagementEndpoint.ToString() : string.Empty;
 
-            if (serviceBusNamespace.ServiceBusEndpoint != null)
-            {
-                ServiceBusEndpoint = serviceBusNamespace.ServiceBusEndpoint.ToString();
-            }
-            else
-            {
-                ServiceBusEndpoint = string.Empty;
-            }
+            ServiceBusEndpoint = serviceBusNamespace.ServiceBusEndpoint != null ? serviceBusNamespace.ServiceBusEndpoint.ToString() : string.Empty;
 
-            if (descriptions != null && descriptions.Count != 0 && descriptions.FirstOrDefault() != null)
+            if (descriptions != null && descriptions.Count != 0)
             {
                 NamespaceDescription desc = descriptions.FirstOrDefault();
                 DefaultKey = desc.KeyName;
