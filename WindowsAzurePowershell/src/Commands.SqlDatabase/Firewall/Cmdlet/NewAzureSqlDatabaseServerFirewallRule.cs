@@ -15,22 +15,21 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
 {
     using System;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Model;
-    using Properties;
-    using ServiceManagement;
-    using Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Creates a new firewall rule for a Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", 
-        DefaultParameterSetName = IpRangeParameterSet, 
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule",
+        DefaultParameterSetName = IpRangeParameterSet,
         SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
-    public class NewAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
+    public class NewAzureSqlDatabaseServerFirewallRule : SqlDatabaseCmdletBase
     {
         /// <summary>
         /// The default rule name for allowing all Azure services.  This is used when a
@@ -38,6 +37,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// set
         /// </summary>
         private const string AllowAllAzureServicesRuleName = "AllowAllAzureServices";
+
+        /// <summary>
+        /// The special IP for the beginning and ending of the firewall rule that will
+        /// allow all azure services to connect to the server.
+        /// </summary>
+        private const string AllowAzureServicesRuleAddress = "0.0.0.0";
 
         #region Parameter Sets
 
@@ -54,35 +59,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         #endregion
 
         /// <summary>
-        /// The special IP for the beginning and ending of the firewall rule that will
-        /// allow all azure services to connect to the server.
-        /// </summary>
-        private const string AllowAzureServicesRuleAddress = "0.0.0.0";
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="NewAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        public NewAzureSqlDatabaseServerFirewallRule()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="NewAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
-        /// <summary>
         /// Gets or sets the name of the server to connect add the firewall rule to
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, 
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true,
             HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
@@ -108,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Gets or sets the starting IP address for the rule
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "Start of the IP Range.", 
+        [Parameter(Mandatory = true, HelpMessage = "Start of the IP Range.",
             ParameterSetName = IpRangeParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StartIpAddress
@@ -120,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Gets or sets the ending IP address for the firewall rule
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "End of the IP Range.", 
+        [Parameter(Mandatory = true, HelpMessage = "End of the IP Range.",
             ParameterSetName = IpRangeParameterSet)]
         [ValidateNotNullOrEmpty]
         public string EndIpAddress
@@ -132,13 +111,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Gets or sets whether or not to allow all windows azure services to connect
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "Allow all Azure services access to the server.", 
+        [Parameter(Mandatory = true, HelpMessage = "Allow all Azure services access to the server.",
             ParameterSetName = AllowAllAzureServicesParameterSet)]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter AllowAllAzureServices 
-        { 
-            get; 
-            set; 
+        public SwitchParameter AllowAllAzureServices
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -154,60 +133,42 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Creates a new firewall rule on the specified server.
         /// </summary>
-        /// <param name="parameterSetName">
-        /// The parameter set for the command.
-        /// </param>
-        /// <param name="serverName">
-        /// The name of the server in which to create the firewall rule.
-        /// </param>
-        /// <param name="ruleName">
-        /// The name of the new firewall rule.
-        /// </param>
-        /// <param name="startIpAddress">
-        /// The starting IP address for the firewall rule.
-        /// </param>
-        /// <param name="endIpAddress">
-        /// The ending IP address for the firewall rule.
-        /// </param>
+        /// <param name="parameterSetName">The parameter set for the command.</param>
+        /// <param name="serverName">The name of the server in which to create the firewall rule.</param>
+        /// <param name="ruleName">The name of the new firewall rule.</param>
+        /// <param name="startIpAddress">The starting IP address for the firewall rule.</param>
+        /// <param name="endIpAddress">The ending IP address for the firewall rule.</param>
         /// <returns>The context to the newly created firewall rule.</returns>
         internal SqlDatabaseServerFirewallRuleContext NewAzureSqlDatabaseServerFirewallRuleProcess(
-            string parameterSetName, 
-            string serverName, 
-            string ruleName, 
-            string startIpAddress, 
+            string parameterSetName,
+            string serverName,
+            string ruleName,
+            string startIpAddress,
             string endIpAddress)
         {
-            SqlDatabaseServerFirewallRuleContext operationContext = null;
-            try
-            {
-                this.InvokeInOperationContext(() =>
+            // Get the SQL management client for the current subscription
+            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
+            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            FirewallRuleCreateResponse response = sqlManagementClient.FirewallRules.Create(
+                serverName, 
+                new FirewallRuleCreateParameters()
                 {
-                    this.RetryCall(subscription =>
-                        this.Channel.NewServerFirewallRule(
-                            subscription, 
-                            serverName, 
-                            ruleName, 
-                            startIpAddress, 
-                            endIpAddress));
-
-                    Operation operation = WaitForSqlDatabaseOperation();
-
-                    operationContext = new SqlDatabaseServerFirewallRuleContext()
-                    {
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status,
-                        OperationId = operation.OperationTrackingId,
-                        ServerName = serverName,
-                        RuleName = ruleName,
-                        StartIpAddress = startIpAddress,
-                        EndIpAddress = endIpAddress
-                    };
+                    Name = ruleName,
+                    StartIPAddress = startIpAddress,
+                    EndIPAddress = endIpAddress,
                 });
-            }
-            catch (CommunicationException ex)
+
+            SqlDatabaseServerFirewallRuleContext operationContext = new SqlDatabaseServerFirewallRuleContext()
             {
-                this.WriteErrorDetails(ex);
-            }
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationId = response.RequestId,
+                ServerName = serverName,
+                RuleName = ruleName,
+                StartIpAddress = response.StartIPAddress,
+                EndIpAddress = response.EndIPAddress,
+            };
 
             return operationContext;
         }
@@ -223,7 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                         Resources.NewAzureSqlDatabaseServerFirewallRuleDescription,
                         this.RuleName,
                         this.ServerName);
-            
+
             string verboseWarning = string.Format(
                         CultureInfo.InvariantCulture,
                         Resources.NewAzureSqlDatabaseServerFirewallRuleWarning,
@@ -239,8 +200,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             try
             {
                 base.ProcessRecord();
-                SqlDatabaseServerOperationContext context = null;
 
+                SqlDatabaseServerFirewallRuleContext context = null;
                 switch (this.ParameterSetName)
                 {
                     case IpRangeParameterSet:
@@ -253,15 +214,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                         break;
 
                     case AllowAllAzureServicesParameterSet:
-
-                        //Determine which rule name to use.
+                        // Determine which rule name to use.
                         string ruleName = AllowAllAzureServicesRuleName;
                         if (this.MyInvocation.BoundParameters.ContainsKey("RuleName"))
                         {
                             ruleName = this.RuleName;
                         }
 
-                        //Create the rule
+                        // Create the rule
                         context = this.NewAzureSqlDatabaseServerFirewallRuleProcess(
                             this.ParameterSetName,
                             this.ServerName,
@@ -278,7 +238,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
             catch (Exception ex)
             {
-                this.WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.WriteError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }
