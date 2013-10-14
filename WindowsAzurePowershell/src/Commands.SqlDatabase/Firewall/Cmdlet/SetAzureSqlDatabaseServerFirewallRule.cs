@@ -93,15 +93,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
-            FirewallRuleUpdateResponse response = sqlManagementClient.FirewallRules.Update(serverName, ruleName, new FirewallRuleUpdateParameters()
-            {
-                Name = ruleName,
-                StartIPAddress = startIpAddress,
-                EndIPAddress = endIpAddress,
-            });
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Update the specified firewall rule
+            FirewallRuleUpdateResponse response = sqlManagementClient.FirewallRules.Update(
+                serverName,
+                ruleName,
+                new FirewallRuleUpdateParameters()
+                {
+                    Name = ruleName,
+                    StartIPAddress = startIpAddress,
+                    EndIPAddress = endIpAddress,
+                });
 
             SqlDatabaseServerFirewallRuleContext operationContext = new SqlDatabaseServerFirewallRuleContext()
             {
@@ -131,10 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                     this.StartIpAddress,
                     this.EndIpAddress);
 
-                if (context != null)
-                {
-                    WriteObject(context, true);
-                }
+                this.WriteObject(context, true);
             }
             catch (Exception ex)
             {

@@ -96,15 +96,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
-            ServerCreateResponse response = sqlManagementClient.Servers.Create(new ServerCreateParameters()
-            {
-                Location = location,
-                AdministratorUserName = adminLogin,
-                AdministratorPassword = adminLoginPassword
-            });
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Issue the create server request
+            ServerCreateResponse response = sqlManagementClient.Servers.Create(
+                new ServerCreateParameters()
+                {
+                    Location = location,
+                    AdministratorUserName = adminLogin,
+                    AdministratorPassword = adminLoginPassword
+                });
 
             SqlDatabaseServerContext operationContext = new SqlDatabaseServerContext()
             {

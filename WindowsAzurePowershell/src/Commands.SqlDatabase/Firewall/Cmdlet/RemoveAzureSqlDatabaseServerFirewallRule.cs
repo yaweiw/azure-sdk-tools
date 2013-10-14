@@ -74,9 +74,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+            // Delete the specified firewall rule.
             OperationResponse response = sqlManagementClient.FirewallRules.Delete(serverName, ruleName);
 
             SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             try
             {
                 base.ProcessRecord();
-                RemoveAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
+                this.RemoveAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
             }
             catch (Exception ex)
             {

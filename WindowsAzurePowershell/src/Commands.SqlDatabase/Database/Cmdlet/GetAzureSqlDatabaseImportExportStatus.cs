@@ -113,9 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             string requestId)
         {
             // Get the SQL management client for the current subscription
-            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Start the database export operation
             DacGetStatusResponse response = sqlManagementClient.Dacs.GetStatus(
@@ -183,10 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     password,
                     requestId);
 
-                if (status != null)
-                {
-                    this.WriteObject(status);
-                }
+                this.WriteObject(status);
             }
             catch (Exception ex)
             {
