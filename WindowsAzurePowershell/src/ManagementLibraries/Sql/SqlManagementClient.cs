@@ -2839,10 +2839,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     XElement arrayOfStatusInfoElement = responseDoc.Element(XName.Get("ArrayOfStatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     if (arrayOfStatusInfoElement != null)
                     {
-                        XElement statusInfoSequenceElement = arrayOfStatusInfoElement.Element(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                        if (statusInfoSequenceElement != null)
+                        if (arrayOfStatusInfoElement != null)
                         {
-                            foreach (XElement statusInfoElement in statusInfoSequenceElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
+                            foreach (XElement statusInfoElement in arrayOfStatusInfoElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
                             {
                                 DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
                                 result.StatusInfoList.Add(statusInfoInstance);
@@ -2864,8 +2863,16 @@ namespace Microsoft.WindowsAzure.Management.Sql
                                 XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (errorMessageElement != null)
                                 {
-                                    string errorMessageInstance = errorMessageElement.Value;
-                                    statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                    XAttribute nilAttribute = errorMessageElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
+                                    if (nilAttribute != null)
+                                    {
+                                        string nilValue = nilAttribute.Value;
+                                        if (nilValue != "true")
+                                        {
+                                            string errorMessageInstance = errorMessageElement.Value;
+                                            statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                        }
+                                    }
                                 }
                                 
                                 XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));

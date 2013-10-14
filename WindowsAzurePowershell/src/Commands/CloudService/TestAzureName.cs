@@ -19,21 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using ServiceManagement;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : ServiceManagementBaseCmdlet
+    public class TestAzureNameCommand : CmdletWithSubscriptionBase
     {
         internal ServiceBusClientExtensions ServiceBusClient { get; set; }
-
-        public TestAzureNameCommand()
-        {
-            
-        }
-
-        public TestAzureNameCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        internal ICloudServiceClient CloudServiceClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
         public SwitchParameter Service
@@ -66,42 +58,52 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
             set;
         }
 
-        public AvailabilityResponse IsDNSAvailable(string subscriptionId, string name)
+        public bool IsDNSAvailable(WindowsAzureSubscription subscription, string name)
         {
-            AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
-            WriteObject(!result.Result);
-            return result;
+            EnsureCloudServiceClientInitialized(subscription);
+            bool available = this.CloudServiceClient.CheckHostedServiceNameAvailability(name);
+            WriteObject(!available);
+            return available;
         }
 
-        public AvailabilityResponse IsStorageServiceAvailable(string subscriptionId, string name)
+        public bool IsStorageServiceAvailable(WindowsAzureSubscription subscription, string name)
         {
-            AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
-            
-            WriteObject(!result.Result);
-
-            return result;
+            EnsureCloudServiceClientInitialized(subscription);
+            bool available = this.CloudServiceClient.CheckStorageServiceAvailability(name);
+            WriteObject(!available);
+            return available;
         }
 
         public bool IsServiceBusNamespaceAvailable(string subscriptionId, string name)
         {
             bool result = ServiceBusClient.IsAvailableNamespace(name);
-            
+
             WriteObject(!result);
 
             return result;
         }
 
-        public override void  ExecuteCmdlet()
+        private void EnsureCloudServiceClientInitialized(WindowsAzureSubscription subscription)
+        {
+            this.CloudServiceClient = this.CloudServiceClient ?? new CloudServiceClient(
+                subscription,
+                SessionState.Path.CurrentLocation.Path,
+                WriteDebug,
+                WriteVerbose,
+                WriteWarning);
+        }
+
+        public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
             if (Service.IsPresent)
             {
-                IsDNSAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsDNSAvailable(CurrentSubscription, Name);
             }
             else if (Storage.IsPresent)
             {
-                IsStorageServiceAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsStorageServiceAvailable(CurrentSubscription, Name);
             }
             else
             {
