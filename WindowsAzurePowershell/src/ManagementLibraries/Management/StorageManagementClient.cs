@@ -2279,8 +2279,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                         XElement reasonElement = availabilityResponseElement.Element(XName.Get("Reason", "http://schemas.microsoft.com/windowsazure"));
                         if (reasonElement != null)
                         {
-                            string reasonInstance = reasonElement.Value;
-                            result.Reason = reasonInstance;
+                            XAttribute nilAttribute = reasonElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
+                            if (nilAttribute != null)
+                            {
+                                string nilValue = nilAttribute.Value;
+                                if (nilValue != "true")
+                                {
+                                    string reasonInstance = reasonElement.Value;
+                                    result.Reason = reasonInstance;
+                                }
+                            }
                         }
                     }
                     
@@ -2417,6 +2425,14 @@ namespace Microsoft.WindowsAzure.Management.Storage
                     XElement descriptionElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                     descriptionElement.Value = parameters.Description;
                     createStorageServiceInputElement.Add(descriptionElement);
+                }
+                else
+                {
+                    XElement emptyElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                    XAttribute nilAttribute = new XAttribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                    nilAttribute.Value = "true";
+                    emptyElement.Add(nilAttribute);
+                    createStorageServiceInputElement.Add(emptyElement);
                 }
                 
                 if (parameters.Location != null)
@@ -2818,8 +2834,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                             XElement descriptionElement = storageServicePropertiesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                             if (descriptionElement != null)
                             {
-                                string descriptionInstance = descriptionElement.Value;
-                                storageServicePropertiesInstance.Description = descriptionInstance;
+                                XAttribute nilAttribute = descriptionElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
+                                if (nilAttribute != null)
+                                {
+                                    string nilValue = nilAttribute.Value;
+                                    if (nilValue != "true")
+                                    {
+                                        string descriptionInstance = descriptionElement.Value;
+                                        storageServicePropertiesInstance.Description = descriptionInstance;
+                                    }
+                                }
                             }
                             
                             XElement affinityGroupElement = storageServicePropertiesElement.Element(XName.Get("AffinityGroup", "http://schemas.microsoft.com/windowsazure"));
@@ -3203,8 +3227,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                                 XElement descriptionElement = storageServicePropertiesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                                 if (descriptionElement != null)
                                 {
-                                    string descriptionInstance = descriptionElement.Value;
-                                    storageServicePropertiesInstance.Description = descriptionInstance;
+                                    XAttribute nilAttribute = descriptionElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
+                                    if (nilAttribute != null)
+                                    {
+                                        string nilValue = nilAttribute.Value;
+                                        if (nilValue != "true")
+                                        {
+                                            string descriptionInstance = descriptionElement.Value;
+                                            storageServicePropertiesInstance.Description = descriptionInstance;
+                                        }
+                                    }
                                 }
                                 
                                 XElement affinityGroupElement = storageServicePropertiesElement.Element(XName.Get("AffinityGroup", "http://schemas.microsoft.com/windowsazure"));
@@ -3584,6 +3616,14 @@ namespace Microsoft.WindowsAzure.Management.Storage
                     XElement descriptionElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                     descriptionElement.Value = parameters.Description;
                     updateStorageServiceInputElement.Add(descriptionElement);
+                }
+                else
+                {
+                    XElement emptyElement = new XElement(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                    XAttribute nilAttribute = new XAttribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"), "");
+                    nilAttribute.Value = "true";
+                    emptyElement.Add(nilAttribute);
+                    updateStorageServiceInputElement.Add(emptyElement);
                 }
                 
                 if (parameters.Label != null)

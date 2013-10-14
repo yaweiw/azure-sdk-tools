@@ -2392,6 +2392,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3291,6 +3292,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 httpRequest.Headers.Add("x-ms-version", "2013-06-01");
                 // TODO: Ensure certificate is added to the root handler
                 // (MethodInvocationExpression:
@@ -3428,8 +3430,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("x-ms-version", "2013-07-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
+                httpRequest.Headers.Add("type", "entry");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3461,7 +3464,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
                 
                 // Send Request
                 HttpResponseMessage httpResponse = null;
@@ -3643,8 +3646,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("Accept", "application/atom+xml");
+                httpRequest.Headers.Add("type", "entry");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3907,6 +3910,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4117,6 +4121,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
                 
                 // Set Credentials
@@ -4296,8 +4301,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4461,6 +4466,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4856,8 +4862,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -5043,10 +5049,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("Accept", "application/atom+xml");
-                httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("if-match", "*");
+                httpRequest.Headers.Add("Accept", "application/atom+xml");
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+                httpRequest.Headers.Add("type", "entry");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -6474,9 +6480,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-process-at", "ServiceBus");
                 httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("x-process-at", "ServiceBus");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -7968,10 +7974,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("if-match", "*");
-                httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("x-process-at", "ServiceBus");
                 httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("type", "entry");
+                httpRequest.Headers.Add("if-match", "*");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -9175,9 +9181,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
-                httpRequest.Headers.Add("x-process-at", "ServiceBus");
                 httpRequest.Headers.Add("type", "entry");
+                httpRequest.Headers.Add("x-process-at", "ServiceBus");
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -10485,10 +10491,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
+                httpRequest.Headers.Add("type", "entry");
                 httpRequest.Headers.Add("x-process-at", "ServiceBus");
                 httpRequest.Headers.Add("if-match", "*");
-                httpRequest.Headers.Add("type", "entry");
+                httpRequest.Headers.Add("x-ms-version", "2013-08-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
