@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using Authentication;
 
@@ -139,6 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             IsDefault = inMemorySubscription.IsDefault;
             ManagementCertificate = inMemorySubscription.Certificate != null ? inMemorySubscription.Certificate.Thumbprint : null;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
+            RegisteredResourceProviders = inMemorySubscription.RegisteredResourceProviders;
         }
 
         /// <summary>
@@ -147,7 +149,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>The in memory subscription</returns>
         public WindowsAzureSubscription ToAzureSubscription()
         {
-            return new WindowsAzureSubscription
+            var result = new WindowsAzureSubscription
             {
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
@@ -160,6 +162,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount
             };
+            RegisteredResourceProviders = RegisteredResourceProviders ?? new string[0];
+            foreach (var resource in RegisteredResourceProviders)
+            {
+                result.RegisteredResourceProviders.Add(resource);
+            }
+            return result;
         }
 
         [DataMember]
@@ -191,5 +199,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string CloudStorageAccount { get; set; }
+
+        [DataMember]
+        public IEnumerable<string> RegisteredResourceProviders { get; set; } 
     }
 }

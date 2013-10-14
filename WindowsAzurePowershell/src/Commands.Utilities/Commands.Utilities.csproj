@@ -266,10 +266,13 @@
     <Compile Include="Common\HttpRestCallLogger.cs" />
     <Compile Include="Common\IProfileStore.cs" />
     <Compile Include="Common\ObjectDeltaMapper.cs" />
+    <Compile Include="Common\PowershellDefaultProfileStore.cs" />
+    <Compile Include="Common\PowershellOldSettingsProfileStore.cs" />
     <Compile Include="Common\PowershellProfileStore.cs" />
     <Compile Include="Common\PowerShellUtility.cs" />
     <Compile Include="Common\ProfileData.cs" />
     <Compile Include="Common\PublishSettingsImporter.cs" />
+    <Compile Include="Common\RequiredResourceLookup.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\Tasks.cs" />
@@ -334,11 +337,6 @@
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
     <Compile Include="Store\WindowsAzureOffer.cs" />
-    <Compile Include="Subscription\AzureResourceTypeNameAttribute.cs" />
-    <Compile Include="Subscription\Contract\ISubscriptionClient.cs" />
-    <Compile Include="Subscription\Contract\ProviderResource.cs" />
-    <Compile Include="Subscription\ProviderRegistrationConstants.cs" />
-    <Compile Include="Subscription\SubscriptionClient.cs" />
     <Compile Include="Common\WindowsAzureEnvironment.cs" />
     <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
