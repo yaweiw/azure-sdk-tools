@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="databaseName">The name of the database to remove</param>
         private void ProcessWithServerName(string databaseName)
         {
-            string clientRequestId = string.Empty;
+            Func<string> GetClientRequestId = () => string.Empty;
             try
             {
                 // Get the current subscription data.
@@ -204,7 +204,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscription);
 
-                clientRequestId = context.ClientRequestId;
+                GetClientRequestId = () => context.ClientRequestId;
 
                 // Remove the database with the specified name
                 context.RemoveDatabase(databaseName);
@@ -213,7 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    clientRequestId,
+                    GetClientRequestId(),
                     ex);
             }
         }

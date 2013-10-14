@@ -27,21 +27,5 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// Gets or sets the context from which this object was constructed.
         /// </summary>
         public IServerDataServiceContext Context;
-
-        internal void LoadExtraProperties(IServerDataServiceContext context)
-        {
-            try
-            {
-                // Fill in the context property
-                this.Context = context;
-
-                // Fill in the service objective Dimension Settings
-                this.Context.LoadProperty(this, "DimensionSettings");
-            }
-            catch
-            {
-                // Ignore exceptions when loading extra properties, for backward compatibility.
-            }
-        }
     }
 }

@@ -30,28 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public string ServiceObjectiveName;
 
         /// <summary>
-        /// Tries to copy the context into the database field.
-        /// </summary>
-        /// <param name="context">The context to store in the database object</param>
-        internal void LoadExtraProperties(IServerDataServiceContext context)
-        {
-            try
-            {
-                // Fill in the context property
-                this.Context = context;
-
-                // Fill in the service objective properties
-                this.Context.LoadProperty(this, "ServiceObjective");
-                this.ServiceObjectiveName =
-                    this.ServiceObjective == null ? null : this.ServiceObjective.Name;
-            }
-            catch
-            {
-                // Ignore exceptions when loading extra properties, for backward compatibility.
-            }
-        }
-
-        /// <summary>
         /// Copies all the internal fields from one database object into another.
         /// </summary>
         /// <param name="other">The database to be copied.</param>
