@@ -148,6 +148,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
+
+            // [Temp] Katal
+            ServicePointManager.ServerCertificateValidationCallback = (obj, cert, chain, errors) => true;
+            ServicePointManager.CheckCertificateRevocationList = false;
+
             base.ProcessRecord();
             OnProcessRecord();
         }
