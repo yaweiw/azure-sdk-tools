@@ -18,6 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using Model;
     using Properties;
     using ServiceManagement;
@@ -26,31 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     /// <summary>
     /// Creates a new Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServer", SupportsShouldProcess = true, 
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServer", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]
-    public class NewAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
+    public class NewAzureSqlDatabaseServer : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="NewAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        public NewAzureSqlDatabaseServer()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="NewAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Administrator login name for the new SQL Database server.")]
+        [Parameter(Position = 0, Mandatory = true,
+            HelpMessage = "Administrator login name for the new SQL Database server.")]
         [ValidateNotNullOrEmpty]
         public string AdministratorLogin
         {
@@ -58,7 +42,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = true, HelpMessage = "Administrator login password for the new SQL Database server.")]
+        [Parameter(Mandatory = true,
+            HelpMessage = "Administrator login password for the new SQL Database server.")]
         [ValidateNotNullOrEmpty]
         public string AdministratorLoginPassword
         {
@@ -66,7 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = true, HelpMessage = "Location in which to create the new SQL Database server.")]
+        [Parameter(Mandatory = true,
+            HelpMessage = "Location in which to create the new SQL Database server.")]
         [ValidateNotNullOrEmpty]
         public string Location
         {
@@ -94,7 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// The location in which to create the new server.
         /// </param>
         /// <returns>The context to the newly created server.</returns>
-        internal SqlDatabaseServerContext NewAzureSqlDatabaseServerProcess(string adminLogin, string adminLoginPassword, string location)
+        internal SqlDatabaseServerContext NewAzureSqlDatabaseServerProcess(
+            string adminLogin,
+            string adminLoginPassword,
+            string location)
         {
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
@@ -106,30 +95,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 return null;
             }
 
-            SqlDatabaseServerContext operationContext = null;
-            try
+            // Get the SQL management client for the current subscription
+            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
+            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            ServerCreateResponse response = sqlManagementClient.Servers.Create(new ServerCreateParameters()
             {
-                InvokeInOperationContext(() =>
-                {
-                    XmlElement serverName = RetryCall(subscription =>
-                        Channel.NewServer(subscription, adminLogin, adminLoginPassword, location));
-                    Operation operation = WaitForSqlDatabaseOperation();
+                Location = location,
+                AdministratorUserName = adminLogin,
+                AdministratorPassword = adminLoginPassword
+            });
 
-                    operationContext = new SqlDatabaseServerContext()
-                    {
-                        ServerName = serverName.InnerText,
-                        Location = location,
-                        AdministratorLogin = adminLogin,
-                        OperationStatus = operation.Status,
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationId = operation.OperationTrackingId
-                    };
-                });
-            }
-            catch (CommunicationException ex)
+            SqlDatabaseServerContext operationContext = new SqlDatabaseServerContext()
             {
-                this.WriteErrorDetails(ex);
-            }
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = response.RequestId,
+                ServerName = response.ServerName,
+                Location = location,
+                AdministratorLogin = adminLogin,
+            };
 
             return operationContext;
         }
@@ -142,7 +127,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             try
             {
                 base.ProcessRecord();
-                SqlDatabaseServerContext context = this.NewAzureSqlDatabaseServerProcess(this.AdministratorLogin, this.AdministratorLoginPassword, this.Location);
+                SqlDatabaseServerContext context = this.NewAzureSqlDatabaseServerProcess(
+                    this.AdministratorLogin,
+                    this.AdministratorLoginPassword,
+                    this.Location);
 
                 if (context != null)
                 {
@@ -151,7 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }

@@ -19,39 +19,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Model;
-    using Properties;
-    using ServiceManagement;
-    using Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServer", ConfirmImpact = ConfirmImpact.None)]
-    public class GetAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
+    public class GetAzureSqlDatabaseServer : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="GetAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        public GetAzureSqlDatabaseServer()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="GetAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
         {
@@ -69,61 +50,43 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <returns>A list of servers in the subscription.</returns>
         internal IEnumerable<SqlDatabaseServerContext> GetAzureSqlDatabaseServersProcess(string serverName)
         {
-            IEnumerable<SqlDatabaseServerContext> processResult = null;
+            // Get the SQL management client for the current subscription
+            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
+            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
 
-            try
+            // Retrieve the list of servers
+            ServerListResponse response = sqlManagementClient.Servers.List();
+            IEnumerable<ServerListResponse.Server> servers = response.Servers;
+            if (!string.IsNullOrEmpty(serverName))
             {
-                InvokeInOperationContext(() =>
+                // Server name is specified, find the one with the
+                // specified rule name and return that.
+                servers = response.Servers.Where(s => s.Name == serverName);
+                if (servers.Count() == 0)
                 {
-                    SqlDatabaseServerList servers = RetryCall(subscription =>
-                        Channel.GetServers(subscription));
-                    Operation operation = WaitForSqlDatabaseOperation();
-
-                    if (string.IsNullOrEmpty(serverName))
-                    {
-                        // Server name is not specified, return all servers
-                        // in the subscription.
-                        processResult = servers.Select(server => new SqlDatabaseServerContext
-                        {
-                            ServerName = server.Name,
-                            Location = server.Location,
-                            AdministratorLogin = server.AdministratorLogin,
-                            OperationStatus = operation.Status,
-                            OperationDescription = CommandRuntime.ToString(),
-                            OperationId = operation.OperationTrackingId
-                        });
-                    }
-                    else
-                    {
-                        // Server name is specified, find the one with the
-                        // specified rule name and return that.
-                        SqlDatabaseServer server = servers.FirstOrDefault(s => s.Name == serverName);
-                        if (server != null)
-                        {
-                            processResult = new List<SqlDatabaseServerContext>
-                            {
-                                new SqlDatabaseServerContext
-                                {
-                                    ServerName = server.Name,
-                                    Location = server.Location,
-                                    AdministratorLogin = server.AdministratorLogin,
-                                    OperationStatus = operation.Status,
-                                    OperationDescription = CommandRuntime.ToString(),
-                                    OperationId = operation.OperationTrackingId
-                                }
-                            };
-                        }
-                        else
-                        {
-                            throw new ItemNotFoundException(string.Format(CultureInfo.InvariantCulture, Resources.GetAzureSqlDatabaseServerNotFound, serverName));
-                        }
-                    }
-                });
+                    throw new ItemNotFoundException(string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.GetAzureSqlDatabaseServerNotFound,
+                        serverName));
+                }
             }
-            catch (CommunicationException ex)
+            else
             {
-                this.WriteErrorDetails(ex);
+                // Server name is not specified, return all servers
+                // in the subscription.
             }
+
+            // Construct the result
+            IEnumerable<SqlDatabaseServerContext> processResult = servers.Select(server => new SqlDatabaseServerContext
+            {
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = response.RequestId,
+                ServerName = server.Name,
+                Location = server.Location,
+                AdministratorLogin = server.AdministratorUserName,
+            });
 
             return processResult;
         }
@@ -136,8 +99,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             try
             {
                 base.ProcessRecord();
-                var servers = this.GetAzureSqlDatabaseServersProcess(this.ServerName);
 
+                var servers = this.GetAzureSqlDatabaseServersProcess(this.ServerName);
                 if (servers != null)
                 {
                     WriteObject(servers, true);
@@ -145,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }

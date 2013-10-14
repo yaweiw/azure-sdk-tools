@@ -167,6 +167,7 @@
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlDatabaseServerContextTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\MockServer\MockServerHelper.cs" />
+    <Compile Include="UnitTests\Server\Cmdlet\ServerTestHelper.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />
