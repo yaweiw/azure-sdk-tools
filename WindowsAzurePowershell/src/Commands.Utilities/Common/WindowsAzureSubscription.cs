@@ -37,7 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string SubscriptionName { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
-        public Uri SqlAzureServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
         public string ActiveDirectoryTenantId { get; set; }
