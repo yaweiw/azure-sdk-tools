@@ -2286,6 +2286,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
+        /// <param name='fullyQualifiedServerName'>
+        /// The fully qualified name of the server being imported to or
+        /// exported from
+        /// </param>
         /// <param name='username'>
         /// The server's username
         /// </param>
@@ -2301,7 +2305,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <returns>
         /// The response structure for the DAC GetStatus operation
         /// </returns>
-        Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken);
+        Task<DacGetStatusResponse> GetStatusAsync(string serverName, string fullyQualifiedServerName, string username, string password, string requestId, CancellationToken cancellationToken);
         
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
@@ -2372,6 +2376,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
+        /// <param name='fullyQualifiedServerName'>
+        /// The fully qualified name of the server being imported to or
+        /// exported from
+        /// </param>
         /// <param name='username'>
         /// The server's username
         /// </param>
@@ -2384,11 +2392,11 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <returns>
         /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public static DacGetStatusResponse GetStatus(this IDacOperations operations, string serverName, string username, string password, string requestId)
+        public static DacGetStatusResponse GetStatus(this IDacOperations operations, string serverName, string fullyQualifiedServerName, string username, string password, string requestId)
         {
             try
             {
-                return operations.GetStatusAsync(serverName, username, password, requestId).Result;
+                return operations.GetStatusAsync(serverName, fullyQualifiedServerName, username, password, requestId).Result;
             }
             catch (AggregateException ex)
             {
@@ -2410,6 +2418,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
+        /// <param name='fullyQualifiedServerName'>
+        /// The fully qualified name of the server being imported to or
+        /// exported from
+        /// </param>
         /// <param name='username'>
         /// The server's username
         /// </param>
@@ -2422,9 +2434,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <returns>
         /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public static Task<DacGetStatusResponse> GetStatusAsync(this IDacOperations operations, string serverName, string username, string password, string requestId)
+        public static Task<DacGetStatusResponse> GetStatusAsync(this IDacOperations operations, string serverName, string fullyQualifiedServerName, string username, string password, string requestId)
         {
-            return operations.GetStatusAsync(serverName, username, password, requestId, CancellationToken.None);
+            return operations.GetStatusAsync(serverName, fullyQualifiedServerName, username, password, requestId, CancellationToken.None);
         }
         
         /// <param name='operations'>
@@ -2709,6 +2721,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
+        /// <param name='fullyQualifiedServerName'>
+        /// The fully qualified name of the server being imported to or
+        /// exported from
+        /// </param>
         /// <param name='username'>
         /// The server's username
         /// </param>
@@ -2724,12 +2740,16 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// <returns>
         /// The response structure for the DAC GetStatus operation
         /// </returns>
-        public async Task<DacGetStatusResponse> GetStatusAsync(string serverName, string username, string password, string requestId, CancellationToken cancellationToken)
+        public async Task<DacGetStatusResponse> GetStatusAsync(string serverName, string fullyQualifiedServerName, string username, string password, string requestId, CancellationToken cancellationToken)
         {
             // Validate
             if (serverName == null)
             {
                 throw new ArgumentNullException("serverName");
+            }
+            if (fullyQualifiedServerName == null)
+            {
+                throw new ArgumentNullException("fullyQualifiedServerName");
             }
             if (username == null)
             {
@@ -2752,6 +2772,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 invocationId = Tracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("fullyQualifiedServerName", fullyQualifiedServerName);
                 tracingParameters.Add("username", username);
                 tracingParameters.Add("password", password);
                 tracingParameters.Add("requestId", requestId);
@@ -2759,7 +2780,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Status?servername=" + serverName + "&username=" + username + "&password=" + password + "&reqId=" + requestId;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Status?servername=" + fullyQualifiedServerName + "&username=" + username + "&password=" + password + "&reqId=" + requestId;
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -2815,75 +2836,79 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement statusInfoSequenceElement = responseDoc.Element(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                    if (statusInfoSequenceElement != null)
+                    XElement arrayOfStatusInfoElement = responseDoc.Element(XName.Get("ArrayOfStatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                    if (arrayOfStatusInfoElement != null)
                     {
-                        foreach (XElement statusInfoElement in statusInfoSequenceElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
+                        XElement statusInfoSequenceElement = arrayOfStatusInfoElement.Element(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        if (statusInfoSequenceElement != null)
                         {
-                            DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
-                            result.StatusInfoList.Add(statusInfoInstance);
-                            
-                            XElement blobUriElement = statusInfoElement.Element(XName.Get("BlobUri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (blobUriElement != null)
+                            foreach (XElement statusInfoElement in statusInfoSequenceElement.Elements(XName.Get("StatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes")))
                             {
-                                Uri blobUriInstance = TypeConversion.TryParseUri(blobUriElement.Value);
-                                statusInfoInstance.BlobUri = blobUriInstance;
-                            }
-                            
-                            XElement databaseNameElement = statusInfoElement.Element(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (databaseNameElement != null)
-                            {
-                                string databaseNameInstance = databaseNameElement.Value;
-                                statusInfoInstance.DatabaseName = databaseNameInstance;
-                            }
-                            
-                            XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (errorMessageElement != null)
-                            {
-                                string errorMessageInstance = errorMessageElement.Value;
-                                statusInfoInstance.ErrorMessage = errorMessageInstance;
-                            }
-                            
-                            XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (lastModifiedTimeElement != null)
-                            {
-                                DateTime lastModifiedTimeInstance = DateTime.Parse(lastModifiedTimeElement.Value, CultureInfo.InvariantCulture);
-                                statusInfoInstance.LastModifiedTime = lastModifiedTimeInstance;
-                            }
-                            
-                            XElement queuedTimeElement = statusInfoElement.Element(XName.Get("QueuedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (queuedTimeElement != null)
-                            {
-                                DateTime queuedTimeInstance = DateTime.Parse(queuedTimeElement.Value, CultureInfo.InvariantCulture);
-                                statusInfoInstance.QueuedTime = queuedTimeInstance;
-                            }
-                            
-                            XElement requestIdElement = statusInfoElement.Element(XName.Get("RequestId", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (requestIdElement != null)
-                            {
-                                string requestIdInstance = requestIdElement.Value;
-                                statusInfoInstance.RequestId = requestIdInstance;
-                            }
-                            
-                            XElement requestTypeElement = statusInfoElement.Element(XName.Get("RequestType", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (requestTypeElement != null)
-                            {
-                                string requestTypeInstance = requestTypeElement.Value;
-                                statusInfoInstance.RequestType = requestTypeInstance;
-                            }
-                            
-                            XElement serverNameElement = statusInfoElement.Element(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (serverNameElement != null)
-                            {
-                                string serverNameInstance = serverNameElement.Value;
-                                statusInfoInstance.ServerName = serverNameInstance;
-                            }
-                            
-                            XElement statusElement = statusInfoElement.Element(XName.Get("Status", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
-                            if (statusElement != null)
-                            {
-                                string statusInstance = statusElement.Value;
-                                statusInfoInstance.Status = statusInstance;
+                                DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
+                                result.StatusInfoList.Add(statusInfoInstance);
+                                
+                                XElement blobUriElement = statusInfoElement.Element(XName.Get("BlobUri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (blobUriElement != null)
+                                {
+                                    Uri blobUriInstance = TypeConversion.TryParseUri(blobUriElement.Value);
+                                    statusInfoInstance.BlobUri = blobUriInstance;
+                                }
+                                
+                                XElement databaseNameElement = statusInfoElement.Element(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (databaseNameElement != null)
+                                {
+                                    string databaseNameInstance = databaseNameElement.Value;
+                                    statusInfoInstance.DatabaseName = databaseNameInstance;
+                                }
+                                
+                                XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (errorMessageElement != null)
+                                {
+                                    string errorMessageInstance = errorMessageElement.Value;
+                                    statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                }
+                                
+                                XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (lastModifiedTimeElement != null)
+                                {
+                                    DateTime lastModifiedTimeInstance = DateTime.Parse(lastModifiedTimeElement.Value, CultureInfo.InvariantCulture);
+                                    statusInfoInstance.LastModifiedTime = lastModifiedTimeInstance;
+                                }
+                                
+                                XElement queuedTimeElement = statusInfoElement.Element(XName.Get("QueuedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (queuedTimeElement != null)
+                                {
+                                    DateTime queuedTimeInstance = DateTime.Parse(queuedTimeElement.Value, CultureInfo.InvariantCulture);
+                                    statusInfoInstance.QueuedTime = queuedTimeInstance;
+                                }
+                                
+                                XElement requestIdElement = statusInfoElement.Element(XName.Get("RequestId", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (requestIdElement != null)
+                                {
+                                    string requestIdInstance = requestIdElement.Value;
+                                    statusInfoInstance.RequestId = requestIdInstance;
+                                }
+                                
+                                XElement requestTypeElement = statusInfoElement.Element(XName.Get("RequestType", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (requestTypeElement != null)
+                                {
+                                    string requestTypeInstance = requestTypeElement.Value;
+                                    statusInfoInstance.RequestType = requestTypeInstance;
+                                }
+                                
+                                XElement serverNameElement = statusInfoElement.Element(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (serverNameElement != null)
+                                {
+                                    string serverNameInstance = serverNameElement.Value;
+                                    statusInfoInstance.ServerName = serverNameInstance;
+                                }
+                                
+                                XElement statusElement = statusInfoElement.Element(XName.Get("Status", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                                if (statusElement != null)
+                                {
+                                    string statusInstance = statusElement.Value;
+                                    statusInfoInstance.Status = statusInstance;
+                                }
                             }
                         }
                     }
@@ -4046,123 +4071,127 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
-                    XElement nameElement = responseDoc.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                    if (nameElement != null)
+                    XElement serviceResourceElement = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourceElement != null)
                     {
-                        string nameInstance = nameElement.Value;
-                        result.Name = nameInstance;
-                    }
-                    
-                    XElement idElement = responseDoc.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
-                    if (idElement != null)
-                    {
-                        int idInstance = int.Parse(idElement.Value, CultureInfo.InvariantCulture);
-                        result.Id = idInstance;
-                    }
-                    
-                    XElement typeElement = responseDoc.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                    if (typeElement != null)
-                    {
-                        string typeInstance = typeElement.Value;
-                        result.Type = typeInstance;
-                    }
-                    
-                    XElement stateElement = responseDoc.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                    if (stateElement != null)
-                    {
-                        string stateInstance = stateElement.Value;
-                        result.State = stateInstance;
-                    }
-                    
-                    XElement editionElement = responseDoc.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
-                    if (editionElement != null)
-                    {
-                        string editionInstance = editionElement.Value;
-                        result.Edition = editionInstance;
-                    }
-                    
-                    XElement maxSizeGBElement = responseDoc.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
-                    if (maxSizeGBElement != null)
-                    {
-                        long maxSizeGBInstance = long.Parse(maxSizeGBElement.Value, CultureInfo.InvariantCulture);
-                        result.MaximumDatabaseSizeInGB = maxSizeGBInstance;
-                    }
-                    
-                    XElement collationNameElement = responseDoc.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
-                    if (collationNameElement != null)
-                    {
-                        string collationNameInstance = collationNameElement.Value;
-                        result.CollationName = collationNameInstance;
-                    }
-                    
-                    XElement creationDateElement = responseDoc.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
-                    if (creationDateElement != null)
-                    {
-                        DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
-                        result.CreationDate = creationDateInstance;
-                    }
-                    
-                    XElement isFederationRootElement = responseDoc.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
-                    if (isFederationRootElement != null)
-                    {
-                        bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
-                        result.IsFederationRoot = isFederationRootInstance;
-                    }
-                    
-                    XElement isSystemObjectElement = responseDoc.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
-                    if (isSystemObjectElement != null)
-                    {
-                        bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
-                        result.IsSystemObject = isSystemObjectInstance;
-                    }
-                    
-                    XElement sizeMBElement = responseDoc.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
-                    if (sizeMBElement != null)
-                    {
-                        string sizeMBInstance = sizeMBElement.Value;
-                        result.SizeMB = sizeMBInstance;
-                    }
-                    
-                    XElement serviceObjectiveAssignmentErrorCodeElement = responseDoc.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveAssignmentErrorCodeElement != null)
-                    {
-                        string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
-                        result.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
-                    }
-                    
-                    XElement serviceObjectiveAssignmentErrorDescriptionElement = responseDoc.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveAssignmentErrorDescriptionElement != null)
-                    {
-                        string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
-                        result.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
-                    }
-                    
-                    XElement serviceObjectiveAssignmentStateElement = responseDoc.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveAssignmentStateElement != null)
-                    {
-                        string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
-                        result.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
-                    }
-                    
-                    XElement serviceObjectiveAssignmentStateDescriptionElement = responseDoc.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveAssignmentStateDescriptionElement != null)
-                    {
-                        string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
-                        result.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
-                    }
-                    
-                    XElement serviceObjectiveAssignmentSuccessDateElement = responseDoc.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveAssignmentSuccessDateElement != null)
-                    {
-                        string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
-                        result.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
-                    }
-                    
-                    XElement serviceObjectiveIdElement = responseDoc.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
-                    if (serviceObjectiveIdElement != null)
-                    {
-                        string serviceObjectiveIdInstance = serviceObjectiveIdElement.Value;
-                        result.ServiceObjectiveId = serviceObjectiveIdInstance;
+                        XElement nameElement = serviceResourceElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                        if (nameElement != null)
+                        {
+                            string nameInstance = nameElement.Value;
+                            result.Name = nameInstance;
+                        }
+                        
+                        XElement idElement = serviceResourceElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            int idInstance = int.Parse(idElement.Value, CultureInfo.InvariantCulture);
+                            result.Id = idInstance;
+                        }
+                        
+                        XElement typeElement = serviceResourceElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                        if (typeElement != null)
+                        {
+                            string typeInstance = typeElement.Value;
+                            result.Type = typeInstance;
+                        }
+                        
+                        XElement stateElement = serviceResourceElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateElement != null)
+                        {
+                            string stateInstance = stateElement.Value;
+                            result.State = stateInstance;
+                        }
+                        
+                        XElement editionElement = serviceResourceElement.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
+                        if (editionElement != null)
+                        {
+                            string editionInstance = editionElement.Value;
+                            result.Edition = editionInstance;
+                        }
+                        
+                        XElement maxSizeGBElement = serviceResourceElement.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
+                        if (maxSizeGBElement != null)
+                        {
+                            long maxSizeGBInstance = long.Parse(maxSizeGBElement.Value, CultureInfo.InvariantCulture);
+                            result.MaximumDatabaseSizeInGB = maxSizeGBInstance;
+                        }
+                        
+                        XElement collationNameElement = serviceResourceElement.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
+                        if (collationNameElement != null)
+                        {
+                            string collationNameInstance = collationNameElement.Value;
+                            result.CollationName = collationNameInstance;
+                        }
+                        
+                        XElement creationDateElement = serviceResourceElement.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
+                        if (creationDateElement != null)
+                        {
+                            DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
+                            result.CreationDate = creationDateInstance;
+                        }
+                        
+                        XElement isFederationRootElement = serviceResourceElement.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
+                        if (isFederationRootElement != null)
+                        {
+                            bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
+                            result.IsFederationRoot = isFederationRootInstance;
+                        }
+                        
+                        XElement isSystemObjectElement = serviceResourceElement.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
+                        if (isSystemObjectElement != null)
+                        {
+                            bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
+                            result.IsSystemObject = isSystemObjectInstance;
+                        }
+                        
+                        XElement sizeMBElement = serviceResourceElement.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
+                        if (sizeMBElement != null)
+                        {
+                            string sizeMBInstance = sizeMBElement.Value;
+                            result.SizeMB = sizeMBInstance;
+                        }
+                        
+                        XElement serviceObjectiveAssignmentErrorCodeElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveAssignmentErrorCodeElement != null)
+                        {
+                            string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
+                            result.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
+                        }
+                        
+                        XElement serviceObjectiveAssignmentErrorDescriptionElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveAssignmentErrorDescriptionElement != null)
+                        {
+                            string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
+                            result.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
+                        }
+                        
+                        XElement serviceObjectiveAssignmentStateElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveAssignmentStateElement != null)
+                        {
+                            string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
+                            result.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
+                        }
+                        
+                        XElement serviceObjectiveAssignmentStateDescriptionElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveAssignmentStateDescriptionElement != null)
+                        {
+                            string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
+                            result.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
+                        }
+                        
+                        XElement serviceObjectiveAssignmentSuccessDateElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveAssignmentSuccessDateElement != null)
+                        {
+                            string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
+                            result.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
+                        }
+                        
+                        XElement serviceObjectiveIdElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
+                        if (serviceObjectiveIdElement != null)
+                        {
+                            string serviceObjectiveIdInstance = serviceObjectiveIdElement.Value;
+                            result.ServiceObjectiveId = serviceObjectiveIdInstance;
+                        }
                     }
                     
                     if (shouldTrace)
