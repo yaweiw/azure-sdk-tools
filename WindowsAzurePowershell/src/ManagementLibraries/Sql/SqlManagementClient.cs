@@ -2863,8 +2863,16 @@ namespace Microsoft.WindowsAzure.Management.Sql
                                 XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (errorMessageElement != null)
                                 {
-                                    string errorMessageInstance = errorMessageElement.Value;
-                                    statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                    XAttribute nilAttribute = errorMessageElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
+                                    if (nilAttribute != null)
+                                    {
+                                        string nilValue = nilAttribute.Value;
+                                        if (nilValue != "true")
+                                        {
+                                            string errorMessageInstance = errorMessageElement.Value;
+                                            statusInfoInstance.ErrorMessage = errorMessageInstance;
+                                        }
+                                    }
                                 }
                                 
                                 XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
