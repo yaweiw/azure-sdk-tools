@@ -28598,10 +28598,6 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 throw new ArgumentNullException("parameters");
             }
-            if (parameters.OperatingSystemType == null)
-            {
-                throw new ArgumentNullException("parameters.OperatingSystemType");
-            }
             if (parameters.Label == null)
             {
                 throw new ArgumentNullException("parameters.Label");
@@ -28651,9 +28647,12 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 XElement diskElement = new XElement(XName.Get("Disk", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(diskElement);
                 
-                XElement osElement = new XElement(XName.Get("OS", "http://schemas.microsoft.com/windowsazure"));
-                osElement.Value = parameters.OperatingSystemType;
-                diskElement.Add(osElement);
+                if (parameters.OperatingSystemType != null)
+                {
+                    XElement osElement = new XElement(XName.Get("OS", "http://schemas.microsoft.com/windowsazure"));
+                    osElement.Value = parameters.OperatingSystemType;
+                    diskElement.Add(osElement);
+                }
                 
                 XElement labelElement = new XElement(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
                 labelElement.Value = parameters.Label;
