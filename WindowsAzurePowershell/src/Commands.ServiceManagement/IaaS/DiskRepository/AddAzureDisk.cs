@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 MediaLinkUri = new Uri(this.MediaLocation),
                 // TODO: Wait for fix on the null OperatingSystemType issue
                 // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/295
-                OperatingSystemType = this.OS ?? string.Empty,
+                OperatingSystemType = this.OS ?? "Windows",
                 Label = string.IsNullOrEmpty(this.Label) ? this.DiskName : this.Label
             };
 
