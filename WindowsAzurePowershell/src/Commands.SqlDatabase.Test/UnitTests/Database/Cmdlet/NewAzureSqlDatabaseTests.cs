@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
 
             // Save the mock session results
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Issue another create testdb1, causing a failure
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.NewAzureSqlDatabaseWithSqlAuthDuplicateName");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             System.Management.Automation.PowerShell powershell,
             string contextVariable)
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTest.Common.CreateTestDatabasesWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =
@@ -284,7 +284,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             System.Management.Automation.PowerShell powershell,
             string contextVariable)
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTest.Common.RemoveTestDatabasesWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =
