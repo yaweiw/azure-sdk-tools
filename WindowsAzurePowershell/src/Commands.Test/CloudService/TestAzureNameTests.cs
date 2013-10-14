@@ -22,11 +22,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
     using VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Compute.Models;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
     {
-        SimpleServiceManagement channel;
+        private Mock<ICloudServiceClient> clientMock;
         MockCommandRuntime mockCommandRuntime;
         TestAzureNameCommand cmdlet;
         Mock<ServiceBusClientExtensions> serviceBusClient;
@@ -35,13 +37,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         [TestInitialize]
         public void SetupTest()
         {
-            channel = new SimpleServiceManagement();
+            clientMock = new Mock<ICloudServiceClient>();
+            
             mockCommandRuntime = new MockCommandRuntime();
             serviceBusClient = new Mock<ServiceBusClientExtensions>();
-            cmdlet = new TestAzureNameCommand(channel)
+            cmdlet = new TestAzureNameCommand()
             {
                 CommandRuntime = mockCommandRuntime,
-                ServiceBusClient = serviceBusClient.Object
+                ServiceBusClient = serviceBusClient.Object,
+                CloudServiceClient = clientMock.Object
             };
         }
 
@@ -49,9 +53,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceNameUsed()
         {
             string name = "test";
-            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
+            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(false);
 
-            cmdlet.IsDNSAvailable(subscriptionId, name);
+            cmdlet.IsDNSAvailable(null, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
@@ -61,9 +65,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceNameIsNotUsed()
         {
             string name = "test";
-            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(false);
 
-            cmdlet.IsDNSAvailable(subscriptionId, name);
+            cmdlet.IsDNSAvailable(null, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsFalse(actual);
@@ -73,9 +77,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureStorageNameUsed()
         {
             string name = "test";
-            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
+            clientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(false);
 
-            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
+            cmdlet.IsStorageServiceAvailable(null, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
@@ -85,9 +89,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureStorageNameIsNotUsed()
         {
             string name = "test";
-            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+            clientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(true);
 
-            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
+            cmdlet.IsStorageServiceAvailable(null, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsFalse(actual);
