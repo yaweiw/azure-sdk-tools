@@ -16,10 +16,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -31,6 +35,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// Manifest file for SqlDatabase Tests.
         /// </summary>
         private static readonly string SqlDatabaseTestManifest = "Azure.psd1";
+
+        /// <summary>
+        /// The subscription name used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestSubscriptionName = "SqlUnitTestSubscription";
+
+        /// <summary>
+        /// The subscription Id used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestSubscriptionId = "00000000-0000-0000-0001-000000000001";
 
         /// <summary>
         /// The SSL certificate used in the unit tests.
@@ -252,6 +266,55 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
                 string.Format(@"$pass = ""{0}"" | ConvertTo-SecureString -asPlainText -Force", password),
                 @"$credential = New-Object System.Management.Automation.PSCredential($user, $pass)");
             Assert.IsTrue(powershell.Streams.Error.Count == 0);
+        }
+
+        /// <summary>
+        /// Common helper method for other tests to create a unit test subscription
+        /// that connects to the mock server.
+        /// </summary>
+        /// <param name="powershell">The powershell instance used for the test.</param>
+        public static WindowsAzureSubscription SetupUnitTestSubscription(PowerShell powershell)
+        {
+            UnitTestHelper.ImportAzureModule(powershell);
+
+            // Set the client certificate used in the subscription
+            powershell.Runspace.SessionStateProxy.SetVariable(
+                "clientCertificate",
+                UnitTestHelper.GetUnitTestClientCertificate());
+
+            powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Set-AzureSubscription" +
+                    @" -SubscriptionName {0}" +
+                    @" -SubscriptionId {1}" +
+                    @" -Certificate $clientCertificate" +
+                    @" -ServiceEndpoint {2}",
+                    UnitTestSubscriptionName,
+                    UnitTestSubscriptionId,
+                    MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri));
+            powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Select-AzureSubscription" +
+                    @" -SubscriptionName {0}",
+                    UnitTestSubscriptionName));
+            Collection<PSObject> subscriptionResult = powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Get-AzureSubscription" +
+                    @" -Current"));
+
+            Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+            Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+            powershell.Streams.ClearStreams();
+
+            PSObject subscriptionPsObject = subscriptionResult.Single();
+            WindowsAzureSubscription subscription =
+                subscriptionPsObject.BaseObject as WindowsAzureSubscription;
+            Assert.IsTrue(subscription != null, "Expecting a WindowsAzureSubscription object");
+
+            return subscription;
         }
 
         /// <summary>

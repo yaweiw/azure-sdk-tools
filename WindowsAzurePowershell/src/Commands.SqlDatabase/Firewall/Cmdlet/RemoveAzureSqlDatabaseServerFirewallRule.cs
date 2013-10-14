@@ -17,38 +17,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
     using System;
     using System.Globalization;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Model;
-    using Properties;
-    using ServiceManagement;
-    using Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
 
     /// <summary>
     /// Deletes a firewall rule from a Windows Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServerFirewallRule", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
-    public class RemoveAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
+    public class RemoveAzureSqlDatabaseServerFirewallRule : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="RemoveAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        public RemoveAzureSqlDatabaseServerFirewallRule()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="RemoveAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public RemoveAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
@@ -57,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server firewall rule name.")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server firewall rule name.")]
         [ValidateNotNullOrEmpty]
         public string RuleName
         {
@@ -87,35 +66,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
                 !ShouldProcess(
-                    string.Format(CultureInfo.InvariantCulture, Resources.RemoveAzureSqlDatabaseServerFirewallRuleDescription, ruleName, serverName), 
+                    string.Format(CultureInfo.InvariantCulture, Resources.RemoveAzureSqlDatabaseServerFirewallRuleDescription, ruleName, serverName),
                     string.Format(CultureInfo.InvariantCulture, Resources.RemoveAzureSqlDatabaseServerFirewallRuleWarning, ruleName, serverName),
                     Resources.ShouldProcessCaption))
             {
                 return null;
             }
 
-            SqlDatabaseServerOperationContext operationContext = null;
-            try
-            {
-                InvokeInOperationContext(() =>
-                {
-                    RetryCall(subscription =>
-                        Channel.RemoveServerFirewallRule(subscription, serverName, ruleName));
-                    Operation operation = WaitForSqlDatabaseOperation();
+            // Get the SQL management client for the current subscription
+            WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
+            SqlManagementClient sqlManagementClient = subscription.CreateClient<SqlManagementClient>();
+            OperationResponse response = sqlManagementClient.FirewallRules.Delete(serverName, ruleName);
 
-                    operationContext = new SqlDatabaseServerOperationContext()
-                    {
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationId = operation.OperationTrackingId,
-                        OperationStatus = operation.Status,
-                        ServerName = serverName
-                    };
-                });
-            }
-            catch (CommunicationException ex)
+            SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
             {
-                this.WriteErrorDetails(ex);
-            }
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = response.RequestId,
+                ServerName = serverName
+            };
 
             return operationContext;
         }
@@ -132,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }
