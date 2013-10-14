@@ -130,10 +130,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "Use certificate authentication")]
         public SwitchParameter UseSubscription { get; set; }
 
-        [Parameter(Mandatory = false, Position = 2,
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The subscription to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2,
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true,
              ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
              HelpMessage = "The subscription to use, or uses the current subscription if not specified")]
         public string SubscriptionName { get; set; }
@@ -222,6 +222,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             WindowsAzureSubscription subscription)
         {
             ServerDataServiceCertAuth context = null;
+            SqlDatabaseCmdletBase.ValidateSubscription(subscription);
 
             try
             {
