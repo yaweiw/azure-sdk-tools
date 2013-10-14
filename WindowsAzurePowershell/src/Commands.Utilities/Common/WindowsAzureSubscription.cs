@@ -15,12 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using Authentication;
+    using Management;
     using Management.Storage;
     using Storage;
     using Storage.Auth;
+    using Subscriptions;
     using WindowsAzure.Common;
     using Properties;
 
@@ -42,6 +47,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string currentStorageAccountName;
         private CloudStorageAccount cloudStorageAccount;
+
+        private readonly List<string> registeredResourceProviders = new List<string>();
+
+        internal List<string> RegisteredResourceProviders
+        {
+            get { return registeredResourceProviders; }
+        }
+
+        /// <summary>
+        /// Delegate used to trigger profile to save itself, used
+        /// when cached list of resource providers is updated.
+        /// </summary>
+        internal Action Save { get; set; }
 
         public string CurrentStorageAccountName
         {
@@ -144,6 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public TClient CreateClient<TClient>() where TClient : ServiceClient<TClient>
         {
             var credential = CreateCredentials();
+            RegisterRequiredResourceProviders<TClient>(credential);
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
             if (constructor == null)
             {
@@ -180,6 +199,36 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
             return cloudStorageAccount;
+        }
+
+        private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
+        {
+            var requiredProviders = RequiredResourceLookup.RequiredProvidersFor<T>();
+            var unregisteredProviders = requiredProviders.Where(p => !RegisteredResourceProviders.Contains(p)).ToList();
+
+            if (unregisteredProviders.Count > 0)
+            {
+                using(var client = new ManagementClient(credentials, ServiceEndpoint))
+                {
+                    foreach (var provider in unregisteredProviders)
+                    {
+                        try
+                        {
+                            client.Subscriptions.RegisterResource(provider);
+                        }
+                        catch (CloudException ex)
+                        {
+                            if (ex.Response.StatusCode != HttpStatusCode.Conflict)
+                            {
+                                // Conflict means already registered, that's ok, otherwise it's a failure
+                                throw;
+                            }
+                        }
+                        RegisteredResourceProviders.Add(provider);
+                    }
+                    Save();
+                }
+            }
         }
     }
 }
