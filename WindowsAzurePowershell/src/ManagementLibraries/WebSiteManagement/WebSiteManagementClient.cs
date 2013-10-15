@@ -1232,6 +1232,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Models
             set { this._siteMode = value; }
         }
         
+        private string _webSpaceName;
+        
+        /// <summary>
+        /// The name of the webspace
+        /// </summary>
+        public string WebSpaceName
+        {
+            get { return this._webSpaceName; }
+            set { this._webSpaceName = value; }
+        }
+        
         private WebSiteCreateParameters.WebSpaceDetails _webSpace;
         
         /// <summary>
@@ -8052,6 +8063,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites
             {
                 throw new ArgumentNullException("parameters.Name");
             }
+            if (parameters.WebSpaceName == null)
+            {
+                throw new ArgumentNullException("parameters.WebSpaceName");
+            }
             if (parameters.WebSpace != null)
             {
                 if (parameters.WebSpace.GeoRegion == null)
@@ -8139,22 +8154,26 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                     siteElement.Add(siteModeElement);
                 }
                 
+                XElement webSpaceElement = new XElement(XName.Get("WebSpace", "http://schemas.microsoft.com/windowsazure"));
+                webSpaceElement.Value = parameters.WebSpaceName;
+                siteElement.Add(webSpaceElement);
+                
                 if (parameters.WebSpace != null)
                 {
-                    XElement webspaceToCreateElement = new XElement(XName.Get("WebspaceToCreate", "http://schemas.microsoft.com/windowsazure"));
-                    siteElement.Add(webspaceToCreateElement);
+                    XElement webSpaceToCreateElement = new XElement(XName.Get("WebSpaceToCreate", "http://schemas.microsoft.com/windowsazure"));
+                    siteElement.Add(webSpaceToCreateElement);
                     
                     XElement geoRegionElement = new XElement(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
                     geoRegionElement.Value = parameters.WebSpace.GeoRegion;
-                    webspaceToCreateElement.Add(geoRegionElement);
+                    webSpaceToCreateElement.Add(geoRegionElement);
                     
                     XElement nameElement2 = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                     nameElement2.Value = parameters.WebSpace.Name;
-                    webspaceToCreateElement.Add(nameElement2);
+                    webSpaceToCreateElement.Add(nameElement2);
                     
                     XElement planElement = new XElement(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
                     planElement.Value = parameters.WebSpace.Plan;
-                    webspaceToCreateElement.Add(planElement);
+                    webSpaceToCreateElement.Add(planElement);
                 }
                 
                 requestContent = requestDoc.ToString();
@@ -8530,10 +8549,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                             webSiteInstance.UsageState = usageStateInstance;
                         }
                         
-                        XElement webSpaceElement = siteElement2.Element(XName.Get("WebSpace", "http://schemas.microsoft.com/windowsazure"));
-                        if (webSpaceElement != null)
+                        XElement webSpaceElement2 = siteElement2.Element(XName.Get("WebSpace", "http://schemas.microsoft.com/windowsazure"));
+                        if (webSpaceElement2 != null)
                         {
-                            string webSpaceInstance = webSpaceElement.Value;
+                            string webSpaceInstance = webSpaceElement2.Value;
                             webSiteInstance.WebSpace = webSpaceInstance;
                         }
                     }
