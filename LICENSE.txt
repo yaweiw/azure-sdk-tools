@@ -190,9 +190,9 @@ Except as otherwise provided in Section B, the software is licensed under the te
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
 
--------------------END OF LICENSE-------------------------------
+-------------------END OF LICENSE--------------------------------
 
--------------------START OF LICENSE-----------------------------
+-------------------START OF LICENSE------------------------------
 
 SECTION B
 
@@ -212,7 +212,7 @@ b.	Third Party Programs. The software may include third party programs that Micr
 
 4.	SUPPORT SERVICES. Because this software is “as is,” we may not provide support services for it.
 
-5.	ENTIRE AGREEMENT. This agreement, and the terms for supplements, updates, Internet-based services and support services that you use, are the entire agreement for the software and support services.
+5.	ENTIRE AGREEMENT. This agreement is the entire agreement for the software and support services.
 
 6.	APPLICABLE LAW.
 a.	United States. If you acquired the software in the United States, Washington state law governs the interpretation of this agreement and applies to claims for breach of it, regardless of conflict of laws principles. The laws of the state where you live govern all other claims, including claims under state consumer protection laws, unfair competition laws, and in tort.
@@ -231,13 +231,13 @@ It also applies even if Microsoft knew or should have known about the possibilit
 
 ----------------END OF LICENSE--------------------------------
 
----------------START OF LICENSE-------------------------------
+----------------START OF LICENSE------------------------------
 
 The MIT License set out below is provided for informational purposes only. It is not the license that governs any part of the software.
 
 ================================
 
-Provide for Informational Purposes Only
+Provided for Informational Purposes Only
 
 The MIT License (MIT)
 
