@@ -119,7 +119,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// <returns>A <see cref="X509Certificate2"/> containing the client certificate</returns>
         public static X509Certificate2 GetUnitTestClientCertificate()
         {
-            return ReadCertificateFromResource(UnitTestClientCertFile, UnitTestClientCertPassword);
+            return ReadCertificateFromResource(
+                UnitTestClientCertFile,
+                UnitTestClientCertPassword);
         }
 
         /// <summary>
@@ -128,7 +130,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// <returns>A <see cref="X509Certificate2"/> containing the SSL certificate</returns>
         public static X509Certificate2 GetUnitTestSSLCertificate()
         {
-            return ReadCertificateFromResource(UnitTestSSLCertFile, UnitTestSSLCertPassword);
+            return ReadCertificateFromResource(
+                UnitTestSSLCertFile,
+                UnitTestSSLCertPassword);
         }
 
         /// <summary>
@@ -323,7 +327,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// <param name="resourceName">The logical name of the embedded resource.</param>
         /// <param name="password">The password for the certificate.</param>
         /// <returns>A <see cref="X509Certificate2"/> containing the specified certificate.</returns>
-        private static X509Certificate2 ReadCertificateFromResource(string resourceName, string password)
+        private static X509Certificate2 ReadCertificateFromResource(
+            string resourceName,
+            string password)
         {
             using (Stream certFile = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             using (BinaryReader certFileReader = new BinaryReader(certFile))
@@ -331,7 +337,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
                 return new X509Certificate2(
                     certFileReader.ReadBytes((int)certFile.Length),
                     password,
-                    X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.MachineKeySet);
+                    X509KeyStorageFlags.PersistKeySet |
+                    X509KeyStorageFlags.MachineKeySet);
             }
         }
     }

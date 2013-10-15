@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
                             "Missing proper UserAgent string.");
                         Assert.IsTrue(
-                            actual.Certificate.Equals(UnitTestHelper.GetUnitTestClientCertificate()),
+                            UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
                             "Expected correct client certificate");
                     });
 
