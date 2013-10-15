@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using WindowsAzure.ServiceManagement;
 
 
-    [TestClass]
+    //[TestClass]
     public class NewAzureAffinityGroupTests: TestBase
     {
         FileSystemHelper files;

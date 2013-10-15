@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using VisualStudio.TestTools.UnitTesting;
 
 
-    [TestClass]
+    //[TestClass]
     public class RemoveAzureCertificateTests : TestBase
     {
         FileSystemHelper files;

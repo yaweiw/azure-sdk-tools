@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    //[TestClass]
     public class AddAzureCertificateTests : TestBase
     {
         FileSystemHelper files;

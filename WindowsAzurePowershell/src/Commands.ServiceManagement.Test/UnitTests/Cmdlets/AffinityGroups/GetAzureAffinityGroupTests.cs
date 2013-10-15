@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
 
-    [TestClass]
+    //[TestClass]
     public class GetAzureAffinityGroupTests : TestBase
     {
         FileSystemHelper files;
