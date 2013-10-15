@@ -182,6 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
                 store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
                 store.Open(OpenFlags.ReadWrite);
                 store.Add(UnitTestHelper.GetUnitTestSSLCertificate());
+                store.Add(UnitTestHelper.GetUnitTestClientCertificate());
                 store.Close();
 
                 // Remove any existing certs on the default port 
