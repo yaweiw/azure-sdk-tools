@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public PowershellProfileStore(string settingsFilePath)
             : this(Path.GetDirectoryName(settingsFilePath), Path.GetFileName(settingsFilePath))
         {
-            
+
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public PowershellProfileStore()
             : this(GlobalPathInfo.GlobalSettingsDirectory, DefaultProfileName)
         {
-            
+
         }
 
         /// <summary>
@@ -90,16 +90,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             string tempFilePath;
 
-            using (var s = CreateTempFile(out tempFilePath))
-            {
-                var settings = new XmlWriterSettings() { Indent = true };
+            var settings = new XmlWriterSettings { Indent = true };
 
-                using (var w = XmlWriter.Create(s, settings))
-                {
-                    var serializer = new DataContractSerializer(typeof(ProfileData));
-                    serializer.WriteObject(w, profile);
-                }
+            using (var w = XmlWriter.Create(CreateTempFile(out tempFilePath), settings))
+            {
+                var serializer = new DataContractSerializer(typeof(ProfileData));
+                serializer.WriteObject(w, profile);
             }
+
             File.Replace(tempFilePath, FullProfilePath, null);
         }
 
@@ -113,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 try
                 {
-                    var serializer = new DataContractSerializer(typeof (ProfileData));
+                    var serializer = new DataContractSerializer(typeof(ProfileData));
                     using (var s = new FileStream(FullProfilePath, FileMode.Open,
                         FileAccess.Read, FileShare.Read))
                     {
