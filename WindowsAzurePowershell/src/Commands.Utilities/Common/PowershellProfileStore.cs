@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly string settingsDirectory;
         private readonly string profileFileName;
 
-        public const string DefaultProfileName = "AzureProfile.xml";
+        public const string DefaultProfileName = "WindowsAzureProfile.xml";
 
         private string FullProfilePath
         {
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="settingsDirectory">Directory to store / load information from.
         /// If null or blank, uses the current directory.</param>
         /// <param name="fileName">Filename to read from / write to. If null or
-        /// blank, uses the default AzureProfile.xml file.</param>
+        /// blank, uses the default WindowsAzureProfile.xml file.</param>
         public PowershellProfileStore(string settingsDirectory, string fileName)
         {
             if (string.IsNullOrEmpty(settingsDirectory))
