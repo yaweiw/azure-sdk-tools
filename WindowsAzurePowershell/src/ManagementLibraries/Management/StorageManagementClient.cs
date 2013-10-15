@@ -2279,15 +2279,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                         XElement reasonElement = availabilityResponseElement.Element(XName.Get("Reason", "http://schemas.microsoft.com/windowsazure"));
                         if (reasonElement != null)
                         {
+                            bool isNil = false;
                             XAttribute nilAttribute = reasonElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute != null)
                             {
-                                string nilValue = nilAttribute.Value;
-                                if (nilValue != "true")
-                                {
-                                    string reasonInstance = reasonElement.Value;
-                                    result.Reason = reasonInstance;
-                                }
+                                isNil = nilAttribute.Value == "true";
+                            }
+                            if (isNil == false)
+                            {
+                                string reasonInstance = reasonElement.Value;
+                                result.Reason = reasonInstance;
                             }
                         }
                     }
@@ -2834,15 +2835,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                             XElement descriptionElement = storageServicePropertiesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                             if (descriptionElement != null)
                             {
+                                bool isNil = false;
                                 XAttribute nilAttribute = descriptionElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                 if (nilAttribute != null)
                                 {
-                                    string nilValue = nilAttribute.Value;
-                                    if (nilValue != "true")
-                                    {
-                                        string descriptionInstance = descriptionElement.Value;
-                                        storageServicePropertiesInstance.Description = descriptionInstance;
-                                    }
+                                    isNil = nilAttribute.Value == "true";
+                                }
+                                if (isNil == false)
+                                {
+                                    string descriptionInstance = descriptionElement.Value;
+                                    storageServicePropertiesInstance.Description = descriptionInstance;
                                 }
                             }
                             
@@ -3227,15 +3229,16 @@ namespace Microsoft.WindowsAzure.Management.Storage
                                 XElement descriptionElement = storageServicePropertiesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
                                 if (descriptionElement != null)
                                 {
+                                    bool isNil = false;
                                     XAttribute nilAttribute = descriptionElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute != null)
                                     {
-                                        string nilValue = nilAttribute.Value;
-                                        if (nilValue != "true")
-                                        {
-                                            string descriptionInstance = descriptionElement.Value;
-                                            storageServicePropertiesInstance.Description = descriptionInstance;
-                                        }
+                                        isNil = nilAttribute.Value == "true";
+                                    }
+                                    if (isNil == false)
+                                    {
+                                        string descriptionInstance = descriptionElement.Value;
+                                        storageServicePropertiesInstance.Description = descriptionInstance;
                                     }
                                 }
                                 
