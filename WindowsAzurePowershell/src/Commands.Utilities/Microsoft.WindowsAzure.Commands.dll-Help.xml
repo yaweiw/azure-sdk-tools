@@ -677,10 +677,10 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureSubscription cmdlet retrieves an object with the common subscription settings, including, including subscription ID and management certificate information, as well as connection information for one or more Windows Azure storage accounts. These settings are stored in the user’s profile. </maml:para>
-      <maml:para>The Windows Azure cmdlets use a number of common parameters, including the subscription ID, the management certificate for a subscription, and storage account settings. These common settings are stored in a file in the PowerShell user’s profile. The Windows Azure PowerShell cmdlets reference the information stored in the subscription data file and use it to provide default values for certain parameters. Multiple subscription data sets are supported, with each identified by a subscription name. </maml:para>
+      <maml:para>The Get-AzureSubscription cmdlet retrieves an object with the common subscription settings, including, including subscription ID, Azure Active Directory authentication info, and management certificate information, as well as connection information for one or more Windows Azure storage accounts. These settings are stored in the user’s profile. </maml:para>
+      <maml:para>The Windows Azure cmdlets use a number of common parameters, including the subscription ID, the Azure Active Directory account and tenant id, and management certificate for a subscription, and storage account settings. These common settings are stored in a file in the PowerShell user’s profile. The Windows Azure PowerShell cmdlets reference the information stored in the subscription data file and use it to provide default values for certain parameters. Multiple subscription data sets are supported, with each identified by a subscription name. </maml:para>
       <maml:para>
-        Use the Import-AzurePublishSettingsFile and Set-AzureSubscription cmdlets to store common settings for each subscription to be managed. During a session, use the Select-AzureSubscription cmdlet to choose which subscription data set is used by other Windows Azure cmdlets to retrieve subscription and storage account information. The cmdlets use the settings in the selected subscription unless explicitly overriden by parameters at the command line.
+        Use the Add-AzureAccount or the Import-AzurePublishSettingsFile and Set-AzureSubscription cmdlets to store common settings for each subscription to be managed. During a session, use the Select-AzureSubscription cmdlet to choose which subscription data set is used by other Windows Azure cmdlets to retrieve subscription and storage account information. The cmdlets use the settings in the selected subscription unless explicitly overriden by parameters at the command line.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -969,6 +969,10 @@
       </command:example>
     </command:examples>
     <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureSubscription</maml:linkText>
         <maml:uri />
@@ -1320,25 +1324,25 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Select-AzureSubscription cmdlet selects the subscription whose settings will be used by other  Windows Azure PowerShell cmdlets.</maml:para>
+      <maml:para>The Select-AzureSubscription cmdlet manages the current subscription used in this PowerShell session, or the default subscription used across PowerShell sessions for the current user.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Select-AzureSubscription</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Current</maml:name>
+          <maml:description>
+            <maml:para>
+              Specify to reset the current subscription setting. This is the subscription that will be used by all cmdlets in this PowerShell session. If no current subscription is defined, the default subscription setting will be used.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
           <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -1346,20 +1350,44 @@
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Select-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Default</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+              Specify to reset the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined, the default subscription setting will be used.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+          <maml:name>SubscriptionName</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Select-AzureSubscription</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Clear</maml:name>
+          <maml:name>NoCurrent</maml:name>
           <maml:description>
             <maml:para>
-              Specify to clear the current selection. If no subscription is current, the necessary information must be explicitly provided in the command line when executing any Windows Azure PowerShell cmdlet.
+              Specify to clear the current subscription setting. This is the subscription that will be used by all commandlets in the current PowerShell session. If no current subscription is defined for a session, PowerShell uses the default subscription setting.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Select-AzureSubscription</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>NoDefault</maml:name>
+          <maml:description>
+            <maml:para>
+              Specify to clear the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined for a session, having no default subscription will result in an error.
             </maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -1367,39 +1395,29 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>Clear</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Current</maml:name>
         <maml:description>
           <maml:para>
-            Specify to clear the current selection. If no subscription is current, the necessary information must be explicitly provided in the command line when executing any Windows Azure PowerShell cmdlet.
+            Specify to reset the current subscription setting. This is the subscription that will be used by all commandlests in this PowerShell session. If no current subscription is defined, the default subscription setting will be used.
           </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-        <maml:name>SubscriptionDataFile</maml:name>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Default</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+            Specify to reset the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined, the default subscription setting will be used.
           </maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
         <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
+            Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -1408,6 +1426,24 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>NoCurrent</maml:name>
+        <maml:description>
+          <maml:para>
+            Specify to clear the current subscription setting. This is the subscription that will be used by all commandlets in the current PowerShell session. If no current subscription is defined for a session, PowerShell uses the default subscription setting.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>NoDefault</maml:name>
+        <maml:description>
+          <maml:para>
+            Specify to clear the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined for a session, having no default subscription will result in an error.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -1467,12 +1503,12 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Select-AzureSubscription "MySubscription" -SubscriptionDataFile "C:\subs\MySubscriptions.xml"
+          C:\PS&gt;Select-AzureSubscription -Default "MySubscription" -SubscriptionDataFile
 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command selects "MySubscription" as the current subscription and retrieves its settings from the specified subscription data file.
+            This command selects "MySubscription" as the default subscription. "MySubscription" will be the subscription used by all Windows Azure PowerShell sessions unless a local current subscription is configured.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -1489,7 +1525,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Select-AzureSubscription -Clear
+          C:\PS&gt;Select-AzureSubscription -NoCurrent
 
         </dev:code>
         <dev:remarks>
@@ -1506,6 +1542,10 @@
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Get-AzureSubscription</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
@@ -1518,7 +1558,7 @@
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Import-Subscription</maml:linkText>
+        <maml:linkText>Import-AzurePublishSettingsFile</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
