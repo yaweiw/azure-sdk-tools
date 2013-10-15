@@ -44,8 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         // ID for site to pass to enable EBD (email-based differentiation)
         // This gets passed in the call to get the azure branding on the
-        // login window.
-        internal const string EnableEbdMagicCookie = "site_id=501358";
+        // login window. Also adding popup flag to handle overly large login windows.
+        internal const string EnableEbdMagicCookie = "site_id=501358&display=popup";
 
         private string adEndpoint = publicAdEndpoint;
 
