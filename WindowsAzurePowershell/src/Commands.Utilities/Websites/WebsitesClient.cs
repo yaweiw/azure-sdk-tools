@@ -306,11 +306,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             var options = new WebSiteCreateParameters
             {
                 Name = siteToCreate.Name,
+                WebSpaceName = siteToCreate.WebSpaceToCreate.Name,
                 WebSpace = new WebSiteCreateParameters.WebSpaceDetails
                 {
                      GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
                      Name = siteToCreate.WebSpaceToCreate.Name,
-                     Plan = siteToCreate.WebSpaceToCreate.Plan
+                     Plan = siteToCreate.WebSpaceToCreate.Plan,
                 }
             };
             siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
