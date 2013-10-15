@@ -43,17 +43,14 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
 
             var sortedSubscriptions = from s in subscriptions
-                orderby s.ActiveDirectoryUserId ascending
-                select new
-                {
-                    Account = s.ActiveDirectoryUserId,
-                    s.SubscriptionName,
-                    Id = s.SubscriptionId,
-                    ActiveDirectoryTenantEndpoint = s.ActiveDirectoryEndpoint,
-                    s.ActiveDirectoryTenantId,
-                    s.IsDefault
-                };
-
+                                      orderby s.ActiveDirectoryUserId ascending
+                                      group s by s.ActiveDirectoryUserId into g
+                                      select new
+                                      {
+                                          Name = g.Key,
+                                          ActiveDirectories = g.Select(s => new { s.ActiveDirectoryTenantId, s.ActiveDirectoryEndpoint }).Distinct()
+                                      };
+            
             WriteObject(sortedSubscriptions, true);
         }
     }
