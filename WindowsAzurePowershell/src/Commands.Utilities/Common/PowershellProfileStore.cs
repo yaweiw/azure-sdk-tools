@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 var settings = new XmlWriterSettings() { Indent = true };
 
-                using (var w = XmlWriter.Create("", settings))
+                using (var w = XmlWriter.Create(s, settings))
                 {
                     var serializer = new DataContractSerializer(typeof(ProfileData));
                     serializer.WriteObject(w, profile);
