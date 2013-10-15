@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             string tempFilePath;
 
-            var settings = new XmlWriterSettings { Indent = true };
+            var settings = new XmlWriterSettings { Indent = true, CloseOutput = true };
 
             using (var w = XmlWriter.Create(CreateTempFile(out tempFilePath), settings))
             {
