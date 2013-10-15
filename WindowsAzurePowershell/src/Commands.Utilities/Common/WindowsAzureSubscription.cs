@@ -81,7 +81,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Access token / account name for Active Directory
         public string ActiveDirectoryUserId { get; set; }
-        public LoginType? ActiveDirectoryLoginType { get; set; }
         internal ITokenProvider TokenProvider { get; set; }
 
         private IAccessToken accessToken;
@@ -99,12 +98,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             if (token != null)
             {
                 ActiveDirectoryUserId = token.UserId;
-                ActiveDirectoryLoginType = token.LoginType;
             }
             else
             {
                 ActiveDirectoryUserId = null;
-                ActiveDirectoryLoginType = null;
             }
             accessToken = token;
         }
@@ -133,8 +130,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // AD Data - if present in new subscription, take it else preserve existing
             ActiveDirectoryEndpoint = newSubscription.ActiveDirectoryEndpoint ??
                 ActiveDirectoryEndpoint;
-            ActiveDirectoryLoginType = newSubscription.ActiveDirectoryLoginType ??
-                ActiveDirectoryLoginType;
             ActiveDirectoryTenantId = newSubscription.ActiveDirectoryTenantId ??
                 ActiveDirectoryTenantId;
             ActiveDirectoryUserId = newSubscription.ActiveDirectoryUserId ??

@@ -286,7 +286,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             Debug.Assert(string.IsNullOrEmpty(AzureSdkPath));
 
             AzureSdkPath = CreateDirectory("AzureSdk");
-            var profile = new WindowsAzureProfile(new PowershellProfileStore(AzureSdkPath, "azureProfile.xml"));
+            var profile = new WindowsAzureProfile(new PowershellProfileStore(AzureSdkPath, "AzureProfile.xml"));
             profile.ImportPublishSettings(publishSettingsPath);
             WindowsAzureProfile.Instance = profile;
 
