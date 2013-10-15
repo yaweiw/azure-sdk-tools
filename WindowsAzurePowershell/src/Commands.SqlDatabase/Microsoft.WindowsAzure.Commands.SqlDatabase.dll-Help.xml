@@ -1647,12 +1647,12 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
             <maml:para>Indicates that Windows Azure subscription will be used for creating the connection context.</maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>WindowsAzureSubscription</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="">
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
-            <maml:para>The Windows Azure subscription data object to be used for creating the connection context. The subscription value specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
+            <maml:para>The Windows Azure subscription name to be used for creating the connection context. The subscription name specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">WindowsAzureSubscription</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -1671,12 +1671,12 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
             <maml:para>Indicates that Windows Azure subscription will be used for creating the connection context.</maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>WindowsAzureSubscription</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="">
+          <maml:name>SubscriptionName</maml:name>
           <maml:description>
-            <maml:para>The Windows Azure subscription data object to be used for creating the connection context. The subscription value specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
+            <maml:para>The Windows Azure subscription name to be used for creating the connection context. The subscription name specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">WindowsAzureSubscription</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1733,14 +1733,14 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-        <maml:name>WindowsAzureSubscription</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="">
+        <maml:name>SubscriptionName</maml:name>
         <maml:description>
-          <maml:para>The Windows Azure subscription data object to be used for creating the connection context. The subscription value specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
+          <maml:para>The Windows Azure subscription name to be used for creating the connection context. The subscription name specified for the parameter will be used for creating the connection context. If you do not use this parameter, the cmdlet uses the current Windows Azure subscription (set using the Select-AzureSubscription cmdlet) to create the connection context.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">WindowsAzureSubscription</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>WindowsAzureSubscription</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -1767,7 +1767,9 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
