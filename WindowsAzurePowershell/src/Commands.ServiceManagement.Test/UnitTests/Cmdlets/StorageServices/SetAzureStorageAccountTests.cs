@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.StorageServices;
     using Commands.Test.Utilities.CloudService;
 
-    [TestClass]
+    //[TestClass]
     public class SetAzureStorageAccountTests : TestBase
     {
         private TestData found;

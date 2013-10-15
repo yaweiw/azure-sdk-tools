@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using System.Linq;
     using Commands.ServiceManagement.IaaS;
 
-    [TestClass]
+    //[TestClass]
     public class GetAzureWinRMUriTests : TestBase
     {
         private Uri deploymentUrl;

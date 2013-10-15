@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.StorageServices;
     using Commands.Test.Utilities.Common;
 
-    [TestClass]
+    //[TestClass]
     public class AddAzureVhdCommandTests : TestBase
     {
         FileSystemHelper files;

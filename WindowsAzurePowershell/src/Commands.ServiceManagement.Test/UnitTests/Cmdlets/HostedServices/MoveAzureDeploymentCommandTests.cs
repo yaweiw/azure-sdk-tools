@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
 
-    [TestClass]
+    //[TestClass]
     public class MoveAzureDeploymentCommandTests : TestBase
     {
         FileSystemHelper files;

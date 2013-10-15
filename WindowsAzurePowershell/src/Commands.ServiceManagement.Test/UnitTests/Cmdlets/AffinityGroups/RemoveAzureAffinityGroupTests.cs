@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    //[TestClass]
     public class RemoveAzureAffinityGroupTests : TestBase
     {
         FileSystemHelper files;
