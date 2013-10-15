@@ -85,11 +85,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         private bool IsExpired(AdalAccessToken token)
         {
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("FORCE_EXPIRED_ACCESS_TOKEN") != null)
+            {
+                return true;
+            }
+#endif
+
             return token.AuthResult.ExpiresOn - DateTimeOffset.Now < thresholdExpiration;
         }
 
         private string GetRefreshToken(AdalAccessToken token)
         {
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("FORCE_EXPIRED_REFRESH_TOKEN") != null)
+            {
+                // We can't force an expired refresh token, so provide a garbage one instead
+                const string fakeToken = "This is not a valid refresh token";
+                return Convert.ToBase64String(Encoding.ASCII.GetBytes(fakeToken));
+            }
+#endif
             return token.AuthResult.RefreshToken;
         }
 
