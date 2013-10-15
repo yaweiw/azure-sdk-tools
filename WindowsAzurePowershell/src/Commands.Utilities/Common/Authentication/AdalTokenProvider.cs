@@ -83,14 +83,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         private readonly static TimeSpan thresholdExpiration = new TimeSpan(0, 5, 0);
 
+        private bool IsExpired(AdalAccessToken token)
+        {
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("FORCE_EXPIRED_ACCESS_TOKEN") != null)
+            {
+                return true;
+            }
+#endif
+
+            return token.AuthResult.ExpiresOn - DateTimeOffset.Now < thresholdExpiration;
+        }
+
+        private string GetRefreshToken(AdalAccessToken token)
+        {
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("FORCE_EXPIRED_REFRESH_TOKEN") != null)
+            {
+                // We can't force an expired refresh token, so provide a garbage one instead
+                const string fakeToken = "This is not a valid refresh token";
+                return Convert.ToBase64String(Encoding.ASCII.GetBytes(fakeToken));
+            }
+#endif
+            return token.AuthResult.RefreshToken;
+        }
+
         private void Renew(AdalAccessToken token)
         {
-            if (token.AuthResult.ExpiresOn - DateTimeOffset.Now < thresholdExpiration)
+            if (IsExpired(token))
             {
                 var context = CreateContext(token.Configuration);
                 try
                 {
-                    var authResult = context.AcquireTokenByRefreshToken(token.AuthResult.RefreshToken,
+                    var authResult = context.AcquireTokenByRefreshToken(GetRefreshToken(token),
                         token.Configuration.ClientId,
                         token.Configuration.ResourceClientUri);
                     if (authResult == null)
