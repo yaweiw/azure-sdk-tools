@@ -147,10 +147,10 @@
     <Compile Include="FunctionalTests\OutputFormatValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FunctionalTests\ServerTest.cs" />
-    <Compile Include="UnitTests\AsyncExceptionManager.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseImportExportStatusTests.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\ImportAzureSqlDatabaseTests.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\ExportAzureSqlDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCertAuthTests.cs" />
+    <Compile Include="Utilities\SqlDatabaseSettings.cs" />
+    <Compile Include="UnitTests\MockServer\AsyncExceptionManager.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\ImportExportCmdletTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseServiceObjectiveTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\SetAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
@@ -166,18 +166,16 @@
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlDatabaseServerContextTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseCmdletAttributionTests.cs" />
+    <Compile Include="UnitTests\MockServer\MockServerHelper.cs" />
+    <Compile Include="UnitTests\Server\Cmdlet\ServerTestHelper.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />
-    <Compile Include="UnitTests\SimpleSqlDatabaseManagement.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="Utilities\PSScriptExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\Readme.txt" />
-    <Content Include="Resources\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
     <None Include="TestScripts\CommonFunctions.ps1" />
@@ -228,6 +226,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\PowershellTestSSLCert.pfx">
+      <LogicalName>PowershellTestSSLCert.pfx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PowershellTestClientCert.pfx">
+      <LogicalName>PowershellTestClientCert.pfx</LogicalName>
+    </EmbeddedResource>
     <None Include="Resources\SqlDatabaseSettings.xml" />
     <Content Include="Resources\MockSessions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

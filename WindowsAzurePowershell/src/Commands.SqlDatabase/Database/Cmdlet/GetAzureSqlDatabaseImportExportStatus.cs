@@ -14,19 +14,21 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using System.Xml;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Exports a database from SQL Azure into blob storage.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseImportExportStatus", ConfirmImpact = ConfirmImpact.None)]
-    public class GetAzureSqlDatabaseImportExportStatus : SqlDatabaseManagementCmdletBase
+    public class GetAzureSqlDatabaseImportExportStatus : SqlDatabaseCmdletBase
     {
         #region Parameter sets
 
@@ -44,26 +46,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             "ByConnectionInfo";
 
         #endregion
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="GetAzureSqlDatabaseImportExportStatus"/> class.
-        /// </summary>
-        public GetAzureSqlDatabaseImportExportStatus()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="GetAzureSqlDatabaseImportExportStatus"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public GetAzureSqlDatabaseImportExportStatus(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
 
         #region Parameters
 
@@ -118,38 +100,42 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// Performs the call to export database using the server data service context channel.
         /// </summary>
         /// <param name="serverName">The name of the server to connect to.</param>
+        /// <param name="fullyQualifiedServerName">The fully qualfied name of the server to connect to.</param>
         /// <param name="userName">The username for authentication</param>
         /// <param name="password">The password for authentication</param>
         /// <param name="requestId">The request Id of the operation to query</param>
         /// <returns>The status of the import/export operation</returns>
-        internal ArrayOfStatusInfo GetAzureSqlDatabaseImportExportStatusProcess(
-            string serverName, 
+        internal IEnumerable<StatusInfo> GetAzureSqlDatabaseImportExportStatusProcess(
+            string serverName,
+            string fullyQualifiedServerName,
             string userName,
             string password,
             string requestId)
         {
-            ArrayOfStatusInfo result = null;
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
-            try
-            {
-                this.InvokeInOperationContext(() =>
-                {
-                    result = RetryCall(subscription =>
-                        this.Channel.GetImportExportStatus(
-                            subscription,
-                            serverName, 
-                            serverName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
-                            userName, 
-                            password, 
-                            requestId));
+            // Start the database export operation
+            DacGetStatusResponse response = sqlManagementClient.Dacs.GetStatus(
+                serverName,
+                fullyQualifiedServerName,
+                userName,
+                password,
+                requestId);
 
-                    Operation operation = WaitForSqlDatabaseOperation();
-                });
-            }
-            catch (CommunicationException ex)
+            // Construct the result
+            IEnumerable<StatusInfo> result = response.StatusInfoList.Select(status => new StatusInfo
             {
-                this.WriteErrorDetails(ex);
-            }
+                BlobUri = status.BlobUri.ToString(),
+                ServerName = status.ServerName,
+                DatabaseName = status.DatabaseName,
+                Status = status.Status,
+                RequestId = status.RequestId,
+                LastModifiedTime = status.LastModifiedTime,
+                QueuedTime = status.QueuedTime,
+                RequestType = status.RequestType,
+                ErrorMessage = status.ErrorMessage,
+            });
 
             return result;
         }
@@ -159,16 +145,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            this.WriteVerbose("Starting to process the record");
             try
             {
                 base.ProcessRecord();
 
+                // Parse the required information given the parameter set
                 string serverName = null;
                 string userName = null;
                 string password = null;
                 string requestId = null;
-
                 switch (this.ParameterSetName)
                 {
                     case ByRequestObjectParameterSet:
@@ -177,36 +162,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                         password = this.Request.SqlCredentials.Password;
                         requestId = this.Request.RequestGuid;
                         break;
+
                     case ByConnectionInfoParameterSet:
                         serverName = this.ServerName;
                         userName = this.Username;
                         password = this.Password;
                         requestId = this.RequestId;
                         break;
+
+                    default:
+                        throw new NotSupportedException("ParameterSet");
                 }
 
-                ArrayOfStatusInfo status = 
-                    this.GetAzureSqlDatabaseImportExportStatusProcess(
-                        serverName, 
-                        userName, 
-                        password, 
-                        requestId);
-
-                if (status == null)
-                {
-                    this.WriteVerbose("The result is null");
-                }
-
-                this.WriteVerbose("Status: " + status[0].Status);
+                var status = this.GetAzureSqlDatabaseImportExportStatusProcess(
+                    serverName,
+                    serverName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
+                    userName,
+                    password,
+                    requestId);
 
                 this.WriteObject(status);
             }
             catch (Exception ex)
             {
-                this.WriteDebug("There was an error: " + ex.Message);
-                this.WriteWindowsAzureError(
-                    new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-                this.WriteExceptionError(ex);
+                this.WriteErrorDetails(ex);
             }
         }
     }
