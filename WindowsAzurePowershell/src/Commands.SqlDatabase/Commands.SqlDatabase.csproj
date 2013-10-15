@@ -218,7 +218,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\Cmdlet\SetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
-    <Compile Include="Services\ClientOutputMessageInspector.cs" />
     <Compile Include="Services\Common\AccessTokenResult.cs" />
     <Compile Include="Services\Common\DataServiceExtensions.cs" />
     <Compile Include="Services\Common\DataConnectionUtility.cs" />
@@ -228,19 +227,9 @@
     <Compile Include="Services\Common\DataServiceConstants.cs" />
     <Compile Include="Services\Common\SqlDatabaseExceptionHandler.cs" />
     <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
-    <Compile Include="Services\ConfigurationConstants.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Services\Constants.cs" />
-    <Compile Include="Services\ImportExport\BlobCredentials.cs" />
-    <Compile Include="Services\ImportExport\BlobStorageAccessKeyCredentials.cs" />
-    <Compile Include="Services\ImportExport\ConnectionInfo.cs" />
-    <Compile Include="Services\ImportExport\ExportInput.cs" />
-    <Compile Include="Services\ImportExport\ImportInput.cs" />
     <Compile Include="Services\ImportExport\ImportExportRequest.cs" />
     <Compile Include="Services\ImportExport\StatusInfo.cs" />
-    <Compile Include="Services\ServerQuotaListResponse.cs" />
-    <Compile Include="Services\ServerQuotaResponse.cs" />
     <Compile Include="Services\Server\MergeOptionTemporaryChange.cs" />
     <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
@@ -251,23 +240,8 @@
     <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
     <Compile Include="Services\Server\ServerContextInternal.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />
-    <Compile Include="Services\ISqlDatabaseManagement.cs" />
-    <Compile Include="Services\ISqlDatabaseManagementExternalApi.cs" />
-    <Compile Include="Services\NewSqlDatabaseServerInput.cs" />
-    <Compile Include="Services\SqlDatabaseFirewallExtensions.cs" />
-    <Compile Include="Services\SqlDatabaseFirewallRule.cs" />
-    <Compile Include="Services\SqlDatabaseFirewallRuleInput.cs" />
-    <Compile Include="Services\SqlDatabaseFirewallRulesList.cs" />
-    <Compile Include="Services\SqlDatabaseInput.cs" />
-    <Compile Include="Services\SqlDatabaseList.cs" />
-    <Compile Include="Services\ImportExport\ArrayOfStatusInfo.cs" />
     <Compile Include="Services\SqlDatabaseManagementError.cs" />
-    <Compile Include="Services\SqlDatabaseManagementHelper.cs" />
-    <Compile Include="Services\SqlDatabaseResponse.cs" />
-    <Compile Include="Services\SqlDatabaseServer.cs" />
-    <Compile Include="Services\SqlDatabaseServerExtensions.cs" />
-    <Compile Include="Services\SqlDatabaseServerList.cs" />
-    <Compile Include="SqlDatabaseManagementCmdletBase.cs" />
+    <Compile Include="SqlDatabaseCmdletBase.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.SqlDatabase.SnapIn.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -35,11 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         string ServerName { get; }
 
         /// <summary>
-        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// Ensures any extra property on the given <paramref name="obj"/> is loaded.
         /// </summary>
-        /// <param name="obj">The object that contains the property to load.</param>
-        /// <param name="propertyName">The name of the property to load.</param>
-        void LoadProperty(object obj, string propertyName);
+        /// <param name="obj">The object that needs the extra properties.</param>
+        void LoadExtraProperties(object obj);
 
         #region Database Operations
 

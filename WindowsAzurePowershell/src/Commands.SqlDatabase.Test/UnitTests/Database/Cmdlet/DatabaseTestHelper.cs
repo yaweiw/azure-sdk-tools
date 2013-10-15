@@ -16,57 +16,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 {
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MockServer;
-    using Services.Common;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
 
     public static class DatabaseTestHelper
     {
-        /// <summary>
-        /// The private singleton collection that stores all mock sessions
-        /// </summary>
-        private static readonly HttpSessionCollection defaultSessionCollection =
-            HttpSessionCollection.Load("MockSessions.xml");
-
-        /// <summary>
-        /// Defines the service base Uri to use for common functions
-        /// </summary>
-        internal static Uri CommonServiceBaseUri
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// The singleton collection that stores all mock sessions
-        /// </summary>
-        public static HttpSessionCollection DefaultSessionCollection
-        {
-            get
-            {
-                return defaultSessionCollection;
-            }
-        }
-
-        /// <summary>
-        /// Save the default mock session collection to the test output directory.
-        /// </summary>
-        public static void SaveDefaultSessionCollection()
-        {
-            lock (defaultSessionCollection)
-            {
-                defaultSessionCollection.Save("MockSessions.xml");
-            }
-        }
-
         /// <summary>
         /// Set the default mock session settings to modify request and responses.
         /// </summary>
         /// <param name="testSession"></param>
         public static void SetDefaultTestSessionSettings(HttpSession testSession)
         {
-            testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+            testSession.ServiceBaseUri = MockServerHelper.CommonServiceBaseUri;
             testSession.SessionProperties["Servername"] = "testserver";
             testSession.SessionProperties["Username"] = "testuser";
             testSession.SessionProperties["Password"] = "testp@ss1";
