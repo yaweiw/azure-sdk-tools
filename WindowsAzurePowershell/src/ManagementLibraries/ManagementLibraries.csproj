@@ -126,12 +126,10 @@
     <Compile Include="Common\ServiceOperations.cs" />
     <Compile Include="Common\Tracing\CloudTracing.cs" />
     <Compile Include="Common\Tracing\ICloudTracingInterceptor.cs" />
-    <Compile Include="Management\ComputeManagementClient.cs" />
-    <Compile Include="Management\ComputeManagementClient.Customization.cs" />
+    <Compile Include="ComputeManagement\ComputeManagementClient.cs" />
+    <Compile Include="ComputeManagement\ComputeManagementClient.Customization.cs" />
     <Compile Include="Management\ManagementClient.cs" />
     <Compile Include="Management\ManagementClient.Customization.cs" />
-    <Compile Include="Management\StorageManagementClient.cs" />
-    <Compile Include="Management\StorageManagementClient.Customization.cs" />
     <Compile Include="MediaServices\MediaServicesManagementClient.cs" />
     <Compile Include="MediaServices\MediaServicesManagementClient.Customization.cs" />
     <Compile Include="MediaServices\MediaServicesMangementDiscoveryExtensions.cs" />
@@ -149,6 +147,8 @@
     <Compile Include="Sql\Sql.Customizations.cs" />
     <Compile Include="Sql\Sql.DiscoveryExtensions.cs" />
     <Compile Include="Sql\SqlManagementClient.cs" />
+    <Compile Include="StorageManagement\StorageManagementClient.cs" />
+    <Compile Include="StorageManagement\StorageManagementClient.Customization.cs" />
     <Compile Include="Store\Store.Customizations.cs" />
     <Compile Include="Store\Store.DiscoveryExtensions.cs" />
     <Compile Include="Store\StoreManagementClient.cs" />
