@@ -23536,11 +23536,11 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     XElement availabilityResponseElement = responseDoc.Element(XName.Get("AvailabilityResponse", "http://schemas.microsoft.com/windowsazure"));
                     if (availabilityResponseElement != null)
                     {
-                        XElement isAvailableElement = availabilityResponseElement.Element(XName.Get("IsAvailable", "http://schemas.microsoft.com/windowsazure"));
-                        if (isAvailableElement != null)
+                        XElement resultElement = availabilityResponseElement.Element(XName.Get("Result", "http://schemas.microsoft.com/windowsazure"));
+                        if (resultElement != null)
                         {
-                            bool isAvailableInstance = bool.Parse(isAvailableElement.Value);
-                            result.IsAvailable = isAvailableInstance;
+                            bool resultInstance = bool.Parse(resultElement.Value);
+                            result.IsAvailable = resultInstance;
                         }
                         
                         XElement reasonElement = availabilityResponseElement.Element(XName.Get("Reason", "http://schemas.microsoft.com/windowsazure"));
