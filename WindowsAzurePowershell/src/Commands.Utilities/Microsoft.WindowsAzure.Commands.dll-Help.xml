@@ -1590,9 +1590,6 @@
         Each subscription data set can contain information for the current Windows Azure Storage account. Storage account information is set with the –CurrentStorageAccountName parameter.
       </maml:para>
       <maml:para>
-        All connection information is stored in encrypted form in the subscription data file. If a subscription is designated as the default subscription, it is automatically made current when starting a PowerShell session or executing a script. To set the default subscription, use the  -DefaultSubscription parameter and specify the name of the subscription to designate as the default. The default subscription setting can be cleared by specifying the -NoDefaultSubscription switch parameter.
-      </maml:para>
-      <maml:para>
         All the parameters required to initialize a subscription are optional. Whenever a Windows Azure PowerShell cmdlet is executed, it retrieves its default settings from the current subscription data. If a setting is not part of the current subscription data, specify it as an explicit command line parameter.
       </maml:para>
     </maml:description>
@@ -1652,48 +1649,6 @@
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path to the file in which subscription data is stored. This parameter is optional. If not specified, subscription data is stored in a default subscription data file in the user's profile.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>DefaultSubscription</maml:name>
-          <maml:description>
-            <maml:para>
-              Designates a subscription as the default subscription. A default subscription is automatically made current when the PowerShell session starts.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path to the file in which subscription data is stored. This parameter is optional. If not specified, subscription data is stored in a default subscription data file in the user's profile.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>NoDefaultSubscription</maml:name>
-          <maml:description>
-            <maml:para>
-              Specify to reset the current default subscription setting. If no default subscription is defined, you will need to execute Select-AzureSubscription to choose the current subscription.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
@@ -1718,34 +1673,6 @@
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>DefaultSubscription</maml:name>
-        <maml:description>
-          <maml:para>
-            Designates a subscription as the default subscription. A default subscription is automatically made current when the PowerShell session starts.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>NoDefaultSubscription</maml:name>
-        <maml:description>
-          <maml:para>
-            Specify to reset the current default subscription setting. If no default subscription is defined, you will need to execute Select-AzureSubscription to choose the current subscription.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -1976,52 +1903,12 @@
           </command:commandLine>
         </command:commandLines>
       </command:example>
-      <command:example>
-        <maml:title>
-          --------------  EXAMPLE 7 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Set-AzureSubscription –DefaultSubscription "MySub"
-
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command designates "MySub" as the default subscription.
-          </maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText />
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-      <command:example>
-        <maml:title>
-          --------------  EXAMPLE 8 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Set-AzureSubscription –NoDefaultSubscription
-
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command resets the default subscription setting.
-          </maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText />
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
     </command:examples>
     <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-AzureSubscription</maml:linkText>
         <maml:uri />
