@@ -407,8 +407,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Models
         /// <summary>
         /// Optional. A name for the storage account that is base64-encoded.
         /// The label may be up to 100 characters in length. The name can be
-        /// used identify the storage account for your tracking purposes. You
-        /// must specify a value for either Label or Description, or for both.
+        /// used identify the storage account for your tracking purposes.
         /// </summary>
         public string Label
         {
@@ -3570,11 +3569,6 @@ namespace Microsoft.WindowsAzure.Management.Storage
             if (parameters.Description != null && parameters.Description.Length > 1024)
             {
                 throw new ArgumentOutOfRangeException("parameters.Description");
-            }
-            int labelCount = (parameters.Description != null ? 1 : 0) + (parameters.Label != null ? 1 : 0);
-            if (labelCount < 1)
-            {
-                throw new ArgumentException("Expected at least one of parameters.Description, parameters.Label to be provided.");
             }
             
             // Tracing
