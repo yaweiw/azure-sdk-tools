@@ -5463,30 +5463,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                             XElement currentNumberOfWorkersElement = webSpacesElement.Element(XName.Get("CurrentNumberOfWorkers", "http://schemas.microsoft.com/windowsazure"));
                             if (currentNumberOfWorkersElement != null && string.IsNullOrEmpty(currentNumberOfWorkersElement.Value) == false)
                             {
+                                bool isNil = false;
                                 XAttribute nilAttribute = currentNumberOfWorkersElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                 if (nilAttribute != null)
                                 {
-                                    string nilValue = nilAttribute.Value;
-                                    if (nilValue != "true")
-                                    {
-                                        int currentNumberOfWorkersInstance = int.Parse(currentNumberOfWorkersElement.Value, CultureInfo.InvariantCulture);
-                                        webSpaceInstance.CurrentNumberOfWorkers = currentNumberOfWorkersInstance;
-                                    }
+                                    isNil = nilAttribute.Value == "true";
+                                }
+                                if (isNil == false)
+                                {
+                                    int currentNumberOfWorkersInstance = int.Parse(currentNumberOfWorkersElement.Value, CultureInfo.InvariantCulture);
+                                    webSpaceInstance.CurrentNumberOfWorkers = currentNumberOfWorkersInstance;
                                 }
                             }
                             
                             XElement currentWorkerSizeElement = webSpacesElement.Element(XName.Get("CurrentWorkerSize", "http://schemas.microsoft.com/windowsazure"));
                             if (currentWorkerSizeElement != null && string.IsNullOrEmpty(currentWorkerSizeElement.Value) == false)
                             {
+                                bool isNil2 = false;
                                 XAttribute nilAttribute2 = currentWorkerSizeElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                 if (nilAttribute2 != null)
                                 {
-                                    string nilValue2 = nilAttribute2.Value;
-                                    if (nilValue2 != "true")
-                                    {
-                                        WebSpaceWorkerSize currentWorkerSizeInstance = (WebSpaceWorkerSize)Enum.Parse(typeof(WebSpaceWorkerSize), currentWorkerSizeElement.Value, false);
-                                        webSpaceInstance.CurrentWorkerSize = currentWorkerSizeInstance;
-                                    }
+                                    isNil2 = nilAttribute2.Value == "true";
+                                }
+                                if (isNil2 == false)
+                                {
+                                    WebSpaceWorkerSize currentWorkerSizeInstance = (WebSpaceWorkerSize)Enum.Parse(typeof(WebSpaceWorkerSize), currentWorkerSizeElement.Value, false);
+                                    webSpaceInstance.CurrentWorkerSize = currentWorkerSizeInstance;
                                 }
                             }
                             
@@ -5668,30 +5670,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                         XElement currentNumberOfWorkersElement = webSpacesElement.Element(XName.Get("CurrentNumberOfWorkers", "http://schemas.microsoft.com/windowsazure"));
                         if (currentNumberOfWorkersElement != null && string.IsNullOrEmpty(currentNumberOfWorkersElement.Value) == false)
                         {
+                            bool isNil = false;
                             XAttribute nilAttribute = currentNumberOfWorkersElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute != null)
                             {
-                                string nilValue = nilAttribute.Value;
-                                if (nilValue != "true")
-                                {
-                                    int currentNumberOfWorkersInstance = int.Parse(currentNumberOfWorkersElement.Value, CultureInfo.InvariantCulture);
-                                    result.CurrentNumberOfWorkers = currentNumberOfWorkersInstance;
-                                }
+                                isNil = nilAttribute.Value == "true";
+                            }
+                            if (isNil == false)
+                            {
+                                int currentNumberOfWorkersInstance = int.Parse(currentNumberOfWorkersElement.Value, CultureInfo.InvariantCulture);
+                                result.CurrentNumberOfWorkers = currentNumberOfWorkersInstance;
                             }
                         }
                         
                         XElement currentWorkerSizeElement = webSpacesElement.Element(XName.Get("CurrentWorkerSize", "http://schemas.microsoft.com/windowsazure"));
                         if (currentWorkerSizeElement != null && string.IsNullOrEmpty(currentWorkerSizeElement.Value) == false)
                         {
+                            bool isNil2 = false;
                             XAttribute nilAttribute2 = currentWorkerSizeElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute2 != null)
                             {
-                                string nilValue2 = nilAttribute2.Value;
-                                if (nilValue2 != "true")
-                                {
-                                    WebSpaceWorkerSize currentWorkerSizeInstance = (WebSpaceWorkerSize)Enum.Parse(typeof(WebSpaceWorkerSize), currentWorkerSizeElement.Value, false);
-                                    result.CurrentWorkerSize = currentWorkerSizeInstance;
-                                }
+                                isNil2 = nilAttribute2.Value == "true";
+                            }
+                            if (isNil2 == false)
+                            {
+                                WebSpaceWorkerSize currentWorkerSizeInstance = (WebSpaceWorkerSize)Enum.Parse(typeof(WebSpaceWorkerSize), currentWorkerSizeElement.Value, false);
+                                result.CurrentWorkerSize = currentWorkerSizeInstance;
                             }
                         }
                         
@@ -6053,30 +6057,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                                     XElement thumbprintElement = hostNameSslStatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
                                     if (thumbprintElement != null)
                                     {
+                                        bool isNil = false;
                                         XAttribute nilAttribute = thumbprintElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                         if (nilAttribute != null)
                                         {
-                                            string nilValue = nilAttribute.Value;
-                                            if (nilValue != "true")
-                                            {
-                                                string thumbprintInstance = thumbprintElement.Value;
-                                                webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
-                                            }
+                                            isNil = nilAttribute.Value == "true";
+                                        }
+                                        if (isNil == false)
+                                        {
+                                            string thumbprintInstance = thumbprintElement.Value;
+                                            webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
                                         }
                                     }
                                     
                                     XElement virtualIPElement = hostNameSslStatesElement.Element(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure"));
                                     if (virtualIPElement != null)
                                     {
+                                        bool isNil2 = false;
                                         XAttribute nilAttribute2 = virtualIPElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                         if (nilAttribute2 != null)
                                         {
-                                            string nilValue2 = nilAttribute2.Value;
-                                            if (nilValue2 != "true")
-                                            {
-                                                string virtualIPInstance = virtualIPElement.Value;
-                                                webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
-                                            }
+                                            isNil2 = nilAttribute2.Value == "true";
+                                        }
+                                        if (isNil2 == false)
+                                        {
+                                            string virtualIPInstance = virtualIPElement.Value;
+                                            webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
                                         }
                                     }
                                 }
@@ -6108,15 +6114,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                             XElement ownerElement = sitesElement.Element(XName.Get("Owner", "http://schemas.microsoft.com/windowsazure"));
                             if (ownerElement != null)
                             {
+                                bool isNil3 = false;
                                 XAttribute nilAttribute3 = ownerElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                 if (nilAttribute3 != null)
                                 {
-                                    string nilValue3 = nilAttribute3.Value;
-                                    if (nilValue3 != "true")
-                                    {
-                                        string ownerInstance = ownerElement.Value;
-                                        siteInstance.Owner = ownerInstance;
-                                    }
+                                    isNil3 = nilAttribute3.Value == "true";
+                                }
+                                if (isNil3 == false)
+                                {
+                                    string ownerInstance = ownerElement.Value;
+                                    siteInstance.Owner = ownerInstance;
                                 }
                             }
                             
@@ -6637,15 +6644,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                             XElement sortOrderElement = geoRegionsElement.Element(XName.Get("SortOrder", "http://schemas.microsoft.com/windowsazure"));
                             if (sortOrderElement != null)
                             {
+                                bool isNil = false;
                                 XAttribute nilAttribute = sortOrderElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                 if (nilAttribute != null)
                                 {
-                                    string nilValue = nilAttribute.Value;
-                                    if (nilValue != "true")
-                                    {
-                                        int sortOrderInstance = int.Parse(sortOrderElement.Value, CultureInfo.InvariantCulture);
-                                        geoRegionInstance.SortOrder = sortOrderInstance;
-                                    }
+                                    isNil = nilAttribute.Value == "true";
+                                }
+                                if (isNil == false)
+                                {
+                                    int sortOrderInstance = int.Parse(sortOrderElement.Value, CultureInfo.InvariantCulture);
+                                    geoRegionInstance.SortOrder = sortOrderInstance;
                                 }
                             }
                         }
@@ -8260,30 +8268,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                                 XElement thumbprintElement = hostNameSslStatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
                                 if (thumbprintElement != null)
                                 {
+                                    bool isNil = false;
                                     XAttribute nilAttribute = thumbprintElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute != null)
                                     {
-                                        string nilValue = nilAttribute.Value;
-                                        if (nilValue != "true")
-                                        {
-                                            string thumbprintInstance = thumbprintElement.Value;
-                                            webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
-                                        }
+                                        isNil = nilAttribute.Value == "true";
+                                    }
+                                    if (isNil == false)
+                                    {
+                                        string thumbprintInstance = thumbprintElement.Value;
+                                        webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
                                     }
                                 }
                                 
                                 XElement virtualIPElement = hostNameSslStatesElement.Element(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure"));
                                 if (virtualIPElement != null)
                                 {
+                                    bool isNil2 = false;
                                     XAttribute nilAttribute2 = virtualIPElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute2 != null)
                                     {
-                                        string nilValue2 = nilAttribute2.Value;
-                                        if (nilValue2 != "true")
-                                        {
-                                            string virtualIPInstance = virtualIPElement.Value;
-                                            webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
-                                        }
+                                        isNil2 = nilAttribute2.Value == "true";
+                                    }
+                                    if (isNil2 == false)
+                                    {
+                                        string virtualIPInstance = virtualIPElement.Value;
+                                        webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
                                     }
                                 }
                             }
@@ -8315,15 +8325,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                         XElement ownerElement = siteElement2.Element(XName.Get("Owner", "http://schemas.microsoft.com/windowsazure"));
                         if (ownerElement != null)
                         {
+                            bool isNil3 = false;
                             XAttribute nilAttribute3 = ownerElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute3 != null)
                             {
-                                string nilValue3 = nilAttribute3.Value;
-                                if (nilValue3 != "true")
-                                {
-                                    string ownerInstance = ownerElement.Value;
-                                    webSiteInstance.Owner = ownerInstance;
-                                }
+                                isNil3 = nilAttribute3.Value == "true";
+                            }
+                            if (isNil3 == false)
+                            {
+                                string ownerInstance = ownerElement.Value;
+                                webSiteInstance.Owner = ownerInstance;
                             }
                         }
                         
@@ -8725,30 +8736,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                                 XElement thumbprintElement = hostNameSslStatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
                                 if (thumbprintElement != null)
                                 {
+                                    bool isNil = false;
                                     XAttribute nilAttribute = thumbprintElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute != null)
                                     {
-                                        string nilValue = nilAttribute.Value;
-                                        if (nilValue != "true")
-                                        {
-                                            string thumbprintInstance = thumbprintElement.Value;
-                                            webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
-                                        }
+                                        isNil = nilAttribute.Value == "true";
+                                    }
+                                    if (isNil == false)
+                                    {
+                                        string thumbprintInstance = thumbprintElement.Value;
+                                        webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
                                     }
                                 }
                                 
                                 XElement virtualIPElement = hostNameSslStatesElement.Element(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure"));
                                 if (virtualIPElement != null)
                                 {
+                                    bool isNil2 = false;
                                     XAttribute nilAttribute2 = virtualIPElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute2 != null)
                                     {
-                                        string nilValue2 = nilAttribute2.Value;
-                                        if (nilValue2 != "true")
-                                        {
-                                            string virtualIPInstance = virtualIPElement.Value;
-                                            webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
-                                        }
+                                        isNil2 = nilAttribute2.Value == "true";
+                                    }
+                                    if (isNil2 == false)
+                                    {
+                                        string virtualIPInstance = virtualIPElement.Value;
+                                        webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
                                     }
                                 }
                             }
@@ -8780,15 +8793,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                         XElement ownerElement = siteElement.Element(XName.Get("Owner", "http://schemas.microsoft.com/windowsazure"));
                         if (ownerElement != null)
                         {
+                            bool isNil3 = false;
                             XAttribute nilAttribute3 = ownerElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute3 != null)
                             {
-                                string nilValue3 = nilAttribute3.Value;
-                                if (nilValue3 != "true")
-                                {
-                                    string ownerInstance = ownerElement.Value;
-                                    webSiteInstance.Owner = ownerInstance;
-                                }
+                                isNil3 = nilAttribute3.Value == "true";
+                            }
+                            if (isNil3 == false)
+                            {
+                                string ownerInstance = ownerElement.Value;
+                                webSiteInstance.Owner = ownerInstance;
                             }
                         }
                         
@@ -9341,30 +9355,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                                 XElement thumbprintElement3 = hostNameSslStatesElement.Element(XName.Get("Thumbprint", "http://schemas.microsoft.com/windowsazure"));
                                 if (thumbprintElement3 != null)
                                 {
+                                    bool isNil = false;
                                     XAttribute nilAttribute2 = thumbprintElement3.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute2 != null)
                                     {
-                                        string nilValue = nilAttribute2.Value;
-                                        if (nilValue != "true")
-                                        {
-                                            string thumbprintInstance = thumbprintElement3.Value;
-                                            webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
-                                        }
+                                        isNil = nilAttribute2.Value == "true";
+                                    }
+                                    if (isNil == false)
+                                    {
+                                        string thumbprintInstance = thumbprintElement3.Value;
+                                        webSiteHostNameSslStateInstance.Thumbprint = thumbprintInstance;
                                     }
                                 }
                                 
                                 XElement virtualIPElement = hostNameSslStatesElement.Element(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure"));
                                 if (virtualIPElement != null)
                                 {
+                                    bool isNil2 = false;
                                     XAttribute nilAttribute3 = virtualIPElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                     if (nilAttribute3 != null)
                                     {
-                                        string nilValue2 = nilAttribute3.Value;
-                                        if (nilValue2 != "true")
-                                        {
-                                            string virtualIPInstance = virtualIPElement.Value;
-                                            webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
-                                        }
+                                        isNil2 = nilAttribute3.Value == "true";
+                                    }
+                                    if (isNil2 == false)
+                                    {
+                                        string virtualIPInstance = virtualIPElement.Value;
+                                        webSiteHostNameSslStateInstance.VirtualIP = virtualIPInstance;
                                     }
                                 }
                             }
@@ -9396,15 +9412,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                         XElement ownerElement = siteElement2.Element(XName.Get("Owner", "http://schemas.microsoft.com/windowsazure"));
                         if (ownerElement != null)
                         {
+                            bool isNil3 = false;
                             XAttribute nilAttribute4 = ownerElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                             if (nilAttribute4 != null)
                             {
-                                string nilValue3 = nilAttribute4.Value;
-                                if (nilValue3 != "true")
-                                {
-                                    string ownerInstance = ownerElement.Value;
-                                    webSiteInstance.Owner = ownerInstance;
-                                }
+                                isNil3 = nilAttribute4.Value == "true";
+                            }
+                            if (isNil3 == false)
+                            {
+                                string ownerInstance = ownerElement.Value;
+                                webSiteInstance.Owner = ownerInstance;
                             }
                         }
                         
@@ -11537,30 +11554,32 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                                             XElement maximumElement = valuesElement.Element(XName.Get("Maximum", "http://schemas.microsoft.com/windowsazure"));
                                             if (maximumElement != null)
                                             {
+                                                bool isNil = false;
                                                 XAttribute nilAttribute = maximumElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                                 if (nilAttribute != null)
                                                 {
-                                                    string nilValue = nilAttribute.Value;
-                                                    if (nilValue != "true")
-                                                    {
-                                                        string maximumInstance = maximumElement.Value;
-                                                        metricSampleInstance.Maximum = maximumInstance;
-                                                    }
+                                                    isNil = nilAttribute.Value == "true";
+                                                }
+                                                if (isNil == false)
+                                                {
+                                                    string maximumInstance = maximumElement.Value;
+                                                    metricSampleInstance.Maximum = maximumInstance;
                                                 }
                                             }
                                             
                                             XElement minimumElement = valuesElement.Element(XName.Get("Minimum", "http://schemas.microsoft.com/windowsazure"));
                                             if (minimumElement != null)
                                             {
+                                                bool isNil2 = false;
                                                 XAttribute nilAttribute2 = minimumElement.Attribute(XName.Get("nil", "http://www.w3.org/2001/XMLSchema-instance"));
                                                 if (nilAttribute2 != null)
                                                 {
-                                                    string nilValue2 = nilAttribute2.Value;
-                                                    if (nilValue2 != "true")
-                                                    {
-                                                        string minimumInstance = minimumElement.Value;
-                                                        metricSampleInstance.Minimum = minimumInstance;
-                                                    }
+                                                    isNil2 = nilAttribute2.Value == "true";
+                                                }
+                                                if (isNil2 == false)
+                                                {
+                                                    string minimumInstance = minimumElement.Value;
+                                                    metricSampleInstance.Minimum = minimumInstance;
                                                 }
                                             }
                                             
