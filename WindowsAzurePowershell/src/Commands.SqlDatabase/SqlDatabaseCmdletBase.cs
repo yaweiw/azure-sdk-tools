@@ -75,12 +75,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
                     Utilities.Properties.Resources.InvalidCurrentSubscription);
             }
 
-            if (subscription.Certificate == null)
-            {
-                throw new ArgumentException(
-                    Utilities.Properties.Resources.InvalidCurrentSuscriptionCertificate);
-            }
-
             if (string.IsNullOrEmpty(subscription.SubscriptionId))
             {
                 throw new ArgumentException(
