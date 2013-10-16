@@ -37,4 +37,7 @@ del %output%\System.IO.xml
 del %output%\System.Net.Http.Extensions.xml
 del %output%\System.Net.Http.Primitives.xml
 
+echo Delete config files for dlls from %output%
+del %output%\*.dll.config
+
 heat dir %output% -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o azurecmdfiles.wxi
