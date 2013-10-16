@@ -29,20 +29,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetAzureAffinityGroupSingleTest()
         {
             // Setup
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.IsTrue(((AffinityGroup)enumerator.Current).Name.Equals("affinity1"));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetAzureAffinityGroupMultipleTest()
         {
             // Setup

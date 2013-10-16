@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using System.Linq;
     using Commands.ServiceManagement.IaaS;
 
-    //[TestClass]
+    ////[TestClass]
     public class GetAzureWinRMUriTests : TestBase
     {
         private Uri deploymentUrl;
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         private int secondRolesPublicPort;
         private MockCommandRuntime mockCommandRuntime;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
 //            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             mockCommandRuntime = new MockCommandRuntime();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
         }
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoCurrentDeployment()
         {
             var winRmUri = new GetAzureWinRMUriStub(null)
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count, "Nothing should be written to output pipeline");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoUrlInDeployment()
         {
             var deployment = new Deployment();
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndNoRoleInstanceListInDeployment()
         {
             var deployment = new Deployment
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NameSpecifiedAndNoRoleInstanceListInDeployment()
         {
             var deployment = new Deployment
@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndRoleInstanceListWithNullRoleInstanceInDeployment()
         {
             var deployment = new Deployment
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count, "Nothing should be written to output pipeline");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NameSpecifiedAndRoleInstanceListDoesNotHaveMatchingRoleInstanceInDeployment()
         {
             var deployment = new Deployment
@@ -172,7 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count, "Nothing should be written to output pipeline");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndRoleInstanceListWithSingleRoleInstanceWithoutInputEndpointsInDeployment()
         {
             var deployment = new Deployment
@@ -199,7 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndRoleInstanceListWithSingleRoleInstanceWithSingleNonWinRMInputEndpointInDeployment()
         {
             var deployment = new Deployment
@@ -224,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count, "Nothing should be written to output pipeline");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndRoleInstanceListWithSingleRoleInstanceWithSingleWinRMInputEndpointInDeployment()
         {
             var deployment = new Deployment
@@ -261,7 +261,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(builder.Uri, uri);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NameSpecifiedAndRoleInstanceListWithSingleRoleInstanceWithoutEndpointInDeployment()
         {
             var deployment = new Deployment
@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count, "There should be no item in the output pipeline");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NameSpecifiedAndRoleInstanceListWithSingleRoleInstanceWithSingleWinRMInputEndpointInDeployment()
         {
             var deployment = new Deployment
@@ -328,7 +328,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.AreEqual(builder.Uri, uri);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoNameSpecifiedAndRoleInstanceListWithMultipleRoleInstanceWithSingleWinRMInputEndpointInDeployment()
         {
             var deployment = new Deployment
