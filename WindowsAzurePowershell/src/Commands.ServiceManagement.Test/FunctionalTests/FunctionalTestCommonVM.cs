@@ -48,11 +48,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            do
-            {
-                defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            }
-            while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
+            defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //do
+            //{
+            //    defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //}
+            //while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
 
             defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService));
