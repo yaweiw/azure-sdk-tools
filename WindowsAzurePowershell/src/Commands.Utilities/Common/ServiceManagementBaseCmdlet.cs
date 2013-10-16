@@ -115,6 +115,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return networkClient.Value; }
         }
 
+        protected override void InitChannelCurrentSubscription(bool force)
+        {
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the client would also dispose the channel we are returning.")]
         protected override IServiceManagement CreateChannel()
         {
