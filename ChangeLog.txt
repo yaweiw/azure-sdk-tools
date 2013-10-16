@@ -5,6 +5,7 @@
      * Checkout Add-AzureAccount, Get-AzureAcccount and Remove-AzureAccount for details
  * Changed the file format which is used to store the subscription information. Information in the original file will be added to the new file automatically. If you downgrade from 0.7.0 to a lower version, you can still see the subscriptions you imported before the 0.7.0 upgrade. But anything added after the 0.7.0 upgrade won't show up in the downgrade.
  * BREAKING CHANGE
+     * Changed the assembly name and namespace from Microsoft.WindowsAzure.Management.* to Microsoft.WindowsAzure.Commands.*
      * Select-AzureSubscription
          * Now you can use it to select or clear either the current subscription or the default subscription
          * Replaced the -Clear parameter with -NoCurrent parameter
