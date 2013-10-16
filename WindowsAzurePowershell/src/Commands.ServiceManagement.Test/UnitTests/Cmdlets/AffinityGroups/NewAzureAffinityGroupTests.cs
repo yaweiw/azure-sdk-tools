@@ -27,20 +27,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NewAzureAffinityGroupTest()
         {
             const string affinityGroupName = "myAffinity";

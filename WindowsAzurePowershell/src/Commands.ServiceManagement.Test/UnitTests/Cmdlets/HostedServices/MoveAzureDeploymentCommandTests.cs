@@ -24,19 +24,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
 
-    //[TestClass]
+    ////[TestClass]
     public class MoveAzureDeploymentCommandTests : TestBase
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoProductionAndNoStagingDeployment()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ProductionExistsWithNoStagingDeployment()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
@@ -168,7 +168,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ProductionExistsWithPersistenVMRoleNoStagingDeployment()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
@@ -191,7 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoProductionWithStagingDeploymentWithPersistenVMRole()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
@@ -214,7 +214,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void NoProductionWithStagingDeployment()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ProductionDeploymentExistsWithStagingDeployment()
         {
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
