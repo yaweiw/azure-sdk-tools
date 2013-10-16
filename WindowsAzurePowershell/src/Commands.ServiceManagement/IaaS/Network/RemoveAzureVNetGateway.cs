@@ -15,21 +15,12 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Service.Gateway;
+    using Management.VirtualNetworks;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureVNetGatewayCommand : GatewayCmdletBase
+    public class RemoveAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureVNetGatewayCommand()
-        {
-        }
-
-        public RemoveAzureVNetGatewayCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
         public string VNetName
         {
@@ -39,7 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.DeleteVirtualNetworkGateway(s, this.VNetName), this.WaitForNewGatewayOperation);
+            ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.Delete(this.VNetName),
+                this.WaitForNewGatewayOperation);
         }
     }
 }

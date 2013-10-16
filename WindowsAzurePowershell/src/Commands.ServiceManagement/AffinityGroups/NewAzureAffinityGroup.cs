@@ -15,8 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management;
+    using Management.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Creates and returns a new affinity group in the specified data center location.
@@ -24,15 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     [Cmdlet(VerbsCommon.New, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        public NewAzureAffinityGroup()
-        {
-        }
-
-        public NewAzureAffinityGroup(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         /// <summary>
         /// A name for the affinity group that is unique to the subscription. (Required)
         /// </summary>
@@ -80,19 +72,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         public void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
+            
             if (string.IsNullOrEmpty(Label))
             {
                 Label = Name;
             }
-            var aginput = new CreateAffinityGroupInput
-            {
-                Description = this.Description,
-                Label = this.Label,
-                Location = this.Location,
-                Name = this.Name
-            };
 
-            ExecuteClientActionInOCS(aginput, CommandRuntime.ToString(), s => this.Channel.CreateAffinityGroup(s, aginput));
+            var input = new AffinityGroupCreateParameters
+                        {
+                            Description = this.Description,
+                            Label = this.Label,
+                            Location = this.Location,
+                            Name = this.Name
+                        };
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ManagementClient.AffinityGroups.Create(input));
         }
 
         protected override void OnProcessRecord()

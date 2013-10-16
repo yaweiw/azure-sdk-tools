@@ -15,8 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Creates a new storage account in Windows Azure.
@@ -24,15 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.New, "AzureStorageAccount", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureStorageAccountCommand()
-        {
-        }
-
-        public NewAzureStorageAccountCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A name for the storage account that is unique to the subscription. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.")]
         [ValidateNotNullOrEmpty]
         [Alias("ServiceName")]
@@ -78,20 +70,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         internal void ExecuteCommand()
         {
-            if (string.IsNullOrEmpty(Label))
+            ServiceManagementProfile.Initialize();
+
+            var parameters = new StorageAccountCreateParameters
             {
-                Label = StorageAccountName;
-            }
-            var createStorageServiceInput = new CreateStorageServiceInput()
-            {
-                ServiceName = this.StorageAccountName,
-                Label = this.Label,
+                ServiceName =  this.StorageAccountName,
+                Label =  this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
-                Location = this.Location
+                Location = this.Location,
+                GeoReplicationEnabled = true
             };
 
-            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
+            ExecuteClientActionNewSM(
+                parameters,
+                CommandRuntime.ToString(),
+                () => this.StorageClient.StorageAccounts.Create(parameters));
         }
 
         protected override void OnProcessRecord()

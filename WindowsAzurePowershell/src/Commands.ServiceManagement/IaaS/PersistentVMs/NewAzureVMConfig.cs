@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
+        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
         public string InstanceSize
         {
             get;
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             Label = Label;
 
-            var role = new PersistentVM
+            var role = new PersistentVM 
             {
                 AvailabilitySetName = AvailabilitySetName,
                 ConfigurationSets = new Collection<ConfigurationSet>(),

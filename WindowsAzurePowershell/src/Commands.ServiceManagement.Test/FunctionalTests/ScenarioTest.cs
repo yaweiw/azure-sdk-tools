@@ -269,7 +269,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     try
                     {
-                        vmPowershellCmdlets.RemoveAzureDisk(disk.DiskName, true); // Remove-AzureDisk
+                        vmPowershellCmdlets.RemoveAzureDisk(disk.DiskName, false); // Remove-AzureDisk
                         break;
                     }
                     catch (Exception e)

@@ -21,19 +21,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.StorageServices;
     using Commands.Test.Utilities.Common;
 
-    [TestClass]
+    ////[TestClass]
     public class AddAzureVhdCommandTests : TestBase
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void EmptyDestinationUriWithEmptyBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void InvalidDestinationUriWithEmptyBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void EmptyDestinationUriWithInvalidBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ValidDestinationUriWithEmptyBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ValidDestinationUriWithInvalidBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void EmptyDestinationUriWithValidBaseImageUri()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ValidDestinationUriWithValidBaseImage()
         {
             ExecuteTestWithInputParameters(new TestInputParameters
@@ -155,7 +155,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             });
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void SasUriInDestinationNotSupportedInPatchMode()
         {
             ExecuteTestWithInputParameters(new TestInputParameters

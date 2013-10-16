@@ -12,78 +12,43 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
-    using Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(IEnumerable<DiskContext>))]
     public class GetAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the disk in the disk library.")]
         [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
+        public string DiskName { get; set; }
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, IEnumerable<Disk>, object> func = (operation, disks) => disks.Select(d => new DiskContext
-            {
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status,
-                DiskName = d.Name,
-                Label = d.Label,
-                IsCorrupted = d.IsCorrupted,
-                AffinityGroup = d.AffinityGroup,
-                OS = d.OS,
-                Location = d.Location,
-                MediaLink = d.MediaLink,
-                DiskSizeInGB = d.LogicalDiskSizeInGB,
-                SourceImageName = d.SourceImageName,
-                AttachedTo = CreateRoleReference(d.AttachedTo)
-            }).ToList();
+            ServiceManagementProfile.Initialize();
+
             if (!string.IsNullOrEmpty(this.DiskName))
             {
-                ExecuteClientActionInOCS(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
-                    s => this.Channel.GetDisk(s, this.DiskName),
-                    (operation, disk) => func(operation, new[] { disk }));
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName),
+                    (s, response) => this.ContextFactory<VirtualMachineDiskGetDiskResponse, DiskContext>(response, s));
             }
             else
             {
-                ExecuteClientActionInOCS(
+                this.ExecuteClientActionNewSM(
                     null,
-                    CommandRuntime.ToString(),
-                    s => this.Channel.ListDisks(s),
-                    (operation, disks) => func(operation, disks));
-
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineDisks.ListDisks(),
+                    (s, response) => response.Disks.Select(disk => this.ContextFactory<VirtualMachineDiskListResponse.VirtualMachineDisk, DiskContext>(disk, s)));
             }
-        }
-
-        private static DiskContext.RoleReference CreateRoleReference(RoleReference roleReference)
-        {
-            if (roleReference == null)
-            {
-                return null;
-            }
-
-            return new DiskContext.RoleReference
-            {
-                DeploymentName = roleReference.DeploymentName,
-                HostedServiceName = roleReference.HostedServiceName,
-                RoleName = roleReference.RoleName
-            };
         }
     }
 }

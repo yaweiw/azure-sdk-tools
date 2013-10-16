@@ -31,6 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.LunSlot = lunSlot;
         }
 
-        public PersistentVM Vm { get; set; }
+        public PersistentVM  Vm { get; set; }
     }
 }

@@ -14,9 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Walks the specified upgrade domain.
@@ -26,11 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     {
         public SetAzureWalkUpgradeDomainCommand()
         {
-        }
-
-        public SetAzureWalkUpgradeDomainCommand(IServiceManagement channel)
-        {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name")]
@@ -59,12 +57,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         internal void ExecuteCommand()
         {
-            var walkUpgradeDomain = new WalkUpgradeDomainInput
+            ServiceManagementProfile.Initialize();
+
+            var walkUpgradeDomainParams = new DeploymentWalkUpgradeDomainParameters
             {
                 UpgradeDomain = this.DomainNumber
             };
 
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.WalkUpgradeDomainBySlot(s, this.ServiceName, this.Slot, walkUpgradeDomain));
+            DeploymentSlot slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true);
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.WalkUpgradeDomainByDeploymentSlot(ServiceName, slotType, walkUpgradeDomainParams));
         }
 
         protected override void OnProcessRecord()

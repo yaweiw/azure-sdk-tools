@@ -1337,7 +1337,9 @@ Please follow these steps in the portal:
   <data name="EnvironmentDoesNotSupportActiveDirectory" xml:space="preserve">
     <value>The environment {0} does not currently support Active Directory authentication.</value>
   </data>
-  <data name="DictionaryAddAlreadyContainsKey" xml:space="preserve">
+  <data name="GatewayOperationStatus" xml:space="preserve">
+    <value>Operation Status:</value>
+  </data>  <data name="DictionaryAddAlreadyContainsKey" xml:space="preserve">
     <value>The key to add already exists in the dictionary.</value>
   </data>
   <data name="DictionaryCopyToArrayIndexLessThanZero" xml:space="preserve">

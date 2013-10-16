@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using PersistentVMModel;
 
     public class NetworkAclObject : IEnumerable<NetworkAclRule>
     {

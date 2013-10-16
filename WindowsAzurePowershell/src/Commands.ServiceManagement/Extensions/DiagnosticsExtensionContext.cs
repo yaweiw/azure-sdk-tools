@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Commands.Utilities.Common;
+    using Utilities.Common;
 
     public class DiagnosticExtensionContext : ManagementOperationContext
     {

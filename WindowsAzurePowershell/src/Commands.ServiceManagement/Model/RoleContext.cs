@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-
     public class RoleContext : ServiceOperationContext
     {
         public string RoleName { get; set; }

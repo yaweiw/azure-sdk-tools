@@ -9,29 +9,27 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Commands.Utilities.CloudService;
-    using Commands.Utilities.Common;
-    using Helpers;
-    using Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
-    using WindowsAzure.ServiceManagement;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Properties;
+    using Utilities.CloudService;
+    using Utilities.Common;
 
     public abstract class BaseAzureServiceExtensionCmdlet : ServiceManagementBaseCmdlet
     {
         protected const string PublicConfigStr = "PublicConfig";
         protected const string PrivateConfigStr = "PrivateConfig";
-        protected const string ChangeConfigurationModeStr = "Auto";
         protected const string XmlNameSpaceAttributeStr = "xmlns";
 
         protected ExtensionManager ExtensionManager { get; set; }
@@ -43,7 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected XDocument PrivateConfigurationXml { get; set; }
         protected string PublicConfiguration { get; set; }
         protected string PrivateConfiguration { get; set; }
-        protected Deployment Deployment { get; set; }
+        protected DeploymentGetResponse Deployment { get; set; }
+        //protected Deployment Deployment { get; set; }
 
         public virtual string ServiceName { get; set; }
         public virtual string Slot { get; set; }
@@ -56,12 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public BaseAzureServiceExtensionCmdlet()
             : base()
         {
-        }
-
-        public BaseAzureServiceExtensionCmdlet(IServiceManagement channel)
-            : base()
-        {
-            Channel = channel;
+            ServiceManagementProfile.Initialize();
         }
 
         protected virtual void ValidateParameters()
@@ -81,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             else
             {
                 ServiceName = serviceName;
-                if (!IsServiceAvailable(ServiceName))
+                if (ComputeClient.HostedServices.CheckNameAvailability(ServiceName).IsAvailable)
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
@@ -91,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ValidateDeployment()
         {
-            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
+            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlot.Production.ToString() : Slot;
 
             Deployment = GetDeployment(Slot);
             if (!UninstallConfiguration)
@@ -100,13 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindDeployment, ServiceName, Slot));
                 }
-                Deployment.ExtensionConfiguration = Deployment.ExtensionConfiguration ?? new ExtensionConfiguration
-                {
-                    AllRoles = new AllRoles(),
-                    NamedRoles = new NamedRoles()
-                };
-                Deployment.ExtensionConfiguration.AllRoles = Deployment.ExtensionConfiguration.AllRoles ?? new AllRoles();
-                Deployment.ExtensionConfiguration.NamedRoles = Deployment.ExtensionConfiguration.NamedRoles ?? new NamedRoles();
+                Deployment.ExtensionConfiguration = Deployment.ExtensionConfiguration ?? new Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration();
             }
         }
 
@@ -115,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             Role = Role == null ? new string[0] : Role.Select(r => r == null ? string.Empty : r.Trim()).Distinct().ToArray();
             foreach (string roleName in Role)
             {
-                if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
+                if (Deployment.Roles == null || !Deployment.Roles.Any(r => r.RoleName == roleName))
                 {
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindRole, roleName, Slot, ServiceName));
                 }
@@ -134,12 +122,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, X509Certificate.Thumbprint);
                 if (uploadCert)
                 {
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
+                    var parameters = new ServiceCertificateCreateParameters
+                    {
+                        Data = CertUtilsNewSM.GetCertificateData(X509Certificate),
+                        Password = null,
+                        CertificateFormat = CertificateFormat.Pfx
+                    };
+
+                    ExecuteClientActionNewSM(
+                        null,
+                        CommandRuntime.ToString(),
+                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
                 }
+
                 CertificateThumbprint = X509Certificate.Thumbprint;
             }
+            else
+            {
+                CertificateThumbprint = CertificateThumbprint ?? string.Empty;
+            }
+
             ThumbprintAlgorithm = ThumbprintAlgorithm ?? string.Empty;
-            CertificateThumbprint = CertificateThumbprint ?? string.Empty;
         }
 
         protected virtual void ValidateConfiguration()
@@ -155,7 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return result.FirstOrDefault();
         }
 
-        protected string GetPublicConfigValue(HostedServiceExtension extension, string element)
+        protected string GetPublicConfigValue(HostedServiceListExtensionsResponse.Extension extension, string element)
         {
             return extension == null ? string.Empty : GetConfigValue(extension.PublicConfiguration, element);
         }
@@ -200,46 +203,44 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)
         {
-            ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
+            DeploymentChangeConfigurationParameters changeConfigInput = new DeploymentChangeConfigurationParameters
             {
                 Configuration = Deployment.Configuration,
-                ExtendedProperties = Deployment.ExtendedProperties,
                 ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
-                Mode = ChangeConfigurationModeStr,
+                Mode = DeploymentChangeConfigurationMode.Auto,
                 TreatWarningsAsError = false
             };
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.ChangeConfigurationBySlot(
+                    ServiceName,
+                    (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), Slot, true),
+                    changeConfigInput));
         }
 
-        protected Deployment GetDeployment(string slot)
+        protected DeploymentGetResponse GetDeployment(string slot)
         {
-            Deployment deployment = null;
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), slot, true);
+
+            DeploymentGetResponse d = null;
+            InvokeInOperationContext(() =>
             {
                 try
                 {
-                    deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
+                    d = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
                 }
-                catch (ServiceManagementClientException ex)
+                catch (CloudException ex)
                 {
-                    if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
+                    if (ex.Response.StatusCode != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                 }
-            }
-            return deployment;
-        }
-
-        protected virtual bool IsServiceAvailable(string serviceName)
-        {
-            // Check that cloud service exists
-            bool found = false;
-            InvokeInOperationContext(() =>
-            {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
             });
-            return found;
+
+            return d;
         }
     }
 }

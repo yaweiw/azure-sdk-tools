@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using PersistentVMModel;
 
     public class NetworkAclRule
     {
