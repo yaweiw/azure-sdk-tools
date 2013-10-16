@@ -15,21 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Service.Gateway;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureVNetGatewayCommand : GatewayCmdletBase
+    public class NewAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureVNetGatewayCommand()
-        {
-        }
-
-        public NewAzureVNetGatewayCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
         public string VNetName
         {
@@ -39,7 +31,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.NewVirtualNetworkGateway(s, this.VNetName), this.WaitForNewGatewayOperation);
+            var gatewayParams = new GatewayCreateParameters();
+
+            ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.Create(this.VNetName, gatewayParams),
+                this.WaitForNewGatewayOperation);
         }
     }
 }

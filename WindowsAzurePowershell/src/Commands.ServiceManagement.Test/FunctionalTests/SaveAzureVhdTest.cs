@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 try
                 {
-                    CredentialHelper.CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdName);
+                    //CredentialHelper.CopyTestData(testDataContainer, osVhdName, vhdContainerName, vhdName);
                 }
                 catch (Exception e)
                 {

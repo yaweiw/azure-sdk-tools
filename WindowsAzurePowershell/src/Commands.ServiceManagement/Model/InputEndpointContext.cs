@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-
     public class InputEndpointContext
     {
         public string LBSetName { get; set; }

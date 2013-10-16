@@ -29,9 +29,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
-
+    using Model.PersistentVMModel;
     using PIRCmdletInfo;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public class ServiceManagementCmdletTestHelper
     {
@@ -728,7 +728,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return subnets;
         }
 
-        public PersistentVM SetAzureSubnet(PersistentVM vm, string [] subnetNames)
+        public PersistentVM SetAzureSubnet(PersistentVM vm, string[] subnetNames)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureSubnetCmdletInfo(vm, subnetNames));
         }
@@ -924,7 +924,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureVM
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location  = null)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location = null)
         {
             return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
         }

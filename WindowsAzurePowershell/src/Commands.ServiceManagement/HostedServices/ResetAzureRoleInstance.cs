@@ -17,10 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Requests a reboot/reimage of a single role instance or for all role instances of a role.
@@ -28,15 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Reset, "AzureRoleInstance", DefaultParameterSetName = "ParameterSetGetDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class ResetAzureRoleInstanceCommand : ServiceManagementBaseCmdlet
     {
-        public ResetAzureRoleInstanceCommand()
-        {
-        }
-
-        public ResetAzureRoleInstanceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the hosted service.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -80,6 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             if (InstanceName != null)
             {
+                ServiceManagementProfile.Initialize();
                 if (Reboot)
                 {
                     RebootSingleInstance(InstanceName);
@@ -99,18 +92,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         private void RebootSingleInstance(string instanceName)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.RebootDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName));
-            }
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+            InvokeInOperationContext(() => ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.RebootRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName)));
         }
 
         private void ReimageSingleInstance(string instanceName)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.ReimageDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName));
-            }
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+            InvokeInOperationContext(() => ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.ReimageRoleInstanceByDeploymentSlot(this.ServiceName, slotType, instanceName)));
         }
 
         private void ValidateParameters()

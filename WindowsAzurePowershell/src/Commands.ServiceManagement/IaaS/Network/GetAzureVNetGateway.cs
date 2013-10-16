@@ -16,21 +16,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
+    using Management.VirtualNetworks;
     using Model;
     using Service.Gateway;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetGateway"), OutputType(typeof(VirtualNetworkGatewayContext))]
-    public class GetAzureVNetGatewayCommand : GatewayCmdletBase
+    public class GetAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetGatewayCommand()
-        {
-        }
-
-        public GetAzureVNetGatewayCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
         public string VNetName
         {
@@ -40,22 +33,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            this.ExecuteClientActionInOCS(
-                null, this.CommandRuntime.ToString(),
-                s => this.Channel.GetVirtualNetworkGateway(s, this.VNetName), 
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.Get(this.VNetName),
                 this.WaitForNewGatewayOperation,
                 (operation, operationResponse) => new VirtualNetworkGatewayContext
-                    {
-                        OperationId = operation.OperationTrackingId,
-                        OperationStatus = operation.Status.ToString(),
-                        OperationDescription = this.CommandRuntime.ToString(),
-                        LastEventData = (operationResponse.LastEvent != null) ? operationResponse.LastEvent.Data : null,
-                        LastEventMessage = (operationResponse.LastEvent != null) ? operationResponse.LastEvent.Message : null,
-                        LastEventID = (operationResponse.LastEvent != null) ? operationResponse.LastEvent.Id : -1,
-                        LastEventTimeStamp = (operationResponse.LastEvent != null) ? (DateTime?)operationResponse.LastEvent.Timestamp : null,
-                        State = operationResponse.State,
-                        VIPAddress = operationResponse.VIPAddress
-                    });
+                {
+                    OperationId          = operation.Id,
+                    OperationStatus      = operation.Status.ToString(),
+                    OperationDescription = this.CommandRuntime.ToString(),
+                    LastEventData        = (operationResponse.LastEvent != null) ? operationResponse.LastEvent.Data : null,
+                    LastEventMessage     = (operationResponse.LastEvent != null) ? operationResponse.LastEvent.Message : null,
+                    LastEventID          = GetEventId(operationResponse.LastEvent),
+                    LastEventTimeStamp   = (operationResponse.LastEvent != null) ? (DateTime?)operationResponse.LastEvent.Timestamp : null,
+                    State                = (ProvisioningState)Enum.Parse(typeof(ProvisioningState), operationResponse.State, true),
+                    VIPAddress           = operationResponse.VipAddress.ToString()
+                });
+        }
+
+        private int GetEventId(Microsoft.WindowsAzure.Management.VirtualNetworks.Models.GatewayEvent gatewayEvent)
+        {
+            int val = -1;
+            if (gatewayEvent != null)
+            {
+                int.TryParse(gatewayEvent.Id, out val);
+            }
+
+            return val;
         }
     }
 }

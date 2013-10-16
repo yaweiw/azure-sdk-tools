@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using Properties;
 
     public class WinRmConfigurationBuilder

@@ -17,22 +17,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using System.Xml.Serialization;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureVNetConfigCommand()
-        {
-        }
-
-        public SetAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path to the Network Configuration file (.xml).")]
         [ValidateNotNullOrEmpty]
         public string ConfigurationPath
@@ -44,29 +37,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         internal void ExecuteCommand()
         {
             ValidateParameters();
-
-            FileStream netConfigFS = null;
-
+            StreamReader sr = null;
             try
             {
-                netConfigFS = new FileStream(this.ConfigurationPath, FileMode.Open);
+                sr = new StreamReader(this.ConfigurationPath);
 
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, netConfigFS));
+                var netParams = new NetworkSetConfigurationParameters
+                {
+                    Configuration = sr.ReadToEnd()
+                };
+
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.NetworkClient.Networks.SetConfiguration(netParams));
             }
             finally
             {
-                if (netConfigFS != null)
+                if (sr != null)
                 {
-                    netConfigFS.Close();
+                    sr.Close();
                 }
             }
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
-
 
         private void ValidateParameters()
         {

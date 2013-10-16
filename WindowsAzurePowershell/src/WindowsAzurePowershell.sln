@@ -32,6 +32,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement", "Commands.ServiceManagement\Commands.ServiceManagement.csproj", "{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Test", "Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj", "{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A} = {08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
 EndProject

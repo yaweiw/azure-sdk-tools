@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Set Windows Azure Service Diagnostics Extension.
@@ -27,16 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Set, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public SetAzureServiceDiagnosticsExtensionCommand()
-            : base()
-        {
-        }
-
-        public SetAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]

@@ -15,6 +15,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,6 +129,10 @@
     <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -193,11 +198,15 @@
     <Compile Include="AffinityGroups\GetAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
+    <Compile Include="IaaS\Network\NetworkConfigurationSchema.cs">
+      <DependentUpon>NetworkConfigurationSchema.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PersistentVMRoleTypes.cs" />
+    <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
-    <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">
@@ -253,7 +262,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\CertUtils.cs" />
-    <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\OS.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
@@ -295,7 +303,6 @@
     <Compile Include="IaaS\Endpoints\SetAzureAclConfig.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureLoadBalancedEndpoint.cs" />
-    <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
     <Compile Include="IaaS\Network\GetAzureVNetConfig.cs" />
@@ -393,6 +400,9 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="IaaS\Network\NetworkConfigurationSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>

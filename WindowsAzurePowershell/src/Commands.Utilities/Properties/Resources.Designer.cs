@@ -1233,6 +1233,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation Status:.
+        /// </summary>
+        public static string GatewayOperationStatus {
+            get {
+                return ResourceManager.GetString("GatewayOperationStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffolding\General.
         /// </summary>
         public static string GeneralScaffolding {
