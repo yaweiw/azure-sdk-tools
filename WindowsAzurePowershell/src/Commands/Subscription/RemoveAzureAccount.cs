@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         {
         }
 
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the account")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
