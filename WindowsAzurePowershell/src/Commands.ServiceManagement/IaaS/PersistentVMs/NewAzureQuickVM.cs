@@ -592,12 +592,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 if (ex.Response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return true;
+                    return false;
                 }
                 this.WriteExceptionDetails(ex);
             }
 
-            return true;
+            return false;
         }
 
         protected void ValidateParameters()
