@@ -22,10 +22,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
     using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Commands.Utilities.Store;
-    using Commands.Utilities.Store.ResourceModel;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
+    using Location = Microsoft.WindowsAzure.Management.Models.LocationsListResponse.Location;
 
     [TestClass]
     public class GetAzureStoreAddOnTests : TestBase
@@ -33,8 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
         Mock<ICommandRuntime> mockCommandRuntime;
 
         Mock<StoreClient> mockStoreClient;
-
-        Mock<IServiceManagement> mockServiceManagementChannel;
 
         Mock<MarketplaceClient> mockMarketplaceClient;
 
@@ -47,12 +45,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
             mockCommandRuntime = new Mock<ICommandRuntime>();
             mockStoreClient = new Mock<StoreClient>();
             mockMarketplaceClient = new Mock<MarketplaceClient>();
-            mockServiceManagementChannel = new Mock<IServiceManagement>();
             cmdlet = new GetAzureStoreAddOnCommand()
             {
                 StoreClient = mockStoreClient.Object,
                 CommandRuntime = mockCommandRuntime.Object,
-                Channel = mockServiceManagementChannel.Object,
                 MarketplaceClient = mockMarketplaceClient.Object
             };
         }
@@ -90,10 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Store
                 .Returns(expectedWindowsAzureOffers);
             mockMarketplaceClient.Setup(f => f.IsKnownProvider(It.IsAny<Guid>())).Returns(true);
 
-            mockServiceManagementChannel.Setup(
-                f => f.BeginListLocations(It.IsAny<string>(), It.IsAny<AsyncCallback>(), It.IsAny<object>()));
-            mockServiceManagementChannel.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
-                .Returns(new LocationList() 
+            mockStoreClient.Setup(f => f.GetLocations())
+                .Returns(new List<Location>() 
                 {
                     new Location() { Name = "West US" },
                     new Location() { Name = "East US" } 

@@ -35,14 +35,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             new Dictionary<string, Action<string, RoleInfo>>()
             {
                 { SDKVersion.Version180,  CacheRole180 },
-                { SDKVersion.Version200,  CacheRole180 }
+                { SDKVersion.Version200,  CacheRole180 },
+                { SDKVersion.Version220,  CacheRole180 }
             };
 
         private static Dictionary<string, Action<CloudServiceProject, string, string>> clientRoleConfigurationActions =
             new Dictionary<string, Action<CloudServiceProject, string, string>>()
             {
                 { SDKVersion.Version180,  CacheClientRole180 },
-                { SDKVersion.Version200,  CacheClientRole180 }
+                { SDKVersion.Version200,  CacheClientRole180 },
+                { SDKVersion.Version220,  CacheClientRole180 }
             };
 
         #region Cache Role Configuration

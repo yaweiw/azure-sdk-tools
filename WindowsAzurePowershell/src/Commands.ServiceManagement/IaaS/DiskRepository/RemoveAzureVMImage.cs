@@ -14,62 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
-    using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Helpers;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
-        public SwitchParameter DeleteVHD
-        {
-            get;
-            set;
-        }
+        public SwitchParameter DeleteVHD { get; set; }
 
         public void RemoveVMImageProcess()
         {
-            try
-            {
-                Uri mediaLink = null;
-                if (this.DeleteVHD.IsPresent)
-                {
-                    // Get the location of the underlying VHD
-                    using (new OperationContextScope(Channel.ToContextChannel()))
-                    {
-                        var image = this.RetryCall(s => this.Channel.GetOSImage(s, this.ImageName));
-                        mediaLink = image.MediaLink;
-                    }
-                }
+            ServiceManagementProfile.Initialize();
 
-                // Remove the image from the image repository
-                using (new OperationContextScope(Channel.ToContextChannel()))
-                {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName));
-                }
-
-                if (this.DeleteVHD.IsPresent)
-                {
-                    // Remove the underlying VHD from the blob storage
-                    Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
-                }
-            }
-            catch (ServiceManagementClientException ex)
-            {
-                this.WriteErrorDetails(ex);
-            }
+            // Remove the image from the image repository
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent));
         }
 
         protected override void OnProcessRecord()

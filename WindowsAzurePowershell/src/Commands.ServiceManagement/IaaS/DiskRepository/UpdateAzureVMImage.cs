@@ -12,125 +12,74 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class UpdateAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Label of the image.")]
         [ValidateNotNullOrEmpty]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the End User License Aggreement, recommended value is a URL.")]
         [ValidateNotNullOrEmpty]
-        public string Eula
-        {
-            get;
-            set;
-        }
+        public string Eula { get; set; }
 
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the description of the OS image.")]
         [ValidateNotNullOrEmpty]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies a value that can be used to group OS images.")]
         [ValidateNotNullOrEmpty]
-        public string ImageFamily
-        {
-            get;
-            set;
-        }
+        public string ImageFamily { get; set; }
 
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the date when the OS image was added to the image repository.")]
         [ValidateNotNullOrEmpty]
-        public DateTime? PublishedDate
-        {
-            get;
-            set;
-        }
+        public DateTime? PublishedDate { get; set; }
 
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the URI that points to a document that contains the privacy policy related to the OS image.")]
         [ValidateNotNullOrEmpty]
-        public Uri PrivacyUri
-        {
-            get;
-            set;
-        }
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
-        public string RecommendedVMSize
-        {
-            get;
-            set;
-        }
+        public Uri PrivacyUri { get; set; }
 
+        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
+        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
+        public string RecommendedVMSize { get; set; }
+        
         public void UpdateVMImageProcess()
         {
-            var image = new OSImage
+            var parameters = new VirtualMachineImageUpdateParameters
             {
-                Name = this.ImageName,
                 Label = this.Label,
                 Eula = this.Eula,
                 Description = this.Description,
                 ImageFamily = this.ImageFamily,
                 PublishedDate = this.PublishedDate,
                 PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = this.RecommendedVMSize
+                RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? null :
+                                    (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true)
             };
 
-            ExecuteClientActionInOCS(
-                image,
-                CommandRuntime.ToString(),
-                s => this.Channel.UpdateOSImage(s, this.ImageName, image),
-                (op, responseImage) => new OSImageContext
-                {
-                    AffinityGroup = responseImage.AffinityGroup,
-                    Category = responseImage.Category,
-                    Label = responseImage.Label,
-                    Location = responseImage.Location,
-                    MediaLink = responseImage.MediaLink,
-                    ImageName = responseImage.Name,
-                    OS = responseImage.OS,
-                    LogicalSizeInGB = responseImage.LogicalSizeInGB,
-                    Eula = responseImage.Eula,
-                    Description = responseImage.Description,
-                    ImageFamily = responseImage.ImageFamily,
-                    PublishedDate = responseImage.PublishedDate,
-                    IsPremium = responseImage.IsPremium,
-                    PrivacyUri = responseImage.PrivacyUri,
-                    PublisherName = responseImage.PublisherName,
-                    RecommendedVMSize = responseImage.RecommendedVMSize,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationId = op.OperationTrackingId,
-                    OperationStatus = op.Status
-                });
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineImages.Update(this.ImageName, parameters),
+                (s, response) => this.ContextFactory<VirtualMachineImageUpdateResponse, OSImageContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.UpdateVMImageProcess();
         }
     }

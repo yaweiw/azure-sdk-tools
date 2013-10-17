@@ -17,39 +17,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System;
     using System.Globalization;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Model;
-    using Properties;
-    using ServiceManagement;
-    using Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
 
     /// <summary>
     /// Removes an existing Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServer", SupportsShouldProcess = true, 
+    [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServer", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
+    public class RemoveAzureSqlDatabaseServer : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="RemoveAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        public RemoveAzureSqlDatabaseServer()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="RemoveAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public RemoveAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
@@ -68,9 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Removes an existing server in the current subscription.
         /// </summary>
-        /// <param name="serverName">
-        /// The name of the server to remove.
-        /// </param>
+        /// <param name="serverName">The name of the server to remove.</param>
         /// <returns>The context to this operation.</returns>
         internal SqlDatabaseServerOperationContext RemoveAzureSqlDatabaseServerProcess(string serverName)
         {
@@ -84,28 +63,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 return null;
             }
 
-            SqlDatabaseServerOperationContext operationContext = null;
-            try
-            {
-                InvokeInOperationContext(() =>
-                {
-                    RetryCall(subscription =>
-                        Channel.RemoveServer(subscription, serverName));
-                    Operation operation = WaitForSqlDatabaseOperation();
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
-                    operationContext = new SqlDatabaseServerOperationContext()
-                    {
-                        ServerName = serverName,
-                        OperationStatus = operation.Status,
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationId = operation.OperationTrackingId
-                    };
-                });
-            }
-            catch (CommunicationException ex)
+            // Issue the delete server request
+            OperationResponse response = sqlManagementClient.Servers.Delete(serverName);
+            SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
             {
-                this.WriteErrorDetails(ex);
-            }
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = response.RequestId,
+                ServerName = serverName,
+            };
 
             return operationContext;
         }
@@ -122,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }

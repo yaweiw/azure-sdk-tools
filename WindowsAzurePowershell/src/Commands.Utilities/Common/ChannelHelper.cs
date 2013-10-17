@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Net;
+    using System.Net.Http;
     using System.Runtime.Serialization;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
@@ -26,6 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Dispatcher;
     using System.ServiceModel.Web;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using ServiceManagement;
 
@@ -291,6 +293,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 return original;
             }
             return Encoding.UTF8.GetString(Convert.FromBase64String(original));
+        }
+    }
+
+    public class UserAgentMessageProcessingHandler : MessageProcessingHandler
+    {
+        protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            request.Headers.UserAgent.Add(ApiConstants.UserAgentValue);
+            return request;
+        }
+
+        protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
+        {
+            return response;
         }
     }
 

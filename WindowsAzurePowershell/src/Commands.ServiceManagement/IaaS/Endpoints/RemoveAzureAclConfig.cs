@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using IaaS;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureAclConfig"), OutputType(typeof(IPersistentVM))]
     public class RemoveAzureAclConfig : VirtualMachineConfigurationCmdletBase
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         
         internal void ExecuteCommand()
         {
-            var role = this.VM.GetInstance();
+            var role = this.VM.GetInstance(); 
 
             var networkConfiguration = role.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
 

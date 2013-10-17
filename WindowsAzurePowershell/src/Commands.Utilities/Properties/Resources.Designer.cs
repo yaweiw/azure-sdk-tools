@@ -70,6 +70,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account &quot;{0}&quot; has been added..
+        /// </summary>
+        public static string AddAccountAdded {
+            get {
+                return ResourceManager.GetString("AddAccountAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To switch to a different subscription, please use Select-AzureSubscription..
+        /// </summary>
+        public static string AddAccountChangeSubscription {
+            get {
+                return ResourceManager.GetString("AddAccountChangeSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription &quot;{0}&quot; is selected as the default subscription..
+        /// </summary>
+        public static string AddAccountShowDefaultSubscription {
+            get {
+                return ResourceManager.GetString("AddAccountShowDefaultSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To view all the subscriptions, please use Get-AzureSubscription..
+        /// </summary>
+        public static string AddAccountViewSubscriptions {
+            get {
+                return ResourceManager.GetString("AddAccountViewSubscriptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add-On {0} is created successfully..
         /// </summary>
         public static string AddOnCreatedMessage {
@@ -999,6 +1035,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The key to add already exists in the dictionary..
+        /// </summary>
+        public static string DictionaryAddAlreadyContainsKey {
+            get {
+                return ResourceManager.GetString("DictionaryAddAlreadyContainsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The array index cannot be less than zero..
+        /// </summary>
+        public static string DictionaryCopyToArrayIndexLessThanZero {
+            get {
+                return ResourceManager.GetString("DictionaryCopyToArrayIndexLessThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The supplied array does not have enough room to contain the copied elements..
+        /// </summary>
+        public static string DictionaryCopyToArrayTooShort {
+            get {
+                return ResourceManager.GetString("DictionaryCopyToArrayTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The provided dns {0} doesn&apos;t exist.
         /// </summary>
         public static string DnsDoesNotExist {
@@ -1098,6 +1161,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The environment {0} does not currently support Active Directory authentication..
+        /// </summary>
+        public static string EnvironmentDoesNotSupportActiveDirectory {
+            get {
+                return ResourceManager.GetString("EnvironmentDoesNotSupportActiveDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment &apos;{0}&apos; already exists..
         /// </summary>
         public static string EnvironmentExists {
@@ -1134,6 +1206,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your credentials have expired. Please use Add-AzureAccount to log in again..
+        /// </summary>
+        public static string ExpiredRefreshToken {
+            get {
+                return ResourceManager.GetString("ExpiredRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The HTTP request was forbidden with client authentication scheme &apos;Anonymous&apos;..
         /// </summary>
         public static string FirstPurchaseErrorMessage {
@@ -1148,6 +1229,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string FirstPurchaseMessage {
             get {
                 return ResourceManager.GetString("FirstPurchaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation Status:.
+        /// </summary>
+        public static string GatewayOperationStatus {
+            get {
+                return ResourceManager.GetString("GatewayOperationStatus", resourceCulture);
             }
         }
         
@@ -1814,7 +1904,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_sdk22.xml.
         /// </summary>
         public static string ManifestUri {
             get {
@@ -1832,7 +1922,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.0.
+        ///   Looks up a localized string similar to v2.2.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -1859,7 +1949,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.0.
+        ///   Looks up a localized string similar to v2.2.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
@@ -1987,6 +2077,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription..
+        /// </summary>
+        public static string NoCachedToken {
+            get {
+                return ResourceManager.GetString("NoCachedToken", resourceCulture);
             }
         }
         
@@ -2601,6 +2700,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RegenerateKeyWhatIfMessage {
             get {
                 return ResourceManager.GetString("RegenerateKeyWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove account &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveAccountConfirmation {
+            get {
+                return ResourceManager.GetString("RemoveAccountConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing account.
+        /// </summary>
+        public static string RemoveAccountMessage {
+            get {
+                return ResourceManager.GetString("RemoveAccountMessage", resourceCulture);
             }
         }
         

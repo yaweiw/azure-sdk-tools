@@ -16,9 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management;
+    using Management.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     /// <summary>
     /// Retrieve a Windows Azure Location.
@@ -26,34 +27,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(LocationsContext))]
     public class GetAzureLocationCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureLocationCommand()
-        {
-        }
-
-        public GetAzureLocationCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         public void GetLocationsProcess()
         {
-
-            ExecuteClientActionInOCS(null,
+            ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
-                (op, locations) => locations.Select(location => new LocationsContext
-                {
-                    OperationId = op.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = op.Status,
-                    DisplayName = location.DisplayName,
-                    Name = location.Name,
-                    AvailableServices = location.AvailableServices
-                }));
+                () => this.ManagementClient.Locations.List(),
+                (op, locations) => locations.Locations.Select(location => ContextFactory<LocationsListResponse.Location, LocationsContext>(location, op)));
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.GetLocationsProcess();
         }
     }

@@ -601,6 +601,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         }
 
         /// <summary>
+        /// Checks if the given storage service name is available to be created
+        /// </summary>
+        /// <param name="name">The name of the storage service</param>
+        /// <returns></returns>
+        public bool CheckStorageServiceAvailability(string name)
+        {
+            CheckNameAvailabilityResponse response = this.StorageClient.StorageAccounts.CheckNameAvailability(name);
+            if (response != null && !response.IsAvailable)
+            {
+                WriteWarning(response.Reason);
+            }
+
+            return response.IsAvailable;
+        }
+
+        /// <summary>
+        /// Checks if the given hosted service name is available to be created
+        /// </summary>
+        /// <param name="name">The name of the hosted service</param>
+        /// <returns></returns>
+        public bool CheckHostedServiceNameAvailability(string name)
+        {
+            HostedServiceCheckNameAvailabilityResponse response = this.ComputeClient.HostedServices.CheckNameAvailability(name);
+            if (response != null && !response.IsAvailable)
+            {
+                WriteWarning(response.Reason);
+            }
+
+            return response.IsAvailable;
+        }
+
+        /// <summary>
         /// Publishes a service project on Windows Azure.
         /// </summary>
         /// <param name="name">The cloud service name</param>

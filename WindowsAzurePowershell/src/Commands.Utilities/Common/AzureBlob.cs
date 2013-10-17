@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
+    using Management.Storage;
 
     public static class AzureBlob
     {
@@ -41,6 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 blobRequestOptions);
         }
 
+        public static Uri UploadPackageToBlob(
+            StorageManagementClient storageClient,
+            string storageName,
+            string packagePath,
+            BlobRequestOptions blobRequestOptions)
+        {
+            return cloudBlobUtility.UploadPackageToBlob(
+                storageClient,
+                storageName,
+                packagePath,
+                blobRequestOptions);
+        }
+
         public static void DeletePackageFromBlob(
             IServiceManagement channel,
             string storageName,
@@ -48,6 +62,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Uri packageUri)
         {
             cloudBlobUtility.DeletePackageFromBlob(channel, storageName, subscriptionId, packageUri);
+        }
+
+        public static void DeletePackageFromBlob(
+            StorageManagementClient storageClient,
+            string storageName,
+            Uri packageUri)
+        {
+            cloudBlobUtility.DeletePackageFromBlob(storageClient, storageName, packageUri);
         }
 
         public static Uri UploadFile(

@@ -12,13 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Microsoft.WindowsAzure.Management.Storage.Models;
+
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
     using System;
     using System.Management.Automation;
     using Utilities.MediaServices;
     using Utilities.MediaServices.Services.Entities;
-    using ServiceManagement;
     using Utilities.Properties;
 
     /// <summary>
@@ -45,19 +47,19 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
         {
             MediaServicesClient = MediaServicesClient ?? new MediaServicesClient(CurrentSubscription, WriteDebug);
 
-            StorageService storage = null; 
+            StorageAccountGetKeysResponse storageKeysResponse = null;
             Uri storageEndPoint = null;
             string storageAccountKey = null;
 
-            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServiceKeysAsync(StorageAccountName).Result; });
-            storageAccountKey = storage.StorageServiceKeys.Primary;
-           
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storageKeysResponse = MediaServicesClient.GetStorageServiceKeysAsync(StorageAccountName).Result; });
+            storageAccountKey = storageKeysResponse.PrimaryKey;
 
-            CatchAggregatedExceptionFlattenAndRethrow(() => { storage = MediaServicesClient.GetStorageServicePropertiesAsync(StorageAccountName).Result; });
+            StorageServiceGetResponse storageGetResponse = null; 
+            CatchAggregatedExceptionFlattenAndRethrow(() => { storageGetResponse = MediaServicesClient.GetStorageServicePropertiesAsync(StorageAccountName).Result; });
 
-            if (storage.StorageServiceProperties != null && storage.StorageServiceProperties.Endpoints.Count > 0)
+            if (storageGetResponse.Properties != null && storageGetResponse.Properties.Endpoints.Count > 0)
             {
-                storageEndPoint = new Uri(storage.StorageServiceProperties.Endpoints[0]);
+                storageEndPoint = storageGetResponse.Properties.Endpoints[0];
             }
             else
             {
@@ -65,15 +67,15 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
             }
 
             AccountCreationResult result = null;
-            var request = new AccountCreationRequest
+            var request = new MediaServicesAccountCreateParameters()
             {
                 AccountName = Name,
-                BlobStorageEndpointUri = storageEndPoint.ToString(),
+                BlobStorageEndpointUri = storageEndPoint,
                 Region = Location,
                 StorageAccountKey = storageAccountKey,
                 StorageAccountName = StorageAccountName
             };
-            CatchAggregatedExceptionFlattenAndRethrow(() => { result = MediaServicesClient.CreateNewAzureMediaServiceAsync(request).Result; });
+            CatchAggregatedExceptionFlattenAndRethrow(() => { result = new AccountCreationResult(MediaServicesClient.CreateNewAzureMediaServiceAsync(request).Result); });
             WriteObject(result, false);
         }
     }

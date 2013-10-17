@@ -17,25 +17,15 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using System;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.Utilities.ServiceBus.Contract;
-    using Commands.Utilities.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using ServiceManagement;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : ServiceManagementBaseCmdlet
+    public class TestAzureNameCommand : CmdletWithSubscriptionBase
     {
-        private IServiceBusManagement serviceBusChannel;
-
-        public TestAzureNameCommand()
-        {
-            
-        }
-
-        public TestAzureNameCommand(IServiceManagement channel, IServiceBusManagement serviceBusChannel)
-        {
-            Channel = channel;
-            this.serviceBusChannel = serviceBusChannel;
-        }
+        internal ServiceBusClientExtensions ServiceBusClient { get; set; }
+        internal ICloudServiceClient CloudServiceClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
         public SwitchParameter Service
@@ -68,56 +58,56 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
             set;
         }
 
-        public AvailabilityResponse IsDNSAvailable(string subscriptionId, string name)
+        public bool IsDNSAvailable(WindowsAzureSubscription subscription, string name)
         {
-            AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
+            EnsureCloudServiceClientInitialized(subscription);
+            bool available = this.CloudServiceClient.CheckHostedServiceNameAvailability(name);
+            WriteObject(!available);
+            return available;
+        }
 
-            WriteObject(!result.Result);
+        public bool IsStorageServiceAvailable(WindowsAzureSubscription subscription, string name)
+        {
+            EnsureCloudServiceClientInitialized(subscription);
+            bool available = this.CloudServiceClient.CheckStorageServiceAvailability(name);
+            WriteObject(!available);
+            return available;
+        }
+
+        public bool IsServiceBusNamespaceAvailable(string subscriptionId, string name)
+        {
+            bool result = ServiceBusClient.IsAvailableNamespace(name);
+
+            WriteObject(!result);
 
             return result;
         }
 
-        public AvailabilityResponse IsStorageServiceAvailable(string subscriptionId, string name)
+        private void EnsureCloudServiceClientInitialized(WindowsAzureSubscription subscription)
         {
-            AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
-            
-            WriteObject(!result.Result);
-
-            return result;
+            this.CloudServiceClient = this.CloudServiceClient ?? new CloudServiceClient(
+                subscription,
+                SessionState.Path.CurrentLocation.Path,
+                WriteDebug,
+                WriteVerbose,
+                WriteWarning);
         }
 
-        public ServiceBusNamespaceAvailabilityResponse IsServiceBusNamespaceAvailable(string subscriptionId, string name)
-        {
-            ServiceBusNamespaceAvailabilityResponse result = serviceBusChannel.IsServiceBusNamespaceAvailable(subscriptionId, name);
-            
-            WriteObject(!result.Result);
-
-            return result;
-        }
-
-        public override void  ExecuteCmdlet()
+        public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
             if (Service.IsPresent)
             {
-                IsDNSAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsDNSAvailable(CurrentSubscription, Name);
             }
             else if (Storage.IsPresent)
             {
-                IsStorageServiceAvailable(CurrentSubscription.SubscriptionId, Name);
+                IsStorageServiceAvailable(CurrentSubscription, Name);
             }
             else
             {
-                if (serviceBusChannel == null)
-                {
-                    serviceBusChannel = ChannelHelper.CreateServiceManagementChannel<IServiceBusManagement>(
-                        ServiceBinding,
-                        new Uri(ServiceEndpoint),
-                        CurrentSubscription.Certificate,
-                        new HttpRestMessageInspector(text => this.WriteDebug(text)));
-                }
-
+                ServiceBusClient = ServiceBusClient ?? new ServiceBusClientExtensions(CurrentSubscription);
                 IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
         }

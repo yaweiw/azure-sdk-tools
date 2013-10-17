@@ -22,15 +22,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.Contract;
-    using Commands.Utilities.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSBNamespace"), OutputType(typeof(ServiceBusNamespace))]
-    public class NewAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
+    public class NewAzureSBNamespaceCommand : CmdletWithSubscriptionBase
     {
+        internal ServiceBusClientExtensions Client { get; set; }
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
@@ -38,67 +39,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         public string Location { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureSBNamespaceCommand class.
-        /// </summary>
-        public NewAzureSBNamespaceCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the NewAzureSBNamespaceCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public NewAzureSBNamespaceCommand(IServiceBusManagement channel)
-        {
-            Channel = channel;
-        }
-
-        /// <summary>
         /// Creates a new service bus namespace.
         /// </summary>
-        /// <param name="subscriptionId">The user subscription id</param>
-        /// <param name="name">The namespace name</param>
-        /// <param name="region">The region name</param>
-        /// <returns>The created service bus namespace</returns>
         public override void ExecuteCmdlet()
         {
-            ServiceBusNamespace namespaceDescription = null;
-            string subscriptionId = CurrentSubscription.SubscriptionId;
-            string name = Name;
-            string region = string.IsNullOrEmpty(Location) ? GetDefaultLocation() : Location;
-
-            if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
-            }
-
-            if (!Channel.ListServiceBusRegions(subscriptionId)
-                .Exists(r => r.Code.Equals(region, StringComparison.OrdinalIgnoreCase)))
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidServiceBusLocation, region), "Location");
-            }
-
-            try
-            {
-                namespaceDescription = new ServiceBusNamespace { Region = region };
-                namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
-                WriteObject(namespaceDescription);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Equals(Resources.InternalServerErrorMessage))
-                {
-                    throw new Exception(Resources.NewNamespaceErrorMessage);
-                }
-            }
-        }
-
-        private string GetDefaultLocation()
-        {
-            return Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId).First().Code;
+            Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription);
+            WriteObject(Client.CreateNamespace(Name, Location));
         }
     }
 }

@@ -16,7 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
+    using Authentication;
 
     /// <summary>
     /// This class provides the representation of
@@ -131,9 +133,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
+            ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
+            ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
+            ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
             IsDefault = inMemorySubscription.IsDefault;
-            ManagementCertificate = inMemorySubscription.Certificate.Thumbprint;
+            ManagementCertificate = inMemorySubscription.Certificate != null ? inMemorySubscription.Certificate.Thumbprint : null;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
+            RegisteredResourceProviders = inMemorySubscription.RegisteredResourceProviders;
         }
 
         /// <summary>
@@ -142,15 +148,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>The in memory subscription</returns>
         public WindowsAzureSubscription ToAzureSubscription()
         {
-            return new WindowsAzureSubscription
+            var result = new WindowsAzureSubscription
             {
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = new Uri(ManagementEndpoint),
+                ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
+                ActiveDirectoryTenantId = ActiveDirectoryTenantId,
+                ActiveDirectoryUserId = ActiveDirectoryUserId,
                 IsDefault = this.IsDefault,
-                Certificate = WindowsAzureCertificate.FromThumbprint(ManagementCertificate),
+                Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount
             };
+            RegisteredResourceProviders = RegisteredResourceProviders ?? new string[0];
+            foreach (var resource in RegisteredResourceProviders)
+            {
+                result.RegisteredResourceProviders.Add(resource);
+            }
+            return result;
         }
 
         [DataMember]
@@ -163,6 +178,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ManagementEndpoint { get; set; }
 
         [DataMember]
+        public string ActiveDirectoryEndpoint { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryTenantId { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryUserId { get; set; }
+
+        [DataMember]
+        public string LoginType { get; set; }
+
+        [DataMember]
         public bool IsDefault { get; set; }
 
         [DataMember]
@@ -170,5 +197,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string CloudStorageAccount { get; set; }
+
+        [DataMember]
+        public IEnumerable<string> RegisteredResourceProviders { get; set; } 
     }
 }

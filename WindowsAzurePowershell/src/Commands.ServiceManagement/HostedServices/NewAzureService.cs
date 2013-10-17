@@ -15,8 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Creates a new hosted service in Windows Azure.
@@ -24,15 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.New, "AzureService", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public NewAzureServiceCommand()
-        {
-        }
-
-        public NewAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "A name for the hosted service that is unique to the subscription.")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "A name for the hosted service that is unique to the subscription.")]
         [ValidateNotNullOrEmpty]
@@ -78,20 +70,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void ExecuteCommand()
         {
-            var createHostedServiceInput = new CreateHostedServiceInput
+            var parameter = new HostedServiceCreateParameters()
             {
                 ServiceName = this.ServiceName,
                 Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
                 Description = this.Description,
-                AffinityGroup = this.AffinityGroup,
+                AffinityGroup =  this.AffinityGroup,
                 Location = this.Location
             };
-
-            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput));
+            ExecuteClientActionNewSM(null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.HostedServices.Create(parameter));
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

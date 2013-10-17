@@ -15,15 +15,15 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using System;
-    using Commands.Utilities.Common;
-    using Sync.Download;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Properties;
     using Storage.Auth;
-    using Commands.ServiceManagement.Properties;
+    using Sync.Download;
+    using Utilities.Common;
 
     public class StorageCredentialsFactory
     {
-        private IServiceManagement channel;
+        private StorageManagementClient client;
         private WindowsAzureSubscription currentSubscription;
 
         public static bool IsChannelRequired(Uri destination)
@@ -35,9 +35,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
         {
         }
 
-        public StorageCredentialsFactory(IServiceManagement channel, WindowsAzureSubscription currentSubscription)
+        public StorageCredentialsFactory(StorageManagementClient client, WindowsAzureSubscription currentSubscription)
         {
-            this.channel = channel;
+            this.client = client;
             this.currentSubscription = currentSubscription;
         }
 
@@ -49,9 +49,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                 {
                     throw new ArgumentException(Resources.StorageCredentialsFactoryCurrentSubscriptionNotSet, "SubscriptionId");
                 }
-                StorageService sService = this.channel.GetStorageKeys(currentSubscription.SubscriptionId, destination.StorageAccountName);
-                return new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary);
+
+                var storageKeys = this.client.StorageAccounts.GetKeys(destination.StorageAccountName);
+                return new StorageCredentials(destination.StorageAccountName, storageKeys.PrimaryKey);
             }
+
             return new StorageCredentials(destination.Uri.Query);
         }
     }
