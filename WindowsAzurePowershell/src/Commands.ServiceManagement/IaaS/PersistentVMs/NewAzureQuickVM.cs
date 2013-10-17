@@ -586,18 +586,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 WriteVerboseWithTimestamp(string.Format(Resources.QuickVMBeginOperation, CommandRuntime));
                 var response = this.ComputeClient.HostedServices.CheckNameAvailability(serviceName);
                 WriteVerboseWithTimestamp(string.Format(Resources.QuickVMCompletedOperation, CommandRuntime));
-                return response.IsAvailable;
+                return !response.IsAvailable;
             }
             catch (CloudException ex)
             {
                 if (ex.Response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return false;
+                    return true;
                 }
                 this.WriteExceptionDetails(ex);
             }
 
-            return false;
+            return true;
         }
 
         protected void ValidateParameters()
