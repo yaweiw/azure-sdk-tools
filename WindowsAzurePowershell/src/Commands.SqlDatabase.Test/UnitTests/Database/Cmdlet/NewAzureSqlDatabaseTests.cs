@@ -46,73 +46,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
 
             // Save the mock session results
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
         public void NewAzureSqlDatabaseWithSqlAuth()
         {
             // InitializeTest will test this scenario
-        }
-
-        /// <summary>
-        /// Test creating a new database using certificate authentication
-        /// </summary>
-        [TestMethod]
-        public void NewAzureSqlDatabaseWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            channel.NewDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    ((SqlDatabaseInput)ar.Values["input"]).Name, 
-                    "UnitTestNewDatabase",
-                    "The database Name input parameter does not match");
-                Assert.AreEqual(
-                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
-                    "1",
-                    "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual(
-                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
-                    "Japanese_CI_AS",
-                    "The database CollationName input parameter does not match");
-                Assert.AreEqual(
-                    ((SqlDatabaseInput)ar.Values["input"]).Edition, 
-                    "Web",
-                    "The database Edition input parameter does not match");
-
-                SqlDatabaseResponse operationResult = new SqlDatabaseResponse();
-                operationResult.CollationName = "Japanese_CI_AS";
-                operationResult.Edition = "Web";
-                operationResult.Id = "1";
-                operationResult.MaxSizeGB = "1";
-                operationResult.Name = "TestDatabaseName";
-                operationResult.CreationDate = DateTime.Now.ToString();
-                operationResult.IsFederationRoot = true.ToString();
-                operationResult.IsSystemObject = true.ToString();
-                operationResult.MaxSizeBytes = "1073741824";
-                
-                return operationResult;
-            };
-
-            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
-            service.Channel = channel;
-
-            Database result = 
-                service.CreateNewDatabase("UnitTestNewDatabase", 1, "Japanese_CI_AS", DatabaseEdition.Web);
-
-            // Verify that the result matches the stuff in the thunk.
-            Assert.AreEqual(result.CollationName, "Japanese_CI_AS", "The collation does not match");
-            Assert.AreEqual(result.Edition, DatabaseEdition.Web.ToString(), "The edition does not match");
-            Assert.AreEqual(result.MaxSizeGB, 1, "The max db size does not match");
-            Assert.AreEqual(result.Name, "TestDatabaseName", "The name does not match");
         }
 
         [TestMethod]
@@ -127,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Issue another create testdb1, causing a failure
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.NewAzureSqlDatabaseWithSqlAuthDuplicateName");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -195,7 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             System.Management.Automation.PowerShell powershell,
             string contextVariable)
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTest.Common.CreateTestDatabasesWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =
@@ -284,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             System.Management.Automation.PowerShell powershell,
             string contextVariable)
         {
-            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTest.Common.RemoveTestDatabasesWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =

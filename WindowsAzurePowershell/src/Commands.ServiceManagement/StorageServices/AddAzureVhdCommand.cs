@@ -17,12 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
+    using Model;
+    using Properties;
     using Sync.Download;
-    using WindowsAzure.ServiceManagement;
-    using Commands.ServiceManagement.Properties;
-
+    using Utilities.Common;
 
     /// <summary>
     /// Uploads a vhd as fixed disk format vhd to a blob in Windows Azure Storage
@@ -31,15 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     public class AddAzureVhdCommand : ServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
-
-        public AddAzureVhdCommand()
-        {
-        }
-
-        public AddAzureVhdCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName="Vhd", HelpMessage = "Uri to blob")]
         [ValidateNotNullOrEmpty]
@@ -128,15 +117,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             StorageCredentialsFactory storageCredentialsFactory;
             if (StorageCredentialsFactory.IsChannelRequired(Destination))
             {
-                storageCredentialsFactory = new StorageCredentialsFactory(this.Channel, this.CurrentSubscription);
+                storageCredentialsFactory = new StorageCredentialsFactory(this.StorageClient, this.CurrentSubscription);
             }
             else
             {
                 storageCredentialsFactory = new StorageCredentialsFactory();
             }
+
             return storageCredentialsFactory;
         }
 
+        // TODO: To remove this function which is not referenced anywhere.
         protected override void InitChannelCurrentSubscription(bool force)
         {
             if(StorageCredentialsFactory.IsChannelRequired(this.Destination))

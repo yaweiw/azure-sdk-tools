@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using Management;
     using Management.Compute;
     using Management.Storage;
@@ -42,6 +43,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             storageService = channel.GetStorageService(subscriptionId, storageName);
             var blobStorageEndpoint = General.CreateHttpsEndpoint(
                 storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
+            var credentials = new StorageCredentials(storageName, storageKey);
+            var client = new CloudBlobClient(blobStorageEndpoint, credentials);
+            ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
+            blob.DeleteIfExists();
+        }
+
+        public virtual void DeletePackageFromBlob(
+            StorageManagementClient storageClient,
+            string storageName,
+            Uri packageUri)
+        {
+            StorageAccountGetKeysResponse keys = storageClient.StorageAccounts.GetKeys(storageName);
+            string storageKey = keys.PrimaryKey;
+            var storageService = storageClient.StorageAccounts.Get(storageName);
+            var blobStorageEndpoint = storageService.Properties.Endpoints[0];
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);
             ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);

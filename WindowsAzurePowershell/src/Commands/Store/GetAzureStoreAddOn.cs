@@ -65,21 +65,16 @@ namespace Microsoft.WindowsAzure.Commands.Store
 
         private void GetAddOn()
         {
-            StoreClient = StoreClient ?? new StoreClient(
-                CurrentSubscription.SubscriptionId,
-                ServiceEndpoint,
-                CurrentSubscription.Certificate,
-                text => this.WriteDebug(text),
-                Channel);
+            StoreClient = StoreClient ?? new StoreClient(CurrentSubscription);
             List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, null, null));
             WriteObject(addOns, true);
         }
 
         private void ListAvailableAddOns()
         {
-            LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
-            MarketplaceClient = MarketplaceClient ?? 
-                new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
+            StoreClient = StoreClient ?? new StoreClient(CurrentSubscription);
+            MarketplaceClient = MarketplaceClient ??
+                new MarketplaceClient(StoreClient.GetLocations().Select(l => l.Name));
 
             WriteVerbose(Resources.GetAllAddOnsWaitMessage);
             List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country);

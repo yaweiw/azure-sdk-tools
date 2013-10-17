@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Linq;
+
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
     using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
     /// <summary>
     ///     Gets an Azure Media Services account.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureMediaServicesAccount"), OutputType(typeof(MediaServiceAccount), typeof(IEnumerable<MediaServiceAccount>))]
+    [Cmdlet(VerbsCommon.Get, "AzureMediaServicesAccount"), OutputType(typeof(MediaServiceAccountDetails), typeof(IEnumerable<MediaServiceAccount>))]
     public class GetAzureMediaServiceCommand : AzureMediaServicesHttpClientCommandBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The media service account name.")]
@@ -53,13 +55,13 @@ namespace Microsoft.WindowsAzure.Commands.MediaServices
             if (!string.IsNullOrEmpty(Name))
             {
                 MediaServiceAccountDetails account = null;
-                CatchAggregatedExceptionFlattenAndRethrow(() => { account = MediaServicesClient.GetMediaServiceAsync(Name).Result;});
+                CatchAggregatedExceptionFlattenAndRethrow(() => { account = new MediaServiceAccountDetails(MediaServicesClient.GetMediaServiceAsync(Name).Result); });
                 WriteObject(account, false);
             }
             else
             {
                 var accounts = new List<MediaServiceAccount>();
-                accounts.AddRange(MediaServicesClient.GetMediaServiceAccountsAsync().Result);
+                accounts.AddRange(MediaServicesClient.GetMediaServiceAccountsAsync().Result.Accounts.Select(c=>new MediaServiceAccount(c)));
                 // Output results
                 WriteMediaAccounts(accounts);
             }

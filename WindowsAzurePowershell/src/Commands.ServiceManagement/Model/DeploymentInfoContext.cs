@@ -20,52 +20,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute.Models;
+    using PersistentVMModel;
 
     public class DeploymentInfoContext : ServiceOperationContext
     {
         private readonly XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
 
-        public DeploymentInfoContext(Deployment deployment)
+        public DeploymentInfoContext(DeploymentGetResponse deployment)
         {
-            this.Slot = deployment.DeploymentSlot;
+            this.Slot = deployment.DeploymentSlot.ToString();
             this.Name = deployment.Name;
             this.DeploymentName = deployment.Name;
-            this.Url = deployment.Url;
-            this.Status = deployment.Status;
-            this.DeploymentId = deployment.PrivateID;
+            this.Url = deployment.Uri;
+            this.Status = deployment.Status.ToString();
+            this.DeploymentId = deployment.PrivateId;
             this.VNetName = deployment.VirtualNetworkName;
             this.SdkVersion = deployment.SdkVersion;
-            this.DnsSettings = deployment.Dns;
 
-            if (deployment.RollbackAllowed.HasValue)
+            if (deployment.DnsSettings != null)
             {
-                this.RollbackAllowed = deployment.RollbackAllowed;
+                this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
+                {
+                    DnsServers = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServerList()
+                };
+
+                foreach (var dns in deployment.DnsSettings.DnsServers)
+                {
+                    var newDns = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer
+                    {
+                        Name = dns.Name,
+                        Address = dns.Address.ToString()
+                    };
+                    this.DnsSettings.DnsServers.Add(newDns);
+                }
             }
+
+            bool result = false;
+            bool.TryParse(deployment.RollbackAllowed, out result);
+            this.RollbackAllowed = result;
+
 
             if (deployment.UpgradeStatus != null)
             {
                 this.CurrentUpgradeDomain = deployment.UpgradeStatus.CurrentUpgradeDomain;
-                this.CurrentUpgradeDomainState = deployment.UpgradeStatus.CurrentUpgradeDomainState;
-                this.UpgradeType = deployment.UpgradeStatus.UpgradeType;
+                this.CurrentUpgradeDomainState = deployment.UpgradeStatus.CurrentUpgradeDomainState.ToString();
+                this.UpgradeType = deployment.UpgradeStatus.UpgradeType.ToString();
             }
 
-            this.Configuration = string.IsNullOrEmpty(deployment.Configuration)
-                                     ? string.Empty
-                                     : deployment.Configuration;
+            this.Configuration = string.IsNullOrEmpty(deployment.Configuration) ? string.Empty : deployment.Configuration;
 
-            this.Label = string.IsNullOrEmpty(deployment.Label)
-                             ? string.Empty
-                             : deployment.Label;
+            this.Label = string.IsNullOrEmpty(deployment.Label) ? string.Empty : deployment.Label;
 
-            if (deployment.RoleInstanceList != null)
-            {
-                this.RoleInstanceList = new List<RoleInstance>();
-                foreach (var roleInstance in deployment.RoleInstanceList)
-                {
-                    this.RoleInstanceList.Add(roleInstance);
-                }
-            }
+            this.RoleInstanceList = deployment.RoleInstances;
 
             if (!string.IsNullOrEmpty(deployment.Configuration))
             {
@@ -79,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                 }
 
                 this.OSVersion = doc.Root.Attribute("osVersion") != null ?
-                                 doc.Root.Attribute("osVersion").Value : 
+                                 doc.Root.Attribute("osVersion").Value :
                                  string.Empty;
 
                 this.RolesConfiguration = new Dictionary<string, RoleConfiguration>();
@@ -153,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             set; 
         } 
 
-        public IList<RoleInstance> RoleInstanceList
+        public IList<Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance> RoleInstanceList
         {
             get;
             protected set;
@@ -183,7 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
-        public DnsSettings DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings DnsSettings
         {
             get;
             protected set;
@@ -210,7 +217,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
             foreach (var roleConfig in this.RolesConfiguration)
             {
-                rootElement.Add(roleConfig.Value.Serialize());                
+                rootElement.Add(roleConfig.Value.Serialize());
             }
 
             return document;

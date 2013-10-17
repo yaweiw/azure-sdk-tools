@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 {
-    public class FakeHttpMessageHandler : HttpMessageHandler
+    public class FakeHttpMessageHandler : DelegatingHandler
     {
         /// <summary>
         ///     Send stub

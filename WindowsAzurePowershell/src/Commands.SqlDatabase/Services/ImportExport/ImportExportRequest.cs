@@ -13,22 +13,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport
 {
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
 
     /// <summary>
     /// Holds the necessary information to query or stop an import/export operation
     /// </summary>
-    public class ImportExportRequest
+    public class ImportExportRequest : SqlDatabaseServerOperationContext
     {
         /// <summary>
         /// Gets or sets the SQL login credentials
         /// </summary>
         public SqlAuthenticationCredentials SqlCredentials { get; set; }
-
-        /// <summary>
-        /// Gets or sets the server name
-        /// </summary>
-        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the GUID that represents this operation

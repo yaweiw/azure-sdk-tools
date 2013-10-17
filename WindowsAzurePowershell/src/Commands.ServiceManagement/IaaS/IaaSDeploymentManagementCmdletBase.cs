@@ -15,15 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Management.Automation;
-    using System.Net;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Management.Automation;
+    using System.Net;
     using System.Threading;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using Properties;
+    using Utilities.Common;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
@@ -36,8 +38,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         public IaaSDeploymentManagementCmdletBase()
         {
-            CurrentDeployment = null;
-            GetDeploymentOperation = null;
             CreatingNewDeployment = false;
         }
 
@@ -49,9 +49,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        protected Deployment CurrentDeployment { get; set; }
+        protected DeploymentGetResponse CurrentDeploymentNewSM { get; set; }
 
-        protected Operation GetDeploymentOperation { get; set; }
+        protected OperationStatusResponse GetDeploymentOperationNewSM { get; set; }
 
         protected bool CreatingNewDeployment { get; set; }
 
@@ -65,9 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     try
                     {
-                        WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
-                        CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
-                        GetDeploymentOperation = GetOperation();
+                        CurrentDeploymentNewSM = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+                        GetDeploymentOperationNewSM = GetOperationNewSM(CurrentDeploymentNewSM.RequestId);
                         WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
                     }
                     catch (Exception e)
@@ -93,20 +92,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
+            finally
+            {
+                WriteDebug(HttpRestCallLogger.Flush());
+            }
         }
 
         protected void WaitForRoleToBoot(string roleName)
         {
             string currentInstanceStatus = null;
-            RoleInstance durableRoleInstance;
+            Management.Compute.Models.RoleInstance durableRoleInstance;
             do
             {
-                Deployment deployment = null;
+                DeploymentGetResponse d = null;
                 InvokeInOperationContext(() =>
                 {
                     try
                     {
-                        deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                        d = this.ComputeClient.Deployments.GetBySlot(ServiceName, DeploymentSlot.Production);
                     }
                     catch (Exception e)
                     {
@@ -118,11 +121,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     }
                 });
 
-                if (deployment == null)
+                if (d == null)
                 {
-                    throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, DeploymentSlotType.Production));
+                    throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
                 }
-                durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == roleName);
+
+                durableRoleInstance = d.RoleInstances == null || !d.RoleInstances.Any() ? null : d.RoleInstances.First(ri => ri.RoleName == roleName);
 
                 if (currentInstanceStatus == null)
                 {
@@ -142,7 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     throw new ApplicationException(message);
                 }
                 
-                if(String.Compare(durableRoleInstance.InstanceStatus, RoleInstanceStatus.ReadyRole, true, CultureInfo.InvariantCulture) == 0)
+                if(String.Compare(durableRoleInstance.InstanceStatus, Microsoft.WindowsAzure.Management.Compute.Models.RoleInstanceStatus.ReadyRole, true, CultureInfo.InvariantCulture) == 0)
                 {
                     break;
                 }

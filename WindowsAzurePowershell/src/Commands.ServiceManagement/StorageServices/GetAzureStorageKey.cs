@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
+    using ServiceManagement.Model;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
-    using WindowsAzure.ServiceManagement;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Displays the primary and secondary keys for the account. Should have 
@@ -27,15 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Get, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
     public class GetAzureStorageKeyCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureStorageKeyCommand()
-        {
-        }
-
-        public GetAzureStorageKeyCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         [Alias("ServiceName")]
@@ -47,33 +38,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, StorageService, object> func = (operation, storageService) =>
-            {
-                if (storageService != null)
-                {
-                    return new StorageServiceKeyOperationContext
-                    {
-                        StorageAccountName = this.StorageAccountName,
-                        Primary = storageService.StorageServiceKeys.Primary,
-                        Secondary = storageService.StorageServiceKeys.Secondary,
-                        OperationDescription = this.CommandRuntime.ToString(),
-                        OperationId = operation.OperationTrackingId,
-                        OperationStatus = operation.Status
-                    };
-                }
-                return new StorageServiceKeyOperationContext
-                {
-                    OperationDescription = this.CommandRuntime.ToString(),
-                    OperationId = operation.OperationTrackingId,
-                    OperationStatus = operation.Status
-                };
-            };
+            ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionInOCS(
+            ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.GetStorageKeys(s, this.StorageAccountName),
-                func);
+                () => this.StorageClient.StorageAccounts.GetKeys(this.StorageAccountName),
+                (s, response) =>
+                {
+                    var context = ContextFactory<StorageAccountGetKeysResponse, StorageServiceKeyOperationContext>(response, s);
+                    ((StorageServiceKeyOperationContext) context).StorageAccountName = this.StorageAccountName;
+                    return context;
+                });
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public string ProbePath { get; set; }
         public int? ProbeInterval { get; set; }
         public int? ProbeTimeout { get; set; }
-        public PersistentVM Vm { get; set; }
+        public PersistentVM  Vm { get; set; }
         public ParameterSet ParamSet { get; set; }
         public NetworkAclObject Acl { get; set; }
         public bool DirectServerReturn { get; set; }

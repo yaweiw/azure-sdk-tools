@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
-{    
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using WindowsAzure.Commands.ServiceManagement.Model;
+{
+    using Model;
+    using Model.PersistentVMModel;
 
     public class AzureProvisioningConfigInfo
     {
@@ -80,6 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        public PersistentVM Vm { get; set; }
+        public PersistentVM  Vm { get; set; }
     }
 }

@@ -17,9 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     /// <summary>
     /// Lists the versions of the guest operating system that are currently available in Windows Azure.
@@ -27,34 +28,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureOSVersion"), OutputType(typeof(OSVersionsContext))]
     public class GetAzureOSVersionCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureOSVersionCommand()
-        {
-        }
-
-        public GetAzureOSVersionCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(
+            ServiceManagementProfile.Initialize();
+
+            ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListOperatingSystems(s),
-                (operation, operatingSystems) => operatingSystems.Select(os => new OSVersionsContext
-                {
-                    OperationId = operation.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = operation.Status,
-                    Family = os.Family,
-                    FamilyLabel = string.IsNullOrEmpty(os.FamilyLabel) ? null : os.FamilyLabel,
-                    IsActive = os.IsActive,
-                    IsDefault = os.IsDefault,
-                    Version = os.Version,
-                    Label = string.IsNullOrEmpty(os.Label) ? null : os.Label
-                })
-                );
+                () => this.ComputeClient.OperatingSystems.List(),
+                (op, oSes) => oSes.OperatingSystems.Select(os => ContextFactory<OperatingSystemListResponse.OperatingSystem, OSVersionsContext>(os, op)));
         }
     }
 }

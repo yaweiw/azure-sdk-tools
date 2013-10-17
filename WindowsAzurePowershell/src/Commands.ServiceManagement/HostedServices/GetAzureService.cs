@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using AutoMapper;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     /// <summary>
     /// Retrieve a specified hosted account.
@@ -28,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureService"), OutputType(typeof(HostedServiceDetailedContext))]
     public class GetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureServiceCommand()
-        {
-        }
-
-        public GetAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -47,38 +38,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, IEnumerable<HostedService>, object> func = (operation, services) => services.Select(service => new HostedServiceDetailedContext
-            {
-                ServiceName = service.ServiceName ?? this.ServiceName,
-                Url = service.Url,
-                Label = string.IsNullOrEmpty(service.HostedServiceProperties.Label)
-                            ? string.Empty
-                            : service.HostedServiceProperties.Label,
-                Description = service.HostedServiceProperties.Description,
-                AffinityGroup = service.HostedServiceProperties.AffinityGroup,
-                Location = service.HostedServiceProperties.Location,
-                Status = service.HostedServiceProperties.Status,
-                DateCreated = service.HostedServiceProperties.DateCreated,
-                DateModified = service.HostedServiceProperties.DateLastModified,
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status
-            });
+            ServiceManagementProfile.Initialize();
+
             if (this.ServiceName != null)
             {
-                ExecuteClientActionInOCS(
+                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/111
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetHostedService(s, this.ServiceName),
-                    (operation, service) => func(operation, new[] { service }));
+                    () => this.ComputeClient.HostedServices.Get(this.ServiceName),
+                    (operation, service) => new int[1].Select(i =>
+                                                                  {
+                                                                      var context = ContextFactory<HostedServiceGetResponse, HostedServiceDetailedContext>(service, operation);
+                                                                      Mapper.Map(service.Properties, context);
+                                                                      return context;
+                                                                  }));
             }
             else
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListHostedServices(s),
-                    (operation, service) => func(operation, service));
+                    () => this.ComputeClient.HostedServices.List(),
+                    (operation, services) => services.HostedServices.Select(service =>
+                                                                                {
+                                                                                    var context = ContextFactory<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>(service, operation);
+                                                                                    Mapper.Map(service.Properties, context);
+                                                                                    return context;
+                                                                                }));
             }
         }
     }

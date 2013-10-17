@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Disks
 {
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Get, "AzureDataDisk"), OutputType(typeof(DataVirtualHardDisk))]
     public class GetAzureDataDisk : VirtualMachineConfigurationCmdletBase

@@ -18,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using Management.Compute;
     using Management.Storage;
     using Moq;
+    using System.Net;
+    using System.Net.Http;
 
     /// <summary>
     /// Test helper class for managing mocking the various client objects
@@ -55,6 +57,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             var mockCreds = repository.Create<SubscriptionCloudCredentials>(MockBehavior.Loose);
             mockCreds.SetupGet(c => c.SubscriptionId).Returns(subscriptionId);
             return mockCreds.Object;
+        }
+
+        internal static CloudException Make404Exception()
+        {
+            return CloudException.CreateFromXml(
+                new HttpRequestMessage(),
+                null,
+                new HttpResponseMessage(HttpStatusCode.NotFound),
+                "<Error><Message>Not found</Message></Error>");
         }
     }
 }

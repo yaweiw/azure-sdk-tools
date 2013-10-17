@@ -14,10 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Deletes the specified deployment.
@@ -25,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Remove, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureDeploymentCommand()
-        {
-        }
-        
-        public RemoveAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -59,7 +53,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void RemoveDeploymentProcess()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteDeploymentBySlot(s, this.ServiceName, this.Slot));
+            ServiceManagementProfile.Initialize();
+            
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
         }
 
         protected override void OnProcessRecord()

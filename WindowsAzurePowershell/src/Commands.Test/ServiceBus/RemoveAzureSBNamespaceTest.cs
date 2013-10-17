@@ -19,9 +19,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
     using Utilities.Common;
-    using Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
 
     [TestClass]
     public class RemoveAzureSBNamespaceTests : TestBase
@@ -36,12 +37,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
         public void RemoveAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
+            Mock<ServiceBusClientExtensions> client = new Mock<ServiceBusClientExtensions>();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime, PassThru = true };
+            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand()
+            {
+                Name = name,
+                CommandRuntime = mockCommandRuntime,
+                PassThru = true,
+                Client = client.Object
+            };
             bool deleted = false;
-            channel.DeleteServiceBusNamespaceThunk = dsbn => { deleted = true; };
+            client.Setup(f => f.RemoveNamespace(name)).Callback(() => deleted = true);
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -49,46 +56,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             // Assert
             Assert.IsTrue(deleted);
             Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
-        }
-
-        [TestMethod]
-        public void RemoveAzureSBNamespaceWithInvalidNamesFail()
-        {
-            // Setup
-            string[] invalidNames = { "1test", "test#", "test invaid", "-test", "_test" };
-
-            foreach (string invalidName in invalidNames)
-            {
-                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-                RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
-                ArgumentException expected = new ArgumentException(string.Format(Resources.InvalidNamespaceName, invalidName), "Name");
-
-                // Test
-                cmdlet.ExecuteCmdlet();
-
-                // Assert
-                ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
-                Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveAzureSBNamespaceWithInternalServerError()
-        {
-            // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
-            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-            string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
-            string expected = Resources.RemoveNamespaceErrorMessage;
-            channel.DeleteServiceBusNamespaceThunk = dsbn => { throw new Exception(Resources.InternalServerErrorMessage); };
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
-            Assert.AreEqual<string>(expected, actual.Exception.Message);
         }
     }
 }

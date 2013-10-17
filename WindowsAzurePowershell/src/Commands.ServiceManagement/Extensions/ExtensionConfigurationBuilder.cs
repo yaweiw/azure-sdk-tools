@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute.Models;
 
     public class ExtensionConfigurationBuilder
     {
@@ -46,8 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             return allRoles.Any(id =>
             {
-                HostedServiceExtension e = extensionManager.GetExtension(id);
-                return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
+                var e = extensionManager.GetExtension(id);
+                return e != null && e.ProviderNamespace == nameSpace && e.Type == type;
             });
         }
 
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 return (from r in namedRoles
                         where roles.Contains(r.Key)
                         from id in r.Value
-                        select extensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNameSpace == nameSpace && e.Type == type);
+                        select extensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNamespace == nameSpace && e.Type == type);
             }
             else
             {
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     namedRoles[r].RemoveWhere(id =>
                     {
                         var e = extensionManager.GetExtension(id);
-                        return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
+                        return e != null && e.ProviderNamespace == nameSpace && e.Type == type;
                     });
                 }
                 return this;
@@ -232,14 +232,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             {
                 if (config.AllRoles != null)
                 {
-                    config.AllRoles.ForEach(e => AddDefault(e.Id));
+                    foreach (var e in config.AllRoles)
+                    {
+                        AddDefault(e.Id);
+                    }
                 }
 
                 if (config.NamedRoles != null)
                 {
                     foreach (var r in config.NamedRoles)
                     {
-                        r.Extensions.ForEach(e =>
+                        foreach (var e in r.Extensions)
                         {
                             if (namedRoles.ContainsKey(r.RoleName))
                             {
@@ -249,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                             {
                                 namedRoles.Add(r.RoleName, new HashSet<string>(new string[] { e.Id }));
                             }
-                        });
+                        }
                     }
                 }
             }
@@ -258,19 +261,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public ExtensionConfiguration ToConfiguration()
         {
-            ExtensionConfiguration config = new ExtensionConfiguration
+            ExtensionConfiguration config = new ExtensionConfiguration();
+            foreach (var id in allRoles)
             {
-                AllRoles = new AllRoles(),
-                NamedRoles = new NamedRoles()
-            };
-            config.AllRoles.AddRange(from id in allRoles select new Extension(id));
-            config.NamedRoles.AddRange(from r in namedRoles
-                                       where r.Value.Any()
-                                       select new RoleExtensions
-                                       {
-                                           RoleName = r.Key,
-                                           Extensions = new ExtensionList(from id in r.Value select new Extension(id))
-                                       });
+                config.AllRoles.Add(new ExtensionConfiguration.Extension
+                {
+                    Id = id
+                });
+            }
+
+            foreach (var r in namedRoles)
+            {
+                if (r.Value.Any())
+                {
+                    var nr = new ExtensionConfiguration.NamedRole
+                    {
+                        RoleName = r.Key
+                    };
+
+                    foreach (var v in r.Value)
+                    {
+                        nr.Extensions.Add(new ExtensionConfiguration.Extension
+                        {
+                            Id = v
+                        });
+                    }
+
+                    config.NamedRoles.Add(nr);
+                }
+            }
+
             return config;
         }
     }

@@ -2,71 +2,76 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.MediaServices;
-using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
-using Microsoft.WindowsAzure.ServiceManagement;
+using Microsoft.WindowsAzure.Management.MediaServices;
+using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Microsoft.WindowsAzure.Management.Storage;
+using Moq;
 
 namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 {
     [TestClass]
     public class MediaServicesClientTests
     {
-        private string _accountName = "testacc";
-        private string _subscriptionId = "foo";
+        private const string AccountName = "testacc";
+        private const string SubscriptionId = "foo";
+        private static readonly StorageManagementClient StorageClient = new StorageManagementClient(new CertificateCloudCredentials(SubscriptionId, new X509Certificate2(new byte[] { })), new Uri("http://someValue"));
+
 
         [TestMethod]
         public void TestDeleteAzureMediaServiceAccountAsync()
         {
-            HttpClient fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
-
-            var target = new MediaServicesClient(new WindowsAzureSubscription
+            Mock<MediaServicesManagementClient> clientMock = InitMediaManagementClientMock();
+            Mock<IAccountOperations> iAccountOperations = new Mock<IAccountOperations>();
+            iAccountOperations.Setup(m => m.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(() => Task.Factory.StartNew(() => new OperationResponse
             {
-                SubscriptionId = _subscriptionId
-            },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
+                RequestId = "request",
+                StatusCode = HttpStatusCode.OK
+            }));
+            clientMock.Setup(m => m.Accounts).Returns(() => iAccountOperations.Object);
 
-            bool result = target.DeleteAzureMediaServiceAccountAsync(_accountName).Result;
+            StorageManagementClient storageClient = StorageClient.WithHandler(new FakeHttpMessageHandler());
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientMock.Object,
+                storageClient);
 
-            Assert.IsTrue(result);
+            OperationResponse result = target.DeleteAzureMediaServiceAccountAsync(AccountName).Result;
+
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
 
         [TestMethod]
         public void TestDeleteAzureMediaServiceAccountAsync404()
         {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
+            FakeHttpMessageHandler fakeHttpHandler;
+            MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            string responseText = "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">{\"Code\":\"NotFound\",\"Message\":\"The specified account was not found.\"}</string>";
+            const string responseText = "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">{\"Code\":\"NotFound\",\"Message\":\"The specified account was not found.\"}</string>";
 
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 Content = new FakeHttpContent(responseText)
             };
 
             fakeHttpHandler.Send = request => response;
 
-            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
-
-            var target = new MediaServicesClient(new WindowsAzureSubscription
-            {
-                SubscriptionId = _subscriptionId
-            },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientWithHandler,
+                StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
             try
             {
-                bool result = target.DeleteAzureMediaServiceAccountAsync(_accountName).Result;
+                OperationResponse result = target.DeleteAzureMediaServiceAccountAsync(AccountName).Result;
             }
             catch (AggregateException ax)
             {
-                var x = (ServiceManagementClientException) ax.InnerExceptions.Single();
-                Assert.AreEqual("NotFound", x.ErrorDetails.Code);
+                CloudException x = (CloudException)ax.InnerExceptions.Single();
+                Assert.AreEqual(HttpStatusCode.NotFound, x.Response.StatusCode);
                 return;
             }
 
@@ -76,216 +81,211 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
         [TestMethod]
         public void TestRegenerateMediaServicesAccountAsync()
         {
-            HttpClient fakeHttpClient = new FakeHttpMessageHandler().CreateIMediaServicesHttpClient();
+            Mock<MediaServicesManagementClient> clientMock = InitMediaManagementClientMock();
+            Mock<IAccountOperations> iAccountOperations = new Mock<IAccountOperations>();
+            iAccountOperations
+                .Setup(m => m.RegenerateKeyAsync(It.IsAny<string>(), It.IsAny<MediaServicesKeyType>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(
+                    () => new OperationResponse
+                    {
+                        RequestId = "request",
+                        StatusCode = HttpStatusCode.OK
+                    }));
 
-            var target = new MediaServicesClient(new WindowsAzureSubscription
-            {
-                SubscriptionId = _subscriptionId
-            },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
+            clientMock.Setup(m => m.Accounts).Returns(() => iAccountOperations.Object);
 
-            bool result = target.RegenerateMediaServicesAccountAsync(_accountName, "Primary").Result;
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientMock.Object,
+                StorageClient);
 
-            Assert.IsTrue(result);
+            OperationResponse result = target.RegenerateMediaServicesAccountAsync(AccountName, MediaServicesKeyType.Primary).Result;
+
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
-
+        
         [TestMethod]
         public void TestGetMediaServiceAsync()
         {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
-
-            string responseText = "{\"AccountKey\":\"primarykey\",\"AccountKeys\":{\"Primary\":\"primarykey\",\"Secondary\":\"secondarykey\"},\"AccountName\":\"testps\",\"AccountRegion\":\"West US\",\"StorageAccountName\":\"nimbusorigintrial\"}";
 
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            FakeHttpMessageHandler fakeHttpHandler;
+            MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
+
+            const string responseText = @"<AccountDetails xmlns='http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'>
+                                    <AccountKey>primarykey</AccountKey><AccountKeys>
+                                    <Primary>primarykey</Primary>
+                                    <Secondary>secondarykey</Secondary>
+                                    </AccountKeys><AccountName>testps</AccountName>
+                                    <AccountRegion>West US</AccountRegion>
+                                    <StorageAccountName>psstorage</StorageAccountName>
+                                </AccountDetails>";
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new FakeHttpContent(responseText)
             };
 
             fakeHttpHandler.Send = request => response;
 
-            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientWithHandler,
+                StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
-            var target = new MediaServicesClient(new WindowsAzureSubscription
-            {
-                SubscriptionId = _subscriptionId
-            },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
-
-            MediaServiceAccountDetails result = target.GetMediaServiceAsync(_accountName).Result;
-            Assert.AreEqual("primarykey", result.MediaServicesPrimaryAccountKey);
-            Assert.AreEqual("secondarykey", result.MediaServicesSecondaryAccountKey);
-            Assert.AreEqual("testps", result.Name);
+            MediaServicesAccountGetResponse result = target.GetMediaServiceAsync(AccountName).Result;
+            Assert.AreEqual("primarykey", result.StorageAccountKeys.Primary);
+            Assert.AreEqual("secondarykey", result.StorageAccountKeys.Secondary);
+            Assert.AreEqual("testps", result.AccountName);
+            Assert.AreEqual("psstorage", result.StorageAccountName);
         }
 
         [TestMethod]
         public void TestGetMediaServiceAccountsAsync()
         {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
 
-            string responseText =
-                "[{\"Name\":\"testps\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"E0658294-5C96-4B0F-AD55-F7446CE4F788\"},{\"Name\":\"test2\",\"Type\":\"MediaService\",\"State\":\"Active\",\"AccountId\":\"C92B17C8-5422-4CD1-8D3C-61E576E861DD\"}]";
+            FakeHttpMessageHandler fakeHttpHandler;
+            MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            const string responseText = @"<ServiceResources xmlns='http://schemas.microsoft.com/windowsazure' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'>
+                                    <ServiceResource>
+                                        <Name>mymediademo</Name>
+                                        <Type>MediaService</Type>
+                                        <State>Active</State>
+                                        <AccountId>E0658294-5C96-4B0F-AD55-F7446CE4F788</AccountId>
+                                    </ServiceResource>
+                                    <ServiceResource>
+                                        <Name>nimbusorigintrial</Name>
+                                        <Type>MediaService</Type>
+                                        <State>Active</State>
+                                        <AccountId>C92B17C8-5422-4CD1-8D3C-61E576E861DD</AccountId>
+                                    </ServiceResource>
+                                </ServiceResources>";
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new FakeHttpContent(responseText)
             };
 
             fakeHttpHandler.Send = request => response;
 
-            HttpClient fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientWithHandler,
+                StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
-            var target = new MediaServicesClient(new WindowsAzureSubscription
-            {
-                SubscriptionId = _subscriptionId
-            },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
-
-            MediaServiceAccount[] result = target.GetMediaServiceAccountsAsync().Result.ToArray();
-            Assert.AreEqual(Guid.Parse("E0658294-5C96-4B0F-AD55-F7446CE4F788"), result[0].AccountId);
-            Assert.AreEqual(Guid.Parse("C92B17C8-5422-4CD1-8D3C-61E576E861DD"), result[1].AccountId);
-        }
-
-        [TestMethod]
-        public void TestGetStorageServiceKeys()
-        {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
-
-            string responseText = "<StorageService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Url>https://management.core.windows.net/f7190519-c29e-47f2-9019-c5a94c8e75f9/services/storageservices/nimbusivshapo</Url><StorageServiceKeys><Primary>PrimaryKey</Primary><Secondary>SecondaryKey</Secondary></StorageServiceKeys></StorageService>";
-           
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new FakeHttpContent(responseText),
-                
-            };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-            response.Content.Headers.ContentType.CharSet = "utf-8";
-
-            fakeHttpHandler.Send = request => response;
-
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
-
-            var target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = _subscriptionId },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
-
-            var result = target.GetStorageServiceKeysAsync(_accountName).Result;
-            Assert.AreEqual("PrimaryKey", result.StorageServiceKeys.Primary);
-            Assert.AreEqual("SecondaryKey", result.StorageServiceKeys.Secondary);
-        }
-
-        [TestMethod]
-        public void TestGetStorageServiceKeysInvalidAccountName()
-        {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
-
-            string responseText = "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>BadRequest</Code><Message>The name is not a valid.</Message></Error>";
-
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new FakeHttpContent(responseText)
-            };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-            response.Content.Headers.ContentType.CharSet = "utf-8";
-
-            fakeHttpHandler.Send = request => response;
-
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
-
-            var target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = _subscriptionId },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
-
-            try
-            {
-                var result = target.GetStorageServiceKeysAsync(_accountName).Result;
-            }
-            catch (AggregateException ax)
-            {
-                ServiceManagementClientException x = (ServiceManagementClientException)ax.InnerExceptions.Single();
-
-                Assert.AreEqual(HttpStatusCode.BadRequest, x.HttpStatus);
-                return;
-            }
-
-            Assert.Fail("ServiceManagementClientException expected");
+            MediaServicesAccountListResponse.MediaServiceAccount[] result = target.GetMediaServiceAccountsAsync().Result.Accounts.ToArray();
+            Assert.AreEqual("E0658294-5C96-4B0F-AD55-F7446CE4F788", result[0].AccountId);
+            Assert.AreEqual("C92B17C8-5422-4CD1-8D3C-61E576E861DD", result[1].AccountId);
         }
 
         [TestMethod]
         public void TestCreateNewAzureMediaServiceAsync()
         {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
+            FakeHttpMessageHandler fakeHttpHandler;
+            MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            string responseText = "{\"AccountId\":\"abe5afa0-704b-4d07-b5d8-5b0b039474e7\",\"AccountName\":\"tmp\",\"StatusCode\":201,\"Subscription\":\"f7190519-c29e-47f2-9019-c5a94c8e75f9\"}";
+            const string responseText = @"<AccountCreationResult xmlns='http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'>
+                                    <AccountId>e26ca098-e363-450d-877c-384ce5a97c72</AccountId>
+                                    <AccountName>tmp</AccountName>
+                                    <StatusCode>Created</StatusCode>
+                                    <Subscription>d4e66bc8-6ccb-4e49-9ee6-dc6925d5bbdb</Subscription>
+                                </AccountCreationResult>";
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
                 Content = new FakeHttpContent(responseText)
             };
 
             fakeHttpHandler.Send = request => response;
 
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientWithHandler,
+                StorageClient);
 
-            var target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = _subscriptionId },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
+            MediaServicesAccountCreateParameters creationRequest = new MediaServicesAccountCreateParameters
+            {
+                AccountName = AccountName,
+                BlobStorageEndpointUri = new Uri("http://tmp"),
+                Region = "West US",
+                StorageAccountKey = Guid.NewGuid().ToString(),
+                StorageAccountName = "test"
+            };
 
-            var creationRequest = new AccountCreationRequest { AccountName = _accountName };
-
-            var result = target.CreateNewAzureMediaServiceAsync(creationRequest).Result;
-            Assert.AreEqual("tmp", result.Name);
+            MediaServicesAccountCreateResponse result = target.CreateNewAzureMediaServiceAsync(creationRequest).Result;
+            Assert.AreEqual("tmp", result.AccountName);
         }
 
         [TestMethod]
         public void TestCreateNewAzureMediaServiceAsyncInvalidAccount()
         {
-            var fakeHttpHandler = new FakeHttpMessageHandler();
+            FakeHttpMessageHandler fakeHttpHandler;
+            MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            string responseText = "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">{\"Code\":\"BadRequest\",\"Message\":\"Account Creation Request contains an invalid account name.\"}</string>";
+            const string responseText = @"<Error xmlns='http://schemas.microsoft.com/windowsazure' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <Code>BadRequest</Code>
+                                        <Message>Account Creation Request contains an invalid account name.</Message>
+                                    </Error>";
 
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.BadRequest)
             {
                 Content = new FakeHttpContent(responseText)
             };
 
             fakeHttpHandler.Send = request => response;
 
-            var fakeHttpClient = fakeHttpHandler.CreateIMediaServicesHttpClient();
+            MediaServicesClient target = new MediaServicesClient(null,
+                clientWithHandler,
+                StorageClient);
 
-            var target = new MediaServicesClient(
-                new WindowsAzureSubscription { SubscriptionId = _subscriptionId },
-                null,
-                fakeHttpClient,
-                fakeHttpClient);
-
-            var creationRequest = new AccountCreationRequest { AccountName = _accountName };
+            MediaServicesAccountCreateParameters creationRequest = new MediaServicesAccountCreateParameters
+            {
+                AccountName = AccountName,
+                BlobStorageEndpointUri = new Uri("http://tmp"),
+                Region = "West US",
+                StorageAccountKey = Guid.NewGuid().ToString(),
+                StorageAccountName = "test"
+            };
 
             try
             {
-                var result = target.CreateNewAzureMediaServiceAsync(creationRequest).Result;
+                MediaServicesAccountCreateResponse result = target.CreateNewAzureMediaServiceAsync(creationRequest).Result;
             }
-            catch (AggregateException ax)
+            catch (AggregateException ex)
             {
-                ServiceManagementClientException x = (ServiceManagementClientException)ax.InnerExceptions.Single();
-
-                Assert.AreEqual(HttpStatusCode.BadRequest, x.HttpStatus);
-                return;
+                CloudException cloudException = ex.Flatten().InnerException as CloudException;
+                Assert.IsNotNull(cloudException);
+                Assert.AreEqual(HttpStatusCode.BadRequest, cloudException.Response.StatusCode);
             }
 
-            Assert.Fail("ServiceManagementClientException expected");
         }
+
+        #region Helper  Methods
+
+        private static WindowsAzureSubscription GetWindowsAzureSubscription()
+        {
+            WindowsAzureSubscription windowsAzureSubscription = new WindowsAzureSubscription
+            {
+                SubscriptionId = SubscriptionId,
+                Certificate = new X509Certificate2(new byte[] {}),
+                ServiceEndpoint = new Uri("http://someValue")
+            };
+            return windowsAzureSubscription;
+        }
+        private static Mock<MediaServicesManagementClient> InitMediaManagementClientMock()
+        {
+            return new Mock<MediaServicesManagementClient>(new CertificateCloudCredentials(SubscriptionId, new X509Certificate2(new byte[] { })), new Uri("http://someValue"));
+        }
+        private static MediaServicesManagementClient CreateMediaManagementClientWithFakeHttpMessageHandler(out FakeHttpMessageHandler fakeHttpHandler)
+        {
+            fakeHttpHandler = new FakeHttpMessageHandler();
+            MediaServicesManagementClient managementClient = InitManagementClient();
+            MediaServicesManagementClient clientWithHandler = managementClient.WithHandler(fakeHttpHandler);
+            return clientWithHandler;
+        }
+        private static MediaServicesManagementClient InitManagementClient()
+        {
+            return new MediaServicesManagementClient(new CertificateCloudCredentials(SubscriptionId, new X509Certificate2(new byte[] { })), new Uri("http://someValue"));
+        }
+
+        #endregion
+
     }
 }

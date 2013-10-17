@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
 
             // Save the mock session results
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query the created test databases
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -150,131 +150,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             }
         }
 
-        /// <summary>
-        /// Test getting a database using certificate authentication
-        /// </summary>
-        [TestMethod]
-        public void GetAzureSqlDatabaseWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            channel.GetDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    ar.Values["databaseName"], 
-                    "testdb1", 
-                    "The input databaseName did not match the expected");
-
-                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
-                db1.CollationName = "Japanese_CI_AS";
-                db1.Edition = "Web";
-                db1.Id = "1";
-                db1.MaxSizeGB = "1";
-                db1.Name = "testdb1";
-                db1.CreationDate = DateTime.Now.ToString();
-                db1.IsFederationRoot = true.ToString();
-                db1.IsSystemObject = true.ToString();
-                db1.MaxSizeBytes = "1073741824";
-
-                return db1;
-            };
-
-            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = 
-                new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
-            service.Channel = channel;
-
-            Database database = service.GetDatabase("testdb1");
-
-            Assert.AreEqual("testdb1", database.Name, "Expected db name to be testdb1");
-
-            Assert.AreEqual(
-                "Japanese_CI_AS", 
-                database.CollationName,
-                "Expected collation to be Japanese_CI_AS");
-            Assert.AreEqual("Web", database.Edition, "Expected edition to be Web");
-            Assert.AreEqual(1, database.MaxSizeGB, "Expected max size to be 1 GB");
-        }
-
-        /// <summary>
-        /// Test getting all databases with certificate authentication
-        /// </summary>
-        [TestMethod]
-        public void GetAzureSqlDatabasesWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            channel.GetDatabasesThunk = ar =>
-            {
-                List<SqlDatabaseResponse> databases = new List<SqlDatabaseResponse>();
-
-                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
-                db1.CollationName = "Japanese_CI_AS";
-                db1.Edition = "Web";
-                db1.Id = "1";
-                db1.MaxSizeGB = "1";
-                db1.Name = "testdb1";
-                db1.CreationDate = DateTime.Now.ToString();
-                db1.IsFederationRoot = true.ToString();
-                db1.IsSystemObject = true.ToString();
-                db1.MaxSizeBytes = "1073741824";
-                db1.SizeMB = "2.4";
-                databases.Add(db1);
-
-                SqlDatabaseResponse db2 = new SqlDatabaseResponse();
-                db2.CollationName = "Japanese_CI_AS";
-                db2.Edition = "Business";
-                db2.Id = "2";
-                db2.MaxSizeGB = "10";
-                db2.Name = "testdb2";
-                db2.CreationDate = DateTime.Now.ToString();
-                db2.IsFederationRoot = true.ToString();
-                db2.IsSystemObject = true.ToString();
-                db2.MaxSizeBytes = "10737418240";
-                db2.SizeMB = "5.2";
-                databases.Add(db2);
-
-                SqlDatabaseList operationResult = new SqlDatabaseList(databases);
-
-                return operationResult;
-            };
-
-            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = 
-                new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
-            service.Channel = channel;
-
-            Database[] results = service.GetDatabases();
-
-            // Expecting master, testdb1, testdb2
-            Assert.AreEqual(2, results.Length, "Expecting two Database objects");
-
-            Database database1Obj = results[0];
-            Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
-            Assert.AreEqual(2.4m, database1Obj.SizeMB, "Expected size to be 2.4 MB");
-
-            Database database2Obj = results[1];
-            
-            Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
-            Assert.AreEqual(
-                "Japanese_CI_AS", 
-                database2Obj.CollationName, 
-                "Expected collation to be Japanese_CI_AS");
-            Assert.AreEqual("Business", database2Obj.Edition, "Expected edition to be Business");
-            Assert.AreEqual(10, database2Obj.MaxSizeGB, "Expected max size to be 10 GB");
-            Assert.AreEqual(5.2m, database2Obj.SizeMB, "Expected size to be 5.2 MB");
-        }
-
         [TestMethod]
         public void GetAzureSqlDatabaseWithSqlAuthByPipe()
         {
@@ -287,7 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query the created test databases
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuthByPipe");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -382,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
 
                 // Query a non-existent test database
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuthNonExistentDb");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =

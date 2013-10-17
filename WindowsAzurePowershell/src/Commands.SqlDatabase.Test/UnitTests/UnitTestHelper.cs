@@ -16,10 +16,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -28,11 +32,45 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
     public static class UnitTestHelper
     {
         /// <summary>
-        /// Manifest file for SqlDatabase Tests
+        /// Manifest file for SqlDatabase Tests.
         /// </summary>
-        private static readonly string SqlDatabaseTestManifest =
-            "Microsoft.WindowsAzure.Commands.SqlDatabase.Test.psd1";
+        private static readonly string SqlDatabaseTestManifest = "Azure.psd1";
 
+        /// <summary>
+        /// The subscription name used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestSubscriptionName = "SqlUnitTestSubscription";
+
+        /// <summary>
+        /// The subscription Id used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestSubscriptionId = "00000000-0000-0000-0001-000000000001";
+
+        /// <summary>
+        /// The SSL certificate used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestSSLCertFile = "PowershellTestSSLCert.pfx";
+
+        /// <summary>
+        /// The password for the SSL certificate file.
+        /// </summary>
+        private static readonly string UnitTestSSLCertPassword = "=8e0l5H|~$|=(TGA_9#v";
+
+        /// <summary>
+        /// The client certificate used in the unit tests.
+        /// </summary>
+        private static readonly string UnitTestClientCertFile = "PowershellTestClientCert.pfx";
+
+        /// <summary>
+        /// The password for the client certificate file.
+        /// </summary>
+        private static readonly string UnitTestClientCertPassword = "vIFEKSeSxP?RUh`#-t,?";
+
+        /// <summary>
+        /// Verifies the ConfirmImpact level on a cmdlet.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet to check.</param>
+        /// <param name="confirmImpact">The expected confirm impact.</param>
         public static void CheckConfirmImpact(Type cmdlet, ConfirmImpact confirmImpact)
         {
             object[] cmdletAttributes = cmdlet.GetCustomAttributes(typeof(CmdletAttribute), true);
@@ -41,6 +79,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
             Assert.AreEqual(confirmImpact, attribute.ConfirmImpact);
         }
 
+        /// <summary>
+        /// Verifies if a cmdlet is suppose to modify data or not.
+        /// </summary>
+        /// <param name="cmdlet">The cmdlet to check.</param>
+        /// <param name="supportsShouldProcess">Whether or not the cmdlet is expected to modify data.</param>
         public static void CheckCmdletModifiesData(Type cmdlet, bool supportsShouldProcess)
         {
             // If the Cmdlet modifies data, SupportsShouldProcess should be set to true.
@@ -68,6 +111,28 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
                 SubscriptionId = "00000000-0000-0000-0000-000000000000",
                 Certificate = new X509Certificate2()
             };
+        }
+
+        /// <summary>
+        /// Retrieve the client certificate used in the unittest.
+        /// </summary>
+        /// <returns>A <see cref="X509Certificate2"/> containing the client certificate</returns>
+        public static X509Certificate2 GetUnitTestClientCertificate()
+        {
+            return ReadCertificateFromResource(
+                UnitTestClientCertFile,
+                UnitTestClientCertPassword);
+        }
+
+        /// <summary>
+        /// Retrieve the SSL certificate used in the unittest.
+        /// </summary>
+        /// <returns>A <see cref="X509Certificate2"/> containing the SSL certificate</returns>
+        public static X509Certificate2 GetUnitTestSSLCertificate()
+        {
+            return ReadCertificateFromResource(
+                UnitTestSSLCertFile,
+                UnitTestSSLCertPassword);
         }
 
         /// <summary>
@@ -171,11 +236,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         }
 
         /// <summary>
-        /// Imports the SqlDatabase Test Manifest to the given <paramref name="powershell"/>
-        /// instance.
+        /// Imports the Azure Manifest to the given <paramref name="powershell"/> instance.
         /// </summary>
         /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
-        public static void ImportSqlDatabaseModule(PowerShell powershell)
+        public static void ImportAzureModule(PowerShell powershell)
         {
             // Import the test manifest file
             powershell.InvokeBatchScript(
@@ -206,6 +270,76 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
                 string.Format(@"$pass = ""{0}"" | ConvertTo-SecureString -asPlainText -Force", password),
                 @"$credential = New-Object System.Management.Automation.PSCredential($user, $pass)");
             Assert.IsTrue(powershell.Streams.Error.Count == 0);
+        }
+
+        /// <summary>
+        /// Common helper method for other tests to create a unit test subscription
+        /// that connects to the mock server.
+        /// </summary>
+        /// <param name="powershell">The powershell instance used for the test.</param>
+        public static WindowsAzureSubscription SetupUnitTestSubscription(PowerShell powershell)
+        {
+            UnitTestHelper.ImportAzureModule(powershell);
+
+            // Set the client certificate used in the subscription
+            powershell.Runspace.SessionStateProxy.SetVariable(
+                "clientCertificate",
+                UnitTestHelper.GetUnitTestClientCertificate());
+
+            powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Set-AzureSubscription" +
+                    @" -SubscriptionName {0}" +
+                    @" -SubscriptionId {1}" +
+                    @" -Certificate $clientCertificate" +
+                    @" -ServiceEndpoint {2}",
+                    UnitTestSubscriptionName,
+                    UnitTestSubscriptionId,
+                    MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri));
+            powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Select-AzureSubscription" +
+                    @" -SubscriptionName {0}",
+                    UnitTestSubscriptionName));
+            Collection<PSObject> subscriptionResult = powershell.InvokeBatchScript(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"Get-AzureSubscription" +
+                    @" -Current"));
+
+            Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+            Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+            powershell.Streams.ClearStreams();
+
+            PSObject subscriptionPsObject = subscriptionResult.Single();
+            WindowsAzureSubscription subscription =
+                subscriptionPsObject.BaseObject as WindowsAzureSubscription;
+            Assert.IsTrue(subscription != null, "Expecting a WindowsAzureSubscription object");
+
+            return subscription;
+        }
+
+        /// <summary>
+        /// Retrieve a certificate from embedded resource.
+        /// </summary>
+        /// <param name="resourceName">The logical name of the embedded resource.</param>
+        /// <param name="password">The password for the certificate.</param>
+        /// <returns>A <see cref="X509Certificate2"/> containing the specified certificate.</returns>
+        private static X509Certificate2 ReadCertificateFromResource(
+            string resourceName,
+            string password)
+        {
+            using (Stream certFile = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            using (BinaryReader certFileReader = new BinaryReader(certFile))
+            {
+                return new X509Certificate2(
+                    certFileReader.ReadBytes((int)certFile.Length),
+                    password,
+                    X509KeyStorageFlags.PersistKeySet |
+                    X509KeyStorageFlags.MachineKeySet);
+            }
         }
     }
 }
