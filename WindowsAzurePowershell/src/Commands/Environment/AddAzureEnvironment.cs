@@ -53,8 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 ServiceEndpoint = ServiceEndpoint,
                 ManagementPortalUrl = ManagementPortalUrl,
                 StorageEndpointSuffix = StorageEndpoint,
-                AdTenantUrl = ActiveDirectoryEndpoint,
-                CommonTenantId = "Common"
+                ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
+                ActiveDirectoryCommonTenantId = "Common"
             };
 
             WindowsAzureProfile.Instance.AddEnvironment(newEnvironment);
