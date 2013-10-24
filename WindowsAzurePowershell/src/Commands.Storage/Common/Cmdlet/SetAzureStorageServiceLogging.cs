@@ -37,14 +37,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Logging version")]
         public double? Version { get; set; }
 
-        [Parameter(HelpMessage = "Logging retention days. Zero means disable Logging, otherwise enable.")]
-        [ValidateRange(0, 365)]
-        public int? RetentionDays { get; set; }
+        [Parameter(HelpMessage = "Logging retention days. -1 means disable Logging retention policy, otherwise enable.")]
+        [ValidateRange(-1, 365)]
+        public int? RetentionDay { get; set; }
 
         public const string LoggingOperationHelpMessage =
             "Logging operations. (All, None, combinations of Read, Write, delete that are seperated by semicolon.)";
         [Parameter(HelpMessage = LoggingOperationHelpMessage)]
-        public string LoggingOperations { get; set; }
+        public string LoggingOperation { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
@@ -60,22 +60,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 serviceProperties.Logging.Version = Version.ToString();
             }
 
-            if (RetentionDays != null)
+            if (RetentionDay != null)
             {
-                if (RetentionDays == 0)
+                if (RetentionDay == -1)
                 {
-                    //Disable logging
+                    //Disable logging retention policy
                     serviceProperties.Logging.RetentionDays = null;
+                }
+                else if (RetentionDay < 1 || RetentionDay > 365)
+                {
+                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDay));
                 }
                 else
                 {
-                    serviceProperties.Logging.RetentionDays = RetentionDays;
+                    serviceProperties.Logging.RetentionDays = RetentionDay;
                 }
             }
 
-            if (LoggingOperations != null)
+            if (LoggingOperation != null)
             {
-                LoggingOperations logOperations = GetLoggingOperations(LoggingOperations);
+                LoggingOperations logOperations = GetLoggingOperations(LoggingOperation);
                 serviceProperties.Logging.LoggingOperations = logOperations;
                 //Set default logging version
                 if (string.IsNullOrEmpty(serviceProperties.Logging.Version))
