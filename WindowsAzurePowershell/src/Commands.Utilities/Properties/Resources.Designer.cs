@@ -1206,6 +1206,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your credentials have expired. Please use Add-AzureAccount to log in again..
+        /// </summary>
+        public static string ExpiredRefreshToken {
+            get {
+                return ResourceManager.GetString("ExpiredRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The HTTP request was forbidden with client authentication scheme &apos;Anonymous&apos;..
         /// </summary>
         public static string FirstPurchaseErrorMessage {
@@ -1220,6 +1229,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string FirstPurchaseMessage {
             get {
                 return ResourceManager.GetString("FirstPurchaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation Status:.
+        /// </summary>
+        public static string GatewayOperationStatus {
+            get {
+                return ResourceManager.GetString("GatewayOperationStatus", resourceCulture);
             }
         }
         
@@ -1886,7 +1904,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_vtest.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_sdk22.xml.
         /// </summary>
         public static string ManifestUri {
             get {
@@ -1904,7 +1922,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.0.
+        ///   Looks up a localized string similar to v2.2.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -1931,7 +1949,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.0.
+        ///   Looks up a localized string similar to v2.2.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
@@ -2059,6 +2077,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription..
+        /// </summary>
+        public static string NoCachedToken {
+            get {
+                return ResourceManager.GetString("NoCachedToken", resourceCulture);
             }
         }
         
@@ -2673,6 +2700,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RegenerateKeyWhatIfMessage {
             get {
                 return ResourceManager.GetString("RegenerateKeyWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove account &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveAccountConfirmation {
+            get {
+                return ResourceManager.GetString("RemoveAccountConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing account.
+        /// </summary>
+        public static string RemoveAccountMessage {
+            get {
+                return ResourceManager.GetString("RemoveAccountMessage", resourceCulture);
             }
         }
         

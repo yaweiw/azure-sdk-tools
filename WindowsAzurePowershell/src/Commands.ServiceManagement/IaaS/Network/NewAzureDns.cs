@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Network
 {
     using System;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.New, "AzureDns"), OutputType(typeof(DnsServer))]
-    public class NewAzureDnsCommand : Cmdlet    
+    public class NewAzureDnsCommand : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the DNS Server")]
         [ValidateNotNullOrEmpty]

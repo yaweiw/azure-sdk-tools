@@ -16,9 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Sets the label and description of the specified hosted service
@@ -26,15 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Set, "AzureService"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
-        public SetAzureServiceCommand()
-        {
-        }
-
-        public SetAzureServiceCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -61,6 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
+
             if (this.Label == null && this.Description == null)
             {
                 ThrowTerminatingError(new ErrorRecord(
@@ -71,13 +65,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                                                null));
             }
 
-            var updateHostedServiceInput = new UpdateHostedServiceInput
+            var parameters = new HostedServiceUpdateParameters
             {
                 Label = this.Label ?? null,
-                Description =  this.Description
+                Description = this.Description
             };
-
-            ExecuteClientActionInOCS(updateHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.UpdateHostedService(s, this.ServiceName, updateHostedServiceInput));
+            ExecuteClientActionNewSM(parameters, 
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.HostedServices.Update(this.ServiceName, parameters));
+            
         }
     }
 }

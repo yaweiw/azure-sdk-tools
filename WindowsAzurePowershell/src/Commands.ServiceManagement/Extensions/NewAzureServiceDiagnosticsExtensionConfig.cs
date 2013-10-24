@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
-    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// New Windows Azure Service Diagnostics Extension.
@@ -26,16 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceDiagnosticsExtensionConfigCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public NewAzureServiceDiagnosticsExtensionConfigCommand()
-            : base()
-        {
-        }
-
-        public NewAzureServiceDiagnosticsExtensionConfigCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]

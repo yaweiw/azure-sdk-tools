@@ -20,15 +20,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
     using Utilities.Common;
-    using Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
-        SimpleServiceBusManagement channel;
+        Mock<ServiceBusClientExtensions> client;
         MockCommandRuntime mockCommandRuntime;
         GetAzureSBNamespaceCommand cmdlet;
 
@@ -36,9 +37,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
         public void SetupTest()
         {
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
-            channel = new SimpleServiceBusManagement();
+            client = new Mock<ServiceBusClientExtensions>();
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new GetAzureSBNamespaceCommand(channel) { CommandRuntime = mockCommandRuntime };
+            cmdlet = new GetAzureSBNamespaceCommand()
+            {
+                CommandRuntime = mockCommandRuntime,
+                Client = client.Object
+            };
         }
 
         [TestMethod]
@@ -47,31 +52,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             // Setup
             string name = "test";
             cmdlet.Name = name;
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name };
-            channel.GetNamespaceThunk = gn => { return expected; };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name };
+            client.Setup(f => f.GetNamespace(name)).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
-        }
-
-        [TestMethod]
-        public void GetAzureSBNamespaceWithNotExistingNameFail()
-        {
-            // Setup
-            string expected = Resources.ServiceBusNamespaceMissingMessage;
-            cmdlet.Name = "notExistingName";
-            channel.GetNamespaceThunk = gn => {  throw new Exception(Resources.InternalServerErrorMessage); };
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            ErrorRecord error = mockCommandRuntime.ErrorStream[0];
-            Assert.AreEqual<string>(expected, error.Exception.Message);
         }
 
         [TestMethod]
@@ -80,16 +69,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
             // Setup
             string name1 = "test1";
             string name2 = "test2";
-            List<ServiceBusNamespace> expected = new List<ServiceBusNamespace>();
-            expected.Add(new ServiceBusNamespace { Name = name1 });
-            expected.Add(new ServiceBusNamespace { Name = name2 });
-            channel.ListNamespacesThunk = gn => { return expected; };
+            List<ExtendedServiceBusNamespace> expected = new List<ExtendedServiceBusNamespace>();
+            expected.Add(new ExtendedServiceBusNamespace { Name = name1 });
+            expected.Add(new ExtendedServiceBusNamespace { Name = name2 });
+            client.Setup(f => f.GetNamespace()).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusNamespace>;
+            List<ExtendedServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ExtendedServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {

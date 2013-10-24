@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Linq;
+    using Microsoft.WindowsAzure.Common;
     using Properties;
 
     /// <summary>
@@ -61,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
                 cmdlet.WriteWarning(string.Format(
                     CultureInfo.InvariantCulture,
                     Resources.ExceptionClientSessionId,
-                    SqlDatabaseManagementCmdletBase.clientSessionId));
+                    SqlDatabaseCmdletBase.clientSessionId));
                 cmdlet.WriteWarning(string.Format(
                     CultureInfo.InvariantCulture,
                     Resources.ExceptionClientRequestId,
@@ -89,6 +90,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
             Exception innerException = exception;
             while (innerException != null)
             {
+                CloudException cloudException = innerException as CloudException;
+                if (cloudException != null)
+                {
+                    errorRecord = cloudException.AsErrorRecord(out requestId);
+                    break;
+                }
+                
                 DataServiceRequestException dataServiceRequestException = innerException as DataServiceRequestException;
                 if (dataServiceRequestException != null)
                 {
@@ -305,6 +313,107 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
                         CultureInfo.InvariantCulture,
                         Resources.UriDoesNotExist,
                         response.ResponseUri.AbsoluteUri);
+                    string errorDetails = string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.DatabaseManagementErrorFormat,
+                        response.StatusCode.ToString(),
+                        message);
+
+                    errorRecord = new ErrorRecord(
+                        new CommunicationException(errorDetails, ex),
+                        string.Empty,
+                        ErrorCategory.InvalidOperation,
+                        null);
+                }
+            }
+
+            // Return the resulting error record
+            return errorRecord;
+        }
+
+        /// <summary>
+        /// Process a <see cref="CloudException"/> and converts it to a PowerShell
+        /// <see cref="ErrorRecord"/>, or <c>null</c> if that is not availaible.
+        /// </summary>
+        /// <param name="ex">The <see cref="WebException"/> that was thrown.</param>
+        /// <param name="requestId">The request Id from the response, if it's availiable.</param>
+        /// <returns>An <see cref="ErrorRecord"/> containing the exception details,
+        /// or <c>null</c> if the exception cannot be parsed.</returns>
+        private static ErrorRecord AsErrorRecord(
+            this CloudException ex,
+            out string requestId)
+        {
+            ErrorRecord errorRecord = null;
+            requestId = null;
+
+            if (ex.Response != null)
+            {
+                CloudHttpResponseErrorInfo response = ex.Response;
+
+                // Extract the request Ids
+                if (response.Headers != null && 
+                    response.Headers.ContainsKey(Constants.RequestIdHeaderName))
+                {
+                    requestId = response.Headers[Constants.RequestIdHeaderName].First();
+                }
+
+                // Check if it's a service resource error message
+                ServiceResourceError serviceResourceError;
+                if (errorRecord == null &&
+                    ServiceResourceError.TryParse(response.Content, out serviceResourceError))
+                {
+                    errorRecord = new ErrorRecord(
+                        new CommunicationException(serviceResourceError.Message, ex),
+                        string.Empty,
+                        ErrorCategory.InvalidOperation,
+                        null);
+                }
+
+                // Check if it's a management service error message
+                ManagementServiceExceptionInfo info;
+                if (errorRecord == null &&
+                    ManagementServiceExceptionInfo.TryParse(response.Content, out info))
+                {
+                    if (info.PropertyBag.Contains(DataServiceConstants.SqlMessageTextKey))
+                    {
+                        // Set the exception to throw as a new exception with the server message
+                        string errorDetails =
+                            info.PropertyBag[DataServiceConstants.SqlMessageTextKey].ToString();
+
+                        errorRecord = new ErrorRecord(
+                            new CommunicationException(errorDetails, ex),
+                            string.Empty,
+                            ErrorCategory.InvalidOperation,
+                            null);
+                    }
+                }
+
+                // Check if it's a database management error message
+                SqlDatabaseManagementError databaseManagementError;
+                if (errorRecord == null &&
+                    SqlDatabaseManagementError.TryParse(response.Content, out databaseManagementError))
+                {
+                    string errorDetails = string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.DatabaseManagementErrorFormat,
+                        databaseManagementError.Code,
+                        databaseManagementError.Message);
+
+                    errorRecord = new ErrorRecord(
+                        new CommunicationException(errorDetails, ex),
+                        string.Empty,
+                        ErrorCategory.InvalidOperation,
+                        null);
+                }
+
+                // Check if it's a not found message
+                if (errorRecord == null &&
+                    response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    string message = string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.UriDoesNotExist,
+                        ex.Request.RequestUri.AbsoluteUri);
                     string errorDetails = string.Format(
                         CultureInfo.InvariantCulture,
                         Resources.DatabaseManagementErrorFormat,

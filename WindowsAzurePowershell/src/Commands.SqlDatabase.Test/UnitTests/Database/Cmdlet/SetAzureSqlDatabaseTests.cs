@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth();
 
             // Save the mock session results
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$context");
 
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.SetAzureSqlDatabaseSizeWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -114,104 +114,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             }
         }
 
-        /// <summary>
-        /// Test changing a database size using certificate authentication
-        /// </summary>
-        [TestMethod]
-        public void SetAzureSqlDatabaseSizeWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            // This is needed because UpdateDatabases calls GetDatabases in order to 
-            // get the necessary database information for the delete.
-            channel.GetDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    ar.Values["databaseName"], 
-                    "testdb1", 
-                    "The input databaseName (for get) did not match the expected");
-
-                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
-                db1.CollationName = "Japanese_CI_AS";
-                db1.Edition = "Web";
-                db1.Id = "1";
-                db1.MaxSizeGB = "1";
-                db1.Name = "testdb1";
-                db1.CreationDate = DateTime.Now.ToString();
-                db1.IsFederationRoot = true.ToString();
-                db1.IsSystemObject = true.ToString();
-                db1.MaxSizeBytes = "1073741824";
-
-                return db1;
-            };
-
-            channel.UpdateDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    "testdb1", 
-                    ar.Values["databaseName"], 
-                    "The input databaseName (for update) did not match the expected");
-
-                Assert.AreEqual(
-                    "testdb1", 
-                    ((SqlDatabaseInput)ar.Values["input"]).Name,
-                    "The database Name input parameter does not match");
-                Assert.AreEqual(
-                    "5", 
-                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
-                    "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual(
-                    "Japanese_CI_AS", 
-                    ((SqlDatabaseInput)ar.Values["input"]).CollationName,
-                    "The database CollationName input parameter does not match");
-                Assert.AreEqual(
-                    "Web", 
-                    ((SqlDatabaseInput)ar.Values["input"]).Edition,
-                    "The database Edition input parameter does not match");
-
-                SqlDatabaseResponse response = new SqlDatabaseResponse();
-                response.CollationName = ((SqlDatabaseInput)ar.Values["input"]).CollationName;
-                response.CreationDate = DateTime.Now.ToString();
-                response.MaxSizeBytes = "1073741824";
-                response.Edition = ((SqlDatabaseInput)ar.Values["input"]).Edition.ToString();
-                response.Id = ((SqlDatabaseInput)ar.Values["input"]).Id;
-                response.IsFederationRoot = true.ToString();
-                response.IsSystemObject = true.ToString();
-                response.MaxSizeGB = ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB.ToString();
-                response.Name = ((SqlDatabaseInput)ar.Values["input"]).Name;
-
-                return response;
-            };
-
-            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
-            service.Channel = channel;
-
-            Database database = service.UpdateDatabase("testdb1", "testdb1", 5, null, null);
-
-            Assert.AreEqual(
-                database.CollationName, 
-                "Japanese_CI_AS",
-                "The updated database collation name is wrong");
-            Assert.AreEqual(
-                database.Edition, 
-                "Web",
-                "The updated database Edition is wrong");
-            Assert.AreEqual(
-                database.MaxSizeGB, 
-                5,
-                "The updated database Edition is wrong");
-            Assert.AreEqual(
-                database.Name, 
-                "testdb1",
-                "The updated database Edition is wrong");
-        }
-
         [TestMethod]
         public void SetAzureSqlDatabaseNameWithSqlAuth()
         {
@@ -226,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$contextCleanup");
 
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.SetAzureSqlDatabaseNameWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -300,7 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$context");
 
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.SetAzureSqlDatabaseServiceObjectiveWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
@@ -369,104 +271,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     //Assert.AreEqual("Reserved P1", databaseObj.ServiceObjectiveName, "Expected Reserved P1");
                 }
             }
-        }
-
-        /// <summary>
-        /// Test changing a database name using certificate authentication
-        /// </summary>
-        [TestMethod]
-        public void SetAzureSqlDatabaseNameWithCertAuth()
-        {
-            SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
-
-            // This is needed because UpdateDatabases calls GetDatabases in order to 
-            // get the necessary database information for the delete.
-            channel.GetDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    ar.Values["databaseName"], 
-                    "testdb1", 
-                    "The input databaseName (for get) did not match the expected");
-
-                SqlDatabaseResponse db1 = new SqlDatabaseResponse();
-                db1.CollationName = "Japanese_CI_AS";
-                db1.Edition = "Web";
-                db1.Id = "1";
-                db1.MaxSizeGB = "1";
-                db1.Name = "testdb1";
-                db1.CreationDate = DateTime.Now.ToString();
-                db1.IsFederationRoot = true.ToString();
-                db1.IsSystemObject = true.ToString();
-                db1.MaxSizeBytes = "1073741824";
-
-                return db1;
-            };
-
-            channel.UpdateDatabaseThunk = ar =>
-            {
-                Assert.AreEqual(
-                    "testdb1", 
-                    ar.Values["databaseName"], 
-                    "The input databaseName (for update) did not match the expected");
-
-                Assert.AreEqual(
-                    "newTestDb1", 
-                    ((SqlDatabaseInput)ar.Values["input"]).Name,
-                    "The database Name input parameter does not match");
-                Assert.AreEqual(
-                    "1", 
-                    ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB,
-                    "The database MaxSizeGB input parameter does not match");
-                Assert.AreEqual(
-                    "Japanese_CI_AS", 
-                    ((SqlDatabaseInput)ar.Values["input"]).CollationName, 
-                    "The database CollationName input parameter does not match");
-                Assert.AreEqual(
-                    "Web", 
-                    ((SqlDatabaseInput)ar.Values["input"]).Edition,
-                    "The database Edition input parameter does not match");
-
-                SqlDatabaseResponse response = new SqlDatabaseResponse();
-                response.CollationName = ((SqlDatabaseInput)ar.Values["input"]).CollationName;
-                response.CreationDate = DateTime.Now.ToString();
-                response.MaxSizeBytes = "1073741824";
-                response.Edition = ((SqlDatabaseInput)ar.Values["input"]).Edition.ToString();
-                response.Id = ((SqlDatabaseInput)ar.Values["input"]).Id;
-                response.IsFederationRoot = true.ToString();
-                response.IsSystemObject = true.ToString();
-                response.MaxSizeGB = ((SqlDatabaseInput)ar.Values["input"]).MaxSizeGB.ToString();
-                response.Name = ((SqlDatabaseInput)ar.Values["input"]).Name;
-
-                return response;
-            };
-
-            WindowsAzureSubscription subscription = UnitTestHelper.CreateUnitTestSubscription();
-            subscription.ServiceEndpoint = new Uri(MockHttpServer.DefaultHttpsServerPrefixUri.AbsoluteUri);
-
-            NewAzureSqlDatabaseServerContext contextCmdlet = new NewAzureSqlDatabaseServerContext();
-
-            ServerDataServiceCertAuth service = 
-                contextCmdlet.GetServerDataServiceByCertAuth("TestServer", subscription);
-            service.Channel = channel;
-
-            Database database = service.UpdateDatabase("testdb1", "newTestDb1", null, null, null);
-
-            Assert.AreEqual(
-                database.CollationName, 
-                "Japanese_CI_AS",
-                "The updated database collation name is wrong");
-            Assert.AreEqual(
-                database.Edition, 
-                "Web",
-                "The updated database Edition is wrong");
-            Assert.AreEqual(
-                database.MaxSizeGB, 
-                1,
-                "The updated database Edition is wrong");
-            Assert.AreEqual(
-                database.Name, 
-                "newTestDb1",
-                "The updated database Edition is wrong");
         }
     }
 }

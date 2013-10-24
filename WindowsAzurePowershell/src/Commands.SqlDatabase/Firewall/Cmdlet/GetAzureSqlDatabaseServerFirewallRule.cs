@@ -19,34 +19,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Model;
-    using Properties;
-    using ServiceManagement;
-    using Services;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Retrieves a list of firewall rule from a Windows Azure SQL Database server in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServerFirewallRule", ConfirmImpact = ConfirmImpact.None)]
-    public class GetAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
+    public class GetAzureSqlDatabaseServerFirewallRule : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        public GetAzureSqlDatabaseServerFirewallRule()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetAzureSqlDatabaseServerFirewallRule"/> class.
-        /// </summary>
-        /// <param name="channel">Channel used for communication with Azure's service management APIs.</param>
-        public GetAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
@@ -66,74 +50,53 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Retrieves one or more firewall rules on the specified server.
         /// </summary>
-        /// <param name="serverName">
-        /// The name of the server to retrieve firewall rules for.
-        /// </param>
+        /// <param name="serverName">The name of the server to retrieve firewall rules for.</param>
         /// <param name="ruleName">
         /// The specific name of the rule to retrieve, or <c>null</c> to
         /// retrieve all rules on the specified server.
         /// </param>
         /// <returns>A list of firewall rules on the server.</returns>
-        internal IEnumerable<SqlDatabaseServerFirewallRuleContext> GetAzureSqlDatabaseServerFirewallRuleProcess(string serverName, string ruleName)
+        internal IEnumerable<SqlDatabaseServerFirewallRuleContext> GetAzureSqlDatabaseServerFirewallRuleProcess(
+            string serverName,
+            string ruleName)
         {
-            IEnumerable<SqlDatabaseServerFirewallRuleContext> processResult = null;
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
-            try
+            // Retrieve the list of databases
+            FirewallRuleListResponse response = sqlManagementClient.FirewallRules.List(serverName);
+            IEnumerable<FirewallRuleListResponse.FirewallRule> firewallRules = response.FirewallRules;
+
+            if (!string.IsNullOrEmpty(ruleName))
             {
-                InvokeInOperationContext(() =>
+                // Firewall rule name is specified, find the one
+                // with the specified rule name and return that.
+                firewallRules = firewallRules.Where(p => p.Name == ruleName);
+                if (firewallRules.Count() == 0)
                 {
-                    SqlDatabaseFirewallRulesList firewallRules = RetryCall(subscription =>
-                        Channel.GetServerFirewallRules(subscription, this.ServerName));
-                    Operation operation = WaitForSqlDatabaseOperation();
-
-                    if (string.IsNullOrEmpty(ruleName))
-                    {
-                        // Firewall rule name is not specified, return all
-                        // firewall rules.
-                        processResult = firewallRules.Select(p => new SqlDatabaseServerFirewallRuleContext()
-                        {
-                            OperationDescription = CommandRuntime.ToString(),
-                            OperationId = operation.OperationTrackingId,
-                            OperationStatus = operation.Status,
-                            ServerName = serverName,
-                            RuleName = p.Name,
-                            StartIpAddress = p.StartIPAddress,
-                            EndIpAddress = p.EndIPAddress
-                        });
-                    }
-                    else
-                    {
-                        // Firewall rule name is specified, find the one
-                        // with the specified rule name and return that.
-                        SqlDatabaseFirewallRule firewallRule = firewallRules.FirstOrDefault(p => p.Name == ruleName);
-                        if (firewallRule != null)
-                        {
-                            processResult = new List<SqlDatabaseServerFirewallRuleContext>
-                            {
-                                new SqlDatabaseServerFirewallRuleContext
-                                {
-                                    OperationDescription = CommandRuntime.ToString(),
-                                    OperationId = operation.OperationTrackingId,
-                                    OperationStatus = operation.Status,
-                                    ServerName = serverName,
-                                    RuleName = firewallRule.Name,
-                                    StartIpAddress = firewallRule.StartIPAddress,
-                                    EndIpAddress = firewallRule.EndIPAddress
-                                }
-                            };
-                        }
-                        else
-                        {
-                            throw new ItemNotFoundException(string.Format(CultureInfo.InvariantCulture, Resources.GetAzureSqlDatabaseServerFirewallRuleNotFound, ruleName, serverName));
-                        }
-                    }
-
-                });
+                    throw new ItemNotFoundException(string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.GetAzureSqlDatabaseServerFirewallRuleNotFound,
+                        ruleName,
+                        serverName));
+                }
             }
-            catch (CommunicationException ex)
+            else
             {
-                this.WriteErrorDetails(ex);
+                // Firewall rule name is not specified, return all
+                // firewall rules.
             }
+
+            IEnumerable<SqlDatabaseServerFirewallRuleContext> processResult = firewallRules.Select(p => new SqlDatabaseServerFirewallRuleContext()
+            {
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationId = response.RequestId,
+                ServerName = serverName,
+                RuleName = p.Name,
+                StartIpAddress = p.StartIPAddress,
+                EndIpAddress = p.EndIPAddress
+            });
 
             return processResult;
         }
@@ -148,15 +111,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                 base.ProcessRecord();
 
                 var rules = this.GetAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
-
-                if (rules != null)
-                {
-                    WriteObject(rules, true);
-                }
+                this.WriteObject(rules, true);
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }

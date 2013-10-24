@@ -15,8 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Deletes the specified certificate.
@@ -24,15 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     [Cmdlet(VerbsCommon.Remove, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureCertificate : ServiceManagementBaseCmdlet
     {
-        public RemoveAzureCertificate()
-        {
-        }
-
-        public RemoveAzureCertificate(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -59,11 +51,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
         internal void ExecuteCommand()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint));
+            var parameters = new ServiceCertificateDeleteParameters
+            {
+                ServiceName = ServiceName,
+                Thumbprint = Thumbprint,
+                ThumbprintAlgorithm = ThumbprintAlgorithm
+            };
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.ServiceCertificates.Delete(parameters));
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

@@ -19,10 +19,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
     using Commands.Utilities.Common;
     using Commands.ServiceBus;
     using Utilities.Common;
-    using Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Models;
+    using Moq;
+    using Microsoft.WindowsAzure.Management.ServiceBus;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
 
     [TestClass]
     public class NewAzureSBNamespaceTests : TestBase
@@ -37,52 +39,56 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
         public void NewAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+            Mock<ServiceBusClientExtensions> client = new Mock<ServiceBusClientExtensions>();
             string name = "test";
             string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
-            channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
-            channel.ListServiceBusRegionsThunk = lsbr => 
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand()
             {
-                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
-                list.Add(new ServiceBusRegion { Code = location });
-                return list;
+                Name = name,
+                Location = location,
+                CommandRuntime = mockCommandRuntime,
+                Client = client.Object
             };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
+            client.Setup(f => f.CreateNamespace(name, location)).Returns(expected);
+            client.Setup(f => f.GetServiceBusRegions()).Returns(new List<ServiceBusLocation>()
+            {
+                new ServiceBusLocation () { Code = location }
+            });
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
 
         [TestMethod]
         public void NewAzureSBNamespaceGetsDefaultLocation()
         {
             // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
+            Mock<ServiceBusClientExtensions> client = new Mock<ServiceBusClientExtensions>();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
-            channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
-            channel.ListServiceBusRegionsThunk = lsbr =>
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand()
             {
-                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
-                list.Add(new ServiceBusRegion { Code = location });
-                return list;
+                Name = name,
+                CommandRuntime = mockCommandRuntime,
+                Client = client.Object,
+                Location = location
             };
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
+            client.Setup(f => f.CreateNamespace(name, location)).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
 
         [TestMethod]
@@ -102,75 +108,33 @@ namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
         }
 
         [TestMethod]
-        public void NewAzureSBNamespaceWithInternalServerError()
-        {
-            // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
-            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-            string name = "test";
-            string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
-            channel.CreateServiceBusNamespaceThunk = csbns => { throw new Exception(Resources.InternalServerErrorMessage); };
-            channel.ListServiceBusRegionsThunk = lsbr =>
-            {
-                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
-                list.Add(new ServiceBusRegion { Code = location });
-                return list;
-            };
-            string expected = Resources.NewNamespaceErrorMessage;
-
-            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet(), expected);
-        }
-
-        [TestMethod]
-        public void NewAzureSBNamespaceWithInvalidLocation()
-        {
-            // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
-            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
-            string name = "test";
-            string location = "Invalid location";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
-            channel.ListServiceBusRegionsThunk = lsbr =>
-            {
-                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
-                list.Add(new ServiceBusRegion { Code = "West US" });
-                return list;
-            };
-            string expected = string.Format("{0}\r\nParameter name: Location", string.Format(Resources.InvalidServiceBusLocation, location));
-
-            Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
-        }
-
-        [TestMethod]
         public void CreatesNewSBCaseInsensitiveRegion()
         {
             // Setup
-            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+            Mock<ServiceBusClientExtensions> client = new Mock<ServiceBusClientExtensions>();
             string name = "test";
             string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel)
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand()
             {
                 Name = name,
-                Location = "west Us",
-                CommandRuntime = mockCommandRuntime
+                Location = location.ToLower(),
+                CommandRuntime = mockCommandRuntime,
+                Client = client.Object
             };
-            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
-            channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
-            channel.ListServiceBusRegionsThunk = lsbr =>
+            ExtendedServiceBusNamespace expected = new ExtendedServiceBusNamespace { Name = name, Region = location };
+            client.Setup(f => f.CreateNamespace(name, location.ToLower())).Returns(expected);
+            client.Setup(f => f.GetServiceBusRegions()).Returns(new List<ServiceBusLocation>()
             {
-                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
-                list.Add(new ServiceBusRegion { Code = location });
-                return list;
-            };
+                new ServiceBusLocation () { Code = location }
+            });
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
-            Assert.AreEqual<ServiceBusNamespace>(expected, actual);
+            ExtendedServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ExtendedServiceBusNamespace;
+            Assert.AreEqual<ExtendedServiceBusNamespace>(expected, actual);
         }
     }
 }

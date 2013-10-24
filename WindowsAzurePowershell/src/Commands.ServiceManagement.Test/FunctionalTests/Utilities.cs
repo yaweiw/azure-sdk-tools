@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Model;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
-    using Storage.Auth;
-    using Storage.Blob;
+    using WindowsAzure.Storage.Auth;
+    using WindowsAzure.Storage.Blob;
     using Sync.Download;
     using System;
     using System.Diagnostics;

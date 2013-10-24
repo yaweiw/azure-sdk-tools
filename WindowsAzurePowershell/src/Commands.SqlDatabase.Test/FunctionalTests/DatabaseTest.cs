@@ -29,12 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
     public class DatabaseTest
     {
         #region Test Script Locations
-        private string serverLocation;
-        private string containerName;
-        private string storageName;
-        private string accessKey;
-        private string ieServerLocation;
-        private string ieSubscriptionId;
 
         /// <summary>
         /// Scripts for doing context creation tests
@@ -60,6 +54,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         /// Tests for doing format validation tests 
         /// </summary>
         private const string FormatValidationScript = @"Database\FormatValidation.ps1";
+
+        /// <summary>
+        /// Tests for doing import export tests
+        /// </summary>
         private const string ImportExportScript = @"Database\ImportExportDatabase.ps1";
 
         #endregion
@@ -68,65 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         /// The end point to use for the tests
         /// </summary>
         private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
-
-        #region Private Fields
-
-        /// <summary>
-        /// Username to use for running the tests
-        /// </summary>
-        private string userName;
-
-        /// <summary>
-        /// Password to use for running the tests
-        /// </summary>
-        private string password;
-
-        /// <summary>
-        /// ManageUrl to use when running the tests
-        /// </summary>
-        private string manageUrl;
-
-        /// <summary>
-        /// Subscription Id to use when running the tests
-        /// </summary>
-        private string subscriptionId;
-
-        /// <summary>
-        /// Serialized Certificate to use when running the tests
-        /// </summary>
-        private string serializedCert;
-
-        /// <summary>
-        /// The server name to use when running the tests
-        /// </summary>
-        private string serverName;
-
-        #endregion
-        
-        /// <summary>
-        /// Get the necessary variables from settings file for the tests
-        /// </summary>
-        [TestInitialize]
-        public void Setup()
-        {
-            XElement root = XElement.Load("SqlDatabaseSettings.xml");
-            this.serverLocation = root.Element("ServerLocation").Value;
-            this.userName = root.Element("SqlAuthUserName").Value;
-            this.password = root.Element("SqlAuthPassword").Value;
-            this.manageUrl = root.Element("ManageUrl").Value;
-            this.serializedCert = root.Element("SerializedCert").Value;
-            this.subscriptionId = root.Element("SubscriptionId").Value;
-            this.serverName = new Uri(manageUrl).Host.Split('.').First();
-
-            // Import Export parameters
-            XElement importExport = root.Element("ImportExport"); 
-            this.ieServerLocation = importExport.Element("ServerLocation").Value;
-            this.ieSubscriptionId = importExport.Element("SubscriptionId").Value;
-            this.containerName = importExport.Element("ContainerName").Value;
-            this.storageName = importExport.Element("StorageName").Value;
-            this.accessKey = importExport.Element("AccessKey").Value;
-
-        }
 
         /// <summary>
         /// Tests context creation
@@ -139,11 +78,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
                 CultureInfo.InvariantCulture,
                 "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" "
                 + "-SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",
-                this.manageUrl,
-                this.userName,
-                this.password,
-                this.subscriptionId,
-                this.serializedCert);
+                SqlDatabaseTestSettings.Instance.ManageUrl,
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
+                SqlDatabaseTestSettings.Instance.SubscriptionId,
+                SqlDatabaseTestSettings.Instance.SerializedCert);
             bool testResult = PSScriptExecutor.ExecuteScript(
                 DatabaseTest.CreateContextScript,
                 arguments);
@@ -160,15 +99,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
                 "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" "
-                +  "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
+                + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
                 + "-Endpoint \"{7}\"",
                 "testcreatedbfromcmdlet",
-                this.manageUrl,
-                this.userName,
-                this.password,
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
+                SqlDatabaseTestSettings.Instance.ManageUrl,
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
+                SqlDatabaseTestSettings.Instance.ServerName,
+                SqlDatabaseTestSettings.Instance.SubscriptionId,
+                SqlDatabaseTestSettings.Instance.SerializedCert,
                 LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScript, arguments);
             Assert.IsTrue(testResult);
@@ -187,12 +126,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
                 + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
                 + "-Endpoint \"{7}\"",
                 "testupdatedbfromcmdlet",
-                this.manageUrl,
-                this.userName,
-                this.password,
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
+                SqlDatabaseTestSettings.Instance.ManageUrl,
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
+                SqlDatabaseTestSettings.Instance.ServerName,
+                SqlDatabaseTestSettings.Instance.SubscriptionId,
+                SqlDatabaseTestSettings.Instance.SerializedCert,
                 LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScript, arguments);
             Assert.IsTrue(testResult);
@@ -211,12 +150,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
                 + "-ServerName \"{4}\" -SubscriptionID \"{5}\" -SerializedCert \"{6}\" "
                 + "-Endpoint \"{7}\"",
                 "testDeletedbfromcmdlet",
-                this.manageUrl,
-                this.userName,
-                this.password,
-                this.serverName,
-                this.subscriptionId,
-                this.serializedCert,
+                SqlDatabaseTestSettings.Instance.ManageUrl,
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
+                SqlDatabaseTestSettings.Instance.ServerName,
+                SqlDatabaseTestSettings.Instance.SubscriptionId,
+                SqlDatabaseTestSettings.Instance.SerializedCert,
                 LocalRdfeEndpoint);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScript, arguments);
             Assert.IsTrue(testResult);
@@ -234,9 +173,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
                 CultureInfo.InvariantCulture,
                 "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" -OutputFile \"{4}\"",
                 "testFormatdbfromcmdlet",
-                this.manageUrl,
-                this.userName,
-                this.password,
+                SqlDatabaseTestSettings.Instance.ManageUrl,
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
                 outputFile);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
@@ -261,14 +200,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
             string arguments = string.Format(
                 CultureInfo.InvariantCulture,
                 cmdlineArgs,
-                this.userName,
-                this.password,
-                this.ieSubscriptionId,
-                this.serializedCert,
-                this.containerName,
-                this.storageName,
-                this.accessKey,
-                this.ieServerLocation);
+                SqlDatabaseTestSettings.Instance.UserName,
+                SqlDatabaseTestSettings.Instance.Password,
+                SqlDatabaseTestSettings.Instance.SubscriptionId,
+                SqlDatabaseTestSettings.Instance.SerializedCert,
+                SqlDatabaseTestSettings.Instance.ContainerName,
+                SqlDatabaseTestSettings.Instance.StorageName,
+                SqlDatabaseTestSettings.Instance.AccessKey,
+                SqlDatabaseTestSettings.Instance.ServerLocation);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.ImportExportScript, arguments);
             Assert.IsTrue(testResult);
         }

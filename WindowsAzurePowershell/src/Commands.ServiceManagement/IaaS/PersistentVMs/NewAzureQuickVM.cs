@@ -16,18 +16,22 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Management.Automation;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
-    using System.Collections.ObjectModel;
-    using System.Management.Automation;
-    using System.ServiceModel;
-    using System.Linq;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Common;
-    using Storage;
-    using WindowsAzure.ServiceManagement;
-    using Commands.ServiceManagement.Helpers;
+    using AutoMapper;
+    using Common;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Properties;
+    using Storage;
+    using Utilities.Common;
+    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
+    using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
+    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
 
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options
@@ -35,17 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     [Cmdlet(VerbsCommon.New, "AzureQuickVM", DefaultParameterSetName = "Windows"), OutputType(typeof(ManagementOperationContext))]
     public class NewQuickVM : IaaSDeploymentManagementCmdletBase
     {
-        private bool _createdDeployment = false;
-
-        public NewQuickVM()
-        {
-
-        }
-
-        public NewQuickVM(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
+        private bool _createdDeployment;
 
         [Parameter(Mandatory = true, ParameterSetName = "Windows", HelpMessage = "Create a Windows VM")]
         public SwitchParameter Windows
@@ -127,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
-        public CertificateSettingList Certificates
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.CertificateSettingList Certificates
         {
             get;
             set;
@@ -190,14 +184,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "SSH Public Key List")]
-        public LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
         {
             get;
             set;
         }
 
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "SSH Key Pairs")]
-        public LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
         {
             get;
             set;
@@ -221,7 +215,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public DnsServer[] DnsSettings
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer[] DnsSettings
         {
             get;
             set;
@@ -244,7 +238,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
+        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
         public string InstanceSize
         {
             get;
@@ -267,9 +261,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 currentStorage = currentSubscription.GetCloudStorageAccount();
             }
-            catch (ServiceManagementClientException) // couldn't access
+            catch (Exception ex) // couldn't access
             {
-                throw new ArgumentException(Resources.CurrentStorageAccountIsNotAccessible);
+                throw new ArgumentException(Resources.CurrentStorageAccountIsNotAccessible, ex);
             }
             if (currentStorage == null) // not set
             {
@@ -296,32 +290,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             if (!serviceExists)
             {
-                using (new OperationContextScope(Channel.ToContextChannel()))
+                try
                 {
-                    try
+                    //Implicitly created hosted service2012-05-07 23:12 
+
+                    // Create the Cloud Service when
+                    // Location or Affinity Group is Specified
+                    // or VNET is specified and the service doesn't exist
+                    var parameter = new HostedServiceCreateParameters
                     {
-                        //Implicitly created hosted service2012-05-07 23:12 
+                        AffinityGroup = this.AffinityGroup,
+                        Location = this.Location,
+                        ServiceName = this.ServiceName,
+                        Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
+                        Label = this.ServiceName
+                    };
+                    ExecuteClientActionNewSM(
+                        parameter,
+                        CommandRuntime + Resources.QuickVMCreateCloudService,
+                        () => this.ComputeClient.HostedServices.Create(parameter));
 
-                        // Create the Cloud Service when
-                        // Location or Affinity Group is Specified
-                        // or VNET is specified and the service doesn't exist
-                        var chsi = new CreateHostedServiceInput
-                        {
-                            AffinityGroup = this.AffinityGroup,
-                            Location = this.Location,
-                            ServiceName = this.ServiceName,
-                            Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                            Label = this.ServiceName
-                        };
+                }
 
-                        ExecuteClientAction(chsi, CommandRuntime + Resources.QuickVMCreateCloudService, s => this.Channel.CreateHostedService(s, chsi));
-                    }
-
-                    catch (ServiceManagementClientException ex)
-                    {
-                        this.WriteErrorDetails(ex);
-                        return;
-                    }
+                catch (CloudException ex)
+                {
+                    this.WriteExceptionDetails(ex);
+                    return;
                 }
             }
 
@@ -329,13 +323,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 if (WinRMCertificate != null)
                 {
-                    if (!CertUtils.HasExportablePrivateKey(WinRMCertificate))
+                    if (!CertUtilsNewSM.HasExportablePrivateKey(WinRMCertificate))
                     {
                         throw new ArgumentException(Resources.WinRMCertificateDoesNotHaveExportablePrivateKey);
                     }
                     var operationDescription = string.Format(Resources.QuickVMUploadingWinRMCertificate, CommandRuntime, WinRMCertificate.Thumbprint);
-                    var certificateFile = CertUtils.Create(WinRMCertificate);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+                    var parameters = CertUtilsNewSM.Create(WinRMCertificate);
+                    ExecuteClientActionNewSM(
+                        null,
+                        operationDescription,
+                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters),
+                        (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
                 }
 
                 if (X509Certificates != null)
@@ -344,12 +342,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                                          select new
                                                          {
                                                              c.Thumbprint,
-                                                             CertificateFile = CertUtils.Create(c, this.NoExportPrivateKey.IsPresent)
+                                                             CertificateFile = CertUtilsNewSM.Create(c, this.NoExportPrivateKey.IsPresent)
                                                          };
                     foreach (var current in certificateFilesWithThumbprint.ToList())
                     {
                         var operationDescription = string.Format(Resources.QuickVMUploadingCertificate, CommandRuntime, current.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                        ExecuteClientActionNewSM(
+                            null,
+                            operationDescription,
+                            () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, current.CertificateFile),
+                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
                     }
                 }
             }
@@ -357,52 +359,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             var vm = CreatePersistenVMRole(currentStorage);
 
             // If the current deployment doesn't exist set it create it
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
-                using (new OperationContextScope(Channel.ToContextChannel()))
+                try
                 {
-                    try
+                    var parameters = new VirtualMachineCreateDeploymentParameters
                     {
-                        var deployment = new Deployment
-                        {
-                            DeploymentSlot = DeploymentSlotType.Production,
-                            Name = this.ServiceName,
-                            Label = this.ServiceName,
-                            RoleList = new RoleList { vm },
-                            VirtualNetworkName = this.VNetName
-                        };
+                        DeploymentSlot = DeploymentSlot.Production,
+                        Name = this.ServiceName,
+                        Label = this.ServiceName,
+                        VirtualNetworkName = this.VNetName,
+                        Roles = {vm}
+                    };
 
-                        if (this.DnsSettings != null)
-                        {
-                            deployment.Dns = new DnsSettings {DnsServers = new DnsServerList()};
-                            foreach (DnsServer dns in this.DnsSettings)
-                                deployment.Dns.DnsServers.Add(dns);
-                        }
+                    if (this.DnsSettings != null)
+                    {
+                        parameters.DnsSettings = new Management.Compute.Models.DnsSettings();
 
-                        var operationDescription = string.Format(Resources.QuickVMCreateDeploymentWithVM, CommandRuntime, vm.RoleName);
-                        ExecuteClientAction(deployment, operationDescription, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
-
-                        if(WaitForBoot.IsPresent)
+                        foreach (var dns in this.DnsSettings)
                         {
-                            WaitForRoleToBoot(vm.RoleName);
+                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = dns.Address });
                         }
                     }
 
-                    catch (ServiceManagementClientException ex)
+                    var operationDescription = string.Format(Resources.QuickVMCreateDeploymentWithVM, CommandRuntime, vm.RoleName);
+                    ExecuteClientActionNewSM(
+                        parameters,
+                        operationDescription,
+                        () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters));
+                        
+                    if (WaitForBoot.IsPresent)
                     {
-                        if (ex.HttpStatus == HttpStatusCode.NotFound)
-                        {
-                            throw new Exception(Resources.ServiceDoesNotExistSpecifyLocationOrAffinityGroup);
-                        }
-                        else
-                        {
-                            this.WriteErrorDetails(ex);
-                        }
-                        return;
+                        WaitForRoleToBoot(vm.RoleName);
                     }
-
-                    _createdDeployment = true;
                 }
+                catch (CloudException ex)
+                {
+                    if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new Exception(Resources.ServiceDoesNotExistSpecifyLocationOrAffinityGroup);
+                    }
+                    this.WriteExceptionDetails(ex);
+                    return;
+                }
+
+                _createdDeployment = true;
             }
             else
             {
@@ -416,44 +417,56 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             // Only create the VM when a new VM was added and it was not created during the deployment phase.
             if ((_createdDeployment == false))
             {
-                using (new OperationContextScope(Channel.ToContextChannel()))
+                try
                 {
-                    try
+                    var operationDescription = string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName);
+
+                    var parameter = new VirtualMachineCreateParameters
                     {
-                        var operationDescription = string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName);
-                        ExecuteClientAction(vm, operationDescription, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm));
-                        if(WaitForBoot.IsPresent)
-                        {
-                            WaitForRoleToBoot(vm.RoleName);
-                        }
-                    }
-                    catch (ServiceManagementClientException ex)
+                        AvailabilitySetName = vm.AvailabilitySetName,
+                        OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
+                        RoleName = vm.RoleName,
+                        RoleSize = vm.RoleSize,
+                    };
+
+                    vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                    vm.ConfigurationSets.ForEach(c => parameter.ConfigurationSets.Add(c));
+
+                    ExecuteClientActionNewSM(
+                        vm,
+                        operationDescription,
+                        () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.ServiceName, parameter));
+
+                    if(WaitForBoot.IsPresent)
                     {
-                        this.WriteErrorDetails(ex);
-                        return;
+                        WaitForRoleToBoot(vm.RoleName);
                     }
+                }
+                catch (CloudException ex)
+                {
+                    this.WriteExceptionDetails(ex);
+                    return;
                 }
             }
         }
 
-        private PersistentVMRole CreatePersistenVMRole(CloudStorageAccount currentStorage)
+        private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
-            var vm = new PersistentVMRole
+            var vm = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = AvailabilitySetName,
-                ConfigurationSets = new Collection<ConfigurationSet>(),
-                DataVirtualHardDisks = new Collection<DataVirtualHardDisk>(),
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = String.IsNullOrEmpty(InstanceSize) ? null : InstanceSize,
+                RoleSize = string.IsNullOrEmpty(InstanceSize) ? null :
+                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
-                OSVirtualHardDisk = new OSVirtualHardDisk
+                OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
                 {
                     DiskName = null,
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
-                }
+                }, new Management.Compute.Models.OSVirtualHardDisk())
             };
 
             if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))
@@ -462,12 +475,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
 
-
             var netConfig = CreateNetworkConfigurationSet();
 
             if (ParameterSetName.Equals("Windows", StringComparison.OrdinalIgnoreCase))
             {
-                var windowsConfig = new WindowsProvisioningConfigurationSet
+                var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
                 {
                     AdminUsername = this.AdminUsername,
                     AdminPassword = Password,
@@ -475,21 +487,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
-                    StoredCertificateSettings = CertUtils.GetCertificateSettings(this.Certificates, this.X509Certificates),
+                    StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
                     WinRM = GetWinRmConfiguration()
                 };
+
+                if (windowsConfig.StoredCertificateSettings == null)
+                {
+                    windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                }
 
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
                 if (!this.NoWinRMEndpoint.IsPresent && !this.DisableWinRMHttps.IsPresent)
                 {
                     netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName});
                 }
-                vm.ConfigurationSets.Add(windowsConfig);
-                vm.ConfigurationSets.Add(netConfig);
+                var configurationSets = new Collection<ConfigurationSet>{windowsConfig, netConfig};
+                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
             }
             else
             {
-                var linuxConfig = new LinuxProvisioningConfigurationSet
+                var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet
                 {
                     HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                     UserName = this.LinuxUser,
@@ -500,7 +517,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
                     this.SSHPublicKeys != null && this.SSHPublicKeys.Count > 0)
                 {
-                    linuxConfig.SSH = new LinuxProvisioningConfigurationSet.SSHSettings
+                    linuxConfig.SSH = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHSettings
                     {
                         PublicKeys = this.SSHPublicKeys, 
                         KeyPairs = this.SSHKeyPairs
@@ -509,19 +526,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                 var rdpEndpoint = new InputEndpoint {LocalPort = 22, Protocol = "tcp", Name = "SSH"};
                 netConfig.InputEndpoints.Add(rdpEndpoint);
-                vm.ConfigurationSets.Add(linuxConfig);
-                vm.ConfigurationSets.Add(netConfig);
+
+                var configurationSets = new Collection<ConfigurationSet> { linuxConfig, netConfig };
+                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
             }
 
             return vm;
         }
 
-        private NetworkConfigurationSet CreateNetworkConfigurationSet()
+        private Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.NetworkConfigurationSet CreateNetworkConfigurationSet()
         {
-            var netConfig = new NetworkConfigurationSet {InputEndpoints = new Collection<InputEndpoint>()};
+            var netConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.NetworkConfigurationSet {InputEndpoints = new Collection<InputEndpoint>()};
             if (SubnetNames != null)
             {
-                netConfig.SubnetNames = new SubnetNamesCollection();
+                netConfig.SubnetNames = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.SubnetNamesCollection();
                 foreach (var subnet in SubnetNames)
                 {
                     netConfig.SubnetNames.Add(subnet);
@@ -530,7 +548,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             return netConfig;
         }
 
-        private WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
+        private Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
         {
             if(this.DisableWinRMHttps.IsPresent)
             {
@@ -550,6 +568,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         {
             try
             {
+                ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
                 base.ProcessRecord();
                 this.NewAzureVMProcess();
@@ -562,25 +581,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         protected bool DoesCloudServiceExist(string serviceName)
         {
-            bool IsPresent = false;
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            try
             {
-                try
-                {
-                    WriteVerboseWithTimestamp(string.Format(Resources.QuickVMBeginOperation, CommandRuntime.ToString()));
-                    AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    WriteVerboseWithTimestamp(string.Format(Resources.QuickVMCompletedOperation, CommandRuntime.ToString()));
-                    IsPresent = !response.Result;
-                }
-                catch (ServiceManagementClientException ex)
-                {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound)
-                        IsPresent = false;
-                    else
-                        this.WriteErrorDetails(ex);
-                }
+                WriteVerboseWithTimestamp(string.Format(Resources.QuickVMBeginOperation, CommandRuntime));
+                var response = this.ComputeClient.HostedServices.CheckNameAvailability(serviceName);
+                WriteVerboseWithTimestamp(string.Format(Resources.QuickVMCompletedOperation, CommandRuntime));
+                return !response.IsAvailable;
             }
-            return IsPresent;
+            catch (CloudException ex)
+            {
+                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+                this.WriteExceptionDetails(ex);
+            }
+
+            return false;
         }
 
         protected void ValidateParameters()

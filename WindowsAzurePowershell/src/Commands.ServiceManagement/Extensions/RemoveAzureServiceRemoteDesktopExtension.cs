@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     /// <summary>
     /// Remove Windows Azure Service Remote Desktop Extension.
@@ -27,16 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Remove, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
-        public RemoveAzureServiceRemoteDesktopExtensionCommand()
-            : base()
-        {
-        }
-
-        public RemoveAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
         public override string ServiceName

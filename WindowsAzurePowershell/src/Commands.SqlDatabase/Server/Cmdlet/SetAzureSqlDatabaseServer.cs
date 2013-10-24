@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
     using System.ServiceModel;
     using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using Model;
     using Properties;
     using ServiceManagement;
@@ -27,30 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database server in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServer", SupportsShouldProcess = true, 
+    [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServer", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]
-    public class SetAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
+    public class SetAzureSqlDatabaseServer : SqlDatabaseCmdletBase
     {
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="SetAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        public SetAzureSqlDatabaseServer()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="SetAzureSqlDatabaseServer"/> class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public SetAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
-        {
-            this.Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "SQL Database server name.")]
         [ValidateNotNullOrEmpty]
         public string ServerName
@@ -97,28 +79,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 return null;
             }
 
-            SqlDatabaseServerOperationContext operationContext = null;
-            try
-            {
-                InvokeInOperationContext(() =>
-                {
-                    RetryCall(subscription =>
-                        Channel.SetPassword(subscription, serverName, newPassword));
-                    Operation operation = WaitForSqlDatabaseOperation();
+            // Get the SQL management client for the current subscription
+            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
-                    operationContext = new SqlDatabaseServerOperationContext()
-                    {
-                        ServerName = serverName,
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status,
-                        OperationId = operation.OperationTrackingId
-                    };
+            // Issue the change admin password request
+            OperationResponse response = sqlManagementClient.Servers.ChangeAdministratorPassword(
+                serverName, 
+                new ServerChangeAdministratorPasswordParameters()
+                {
+                    NewPassword = newPassword
                 });
-            }
-            catch (CommunicationException ex)
+
+            SqlDatabaseServerOperationContext operationContext = new SqlDatabaseServerOperationContext()
             {
-                this.WriteErrorDetails(ex);
-            }
+                OperationStatus = Services.Constants.OperationSuccess,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = response.RequestId,
+                ServerName = serverName,
+            };
 
             return operationContext;
         }
@@ -143,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
             catch (Exception ex)
             {
-                WriteWindowsAzureError(new ErrorRecord(this.ProcessExceptionDetails(ex), string.Empty, ErrorCategory.CloseError, null));
+                this.WriteErrorDetails(ex);
             }
         }
     }

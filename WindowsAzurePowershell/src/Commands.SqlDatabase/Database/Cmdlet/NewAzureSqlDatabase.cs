@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="maxSizeGb">the maximum size of the database</param>
         private void ProcessWithServerName(int? maxSizeGb)
         {
-            string clientRequestId = string.Empty;
+            Func<string> GetClientRequestId = () => string.Empty;
             try
             {
                 // Get the current subscription data.
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscription);
 
-                clientRequestId = context.ClientRequestId;
+                GetClientRequestId = () => context.ClientRequestId;
                 
                 // Retrieve the database with the specified name
                 this.WriteObject(context.CreateNewDatabase(
@@ -163,7 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    clientRequestId,
+                    GetClientRequestId(),
                     ex);
             }
         }
