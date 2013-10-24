@@ -2906,7 +2906,7 @@ C:\PS&gt;			</maml:introduction>
 		</command:example>
 		<command:example>
 			<maml:title>
---------------  Get service logging properties for azure storage blob with shared access policy --------------			</maml:title>
+--------------  Generate container sas token with shared access policy --------------            </maml:title>
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
