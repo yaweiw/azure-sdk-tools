@@ -37,9 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Metrics version")]
         public double? Version { get; set; }
 
-        [Parameter(HelpMessage = "Metrics retention days. Zero means disable Metrics, otherwise enable.")]
-        [ValidateRange(0, 365)]
-        public int? RetentionDays { get; set; }
+        [Parameter(HelpMessage = "Metrics retention days. -1 means disable Metrics retention policy, otherwise enable.")]
+        [ValidateRange(-1, 365)]
+        public int? RetentionDay { get; set; }
 
         [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
         [ValidateSet(StorageNouns.OffMetrics, StorageNouns.MinimalMetrics, StorageNouns.VerboseMetrics,
@@ -60,16 +60,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 serviceProperties.Metrics.Version = Version.ToString();
             }
 
-            if (RetentionDays != null)
+            if (RetentionDay != null)
             {
-                if (RetentionDays == 0)
+                if (RetentionDay == -1)
                 {
-                    //Disable metrics
+                    //Disable metrics retention policy
                     serviceProperties.Metrics.RetentionDays = null;
+                }
+                else if (RetentionDay < 1 || RetentionDay > 365)
+                {
+                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDay));
                 }
                 else
                 {
-                    serviceProperties.Metrics.RetentionDays = RetentionDays;
+                    serviceProperties.Metrics.RetentionDays = RetentionDay;
                 }
             }
 

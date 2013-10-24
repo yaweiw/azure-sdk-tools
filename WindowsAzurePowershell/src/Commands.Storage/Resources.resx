@@ -593,4 +593,8 @@ Failed: {2}.</value>
   <data name="SignedPermissionsMustBeOmitted" xml:space="preserve">
     <value>This permission field must be omitted if it has been specified in an associated stored access policy.</value>
   </data>
+  <data name="InvalidRetentionDay" xml:space="preserve">
+    <value>The minimum value of retention days 1, the largest value is 365 (one year). Current is {0}.</value>
+    <comment>0 for the user specified retention day</comment>
+  </data>
 </root>
