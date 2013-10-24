@@ -52,8 +52,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            Server server = new Server();
-
             // Obtain the quota name from the given parameters.
             string quotaName = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("QuotaName"))

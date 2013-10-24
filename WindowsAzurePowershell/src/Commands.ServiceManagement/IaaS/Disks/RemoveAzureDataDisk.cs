@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDataDisk"), OutputType(typeof(IPersistentVM))]
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected Collection<DataVirtualHardDisk> GetDataDisks()
         {
-            var role = VM.GetInstance();
+            var role = VM.GetInstance(); 
 
             if (role.DataVirtualHardDisks == null)
             {

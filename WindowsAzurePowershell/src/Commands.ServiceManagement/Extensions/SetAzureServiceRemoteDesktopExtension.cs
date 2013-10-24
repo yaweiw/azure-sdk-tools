@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Set Windows Azure Service Remote Desktop Extension.
@@ -27,16 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
-        public SetAzureServiceRemoteDesktopExtensionCommand()
-            : base()
-        {
-        }
-
-        public SetAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
-            : base(channel)
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]

@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
-            () => new WindowsAzureProfile(new PowershellProfileStore());
+            () => new WindowsAzureProfile(new PowershellDefaultProfileStore());
 
         // Singleton instance management
         // The default profile
@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));
             }
 
-            subscriptions.Add(s);
+            AddSubscriptionInternal(s);
             if (s.IsDefault)
             {
                 UpdateDefaultSubscription(s);
@@ -296,18 +296,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public void ImportPublishSettings(Stream stream)
         {
-            IEnumerable<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(stream);
-
-            foreach (var newSubscription in newSubscriptions)
-            {
-                InternalAddSubscription(newSubscription);
-            }
-
-            if (DefaultSubscription == null && subscriptions.Count > 0)
-            {
-                subscriptions[0].IsDefault = true;
-            }
-
+            List<WindowsAzureSubscription> newSubscriptions = PublishSettingsImporter.Import(stream).ToList();
+            AddSubscriptions(newSubscriptions);
             Save();
         }
 
@@ -319,50 +309,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string AddAccounts(WindowsAzureEnvironment environment)
         {
             environment = environment ?? CurrentEnvironment;
-
             var newSubscriptions = environment.AddAccount(tokenProvider).ToList();
-            if (DefaultSubscription == null)
+            AddSubscriptions(newSubscriptions);
+            Save();
+            return newSubscriptions[0].ActiveDirectoryUserId;
+        }
+
+        private void AddSubscriptions(List<WindowsAzureSubscription> newSubscriptions)
+        {
+            if (DefaultSubscription == null && newSubscriptions.Count > 0)
             {
                 newSubscriptions[0].IsDefault = true;
             }
 
-            foreach (var subscription in newSubscriptions)
+            foreach(var newSubscription in newSubscriptions)
             {
-                InternalAddSubscription(subscription);
-            }
-            Save();
-
-            return newSubscriptions[0].ActiveDirectoryUserId;
-        }
-
-        private void InternalAddSubscription(WindowsAzureSubscription newSubscription)
-        {
-            var existingSubscription =
-                subscriptions.FirstOrDefault(s => s.SubscriptionId == newSubscription.SubscriptionId);
-            if (existingSubscription != null)
-            {
-                UpdateExistingSubscription(existingSubscription, newSubscription);
-            }
-            else
-            {
-                subscriptions.Add(newSubscription);
-            }
-        }
-
-
-        private void UpdateExistingSubscription(WindowsAzureSubscription existingSubscription,
-            WindowsAzureSubscription newSubscription)
-        {
-            // For now, just remove old and add new.
-            subscriptions.Add(newSubscription);
-            subscriptions.Remove(existingSubscription);
-            if (existingSubscription.IsDefault)
-            {
-                newSubscription.IsDefault = true;
-            }
-            if (currentSubscription == existingSubscription)
-            {
-                currentSubscription = newSubscription;
+                var existingSubscription =
+                    subscriptions.FirstOrDefault(s => s.SubscriptionId == newSubscription.SubscriptionId);
+                if (existingSubscription != null)
+                {
+                    existingSubscription.Update(newSubscription);
+                }
+                else
+                {
+                    AddSubscriptionInternal(newSubscription);
+                }
             }
         }
 
@@ -429,10 +400,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 foreach (var s in data.Subscriptions)
                 {
                     var newSub = s.ToAzureSubscription();
-                    newSub.TokenProvider = tokenProvider;
-                    subscriptions.Add(newSub);
+                    AddSubscriptionInternal(newSub);
                 }
             }
+        }
+
+        private void AddSubscriptionInternal(WindowsAzureSubscription subscription)
+        {
+            subscription.TokenProvider = tokenProvider;
+            subscription.Save = Save;
+            subscriptions.Add(subscription);
         }
     }
 }

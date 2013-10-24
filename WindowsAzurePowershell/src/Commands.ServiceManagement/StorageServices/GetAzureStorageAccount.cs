@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
-    using WindowsAzure.ServiceManagement;
+    using AutoMapper;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Model;
+    using Utilities.Common;
 
     /// <summary>
     /// Lists all storage services underneath the subscription.
@@ -28,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Get, "AzureStorageAccount"), OutputType(typeof(StorageServicePropertiesOperationContext))]
     public class GetAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureStorageAccountCommand()
-        {
-        }
-
-        public GetAzureStorageAccountCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage Account Name.")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName
@@ -47,41 +38,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, IEnumerable<StorageService>, object> func = (operation, storageServices) => storageServices.Select(service => new StorageServicePropertiesOperationContext()
-            {
-                StorageAccountName = service.ServiceName,
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status,
-                AffinityGroup = service.StorageServiceProperties.AffinityGroup,
-                StorageAccountDescription = service.StorageServiceProperties.Description,
-                Label = String.IsNullOrEmpty(service.StorageServiceProperties.Label) ? string.Empty : service.StorageServiceProperties.Label,
-                Location = service.StorageServiceProperties.Location,
-                Endpoints = service.StorageServiceProperties.Endpoints,
-                StorageAccountStatus = service.StorageServiceProperties.Status,
-                GeoReplicationEnabled = service.StorageServiceProperties.GeoReplicationEnabled,
-                GeoPrimaryLocation = service.StorageServiceProperties.GeoPrimaryRegion,
-                GeoSecondaryLocation = service.StorageServiceProperties.StatusOfSecondary,
-                StatusOfPrimary = service.StorageServiceProperties.StatusOfPrimary,
-                StatusOfSecondary = service.StorageServiceProperties.StatusOfSecondary
-            });
-
+            ServiceManagementProfile.Initialize();
 
             if (!string.IsNullOrEmpty(this.StorageAccountName))
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetStorageService(s, this.StorageAccountName),
-                    (operation, storageService) => func(operation, new[] { storageService }));
+                    () => this.StorageClient.StorageAccounts.Get(this.StorageAccountName),
+                    (s, response) =>
+                    {
+                        var context = ContextFactory<StorageServiceGetResponse, StorageServicePropertiesOperationContext>(response, s);
+                        Mapper.Map(response.Properties, context);
+                        return context;
+                    });
             }
             else
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListStorageServices(s),
-                    (operation, storageServices) => func(operation, storageServices));
+                    () => this.StorageClient.StorageAccounts.List(),
+                    (s, storageServices) => 
+                        storageServices.StorageServices.Select(r =>
+                        {
+                            var context = ContextFactory<StorageServiceListResponse.StorageService, StorageServicePropertiesOperationContext>(r, s);
+                            Mapper.Map(r.Properties, context);
+                            return context;
+                        }));
             }
         }
     }

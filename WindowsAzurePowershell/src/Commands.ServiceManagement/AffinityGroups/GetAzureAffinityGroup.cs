@@ -14,14 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management;
+    using Management.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
-
+    using Utilities.Common;
 
     /// <summary>
     /// List the properties for the specified affinity group.
@@ -29,15 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     [Cmdlet(VerbsCommon.Get, "AzureAffinityGroup"), OutputType(typeof(AffinityGroupContext))]
     public class GetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        public GetAzureAffinityGroup()
-        {
-        }
-
-        public GetAzureAffinityGroup(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Affinity Group name")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -53,28 +42,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, IEnumerable<AffinityGroup>, object> func = (operation, affinityGroups) =>
-                affinityGroups.Select(affinityGroup => new AffinityGroupContext()
-                {
-                    OperationId = operation.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus = operation.Status,
-                    Name = affinityGroup.Name,
-                    Label = string.IsNullOrEmpty(affinityGroup.Label) ? null : affinityGroup.Label,
-                    Description = affinityGroup.Description,
-                    Location = affinityGroup.Location,
-                    HostedServices = affinityGroup.HostedServices != null ? affinityGroup.HostedServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0],
-                    StorageServices = affinityGroup.StorageServices != null ? affinityGroup.StorageServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0],
-                    Capabilities = affinityGroup.Capabilities != null ? affinityGroup.Capabilities.Select(p => p) : new List<string>()
-                });
+            ServiceManagementProfile.Initialize();
 
             if (this.Name != null)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.GetAffinityGroup(s, this.Name), (operation, affinityGroups) => func(operation, new[] { affinityGroups }));
+                ExecuteClientActionNewSM(null, 
+                    CommandRuntime.ToString(), 
+                    () => this.ManagementClient.AffinityGroups.Get(this.Name),
+                    (s, affinityGroup) => (new int[1]).Select(i => ContextFactory<AffinityGroupGetResponse, AffinityGroupContext>(affinityGroup, s))
+                );
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ListAffinityGroups(s), (operation, affinityGroups) => func(operation, affinityGroups));
+                ExecuteClientActionNewSM(null, 
+                    CommandRuntime.ToString(), 
+                    () => this.ManagementClient.AffinityGroups.List(),
+                    (s, affinityGroups) => affinityGroups.AffinityGroups.Select(ag => ContextFactory<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>(ag, s))
+                );
             }
         }
     }

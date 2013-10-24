@@ -15,27 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Net;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using System.Net;
+    using System.Xml.Serialization;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
     using Model;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
     public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetConfigCommand()
-        {
-        }
-
-        public GetAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(HelpMessage = "The file path to save the network configuration to.")]
         [ValidateNotNullOrEmpty]
         public string ExportToFile
@@ -48,29 +41,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             this.ValidateParameters();
 
-            using (new OperationContextScope(Channel.ToContextChannel()))
+            VirtualNetworkConfigContext result = null;
+
+            InvokeInOperationContext(() =>
             {
                 try
                 {
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigBeginOperation, CommandRuntime.ToString()));
 
-                    var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfiguration(s)) as Stream;
-                    Operation operation = GetOperation();
+                    var netcfg = this.NetworkClient.Networks.GetConfiguration();
+                    var operation = GetOperationNewSM(netcfg.RequestId);
 
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetConfigCompletedOperation, CommandRuntime.ToString()));
 
-                    if (netConfigStream != null)
+                    if (netcfg != null)
                     {
                         // TODO: might want to change this to an XML object of some kind...
-                        var configReader = new StreamReader(netConfigStream);
-                        var xml = configReader.ReadToEnd();
+                        var xml = netcfg.Configuration;
 
                         var networkConfig = new VirtualNetworkConfigContext
                         {
                             XMLConfiguration = xml,
-                            OperationId = operation.OperationTrackingId,
+                            OperationId = operation.Id,
                             OperationDescription = CommandRuntime.ToString(),
-                            OperationStatus = operation.Status
+                            OperationStatus = operation.Status.ToString()
                         };
 
                         if (!string.IsNullOrEmpty(this.ExportToFile))
@@ -78,23 +72,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             networkConfig.ExportToFile(this.ExportToFile);
                         }
 
-                        return networkConfig;
+                        result = networkConfig;
                     }
                 }
-                catch (ServiceManagementClientException ex)
+                catch (CloudException ex)
                 {
-                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
+                    if (ex.Response.StatusCode == HttpStatusCode.NotFound && !IsVerbose())
                     {
-                        return null;
+                        result = null;
                     }
                     else
                     {
-                        this.WriteErrorDetails(ex);
+                        this.WriteExceptionDetails(ex);
                     }
                 }
+            });
 
-                return null;
-            }
+            return result;
         }
 
         protected override void OnProcessRecord()

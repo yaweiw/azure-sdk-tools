@@ -16,9 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     /// <summary>
     /// Swaps the deployments in production and stage.
@@ -26,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Move, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
     public class MoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
-        public MoveAzureDeploymentCommand()
-        {
-        }
-
-        public MoveAzureDeploymentCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -45,6 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
 
@@ -72,30 +66,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 this.WriteVerbose(string.Format(Resources.VIPSwapBetweenStagingAndProduction, ServiceName));
             }
 
-            var swapDeploymentInput = new SwapDeploymentInput
+            var swapDeploymentParams = new DeploymentSwapParameters
             {
-                SourceDeployment = stagingDeployment.Name, 
-                Production = prodDeployment == null ? null : prodDeployment.Name
+                SourceDeployment = stagingDeployment.Name,
+                ProductionDeployment = prodDeployment == null ? null : prodDeployment.Name
             };
 
-            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput));
+            ExecuteClientActionNewSM(
+                swapDeploymentParams,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.Deployments.Swap(ServiceName, swapDeploymentParams));
         }
 
-        private Deployment GetDeploymentBySlot(string slot)
+        private DeploymentGetResponse GetDeploymentBySlot(string slot)
         {
-            Deployment prodDeployment = null;
+            var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), slot, true);
+            DeploymentGetResponse prodDeployment = null;
             try
             {
-                InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, slot)));
-                if (prodDeployment != null && prodDeployment.RoleList != null)
+                InvokeInOperationContext(() => prodDeployment = this.ComputeClient.Deployments.GetBySlot(ServiceName, slotType));
+                if (prodDeployment != null && prodDeployment.Roles != null)
                 {
-                    if (string.Compare(prodDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
+                    if (string.Compare(prodDeployment.Roles[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         throw new ArgumentException(String.Format(Resources.CanNotMoveDeploymentsWhileVMsArePresent, slot));
                     }
                 }
             }
-            catch (ServiceManagementClientException)
+            catch (CloudException)
             {
                 this.WriteDebug(String.Format(Resources.NoDeploymentFoundToMove, slot));
             }
