@@ -441,7 +441,7 @@
                 <ScriptBlock>$_.Logging.Version</ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Logging.LoggingOperations</Label>
+                <Label>Logging.LoggingOperation</Label>
                 <ScriptBlock>$_.Logging.LoggingOperations</ScriptBlock>
               </ListItem>
               <ListItem>
@@ -482,7 +482,7 @@
             <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>LoggingOperations</Label>
+            <Label>LoggingOperation</Label>
             <Alignment>Left</Alignment>
             <Width>30</Width>
           </TableColumnHeader>
