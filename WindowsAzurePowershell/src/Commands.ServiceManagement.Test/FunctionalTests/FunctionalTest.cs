@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [Ignore]
         public void ScriptTestSample()
         {
-            var result = vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
+            vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
         }  
 
         /// <summary>
