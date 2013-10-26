@@ -800,11 +800,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
         }
 
-        public bool RemoveAzureService(string serviceName, bool debug = true)
+        public bool RemoveAzureService(string serviceName)
         {
             bool result = false;
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName), debug),
+                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName), false),
                 "ConflictError", 3, 60);
             return result;
         }
