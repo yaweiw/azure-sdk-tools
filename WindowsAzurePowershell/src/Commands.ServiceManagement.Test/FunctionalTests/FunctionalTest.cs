@@ -1050,18 +1050,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 Console.WriteLine("Starting to clean up created VM and service.");
 
-                //try
-                //{
-
-                //    vmPowershellCmdlets.RemoveAzureVM(vmName, serviceName);
-                //    Console.WriteLine("VM, {0}, is deleted", vmName);
-                 
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine("Error during removing VM: {0}", e.ToString());
-                //}
-
                 try
                 {
                     vmPowershellCmdlets.RemoveAzureService(serviceName);
