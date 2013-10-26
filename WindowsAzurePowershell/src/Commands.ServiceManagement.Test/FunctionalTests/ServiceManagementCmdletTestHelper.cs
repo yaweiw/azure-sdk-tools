@@ -797,7 +797,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         internal void NewAzureService(string serviceName, string serviceLabel, string locationName)
         {
-            RunPSCmdletAndReturnAll<PSObject>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
+            RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
         }
 
         public bool RemoveAzureService(string serviceName, bool debug = true)
@@ -963,7 +963,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public void RestartAzureVM(string vmName, string serviceName)
         {
-            RunPSCmdletAndReturnAll<PSObject>(new RestartAzureVMCmdletInfo(vmName, serviceName));
+            RunPSCmdletAndReturnAll<ManagementOperationContext>(new RestartAzureVMCmdletInfo(vmName, serviceName));
         }
 
         public PersistentVMRoleContext ExportAzureVM(string vmName, string serviceName, string path)
@@ -1294,7 +1294,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         //   vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Permit,  "172.0.0.0//8", "Desc");
         internal void SetAzureAclConfig(SetACLConfig aclConfig, NetworkAclObject aclObj, int order, ACLAction aclAction, string remoteSubnet, string desc)
         {
-            RunPSCmdletAndReturnAll<PSObject>(new SetAzureAclConfigCmdletInfo(aclConfig.ToString(), aclObj, order,
+            RunPSCmdletAndReturnAll<NetworkAclObject>(new SetAzureAclConfigCmdletInfo(aclConfig.ToString(), aclObj, order,
                                                                               aclAction.ToString(), remoteSubnet, desc,
                                                                               null));
         }
