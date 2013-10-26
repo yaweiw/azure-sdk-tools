@@ -1085,7 +1085,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             // Remove the service
             if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {
-                vmPowershellCmdlets.RemoveAzureService(serviceName);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, false);
                 try
                 {
                     vmPowershellCmdlets.GetAzureService(serviceName);
