@@ -85,16 +85,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             try
             {
+                HttpRestCallLogger.CurrentCmdlet = this;
                 base.ProcessRecord();
                 ExecuteCommand();
             }
             catch (Exception ex)
             {
                 WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-            finally
-            {
-                WriteDebug(HttpRestCallLogger.Flush());
             }
         }
 
