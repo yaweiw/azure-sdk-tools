@@ -1,7 +1,4 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +11,16 @@ using Microsoft.WindowsAzure.Storage.Blob;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsAzurePowerShell.Test.Commands
 {
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using System;
+    using System.IO;
+    using System.Management.Automation;
+
     /// <summary>
     /// This cmdlet creates a new Windows Azure PowerShell test environment.
     /// </summary>
