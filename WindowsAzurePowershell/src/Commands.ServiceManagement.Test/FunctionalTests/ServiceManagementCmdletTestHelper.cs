@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <param name="cmdlet"></param>
         /// <param name="debug"></param>
         /// <returns></returns>
-        private T RunPSCmdletAndReturnFirst<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = true)
+        private T RunPSCmdletAndReturnFirst<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = false)
         {
             var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
             Collection<PSObject> result = azurePowershellCmdlet.Run(debug);
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <param name="cmdlet"></param>
         /// <param name="debug"></param>
         /// <returns></returns>
-        private Collection<T> RunPSCmdletAndReturnAll<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = true)
+        private Collection<T> RunPSCmdletAndReturnAll<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = false)
         {
             var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
             Collection<PSObject> result = azurePowershellCmdlet.Run(debug);
