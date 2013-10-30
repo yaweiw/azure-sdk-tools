@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var result = powershell.Invoke();
 
             if (string.IsNullOrEmpty(expectedErrorMsg))
-                Assert.IsFalse(powershell.HadErrors);
+                Assert.IsFalse(powershell.HadErrors, powershell.GetPowershellErrorMessage());
             else
                 Assert.IsTrue(powershell.HadErrors);
             

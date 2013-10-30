@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var vmId = vm.Properties["ID"].Value;
             this.SetVirtualMachineState(vm, "Stop");
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine);
+            PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine).AddParameter("Force");
             PowerShell.Invoke();
 
             PowerShell.Commands.Clear();
