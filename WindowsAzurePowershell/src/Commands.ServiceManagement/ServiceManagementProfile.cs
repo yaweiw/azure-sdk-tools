@@ -351,12 +351,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Provisioning, o => o.MapFrom(r => r.Provisioning));
 
             // New SM to Model
-            Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>();
             Mapper.CreateMap<NSM.StoredCertificateSettings, PVM.CertificateSetting>();
+            Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.CertificateSetting>(t));
+                          }
+                      }
+                  });
 
             // Model to New SM
-            Mapper.CreateMap<PVM.CertificateSettingList, IList<NSM.StoredCertificateSettings>>();
             Mapper.CreateMap<PVM.CertificateSetting, NSM.StoredCertificateSettings>();
+            Mapper.CreateMap<PVM.CertificateSettingList, IList<NSM.StoredCertificateSettings>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.StoredCertificateSettings>(t));
+                          }
+                      }
+                  });
 
             // WSM to PVM
             Mapper.CreateMap<WSM.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
