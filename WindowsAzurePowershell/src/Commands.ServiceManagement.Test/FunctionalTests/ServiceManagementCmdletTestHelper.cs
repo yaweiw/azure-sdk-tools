@@ -55,7 +55,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    if (e is InvalidCastException)
+                    {
+                        // continue
+                    }
+                    else
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
                 return (T) result[0].BaseObject;
