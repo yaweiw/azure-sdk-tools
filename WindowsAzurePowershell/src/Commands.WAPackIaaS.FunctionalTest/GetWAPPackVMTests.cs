@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMOSDisk");
-            ps.AddParameter("Name", WAPackConfigurationFactory.BlankOSDiskName);
+            ps.AddParameter("Name", WAPackConfigurationFactory.Ws2k8R2OSDiskName);
             var osDisk = this.PowerShell.Invoke();
             Assert.AreEqual(1, osDisk.Count, string.Format("Actual OSDisks found - {0}, Expected OSDisks - {1}", osDisk.Count, 1));
 
@@ -158,11 +158,12 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
 
             foreach (var vm in this.CreatedVirtualMachines)
             {
-                ps.Commands.Clear();
-                ps.AddCommand("Remove-WAPackVM");
-                ps.Commands.AddParameter("VM", vm);
-                ps.Commands.AddParameter("Force");
-                ps.InvokeAndAssertForErrors();
+                var inputParams = new Dictionary<string, object>()
+                {
+                    {"VM", vm},
+                    {"Force", null}
+                };
+                var vmFromName = this.InvokeCmdlet("Remove-WAPackVM", inputParams, null);
             }
         }
     }

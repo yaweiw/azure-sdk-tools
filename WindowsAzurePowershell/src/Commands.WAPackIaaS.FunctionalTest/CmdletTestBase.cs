@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
     using System.IO;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
+    using System.Net;
     using System.Reflection;
 
     /// <summary>
@@ -48,6 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             // create PowerShell object and save in test context
             this.TestContext.Properties.Add(CmdletTestBase.PowerShellObjectTag, CmdletTestBase.CreatePipeline());
             InitializeWAPackConfiguration();
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         }
 
         [TestCleanup]

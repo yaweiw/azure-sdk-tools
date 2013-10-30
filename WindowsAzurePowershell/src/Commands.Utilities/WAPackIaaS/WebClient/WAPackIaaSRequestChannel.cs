@@ -33,8 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient
 
         public List<T> IssueRequestAndGetResponse<T>(HttpWebRequest request, out WebHeaderCollection responseHeaders, string payload = null)
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
             var jsonHelper = new JsonHelpers<T>();
 
             if (!String.IsNullOrWhiteSpace(payload))

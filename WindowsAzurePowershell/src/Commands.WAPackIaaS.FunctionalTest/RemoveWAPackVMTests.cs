@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
 {
     using System;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Management.Automation;
     using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         {
             var expectedVMIdToDelete = this.VirtualMachine.Properties["Id"].Value.ToString();
 
-             var inputParams = new Dictionary<string, object>()
+            var inputParams = new Dictionary<string, object>()
             {
                 {"VM", this.VirtualMachine},
                 {"Force", null},
@@ -50,7 +51,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             };
             
             var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
-            Assert.AreEqual(true, isDeleted);
+            
+            Assert.AreEqual(1, isDeleted.Count);
+            Assert.AreEqual(true, isDeleted.First());
 
             inputParams = new Dictionary<string, object>()
             {
@@ -95,7 +98,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             this.VirtualMachine.Properties["Id"].Value = Guid.NewGuid();
             var inputParams = new Dictionary<string, object>()
             {
-                {"VM", this.VirtualMachine}
+                {"VM", this.VirtualMachine},
+                {"Force", null}
             };
 
             var doesNotExistErrorMessage = "The remote server returned an error: (400) Bad Request.";

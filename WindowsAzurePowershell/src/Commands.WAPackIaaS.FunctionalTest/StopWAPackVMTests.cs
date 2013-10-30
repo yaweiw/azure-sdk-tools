@@ -25,7 +25,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS")]
         public void ShouldStopExistingVm()
         {
-            var startedVm = this.SetVirtualMachineState(VirtualMachine, "Start");
+            var vm = VirtualMachine;
+            var startedVm = this.SetVirtualMachineState(vm, "Start");
             Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
 
             var stoppedVm = this.SetVirtualMachineState(startedVm, "Stop");
@@ -36,7 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS")]
         public void ShouldStopExistingVmThatIsAlreadyStopped()
         {
-            var stoppedVm = this.SetVirtualMachineState(VirtualMachine, "Stop");
+            var vm = VirtualMachine;
+            var stoppedVm = this.SetVirtualMachineState(vm, "Stop");
             Assert.AreEqual("Stopped", stoppedVm.Properties["StatusString"].Value);
 
             stoppedVm = this.SetVirtualMachineState(stoppedVm, "Stop");
@@ -47,12 +49,13 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS")]
         public void ShouldShutdownExistingVm()
         {
-            var startedVm = SetVirtualMachineState(VirtualMachine, "Start");
+            var vm = VirtualMachine;
+            var startedVm = SetVirtualMachineState(vm, "Start");
             Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
 
             // we need to sleep for a while after starting the vm to ensure we have...
             // access to the service on the OS that allows us to shut down the vm
-            Thread.Sleep(10000);
+            Thread.Sleep(50000);
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Stop-WAPackVM").AddParameter("Shutdown").AddParameter("VM", startedVm);
             var shutdownVm = PowerShell.Invoke();
@@ -68,7 +71,11 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var vm = VirtualMachine;
             var vmId = vm.Properties["ID"].Value;
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine);
+            this.SetVirtualMachineState(vm, "Stop");
+            PowerShell.Commands.Clear();
+            PowerShell.AddCommand("Remove-WAPackVM")
+                .AddParameter("VM", VirtualMachine)
+                .AddParameter("Force");
             PowerShell.Invoke();
 
             PowerShell.Commands.Clear();
@@ -80,7 +87,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS")]
         public void ShouldBeAbleToGetAndStopAVmUsingPipeline()
         {
-            var startedVm = this.SetVirtualMachineState(VirtualMachine, "Start");
+            var vm = VirtualMachine;
+            var startedVm = this.SetVirtualMachineState(vm, "Start");
             Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
 
             PowerShell.Commands.Clear();
@@ -100,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var vm = VirtualMachine;
             var vmId = vm.Properties["ID"].Value;
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine);
+            PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine).AddParameter("Force");
             PowerShell.Invoke();
 
             PowerShell.Commands.Clear();
