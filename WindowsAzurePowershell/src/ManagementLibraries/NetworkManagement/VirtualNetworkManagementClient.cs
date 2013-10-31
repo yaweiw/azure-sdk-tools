@@ -5421,7 +5421,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != GatewayOperationStatus.Succeeded)
+                if (result.Status != GatewayOperationStatus.Successful)
                 {
                     CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
                     ex.ErrorCode = result.Error.Code;
@@ -5509,7 +5509,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != GatewayOperationStatus.Succeeded)
+                if (result.Status != GatewayOperationStatus.Successful)
                 {
                     CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
                     ex.ErrorCode = result.Error.Code;
@@ -5593,7 +5593,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != GatewayOperationStatus.Succeeded)
+                if (result.Status != GatewayOperationStatus.Successful)
                 {
                     CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
                     ex.ErrorCode = result.Error.Code;
@@ -5678,7 +5678,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != GatewayOperationStatus.Succeeded)
+                if (result.Status != GatewayOperationStatus.Successful)
                 {
                     CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
                     ex.ErrorCode = result.Error.Code;
@@ -6891,7 +6891,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                     Tracing.Exit(invocationId, result);
                 }
                 
-                if (result.Status != GatewayOperationStatus.Succeeded)
+                if (result.Status != GatewayOperationStatus.Successful)
                 {
                     CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
                     ex.ErrorCode = result.Error.Code;
