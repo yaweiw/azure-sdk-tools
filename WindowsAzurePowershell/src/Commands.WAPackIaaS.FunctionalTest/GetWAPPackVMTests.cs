@@ -116,34 +116,60 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         public void CreateVirtualMachine(string vmNameToCreate)
         {
             var ps = this.PowerShell;
+
+            var inputParams = new Dictionary<string, object>()
+            {
+                {"Name", vmNameToCreate}
+            };
+            var existingVMs = this.InvokeCmdlet(cmdletName, inputParams, null);
+           
+            if (existingVMs != null && existingVMs.Any())
+            {
+                if (existingVMs.Count == 1)
+                {
+                    CreatedVirtualMachines.Add(existingVMs.First());
+                    return;
+                }
+                else
+                {
+                    CreatedVirtualMachines.AddRange(existingVMs);
+                    RemoveVMs();
+                }
+            }
+
             ps.Commands.Clear();
-            ps.AddCommand("Get-WAPackVnet");
-            ps.AddParameter("Name", WAPackConfigurationFactory.AvenzVnetName);
-            var vNet = this.PowerShell.Invoke();
+            inputParams = new Dictionary<string, object>()
+            {
+                {"Name", WAPackConfigurationFactory.AvenzVnetName}
+            };
+            var vNet = this.InvokeCmdlet("Get-WAPackVnet", inputParams, null);
             Assert.AreEqual(vNet.Count, 1, string.Format("Actual Vnet found - {0}, Expected Vnet - {1}", vNet.Count, 1));
 
-            ps.Commands.Clear();
-            ps.AddCommand("Get-WAPackVMOSDisk");
-            ps.AddParameter("Name", WAPackConfigurationFactory.Ws2k8R2OSDiskName);
-            var osDisk = this.PowerShell.Invoke();
+            inputParams = new Dictionary<string, object>()
+            {
+                {"Name", WAPackConfigurationFactory.Ws2k8R2OSDiskName}
+            };
+            var osDisk = this.InvokeCmdlet("Get-WAPackVMOSDisk", inputParams, null);
             Assert.AreEqual(1, osDisk.Count, string.Format("Actual OSDisks found - {0}, Expected OSDisks - {1}", osDisk.Count, 1));
 
-            ps.Commands.Clear();
-            ps.AddCommand("Get-WAPackVMSizeProfile");
-            ps.AddParameter("Name", WAPackConfigurationFactory.VMSizeProfileName);
-            var vmSizeProfile = this.PowerShell.Invoke();
+            inputParams = new Dictionary<string, object>()
+            {
+                {"Name", WAPackConfigurationFactory.VMSizeProfileName}
+            };
+            var vmSizeProfile = this.InvokeCmdlet("Get-WAPackVMSizeProfile", inputParams, null);
             Assert.AreEqual(1, vmSizeProfile.Count, string.Format("Actual VMSizeProfiles found - {0}, Expected VMSizeProfiles - {1}", vmSizeProfile.Count, 1));
 
-            ps.Commands.Clear();
-            ps.AddCommand("New-WAPackVM");
-            ps.AddParameter("Name", vmNameToCreate);
-            ps.AddParameter("OSDisk", osDisk[0]);
-            ps.AddParameter("VNet", vNet[0]);
-            ps.AddParameter("VMSizeProfile", vmSizeProfile[0]);
-            var actualCreatedVM = ps.Invoke();
+            inputParams = new Dictionary<string, object>()
+            {
+                {"Name", vmNameToCreate},
+                {"OSDisk", osDisk.First()},
+                {"VNet", vNet.First()},
+                {"VMSizeProfile", vmSizeProfile.First()}
+            };
+            var actualCreatedVM = this.InvokeCmdlet("New-WAPackVM", inputParams, null);
 
             Assert.AreEqual(1, actualCreatedVM.Count, string.Format("Actual VirtualMachines found - {0}, Expected VirtualMachines - {1}", actualCreatedVM.Count, 1));
-            var createdVMName = actualCreatedVM[0].Properties["Name"].Value;
+            var createdVMName = actualCreatedVM.First().Properties["Name"].Value;
 
             ps.Commands.Clear();
 
@@ -151,11 +177,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             CreatedVirtualMachines.AddRange(actualCreatedVM);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        private void RemoveVMs()
         {
-            var ps = this.PowerShell;
-
             foreach (var vm in this.CreatedVirtualMachines)
             {
                 var inputParams = new Dictionary<string, object>()
@@ -165,6 +188,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
                 };
                 var vmFromName = this.InvokeCmdlet("Remove-WAPackVM", inputParams, null);
             }
+
+            this.CreatedVirtualMachines.Clear();
         }
     }
 }

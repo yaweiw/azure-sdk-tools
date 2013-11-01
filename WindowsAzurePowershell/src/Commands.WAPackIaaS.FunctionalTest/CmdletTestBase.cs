@@ -78,6 +78,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             this.PowerShell.AddCommand("Import-Module").AddArgument(path).InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();
 
+            this.PowerShell.AddScript("Get-AzureSubscription | Remove-AzureSubscription -Force").InvokeAndAssertForNoErrors();
+            this.PowerShell.Commands.Clear();
+
             var publishSettingsPath = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Commands.WAPackIaaS.FunctionalTest\\Artifacts\\TestConfig.publishsettings"));
             this.PowerShell.AddCommand("Import-AzurePublishSettingsFile").AddArgument(publishSettingsPath).InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();

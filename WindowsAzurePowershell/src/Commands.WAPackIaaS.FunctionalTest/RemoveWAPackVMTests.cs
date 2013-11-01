@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.AddCommand("Remove-WAPackVM");
             ps.Commands.AddParameter("Force");
 
-            ps.Invoke();
+            ps.InvokeAndAssertForNoErrors();
 
             var inputParams = new Dictionary<string, object>()
             {

@@ -43,13 +43,13 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var ps = this.PowerShell;
             ps.AddCommand("Get-WAPackVMTemplate");
             ps.AddParameter("Name", WAPackConfigurationFactory.Win7_64TemplateName);
-            var template = this.PowerShell.InvokeAndAssertForNoErrors();
+            var template = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(template.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVnet");
             ps.AddParameter("Name", WAPackConfigurationFactory.AvenzVnetName);
-            var vNet = this.PowerShell.InvokeAndAssertForNoErrors();
+            var vNet = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vNet.Count, 1);
 
             ps.Commands.Clear();
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var ps = this.PowerShell;
             ps.AddCommand("Get-WAPackVMTemplate");
             ps.AddParameter("Name", WAPackConfigurationFactory.Win7_64TemplateName);
-            var template = this.PowerShell.InvokeAndAssertForNoErrors();
+            var template = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(template.Count, 1);
 
             ps.Commands.Clear();
@@ -104,19 +104,19 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVnet");
             ps.AddParameter("Name", WAPackConfigurationFactory.AvenzVnetName);
-            var vNet = this.PowerShell.InvokeAndAssertForNoErrors();
+            var vNet = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vNet.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMOSDisk");
             ps.AddParameter("Name", WAPackConfigurationFactory.Ws2k8R2OSDiskName);
-            var osDisk = this.PowerShell.InvokeAndAssertForNoErrors();
+            var osDisk = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(osDisk.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMSizeProfile");
             ps.AddParameter("Name", WAPackConfigurationFactory.VMSizeProfileName);
-            var vmSizeProfile = this.PowerShell.InvokeAndAssertForNoErrors();
+            var vmSizeProfile = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vmSizeProfile.Count, 1);
 
             ps.Commands.Clear();
@@ -145,13 +145,13 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMOSDisk");
             ps.AddParameter("Name", WAPackConfigurationFactory.Ws2k8R2OSDiskName);
-            var osDisk = this.PowerShell.InvokeAndAssertForNoErrors();
+            var osDisk = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(osDisk.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMSizeProfile");
             ps.AddParameter("Name", WAPackConfigurationFactory.VMSizeProfileName);
-            var vmSizeProfile = this.PowerShell.InvokeAndAssertForNoErrors();
+            var vmSizeProfile = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vmSizeProfile.Count, 1);
 
             ps.Commands.Clear();
@@ -207,19 +207,19 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMOSDisk");
             ps.AddParameter("Name", WAPackConfigurationFactory.LinuxOSDiskName);
-            var osDisk = this.PowerShell.Invoke();
+            var osDisk = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(osDisk.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMSizeProfile");
             ps.AddParameter("Name", WAPackConfigurationFactory.VMSizeProfileName);
-            var vmSizeProfile = this.PowerShell.Invoke();
+            var vmSizeProfile = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vmSizeProfile.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVnet");
             ps.AddParameter("Name", WAPackConfigurationFactory.AvenzVnetName);
-            var vNet = this.PowerShell.Invoke();
+            var vNet = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vNet.Count, 1);
 
             ps.Commands.Clear();
@@ -228,7 +228,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.AddParameter("OSDisk", osDisk[0]);
             ps.AddParameter("VMSizeProfile", vmSizeProfile[0]);
             ps.AddParameter("VNet", vNet[0]);
-            var actualCreatedVM = ps.Invoke();
+            var actualCreatedVM = ps.InvokeAndAssertForNoErrors();
 
             Assert.AreEqual(1, actualCreatedVM.Count);
             var createdVMName = actualCreatedVM[0].Properties["Name"].Value;
@@ -248,13 +248,13 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMOSDisk");
             ps.AddParameter("Name", WAPackConfigurationFactory.LinuxOSDiskName);
-            var osDisk = this.PowerShell.Invoke();
+            var osDisk = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(osDisk.Count, 1);
 
             ps.Commands.Clear();
             ps.AddCommand("Get-WAPackVMSizeProfile");
             ps.AddParameter("Name", WAPackConfigurationFactory.VMSizeProfileName);
-            var vmSizeProfile = this.PowerShell.Invoke();
+            var vmSizeProfile = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(vmSizeProfile.Count, 1);
 
             ps.Commands.Clear();
@@ -262,7 +262,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.AddParameter("Name", vmNameToCreate);
             ps.AddParameter("OSDisk", osDisk[0]);
             ps.AddParameter("VMSizeProfile", vmSizeProfile[0]);
-            var actualCreatedVM = ps.Invoke();
+            var actualCreatedVM = ps.InvokeAndAssertForNoErrors();
 
             Assert.AreEqual(1, actualCreatedVM.Count);
             var createdVMName = actualCreatedVM[0].Properties["Name"].Value;
@@ -281,7 +281,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var ps = this.PowerShell;
             ps.AddCommand("Get-WAPackVMTemplate");
             ps.AddParameter("Name", WAPackConfigurationFactory.Win7_64TemplateName);
-            var template = this.PowerShell.Invoke();
+            var template = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(template.Count, 1);
 
             ps.Commands.Clear();
@@ -289,7 +289,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.AddParameter("Name", vmNameToCreate);
             ps.AddParameter("Template", template[0]);
             ps.AddParameter("VMCredential", WAPackConfigurationFactory.WindowsVMCredential);
-            var actualCreatedVM = ps.Invoke();
+            var actualCreatedVM = ps.InvokeAndAssertForNoErrors();
 
             Assert.AreEqual(1, actualCreatedVM.Count);
             var createdVMName = actualCreatedVM[0].Properties["Name"].Value;

@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         {
             PowerShell.Commands.Clear();
             PowerShell.AddCommand(string.Format("{0}-WAPackVM", state)).AddParameter("VM", vm);
-            var updatedVm = PowerShell.Invoke();
+            var updatedVm = PowerShell.InvokeAndAssertForNoErrors();
             return updatedVm[0];
         }
     }

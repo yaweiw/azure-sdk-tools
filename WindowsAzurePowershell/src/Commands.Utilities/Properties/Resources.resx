@@ -1451,4 +1451,8 @@ Please follow these steps in the portal:
   <data name="RemoveVMMessage" xml:space="preserve">
     <value>Deleting VM.</value>
   </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+    <comment>WAPackIaaS</comment>
+  </data>
 </root>
