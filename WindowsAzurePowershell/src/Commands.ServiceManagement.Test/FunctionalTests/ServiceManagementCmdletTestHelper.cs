@@ -11,6 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Commands.Utilities.Common;
@@ -40,20 +43,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cmdlet"></param>
+        /// <param name="debug"></param>
         /// <returns></returns>
-        private T RunPSCmdletAndReturnFirst<T>(PowershellCore.CmdletsInfo cmdlet)
+        private T RunPSCmdletAndReturnFirst<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = false)
         {
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
+            Collection<PSObject> result = azurePowershellCmdlet.Run(debug);
             if (result.Count == 1)
             {
                 try
                 {
                     var operation = (ManagementOperationContext)result[0].BaseObject;
-                    Console.WriteLine("Operation ID: {0}", operation.OperationId);
+                    Console.WriteLine("Operation ID: {0} \nOperation Status: {1}\n", operation.OperationId, operation.OperationStatus);
                 }
-                catch
+                catch (Exception e)
                 {
+                    if (e is InvalidCastException)
+                    {
+                        // continue
+                    }
+                    else
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
                 return (T) result[0].BaseObject;
@@ -66,12 +79,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cmdlet"></param>
+        /// <param name="debug"></param>
         /// <returns></returns>
-        private Collection<T> RunPSCmdletAndReturnAll<T>(PowershellCore.CmdletsInfo cmdlet)
+        private Collection<T> RunPSCmdletAndReturnAll<T>(PowershellCore.CmdletsInfo cmdlet, bool debug = false)
         {
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
-            Collection<T> resultCollection = new Collection<T>();
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(cmdlet);
+            Collection<PSObject> result = azurePowershellCmdlet.Run(debug);
+            var resultCollection = new Collection<T>();
             foreach (PSObject re in result)
             {
                 resultCollection.Add((T)re.BaseObject);
@@ -79,33 +93,46 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                var operation = (ManagementOperationContext)result[0].BaseObject;
-                Console.WriteLine("Operation ID: {0}", operation.OperationId);
+                if (result.Count > 0)
+                {
+                    var operation = (ManagementOperationContext) result[0].BaseObject;
+                    Console.WriteLine("Operation ID: {0} \nOperation Status: {1}\n", operation.OperationId,
+                        operation.OperationStatus);
+                }
             }
-            catch
+            catch (Exception e)
             {
+                if (e is InvalidCastException)
+                {
+                    // continue
+                }
+                else
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             return resultCollection;
         }
 
-        public Collection <PSObject> RunPSScript(string script)
+        public Collection <PSObject> RunPSScript(string script, bool debug = true)
         {
             List<string> st = new List<string>();
             st.Add(script);
 
             WindowsAzurePowershellScript azurePowershellCmdlet = new WindowsAzurePowershellScript(st);
-            return azurePowershellCmdlet.Run();
+            return azurePowershellCmdlet.Run(debug);
         }
 
 
-        public CopyState CheckCopyBlobStatus(string destContainer, string destBlob)
+        public CopyState CheckCopyBlobStatus(string destContainer, string destBlob, bool debug = false)
         {
             List<string> st = new List<string>();
             st.Add(string.Format("Get-AzureStorageBlobCopyState -Container {0} -Blob {1}", destContainer, destBlob));
 
             WindowsAzurePowershellScript azurePowershellCmdlet = new WindowsAzurePowershellScript(st);
-            return (CopyState)azurePowershellCmdlet.Run()[0].BaseObject;
+            return (CopyState)azurePowershellCmdlet.Run(debug)[0].BaseObject;
         }
         public bool TestAzureServiceName(string serviceName)
         {
@@ -441,13 +468,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<DnsServer>(new NewAzureDnsCmdletInfo(name, ipAddress));
         }
 
-        public DnsServerList GetAzureDns(DnsSettings settings)
+        public DnsServerList GetAzureDns(DnsSettings settings, bool debug = true)
         {
-            GetAzureDnsCmdletInfo getAzureDnsCmdletInfo = new GetAzureDnsCmdletInfo(settings);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureDnsCmdletInfo);
-
-            Collection<PSObject> result = azurePowershellCmdlet.Run();
-            DnsServerList dnsList = new DnsServerList();
+            var getAzureDnsCmdletInfo = new GetAzureDnsCmdletInfo(settings);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureDnsCmdletInfo);
+            Collection<PSObject> result = azurePowershellCmdlet.Run(debug);
+            var dnsList = new DnsServerList();
 
             foreach (PSObject re in result)
             {
@@ -640,13 +666,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.ImportAzurePublishSettingsFile(CredentialHelper.PublishSettingsFile);
         }
 
-        internal void ImportAzurePublishSettingsFile(string publishSettingsFile)
+        internal void ImportAzurePublishSettingsFile(string publishSettingsFile, bool debug = false)
         {
-            ImportAzurePublishSettingsFileCmdletInfo importAzurePublishSettingsFileCmdlet = new ImportAzurePublishSettingsFileCmdletInfo(publishSettingsFile);
-
-            WindowsAzurePowershellCmdlet importAzurePublishSettingsFile = new WindowsAzurePowershellCmdlet(importAzurePublishSettingsFileCmdlet);
-            var i = importAzurePublishSettingsFile.Run();
-            Console.WriteLine(i.ToString());
+            (new WindowsAzurePowershellCmdlet(new ImportAzurePublishSettingsFileCmdletInfo(publishSettingsFile))).Run(
+                (debug));
         }
 
         #endregion
@@ -671,11 +694,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
-        public WindowsAzureSubscription SetAzureSubscription(string subscriptionName, string CurrentStorageAccountName)
+        public WindowsAzureSubscription SetAzureSubscription(string subscriptionName, string currentStorageAccountName, bool debug = false)
         {
-            SetAzureSubscriptionCmdletInfo setAzureSubscriptionCmdlet = new SetAzureSubscriptionCmdletInfo(subscriptionName, CurrentStorageAccountName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(setAzureSubscriptionCmdlet);
-            azurePowershellCmdlet.Run();
+            var setAzureSubscriptionCmdlet = new SetAzureSubscriptionCmdletInfo(subscriptionName, currentStorageAccountName);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(setAzureSubscriptionCmdlet);
+            azurePowershellCmdlet.Run(debug);
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
@@ -688,11 +711,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
-        public WindowsAzureSubscription SetDefaultAzureSubscription(string subscriptionName)
+        public WindowsAzureSubscription SetDefaultAzureSubscription(string subscriptionName, bool debug = false)
         {
-            SelectAzureSubscriptionCmdletInfo selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(subscriptionName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(selectAzureSubscriptionCmdlet);
-            azurePowershellCmdlet.Run();
+            var selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(subscriptionName);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(selectAzureSubscriptionCmdlet);
+            azurePowershellCmdlet.Run(debug);
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
@@ -714,13 +737,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureSubnet
 
-        public SubnetNamesCollection GetAzureSubnet(PersistentVM vm)
+        public SubnetNamesCollection GetAzureSubnet(PersistentVM vm, bool debug = true)
         {
-            GetAzureSubnetCmdletInfo getAzureSubnetCmdlet = new GetAzureSubnetCmdletInfo(vm);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureSubnetCmdlet);
-            Collection <PSObject> result = azurePowershellCmdlet.Run();
+            var getAzureSubnetCmdlet = new GetAzureSubnetCmdletInfo(vm);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(getAzureSubnetCmdlet);
+            Collection <PSObject> result = azurePowershellCmdlet.Run(debug);
 
-            SubnetNamesCollection subnets = new SubnetNamesCollection();
+            var subnets = new SubnetNamesCollection();
             foreach (PSObject re in result)
             {
                 subnets.Add((string)re.BaseObject);
@@ -797,17 +820,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         internal void NewAzureService(string serviceName, string serviceLabel, string locationName)
         {
-            NewAzureServiceCmdletInfo newAzureServiceCmdletInfo = new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName);
-            WindowsAzurePowershellCmdlet newAzureServiceCmdlet = new WindowsAzurePowershellCmdlet(newAzureServiceCmdletInfo);
-
-            Collection<PSObject> result = newAzureServiceCmdlet.Run();
+            RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
         }
 
         public bool RemoveAzureService(string serviceName)
         {
             bool result = false;
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName)),
+                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName), false),
                 "ConflictError", 3, 60);
             return result;
         }
@@ -966,9 +986,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public void RestartAzureVM(string vmName, string serviceName)
         {
-            RestartAzureVMCmdletInfo restartAzureVMCmdlet = new RestartAzureVMCmdletInfo(vmName, serviceName);
-            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(restartAzureVMCmdlet);
-            azurePowershellCmdlet.Run();
+            RunPSCmdletAndReturnAll<ManagementOperationContext>(new RestartAzureVMCmdletInfo(vmName, serviceName));
         }
 
         public PersistentVMRoleContext ExportAzureVM(string vmName, string serviceName, string path)
@@ -1283,12 +1301,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public void RemoveAzureSubscription(string Name, bool force)
+        public void RemoveAzureSubscription(string Name, bool force, bool debug = false)
         {
-            RemoveAzureSubscriptionCmdletInfo removeAzureSubscriptionCmdletInfo = new RemoveAzureSubscriptionCmdletInfo(Name, null, force);
-            WindowsAzurePowershellCmdlet removeAzureSubscriptionCmdlet = new WindowsAzurePowershellCmdlet(removeAzureSubscriptionCmdletInfo);
-
-            var result = removeAzureSubscriptionCmdlet.Run();
+            var removeAzureSubscriptionCmdletInfo = new RemoveAzureSubscriptionCmdletInfo(Name, null, force);
+            var removeAzureSubscriptionCmdlet = new WindowsAzurePowershellCmdlet(removeAzureSubscriptionCmdletInfo);
+            removeAzureSubscriptionCmdlet.Run(debug);
         }
 
         internal NetworkAclObject NewAzureAclConfig()
@@ -1297,14 +1314,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         // Set-AzureAclConfig -AddRule -ACL $acl2 -Order 100 -Action Deny -RemoteSubnet "172.0.0.0/8" -Description "notes3"
-         //   vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Permit,  "172.0.0.0//8", "Desc");
+        //   vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Permit,  "172.0.0.0//8", "Desc");
         internal void SetAzureAclConfig(SetACLConfig aclConfig, NetworkAclObject aclObj, int order, ACLAction aclAction, string remoteSubnet, string desc)
         {
-            SetAzureAclConfigCmdletInfo setAzureAclConfigCmdletInfo = new SetAzureAclConfigCmdletInfo(aclConfig.ToString(), aclObj, order, aclAction.ToString(), remoteSubnet, desc, null);
+            RunPSCmdletAndReturnAll<NetworkAclObject>(new SetAzureAclConfigCmdletInfo(aclConfig.ToString(), aclObj, order,
+                                                                              aclAction.ToString(), remoteSubnet, desc,
+                                                                              null));
+        }
 
-            WindowsAzurePowershellCmdlet setAzureAclConfigCmdlet = new WindowsAzurePowershellCmdlet(setAzureAclConfigCmdletInfo);
-
-            var result = setAzureAclConfigCmdlet.Run();
+        internal NetworkAclObject GetAzureAclConfig(PersistentVM vm, string ep = null)
+        {
+            return RunPSCmdletAndReturnFirst<NetworkAclObject>(new GetAzureAclConfigCmdletInfo(vm, ep));
         }
     }
 }
