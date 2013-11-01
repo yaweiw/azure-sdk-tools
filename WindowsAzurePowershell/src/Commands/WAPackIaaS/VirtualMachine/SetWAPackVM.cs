@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.UpdateVMSizeProfile, ValueFromPipeline = true, HelpMessage = "Existing VMSizeProfile Object.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.UpdateVMSizeProfile, HelpMessage = "Existing VMSizeProfile Object.")]
         [ValidateNotNullOrEmpty]
         public HardwareProfile VMSizeProfile
         {

@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             {
                 {"Id", expectedvNetworkId}
             };
-            var vNetworkFromId = this.PowerShell.Invoke();
+            var vNetworkFromId = this.PowerShell.InvokeAndAssertForNoErrors();
 
             var actualvNetworkFromId = vNetworkFromId[0].Properties["Id"].Value;
             Assert.AreEqual(expectedvNetworkId, actualvNetworkFromId);

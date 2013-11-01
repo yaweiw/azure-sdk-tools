@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using System;
@@ -63,8 +64,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestMethod]
         [TestCategory("Negative")]
         [TestCategory("WAPackIaaS")]
-        [ExpectedException(typeof(WAPackOperationException))]
-        [Ignore] //TODO re-enable when strange issue with SPF returning 200 status code with error in JSON is figured out
         public void ShouldFailRestartUnknownVM()
         {
             var vm = VirtualMachine.BaseObject as VirtualMachine;
@@ -76,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Restart-WAPackVM");
             ps.AddParameter("VM", vm);
-            ps.Invoke();
+            ps.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Restart, vm.ID));
         }
     }
 }

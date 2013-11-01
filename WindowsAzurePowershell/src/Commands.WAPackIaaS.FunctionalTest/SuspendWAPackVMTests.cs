@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             this.SetVirtualMachineState(vm, "Stop");
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine).AddParameter("Force");
-            PowerShell.Invoke();
+            PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Suspend-WAPackVM").AddParameter("VM", vm);
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
                 .AddParameter("Id", startedVm.Properties["Id"].Value)
                 .AddCommand("Suspend-WAPackVM");
 
-            var stoppedVm = PowerShell.Invoke();
+            var stoppedVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual("Paused", stoppedVm[0].Properties["StatusString"].Value);
         }
     }

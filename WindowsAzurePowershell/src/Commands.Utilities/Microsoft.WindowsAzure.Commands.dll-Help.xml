@@ -11633,4 +11633,1910 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Stop-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Stop-WAPackVM cmdlet shuts down the specified virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Stop</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The Stop-WAPackVM cmdlet shuts down the specified virtual machine object.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Stop-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Shutdown</maml:name>
+          <maml:description>
+            <maml:para>Forces the VM to shut down</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Shutdown</maml:name>
+        <maml:description>
+          <maml:para>Forces the VM to shut down</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Stop-WAPackVM -VM $VM</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the vm contained in $VM. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Stop-WAPackVM -VM $VM -Shutdown</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the vm represented by $VM and does a force shutdown. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Suspend-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Suspend-WAPackVM cmdlet suspends the specified virtual machine object.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Suspend</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The Suspend-WAPackVM cmdlet suspends the specified virtual machine.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Suspend-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Suspend-WAPackVM -VM $VM</dev:code>
+        <dev:remarks>
+          <maml:para>Suspend the vm contained in $VM. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackQuickVM</command:name>
+      <maml:description>
+        <maml:para>The New-WAPackQuickVM cmdlet creates a VirtualMachine based on a specified template.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackQuickVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The New-WAPackQuickVM cmdlet creates a VirtualMachine based on a specified template.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackQuickVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>The VMTemplate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredentials</maml:name>
+          <maml:description>
+            <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Template</maml:name>
+        <maml:description>
+          <maml:para>The VMTemplate.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMCredentials</maml:name>
+        <maml:description>
+          <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; New-WAPackQuickVM -Name "vm1" -Template $templateId -VMCredetial $credentials</dev:code>
+        <dev:remarks>
+          <maml:para>Create a vm based on the template. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Get-WAPackVM cmdlet gets one or more virtual machine objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVM cmdlet gets one or more virtual machine objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine ID.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine ID.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM -Name testVM</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing virtualmachine by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing virtualmachine by Id. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing virtual machines. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMOSDisk</command:name>
+      <maml:description>
+        <maml:para>Returns one or more WAPack VM OS disk objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMOSDisk</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more WAPack VM OS disk objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The OS disk Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The OS disk ID.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The OS disk Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The OS disk ID.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk -Name "SomeOSDisk"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing os disk by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing os disk by Id. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing os disks. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMSizeProfile</command:name>
+      <maml:description>
+        <maml:para>Returns one or more size profile objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMSizeProfile</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more size profile objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of the size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID of the size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name of the size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID of the size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile -Name "someSizeProfileName"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing size profile by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing size profile by ID.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing size profiles.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMTemplate</command:name>
+      <maml:description>
+        <maml:para>Returns one or more VM template objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMTemplate</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more VM template objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of the template.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID of the template.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name of the template.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID of the template.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate -Name "someTemplateName"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing VM template by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing VM template by ID.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing VM templates.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Remove-WAPackVM cmdlet removes virtual machine objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackVM cmdlet removes one or more virtual machine objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+          <maml:name>VirtualMachine</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If specified, the cmdlet return true if the operation succeeds and false in failure.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="2">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Remove VirtualMachine without confirmation prompts</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+        <maml:name>VirtualMachine</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine object</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If specified, the cmdlet return true if the operation succeeds and false in failure.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="2">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Remove VirtualMachine without confirmation prompts</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Remove-WAPackVM -VM $vm</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes a VirtualMachine. Will ask the user for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Remove-WAPackVM -VM $vm -Force</dev:code>
+        <dev:remarks>
+          <maml:para>Removes a VirtualMachine without asking the user for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Restart-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Restart-WAPackVM cmdlet restarts virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Restart</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Restart-WAPackVM cmdlet restarts one or more virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Restart-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+          <maml:name>VirtualMachine</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+        <maml:name>VirtualMachine</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine object</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Restart-WAPackVM -VM $vm</dev:code>
+        <dev:remarks>
+          <maml:para>Restarts a VirtualMachine</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVNet</command:name>
+      <maml:description>
+        <maml:para>The Get-WAPackVNet cmdlet gets Virtual Network</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVNet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVNet cmdlet gets one or more virtual networks.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID for the Virtual Network</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Name of the Virtual Network</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID for the Virtual Network</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Name of the Virtual Network</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVNet -ID 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the Virtual Network by ID</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVNet -Name myVNet</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the Virtual Network(s) by Name</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The New-WAPackVM cmdlet creates a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackVM cmdlet creates a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredential</maml:name>
+          <maml:description>
+            <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ProductKey</maml:name>
+          <maml:description>
+            <maml:para>Specifies a product key. The product key is a 25-digit number that identifies the product license. A product key can be used to an operating system to be installed on a virtual machine or host.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Windows</maml:name>
+          <maml:description>
+            <maml:para>Create a Windows vm.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredential</maml:name>
+          <maml:description>
+            <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>AdministratorSSHKey</maml:name>
+          <maml:description>
+            <maml:para>The Administrator SSH Key.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Linux</maml:name>
+          <maml:description>
+            <maml:para>Create a Linux vm.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>OSDisk</maml:name>
+          <maml:description>
+            <maml:para>Specifies a os disk object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">OSDiskObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMSizeProfile</maml:name>
+          <maml:description>
+            <maml:para>Specifies a vmsizeprofile object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Template</maml:name>
+        <maml:description>
+          <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMCredential</maml:name>
+        <maml:description>
+          <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VNet</maml:name>
+        <maml:description>
+          <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>ProductKey</maml:name>
+        <maml:description>
+          <maml:para>Specifies a product key. The product key is a 25-digit number that identifies the product license. A product key can be used to an operating system to be installed on a virtual machine or host.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Windows</maml:name>
+        <maml:description>
+          <maml:para>Create a Windows vm.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>AdministratorSSHKey</maml:name>
+        <maml:description>
+          <maml:para>The Administrator SSH Key.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Linux</maml:name>
+        <maml:description>
+          <maml:para>Create a Linux vm.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>OSDisk</maml:name>
+        <maml:description>
+          <maml:para>Specifies a os disk object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">OSDiskObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMSizeProfile</maml:name>
+        <maml:description>
+          <maml:para>Specifies a vmsizeprofile object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $template = Get-WAPackVMTemplate -Name testTemplate </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $credential = New-Object System.Management.Automation.PSCredential ("username", $secpasswd)  </dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -Template $template -VNet $vNet -VMCredential $credential -Windows </dev:code>
+        <dev:remarks>
+          <maml:para>Creates a Windows virtual machine from an existing template and vnet. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $template = Get-WAPackVMTemplate -Name testTemplate </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $credential = New-Object System.Management.Automation.PSCredential ("username", $secpasswd)  </dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -Template $template -VNet $vNet -VMCredential $credential -Linux </dev:code>
+        <dev:remarks>
+          <maml:para>Creates a Linux virtual machine from an existing template and vnet.  </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $osDisk = Get-WAPackVMOSDisk -Name testOSDisk </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $sizeProfile = Get-WAPackVMSizeProfile -Name testVMSizeProfile</dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -OSDisk $osDisk -VNet $vNet -VMSizeProfile $sizeProfile</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a virtual machine from an existing osdisk, vnet and vmsizeprofile.  </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Resume-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Resumes paused virtual machines.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Resume</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Resumes paused virtual machines.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Resume-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; Resume-WAPackVM -VM $vm
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Resumes a specific virtual machine.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Start-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Starts a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Start</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Starts a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Start-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; Start-WAPackVM -VM $vm
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Starts a specific virtual machine.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Changes the size properties of a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Changes the size properties of a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" position="1">
+          <maml:name>VMSizeProfile</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" position="1">
+        <maml:name>VMSizeProfile</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; $sizeProfile = Get-WAPackVMSizeProfile -Name MediumSizeVM
+PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Sets a specific virtual machine to be of &quot;medium size&quot;.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
 </helpItems>

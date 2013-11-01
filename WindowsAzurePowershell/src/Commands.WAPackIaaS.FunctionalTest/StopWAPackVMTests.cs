@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             Thread.Sleep(50000);
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Stop-WAPackVM").AddParameter("Shutdown").AddParameter("VM", startedVm);
-            var shutdownVm = PowerShell.Invoke();
+            var shutdownVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual(1, shutdownVm.Count);
             Assert.AreEqual("Stopped", shutdownVm[0].Properties["StatusString"].Value);
         }
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             PowerShell.AddCommand("Remove-WAPackVM")
                 .AddParameter("VM", VirtualMachine)
                 .AddParameter("Force");
-            PowerShell.Invoke();
+            PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm);
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
                 .AddParameter("Id", startedVm.Properties["Id"].Value)
                 .AddCommand("Stop-WAPackVM");
 
-            var stoppedVm = PowerShell.Invoke();
+            var stoppedVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual("Stopped", stoppedVm[0].Properties["StatusString"].Value);
         }
 
@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var vmId = vm.Properties["ID"].Value;
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Remove-WAPackVM").AddParameter("VM", VirtualMachine).AddParameter("Force");
-            PowerShell.Invoke();
+            PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm).AddParameter("Shutdown");
