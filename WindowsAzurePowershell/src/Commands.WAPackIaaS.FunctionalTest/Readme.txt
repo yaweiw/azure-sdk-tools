@@ -15,13 +15,3 @@ It uses the first subscription id from this file.
 Running functional tests
 ------------------------
 Build the complete solution first and then these tests have to be executed from Visual Studio with MSTest.
-
-Preparing the Environment
--------------------------
-
-TODO FILL DATA BELOW
-
-VHDs:
-
-
-VMTemplates:
