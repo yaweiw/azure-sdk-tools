@@ -350,6 +350,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base Uri was empty..
+        /// </summary>
+        public static string BaseUriEmpty {
+            get {
+                return ResourceManager.GetString("BaseUriEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} begin processing without ParameterSet..
         /// </summary>
         public static string BeginProcessingWithoutParameterSetLog {
@@ -764,6 +773,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VirtualMachine creation failed..
+        /// </summary>
+        public static string CreateFailedErrorMessage {
+            get {
+                return ResourceManager.GetString("CreateFailedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating the website failed. If this is the first website for this subscription, please create it using the management portal instead..
         /// </summary>
         public static string CreateWebsiteFailed {
@@ -999,6 +1017,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} slot for service {1} is already in {2} state.
         /// </summary>
         public static string DeploymentAlreadyInState {
@@ -1197,6 +1224,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error creating VirtualMachine.
+        /// </summary>
+        public static string ErrorCreatingVirtualMachine {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVirtualMachine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         public static string ErrorRetrievingRuntimesForLocation {
@@ -1206,11 +1242,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error updating VirtualMachine.
+        /// </summary>
+        public static string ErrorUpdatingVirtualMachine {
+            get {
+                return ResourceManager.GetString("ErrorUpdatingVirtualMachine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your credentials have expired. Please use Add-AzureAccount to log in again..
         /// </summary>
         public static string ExpiredRefreshToken {
             get {
                 return ResourceManager.GetString("ExpiredRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Id {0} failed. Error: {1}, ExceptionDetails: {2}.
+        /// </summary>
+        public static string FailedJobErrorMessage {
+            get {
+                return ResourceManager.GetString("FailedJobErrorMessage", resourceCulture);
             }
         }
         
@@ -1805,6 +1859,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No job for id: {0} was found..
+        /// </summary>
+        public static string JobNotFound {
+            get {
+                return ResourceManager.GetString("JobNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to engines.
         /// </summary>
         public static string JsonEnginesSectionName {
@@ -2099,6 +2162,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No clouds available.
+        /// </summary>
+        public static string NoCloudsAvailable {
+            get {
+                return ResourceManager.GetString("NoCloudsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to nodejs.
         /// </summary>
         public static string NodeDirectory {
@@ -2279,11 +2351,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation &quot;{0}&quot; failed on VM with ID: {1}.
+        /// </summary>
+        public static string OperationFailedErrorMessage {
+            get {
+                return ResourceManager.GetString("OperationFailedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The REST operation failed with message &apos;{0}&apos; and error code &apos;{1}&apos;.
         /// </summary>
         public static string OperationFailedMessage {
             get {
                 return ResourceManager.GetString("OperationFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Id {0} did not complete within expected time or it is in Failed/Canceled/Invalid state..
+        /// </summary>
+        public static string OperationTimedOutOrError {
+            get {
+                return ResourceManager.GetString("OperationTimedOutOrError", resourceCulture);
             }
         }
         
@@ -2857,6 +2947,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the VM &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VM..
+        /// </summary>
+        public static string RemoveVMMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing website.
         /// </summary>
         public static string RemoveWebsiteMessage {
@@ -2889,6 +2997,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RepositoryNotSetup {
             get {
                 return ResourceManager.GetString("RepositoryNotSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource with ID : {0} does not exist..
+        /// </summary>
+        public static string ResourceNotFound {
+            get {
+                return ResourceManager.GetString("ResourceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart.
+        /// </summary>
+        public static string Restart {
+            get {
+                return ResourceManager.GetString("Restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resume.
+        /// </summary>
+        public static string Resume {
+            get {
+                return ResourceManager.GetString("Resume", resourceCulture);
             }
         }
         
@@ -3407,6 +3542,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shutdown.
+        /// </summary>
+        public static string Shutdown {
+            get {
+                return ResourceManager.GetString("Shutdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /sites:{0};{1};&quot;{2}/{0}&quot; .
         /// </summary>
         public static string SitesArgTemplate {
@@ -3425,6 +3569,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         public static string StartedEmulator {
@@ -3439,6 +3592,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string StartingEmulator {
             get {
                 return ResourceManager.GetString("StartingEmulator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
             }
         }
         
@@ -3542,6 +3704,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subscription must not be null.
+        /// </summary>
+        public static string SubscriptionMustNotBeNull {
+            get {
+                return ResourceManager.GetString("SubscriptionMustNotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspend.
+        /// </summary>
+        public static string Suspend {
+            get {
+                return ResourceManager.GetString("Suspend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create Django application: {0}.
         /// </summary>
         public static string UnableToCreateDjangoApp {
@@ -3565,6 +3745,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string UnknownProviderMessage {
             get {
                 return ResourceManager.GetString("UnknownProviderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
         
