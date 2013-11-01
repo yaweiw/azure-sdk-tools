@@ -49,23 +49,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient
         {
             var filterString = new StringBuilder();
 
-                foreach (var filter in this.filters)
-                {
+            foreach (var filter in this.filters)
+            {
                 String appendFormat;
 
-                    Guid guid;
+                Guid guid;
                 int intValue;
 
-                    if (Guid.TryParse(filter.Item3, out guid))
+                if (Guid.TryParse(filter.Item3, out guid))
                     appendFormat = "{0} {1} guid'{2}'";
-                else if(int.TryParse(filter.Item3, out intValue))
+                else if (int.TryParse(filter.Item3, out intValue))
                     appendFormat = "{0} {1} {2}";
-                    else
+                else
                     appendFormat = "{0} {1} '{2}'";
-                    
+
                 if (filterString.Length == 0)
                     filterString.Append("$filter=");
-                        else
+                else
                     filterString.Append(" and ");
 
                 filterString.AppendFormat(appendFormat, filter.Item1, filter.Item2.ToString(), filter.Item3);
@@ -73,7 +73,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient
 
             return filterString.ToString();
         }
-
     }
-
 }
