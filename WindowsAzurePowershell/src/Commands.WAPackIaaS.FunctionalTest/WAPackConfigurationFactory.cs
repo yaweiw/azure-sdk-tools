@@ -45,8 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         public const string ExternalVnetName = "EXTERNAL";
         public const int TotalVnetCount = 5;
 
-        public const string userName = "spfuser";
-        public const string password = "!!123abc";
+        public const string userName = "SomeTestUser";
+        public const string password = "SomeTestPassword";
 
 
         public static SecureString securePassword = ConvertToSecureString(password);
