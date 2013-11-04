@@ -103,7 +103,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             WebsiteManagementClient.WebSites.Update(webspace, name, new WebSiteUpdateParameters
             {
-                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped
+                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped,
+                // Set the following 3 collection properties to null since by default they are empty lists,
+                // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
+                HostNames = null,
+                HostNameSslStates = null,
+                SslCertificates = null
             });
         }
 
