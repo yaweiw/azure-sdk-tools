@@ -175,17 +175,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
             {
                 switch (op)
                 {
-                    case 'a':
+                    case StorageNouns.Permission.Add:
                         policy.Permissions |= SharedAccessTablePermissions.Add;
                         break;
-                    case 'u':
+                    case StorageNouns.Permission.Update:
                         policy.Permissions |= SharedAccessTablePermissions.Update;
                         break;
-                    case 'd':
+                    case StorageNouns.Permission.Delete:
                         policy.Permissions |= SharedAccessTablePermissions.Delete;
                         break;
-                    case 'q':
-                    case 'r':
+                    case StorageNouns.Permission.Read:
+                    case StorageNouns.Permission.Query:
                         policy.Permissions |= SharedAccessTablePermissions.Query;
                         break;
                     default:
