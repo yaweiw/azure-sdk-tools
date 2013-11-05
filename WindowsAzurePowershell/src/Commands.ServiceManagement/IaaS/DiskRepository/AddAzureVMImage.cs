@@ -17,138 +17,81 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class AddAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Location of the physical blob backing the image. This link refers to a blob in a storage account.")]
         [ValidateNotNullOrEmpty]
-        public string MediaLocation
-        {
-            get;
-            set;
-        }
+        public string MediaLocation { get; set; }
 
         [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The OS Type of the Image (Windows or Linux)")]
         [ValidateSet("Windows", "Linux", IgnoreCase = true)]
-        public string OS
-        {
-            get;
-            set;
-        }
+        public string OS { get; set; }
 
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Label of the image.")]
         [ValidateNotNullOrEmpty]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the End User License Aggreement, recommended value is a URL.")]
         [ValidateNotNullOrEmpty]
-        public string Eula
-        {
-            get;
-            set;
-        }
+        public string Eula { get; set; }
 
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the description of the OS image.")]
         [ValidateNotNullOrEmpty]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies a value that can be used to group OS images.")]
         [ValidateNotNullOrEmpty]
-        public string ImageFamily
-        {
-            get;
-            set;
-        }
+        public string ImageFamily { get; set; }
 
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the date when the OS image was added to the image repository.")]
         [ValidateNotNullOrEmpty]
-        public DateTime? PublishedDate
-        {
-            get;
-            set;
-        }
+        public DateTime? PublishedDate { get; set; }
 
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "Specifies the URI that points to a document that contains the privacy policy related to the OS image.")]
         [ValidateNotNullOrEmpty]
-        public Uri PrivacyUri
-        {
-            get;
-            set;
-        }
+        public Uri PrivacyUri { get; set; }
+
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
-        public string RecommendedVMSize
-        {
-            get;
-            set;
-        }
+        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
+        public string RecommendedVMSize { get; set; }
 
         public void ExecuteCommand()
         {
-            var image = new OSImage
+            var parameters = new VirtualMachineImageCreateParameters
             {
                 Name = this.ImageName,
-                MediaLink = new Uri(this.MediaLocation),
+                MediaLinkUri = new Uri(this.MediaLocation),
                 Label = string.IsNullOrEmpty(this.Label) ? this.ImageName : this.Label,
-                OS = this.OS,
+                OperatingSystemType = this.OS,
                 Eula = this.Eula,
                 Description = this.Description,
                 ImageFamily = this.ImageFamily,
                 PublishedDate = this.PublishedDate,
                 PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = this.RecommendedVMSize
+                RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? null :
+                                    (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true)
             };
 
-            ExecuteClientActionInOCS(
-                image,
-                CommandRuntime.ToString(),
-                s => this.Channel.CreateOSImage(s, image),
-                (op, responseImage) => new OSImageContext
-                {
-                    AffinityGroup = responseImage.AffinityGroup,
-                    Category = responseImage.Category,
-                    Label = responseImage.Label,
-                    Location = responseImage.Location,
-                    MediaLink = responseImage.MediaLink,
-                    ImageName = responseImage.Name,
-                    OS = responseImage.OS,
-                    LogicalSizeInGB = responseImage.LogicalSizeInGB,
-                    Eula = responseImage.Eula,
-                    Description = responseImage.Description,
-                    ImageFamily = responseImage.ImageFamily,
-                    PublishedDate = responseImage.PublishedDate,
-                    IsPremium =  responseImage.IsPremium,
-                    PrivacyUri = responseImage.PrivacyUri,
-                    PublisherName = responseImage.PublisherName,
-                    RecommendedVMSize = responseImage.RecommendedVMSize,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationId = op.OperationTrackingId,
-                    OperationStatus = op.Status
-                });
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineImages.Create(parameters),
+                (s, response) => this.ContextFactory<VirtualMachineImageCreateResponse, OSImageContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public string ProbePath { get; set; }
         public int? ProbeInterval { get; set; }
         public int? ProbeTimeout { get; set; }
-        public PersistentVM Vm { get; set; }
+        public PersistentVM  Vm { get; set; }
         public ParameterSet ParamSet { get; set; }
         public NetworkAclObject Acl { get; set; }
         public bool DirectServerReturn { get; set; }
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
         }
 
-        //NoLB
+        // NoLB parameter set
         public AzureEndPointConfigInfo(ParameterSet paramset, ProtocolInfo endpointProtocol, int endpointLocalPort,
             int endpointPublicPort, string endpointName, NetworkAclObject aclObj = null, bool directServerReturn = false)
         {
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 directServerReturn);
         }
 
-        // ParameterSet.LoadBalancedNoProbe
+        // LoadBalancedNoProbe/DefaultProbe parameter set
         public AzureEndPointConfigInfo(ParameterSet paramset, ProtocolInfo endpointProtocol, int endpointLocalPort,
             int endpointPublicPort, string endpointName, string lBSetName, NetworkAclObject aclObj = null, bool directServerReturn = false)
         {
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        // CustoProbe
+        // CustomProbe parameter set
         public AzureEndPointConfigInfo(ParameterSet paramset, ProtocolInfo endpointProtocol, int endpointLocalPort, 
             int endpointPublicPort, string endpointName, string lBSetName, int probePort,
             ProtocolInfo probeProtocol, string probePath, int? probeInterval, int? probeTimeout, NetworkAclObject aclObj = null, bool directServerReturn = false)

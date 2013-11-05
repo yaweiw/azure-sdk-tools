@@ -252,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="edition">the new edition for the database or null</param>
         private void ProcessWithServerName(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
         {
-            string clientRequestId = null;
+            Func<string> GetClientRequestId = () => string.Empty;
             try
             {
                 // Get the current subscription data.
@@ -261,33 +261,35 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 // Create a temporary context
                 ServerDataServiceCertAuth context =
                     ServerDataServiceCertAuth.Create(this.ServerName, subscription);
-                
-                clientRequestId = context.ClientRequestId;
+
+                GetClientRequestId = () => context.ClientRequestId;
 
                 // Remove the database with the specified name
                 Database database = context.UpdateDatabase(
-                    databaseName, 
-                    this.NewDatabaseName, 
-                    maxSizeGb, 
+                    databaseName,
+                    this.NewDatabaseName,
+                    maxSizeGb,
                     edition,
                     this.ServiceObjective);
-                
+
+                // Update the passed in database object
+                if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+                {
+                    this.Database.CopyFields(database);
+                    database = this.Database;
+                }
+
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)
                 {
                     this.WriteObject(database);
-                }
-
-                if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
-                {
-                    this.Database.CopyFields(database);
                 }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    clientRequestId,
+                    GetClientRequestId(),
                     ex);
             }
         }

@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using System.Security.Cryptography.X509Certificates;
 
     [TestClass]
@@ -36,44 +36,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
             testStartTime = DateTime.Now;
-        }
-
-        /// <summary>
-        /// </summary>
-        [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("BVT test for New-AzureQuickVM")]
-        [Ignore]
-        public void AzureQuickVMBVT()
-        {
-            try
-            {
-                StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-                string windowsVMName = Utilities.GetUniqueShortName(vmNamePrefix);
-                string linuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
-
-                if (string.IsNullOrEmpty(imageName))
-                {
-                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
-                }
-                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
-
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, windowsVMName, serviceName, imageName, username, password, locationName);
-
-                // Verify
-                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(windowsVMName, serviceName);
-                Assert.AreEqual(windowsVMName, vmRoleCtxt.Name, true);
-
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Linux, linuxVMName, serviceName, linuxImageName, "user", password);
-
-                // Verify
-                vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(linuxVMName, serviceName);
-                Assert.AreEqual(linuxVMName, vmRoleCtxt.Name, true);
-                pass = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                pass = false;
-            }
         }
 
         /// <summary>

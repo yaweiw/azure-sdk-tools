@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Class storing the configuration information needed
@@ -31,13 +32,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         private static readonly Uri powershellRedirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
         private const string rdfeResourceUri = "https://management.core.windows.net/";
 
-        // Adal uses this to turn on or off endpoint validation
+        // Default endpoint for public azure
         private const string publicAdEndpoint = "https://login.windows.net/";
+
+        // Turn off endpoint validation for known test cluster AD endpoints
+        private static readonly string[] knownTestEndpoints = 
+        {
+            "https://sts.login.windows-int.net/"
+        };
+        
 
         // ID for site to pass to enable EBD (email-based differentiation)
         // This gets passed in the call to get the azure branding on the
-        // login window.
-        internal const string EnableEbdMagicCookie = "site_id=501358";
+        // login window. Also adding popup flag to handle overly large login windows.
+        internal const string EnableEbdMagicCookie = "site_id=501358&display=popup";
 
         private string adEndpoint = publicAdEndpoint;
 
@@ -49,10 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         public bool ValidateAuthority
         {
-            get
-            {
-                return string.Compare(adEndpoint, publicAdEndpoint, StringComparison.OrdinalIgnoreCase) == 0;
-            }
+            get { return knownTestEndpoints.All(s => string.Compare(s, adEndpoint, StringComparison.OrdinalIgnoreCase) != 0); }
         }
 
         public string AdDomain { get; set; }
@@ -71,8 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         public AdalConfiguration(WindowsAzureEnvironment environment)
             : this()
         {
-            AdEndpoint = environment.AdTenantUrl;
-            AdDomain = environment.CommonTenantId;
+            AdEndpoint = environment.ActiveDirectoryEndpoint;
+            AdDomain = environment.ActiveDirectoryCommonTenantId;
         }
 
         public AdalConfiguration(WindowsAzureSubscription subscription)

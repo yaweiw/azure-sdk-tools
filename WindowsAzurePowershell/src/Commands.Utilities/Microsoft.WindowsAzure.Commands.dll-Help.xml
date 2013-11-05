@@ -3,6 +3,434 @@
 <helpItems xmlns="http://msh" schema="maml">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Add-AzureAccount</command:name>
+      <maml:description>
+        <maml:para>Authenticate against Azure Active Directory and download associated subscriptions.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Add</command:verb>
+      <command:noun>AzureAccount</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+        Authenticates the user against Azure Active Directory and downloads the subscriptions associated with the logged in account.
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-AzureAccount</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+          <maml:name>Environment</maml:name>
+          <maml:description>
+            <maml:para>The name of the Azure environment to authenticate against</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+          <maml:name>Environment</maml:name>
+          <maml:description>
+            <maml:para>The name of the Azure environment to authenticate against</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Add-AzureAccount
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example logs into the default Azure environment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Add-AzureAccount -Environment MyEnvironment
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example logs into MyEnvironment.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureAccount</maml:linkText>
+        <maml:linkText>Remove-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureAccount</command:name>
+      <maml:description>
+        <maml:para>Get Azure accounts that have been logged into.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureAccount</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+       Gets the currently available Azure accounts.
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureAccount</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the account to retrieve. This is optional, if not given all accounts will be returned.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the account to retrieve. This is optional, if not given all accounts will be returned.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Get-AzureAccount
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example shows all the currently added accounts.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Get-AzureAccount -Name myaccount@somesite.example
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example gets the information for the account myaccount@somesite.example.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:linkText>Remove-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-AzureAccount</command:name>
+      <maml:description>
+        <maml:para>Remove the given Azure account from PowerShell.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureAccount</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>
+       Remove the given Azure account.
+      </maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureAccount</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the account to remove.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>
+              If specified, the account will be removed without prompting the user. By default the user will be asked to confirm removal before it happens.
+            </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the account to remove.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>
+              If specified, the account will be removed without prompting the user. By default the user will be asked to confirm removal before it happens.
+            </maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>SubscriptionDataFile</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the path and filename of the subscription data file. This parameter is optional. If it is not provided, the subscription data is read from a default subscription data file in the user's profile.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; Remove-AzureAccount -Name myaccount@somesite.example
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This example removes the account myaccount@somesite.example.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:linkText>Get-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-AzureEnvironment</command:name>
       <maml:description>
         <maml:para>Gets the available Windows Azure environment</maml:para>
@@ -179,6 +607,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ActiveDirectoryEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The URI for the Active Directory service for this environment</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       </command:syntax>
     <command:parameters>
@@ -214,6 +649,13 @@
           <maml:name>StorageEndpoint</maml:name>
           <maml:description>
             <maml:para>The storage endpoint. Must be valid URI</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ActiveDirectoryEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The URI for the Active Directory service for this environment</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -677,10 +1119,10 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Get-AzureSubscription cmdlet retrieves an object with the common subscription settings, including, including subscription ID and management certificate information, as well as connection information for one or more Windows Azure storage accounts. These settings are stored in the user’s profile. </maml:para>
-      <maml:para>The Windows Azure cmdlets use a number of common parameters, including the subscription ID, the management certificate for a subscription, and storage account settings. These common settings are stored in a file in the PowerShell user’s profile. The Windows Azure PowerShell cmdlets reference the information stored in the subscription data file and use it to provide default values for certain parameters. Multiple subscription data sets are supported, with each identified by a subscription name. </maml:para>
+      <maml:para>The Get-AzureSubscription cmdlet retrieves an object with the common subscription settings, including, including subscription ID, Azure Active Directory authentication info, and management certificate information, as well as connection information for one or more Windows Azure storage accounts. These settings are stored in the user’s profile. </maml:para>
+      <maml:para>The Windows Azure cmdlets use a number of common parameters, including the subscription ID, the Azure Active Directory account and tenant id, and management certificate for a subscription, and storage account settings. These common settings are stored in a file in the PowerShell user’s profile. The Windows Azure PowerShell cmdlets reference the information stored in the subscription data file and use it to provide default values for certain parameters. Multiple subscription data sets are supported, with each identified by a subscription name. </maml:para>
       <maml:para>
-        Use the Import-AzurePublishSettingsFile and Set-AzureSubscription cmdlets to store common settings for each subscription to be managed. During a session, use the Select-AzureSubscription cmdlet to choose which subscription data set is used by other Windows Azure cmdlets to retrieve subscription and storage account information. The cmdlets use the settings in the selected subscription unless explicitly overriden by parameters at the command line.
+        Use the Add-AzureAccount or the Import-AzurePublishSettingsFile and Set-AzureSubscription cmdlets to store common settings for each subscription to be managed. During a session, use the Select-AzureSubscription cmdlet to choose which subscription data set is used by other Windows Azure cmdlets to retrieve subscription and storage account information. The cmdlets use the settings in the selected subscription unless explicitly overriden by parameters at the command line.
       </maml:para>
     </maml:description>
     <command:syntax>
@@ -969,6 +1411,10 @@
       </command:example>
     </command:examples>
     <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureSubscription</maml:linkText>
         <maml:uri />
@@ -1320,25 +1766,25 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Select-AzureSubscription cmdlet selects the subscription whose settings will be used by other  Windows Azure PowerShell cmdlets.</maml:para>
+      <maml:para>The Select-AzureSubscription cmdlet manages the current subscription used in this PowerShell session, or the default subscription used across PowerShell sessions for the current user.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Select-AzureSubscription</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Current</maml:name>
+          <maml:description>
+            <maml:para>
+              Specify to reset the current subscription setting. This is the subscription that will be used by all cmdlets in this PowerShell session. If no current subscription is defined, the default subscription setting will be used.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
           <maml:name>SubscriptionName</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -1346,20 +1792,44 @@
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Select-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Default</maml:name>
           <maml:description>
             <maml:para>
-              Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+              Specify to reset the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined, the default subscription setting will be used.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+          <maml:name>SubscriptionName</maml:name>
+          <maml:description>
+            <maml:para>
+              Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
             </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Select-AzureSubscription</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Clear</maml:name>
+          <maml:name>NoCurrent</maml:name>
           <maml:description>
             <maml:para>
-              Specify to clear the current selection. If no subscription is current, the necessary information must be explicitly provided in the command line when executing any Windows Azure PowerShell cmdlet.
+              Specify to clear the current subscription setting. This is the subscription that will be used by all commandlets in the current PowerShell session. If no current subscription is defined for a session, PowerShell uses the default subscription setting.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Select-AzureSubscription</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>NoDefault</maml:name>
+          <maml:description>
+            <maml:para>
+              Specify to clear the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined for a session, having no default subscription will result in an error.
             </maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -1367,39 +1837,29 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>Clear</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Current</maml:name>
         <maml:description>
           <maml:para>
-            Specify to clear the current selection. If no subscription is current, the necessary information must be explicitly provided in the command line when executing any Windows Azure PowerShell cmdlet.
+            Specify to reset the current subscription setting. This is the subscription that will be used by all commandlests in this PowerShell session. If no current subscription is defined, the default subscription setting will be used.
           </maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-        <maml:name>SubscriptionDataFile</maml:name>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>Default</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the path and file name of the subscription data file. This parameter is optional. If it is not provided, the subscription data is selected from a default file in the user's profile.
+            Specify to reset the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined, the default subscription setting will be used.
           </maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
         <maml:name>SubscriptionName</maml:name>
         <maml:description>
           <maml:para>
-            Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Set-AzureSubscription and Import-AzurePublishDataFile cmdlets to store settings for one or more subscriptions.
+            Specifies the name of the subscription that the Windows Azure PowerShell cmdlets will use to read default values. Use the Add-AzureAccount cmdlet to store settings for one or more subscriptions.
           </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -1408,6 +1868,24 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>NoCurrent</maml:name>
+        <maml:description>
+          <maml:para>
+            Specify to clear the current subscription setting. This is the subscription that will be used by all commandlets in the current PowerShell session. If no current subscription is defined for a session, PowerShell uses the default subscription setting.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>NoDefault</maml:name>
+        <maml:description>
+          <maml:para>
+            Specify to clear the default subscription setting. This is the subscription that will be used by all commandlets across all PowerShell sessions with no current subscription selected. If no current subscription is defined for a session, having no default subscription will result in an error.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -1467,12 +1945,12 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Select-AzureSubscription "MySubscription" -SubscriptionDataFile "C:\subs\MySubscriptions.xml"
+          C:\PS&gt;Select-AzureSubscription -Default "MySubscription" -SubscriptionDataFile
 
         </dev:code>
         <dev:remarks>
           <maml:para>
-            This command selects "MySubscription" as the current subscription and retrieves its settings from the specified subscription data file.
+            This command selects "MySubscription" as the default subscription. "MySubscription" will be the subscription used by all Windows Azure PowerShell sessions unless a local current subscription is configured.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -1489,7 +1967,7 @@
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Select-AzureSubscription -Clear
+          C:\PS&gt;Select-AzureSubscription -NoCurrent
 
         </dev:code>
         <dev:remarks>
@@ -1506,6 +1984,10 @@
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Get-AzureSubscription</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
@@ -1518,7 +2000,7 @@
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Import-Subscription</maml:linkText>
+        <maml:linkText>Import-AzurePublishSettingsFile</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -1548,9 +2030,6 @@
       </maml:para>
       <maml:para>
         Each subscription data set can contain information for the current Windows Azure Storage account. Storage account information is set with the –CurrentStorageAccountName parameter.
-      </maml:para>
-      <maml:para>
-        All connection information is stored in encrypted form in the subscription data file. If a subscription is designated as the default subscription, it is automatically made current when starting a PowerShell session or executing a script. To set the default subscription, use the  -DefaultSubscription parameter and specify the name of the subscription to designate as the default. The default subscription setting can be cleared by specifying the -NoDefaultSubscription switch parameter.
       </maml:para>
       <maml:para>
         All the parameters required to initialize a subscription are optional. Whenever a Windows Azure PowerShell cmdlet is executed, it retrieves its default settings from the current subscription data. If a setting is not part of the current subscription data, specify it as an explicit command line parameter.
@@ -1612,48 +2091,6 @@
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path to the file in which subscription data is stored. This parameter is optional. If not specified, subscription data is stored in a default subscription data file in the user's profile.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>DefaultSubscription</maml:name>
-          <maml:description>
-            <maml:para>
-              Designates a subscription as the default subscription. A default subscription is automatically made current when the PowerShell session starts.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureSubscription</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
-          <maml:name>SubscriptionDataFile</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies the path to the file in which subscription data is stored. This parameter is optional. If not specified, subscription data is stored in a default subscription data file in the user's profile.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>NoDefaultSubscription</maml:name>
-          <maml:description>
-            <maml:para>
-              Specify to reset the current default subscription setting. If no default subscription is defined, you will need to execute Select-AzureSubscription to choose the current subscription.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
@@ -1678,34 +2115,6 @@
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>DefaultSubscription</maml:name>
-        <maml:description>
-          <maml:para>
-            Designates a subscription as the default subscription. A default subscription is automatically made current when the PowerShell session starts.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>NoDefaultSubscription</maml:name>
-        <maml:description>
-          <maml:para>
-            Specify to reset the current default subscription setting. If no default subscription is defined, you will need to execute Select-AzureSubscription to choose the current subscription.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -1936,52 +2345,12 @@
           </command:commandLine>
         </command:commandLines>
       </command:example>
-      <command:example>
-        <maml:title>
-          --------------  EXAMPLE 7 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Set-AzureSubscription –DefaultSubscription "MySub"
-
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command designates "MySub" as the default subscription.
-          </maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText />
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-      <command:example>
-        <maml:title>
-          --------------  EXAMPLE 8 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Set-AzureSubscription –NoDefaultSubscription
-
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command resets the default subscription setting.
-          </maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText />
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
     </command:examples>
     <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureAccount</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-AzureSubscription</maml:linkText>
         <maml:uri />
@@ -10643,7 +11012,7 @@
           <maml:description>
             <maml:para>Indicates using Windows Azure Storage to store the log files</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+          <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "4" >
           <maml:name>PassThru</maml:name>
@@ -11249,6 +11618,1912 @@
         <dev:code>PS C:\&gt; Remove-AzureMediaServicesAccount -Name myaccount</dev:code>
         <dev:remarks>
           <maml:para />
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Stop-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Stop-WAPackVM cmdlet shuts down the specified virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Stop</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The Stop-WAPackVM cmdlet shuts down the specified virtual machine object.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Stop-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+          <maml:name>Shutdown</maml:name>
+          <maml:description>
+            <maml:para>Forces the VM to shut down</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false">
+        <maml:name>Shutdown</maml:name>
+        <maml:description>
+          <maml:para>Forces the VM to shut down</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Stop-WAPackVM -VM $VM</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the vm contained in $VM. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Stop-WAPackVM -VM $VM -Shutdown</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the vm represented by $VM and does a force shutdown. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Suspend-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Suspend-WAPackVM cmdlet suspends the specified virtual machine object.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Suspend</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The Suspend-WAPackVM cmdlet suspends the specified virtual machine.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Suspend-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Suspend-WAPackVM -VM $VM</dev:code>
+        <dev:remarks>
+          <maml:para>Suspend the vm contained in $VM. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="ttp://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackQuickVM</command:name>
+      <maml:description>
+        <maml:para>The New-WAPackQuickVM cmdlet creates a VirtualMachine based on a specified template.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackQuickVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:desciption>
+      <maml:para>The New-WAPackQuickVM cmdlet creates a VirtualMachine based on a specified template.</maml:para>
+    </maml:desciption>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackQuickVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>The VMTemplate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredentials</maml:name>
+          <maml:description>
+            <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Template</maml:name>
+        <maml:description>
+          <maml:para>The VMTemplate.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMCredentials</maml:name>
+        <maml:description>
+          <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; New-WAPackQuickVM -Name "vm1" -Template $templateId -VMCredetial $credentials</dev:code>
+        <dev:remarks>
+          <maml:para>Create a vm based on the template. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Get-WAPackVM cmdlet gets one or more virtual machine objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVM cmdlet gets one or more virtual machine objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine ID.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine ID.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM -Name testVM</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing virtualmachine by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing virtualmachine by Id. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVM</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing virtual machines. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMOSDisk</command:name>
+      <maml:description>
+        <maml:para>Returns one or more WAPack VM OS disk objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMOSDisk</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more WAPack VM OS disk objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The OS disk Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMOSDisk</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The OS disk ID.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The OS disk Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The OS disk ID.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk -Name "SomeOSDisk"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing os disk by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing os disk by Id. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMOSDisk</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing os disks. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMSizeProfile</command:name>
+      <maml:description>
+        <maml:para>Returns one or more size profile objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMSizeProfile</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more size profile objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of the size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMSizeProfile</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID of the size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name of the size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID of the size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile -Name "someSizeProfileName"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing size profile by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing size profile by ID.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMSizeProfile</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing size profiles.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVMTemplate</command:name>
+      <maml:description>
+        <maml:para>Returns one or more VM template objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVMTemplate</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Returns one or more VM template objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of the template.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVMTemplate</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID of the template.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name of the template.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID of the template.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate -Name "someTemplateName"</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing VM template by name. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate -Id 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets an existing VM template by ID.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVMTemplate</dev:code>
+        <dev:remarks>
+          <maml:para>Gets all the existing VM templates.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Remove-WAPackVM cmdlet removes virtual machine objects.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-WAPackVM cmdlet removes one or more virtual machine objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+          <maml:name>VirtualMachine</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If specified, the cmdlet return true if the operation succeeds and false in failure.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="2">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Remove VirtualMachine without confirmation prompts</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+        <maml:name>VirtualMachine</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine object</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If specified, the cmdlet return true if the operation succeeds and false in failure.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="2">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Remove VirtualMachine without confirmation prompts</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">Boolean</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Remove-WAPackVM -VM $vm</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes a VirtualMachine. Will ask the user for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Remove-WAPackVM -VM $vm -Force</dev:code>
+        <dev:remarks>
+          <maml:para>Removes a VirtualMachine without asking the user for confirmation.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Restart-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The Restart-WAPackVM cmdlet restarts virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Restart</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Restart-WAPackVM cmdlet restarts one or more virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Restart-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+          <maml:name>VirtualMachine</maml:name>
+          <maml:description>
+            <maml:para>The VirtualMachine object</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
+        <maml:name>VirtualMachine</maml:name>
+        <maml:description>
+          <maml:para>The VirtualMachine object</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Restart-WAPackVM -VM $vm</dev:code>
+        <dev:remarks>
+          <maml:para>Restarts a VirtualMachine</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-WAPackVNet</command:name>
+      <maml:description>
+        <maml:para>The Get-WAPackVNet cmdlet gets Virtual Network</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>WAPackVNet</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-WAPackVNet cmdlet gets one or more virtual networks.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The ID for the Virtual Network</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-WAPackVNet</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Name of the Virtual Network</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The ID for the Virtual Network</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="0">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Name of the Virtual Network</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVNet -ID 66242D17-189F-480D-87CF-8E1D749998C8</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the Virtual Network by ID</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; Get-WAPackVNet -Name myVNet</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the Virtual Network(s) by Name</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>The New-WAPackVM cmdlet creates a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>The New-WAPackVM cmdlet creates a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredential</maml:name>
+          <maml:description>
+            <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ProductKey</maml:name>
+          <maml:description>
+            <maml:para>Specifies a product key. The product key is a 25-digit number that identifies the product license. A product key can be used to an operating system to be installed on a virtual machine or host.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Windows</maml:name>
+          <maml:description>
+            <maml:para>Create a Windows vm.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Template</maml:name>
+          <maml:description>
+            <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMCredential</maml:name>
+          <maml:description>
+            <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>AdministratorSSHKey</maml:name>
+          <maml:description>
+            <maml:para>The Administrator SSH Key.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Linux</maml:name>
+          <maml:description>
+            <maml:para>Create a Linux vm.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>OSDisk</maml:name>
+          <maml:description>
+            <maml:para>Specifies a os disk object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">OSDiskObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VNet</maml:name>
+          <maml:description>
+            <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>VMSizeProfile</maml:name>
+          <maml:description>
+            <maml:para>Specifies a vmsizeprofile object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine Name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Template</maml:name>
+        <maml:description>
+          <maml:para>Specifies a template object used to create virtual machines.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMCredential</maml:name>
+        <maml:description>
+          <maml:para>Specifies the user name and password for the local Administrator account.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VNet</maml:name>
+        <maml:description>
+          <maml:para>Specifies The Vnetwork to which the virtual machine should be connected.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VNetObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>ProductKey</maml:name>
+        <maml:description>
+          <maml:para>Specifies a product key. The product key is a 25-digit number that identifies the product license. A product key can be used to an operating system to be installed on a virtual machine or host.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Windows</maml:name>
+        <maml:description>
+          <maml:para>Create a Windows vm.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>AdministratorSSHKey</maml:name>
+        <maml:description>
+          <maml:para>The Administrator SSH Key.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Linux</maml:name>
+        <maml:description>
+          <maml:para>Create a Linux vm.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>OSDisk</maml:name>
+        <maml:description>
+          <maml:para>Specifies a os disk object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">OSDiskObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>VMSizeProfile</maml:name>
+        <maml:description>
+          <maml:para>Specifies a vmsizeprofile object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example 1 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $template = Get-WAPackVMTemplate -Name testTemplate </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $credential = New-Object System.Management.Automation.PSCredential ("username", $secpasswd)  </dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -Template $template -VNet $vNet -VMCredential $credential -Windows </dev:code>
+        <dev:remarks>
+          <maml:para>Creates a Windows virtual machine from an existing template and vnet. </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 2 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $template = Get-WAPackVMTemplate -Name testTemplate </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $credential = New-Object System.Management.Automation.PSCredential ("username", $secpasswd)  </dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -Template $template -VNet $vNet -VMCredential $credential -Linux </dev:code>
+        <dev:remarks>
+          <maml:para>Creates a Linux virtual machine from an existing template and vnet.  </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>--------------  Example 3 --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $osDisk = Get-WAPackVMOSDisk -Name testOSDisk </dev:code>
+        <dev:code>PS C:\&gt; $vNet = Get-WAPackVNet -Name testNetwork </dev:code>
+        <dev:code>PS C:\&gt; $sizeProfile = Get-WAPackVMSizeProfile -Name testVMSizeProfile</dev:code>
+        <dev:code>PS C:\&gt; New-WAPackVM -Name TestVM -OSDisk $osDisk -VNet $vNet -VMSizeProfile $sizeProfile</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a virtual machine from an existing osdisk, vnet and vmsizeprofile.  </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Resume-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Resumes paused virtual machines.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Resume</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Resumes paused virtual machines.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Resume-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; Resume-WAPackVM -VM $vm
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Resumes a specific virtual machine.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Start-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Starts a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Start</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Starts a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Start-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; Start-WAPackVM -VM $vm
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Starts a specific virtual machine.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText />
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-WAPackVM</command:name>
+      <maml:description>
+        <maml:para>Changes the size properties of a virtual machine.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>WAPackVM</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Changes the size properties of a virtual machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-WAPackVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" position="1">
+          <maml:name>VMSizeProfile</maml:name>
+          <maml:description>
+            <maml:para>The virtual machine size profile.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" position="1">
+        <maml:name>VMSizeProfile</maml:name>
+        <maml:description>
+          <maml:para>The virtual machine size profile.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name />
+          <maml:uri />
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para />
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------------  Example  --------------</maml:title>
+        <maml:introduction>
+          <maml:para />
+        </maml:introduction>
+        <dev:code>PS C:\&gt; $vm = Get-WAPackVM -Name MyVM
+PS C:\&gt; $sizeProfile = Get-WAPackVMSizeProfile -Name MediumSizeVM
+PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Sets a specific virtual machine to be of &quot;medium size&quot;.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>

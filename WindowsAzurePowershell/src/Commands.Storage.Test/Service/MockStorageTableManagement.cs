@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         {
             Uri tableUri = new Uri(String.Format("{0}{1}", TableEndPoint, name));
             CloudTableClient tableClient = new CloudTableClient(new Uri(TableEndPoint));
-            return new CloudTable(tableUri); // , tableClient);
+            return new CloudTable(tableUri, tableClient);
         }
 
         /// <summary>
@@ -156,6 +156,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Get table permission
+        /// </summary>
+        /// <param name="table">CloudTable object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>Table permission</returns>
+        public TablePermissions GetTablePermissions(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

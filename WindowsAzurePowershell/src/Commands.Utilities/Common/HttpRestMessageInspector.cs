@@ -15,10 +15,71 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Collections.Specialized;
+    using System.IO;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
+    using System.Threading;
+    using System.Xml.Linq;
+
+    public class HttpRestMessageHandler : MessageProcessingHandler
+    {
+        private Action<string> logger;
+
+        public HttpRestMessageHandler(Action<string> logger)
+        {
+            this.logger = logger;
+        }
+
+        protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            string body = String.Empty;
+            if (request.Content != null)
+            {
+                var contentHeaders = request.Content.Headers;
+                var stream = new MemoryStream();
+                request.Content.CopyToAsync(stream).Wait();
+                if (stream.Length > 0)
+                {
+                    stream.Position = 0;
+                    body = XElement.Load(stream).ToString();
+                }
+                stream.Position = 0;
+                request.Content = new StreamContent(stream);
+                contentHeaders.ForEach(kv => request.Content.Headers.Add(kv.Key, kv.Value));
+            }
+            logger(General.GetHttpRequestLog(request.Method.ToString(), request.RequestUri.AbsoluteUri, request.Headers, body));
+
+            return request;
+        }
+
+        protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
+        {
+            string body = String.Empty;
+            if(response.Content != null)
+            {
+                var contentHeaders = response.Content.Headers;
+                var stream = new MemoryStream();
+                response.Content.CopyToAsync(stream).Wait();
+                if (stream.Length > 0 && response.Content.Headers.ContentType.MediaType != "application/x-rdp")
+                {
+                    stream.Position = 0;
+                    body = XElement.Load(stream).ToString();
+                }
+                stream.Position = 0;
+                response.Content = new StreamContent(stream);
+                contentHeaders.ForEach(kv => response.Content.Headers.Add(kv.Key, kv.Value));
+            }
+            logger(General.GetHttpResponseLog(response.StatusCode.ToString(), response.Headers, body));
+            
+            return response;
+        }
+    }
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {

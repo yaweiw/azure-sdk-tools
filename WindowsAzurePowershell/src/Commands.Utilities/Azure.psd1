@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '0.6.17'
+ModuleVersion = '0.7.1'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
@@ -58,23 +58,23 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-	'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
-	'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
+    'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
+    'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
-	'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
-	'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
-	'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
-	'Microsoft.WindowsAzure.Commands.Store.format.ps1xml'
+    'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
+    'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
+    'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
+    'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
+    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
-				'.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-				'.\Microsoft.WindowsAzure.Commands.Storage.dll'
+NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
+                '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
+                '.\Microsoft.WindowsAzure.Commands.Storage.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
@@ -123,7 +123,7 @@ AliasesToExport = @(
 ModuleList = @()
 
 # List of all files packaged with this module
-FileList =	@()
+FileList =  @()
 
 # Private data to pass to the module specified in ModuleToProcess
 PrivateData = ''

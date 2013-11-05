@@ -20,22 +20,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using Storage.RetryPolicies;
     using Sync.Download;
     using Sync.Upload;
-    using WindowsAzure.ServiceManagement;
 
     public class CloudPageBlobObjectFactory : ICloudPageBlobObjectFactory
     {
-        private IServiceManagement channel;
-        private readonly string subscriptionId;
         private readonly TimeSpan delayBetweenRetries = TimeSpan.FromSeconds(10);
         private readonly StorageCredentialsFactory credentialsFactory;
         private TimeSpan operationTimeout;
 
-        public CloudPageBlobObjectFactory(IServiceManagement channel, string subscriptionId, TimeSpan operationTimeout)
-        {
-            this.operationTimeout = operationTimeout;
-            this.channel = channel;
-            this.subscriptionId = subscriptionId;
-        }
 
         public CloudPageBlobObjectFactory(StorageCredentialsFactory credentialsFactory, TimeSpan operationTimeout)
         {

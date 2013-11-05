@@ -471,11 +471,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 storageServiceName = Subscription.CurrentStorageAccountName;
             }
 
-            // Use default location if not location and affinity group provided
-            location = string.IsNullOrEmpty(location) && string.IsNullOrEmpty(affinityGroup) ? 
-                GetDefaultLocation() : 
-                location;
-
             ServiceSettings serviceSettings = ServiceSettings.LoadDefault(
                 cloudServiceProject.Paths.Settings,
                 slot,
@@ -487,6 +482,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 cloudServiceProject.ServiceName,
                 out serviceName
                 );
+
+            // Use default location if not location and affinity group provided
+            serviceSettings.Location = string.IsNullOrEmpty(serviceSettings.Location) && 
+                                       string.IsNullOrEmpty(serviceSettings.AffinityGroup) ?
+                                       GetDefaultLocation() : serviceSettings.Location;
 
             PublishContext context = new PublishContext(
                 serviceSettings,
@@ -598,6 +598,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Checks if the given storage service name is available to be created
+        /// </summary>
+        /// <param name="name">The name of the storage service</param>
+        /// <returns></returns>
+        public bool CheckStorageServiceAvailability(string name)
+        {
+            CheckNameAvailabilityResponse response = this.StorageClient.StorageAccounts.CheckNameAvailability(name);
+            if (response != null && !response.IsAvailable)
+            {
+                WriteWarning(response.Reason);
+            }
+
+            return response.IsAvailable;
+        }
+
+        /// <summary>
+        /// Checks if the given hosted service name is available to be created
+        /// </summary>
+        /// <param name="name">The name of the hosted service</param>
+        /// <returns></returns>
+        public bool CheckHostedServiceNameAvailability(string name)
+        {
+            HostedServiceCheckNameAvailabilityResponse response = this.ComputeClient.HostedServices.CheckNameAvailability(name);
+            if (response != null && !response.IsAvailable)
+            {
+                WriteWarning(response.Reason);
+            }
+
+            return response.IsAvailable;
         }
 
         /// <summary>

@@ -306,11 +306,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             var options = new WebSiteCreateParameters
             {
                 Name = siteToCreate.Name,
+                WebSpaceName = siteToCreate.WebSpaceToCreate.Name,
                 WebSpace = new WebSiteCreateParameters.WebSpaceDetails
                 {
                      GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
                      Name = siteToCreate.WebSpaceToCreate.Name,
-                     Plan = siteToCreate.WebSpaceToCreate.Plan
+                     Plan = siteToCreate.WebSpaceToCreate.Plan,
                 }
             };
             siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
@@ -326,13 +327,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="hostNames">The new host names.</param>
         public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames)
         {
-            var update = new WebSiteUpdateHostNamesParameters();
+            var update = new WebSiteUpdateParameters();
             foreach (var name in hostNames)
             {
                 update.HostNames.Add(name);
             }
 
-            WebsiteManagementClient.WebSites.UpdateHostNames(site.WebSpace, site.Name, update);
+            WebsiteManagementClient.WebSites.Update(site.WebSpace, site.Name, update);
         }
 
         /// <summary>
@@ -399,7 +400,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The sites</returns>
         public IList<Site> ListSitesInWebSpace(string spaceName)
         {
-            return WebsiteManagementClient.WebSpaces.ListWebSites(spaceName, new WebSiteListParameters()).WebSites.Select(s => s.ToSite()).ToList();
+            WebSiteListParameters input = new WebSiteListParameters();
+            input.PropertiesToInclude.Add("repositoryuri");
+            input.PropertiesToInclude.Add("publishingpassword");
+            input.PropertiesToInclude.Add("publishingusername");
+            return WebsiteManagementClient.WebSpaces.ListWebSites(spaceName, input).WebSites.Select(s => s.ToSite()).ToList();
         }
 
         /// <summary>

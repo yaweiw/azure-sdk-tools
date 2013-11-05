@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public string Name { get; set; }
 
-        public string Label { get; set; } 
+        public string Label { get; set; }
 
         public PersistentVM VM { get; set; }
 

@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
     using Helpers;
-    using Properties;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Utilities.Common;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
@@ -29,15 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     [Cmdlet(VerbsCommon.Add, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
     public class AddAzureCertificate : ServiceManagementBaseCmdlet
     {
-        public AddAzureCertificate()
-        {
-        }
-
-        public AddAzureCertificate(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
@@ -67,35 +57,40 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 
             var certData = GetCertificateData();
 
-            var certificateFile = new CertificateFile
+            var parameters = new ServiceCertificateCreateParameters
             {
-                Data = Convert.ToBase64String(certData),
+                Data = certData,
                 Password = Password,
-                CertificateFormat = Resources.Pfx_CertificateFormat
+                CertificateFormat = CertificateFormat.Pfx
             };
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+            ExecuteClientActionNewSM(
+                null, 
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
 
         private byte[] GetCertificateData()
         {
-
-            if (((CertToDeploy is PSObject) && ((PSObject)CertToDeploy).ImmediateBaseObject is X509Certificate2) ||
-                (CertToDeploy is X509Certificate2))
+            if ((CertToDeploy is PSObject) && ((PSObject)CertToDeploy).ImmediateBaseObject is X509Certificate2)
             {
                 var cert = ((PSObject)CertToDeploy).ImmediateBaseObject as X509Certificate2;
-
-                return CertUtils.GetCertificateData(cert);
+                return CertUtilsNewSM.GetCertificateData(cert);
+            }
+            else if (CertToDeploy is X509Certificate2)
+            {
+                return CertUtilsNewSM.GetCertificateData(CertToDeploy as X509Certificate2);
             }
             else
             {
                 var certPath = this.ResolvePath(CertToDeploy.ToString());
-                return CertUtils.GetCertificateData(certPath, Password);
+                return CertUtilsNewSM.GetCertificateData(certPath, Password);
             }
         }
     }
