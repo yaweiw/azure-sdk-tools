@@ -118,6 +118,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected virtual void InitChannelCurrentSubscription(bool force)
         {
+            DoInitChannelCurrentSubscription(force);
+        }
+
+        protected void DoInitChannelCurrentSubscription(bool force)
+        {
             if (CurrentSubscription == null)
             {
                 throw new ArgumentException(Resources.InvalidCurrentSubscription);
@@ -149,6 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
             base.ProcessRecord();
+            HttpRestCallLogger.CurrentCmdlet = this;
             OnProcessRecord();
         }
 

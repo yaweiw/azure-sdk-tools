@@ -14,7 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
-    using ResourceModel;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
+    using System.Linq;
+    using System.Collections.Generic;
 
     public class WindowsAzureAddOn
     {
@@ -38,11 +40,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 
         public string State { get; set; }
 
-        public UsageMeterList UsageMeters { get; set; }
+        public List<Resource.UsageLimit> UsageMeters { get; set; }
 
-        public OutputItemList OutputItems { get; set; }
+        public Dictionary<string, string> OutputItems { get; set; }
 
-        public OperationStatus LastOperationStatus { get; set; }
+        public Resource.OperationStatus LastOperationStatus { get; set; }
 
         public string Location { get; set; }
 
@@ -55,25 +57,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         /// <param name="geoRegion">The add on region</param>
         public WindowsAzureAddOn(Resource resource, string geoRegion, string cloudService)
         {
-            Type = resource.ResourceProviderNamespace == DataSetType ? DataType : AppServiceType;
-            
+            Type = resource.Namespace == DataSetType ? DataType : AppServiceType;
+
             AddOn = resource.Type;
-            
+
             Name = resource.Name;
-            
+
             Plan = resource.Plan;
-            
+
             SchemaVersion = resource.SchemaVersion;
-            
+
             ETag = resource.ETag;
-            
+
             State = resource.State;
 
-            UsageMeters = resource.UsageMeters;
+            UsageMeters = resource.UsageLimits.ToList();
 
-            OutputItems = (Type == AppServiceType) ? resource.OutputItems : new OutputItemList();
+            OutputItems = (Type == AppServiceType) ? new Dictionary<string, string>(resource.OutputItems) :
+                new Dictionary<string, string>();
 
-            LastOperationStatus = resource.OperationStatus;
+            LastOperationStatus = resource.Status;
 
             Location = geoRegion;
 

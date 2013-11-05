@@ -17,22 +17,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public RemoveAzureVMCommand()
-        {
-        }
-
-        public RemoveAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the role to remove.")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -43,27 +35,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
+
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            Deployment deployment = null;
-            InvokeInOperationContext(() => deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production)));
-
-            if (deployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
+            DeploymentGetResponse deploymentResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+            if (deploymentResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
             {
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
             }
 
-            if (deployment.RoleInstanceList.Count > 1)
+            if (deploymentResponse.RoleInstances.Count > 1)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name));
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
             }
         }
     }

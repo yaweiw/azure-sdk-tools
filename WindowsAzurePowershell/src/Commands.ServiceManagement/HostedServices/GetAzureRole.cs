@@ -15,27 +15,25 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
+    using AutoMapper;
     using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Model.PersistentVMModel;
     using Properties;
+    using PVM = Model.PersistentVMModel;
+    using Role = Management.Compute.Models.Role;
+    using RoleInstance = Management.Compute.Models.RoleInstance;
 
-    [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext), typeof(RoleInstanceContext))]
     public class GetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureRoleCommand()
-        {
-        }
-
-        public GetAzureRoleCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the hosted service.")]
         public string ServiceName
         {
@@ -67,98 +65,99 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         public void GetRoleProcess()
         {
-            Operation getDeploymentOperation;
+            OperationStatusResponse getDeploymentOperation;
             var currentDeployment = this.GetCurrentDeployment(out getDeploymentOperation);
             if (currentDeployment != null)
             {
-                if (this.InstanceDetails.IsPresent == false)
+                if (this.InstanceDetails.IsPresent)
                 {
-                    var roleContexts = new Collection<RoleContext>();
-                    RoleList roles = null;
+                    Collection<RoleInstanceContext> instanceContexts = new Collection<RoleInstanceContext>();
+                    IList<RoleInstance> roleInstances = null;
+
                     if (string.IsNullOrEmpty(this.RoleName))
                     {
-                        roles = currentDeployment.RoleList;
+                        roleInstances = currentDeployment.RoleInstances;
                     }
                     else
                     {
-                        roles = new RoleList(currentDeployment.RoleList.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
+                        roleInstances = new List<RoleInstance>(currentDeployment.RoleInstances.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
+                    }
+
+                    foreach (var role in roleInstances)
+                    {
+                        instanceContexts.Add(new RoleInstanceContext()
+                        {
+                            ServiceName           = this.ServiceName,
+                            OperationId           = getDeploymentOperation.Id,
+                            OperationDescription  = this.CommandRuntime.ToString(),
+                            OperationStatus       = getDeploymentOperation.Status.ToString(),
+                            InstanceErrorCode     = role.InstanceErrorCode,
+                            InstanceFaultDomain   = role.InstanceFaultDomain,
+                            InstanceName          = role.InstanceName,
+                            InstanceSize          = role.InstanceSize.ToString(),
+                            InstanceStateDetails  = role.InstanceStateDetails,
+                            InstanceStatus        = role.InstanceStatus,
+                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                            RoleName              = role.RoleName,
+                            DeploymentID          = currentDeployment.PrivateId,
+                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
+                        });
+                    }
+
+                    WriteObject(instanceContexts, true);
+                }
+                else
+                {
+                    var roleContexts = new Collection<RoleContext>();
+                    IList<Role> roles = null;
+                    if (string.IsNullOrEmpty(this.RoleName))
+                    {
+                        roles = currentDeployment.Roles;
+                    }
+                    else
+                    {
+                        roles = new List<Role>(currentDeployment.Roles.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
                     }
 
                     foreach (var r in roles.Select(role => new RoleContext
-                        {
-                            InstanceCount = currentDeployment.RoleInstanceList.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)), 
-                            RoleName = role.RoleName, 
-                            OperationDescription = this.CommandRuntime.ToString(), 
-                            OperationStatus = getDeploymentOperation.Status, 
-                            OperationId = getDeploymentOperation.OperationTrackingId, 
-                            ServiceName = this.ServiceName, 
-                            DeploymentID = currentDeployment.PrivateID
-                        }))
+                    {
+                        InstanceCount        = currentDeployment.RoleInstances.Count(ri => ri.RoleName.Equals(role.RoleName, StringComparison.OrdinalIgnoreCase)),
+                        RoleName             = role.RoleName,
+                        OperationDescription = this.CommandRuntime.ToString(),
+                        OperationStatus      = getDeploymentOperation.Status.ToString(),
+                        OperationId          = getDeploymentOperation.Id,
+                        ServiceName          = this.ServiceName,
+                        DeploymentID         = currentDeployment.PrivateId
+                    }))
                     {
                         roleContexts.Add(r);
                     }
 
                     WriteObject(roleContexts, true);
                 }
-                else
-                {
-                    Collection<RoleInstanceContext> instanceContexts = new Collection<RoleInstanceContext>();
-                    RoleInstanceList roleInstances = null;
-
-                    if (string.IsNullOrEmpty(this.RoleName))
-                    {
-                        roleInstances = currentDeployment.RoleInstanceList;
-                    }
-                    else
-                    {
-                        roleInstances = new RoleInstanceList(currentDeployment.RoleInstanceList.Where(r => r.RoleName.Equals(this.RoleName, StringComparison.OrdinalIgnoreCase)));
-                    }
-
-                    foreach (RoleInstance role in roleInstances)
-                    {
-                        var context = new RoleInstanceContext()
-                        {
-                            ServiceName = this.ServiceName,
-                            OperationId = getDeploymentOperation.OperationTrackingId,
-                            OperationDescription = this.CommandRuntime.ToString(),
-                            OperationStatus = getDeploymentOperation.Status,
-                            InstanceErrorCode = role.InstanceErrorCode,
-                            InstanceFaultDomain = role.InstanceFaultDomain,
-                            InstanceName = role.InstanceName,
-                            InstanceSize = role.InstanceSize,
-                            InstanceStateDetails = role.InstanceStateDetails,
-                            InstanceStatus = role.InstanceStatus,
-                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
-                            RoleName = role.RoleName,
-                            DeploymentID = currentDeployment.PrivateID,
-                            InstanceEndpoints = role.InstanceEndpoints
-                        };
-
-                        instanceContexts.Add(context);
-                    }
-
-                    WriteObject(instanceContexts, true);
-                }
             }
         }
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.GetRoleProcess();
         }
 
-        private Deployment GetCurrentDeployment(out Operation operation)
+        private DeploymentGetResponse GetCurrentDeployment(out OperationStatusResponse operation)
         {
-            using (new OperationContextScope(Channel.ToContextChannel()))
-            {
-                WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
+            DeploymentSlot slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production :
+                                                                   (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
 
-                var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = GetOperation();
+            WriteVerboseWithTimestamp(Resources.GetDeploymentBeginOperation);
 
-                WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
-                return currentDeployment;
-            }
+            DeploymentGetResponse deploymentGetResponse = null;
+            InvokeInOperationContext(() => deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot));
+            operation = GetOperationNewSM(deploymentGetResponse.RequestId);
+
+            WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
+
+            return deploymentGetResponse;
         }
     }
 }

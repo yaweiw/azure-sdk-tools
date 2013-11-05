@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using WindowsAzure.ServiceManagement;
-
     public class ExtensionRole
     {
         protected const string DefaultExtensionIdPrefixStr = "Default";
+        protected const string AllRolesTypeStr = "AllRoles";
+        protected const string NamedRolesTypeStr = "NamedRoles";
 
         public string RoleName { get; private set; }
         public string PrefixName { get; private set; }
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public ExtensionRole()
         {
             RoleName = string.Empty;
-            RoleType = typeof(AllRoles).Name;
+            RoleType = AllRolesTypeStr;
             PrefixName = DefaultExtensionIdPrefixStr;
             Default = true;
         }
@@ -38,14 +38,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             if (string.IsNullOrWhiteSpace(roleName))
             {
                 RoleName = string.Empty;
-                RoleType = typeof(AllRoles).Name;
+                RoleType = AllRolesTypeStr;
                 PrefixName = DefaultExtensionIdPrefixStr;
                 Default = true;
             }
             else
             {
                 PrefixName = RoleName = roleName.Trim();
-                RoleType = typeof(NamedRoles).Name;
+                RoleType = NamedRolesTypeStr;
                 Default = false;
             }
         }

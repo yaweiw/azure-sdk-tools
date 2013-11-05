@@ -17,25 +17,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.ServiceManagement.Model;
+    using Management.Storage;
+    using ServiceManagement.Model;
     using Sync.Download;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Save, "AzureVhd"), OutputType(typeof (VhdDownloadContext))]
     public class SaveAzureVhdCommand : ServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
-
-        public SaveAzureVhdCommand()
-        {
-        }
-
-        public SaveAzureVhdCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
+        
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Vhd", HelpMessage = "Uri to blob")]
         [ValidateNotNullOrEmpty]
         [Alias("src")]
@@ -95,8 +86,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             var storageKey = this.StorageKey;
             if(this.StorageKey == null)
             {
-                var storageService = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, blobUri.StorageAccountName);
-                storageKey = storageService.StorageServiceKeys.Primary;
+                var storageService = this.StorageClient.StorageAccounts.Get(blobUri.StorageAccountName);
+                if (storageService != null)
+                {
+                    var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.ServiceName);
+                    storageKey = storageKeys.PrimaryKey;
+                }
             }
 
             var downloaderParameters = new DownloaderParameters

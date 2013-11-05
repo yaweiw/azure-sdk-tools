@@ -270,7 +270,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestDisablesFileOnly()
         {
             RunPowerShellTest("Test-DisablesFileOnly");

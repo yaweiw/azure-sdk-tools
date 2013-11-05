@@ -15,26 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Linq;
+    using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
-    using Commands.ServiceManagement.Helpers;
-    using WindowsAzure.ServiceManagement;
-    using Properties;
+    using AutoMapper;
+    using Helpers;
     using Model;
+    using Properties;
+    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
+    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
 
     [Cmdlet(VerbsData.Export, "AzureVM")]
     public class ExportAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public ExportAzureVMCommand()
-        {
-        }
-
-        public ExportAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
@@ -60,49 +54,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
+
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
-            var role = CurrentDeployment.RoleList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+            var role = CurrentDeploymentNewSM.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
             if(role == null)
             {
                 throw new ApplicationException(string.Format(Resources.NoCorrespondingRoleCanBeFoundInDeployment, Name));
             }
             try
             {
-                var vm = (PersistentVMRole)role;
-                var roleInstance = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName);
+                var vm = role;
+                var roleInstance = CurrentDeploymentNewSM.RoleInstances.First(r => r.RoleName == vm.RoleName);
                 var vmContext = new PersistentVMRoleContext
                 {
                     ServiceName = ServiceName,
                     Name = vm.RoleName,
-                    DeploymentName = CurrentDeployment.Name,
+                    DeploymentName = CurrentDeploymentNewSM.Name,
                     AvailabilitySetName = vm.AvailabilitySetName,
                     Label = vm.Label,
-                    InstanceSize = vm.RoleSize,
+                    InstanceSize = vm.RoleSize.ToString(),
                     InstanceStatus = roleInstance.InstanceStatus,
-                    IpAddress = roleInstance.IpAddress,
+                    IpAddress = roleInstance.IPAddress,
                     InstanceStateDetails = roleInstance.InstanceStateDetails,
-                    PowerState = roleInstance.PowerState,
+                    PowerState = roleInstance.PowerState.ToString(),
                     InstanceErrorCode = roleInstance.InstanceErrorCode,
                     InstanceName = roleInstance.InstanceName,
                     InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                     InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                     OperationDescription = CommandRuntime.ToString(),
-                    OperationId = GetDeploymentOperation.OperationTrackingId,
-                    OperationStatus = GetDeploymentOperation.Status,
+                    OperationId = GetDeploymentOperationNewSM.Id,
+                    OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
                     VM = new PersistentVM
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
-                        ConfigurationSets = vm.ConfigurationSets,
-                        DataVirtualHardDisks = vm.DataVirtualHardDisks,
+                        ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
+                        DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
                         Label = vm.Label,
-                        OSVirtualHardDisk = vm.OSVirtualHardDisk,
+                        OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
-                        RoleSize = vm.RoleSize,
+                        RoleSize = vm.RoleSize.ToString(),
                         RoleType = vm.RoleType,
                         DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
                     }

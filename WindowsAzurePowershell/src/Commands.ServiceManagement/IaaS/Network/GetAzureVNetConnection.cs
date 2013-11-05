@@ -16,21 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Linq;
     using System.Management.Automation;
+    using Management.VirtualNetworks;
     using Model;
-    using Service.Gateway;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConnection"), OutputType(typeof(GatewayConnectionContext))]
-    public class GetAzureVNetConnectionCommand : GatewayCmdletBase
+    public class GetAzureVNetConnectionCommand : ServiceManagementBaseCmdlet
     {
-        public GetAzureVNetConnectionCommand()
-        {
-        }
-
-        public GetAzureVNetConnectionCommand(IGatewayServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
         public string VNetName
         {
@@ -40,24 +32,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(
+            ExecuteClientActionNewSM(
                 null,
-                CommandRuntime.ToString(),
-                s => this.Channel.ListVirtualNetworkConnections(s, this.VNetName),
-                WaitForNewGatewayOperation,
-                (operation, connections) => connections.Select(c => new GatewayConnectionContext
+                this.CommandRuntime.ToString(),
+                () => this.NetworkClient.Gateways.ListConnections(this.VNetName),
+                this.WaitForNewGatewayOperation,
+                (s, r) => r.Connections.Select(c => new GatewayConnectionContext
                 {
-                    OperationId = operation.OperationTrackingId,
-                    OperationDescription = this.CommandRuntime.ToString(),
-                    OperationStatus = operation.Status,
-                    ConnectivityState = c.ConnectivityState,
-                    EgressBytesTransferred = c.EgressBytesTransferred,
-                    IngressBytesTransferred = c.IngressBytesTransferred,
-                    LastConnectionEstablished = c.LastConnectionEstablished,
-                    LastEventID = c.LastEvent != null ? c.LastEvent.Id.ToString() : null,
-                    LastEventMessage = c.LastEvent != null ? c.LastEvent.Message.ToString() : null,
-                    LastEventTimeStamp = c.LastEvent != null ? c.LastEvent.Timestamp.ToString() : null,
-                    LocalNetworkSiteName = c.LocalNetworkSiteName
+                    OperationId               = s.Id,
+                    OperationDescription      = this.CommandRuntime.ToString(),
+                    OperationStatus           = s.Status.ToString(),
+                    ConnectivityState         = c.ConnectivityState.ToString(),
+                    EgressBytesTransferred    = (ulong)c.EgressBytesTransferred,
+                    IngressBytesTransferred   = (ulong)c.IngressBytesTransferred,
+                    LastConnectionEstablished = c.LastConnectionEstablished.ToString(),
+                    LastEventID               = c.LastEvent != null ? c.LastEvent.Id.ToString() : null,
+                    LastEventMessage          = c.LastEvent != null ? c.LastEvent.Message.ToString() : null,
+                    LastEventTimeStamp        = c.LastEvent != null ? c.LastEvent.Timestamp.ToString() : null,
+                    LocalNetworkSiteName      = c.LocalNetworkSiteName
                 }));
         }
     }

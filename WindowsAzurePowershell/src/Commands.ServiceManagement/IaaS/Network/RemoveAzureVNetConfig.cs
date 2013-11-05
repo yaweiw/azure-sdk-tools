@@ -15,12 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.IO;
-    using System.Management.Automation;
-    using System.Xml;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using WindowsAzure.ServiceManagement;
+    using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
+    using System.Management.Automation;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : ServiceManagementBaseCmdlet
@@ -28,30 +27,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";
         private static readonly XNamespace InstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
 
-        public RemoveAzureVNetConfigCommand()
-        {
-        }
-
-        public RemoveAzureVNetConfigCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
+
             var netConfig = new XElement(
                 NetconfigNamespace + "NetworkConfiguration",
                 new XAttribute("xmlns", NetconfigNamespace.NamespaceName),
                 new XAttribute(XNamespace.Xmlns + "xsi", InstanceNamespace.NamespaceName),
                 new XElement(NetconfigNamespace + "VirtualNetworkConfiguration"));
 
-            var stream = new MemoryStream();
-            var writer1 = XmlWriter.Create(stream);
-            netConfig.WriteTo(writer1);
-            writer1.Flush();
-            stream.Seek(0L, SeekOrigin.Begin);
+            NetworkSetConfigurationParameters networkConfigParams = new NetworkSetConfigurationParameters
+            {
+                Configuration = netConfig.ToString()
+            };
 
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream));
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.NetworkClient.Networks.SetConfiguration(networkConfigParams));
         }
     }
 }

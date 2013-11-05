@@ -16,22 +16,14 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Model;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     [Cmdlet(VerbsLifecycle.Restart, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class RestartAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        public RestartAzureVMCommand()
-        {
-        }
-
-        public RestartAzureVMCommand(IServiceManagement channel)
-        {
-            Channel = channel;
-        }
-
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the Virtual Machine to restart.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -51,15 +43,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal override void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
             base.ExecuteCommand();
-            if (CurrentDeployment == null)
+            if (CurrentDeploymentNewSM == null)
             {
                 return;
             }
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.RestartRole(s, this.ServiceName, CurrentDeployment.Name, roleName));
-
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachines.Restart(this.ServiceName, CurrentDeploymentNewSM.Name, roleName),
+                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
         }
     }
 }

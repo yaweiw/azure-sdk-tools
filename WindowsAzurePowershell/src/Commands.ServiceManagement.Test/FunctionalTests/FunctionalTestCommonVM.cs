@@ -30,8 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-
+    using Model.PersistentVMModel;
 
     [TestClass]
     public class FunctionalTestCommonVM : ServiceManagementTest
@@ -49,11 +48,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            do
-            {
-                defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            }
-            while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
+            defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //do
+            //{
+            //    defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //}
+            //while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
 
             defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService));
@@ -217,7 +217,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 try
                 {
-                    vmPowershellCmdlets.RemoveAzureDisk(diskName, true);
+                    vmPowershellCmdlets.RemoveAzureDisk(diskName, false);
                     break;
                 }
                 catch (Exception e)

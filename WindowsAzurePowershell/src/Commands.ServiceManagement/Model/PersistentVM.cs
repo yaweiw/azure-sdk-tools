@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml.Serialization;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using PersistentVMModel;
 
     public class PersistentVM : IPersistentVM
     {
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             get;
             set;
         }
-        
+
         public bool NoSSHEndpoint
         {
             get;
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public string DefaultWinRmCertificateThumbprint
         {
-            get; 
+            get;
             set;
         }
 
@@ -114,3 +114,4 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         }
     }
 }
+

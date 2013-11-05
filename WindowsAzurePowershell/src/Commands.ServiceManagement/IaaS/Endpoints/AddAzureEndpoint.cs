@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using IaaS;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Add, "AzureEndpoint", DefaultParameterSetName = AddAzureEndpoint.NoLBParameterSet), OutputType(typeof(IPersistentVM))]
     public class AddAzureEndpoint : VirtualMachineConfigurationCmdletBase 
