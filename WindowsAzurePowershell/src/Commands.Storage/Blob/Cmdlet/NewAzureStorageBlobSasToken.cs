@@ -203,13 +203,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 switch (op)
                 {
-                    case 'r':
+                    case StorageNouns.Permission.Read:
                         policy.Permissions |= SharedAccessBlobPermissions.Read;
                         break;
-                    case 'w':
+                    case StorageNouns.Permission.Write:
                         policy.Permissions |= SharedAccessBlobPermissions.Write;
                         break;
-                    case 'd':
+                    case StorageNouns.Permission.Delete:
                         policy.Permissions |= SharedAccessBlobPermissions.Delete;
                         break;
                     default:
