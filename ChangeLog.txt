@@ -6,6 +6,11 @@
     * Restarting web site will clean the host names (https://github.com/WindowsAzure/azure-sdk-tools/issues/2101)
     * Creating a new Linux VM with an SSH certificate fails (https://github.com/WindowsAzure/azure-sdk-tools/issues/2057)
     * Debug stream only prints out at the end of processing (https://github.com/WindowsAzure/azure-sdk-tools/issues/2033)
+* Cmdlets for creating Storage SAS token
+    * New-AzureStorageBlobSASToken
+    * New-AzureStorageContainerSASToken
+    * New-AzureStorageQueueSASToken
+    * New-AzureStorageTableSASToken
 * VM cmdlets for Windows Azure Pack
     * Get-WAPackVM
     * Get-WAPackVMOSDisk

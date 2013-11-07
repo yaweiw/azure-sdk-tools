@@ -39,6 +39,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Copy storage blob.
   * Manage storage table.
   * Manage storage queue.
+  * Create SAS token.
 * SQL Azure
   * CRUD support for database server, database and firewall rule.
   * Get database server quota.
