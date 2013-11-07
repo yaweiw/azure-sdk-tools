@@ -10,8 +10,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using Management.Storage.Models;
     using Model;
     using Utilities.Common;
-    using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
+    using NSM = Management.Compute.Models;
     using PVM = Model.PersistentVMModel;
+    using WSM = WindowsAzure.ServiceManagement;
 
     public class ServiceManagementProfile : Profile
     {
@@ -41,8 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             //SM to NewSM mapping
             Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.Protocol));
+            Mapper.CreateMap<PVM.AccessControlListRule, NSM.AccessControlListRule>();
+            Mapper.CreateMap<PVM.EndpointAccessControlList, NSM.EndpointAcl>()
+                  .ForMember(c => c.Rules, o => o.MapFrom(r => r.Rules.ToList()));
             Mapper.CreateMap<PVM.InputEndpoint, NSM.InputEndpoint>()
-                  .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null));
+                  .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
+                  .ForMember(c => c.EndpointAcl, o => o.MapFrom(r => r.EndpointAccessControlList));
             Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>()
                   .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun));
             Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>()
@@ -55,20 +60,44 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
-                  .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null));
-            Mapper.CreateMap<PVM.InstanceEndpointList, IList<NSM.InstanceEndpoint>>();
+                  .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
+                  .ForMember(c => c.Port, o => o.MapFrom(r => r.PublicPort));
+            Mapper.CreateMap<PVM.InstanceEndpointList, IList<NSM.InstanceEndpoint>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.InstanceEndpoint>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<PVM.InstanceEndpointList, List<NSM.InstanceEndpoint>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.InstanceEndpoint>(t));
+                          }
+                      }
+                  });
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration, NSM.WindowsRemoteManagementSettings>();
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, NSM.WindowsRemoteManagementListener>()
                   .ForMember(c => c.ListenerType, o => o.MapFrom(r => r.Protocol));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, IList<NSM.WindowsRemoteManagementListener>>();
 
-            Mapper.CreateMap<Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList, IList<NSM.RoleInstance>>();
-
             //NewSM to SM mapping
             Mapper.CreateMap<NSM.LoadBalancerProbe, PVM.LoadBalancerProbe>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.Protocol.ToString().ToLower()));
+            Mapper.CreateMap<NSM.AccessControlListRule, PVM.AccessControlListRule>();
+            Mapper.CreateMap<NSM.EndpointAcl, PVM.EndpointAccessControlList>()
+                  .ForMember(c => c.Rules, o => o.MapFrom(r => r.Rules));
             Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>()
-                  .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null));
+                  .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
+                  .ForMember(c => c.EndpointAccessControlList, o => o.MapFrom(r => r.EndpointAcl));
             Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>()
                   .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber));
             Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>()
@@ -78,18 +107,49 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>();
             Mapper.CreateMap<NSM.InstanceEndpoint, PVM.InstanceEndpoint>()
-                  .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null));
-            Mapper.CreateMap<IList<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>();
+                  .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
+                  .ForMember(c => c.PublicPort, o => o.MapFrom(r => r.Port));
+            Mapper.CreateMap<IList<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<IEnumerable<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<List<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
+                          }
+                      }
+                  });
             Mapper.CreateMap<NSM.WindowsRemoteManagementSettings, PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
             Mapper.CreateMap<NSM.WindowsRemoteManagementListener, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.ListenerType.ToString()));
             Mapper.CreateMap<IList<NSM.WindowsRemoteManagementListener>, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
 
-            Mapper.CreateMap<IList<NSM.RoleInstance>, Microsoft.WindowsAzure.ServiceManagement.RoleInstanceList>();
-
             // LoadBalancedEndpointList mapping
             Mapper.CreateMap<PVM.AccessControlListRule, NSM.AccessControlListRule>();
-            Mapper.CreateMap<PVM.EndpointAccessControlList, NSM.AccessControlList>();
+            Mapper.CreateMap<PVM.EndpointAccessControlList, NSM.EndpointAcl>();
             Mapper.CreateMap<PVM.InputEndpoint, VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>()
                   .ForMember(c => c.Rules, o => o.MapFrom(r => r.EndpointAccessControlList == null ? null : r.EndpointAccessControlList.Rules))
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip));
@@ -97,7 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.LoadBalancedEndpointList, List<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>>();
 
             Mapper.CreateMap<NSM.AccessControlListRule, PVM.AccessControlListRule>();
-            Mapper.CreateMap<NSM.AccessControlList, PVM.EndpointAccessControlList>();
+            Mapper.CreateMap<NSM.EndpointAcl, PVM.EndpointAccessControlList>();
             Mapper.CreateMap<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint, PVM.InputEndpoint>()
                   .ForMember(c => c.EndpointAccessControlList, o => o.MapFrom(r => r.Rules == null ? null : r.Rules))
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress));
@@ -265,71 +325,164 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
+            // DomainJoinSettings mapping for IaaS
+            Mapper.CreateMap<NSM.DomainJoinCredentials, PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>()
+                  .ForMember(c => c.Domain, o => o.MapFrom(r => r.Domain))
+                  .ForMember(c => c.Username, o => o.MapFrom(r => r.UserName))
+                  .ForMember(c => c.Password, o => o.MapFrom(r => r.Password));
+            Mapper.CreateMap<NSM.DomainJoinProvisioning, PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>()
+                  .ForMember(c => c.AccountData, o => o.MapFrom(r => r.AccountData));
+            Mapper.CreateMap<NSM.DomainJoinSettings, PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings>()
+                  .ForMember(c => c.Credentials, o => o.MapFrom(r => r.Credentials))
+                  .ForMember(c => c.JoinDomain, o => o.MapFrom(r => r.DomainToJoin))
+                  .ForMember(c => c.MachineObjectOU, o => o.MapFrom(r => r.LdapMachineObjectOU))
+                  .ForMember(c => c.Provisioning, o => o.MapFrom(r => r.Provisioning));
+
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials, NSM.DomainJoinCredentials>()
+                  .ForMember(c => c.Domain, o => o.MapFrom(r => r.Domain))
+                  .ForMember(c => c.UserName, o => o.MapFrom(r => r.Username))
+                  .ForMember(c => c.Password, o => o.MapFrom(r => r.Password));
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning, NSM.DomainJoinProvisioning>()
+                  .ForMember(c => c.AccountData, o => o.MapFrom(r => r.AccountData));
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings, NSM.DomainJoinSettings>()
+                  .ForMember(c => c.Credentials, o => o.MapFrom(r => r.Credentials))
+                  .ForMember(c => c.DomainToJoin, o => o.MapFrom(r => r.JoinDomain))
+                  .ForMember(c => c.LdapMachineObjectOU, o => o.MapFrom(r => r.MachineObjectOU))
+                  .ForMember(c => c.Provisioning, o => o.MapFrom(r => r.Provisioning));
+
             // New SM to Model
-            Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>();
             Mapper.CreateMap<NSM.StoredCertificateSettings, PVM.CertificateSetting>();
+            Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.CertificateSetting>(t));
+                          }
+                      }
+                  });
 
             // Model to New SM
-            Mapper.CreateMap<PVM.CertificateSettingList, IList<NSM.StoredCertificateSettings>>();
             Mapper.CreateMap<PVM.CertificateSetting, NSM.StoredCertificateSettings>();
+            Mapper.CreateMap<PVM.CertificateSettingList, IList<NSM.StoredCertificateSettings>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.StoredCertificateSettings>(t));
+                          }
+                      }
+                  });
 
-            // SM to Model
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LoadBalancedEndpointList,                                    PVM.EndpointAccessControlList>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.InputEndpoint,                                               PVM.InputEndpoint>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpoint,                                            PVM.InstanceEndpoint>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.InstanceEndpointList,                                        PVM.InstanceEndpointList>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.DataVirtualHardDisk,                                         PVM.DataVirtualHardDisk>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.OSVirtualHardDisk,                                           PVM.OSVirtualHardDisk>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateFile,                                             PVM.CertificateFile>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateSetting,                                          PVM.CertificateSetting>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.CertificateSettingList,                                      PVM.CertificateSettingList>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinSettings,      PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmProtocol,           PVM.WindowsProvisioningConfigurationSet.WinRmProtocol>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerProperties, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerCollection, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration,      PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPair,                PVM.LinuxProvisioningConfigurationSet.SSHKeyPair>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPairList,            PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKey,              PVM.LinuxProvisioningConfigurationSet.SSHPublicKey>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHSettings,               PVM.LinuxProvisioningConfigurationSet.SSHSettings>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.NetworkConfigurationSet,                                     PVM.NetworkConfigurationSet>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet,                         PVM.WindowsProvisioningConfigurationSet>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet,                           PVM.LinuxProvisioningConfigurationSet>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.ProvisioningConfigurationSet,                                PVM.ProvisioningConfigurationSet>();
-            Mapper.CreateMap<WindowsAzure.ServiceManagement.ConfigurationSet,                                            PVM.ConfigurationSet>();
+            // WSM to PVM
+            Mapper.CreateMap<WSM.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();
+            Mapper.CreateMap<WSM.LoadBalancedEndpointList,                                    PVM.EndpointAccessControlList>();
+            Mapper.CreateMap<WSM.InputEndpoint,                                               PVM.InputEndpoint>();
+            Mapper.CreateMap<WSM.InstanceEndpoint,                                            PVM.InstanceEndpoint>();
+            Mapper.CreateMap<WSM.InstanceEndpointList,                                        PVM.InstanceEndpointList>();
+            Mapper.CreateMap<WSM.DataVirtualHardDisk,                                         PVM.DataVirtualHardDisk>();
+            Mapper.CreateMap<WSM.OSVirtualHardDisk,                                           PVM.OSVirtualHardDisk>();
+            Mapper.CreateMap<WSM.CertificateFile,                                             PVM.CertificateFile>();
+            Mapper.CreateMap<WSM.CertificateSetting,                                          PVM.CertificateSetting>();
+            Mapper.CreateMap<WSM.CertificateSettingList,                                      PVM.CertificateSettingList>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.DomainJoinSettings,      PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.WinRmProtocol,           PVM.WindowsProvisioningConfigurationSet.WinRmProtocol>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet.WinRmConfiguration,      PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet.SSHKeyPair,                PVM.LinuxProvisioningConfigurationSet.SSHKeyPair>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet.SSHKeyPairList,            PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet.SSHPublicKey,              PVM.LinuxProvisioningConfigurationSet.SSHPublicKey>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet.SSHSettings,               PVM.LinuxProvisioningConfigurationSet.SSHSettings>();
+            Mapper.CreateMap<WSM.NetworkConfigurationSet,                                     PVM.NetworkConfigurationSet>();
+            Mapper.CreateMap<WSM.WindowsProvisioningConfigurationSet,                         PVM.WindowsProvisioningConfigurationSet>();
+            Mapper.CreateMap<WSM.LinuxProvisioningConfigurationSet,                           PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<WSM.ProvisioningConfigurationSet,                                PVM.ProvisioningConfigurationSet>();
+            Mapper.CreateMap<WSM.ConfigurationSet,                                            PVM.ConfigurationSet>();
 
-            // Model to SM
-            Mapper.CreateMap<PVM.LoadBalancerProbe,                                           WindowsAzure.ServiceManagement.LoadBalancerProbe>();
-            Mapper.CreateMap<PVM.LoadBalancedEndpointList,                                    WindowsAzure.ServiceManagement.EndpointAccessControlList>();
-            Mapper.CreateMap<PVM.InputEndpoint,                                               WindowsAzure.ServiceManagement.InputEndpoint>();
-            Mapper.CreateMap<PVM.InstanceEndpoint,                                            WindowsAzure.ServiceManagement.InstanceEndpoint>();
-            Mapper.CreateMap<PVM.InstanceEndpointList,                                        WindowsAzure.ServiceManagement.InstanceEndpointList>();
-            Mapper.CreateMap<PVM.DataVirtualHardDisk,                                         WindowsAzure.ServiceManagement.DataVirtualHardDisk>();
-            Mapper.CreateMap<PVM.OSVirtualHardDisk,                                           WindowsAzure.ServiceManagement.OSVirtualHardDisk>();
-            Mapper.CreateMap<PVM.CertificateFile,                                             WindowsAzure.ServiceManagement.CertificateFile>();
-            Mapper.CreateMap<PVM.CertificateSetting,                                          WindowsAzure.ServiceManagement.CertificateSetting>();
-            Mapper.CreateMap<PVM.CertificateSettingList,                                      WindowsAzure.ServiceManagement.CertificateSettingList>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings,      WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmProtocol,           WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmProtocol>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration,      WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPair,                WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPair>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList,            WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKey,              WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKey>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHSettings,               WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet.SSHSettings>();
-            Mapper.CreateMap<PVM.NetworkConfigurationSet,                                     WindowsAzure.ServiceManagement.NetworkConfigurationSet>();
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet,                         WindowsAzure.ServiceManagement.WindowsProvisioningConfigurationSet>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet,                           WindowsAzure.ServiceManagement.LinuxProvisioningConfigurationSet>();
-            Mapper.CreateMap<PVM.ProvisioningConfigurationSet,                                WindowsAzure.ServiceManagement.ProvisioningConfigurationSet>();
-            Mapper.CreateMap<PVM.ConfigurationSet,                                            WindowsAzure.ServiceManagement.ConfigurationSet>();
+            // PVM to WSM
+            Mapper.CreateMap<PVM.LoadBalancerProbe,                                           WSM.LoadBalancerProbe>();
+            Mapper.CreateMap<PVM.LoadBalancedEndpointList,                                    WSM.EndpointAccessControlList>();
+            Mapper.CreateMap<PVM.InputEndpoint,                                               WSM.InputEndpoint>();
+            Mapper.CreateMap<PVM.InstanceEndpoint,                                            WSM.InstanceEndpoint>();
+            Mapper.CreateMap<PVM.InstanceEndpointList,                                        WSM.InstanceEndpointList>();
+            Mapper.CreateMap<PVM.DataVirtualHardDisk,                                         WSM.DataVirtualHardDisk>();
+            Mapper.CreateMap<PVM.OSVirtualHardDisk,                                           WSM.OSVirtualHardDisk>();
+            Mapper.CreateMap<PVM.CertificateFile,                                             WSM.CertificateFile>();
+            Mapper.CreateMap<PVM.CertificateSetting,                                          WSM.CertificateSetting>();
+            Mapper.CreateMap<PVM.CertificateSettingList,                                      WSM.CertificateSettingList>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials,   WSM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning,  WSM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings,      WSM.WindowsProvisioningConfigurationSet.DomainJoinSettings>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmProtocol,           WSM.WindowsProvisioningConfigurationSet.WinRmProtocol>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, WSM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerCollection, WSM.WindowsProvisioningConfigurationSet.WinRmListenerCollection>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration,      WSM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPair,                WSM.LinuxProvisioningConfigurationSet.SSHKeyPair>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPairList,            WSM.LinuxProvisioningConfigurationSet.SSHKeyPairList>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKey,              WSM.LinuxProvisioningConfigurationSet.SSHPublicKey>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKeyList,          WSM.LinuxProvisioningConfigurationSet.SSHPublicKeyList>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHSettings,               WSM.LinuxProvisioningConfigurationSet.SSHSettings>();
+            Mapper.CreateMap<PVM.NetworkConfigurationSet,                                     WSM.NetworkConfigurationSet>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet,                         WSM.WindowsProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet,                           WSM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.ProvisioningConfigurationSet,                                WSM.ProvisioningConfigurationSet>();
+            Mapper.CreateMap<PVM.ConfigurationSet,                                            WSM.ConfigurationSet>();
+
+            // WSM to NSM
+            Mapper.CreateMap<WSM.RoleInstanceList, IList<NSM.RoleInstance>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.RoleInstance>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<WSM.RoleInstanceList, List<NSM.RoleInstance>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<NSM.RoleInstance>(t));
+                          }
+                      }
+                  });
+
+            // NSM to WSM
+            Mapper.CreateMap<IList<NSM.RoleInstance>, WSM.RoleInstanceList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<WSM.RoleInstance>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<List<NSM.RoleInstance>, WSM.RoleInstanceList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<WSM.RoleInstance>(t));
+                          }
+                      }
+                  });
         }
     }
 }
