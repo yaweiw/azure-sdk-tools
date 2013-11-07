@@ -60,6 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 throw new ArgumentOutOfRangeException(Resources.CurrentDeploymentDoesNotHaveVMs);
             }
+
             if (String.IsNullOrEmpty(Name))
             {
                 var result = CurrentDeploymentNewSM.RoleInstances.Select(GetUri).Where(uri => uri != null).ToList();
