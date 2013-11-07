@@ -43,14 +43,17 @@ namespace WindowsAzurePowerShell.Test.Commands
 
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
             ParameterSetName = StorageAccountCredentialsParameterSetName, HelpMessage = "Path to publish settings file that will be used to access the test subscription")]
+        [ValidatePath()]
         public string PublishSettingsFile { get; set; }
 
-        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = false,
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = false,
             ParameterSetName = StorageAccountCredentialsParameterSetName, HelpMessage = "Path to powershell variables that tests will have access to")]
+        [ValidatePath()]
         public string PowerShellVariablesFile { get; set; }
 
-        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = false,
+        [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = false,
             ParameterSetName = StorageAccountCredentialsParameterSetName, HelpMessage = "Path to environment variables that tests will have access to")]
+        [ValidatePath()]
         public string EnvironmentVariablesFile { get; set; }
 
         protected override void ProcessRecord()
@@ -73,15 +76,20 @@ namespace WindowsAzurePowerShell.Test.Commands
             WriteObject(true);
         }
 
-        private void CreateBlockBlob(CloudBlobContainer container, string providedPath, string name)
+        private void CreateBlockBlob(CloudBlobContainer container, string artifactPath, string name)
         {
-            CloudBlockBlob publishSettingsBlob = container.GetBlockBlobReference(name);
-            string publishSettingsFilePath = SessionState.Path.GetResolvedPSPathFromPSPath(providedPath)[0].Path;
+            CloudBlockBlob blob = container.GetBlockBlobReference(name);
+            string artifactResolvedPath = string.Empty;
+            Stream contentStream = new MemoryStream();
 
-            using (FileStream fileStream = File.OpenRead(publishSettingsFilePath))
+            if (!string.IsNullOrEmpty(artifactPath))
             {
-                publishSettingsBlob.UploadFromStream(fileStream);
+                artifactResolvedPath = SessionState.Path.GetResolvedPSPathFromPSPath(artifactPath)[0].Path;
+                contentStream = File.OpenRead(artifactResolvedPath);
             }
+
+            blob.UploadFromStream(contentStream);
+            contentStream.Dispose();
         }
     }
 }
