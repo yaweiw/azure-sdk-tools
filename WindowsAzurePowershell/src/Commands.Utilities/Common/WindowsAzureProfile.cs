@@ -370,7 +370,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             data.DefaultEnvironmentName = CurrentEnvironment.Name;
             data.Environments = Environments.Values
                 .Where(e => !IsPublicEnvironment(e.Name))
-                .Select(e => new AzureEnvironmentData(e));
+                .Select(e => new AzureEnvironmentData(e)).ToList();
         }
 
         private void LoadEnvironmentData(ProfileData data)
