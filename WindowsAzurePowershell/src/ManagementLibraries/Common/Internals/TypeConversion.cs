@@ -15,6 +15,7 @@
 
 using System;
 using System.Text;
+using System.Xml;
 
 namespace Microsoft.WindowsAzure.Common.Internals
 {
@@ -82,6 +83,26 @@ namespace Microsoft.WindowsAzure.Common.Internals
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Convert a TimeSpan into an 8601 formatted string.
+        /// </summary>
+        /// <param name="timespan">The timespan to convert.</param>
+        /// <returns>The TimeSpan in 8601 format.</returns>
+        public static string To8601String(this TimeSpan timespan)
+        {
+            return XmlConvert.ToString(timespan);
+        }
+
+        /// <summary>
+        /// Convert a string from ISO 8601 format to a TimeSpan instance.
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>The resulting timespan</returns>
+        public static TimeSpan From8601TimeSpan(string value)
+        {
+            return XmlConvert.ToTimeSpan(value);
         }
     }
 }
