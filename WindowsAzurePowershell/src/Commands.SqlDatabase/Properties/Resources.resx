@@ -130,6 +130,10 @@ Error Code: {0}</value>
     <value>Database '{0}.{1}' not found.</value>
     <comment>Parameter Validation</comment>
   </data>
+  <data name="DatabaseOperationNotFoundOnDatabase" xml:space="preserve">
+    <value>Could not found operations on Database '{0}.{1}'.</value>
+    <comment>Parameter validation</comment>
+  </data>
   <data name="ErrorRefreshingDatabase" xml:space="preserve">
     <value>An error occurred while refreshing database.</value>
   </data>

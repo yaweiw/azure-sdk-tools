@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name: ServerContextInternal.cs
-// Generation date: 10/16/2013 17:35:50
+// Generation date: 11/6/2013 18:01:31
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     

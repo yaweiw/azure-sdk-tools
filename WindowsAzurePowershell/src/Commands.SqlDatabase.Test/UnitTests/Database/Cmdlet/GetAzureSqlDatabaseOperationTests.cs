@@ -44,104 +44,110 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.Common.CreatePremiumDatabasesWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
-                // ximchen TODO: Update this session with the correct validation once onebox ready
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
-                    (expected, actual) =>
-                    {
-                        /*
-                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
-                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
+                        (expected, actual) =>
                         {
-                            // Request 0-6: Query SLO P1
-                            // Request 7-13: Query SLO P2
-                            // Request 14-16: Create NewAzureSqlPremiumDatabaseTests_P1
-                            // Request 17-19: Create NewAzureSqlPremiumDatabaseTests_P2
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            case 16:
-                            case 17:
-                            case 18:
-                            case 19:
-                                //case 20:
-                                //case 21:
-
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                            Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                            Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                            switch (expected.Index)
+                            {
+                                // Request 0-7: Create and Query $testdb                                                                
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                case 6:
+                                case 7:
+                                // Request 8: Delete $testdb
+                                case 8:
+                                // Request 9-11: Query Database Operations                                
+                                case 9:
+                                case 10:
+                                case 11:                                
+                                    DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
-                        }
-                         */
-                    });
+                                    break;
+                                default:
+                                    Assert.Fail("No more requests expected.");
+                                    break;
+                            }
+                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
                     string testsDBName = string.Format("getAzureSqlDatabaseOperationTestsDB_{0}",
-                            Guid.NewGuid().ToString());
-                    Collection<PSObject> database, operationResults;
+                        Guid.NewGuid().ToString());
+                    Collection<PSObject> database, operationsByName, operationsByDatabase, operationsById;
                     using (new MockHttpServer(
-                        exceptionManager,
-                        MockHttpServer.DefaultServerPrefixUri,
-                        testSession))
-                    {                        
+                            exceptionManager,
+                            MockHttpServer.DefaultServerPrefixUri,
+                            testSession))
+                    {
                         database = powershell.InvokeBatchScript(
                             string.Format(
-                            @"$testdb = New-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName {0} " +
-                            @"-Force",testsDBName),
+                                @"$testdb = New-AzureSqlDatabase " +
+                                @"-Context $context " +
+                                @"-DatabaseName {0} " +
+                                @"-Force", testsDBName),
                             @"$testdb");
 
                         powershell.InvokeBatchScript(
                             string.Format(
-                            @"Remove-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName {0} " +
-                            @"-Force",testsDBName));
+                                @"Remove-AzureSqlDatabase " +
+                                @"-Context $context " +
+                                @"-DatabaseName {0} " +
+                                @"-Force", testsDBName));
 
-                        operationResults = powershell.InvokeBatchScript(
+                        operationsByName = powershell.InvokeBatchScript(
                             string.Format(
-                            @"Get-AzureSqlDatabaseOperations " +
+                                @"$operations = Get-AzureSqlDatabaseOperation " +
+                                @"-ConnectionContext $context " +
+                                @"-DatabaseName {0}",
+                                testsDBName),
+                            @"$operations");
+
+                        operationsByDatabase = powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseOperation " +
                             @"-ConnectionContext $context " +
-                            @"-DatabaseName {0}",
-                            testsDBName));
+                            @"-Database $testdb");
+
+                        operationsById = powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseOperation " +
+                            @"-ConnectionContext $context " +
+                            @"-OperationGuid $operations[0].Id"
+                            );
                     }
 
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
-                    // ximchen TODO: update these asserts
-                    DatabaseOperation[] operations = operationResults.Select(r => r.BaseObject as DatabaseOperation).ToArray(); ;
-                    // Task 1615375:Adding Drop record in dm_operation_status
-                    // There is a known issue that Drop record is not included in the DatabaseOperation log
-                    // Once that's done We should change the assert to 
-                    // Assert.AreEqual(2, operations.Length, "Expecting one DatabaseOperation");
-                    Assert.AreEqual(1, operations.Length, "Expecting one DatabaseOperation.");
-                    Assert.IsNotNull(operations[0], "Expecting a DatabaseOperation object.");
-                    Assert.AreEqual(testsDBName, operations[0].DatabaseName, "Database name does NOT match.");
-                    Assert.AreEqual("CREATE DATABASE", operations[0].Name, "Operation name does NOT match.");
-                    Assert.AreEqual(100, operations[0].PercentComplete, "Operation should be 100 percent complete.");
-                    Assert.AreEqual("COMPLETED", operations[0].State, "Operation state should be COMPLETED.");
+
+                    VerifyGetOperationsResult(testsDBName, operationsByName);
+                    VerifyGetOperationsResult(testsDBName, operationsByDatabase);
+                    // Update this verification once Task 1615375:Adding Drop record in dm_operation_status resolved
+                    VerifyGetOperationsResult(testsDBName, operationsById);
                 }
             }
+        }
+
+        private static void VerifyGetOperationsResult(string testsDBName, Collection<PSObject> operationsByName)
+        {
+            DatabaseOperation[] operations = operationsByName.Select(r => r.BaseObject as DatabaseOperation).ToArray(); ;
+            // Task 1615375:Adding Drop record in dm_operation_status
+            // There is a known issue that Drop record is not included in the DatabaseOperation log
+            // Once that's done We should change the assert to 
+            // Assert.AreEqual(2, operations.Length, "Expecting one DatabaseOperation");
+            Assert.AreEqual(1, operations.Length, "Expecting one DatabaseOperation.");
+            Assert.IsNotNull(operations[0], "Expecting a DatabaseOperation object.");
+            Assert.AreEqual(testsDBName, operations[0].DatabaseName, "Database name does NOT match.");
+            Assert.AreEqual("CREATE DATABASE", operations[0].Name, "Operation name does NOT match.");
+            Assert.AreEqual(100, operations[0].PercentComplete, "Operation should be 100 percent complete.");
+            Assert.AreEqual("COMPLETED", operations[0].State, "Operation state should be COMPLETED.");
+
         }
 
         /// <summary>
@@ -178,41 +184,41 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =
                 new Action<HttpMessage, HttpMessage.Request>(
-                (expected, actual) =>
-                {
-                    Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
-                    Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                    switch (expected.Index)
+                    (expected, actual) =>
                     {
-                        // Request 0-11: Remove database requests
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
-                        case 10:
-                        case 11:
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                expected.RequestInfo,
-                                actual);
-                            break;
-                        default:
-                            Assert.Fail("No more requests expected.");
-                            break;
-                    }
-                });
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-11: Remove database requests
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
 
             using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
             {
                 using (new MockHttpServer(
-                    exceptionManager,
-                    MockHttpServer.DefaultServerPrefixUri,
-                    testSession))
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
                 {
                     powershell.InvokeBatchScript(
                         @"Get-AzureSqlDatabase $context | " +
