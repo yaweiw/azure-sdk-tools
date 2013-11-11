@@ -41,12 +41,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class ScenarioTest : ServiceManagementTest
     {
         private string serviceName;
+        
         string perfFile;
 
         [TestInitialize]
         public void Initialize()
         {
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+            
             pass = false;
             testStartTime = DateTime.Now;
         }
@@ -115,6 +117,71 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 throw;
             }
         }
+
+        /// <summary>
+        /// Get-AzureWinRMUri
+        /// </summary>
+        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (Get-AzureWinRMUri)")]
+        public void GetAzureWinRMUri()
+        {          
+           StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            try
+            {
+                string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
+                if (string.IsNullOrEmpty(imageName))
+                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
+
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
+                // Verify
+                Assert.AreEqual(newAzureQuickVMName, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name, true);
+
+                string name = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name;
+                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, name);
+
+                // starting the test.
+                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName); // Get-AzureVM
+                InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt)[0]; // Get-AzureEndpoint
+                Console.WriteLine("InputEndpointContext Name: {0}", inputEndpointCtxt.Name);
+                Console.WriteLine("InputEndpointContext port: {0}", inputEndpointCtxt.Port);
+                Console.WriteLine("InputEndpointContext protocol: {0}", inputEndpointCtxt.Protocol);
+                Assert.AreEqual(inputEndpointCtxt.Name, "RemoteDesktop", true);
+
+                if (resultUri != null)
+                {
+
+                    if (string.IsNullOrEmpty(resultUri.AbsoluteUri))
+                    {
+                        Assert.Fail("Should Fail!!");
+                        pass = false;
+
+                    }
+
+                    if (string.IsNullOrEmpty(resultUri.Port.ToString()))
+                    {
+                        Assert.Fail("Should Fail!!");
+                        pass = false;
+                    }
+
+                }
+
+                else
+                {
+                    pass = false;
+                }
+
+
+                //add verification of uri , endpoint, port
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Console.WriteLine(e);
+                throw;
+
+            }
+
+        } 
+
 
         /// <summary>
         /// Basic Provisioning a Virtual Machine
