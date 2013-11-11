@@ -52,20 +52,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     "$context");
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.Common.CreatePremiumDatabasesWithSqlAuth");
-                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
-                // ximchen TODO: Update this session with the correct validation once onebox ready
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);                
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                     (expected, actual) =>
-                    {                        
+                    {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                         switch (expected.Index)
                         {
-                            // Request 0-6: Query SLO P1
-                            // Request 7-13: Query SLO P2
-                            // Request 14-16: Create NewAzureSqlPremiumDatabaseTests_P1
-                            // Request 17-19: Create NewAzureSqlPremiumDatabaseTests_P2
+                            // Request 0-6: Query P1 and P2 Service Objective
                             case 0:
                             case 1:
                             case 2:
@@ -73,22 +69,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             case 4:
                             case 5:
                             case 6:
+                            // Request 7-9: Create NewAzureSqlPremiumDatabaseTests_P1
                             case 7:
                             case 8:
                             case 9:
+                            // Request 10-12: Create NewAzureSqlPremiumDatabaseTests_P2
                             case 10:
                             case 11:
                             case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            case 16:
-                            case 17:
-                            case 18:
-                            case 19:
-                            //case 20:
-                            //case 21:
-                            
                                 DatabaseTestHelper.ValidateHeadersForODataRequest(
                                     expected.RequestInfo,
                                     actual);
@@ -96,29 +84,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             default:
                                 Assert.Fail("No more requests expected.");
                                 break;
-                        }                         
+                        }
                     });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
-                    Collection<PSObject> premiumDB_P1, PremiumDB_P2, P1_SLO, P2_SLO;
+                    Collection<PSObject> premiumDB_P1, PremiumDB_P2;
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
                         testSession))
                     {
                         powershell.InvokeBatchScript(
-                                @"$P1 = Get-AzureSqlDatabaseServiceObjective " +
-                                @"-Context $context" +
-                                @"| ? { $_.Name –match ""Reserved P1""}");
-                        // ximchen TODO: seems we can remove this line of code
-                        P1_SLO = powershell.InvokeBatchScript("$P1");
+                            @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
+                            @" -Context $context" +
+                            @" -ServiceObjectiveName ""Reserved P1""");                        
 
                         powershell.InvokeBatchScript(
-                                @"$P2 = Get-AzureSqlDatabaseServiceObjective " +
-                                @"-Context $context" +
-                                @"| ? { $_.Name –match ""Reserved P2""}");
-                        P2_SLO = powershell.InvokeBatchScript("$P2");
+                            @"$P2 = Get-AzureSqlDatabaseServiceObjective " +
+                            @"-Context $context" +
+                            @" -ServiceObjectiveName ""Reserved P2"""); 
 
                         premiumDB_P1 = powershell.InvokeBatchScript(
                             @"$premiumDB_P1 = New-AzureSqlDatabase " +
@@ -143,23 +128,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
-                    // ximchen TODO: update these asserts
+                    
                     Assert.IsTrue(
                         premiumDB_P1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
-                    Services.Server.Database database1Obj =
+                    Services.Server.Database databaseP1 =
                         (Services.Server.Database)premiumDB_P1.Single().BaseObject;
-                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P1", database1Obj.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P1");
+                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P1", databaseP1.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P1");
 
                     Assert.IsTrue(
                         PremiumDB_P2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
-                    Services.Server.Database database2Obj =
+                    Services.Server.Database databaseP2 =
                         (Services.Server.Database)PremiumDB_P2.Single().BaseObject;
-                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P2", database2Obj.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P2");
+                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P2", databaseP2.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P2");
+
                     Assert.AreEqual(
                         "Japanese_CI_AS",
-                        database2Obj.CollationName,
+                        databaseP2.CollationName,
                         "Expected collation to be Japanese_CI_AS");
                     /* SQL Server: Defect 1655888: When creating a premium database, 
                      * the immediate returned value do not have valid Edition and Max Database Size info                 
