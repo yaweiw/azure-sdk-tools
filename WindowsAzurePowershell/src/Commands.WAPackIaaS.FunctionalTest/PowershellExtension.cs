@@ -28,7 +28,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         internal static Collection<PSObject> InvokeAndAssertForErrors(this PowerShell powershell, string expectedErrorMsg = null)
         {
             powershell.Streams.ClearStreams();
-			
             var result = powershell.Invoke();
 
             if (string.IsNullOrEmpty(expectedErrorMsg))

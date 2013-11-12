@@ -85,8 +85,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         protected virtual PSObject SetVirtualMachineState(PSObject vm, string state)
         {
             PowerShell.Commands.Clear();
+            PowerShell.Streams.ClearStreams();
             PowerShell.AddCommand(string.Format("{0}-WAPackVM", state)).AddParameter("VM", vm);
-            var updatedVm = PowerShell.InvokeAndAssertForNoErrors();
+            var updatedVm = PowerShell.Invoke();
             return updatedVm[0];
         }
     }
