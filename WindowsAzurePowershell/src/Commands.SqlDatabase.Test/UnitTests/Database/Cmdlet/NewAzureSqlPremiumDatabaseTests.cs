@@ -187,7 +187,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             string contextVariable)
         {
             HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
-                "UnitTest.Common.RemoveTestDatabasesWithSqlAuth");
+                "UnitTest.Common.RemoveTestPremiumDatabasesWithSqlAuth");
             DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
             testSession.RequestValidator =
                 new Action<HttpMessage, HttpMessage.Request>(

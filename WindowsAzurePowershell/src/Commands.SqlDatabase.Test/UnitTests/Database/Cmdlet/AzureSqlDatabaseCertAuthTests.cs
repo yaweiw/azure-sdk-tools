@@ -59,9 +59,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // Create a new server
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.AzureSqlDatabaseCertTests");
-                ServerTestHelper.SetDefaultTestSessionSettings(testSession);                
-                testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");
-                
+                ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+
+                // Uncomment one of these two when testing against onebox or production
+                // When testing production use RDFE 
+                // testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");
+                // When testing onebox use Mock RDFE
+                // testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/MockRDFE/");                
+
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                         (expected, actual) =>
@@ -204,8 +209,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 @" -ServiceObjective $P2",
                                 "testserver"));
                     });
+                // There is a known issue about the Get-AzureSqlDatabaseOperation that it returns all
+                // operations which has the required database name no matter it's been deleted and recreated.
+                // So when run it against the mock session, please use the hard coded testsDBName.
+                // Run against onebox, please use the one with NewGuid(). 
+                // This unit test should be updated once that behavior get changed which was already been 
+                // created as a task.
 
-                string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
+                //string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
+                string getOperationDbName = "testdbcertGetOperationDbName_5d8b5785-0490-402c-b42f-6a5f5d6fbed8";
                 Collection<PSObject> newOperationDbResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
