@@ -99,7 +99,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 case ByServerName:
                     context = ServerDataServiceCertAuth.Create(this.ServerName, WindowsAzureProfile.Instance.CurrentSubscription);
                     break;
+
+                default:
+                    throw new NotSupportedException("ParameterSet");
             }
+
             ProcessWithContext(context);
         }
 
