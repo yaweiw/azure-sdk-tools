@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,13 +19,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Properties;
     using Services.Common;
     using Services.Server;
-
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Databases in the given server context.
+    /// Retrieves a list of Windows Azure SQL Database's operations in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.None,
+    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseOperations", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = ByConnectionContext)]
-    public class GetAzureSqlDatabase : GetAzureSqlDatabaseBase
+    public class GetAzureSqlDatabaseOperations : GetAzureSqlDatabaseBase
     {
         protected override void ProcessRecord()
         {
@@ -34,13 +33,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
         protected override void OperationOnContext(IServerDataServiceContext context, string databaseName)
         {
-            this.WriteObject(context.GetDatabase(databaseName), true);
+            // ximchen Question: Do I need to add a true after this one to be able to pass to pipeline?
+            this.WriteObject(context.GetDatabaseOperations(databaseName), true);
         }
 
         protected override void OperationOnContext(IServerDataServiceContext context)
         {
-            // ximchen Mark: Need to put a true here otherwise pass to next pipeline won't work
-            this.WriteObject(context.GetDatabases(), true);
+            this.WriteObject(context.GetDatabasesOperations(), true);
         }
     }
 }

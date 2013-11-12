@@ -314,7 +314,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
-            DatabaseEdition databaseEdition)
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective)
         {
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
@@ -337,6 +338,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             {
                 database.Edition = databaseEdition.ToString();
             }
+
+            if (serviceObjective != null)
+            {
+                database.ServiceObjectiveId = serviceObjective.Id;
+            }
+            else
+            {
+                database.ServiceObjectiveId = null;
+            }
+
 
             // Save changes
             this.AddToDatabases(database);
@@ -458,6 +469,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             if (serviceObjective != null)
             {
                 database.ServiceObjectiveId = serviceObjective.Id;
+            }
+            else
+            {
+                database.ServiceObjectiveId = null;
             }
 
             // Mark the database object for update and submit the changes
@@ -603,6 +618,42 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Get/Stop Database Operations
+        public DatabaseOperation[] GetDatabaseOperations(string databaseName)
+        {
+            DatabaseOperation[] operations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                operations = this.DatabaseOperations.Where(operation => operation.DatabaseName == databaseName).ToArray();
+                if (operations == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseNotFound,
+                            this.ServerName,
+                            databaseName));
+                }
+            }
+
+            return operations;
+        }
+
+
+        public DatabaseOperation[] GetDatabasesOperations()
+        {
+            DatabaseOperation[] allOperations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                allOperations = this.DatabaseOperations.ToArray();
+            }
+
+            return allOperations;
+        }
+        #endregion
+        
         #endregion
 
         /// <summary>

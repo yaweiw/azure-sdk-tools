@@ -62,12 +62,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="databaseMaxSize">The max size for the database.</param>
         /// <param name="databaseCollation">The collation for the database.</param>
         /// <param name="databaseEdition">The edition for the database.</param>
+        /// /// <param name="serviceObjective">The SLO for the premium database.</param>
         /// <returns>The newly created Sql Database.</returns>
         Database CreateNewDatabase(
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
-            DatabaseEdition databaseEdition);
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective);
 
         /// <summary>
         /// Updates the property on the database with the name <paramref name="databaseName"/>.
@@ -131,6 +133,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <returns>An array of server quota objects</returns>
         ServerQuota[] GetQuotas();
+
+        #endregion
+
+        #region Get/Stop Database Operation
+
+        DatabaseOperation[] GetDatabaseOperations(string databaseName);
+        DatabaseOperation[] GetDatabasesOperations();
 
         #endregion
     }

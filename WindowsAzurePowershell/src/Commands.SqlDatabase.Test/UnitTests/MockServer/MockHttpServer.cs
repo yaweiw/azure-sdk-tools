@@ -33,6 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
         /// </summary>
         public static readonly Uri DefaultServerPrefixUri =
             new Uri("http://localhost:12345/MockTestServer/");
+        // ximchen Revert before submit
+            //new Uri("https://testserver.jinxu-neb5.adhoc.mscds.com");
 
         /// <summary>
         /// The HTTPS server prefix for tests
