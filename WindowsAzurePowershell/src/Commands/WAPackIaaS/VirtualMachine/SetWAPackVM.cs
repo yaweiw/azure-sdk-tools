@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
             Guid? jobId = Guid.Empty;

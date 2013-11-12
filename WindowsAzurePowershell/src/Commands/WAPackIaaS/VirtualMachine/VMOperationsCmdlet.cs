@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             WriteObject(updatedVMObject);
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             // no-op
         }

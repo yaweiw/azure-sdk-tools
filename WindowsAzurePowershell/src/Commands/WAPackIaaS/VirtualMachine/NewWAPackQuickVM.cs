@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             VirtualMachine pendingVirtualMachine = null;
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);

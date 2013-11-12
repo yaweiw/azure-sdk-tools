@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsLifecycle.Resume, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject)]
     public class ResumeWAPackVM : VMOperationsCmdlet
     {
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             this.ExecuteVMOperation(VMOperationsEnum.Resume);
         }
