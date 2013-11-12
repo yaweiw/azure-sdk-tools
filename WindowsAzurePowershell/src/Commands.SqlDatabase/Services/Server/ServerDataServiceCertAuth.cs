@@ -337,9 +337,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </returns>
         public ServiceObjective GetServiceObjective(string serviceObjectiveName)
         {
-            ServiceObjective serviceObjective = GetServiceObjectives().
-                Where(s => s.Name == serviceObjectiveName).
-                FirstOrDefault();
+            ServiceObjective serviceObjective = GetServiceObjectives()
+                .Where(s => s.Name == serviceObjectiveName)
+                .FirstOrDefault();
             if (serviceObjective == null)
             {
                 throw new InvalidOperationException(

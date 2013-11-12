@@ -60,8 +60,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.AzureSqlDatabaseCertTests");
                 ServerTestHelper.SetDefaultTestSessionSettings(testSession);                
-                testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");                
-
+                testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");
+                
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                         (expected, actual) =>

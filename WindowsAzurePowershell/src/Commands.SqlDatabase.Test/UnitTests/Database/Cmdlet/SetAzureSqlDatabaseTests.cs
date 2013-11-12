@@ -284,36 +284,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$context");
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
-                    "UnitTests.SetAzureSqlDatabaseServiceObjectiveWithSqlAuth");
-                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
-                testSession.RequestValidator =
-                    new Action<HttpMessage, HttpMessage.Request>(
-                    (expected, actual) =>
-                    {
-                        /*
-                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
-                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
-                        {
-                            // Request 0-1: Get Service Objective
-                            case 0:
-                            case 1:
-                            // Request 2-7: Get/Update/Re-Get testdb2
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
-                        }
-                         */
-                    });
+                    "UnitTests.SetAzureSqlPremiumDatabaseServiceObjectiveWithSqlAuth");
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);                
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
@@ -332,14 +304,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(
                             @"$premiumDB_P1 = New-AzureSqlDatabase " +
                             @"-Context $context " +
-                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
                             @"-Edition Premium " +
                             @"-ServiceObjective $P1 ");
 
                         premiumDB = powershell.InvokeBatchScript(
                             @"Set-AzureSqlDatabase " +
                             @"-Context $context " +
-                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
                             @"-Edition Business " +
                             @"-Force " +
                             @"-PassThru");
@@ -347,7 +319,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(
                             @"Remove-AzureSqlDatabase " +
                             @"-Context $context " +
-                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
                             @"-Force ");
                     }
 
@@ -362,7 +334,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Services.Server.Database premiumDBObj =
                         (Services.Server.Database)premiumDB.Single().BaseObject;
 
-                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P1", premiumDBObj.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P1");
+                    Assert.AreEqual("SetAzureSqlPremiumDatabaseTests_P1", premiumDBObj.Name, "Expected db name to be SetAzureSqlPremiumDatabaseTests_P1");
                     Assert.AreEqual("Business", premiumDBObj.Edition, "Expected db edition to be Business");
                     Assert.AreEqual("Shared", premiumDBObj.ServiceObjective.Name, "Expected db ServiceObjective to be Shared");
                 }

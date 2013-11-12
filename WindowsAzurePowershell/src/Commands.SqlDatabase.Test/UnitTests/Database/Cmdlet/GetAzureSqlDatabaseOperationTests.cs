@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$context");
                 HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
-                    "UnitTest.Common.CreatePremiumDatabasesWithSqlAuth");
+                    "UnitTest.Common.GetAzureSqlDatabaseOperationWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
@@ -147,89 +147,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual("CREATE DATABASE", operations[0].Name, "Operation name does NOT match.");
             Assert.AreEqual(100, operations[0].PercentComplete, "Operation should be 100 percent complete.");
             Assert.AreEqual("COMPLETED", operations[0].State, "Operation state should be COMPLETED.");
-
-        }
-
-        /// <summary>
-        /// Helper function to remove the test databases.
-        /// </summary>
-        public static void RemoveTestDatabasesWithSqlAuth()
-        {
-            using (System.Management.Automation.PowerShell powershell =
-                System.Management.Automation.PowerShell.Create())
-            {
-                // Create a context
-                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
-                    powershell,
-                    "$context");
-
-                // Remove the 2 test databases
-                NewAzureSqlPremiumDatabaseTests.RemoveTestDatabasesWithSqlAuth(
-                    powershell,
-                    "$context");
-            }
-        }
-
-        /// <summary>
-        /// Removes all existing db which name starting with PremiumTest on the given context.
-        /// </summary>
-        /// <param name="powershell">The powershell instance containing the context.</param>
-        /// <param name="contextVariable">The variable name that holds the server context.</param>
-        public static void RemoveTestDatabasesWithSqlAuth(
-            System.Management.Automation.PowerShell powershell,
-            string contextVariable)
-        {
-            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
-                "UnitTest.Common.RemoveTestDatabasesWithSqlAuth");
-            DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
-            testSession.RequestValidator =
-                new Action<HttpMessage, HttpMessage.Request>(
-                    (expected, actual) =>
-                    {
-                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
-                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
-                        {
-                            // Request 0-11: Remove database requests
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9:
-                            case 10:
-                            case 11:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
-                        }
-                    });
-
-            using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
-            {
-                using (new MockHttpServer(
-                        exceptionManager,
-                        MockHttpServer.DefaultServerPrefixUri,
-                        testSession))
-                {
-                    powershell.InvokeBatchScript(
-                        @"Get-AzureSqlDatabase $context | " +
-                        @"? {$_.Name.contains(""NewAzureSqlPremiumDatabaseTests"")} " +
-                        @"| Remove-AzureSqlDatabase -Context $context -Force");
-                }
-
-                Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
-                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
-                powershell.Streams.ClearStreams();
-            }
-        }
+        }        
     }
 }
