@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (Shutdown.IsPresent)
             {
