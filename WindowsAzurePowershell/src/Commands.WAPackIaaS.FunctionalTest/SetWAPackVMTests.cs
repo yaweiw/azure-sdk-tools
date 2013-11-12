@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
+    using System.Linq;
 
     [TestClass]
     public class SetWAPackVMTests : CmdletTestVirtualMachineStatusBase
@@ -37,21 +38,21 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
 
             //Get the VM, verify that is stopped before we change the profile
             SetVirtualMachineState(VirtualMachine, "Stop");
-            var vm = VirtualMachine.BaseObject as VirtualMachine;
+            var vm = this.VirtualMachine;
             Assert.IsNotNull(vm);
-            Assert.AreEqual("Stopped", vm.StatusString);
+            Assert.AreEqual("Stopped", vm.Properties["StatusString"].Value);
 
             //See what the size of our VM is currently
-            var currentRAM = vm.Memory;
-            var currentCPU = vm.CPUCount;
+            var currentRAM = vm.Properties["Memory"].Value;
+            var currentCPU = vm.Properties["CPUCount"].Value;
 
-            var newProfile = sizeProfileList[0].BaseObject as HardwareProfile;
+            var newProfile = sizeProfileList.First();
             Assert.IsNotNull(newProfile);
 
             //Modify the profile to make sure it's different from what the VM currently has
-            newProfile.Memory = 1024;
-            if (currentRAM >= 1024)
-                newProfile.Memory = 512;
+            newProfile.Properties["Memory"].Value = 1024;
+            if ((int)currentRAM >= 1024)
+                newProfile.Properties["Memory"].Value = 512;
 
             //Set the size profile
             ps.Commands.Clear();
@@ -61,11 +62,11 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             var updatedVMList = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(1, updatedVMList.Count);
 
-            var updatedVM = updatedVMList[0].BaseObject as VirtualMachine;
+            var updatedVM = updatedVMList.First();
             Assert.IsNotNull(updatedVM);
 
             //Only way to know if size profile has truly updated is if there is a different amount of CPU/RAM than before
-            Assert.AreNotEqual(updatedVM.Memory, currentRAM);
+            Assert.AreNotEqual(updatedVM.Properties["CPUCount"].Value, currentRAM);
         }
 
         [TestMethod]
@@ -83,9 +84,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             Assert.AreEqual(1, sizeProfileList.Count);
 
             //Get our VM object, then change its ID to something that doesn't exist
-            var vm = VirtualMachine.BaseObject as VirtualMachine;
+            var vm = this.VirtualMachine;
             Assert.IsNotNull(vm);
-            vm.ID = Guid.NewGuid();
+            vm.Properties["ID"].Value = Guid.NewGuid();
 
 
             //Try to set the size profile
@@ -94,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             ps.AddParameter("VM", vm);
             ps.AddParameter("VMSizeProfile", sizeProfileList[0]);
 
-            var expectedError = string.Format(Resources.ResourceNotFound, vm.ID);
+            var expectedError = string.Format(Resources.ResourceNotFound, vm.Properties["ID"].Value);
             var updatedVMList = ps.InvokeAndAssertForErrors(expectedError);
         }
     }

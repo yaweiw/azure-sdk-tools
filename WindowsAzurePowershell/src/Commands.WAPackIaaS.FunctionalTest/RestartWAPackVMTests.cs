@@ -66,16 +66,16 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS")]
         public void ShouldFailRestartUnknownVM()
         {
-            var vm = VirtualMachine.BaseObject as VirtualMachine;
+            var vm = this.VirtualMachine;
             Assert.IsNotNull(vm);
 
-            vm.ID = Guid.NewGuid();
+            vm.Properties["ID"].Value = Guid.NewGuid();
 
             var ps = this.PowerShell;
             ps.Commands.Clear();
             ps.AddCommand("Restart-WAPackVM");
             ps.AddParameter("VM", vm);
-            ps.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Restart, vm.ID));
+            ps.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Restart, vm.Properties["ID"].Value));
         }
     }
 }
