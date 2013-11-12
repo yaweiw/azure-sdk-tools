@@ -44,7 +44,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// <summary>
         /// The subscription Id used in the unit tests.
         /// </summary>
-        private static readonly string UnitTestSubscriptionId = "00000000-0000-0000-0001-000000000001";
+        //private static readonly string UnitTestSubscriptionId = "00000000-0000-0000-0001-000000000001";
+        // ximchen TODO: not sure whether this is a correct hack
+        private static readonly string UnitTestSubscriptionId = "de984bdd-e0f2-4333-b8ff-937f259c3937";        
 
         /// <summary>
         /// The SSL certificate used in the unit tests.

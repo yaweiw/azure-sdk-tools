@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void CreateContext()
         {
-            string arguments = string.Format(
+           string arguments = string.Format(
                 CultureInfo.InvariantCulture,
                 "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\" "
                 + "-SubscriptionId \"{3}\" -SerializedCert \"{4}\" ",

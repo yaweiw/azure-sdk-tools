@@ -272,5 +272,101 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 }
             }
         }
+
+        [TestMethod]
+        public void SetAzureSqlPremiumDatabaseServiceObjectiveWithSqlAuth()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.SetAzureSqlDatabaseServiceObjectiveWithSqlAuth");
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        /*
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-1: Get Service Objective
+                            case 0:
+                            case 1:
+                            // Request 2-7: Get/Update/Re-Get testdb2
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                         */
+                    });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    // Create context with both ManageUrl and ServerName overriden
+                    Collection<PSObject> database, premiumDB;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        powershell.InvokeBatchScript(
+                            @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
+                            @" -Context $context" +
+                            @" -ServiceObjectiveName ""Reserved P1""");
+
+                        powershell.InvokeBatchScript(
+                            @"$premiumDB_P1 = New-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Edition Premium " +
+                            @"-ServiceObjective $P1 ");
+
+                        premiumDB = powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Edition Business " +
+                            @"-Force " +
+                            @"-PassThru");
+
+                        powershell.InvokeBatchScript(
+                            @"Remove-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName NewAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Force ");
+                    }
+
+                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                    powershell.Streams.ClearStreams();
+
+                   
+                    Assert.IsTrue(
+                        premiumDB.Single().BaseObject is Services.Server.Database,
+                        "Expecting a Database object");
+                    Services.Server.Database premiumDBObj =
+                        (Services.Server.Database)premiumDB.Single().BaseObject;
+
+                    Assert.AreEqual("NewAzureSqlPremiumDatabaseTests_P1", premiumDBObj.Name, "Expected db name to be NewAzureSqlPremiumDatabaseTests_P1");
+                    Assert.AreEqual("Business", premiumDBObj.Edition, "Expected db edition to be Business");
+                    Assert.AreEqual("Shared", premiumDBObj.ServiceObjective.Name, "Expected db ServiceObjective to be Shared");
+                }
+            }
+        }
     }
 }

@@ -205,7 +205,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             int? databaseMaxSizeInGB,
             string databaseCollation,
-            DatabaseEdition databaseEdition)
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective)
         {
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 
@@ -223,7 +224,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         databaseEdition.ToString() : DatabaseEdition.Web.ToString(),
                     CollationName = databaseCollation ?? string.Empty,
                     MaximumDatabaseSizeInGB = databaseMaxSizeInGB ??
-                        (databaseEdition == DatabaseEdition.Business ? 10 : 1),
+                        (databaseEdition == DatabaseEdition.Business || databaseEdition == DatabaseEdition.Premium ? 10 : 1),
+                    ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
                 });
 
             // Construct the resulting Database object
@@ -324,7 +326,61 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
 
         #endregion
+        
+        #region Database Operation Functions
 
+        //public DatabaseOperation[] CreateDatabaseOperationFromResponse(DatabaseOperationListResponse operationList)
+        //{
+        //    List<DatabaseOperation> result = new List<DatabaseOperation>();
+        //    foreach (var response in operationList)
+        //    {
+        //        // ximchen TODO: Confirm with James whether this is enough to create from the response
+        //        DatabaseOperation operation = new DatabaseOperation()
+        //        {
+        //            Id = Guid.Parse(response.Id),
+        //            StateId = int.Parse(response.StateId),
+        //            SessionActivityId = Guid.Parse(response.SessionActivityId),
+        //            PercentComplete = int.Parse(response.PercentComplete),
+        //            StartTime = DateTime.Parse(response.StartTime, CultureInfo.InvariantCulture),
+        //            LastModifyTime = DateTime.Parse(response.LastModifyTime, CultureInfo.InvariantCulture),
+        //        };
+
+        //        result.Add(operation);
+        //    }
+        //    return result.ToArray();
+        //}
+
+        public DatabaseOperation[] GetDatabaseOperations(string databaseName)
+        {
+            //DatabaseOperationListResponse operations;            
+            //this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            ////create a channel to the server for communication
+
+            //ISqlDatabaseManagement channel = GetManagementChannel();
+
+            //operations = channel.EndGetDatabaseOperations(
+            //        channel.BeginGetDatabaseOperations(this.subscriptionId, this.ServerName, databaseName, null, null));
+
+
+            ////Create the database's operations from the response
+            //DatabaseOperation[] result = CreateDatabaseOperationFromResponse(operations);
+            //return result;
+            return null;
+        }
+
+        public DatabaseOperation[] GetDatabasesOperations()
+        {
+            //return this.GetDatabaseOperations(databaseName: null);
+            return null;
+        }
+
+        public void StopDatabaseOperation(string operationId)
+        {
+        }
+
+        #endregion
+        
         #endregion
 
         #region Helper functions
