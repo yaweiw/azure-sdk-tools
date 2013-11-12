@@ -26,6 +26,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     [TestClass]
     public class GetAzureSqlDatabaseOperationTests : TestBase
     {
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            // Save the mock session results
+            MockServerHelper.SaveDefaultSessionCollection();
+        }
 
         /// <summary>
         /// Create a database on the given context then get the operations on that database.
@@ -79,8 +85,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
-                    string testsDBName = string.Format("getAzureSqlDatabaseOperationTestsDB_{0}",
-                        Guid.NewGuid().ToString());
+                    // There is a known issue about the Get-AzureSqlDatabaseOperation that it returns all
+                    // operations which has the required database name no matter it's been deleted and recreated.
+                    // So when run it against the mock session, please use the hard coded testsDBName.
+                    // Run against onebox, please use the one with NewGuid(). 
+                    // This unit test should be updated once that behavior get changed which was already been 
+                    // created as a task.
+
+                    // string testsDBName = string.Format("getAzureSqlDatabaseOperationTestsDB_{0}",
+                    //     Guid.NewGuid().ToString());
+                    string testsDBName = "getAzureSqlDatabaseOperationTestsDB_08ebd7c9-bfb7-426a-9e2f-9921999567e1";
                     Collection<PSObject> database, operationsByName, operationsByDatabase, operationsById;
                     using (new MockHttpServer(
                             exceptionManager,
