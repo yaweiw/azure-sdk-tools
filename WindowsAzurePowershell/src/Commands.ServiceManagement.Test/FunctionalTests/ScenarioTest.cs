@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     pass = false;
                 }
 
-                Assert.IsTrue(pass);
+                pass = true;
                 //add verification of uri , endpoint, port
             }
             catch (Exception e)
