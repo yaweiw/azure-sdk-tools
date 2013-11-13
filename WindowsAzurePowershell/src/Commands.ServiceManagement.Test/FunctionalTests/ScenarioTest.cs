@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// <summary>
         /// Get-AzureWinRMUri
         /// </summary>
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (Get-AzureWinRMUri)")]
+        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("v-rakonj"), Description("Test the cmdlets (Get-AzureWinRMUri)")]
         public void GetAzureWinRMUri()
         {          
            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
