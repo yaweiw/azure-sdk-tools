@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to portalvhdsjxvlzvbq5xd1d.
+        ///   Looks up a localized string similar to rtstore.
         /// </summary>
         internal static string DefaultStorageAccountName {
             get {
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SDKTestSub01.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string DefaultSubscriptionName {
             get {
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to East US.
+        ///   Looks up a localized string similar to West US.
         /// </summary>
         internal static string Location {
             get {
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to G:\powershell-practice\ProdRunner-Sub-SDKTestSub01-12-5-2012-credentialsCopy.publishsettings.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string PublishSettingsFile {
             get {
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UseCustom.
+        ///   Looks up a localized string similar to UseDefaults.
         /// </summary>
         internal static string TestSettings {
             get {
