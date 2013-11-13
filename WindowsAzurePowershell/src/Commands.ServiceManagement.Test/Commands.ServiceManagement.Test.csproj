@@ -377,22 +377,22 @@
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
     <None Include="Resources\wrongPara_VHD.csv" />
-    <None Include="VhdFiles\dynamic_50.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\dynamic_50_child01.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50_child01.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\dynamic_50_child02.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50_child02.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50.vhd">
+    <None Include="vendor\VhdFiles\fixed_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50_child01.vhd">
+    <None Include="vendor\VhdFiles\fixed_50_child01.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50_child02.vhd">
+    <None Include="vendor\VhdFiles\fixed_50_child02.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1373,4 +1373,86 @@ Please follow these steps in the portal:
   <data name="NoCachedToken" xml:space="preserve">
     <value>There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription.</value>
   </data>
+  <data name="BaseUriEmpty" xml:space="preserve">
+    <value>Base Uri was empty.</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="CreateFailedErrorMessage" xml:space="preserve">
+    <value>VirtualMachine creation failed.</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="ErrorCreatingVirtualMachine" xml:space="preserve">
+    <value>Error creating VirtualMachine</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="ErrorUpdatingVirtualMachine" xml:space="preserve">
+    <value>Error updating VirtualMachine</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="FailedJobErrorMessage" xml:space="preserve">
+    <value>Job Id {0} failed. Error: {1}, ExceptionDetails: {2}</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="JobNotFound" xml:space="preserve">
+    <value>No job for id: {0} was found.</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="NoCloudsAvailable" xml:space="preserve">
+    <value>No clouds available</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="OperationFailedErrorMessage" xml:space="preserve">
+    <value>Operation "{0}" failed on VM with ID: {1}</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="OperationTimedOutOrError" xml:space="preserve">
+    <value>Job Id {0} did not complete within expected time or it is in Failed/Canceled/Invalid state.</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>Resource with ID : {0} does not exist.</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="SubscriptionMustNotBeNull" xml:space="preserve">
+    <value>Subscription must not be null</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Shutdown" xml:space="preserve">
+    <value>Shutdown</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="Suspend" xml:space="preserve">
+    <value>Suspend</value>
+    <comment>WAPackIaaS</comment>
+  </data>
+  <data name="RemoveVMConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the VM '{0}'?</value>
+  </data>
+  <data name="RemoveVMMessage" xml:space="preserve">
+    <value>Deleting VM.</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+    <comment>WAPackIaaS</comment>
+  </data>
 </root>
