@@ -36,6 +36,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
     using System.Security.Cryptography.X509Certificates;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
+    
+    
+    
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
@@ -85,12 +89,49 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     Console.WriteLine("Fail as expected: {0}", e.ToString());
                 }
 
+
+
                 // Cleanup 
                 vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName1, serviceName);
                 Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName1, serviceName));
                 Assert.AreEqual(newAzureQuickVMName2, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName).Name, true);
                 vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName2, serviceName);
                 Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName));
+                
+                //Remove the service after removing the VM above
+                vmPowershellCmdlets.RemoveAzureService(serviceName);
+
+                //DisableWinRMHttps Test Case
+                              
+                try
+                {
+                    NewQuickVM quickVM = new NewQuickVM();
+
+                    if (!quickVM.DisableWinRMHttps.IsPresent)
+                    {
+
+                        vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password, locationName, null, "");
+                    }
+                    pass = true;
+
+                }
+                catch (Exception e)
+                {
+                    pass = false;
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    
+                }
+                finally
+                {
+                    if (pass == true) pass = true;
+                    vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName2, serviceName);
+                    Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName));                   
+                }
+                
+                //End DisableWinRMHttps Test Case
 
                 // Negative Test Case--It should Fail
 
@@ -98,6 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName1, serviceName, imageName, username, password, locationName);
                     Assert.Fail("Should have failed, but succeeded!!");
+                    pass = true;
                 }
                 catch (Exception e)
                 {
@@ -106,10 +148,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                         throw;
                     }
                     Console.WriteLine("This exception is expected.");
+                    pass = true;
                 }
-                // End of Negative Test Case -- It should Fail
-
-                pass = true;
+                // End of Negative Test Case -- It should Fail]
+                                 
+                
             }
             catch (Exception e)
             {
@@ -148,17 +191,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 if (resultUri != null)
                 {
-
                     if (string.IsNullOrEmpty(resultUri.AbsoluteUri))
                     {
-                        Assert.Fail("Should Fail!!");
                         pass = false;
-
                     }
 
                     if (string.IsNullOrEmpty(resultUri.Port.ToString()))
                     {
-                        Assert.Fail("Should Fail!!");
                         pass = false;
                     }
 
@@ -169,7 +208,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     pass = false;
                 }
 
-
+                Assert.IsTrue(pass);
                 //add verification of uri , endpoint, port
             }
             catch (Exception e)
