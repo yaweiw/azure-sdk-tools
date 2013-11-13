@@ -1,20 +1,47 @@
+2013.11.07 Version 0.7.1
+* Regression fixes
+    * Get-AzureWinRMUri cannot return the correct port number (https://github.com/WindowsAzure/azure-sdk-tools/issues/2056)
+    * New-AzureVM fails when creating a VM with a domain join provisioning (https://github.com/WindowsAzure/azure-sdk-tools/issues/2055)
+    * ACL for endpoints broken (https://github.com/WindowsAzure/azure-sdk-tools/issues/2054)
+    * Restarting web site will clean the host names (https://github.com/WindowsAzure/azure-sdk-tools/issues/2101)
+    * Creating a new Linux VM with an SSH certificate fails (https://github.com/WindowsAzure/azure-sdk-tools/issues/2057)
+    * Debug stream only prints out at the end of processing (https://github.com/WindowsAzure/azure-sdk-tools/issues/2033)
+* Cmdlets for creating Storage SAS token
+    * New-AzureStorageBlobSASToken
+    * New-AzureStorageContainerSASToken
+    * New-AzureStorageQueueSASToken
+    * New-AzureStorageTableSASToken
+* VM cmdlets for Windows Azure Pack
+    * Get-WAPackVM
+    * Get-WAPackVMOSDisk
+    * Get-WAPackVMSizeProfile
+    * Get-WAPackVMTemplate
+    * New-WAPackVM
+    * Remove-WAPackVM
+    * Restart-WAPackVM
+    * Resume-WAPackVM
+    * Set-WAPackVM
+    * Start-WAPackVM
+    * Stop-WAPackVM
+    * Suspend-WAPackVM
+
 2013.10.21 Version 0.7.0
- * Windows Azure Active Directory authentication support!
-     * Now you can use your Microsoft account or Organizational account to login from PowerShell without the need of any management certificate or publish settings file!
-     * Use Add-AzureAccount to get started
-     * Checkout Add-AzureAccount, Get-AzureAcccount and Remove-AzureAccount for details
- * Changed the file format which is used to store the subscription information. Information in the original file will be added to the new file automatically. If you downgrade from 0.7.0 to a lower version, you can still see the subscriptions you imported before the 0.7.0 upgrade. But anything added after the 0.7.0 upgrade won't show up in the downgrade.
- * BREAKING CHANGE
-     * Changed the assembly name and namespace from Microsoft.WindowsAzure.Management.* to Microsoft.WindowsAzure.Commands.*
-     * Select-AzureSubscription
-         * Now you can use it to select or clear either the current subscription or the default subscription
-         * Replaced the -Clear parameter with -NoCurrent parameter
-     * Set-AzureSubscription
-         * Removed -DefaultSubscription and -NoDefaultSubscription parameters. Go to Select-AzureSubscription with -Default and -NoDefault parameters.
-     * New-AzureSqlDatabaseServerContext
-         * Replaced the -SubscriptionData parameter with -SubscriptionName parameter
- * Upgraded Windows Azure SDK dependency from 1.8 to 2.2
- * Added support for a new virtual machine high memory SKU (A5)
+* Windows Azure Active Directory authentication support!
+    * Now you can use your Microsoft account or Organizational account to login from PowerShell without the need of any management certificate or publish settings file!
+    * Use Add-AzureAccount to get started
+    * Checkout Add-AzureAccount, Get-AzureAcccount and Remove-AzureAccount for details
+* Changed the file format which is used to store the subscription information. Information in the original file will be added to the new file automatically. If you downgrade from 0.7.0 to a lower version, you can still see the subscriptions you imported before the 0.7.0 upgrade. But anything added after the 0.7.0 upgrade won't show up in the downgrade.
+* BREAKING CHANGE
+    * Changed the assembly name and namespace from Microsoft.WindowsAzure.Management.* to Microsoft.WindowsAzure.Commands.*
+    * Select-AzureSubscription
+        * Now you can use it to select or clear either the current subscription or the default subscription
+        * Replaced the -Clear parameter with -NoCurrent parameter
+    * Set-AzureSubscription
+        * Removed -DefaultSubscription and -NoDefaultSubscription parameters. Go to Select-AzureSubscription with -Default and -NoDefault parameters.
+    * New-AzureSqlDatabaseServerContext
+        * Replaced the -SubscriptionData parameter with -SubscriptionName parameter
+* Upgraded Windows Azure SDK dependency from 1.8 to 2.2
+* Added support for a new virtual machine high memory SKU (A5)
 
 2013.08.22 Version 0.6.19
 * Media Services cmdlets

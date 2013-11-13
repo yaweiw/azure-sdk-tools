@@ -39,6 +39,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Copy storage blob.
   * Manage storage table.
   * Manage storage queue.
+  * Create SAS token.
 * SQL Azure
   * CRUD support for database server, database and firewall rule.
   * Get database server quota.
@@ -66,6 +67,10 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get the list of geo locations supported by Azure.
   * Get the list of OS supported by Azure.
   * Direct you to Azure portal.
+* Windows Azure Pack
+  * Web Site: CRUD web site, deployment, configure and get log, start/stop/restart/show web site
+  * Service Bus: CRD namespace
+  * VM: CRUD VM, get OS disk, size profile and VM template, start/stop/restart/suspend/resume VM
 
 For detail descriptions and examples of the cmdlets, type
 * ```help azure``` to get all the cmdlets.
