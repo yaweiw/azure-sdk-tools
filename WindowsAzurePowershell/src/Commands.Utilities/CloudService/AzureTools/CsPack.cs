@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <param name="standardOutput">Standard output</param>
         /// <param name="standardError">Standard error</param>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void CreatePackage(ServiceDefinition definition, string rootPath, DevEnv type, out string standardOutput, out string standardError)
+        public void CreatePackage(ServiceDefinition definition, CloudProjectPathInfo paths, DevEnv type, out string standardOutput, out string standardError)
         {
             if (definition == null)
             {
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
                     "definition",
                     string.Format(Resources.InvalidOrEmptyArgumentMessage, "Service definition"));
             }
-            if (string.IsNullOrEmpty(rootPath) || File.Exists(rootPath))
+            if (string.IsNullOrEmpty(paths.RootPath))
             {
                 throw new ArgumentException(Resources.InvalidRootNameMessage, "rootPath");
             }
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
                     // Get the name and safe path for each role (i.e., if the
                     // role has files that shouldn't be packaged, it'll be
                     // copied to a temp location without those files)
-                    .Select(name => GetOrCreateCleanPath(rootPath, name, tempDirectories, type))
+                    .Select(name => GetOrCreateCleanPath(paths.RolesPath, name, tempDirectories, type))
                     // Format the role name and path as a role argument
                     .Select(nameAndPath => string.Format(Resources.RoleArgTemplate, nameAndPath.Key, nameAndPath.Value))
                     // Join all the role arguments together into one
@@ -84,14 +84,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
                                 Resources.SitesArgTemplate,
                                 role.name,
                                 site.name,
-                                tempDirectories.GetValueOrDefault(role.name, rootPath))))
+                                tempDirectories.GetValueOrDefault(role.name, paths.RolesPath))))
                     // Join all the site arguments together into one
                     .DefaultIfEmpty(string.Empty)
                     .Aggregate(string.Concat);
 
                 string args = string.Format(
                     type == DevEnv.Local ? Resources.CsPackLocalArg : Resources.CsPackCloudArg,
-                    rootPath,
+                    paths.RootPath,
                     roles,
                     sites);
 
