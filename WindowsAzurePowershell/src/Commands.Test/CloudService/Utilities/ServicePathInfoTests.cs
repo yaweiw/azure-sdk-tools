@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void ServicePathInfoTest()
         {
-            ServicePathInfo paths = new ServicePathInfo("MyService");
+            PowerShellCloudServicePathInfo paths = new PowerShellCloudServicePathInfo("MyService");
             AzureAssert.AreEqualServicePathInfo("MyService", paths);
         }
 
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             try
             {
-                ServicePathInfo paths = new ServicePathInfo(string.Empty);
+                PowerShellCloudServicePathInfo paths = new PowerShellCloudServicePathInfo(string.Empty);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             try
             {
-                ServicePathInfo paths = new ServicePathInfo(null);
+                PowerShellCloudServicePathInfo paths = new PowerShellCloudServicePathInfo(null);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             {
                 try
                 {
-                    ServicePathInfo paths = new ServicePathInfo(invalidDirectoryName);
+                    PowerShellCloudServicePathInfo paths = new PowerShellCloudServicePathInfo(invalidDirectoryName);
                     Assert.Fail("No exception was thrown");
                 }
                 catch (Exception ex)

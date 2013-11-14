@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System.IO;
-    using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-    public class ServicePathInfo
+    public class PowerShellCloudServicePathInfo
     {
         public string Definition { get; private set; }
         public string CloudConfiguration { get; private set; }
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public string LocalPackage { get; private set; }
         public string RootPath { get; private set; }
 
-        public ServicePathInfo(string rootPath)
+        public PowerShellCloudServicePathInfo(string rootPath)
         {
             Validate.ValidateStringIsNullOrEmpty(rootPath, "service definition (*.csdef) file");
             Validate.ValidatePathName(rootPath, Resources.InvalidRootNameMessage);
