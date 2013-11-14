@@ -694,7 +694,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 foreach (RoleSettings role in service.Components.CloudConfig.Role)
                 {
-                    string roleDirectory = Path.Combine(service.Paths.RootPath, role.name);
+                    string roleDirectory = Path.Combine(service.Paths.RolesPath, role.name);
 
                     if (!Directory.Exists(roleDirectory))
                     {
