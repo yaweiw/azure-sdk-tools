@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     /// </summary>
     public class CloudServiceProject
     {
-        public ServicePathInfo Paths { get; private set; }
+        public PowerShellCloudServicePathInfo Paths { get; private set; }
 
         public ServiceComponents Components { get; private set; }
         
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
 
             SetScaffolding(scaffoldingPath);
-            Paths = new ServicePathInfo(newServicePath);
+            Paths = new PowerShellCloudServicePathInfo(newServicePath);
             CreateNewService(Paths.RootPath, name);
             Components = new ServiceComponents(Paths);
             ConfigureNewService(Components, Paths, name);
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public CloudServiceProject(string rootPath, string scaffoldingPath)
         {
             SetScaffolding(scaffoldingPath);
-            Paths = new ServicePathInfo(rootPath);
+            Paths = new PowerShellCloudServicePathInfo(rootPath);
             Components = new ServiceComponents(Paths);
         }
 
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void ConfigureNewService(ServiceComponents components, ServicePathInfo paths, string serviceName)
+        private void ConfigureNewService(ServiceComponents components, PowerShellCloudServicePathInfo paths, string serviceName)
         {
             Components.Definition.name = serviceName;
             Components.CloudConfig.serviceName = serviceName;
@@ -301,7 +301,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             runTool.StopEmulator(out standardOutput, out standardError);
         }
 
-        public void ChangeServiceName(string newName, ServicePathInfo paths)
+        public void ChangeServiceName(string newName, PowerShellCloudServicePathInfo paths)
         {
             Validate.ValidateDnsName(newName, "service name");
 
@@ -317,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="paths">The service paths</param>
         /// <param name="roleName">The name of the role to change its instance count</param>
         /// <param name="VMSize">The new role instance count</param>
-        public void SetRoleInstances(ServicePathInfo paths, string roleName, int instances)
+        public void SetRoleInstances(PowerShellCloudServicePathInfo paths, string roleName, int instances)
         {
             Components.SetRoleInstances(roleName, instances);
             Components.Save(paths);
@@ -329,7 +329,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="paths">The service paths</param>
         /// <param name="roleName">The name of the role to change its vm size</param>
         /// <param name="VMSize">The new role vm size</param>
-        public void SetRoleVMSize(ServicePathInfo paths, string roleName, string VMSize)
+        public void SetRoleVMSize(PowerShellCloudServicePathInfo paths, string roleName, string VMSize)
         {
             Components.SetRoleVMSize(roleName, VMSize);
             Components.Save(paths);
@@ -341,7 +341,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="paths">service path info</param>
         /// <param name="manifest">The manifest to use to get current runtime info - default is the cloud manifest</param>
         /// <returns></returns>
-        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
+        public CloudRuntimeCollection GetCloudRuntimes(PowerShellCloudServicePathInfo paths, string manifest)
         {
             CloudRuntimeCollection collection;
             CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
@@ -357,7 +357,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="runtimeVersion">The runtime version</param>
         /// <param name="manifest">Location fo the manifest file, default is the cloud manifest</param>
         public void AddRoleRuntime(
-            ServicePathInfo paths,
+            PowerShellCloudServicePathInfo paths,
             string roleName,
             string runtimeType,
             string runtimeVersion,
@@ -479,7 +479,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// </summary>
         public void Reload()
         {
-            Paths = new ServicePathInfo(Paths.RootPath);
+            Paths = new PowerShellCloudServicePathInfo(Paths.RootPath);
             Components = new ServiceComponents(Paths);
         }
     }
