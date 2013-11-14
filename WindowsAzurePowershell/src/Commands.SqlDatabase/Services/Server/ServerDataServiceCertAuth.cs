@@ -480,6 +480,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return operations;
         }
 
+        #endregion
+
+        #region Database copy operations
+
         /// <summary>
         /// Retrieve all database copy objects with matching parameters.
         /// </summary>
@@ -492,7 +496,58 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string partnerServer,
             string partnerDatabaseName)
         {
-            throw new NotImplementedException();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            IEnumerable<DatabaseCopyResponse> copyResponses = null;
+            if (databaseName != null)
+            {
+                copyResponses = sqlManagementClient.DatabaseCopies.List(this.ServerName, databaseName);
+            }
+            else
+            {
+                // We want to list all of the copies on the server. Currently, the server-side API doesn't
+                // directly support that. It may at some time in the future, but until then we're doing the
+                // following to avoid breaking compatibility.
+                copyResponses = Enumerable.Empty<DatabaseCopyResponse>();
+
+                DatabaseListResponse dbListResponse = sqlManagementClient.Databases.List(this.ServerName);
+
+                // Iterate through the server's databases and add each set of copies to our list.
+                foreach (DatabaseListResponse.Database database in dbListResponse)
+                {
+                    copyResponses = copyResponses.Concat(
+                        sqlManagementClient.DatabaseCopies.List(this.ServerName, database.Name));
+                }
+            }
+
+            // Filter the copies by the specified criteria.
+            DatabaseCopy[] databaseCopies = copyResponses.Where(copy =>
+                {
+                    if (copy.IsLocalDatabaseReplicationTarget)
+                    {
+                        return (partnerServer ?? copy.SourceServerName) == copy.SourceServerName
+                               && (partnerDatabaseName ?? copy.SourceDatabaseName) == copy.SourceDatabaseName;
+                    }
+                    else
+                    {
+                        return (partnerServer ?? copy.DestinationServerName) == copy.DestinationServerName
+                               && (partnerDatabaseName ?? copy.DestinationDatabaseName) == copy.DestinationDatabaseName;
+                    }
+                })
+                .Select(CreateDatabaseCopyFromResponse)
+                .ToArray();
+
+            // Load the extra properties for all objects.
+            foreach (DatabaseCopy databaseCopy in databaseCopies)
+            {
+                databaseCopy.LoadExtraProperties(this);
+            }
+
+            return databaseCopies;
         }
 
         /// <summary>
@@ -502,7 +557,28 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <returns>The refreshed database copy object.</returns>
         public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
         {
-            throw new NotImplementedException();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Figure out which database is local, as that's the one we need to pass in.
+            string localDatabaseName =
+                databaseCopy.IsLocalDatabaseReplicationTarget
+                    ? databaseCopy.DestinationDatabaseName
+                    : databaseCopy.SourceDatabaseName;
+
+            DatabaseCopy refreshedDatabaseCopy = CreateDatabaseCopyFromResponse(
+                sqlManagementClient.DatabaseCopies.Get(
+                    this.ServerName,
+                    localDatabaseName,
+                    databaseCopy.EntityId.ToString()));
+
+            // Load the extra properties for this object.
+            refreshedDatabaseCopy.LoadExtraProperties(this);
+
+            return refreshedDatabaseCopy;
         }
 
         /// <summary>
@@ -521,7 +597,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             int? maxLagInMinutes,
             bool continuousCopy)
         {
-            throw new NotImplementedException();
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            DatabaseCopyResponse response = sqlManagementClient.DatabaseCopies.Create(
+                this.ServerName,
+                databaseName,
+                new DatabaseCopyCreateParameters()
+                    {
+                        PartnerServer = partnerServer,
+                        PartnerDatabase = partnerDatabaseName,
+                        IsContinuous = continuousCopy,
+                        IsForcedTerminate = false,
+                        MaxLagInMinutes = maxLagInMinutes
+                    });
+
+            return CreateDatabaseCopyFromResponse(response);
         }
 
         /// <summary>
@@ -533,7 +628,48 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             DatabaseCopy databaseCopy,
             bool forcedTermination)
         {
-            throw new NotImplementedException();
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Get the local database, as it's the one we need to pass in.
+            string localDatabaseName =
+                databaseCopy.IsLocalDatabaseReplicationTarget
+                    ? databaseCopy.DestinationDatabaseName
+                    : databaseCopy.SourceDatabaseName;
+
+            try
+            {
+                // Update forced termination so that the terminate happens
+                // the way it should.
+                sqlManagementClient.DatabaseCopies.Update(
+                    this.ServerName,
+                    localDatabaseName,
+                    databaseCopy.EntityId,
+                    new DatabaseCopyUpdateParameters() {IsForcedTerminate = forcedTermination});
+
+                sqlManagementClient.DatabaseCopies.Delete(
+                    this.ServerName,
+                    localDatabaseName,
+                    databaseCopy.EntityId);
+            }
+            catch (Exception)
+            {
+                if (forcedTermination != databaseCopy.IsForcedTerminate)
+                {
+                    // Try to undo the update to set forced termination.
+                    sqlManagementClient.DatabaseCopies.Update(
+                        this.ServerName,
+                        localDatabaseName,
+                        databaseCopy.EntityId,
+                        new DatabaseCopyUpdateParameters() {IsForcedTerminate = databaseCopy.IsForcedTerminate.GetValueOrDefault(false)});
+                }
+
+                throw;
+            }
         }
 
         #endregion
@@ -844,6 +980,29 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return result;
         }
 
+        private static DatabaseCopy CreateDatabaseCopyFromResponse(DatabaseCopyResponse response)
+        {
+            return new DatabaseCopy()
+                {
+                    EntityId = Guid.Parse(response.Name),
+                    SourceServerName = response.SourceServerName,
+                    SourceDatabaseName = response.SourceDatabaseName,
+                    DestinationServerName = response.DestinationServerName,
+                    DestinationDatabaseName = response.DestinationDatabaseName,
+                    MaximumLag = response.MaxLagInMinutes,
+                    IsContinuous = response.IsContinuous,
+                    ReplicationState = response.ReplicationState,
+                    ReplicationStateDescription = response.ReplicationStateDescription,
+                    LocalDatabaseId = response.LocalDatabaseId,
+                    IsLocalDatabaseReplicationTarget = response.IsLocalDatabaseReplicationTarget,
+                    IsInterlinkConnected = response.IsInterlinkConnected,
+                    TextStartDate = response.TextStartDate,
+                    TextModifyDate = response.TextModifyDate,
+                    PercentComplete = response.PercentComplete,
+                    IsForcedTerminate = response.IsForcedTerminate
+                };
+        }
+        
         #endregion
 
         /// <summary>

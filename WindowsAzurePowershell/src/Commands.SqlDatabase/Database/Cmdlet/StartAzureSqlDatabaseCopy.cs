@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using System;
     using System.Globalization;
     using System.Management.Automation;
+    using Commands.Utilities.Common;
     using Properties;
     using Services.Common;
     using Services.Server;
@@ -28,6 +29,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         ConfirmImpact = ConfirmImpact.Low)]
     public class StartAzureSqlDatabaseCopy : PSCmdlet
     {
+        #region ParameterSets
+
+        internal const string ByInputObjectWithConnectionContext =
+            "ByInputObjectWithConnectionContext";
+
+        internal const string ByInputObjectWithServerName =
+            "ByInputObjectWithServerName";
+
+        internal const string ByDatabaseNameWithConnectionContext =
+            "ByDatabaseNameWithConnectionContext";
+
+        internal const string ByDatabaseNameWithServerName =
+            "ByDatabaseNameWithServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
@@ -36,22 +53,45 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByInputObjectWithConnectionContext,
+            HelpMessage = "The connection context to the specified server.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByDatabaseNameWithConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the database object to refresh.
+        /// Gets or sets the name of the server upon which to operate
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByInputObjectWithServerName,
+            HelpMessage = "The name of the server to operate on.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByDatabaseNameWithServerName,
+            HelpMessage = "The name of the server to operate on")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the database to copy.
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithConnectionContext,
+            ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithServerName,
             ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
         [ValidateNotNull]
         public Database Database { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the database to retrieve.
+        /// Gets or sets the name of the database to copy.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByName",
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithConnectionContext,
+            HelpMessage = "The name of the database to copy.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithServerName,
             HelpMessage = "The name of the database to copy.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
@@ -109,21 +149,23 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            string partnerDatabaseName = this.PartnerDatabase == null ?
-                databaseName : this.PartnerDatabase;
+            string serverName = this.MyInvocation.BoundParameters.ContainsKey("ServerName") ?
+                this.ServerName : this.ConnectionContext.ServerName;
+
+            string partnerDatabaseName = this.PartnerDatabase ?? databaseName;
 
             // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyDescription,
-                this.ConnectionContext.ServerName,
+                serverName,
                 databaseName,
                 this.PartnerServer,
                 partnerDatabaseName);
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyWarning,
-                this.ConnectionContext.ServerName,
+                serverName,
                 databaseName,
                 this.PartnerServer,
                 partnerDatabaseName);
@@ -137,14 +179,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 return;
             }
 
-            try
-            {
-                int? maxLagInMinutes =
+            // Use the provided ServerDataServiceContext or create one from the
+            // provided ServerName and the active subscription.
+            IServerDataServiceContext context =
+                this.MyInvocation.BoundParameters.ContainsKey("ConnectionContext")
+                    ? this.ConnectionContext
+                    : ServerDataServiceCertAuth.Create(this.ServerName,
+                        WindowsAzureProfile.Instance.CurrentSubscription);
+
+            int? maxLagInMinutes =
                     this.MyInvocation.BoundParameters.ContainsKey("MaxLagInMinutes") ?
                     (int?)this.MaxLagInMinutes : null;
 
+            try
+            {
                 // Update the database with the specified name
-                DatabaseCopy databaseCopy = this.ConnectionContext.StartDatabaseCopy(
+                DatabaseCopy databaseCopy = context.StartDatabaseCopy(
                     databaseName,
                     this.PartnerServer,
                     partnerDatabaseName,
@@ -157,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.ConnectionContext.ClientRequestId,
+                    context.ClientRequestId,
                     ex);
             }
         }
