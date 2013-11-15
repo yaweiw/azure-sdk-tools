@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
     public partial class DacExportParameters
     {
         private DacExportParameters.BlobCredentialsParameter _blobCredentials;
-        
+
         /// <summary>
         /// Credentials for getting the DAC.
         /// </summary>
@@ -53,9 +53,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._blobCredentials; }
             set { this._blobCredentials = value; }
         }
-        
+
         private DacExportParameters.ConnectionInfoParameter _connectionInfo;
-        
+
         /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
@@ -64,21 +64,21 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._connectionInfo; }
             set { this._connectionInfo = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DacExportParameters class.
         /// </summary>
         public DacExportParameters()
         {
         }
-        
+
         /// <summary>
         /// Credentials for getting the DAC
         /// </summary>
         public partial class BlobCredentialsParameter
         {
             private string _storageAccessKey;
-            
+
             /// <summary>
             /// The key for the Windows Azure Storage account.
             /// </summary>
@@ -87,9 +87,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._storageAccessKey; }
                 set { this._storageAccessKey = value; }
             }
-            
+
             private Uri _uri;
-            
+
             /// <summary>
             /// The URI of the DAC file in stored in Windows Azure Blob Storage.
             /// </summary>
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._uri; }
                 set { this._uri = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the BlobCredentialsParameter
             /// class.
@@ -107,14 +107,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             {
             }
         }
-        
+
         /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
         public partial class ConnectionInfoParameter
         {
             private string _databaseName;
-            
+
             /// <summary>
             /// The name of the database.
             /// </summary>
@@ -123,9 +123,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._databaseName; }
                 set { this._databaseName = value; }
             }
-            
+
             private string _password;
-            
+
             /// <summary>
             /// The password for the database user.
             /// </summary>
@@ -134,9 +134,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._password; }
                 set { this._password = value; }
             }
-            
+
             private string _serverName;
-            
+
             /// <summary>
             /// The SQL server name.
             /// </summary>
@@ -145,9 +145,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serverName; }
                 set { this._serverName = value; }
             }
-            
+
             private string _userName;
-            
+
             /// <summary>
             /// The username of the database user.
             /// </summary>
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._userName; }
                 set { this._userName = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the ConnectionInfoParameter class.
             /// </summary>
@@ -165,14 +165,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             }
         }
     }
-    
+
     /// <summary>
     /// The response structure for the DAC GetStatus operation
     /// </summary>
     public partial class DacGetStatusResponse : OperationResponse, IEnumerable<DacGetStatusResponse.StatusInfo>
     {
         private IList<DacGetStatusResponse.StatusInfo> _statusInfoList;
-        
+
         /// <summary>
         /// The list of statuses relevant to this import/export request.
         /// </summary>
@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._statusInfoList; }
             set { this._statusInfoList = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DacGetStatusResponse class.
         /// </summary>
@@ -189,7 +189,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             this._statusInfoList = new List<DacGetStatusResponse.StatusInfo>();
         }
-        
+
         /// <summary>
         /// Gets the sequence of StatusInfoList.
         /// </summary>
@@ -197,7 +197,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.StatusInfoList.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Gets the sequence of StatusInfoList.
         /// </summary>
@@ -205,14 +205,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Status of a DAC import
         /// </summary>
         public partial class StatusInfo
         {
             private Uri _blobUri;
-            
+
             /// <summary>
             /// The URI of the DAC file stored in Windows Azure Blob Storage to
             /// be imported.
@@ -222,9 +222,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._blobUri; }
                 set { this._blobUri = value; }
             }
-            
+
             private string _databaseName;
-            
+
             /// <summary>
             /// The name of the database into which this DAC will be imported.
             /// </summary>
@@ -233,9 +233,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._databaseName; }
                 set { this._databaseName = value; }
             }
-            
+
             private string _errorMessage;
-            
+
             /// <summary>
             /// The error message of the request if the request failed in some
             /// way.
@@ -245,9 +245,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._errorMessage; }
                 set { this._errorMessage = value; }
             }
-            
+
             private DateTime _lastModifiedTime;
-            
+
             /// <summary>
             /// The last time the status changed.
             /// </summary>
@@ -256,9 +256,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._lastModifiedTime; }
                 set { this._lastModifiedTime = value; }
             }
-            
+
             private DateTime _queuedTime;
-            
+
             /// <summary>
             /// The time at which the import/export request was queued and the
             /// process initiated.
@@ -268,9 +268,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._queuedTime; }
                 set { this._queuedTime = value; }
             }
-            
+
             private string _requestId;
-            
+
             /// <summary>
             /// The request ID of this import/export request, so that it can be
             /// tracked with future calls to GetStatus.
@@ -280,9 +280,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._requestId; }
                 set { this._requestId = value; }
             }
-            
+
             private string _requestType;
-            
+
             /// <summary>
             /// The type (Import/Export) of this request.
             /// </summary>
@@ -291,9 +291,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._requestType; }
                 set { this._requestType = value; }
             }
-            
+
             private string _serverName;
-            
+
             /// <summary>
             /// The name of the SQL database server into which this DAC will be
             /// imported or from which it will be exported.
@@ -303,9 +303,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serverName; }
                 set { this._serverName = value; }
             }
-            
+
             private string _status;
-            
+
             /// <summary>
             /// The status of the import/export request.
             /// </summary>
@@ -314,7 +314,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._status; }
                 set { this._status = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the StatusInfo class.
             /// </summary>
@@ -323,14 +323,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             }
         }
     }
-    
+
     /// <summary>
     /// Response for an DAC Import/Export request.
     /// </summary>
     public partial class DacImportExportResponse : OperationResponse
     {
         private string _guid;
-        
+
         /// <summary>
         /// The operation's identifier.
         /// </summary>
@@ -339,7 +339,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._guid; }
             set { this._guid = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DacImportExportResponse class.
         /// </summary>
@@ -347,14 +347,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// Parameters supplied to the DAC Import operation.
     /// </summary>
     public partial class DacImportParameters
     {
         private DacImportParameters.BlobCredentialsParameter _blobCredentials;
-        
+
         /// <summary>
         /// Credentials for getting the DAC.
         /// </summary>
@@ -363,9 +363,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._blobCredentials; }
             set { this._blobCredentials = value; }
         }
-        
+
         private DacImportParameters.ConnectionInfoParameter _connectionInfo;
-        
+
         /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
@@ -374,9 +374,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._connectionInfo; }
             set { this._connectionInfo = value; }
         }
-        
+
         private int _databaseSizeInGB;
-        
+
         /// <summary>
         /// The size of this database.
         /// </summary>
@@ -385,21 +385,21 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._databaseSizeInGB; }
             set { this._databaseSizeInGB = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DacImportParameters class.
         /// </summary>
         public DacImportParameters()
         {
         }
-        
+
         /// <summary>
         /// Credentials for getting the DAC
         /// </summary>
         public partial class BlobCredentialsParameter
         {
             private string _storageAccessKey;
-            
+
             /// <summary>
             /// The key for the Windows Azure Storage account.
             /// </summary>
@@ -408,15 +408,15 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._storageAccessKey; }
                 set { this._storageAccessKey = value; }
             }
-            
+
             private Uri _uri;
-            
+
             public Uri Uri
             {
                 get { return this._uri; }
                 set { this._uri = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the BlobCredentialsParameter
             /// class.
@@ -425,14 +425,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             {
             }
         }
-        
+
         /// <summary>
         /// Connection information for the SQL Server Database.
         /// </summary>
         public partial class ConnectionInfoParameter
         {
             private string _databaseName;
-            
+
             /// <summary>
             /// The name of the database.
             /// </summary>
@@ -441,9 +441,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._databaseName; }
                 set { this._databaseName = value; }
             }
-            
+
             private string _password;
-            
+
             /// <summary>
             /// The password for the database user.
             /// </summary>
@@ -452,9 +452,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._password; }
                 set { this._password = value; }
             }
-            
+
             private string _serverName;
-            
+
             /// <summary>
             /// The SQL server name.
             /// </summary>
@@ -463,9 +463,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serverName; }
                 set { this._serverName = value; }
             }
-            
+
             private string _userName;
-            
+
             /// <summary>
             /// The username of the database user.
             /// </summary>
@@ -474,7 +474,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._userName; }
                 set { this._userName = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the ConnectionInfoParameter class.
             /// </summary>
@@ -483,14 +483,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             }
         }
     }
-    
+
     /// <summary>
     /// Parameters supplied to the Create Database operation.
     /// </summary>
     public partial class DatabaseCreateParameters
     {
         private string _collationName;
-        
+
         /// <summary>
         /// The collation name for the new database.
         /// </summary>
@@ -499,9 +499,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._collationName; }
             set { this._collationName = value; }
         }
-        
+
         private string _edition;
-        
+
         /// <summary>
         /// The edition for the new database.
         /// </summary>
@@ -510,9 +510,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._edition; }
             set { this._edition = value; }
         }
-        
+
         private long _maximumDatabaseSizeInGB;
-        
+
         /// <summary>
         /// Maximum size of this database, in Gigabytes.
         /// </summary>
@@ -521,9 +521,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._maximumDatabaseSizeInGB; }
             set { this._maximumDatabaseSizeInGB = value; }
         }
-        
+
         private string _name;
-        
+
         /// <summary>
         /// The name for the new database.
         /// </summary>
@@ -532,9 +532,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._name; }
             set { this._name = value; }
         }
-        
+
         private string _serviceObjectiveId;
-        
+
         /// <summary>
         /// The id of this service objective.
         /// </summary>
@@ -543,7 +543,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveId; }
             set { this._serviceObjectiveId = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DatabaseCreateParameters class.
         /// </summary>
@@ -551,7 +551,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// A standard service response including an HTTP status code and request
     /// ID.
@@ -559,7 +559,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
     public partial class DatabaseCreateResponse : OperationResponse
     {
         private string _collationName;
-        
+
         /// <summary>
         /// This database resource's collation name.
         /// </summary>
@@ -568,9 +568,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._collationName; }
             set { this._collationName = value; }
         }
-        
+
         private DateTime _creationDate;
-        
+
         /// <summary>
         /// The date this database was created.
         /// </summary>
@@ -579,9 +579,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._creationDate; }
             set { this._creationDate = value; }
         }
-        
+
         private string _edition;
-        
+
         /// <summary>
         /// This database resource's edition.
         /// </summary>
@@ -590,9 +590,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._edition; }
             set { this._edition = value; }
         }
-        
+
         private int _id;
-        
+
         /// <summary>
         /// The id of the database.
         /// </summary>
@@ -601,9 +601,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._id; }
             set { this._id = value; }
         }
-        
+
         private bool _isFederationRoot;
-        
+
         /// <summary>
         /// Determines if this database is a federation root.
         /// </summary>
@@ -612,9 +612,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._isFederationRoot; }
             set { this._isFederationRoot = value; }
         }
-        
+
         private bool _isSystemObject;
-        
+
         /// <summary>
         /// Determines if this database a system object.
         /// </summary>
@@ -623,9 +623,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._isSystemObject; }
             set { this._isSystemObject = value; }
         }
-        
+
         private long _maximumDatabaseSizeInGB;
-        
+
         /// <summary>
         /// Maximum size of this database, in Gigabytes.
         /// </summary>
@@ -634,9 +634,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._maximumDatabaseSizeInGB; }
             set { this._maximumDatabaseSizeInGB = value; }
         }
-        
+
         private string _name;
-        
+
         /// <summary>
         /// The name of the database.
         /// </summary>
@@ -645,9 +645,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._name; }
             set { this._name = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentErrorCode;
-        
+
         /// <summary>
         /// The error code for this sevice objective.
         /// </summary>
@@ -656,9 +656,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentErrorCode; }
             set { this._serviceObjectiveAssignmentErrorCode = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentErrorDescription;
-        
+
         /// <summary>
         /// The error description, if any.
         /// </summary>
@@ -667,9 +667,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentErrorDescription; }
             set { this._serviceObjectiveAssignmentErrorDescription = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentState;
-        
+
         /// <summary>
         /// The state of the current assignment.
         /// </summary>
@@ -678,9 +678,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentState; }
             set { this._serviceObjectiveAssignmentState = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentStateDescription;
-        
+
         /// <summary>
         /// The state description.
         /// </summary>
@@ -689,9 +689,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentStateDescription; }
             set { this._serviceObjectiveAssignmentStateDescription = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentSuccessDate;
-        
+
         /// <summary>
         /// The date the service's assignment succeeded.
         /// </summary>
@@ -700,9 +700,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentSuccessDate; }
             set { this._serviceObjectiveAssignmentSuccessDate = value; }
         }
-        
+
         private string _serviceObjectiveId;
-        
+
         /// <summary>
         /// The id of this service objective.
         /// </summary>
@@ -711,9 +711,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveId; }
             set { this._serviceObjectiveId = value; }
         }
-        
+
         private string _sizeMB;
-        
+
         /// <summary>
         /// The size of this database in megabytes (MB).
         /// </summary>
@@ -722,9 +722,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._sizeMB; }
             set { this._sizeMB = value; }
         }
-        
+
         private string _state;
-        
+
         /// <summary>
         /// The state of the database.
         /// </summary>
@@ -733,9 +733,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._state; }
             set { this._state = value; }
         }
-        
+
         private string _type;
-        
+
         /// <summary>
         /// The type of resource.
         /// </summary>
@@ -744,7 +744,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._type; }
             set { this._type = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DatabaseCreateResponse class.
         /// </summary>
@@ -752,7 +752,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// Specifies the edition of the SQL database
     /// </summary>
@@ -764,7 +764,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         /// a database with a maximum size of 1 or 5 GB of data.
         /// </summary>
         public const string Web = "Web";
-        
+
         /// <summary>
         /// The Business Edition Database is best suited for independent
         /// software vendors (ISVs), line-of-business (LOB) applications, and
@@ -774,7 +774,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         /// </summary>
         public const string Business = "Business";
     }
-    
+
     /// <summary>
     /// A standard service response including an HTTP status code and request
     /// ID.
@@ -782,7 +782,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
     public partial class DatabaseGetResponse : OperationResponse
     {
         private string _collationName;
-        
+
         /// <summary>
         /// This database resource's collation name.
         /// </summary>
@@ -791,9 +791,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._collationName; }
             set { this._collationName = value; }
         }
-        
+
         private DateTime _creationDate;
-        
+
         /// <summary>
         /// The date this database was created.
         /// </summary>
@@ -802,9 +802,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._creationDate; }
             set { this._creationDate = value; }
         }
-        
+
         private string _edition;
-        
+
         /// <summary>
         /// This database resource's edition.
         /// </summary>
@@ -813,9 +813,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._edition; }
             set { this._edition = value; }
         }
-        
+
         private int _id;
-        
+
         /// <summary>
         /// The id of the database.
         /// </summary>
@@ -824,9 +824,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._id; }
             set { this._id = value; }
         }
-        
+
         private bool _isFederationRoot;
-        
+
         /// <summary>
         /// Determines if this database is a federation root.
         /// </summary>
@@ -835,9 +835,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._isFederationRoot; }
             set { this._isFederationRoot = value; }
         }
-        
+
         private bool _isSystemObject;
-        
+
         /// <summary>
         /// Determines if this database a system object.
         /// </summary>
@@ -846,9 +846,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._isSystemObject; }
             set { this._isSystemObject = value; }
         }
-        
+
         private long _maximumDatabaseSizeInGB;
-        
+
         /// <summary>
         /// Maximum size of this database, in Gigabytes.
         /// </summary>
@@ -857,9 +857,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._maximumDatabaseSizeInGB; }
             set { this._maximumDatabaseSizeInGB = value; }
         }
-        
+
         private string _name;
-        
+
         /// <summary>
         /// The name of the database.
         /// </summary>
@@ -868,9 +868,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._name; }
             set { this._name = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentErrorCode;
-        
+
         /// <summary>
         /// The error code for this sevice objective.
         /// </summary>
@@ -879,9 +879,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentErrorCode; }
             set { this._serviceObjectiveAssignmentErrorCode = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentErrorDescription;
-        
+
         /// <summary>
         /// The error description, if any.
         /// </summary>
@@ -890,9 +890,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentErrorDescription; }
             set { this._serviceObjectiveAssignmentErrorDescription = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentState;
-        
+
         /// <summary>
         /// The state of the current assignment.
         /// </summary>
@@ -901,9 +901,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentState; }
             set { this._serviceObjectiveAssignmentState = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentStateDescription;
-        
+
         /// <summary>
         /// The state description.
         /// </summary>
@@ -912,9 +912,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentStateDescription; }
             set { this._serviceObjectiveAssignmentStateDescription = value; }
         }
-        
+
         private string _serviceObjectiveAssignmentSuccessDate;
-        
+
         /// <summary>
         /// The date the service's assignment succeeded.
         /// </summary>
@@ -923,9 +923,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveAssignmentSuccessDate; }
             set { this._serviceObjectiveAssignmentSuccessDate = value; }
         }
-        
+
         private string _serviceObjectiveId;
-        
+
         /// <summary>
         /// The id of this service objective.
         /// </summary>
@@ -934,9 +934,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serviceObjectiveId; }
             set { this._serviceObjectiveId = value; }
         }
-        
+
         private string _sizeMB;
-        
+
         /// <summary>
         /// The size of this database in megabytes (MB).
         /// </summary>
@@ -945,9 +945,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._sizeMB; }
             set { this._sizeMB = value; }
         }
-        
+
         private string _state;
-        
+
         /// <summary>
         /// The state of the database.
         /// </summary>
@@ -956,9 +956,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._state; }
             set { this._state = value; }
         }
-        
+
         private string _type;
-        
+
         /// <summary>
         /// The type of resource.
         /// </summary>
@@ -967,7 +967,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._type; }
             set { this._type = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DatabaseGetResponse class.
         /// </summary>
@@ -975,14 +975,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// Response containing the list of databases for a given server.
     /// </summary>
     public partial class DatabaseListResponse : OperationResponse, IEnumerable<DatabaseListResponse.Database>
     {
         private IList<DatabaseListResponse.Database> _databases;
-        
+
         /// <summary>
         /// The SQL Server databases that are housed in a server.
         /// </summary>
@@ -991,7 +991,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._databases; }
             set { this._databases = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the DatabaseListResponse class.
         /// </summary>
@@ -999,7 +999,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             this._databases = new List<DatabaseListResponse.Database>();
         }
-        
+
         /// <summary>
         /// Gets the sequence of Databases.
         /// </summary>
@@ -1007,7 +1007,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.Databases.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Gets the sequence of Databases.
         /// </summary>
@@ -1015,11 +1015,11 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.GetEnumerator();
         }
-        
+
         public partial class Database
         {
             private string _collationName;
-            
+
             /// <summary>
             /// This database resource's collation name.
             /// </summary>
@@ -1028,9 +1028,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._collationName; }
                 set { this._collationName = value; }
             }
-            
+
             private DateTime _creationDate;
-            
+
             /// <summary>
             /// The date this database was created.
             /// </summary>
@@ -1039,9 +1039,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._creationDate; }
                 set { this._creationDate = value; }
             }
-            
+
             private string _edition;
-            
+
             /// <summary>
             /// This database resource's edition.
             /// </summary>
@@ -1050,9 +1050,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._edition; }
                 set { this._edition = value; }
             }
-            
+
             private int _id;
-            
+
             /// <summary>
             /// The id of the database.
             /// </summary>
@@ -1061,9 +1061,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._id; }
                 set { this._id = value; }
             }
-            
+
             private bool _isFederationRoot;
-            
+
             /// <summary>
             /// Determines if this database is a federation root.
             /// </summary>
@@ -1072,9 +1072,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._isFederationRoot; }
                 set { this._isFederationRoot = value; }
             }
-            
+
             private bool _isSystemObject;
-            
+
             /// <summary>
             /// Determines if this database a system object.
             /// </summary>
@@ -1083,9 +1083,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._isSystemObject; }
                 set { this._isSystemObject = value; }
             }
-            
+
             private long _maximumDatabaseSizeInGB;
-            
+
             /// <summary>
             /// Maximum size of this database, in Gigabytes.
             /// </summary>
@@ -1094,9 +1094,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._maximumDatabaseSizeInGB; }
                 set { this._maximumDatabaseSizeInGB = value; }
             }
-            
+
             private string _name;
-            
+
             /// <summary>
             /// The name of the database.
             /// </summary>
@@ -1105,9 +1105,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._name; }
                 set { this._name = value; }
             }
-            
+
             private string _serviceObjectiveAssignmentErrorCode;
-            
+
             /// <summary>
             /// The error code for this sevice objective.
             /// </summary>
@@ -1116,9 +1116,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveAssignmentErrorCode; }
                 set { this._serviceObjectiveAssignmentErrorCode = value; }
             }
-            
+
             private string _serviceObjectiveAssignmentErrorDescription;
-            
+
             /// <summary>
             /// The error description, if any.
             /// </summary>
@@ -1127,9 +1127,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveAssignmentErrorDescription; }
                 set { this._serviceObjectiveAssignmentErrorDescription = value; }
             }
-            
+
             private string _serviceObjectiveAssignmentState;
-            
+
             /// <summary>
             /// The state of the current assignment.
             /// </summary>
@@ -1138,9 +1138,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveAssignmentState; }
                 set { this._serviceObjectiveAssignmentState = value; }
             }
-            
+
             private string _serviceObjectiveAssignmentStateDescription;
-            
+
             /// <summary>
             /// The state description.
             /// </summary>
@@ -1149,9 +1149,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveAssignmentStateDescription; }
                 set { this._serviceObjectiveAssignmentStateDescription = value; }
             }
-            
+
             private string _serviceObjectiveAssignmentSuccessDate;
-            
+
             /// <summary>
             /// The date the service's assignment succeeded.
             /// </summary>
@@ -1160,9 +1160,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveAssignmentSuccessDate; }
                 set { this._serviceObjectiveAssignmentSuccessDate = value; }
             }
-            
+
             private string _serviceObjectiveId;
-            
+
             /// <summary>
             /// The id of this service objective.
             /// </summary>
@@ -1171,9 +1171,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._serviceObjectiveId; }
                 set { this._serviceObjectiveId = value; }
             }
-            
+
             private string _sizeMB;
-            
+
             /// <summary>
             /// The size of this database in megabytes (MB).
             /// </summary>
@@ -1182,9 +1182,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._sizeMB; }
                 set { this._sizeMB = value; }
             }
-            
+
             private string _state;
-            
+
             /// <summary>
             /// The state of the database.
             /// </summary>
@@ -1193,9 +1193,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._state; }
                 set { this._state = value; }
             }
-            
+
             private string _type;
-            
+
             /// <summary>
             /// The type of resource.
             /// </summary>
@@ -1204,7 +1204,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._type; }
                 set { this._type = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the Database class.
             /// </summary>
@@ -1213,270 +1213,180 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             }
         }
     }
-    
+
     /// <summary>
-    /// Parameters supplied to the Create Database operation.
+    /// Response containing the database operation for a given operation Guid.
     /// </summary>
-    public partial class DatabaseUpdateParameters
+    public partial class DatabaseOperationGetResponse : OperationResponse
     {
-        private string _collationName;
-        
+        private string _databaseName;
+
         /// <summary>
-        /// The collation name for the new database.
+        /// Name of the SQL Database on which the operation is performed.
         /// </summary>
-        public string CollationName
+        public string DatabaseName
         {
-            get { return this._collationName; }
-            set { this._collationName = value; }
+            get { return this._databaseName; }
+            set { this._databaseName = value; }
         }
-        
-        private string _edition;
-        
+
+        private string _error;
+
         /// <summary>
-        /// The edition for the new database.
+        /// Description of the error that occurred during a failed operation.
         /// </summary>
-        public string Edition
+        public string Error
         {
-            get { return this._edition; }
-            set { this._edition = value; }
+            get { return this._error; }
+            set { this._error = value; }
         }
-        
-        private int _id;
-        
+
+        private int _errorCode;
+
         /// <summary>
-        /// The id of the database.
+        /// Code indicating the error that occurred during a failed operation.
         /// </summary>
-        public int Id
+        public int ErrorCode
+        {
+            get { return this._errorCode; }
+            set { this._errorCode = value; }
+        }
+
+        private int _errorSeverity;
+
+        /// <summary>
+        /// Severity level of the error that occurred during a failed operation.
+        /// </summary>
+        public int ErrorSeverity
+        {
+            get { return this._errorSeverity; }
+            set { this._errorSeverity = value; }
+        }
+
+        private int _errorState;
+
+        /// <summary>
+        /// Error State.
+        /// </summary>
+        public int ErrorState
+        {
+            get { return this._errorState; }
+            set { this._errorState = value; }
+        }
+
+        private string _id;
+
+        /// <summary>
+        /// Unique identifier of the operation..
+        /// </summary>
+        public string Id
         {
             get { return this._id; }
             set { this._id = value; }
         }
-        
-        private long _maximumDatabaseSizeInGB;
-        
+
+        private DateTime _lastModifyTime;
+
         /// <summary>
-        /// Maximum size of this database, in Gigabytes.
+        /// Timestamp when the record was last modified for a long running
+        /// operation.
         /// </summary>
-        public long MaximumDatabaseSizeInGB
+        public DateTime LastModifyTime
         {
-            get { return this._maximumDatabaseSizeInGB; }
-            set { this._maximumDatabaseSizeInGB = value; }
+            get { return this._lastModifyTime; }
+            set { this._lastModifyTime = value; }
         }
-        
+
         private string _name;
-        
+
         /// <summary>
-        /// The name of the database.
+        /// The name of the operation.
         /// </summary>
         public string Name
         {
             get { return this._name; }
             set { this._name = value; }
         }
-        
-        private string _serviceObjectiveId;
-        
+
+        private string _parentLink;
+
         /// <summary>
-        /// The id of this service objective.
+        /// The ParentLink of the operation.
         /// </summary>
-        public string ServiceObjectiveId
+        public string ParentLink
         {
-            get { return this._serviceObjectiveId; }
-            set { this._serviceObjectiveId = value; }
+            get { return this._parentLink; }
+            set { this._parentLink = value; }
         }
-        
+
+        private int _percentComplete;
+
         /// <summary>
-        /// Initializes a new instance of the DatabaseUpdateParameters class.
+        /// Percentage of operation that has completed.
         /// </summary>
-        public DatabaseUpdateParameters()
+        public int PercentComplete
         {
+            get { return this._percentComplete; }
+            set { this._percentComplete = value; }
         }
-    }
-    
-    /// <summary>
-    /// A standard service response including an HTTP status code and request
-    /// ID.
-    /// </summary>
-    public partial class DatabaseUpdateResponse : OperationResponse
-    {
-        private string _collationName;
-        
+
+        private string _selfLink;
+
         /// <summary>
-        /// This database resource's collation name.
+        /// The SelfLink of the operation.
         /// </summary>
-        public string CollationName
+        public string SelfLink
         {
-            get { return this._collationName; }
-            set { this._collationName = value; }
+            get { return this._selfLink; }
+            set { this._selfLink = value; }
         }
-        
-        private DateTime _creationDate;
-        
+
+        private string _sessionActivityId;
+
         /// <summary>
-        /// The date this database was created.
+        /// Session scoped ID of the operation.
         /// </summary>
-        public DateTime CreationDate
+        public string SessionActivityId
         {
-            get { return this._creationDate; }
-            set { this._creationDate = value; }
+            get { return this._sessionActivityId; }
+            set { this._sessionActivityId = value; }
         }
-        
-        private string _edition;
-        
+
+        private DateTime _startTime;
+
         /// <summary>
-        /// This database resource's edition.
+        /// Timestamp when the operation started.
         /// </summary>
-        public string Edition
+        public DateTime StartTime
         {
-            get { return this._edition; }
-            set { this._edition = value; }
+            get { return this._startTime; }
+            set { this._startTime = value; }
         }
-        
-        private int _id;
-        
-        /// <summary>
-        /// The id of the database.
-        /// </summary>
-        public int Id
-        {
-            get { return this._id; }
-            set { this._id = value; }
-        }
-        
-        private bool _isFederationRoot;
-        
-        /// <summary>
-        /// Determines if this database is a federation root.
-        /// </summary>
-        public bool IsFederationRoot
-        {
-            get { return this._isFederationRoot; }
-            set { this._isFederationRoot = value; }
-        }
-        
-        private bool _isSystemObject;
-        
-        /// <summary>
-        /// Determines if this database a system object.
-        /// </summary>
-        public bool IsSystemObject
-        {
-            get { return this._isSystemObject; }
-            set { this._isSystemObject = value; }
-        }
-        
-        private long _maximumDatabaseSizeInGB;
-        
-        /// <summary>
-        /// Maximum size of this database, in Gigabytes.
-        /// </summary>
-        public long MaximumDatabaseSizeInGB
-        {
-            get { return this._maximumDatabaseSizeInGB; }
-            set { this._maximumDatabaseSizeInGB = value; }
-        }
-        
-        private string _name;
-        
-        /// <summary>
-        /// The name of the database.
-        /// </summary>
-        public string Name
-        {
-            get { return this._name; }
-            set { this._name = value; }
-        }
-        
-        private string _serviceObjectiveAssignmentErrorCode;
-        
-        /// <summary>
-        /// The error code for this sevice objective.
-        /// </summary>
-        public string ServiceObjectiveAssignmentErrorCode
-        {
-            get { return this._serviceObjectiveAssignmentErrorCode; }
-            set { this._serviceObjectiveAssignmentErrorCode = value; }
-        }
-        
-        private string _serviceObjectiveAssignmentErrorDescription;
-        
-        /// <summary>
-        /// The error description, if any.
-        /// </summary>
-        public string ServiceObjectiveAssignmentErrorDescription
-        {
-            get { return this._serviceObjectiveAssignmentErrorDescription; }
-            set { this._serviceObjectiveAssignmentErrorDescription = value; }
-        }
-        
-        private string _serviceObjectiveAssignmentState;
-        
-        /// <summary>
-        /// The state of the current assignment.
-        /// </summary>
-        public string ServiceObjectiveAssignmentState
-        {
-            get { return this._serviceObjectiveAssignmentState; }
-            set { this._serviceObjectiveAssignmentState = value; }
-        }
-        
-        private string _serviceObjectiveAssignmentStateDescription;
-        
-        /// <summary>
-        /// The state description.
-        /// </summary>
-        public string ServiceObjectiveAssignmentStateDescription
-        {
-            get { return this._serviceObjectiveAssignmentStateDescription; }
-            set { this._serviceObjectiveAssignmentStateDescription = value; }
-        }
-        
-        private string _serviceObjectiveAssignmentSuccessDate;
-        
-        /// <summary>
-        /// The date the service's assignment succeeded.
-        /// </summary>
-        public string ServiceObjectiveAssignmentSuccessDate
-        {
-            get { return this._serviceObjectiveAssignmentSuccessDate; }
-            set { this._serviceObjectiveAssignmentSuccessDate = value; }
-        }
-        
-        private string _serviceObjectiveId;
-        
-        /// <summary>
-        /// The id of this service objective.
-        /// </summary>
-        public string ServiceObjectiveId
-        {
-            get { return this._serviceObjectiveId; }
-            set { this._serviceObjectiveId = value; }
-        }
-        
-        private string _sizeMB;
-        
-        /// <summary>
-        /// The size of this database in megabytes (MB).
-        /// </summary>
-        public string SizeMB
-        {
-            get { return this._sizeMB; }
-            set { this._sizeMB = value; }
-        }
-        
+
         private string _state;
-        
+
         /// <summary>
-        /// The state of the database.
+        /// The state of the operation.
         /// </summary>
         public string State
         {
             get { return this._state; }
             set { this._state = value; }
         }
-        
+
+        private int _stateId;
+
+        /// <summary>
+        /// Current State of the long running operation in numeric format.
+        /// </summary>
+        public int StateId
+        {
+            get { return this._stateId; }
+            set { this._stateId = value; }
+        }
+
         private string _type;
-        
+
         /// <summary>
         /// The type of resource.
         /// </summary>
@@ -1485,209 +1395,231 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._type; }
             set { this._type = value; }
         }
-        
+
         /// <summary>
-        /// Initializes a new instance of the DatabaseUpdateResponse class.
-        /// </summary>
-        public DatabaseUpdateResponse()
-        {
-        }
-    }
-    
-    /// <summary>
-    /// The parameters for the Create Firewall Rule operation
-    /// </summary>
-    public partial class FirewallRuleCreateParameters
-    {
-        private string _endIPAddress;
-        
-        /// <summary>
-        /// The ending IP address applied to this firewall rule.
-        /// </summary>
-        public string EndIPAddress
-        {
-            get { return this._endIPAddress; }
-            set { this._endIPAddress = value; }
-        }
-        
-        private string _name;
-        
-        /// <summary>
-        /// The name of this firewall rule.
-        /// </summary>
-        public string Name
-        {
-            get { return this._name; }
-            set { this._name = value; }
-        }
-        
-        private string _startIPAddress;
-        
-        /// <summary>
-        /// The beginning IP address applied to this firewall rule.
-        /// </summary>
-        public string StartIPAddress
-        {
-            get { return this._startIPAddress; }
-            set { this._startIPAddress = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the FirewallRuleCreateParameters
+        /// Initializes a new instance of the DatabaseOperationGetResponse
         /// class.
         /// </summary>
-        public FirewallRuleCreateParameters()
+        public DatabaseOperationGetResponse()
         {
         }
     }
-    
+
     /// <summary>
-    /// A standard service response including an HTTP status code and request
-    /// ID.
+    /// Response containing the list of database operations for a given server
+    /// or database.
     /// </summary>
-    public partial class FirewallRuleCreateResponse : OperationResponse
+    public partial class DatabaseOperationListResponse : OperationResponse, IEnumerable<DatabaseOperationListResponse.DatabaseOperation>
     {
-        private string _endIPAddress;
-        
+        private IList<DatabaseOperationListResponse.DatabaseOperation> _databaseOperations;
+
         /// <summary>
-        /// The ending IP address applied to this rule.
+        /// The list of database operations' response.
         /// </summary>
-        public string EndIPAddress
+        public IList<DatabaseOperationListResponse.DatabaseOperation> DatabaseOperations
         {
-            get { return this._endIPAddress; }
-            set { this._endIPAddress = value; }
+            get { return this._databaseOperations; }
+            set { this._databaseOperations = value; }
         }
-        
-        private string _name;
-        
+
         /// <summary>
-        /// The name of the Firewall Rule.
+        /// Initializes a new instance of the DatabaseOperationListResponse
+        /// class.
         /// </summary>
-        public string Name
+        public DatabaseOperationListResponse()
         {
-            get { return this._name; }
-            set { this._name = value; }
+            this._databaseOperations = new List<DatabaseOperationListResponse.DatabaseOperation>();
         }
-        
-        private string _startIPAddress;
-        
+
         /// <summary>
-        /// The beginning IP address applied to this rule.
+        /// Gets the sequence of DatabaseOperations.
         /// </summary>
-        public string StartIPAddress
+        public IEnumerator<DatabaseOperationListResponse.DatabaseOperation> GetEnumerator()
         {
-            get { return this._startIPAddress; }
-            set { this._startIPAddress = value; }
+            return this.DatabaseOperations.GetEnumerator();
         }
-        
-        private string _state;
-        
+
         /// <summary>
-        /// The state of the rule.
-        /// </summary>
-        public string State
-        {
-            get { return this._state; }
-            set { this._state = value; }
-        }
-        
-        private string _type;
-        
-        /// <summary>
-        /// The type of resource.
-        /// </summary>
-        public string Type
-        {
-            get { return this._type; }
-            set { this._type = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the FirewallRuleCreateResponse class.
-        /// </summary>
-        public FirewallRuleCreateResponse()
-        {
-        }
-    }
-    
-    /// <summary>
-    /// A standard service response including an HTTP status code and request
-    /// ID.
-    /// </summary>
-    public partial class FirewallRuleListResponse : OperationResponse, IEnumerable<FirewallRuleListResponse.FirewallRule>
-    {
-        private IList<FirewallRuleListResponse.FirewallRule> _firewallRules;
-        
-        /// <summary>
-        /// The firewall rules for this SQL Database Server.
-        /// </summary>
-        public IList<FirewallRuleListResponse.FirewallRule> FirewallRules
-        {
-            get { return this._firewallRules; }
-            set { this._firewallRules = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the FirewallRuleListResponse class.
-        /// </summary>
-        public FirewallRuleListResponse()
-        {
-            this._firewallRules = new List<FirewallRuleListResponse.FirewallRule>();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of FirewallRules.
-        /// </summary>
-        public IEnumerator<FirewallRuleListResponse.FirewallRule> GetEnumerator()
-        {
-            return this.FirewallRules.GetEnumerator();
-        }
-        
-        /// <summary>
-        /// Gets the sequence of FirewallRules.
+        /// Gets the sequence of DatabaseOperations.
         /// </summary>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
-        
-        public partial class FirewallRule
+
+        public partial class DatabaseOperation
         {
-            private string _endIPAddress;
-            
+            private string _databaseName;
+
             /// <summary>
-            /// The ending IP address applied to this rule.
+            /// Name of the SQL Database on which the operation is performed.
             /// </summary>
-            public string EndIPAddress
+            public string DatabaseName
             {
-                get { return this._endIPAddress; }
-                set { this._endIPAddress = value; }
+                get { return this._databaseName; }
+                set { this._databaseName = value; }
             }
-            
-            private string _name;
-            
+
+            private string _error;
+
             /// <summary>
-            /// The name of the Firewall Rule.
+            /// Description of the error that occurred during a failed
+            /// operation.
+            /// </summary>
+            public string Error
+            {
+                get { return this._error; }
+                set { this._error = value; }
+            }
+
+            private int _errorCode;
+
+            /// <summary>
+            /// Code indicating the error that occurred during a failed
+            /// operation.
+            /// </summary>
+            public int ErrorCode
+            {
+                get { return this._errorCode; }
+                set { this._errorCode = value; }
+            }
+
+            private int _errorSeverity;
+
+            /// <summary>
+            /// Severity level of the error that occurred during a failed
+            /// operation.
+            /// </summary>
+            public int ErrorSeverity
+            {
+                get { return this._errorSeverity; }
+                set { this._errorSeverity = value; }
+            }
+
+            private int _errorState;
+
+            /// <summary>
+            /// Error State.
+            /// </summary>
+            public int ErrorState
+            {
+                get { return this._errorState; }
+                set { this._errorState = value; }
+            }
+
+            private string _id;
+
+            /// <summary>
+            /// Unique identifier of the operation..
+            /// </summary>
+            public string Id
+            {
+                get { return this._id; }
+                set { this._id = value; }
+            }
+
+            private DateTime _lastModifyTime;
+
+            /// <summary>
+            /// Timestamp when the record was last modified for a long running
+            /// operation.
+            /// </summary>
+            public DateTime LastModifyTime
+            {
+                get { return this._lastModifyTime; }
+                set { this._lastModifyTime = value; }
+            }
+
+            private string _name;
+
+            /// <summary>
+            /// The name of the operation.
             /// </summary>
             public string Name
             {
                 get { return this._name; }
                 set { this._name = value; }
             }
-            
-            private string _startIPAddress;
-            
+
+            private string _parentLink;
+
             /// <summary>
-            /// The beginning IP address applied to this rule.
+            /// The ParentLink of the operation.
             /// </summary>
-            public string StartIPAddress
+            public string ParentLink
             {
-                get { return this._startIPAddress; }
-                set { this._startIPAddress = value; }
+                get { return this._parentLink; }
+                set { this._parentLink = value; }
             }
-            
+
+            private int _percentComplete;
+
+            /// <summary>
+            /// Percentage of operation that has completed.
+            /// </summary>
+            public int PercentComplete
+            {
+                get { return this._percentComplete; }
+                set { this._percentComplete = value; }
+            }
+
+            private string _selfLink;
+
+            /// <summary>
+            /// The SelfLink of the operation.
+            /// </summary>
+            public string SelfLink
+            {
+                get { return this._selfLink; }
+                set { this._selfLink = value; }
+            }
+
+            private string _sessionActivityId;
+
+            /// <summary>
+            /// Session scoped ID of the operation.
+            /// </summary>
+            public string SessionActivityId
+            {
+                get { return this._sessionActivityId; }
+                set { this._sessionActivityId = value; }
+            }
+
+            private DateTime _startTime;
+
+            /// <summary>
+            /// Timestamp when the operation started.
+            /// </summary>
+            public DateTime StartTime
+            {
+                get { return this._startTime; }
+                set { this._startTime = value; }
+            }
+
+            private string _state;
+
+            /// <summary>
+            /// The state of the operation.
+            /// </summary>
+            public string State
+            {
+                get { return this._state; }
+                set { this._state = value; }
+            }
+
+            private int _stateId;
+
+            /// <summary>
+            /// Current State of the long running operation in numeric format.
+            /// </summary>
+            public int StateId
+            {
+                get { return this._stateId; }
+                set { this._stateId = value; }
+            }
+
             private string _type;
-            
+
             /// <summary>
             /// The type of resource.
             /// </summary>
@@ -1696,115 +1628,279 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._type; }
                 set { this._type = value; }
             }
-            
+
             /// <summary>
-            /// Initializes a new instance of the FirewallRule class.
+            /// Initializes a new instance of the DatabaseOperation class.
             /// </summary>
-            public FirewallRule()
+            public DatabaseOperation()
             {
             }
         }
     }
-    
+
     /// <summary>
-    /// The parameters for the Create Firewall Rule operation
+    /// Parameters supplied to the Create Database operation.
     /// </summary>
-    public partial class FirewallRuleUpdateParameters
+    public partial class DatabaseUpdateParameters
     {
-        private string _endIPAddress;
-        
+        private string _collationName;
+
         /// <summary>
-        /// The ending IP address applied to this firewall rule.
+        /// The collation name for the new database.
         /// </summary>
-        public string EndIPAddress
+        public string CollationName
         {
-            get { return this._endIPAddress; }
-            set { this._endIPAddress = value; }
+            get { return this._collationName; }
+            set { this._collationName = value; }
         }
-        
-        private string _name;
-        
+
+        private string _edition;
+
         /// <summary>
-        /// The name of this firewall rule.
+        /// The edition for the new database.
+        /// </summary>
+        public string Edition
+        {
+            get { return this._edition; }
+            set { this._edition = value; }
+        }
+
+        private int _id;
+
+        /// <summary>
+        /// The id of the database.
+        /// </summary>
+        public int Id
+        {
+            get { return this._id; }
+            set { this._id = value; }
+        }
+
+        private long _maximumDatabaseSizeInGB;
+
+        /// <summary>
+        /// Maximum size of this database, in Gigabytes.
+        /// </summary>
+        public long MaximumDatabaseSizeInGB
+        {
+            get { return this._maximumDatabaseSizeInGB; }
+            set { this._maximumDatabaseSizeInGB = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of the database.
         /// </summary>
         public string Name
         {
             get { return this._name; }
             set { this._name = value; }
         }
-        
-        private string _startIPAddress;
-        
+
+        private string _serviceObjectiveId;
+
         /// <summary>
-        /// The beginning IP address applied to this firewall rule.
+        /// The id of this service objective.
         /// </summary>
-        public string StartIPAddress
+        public string ServiceObjectiveId
         {
-            get { return this._startIPAddress; }
-            set { this._startIPAddress = value; }
+            get { return this._serviceObjectiveId; }
+            set { this._serviceObjectiveId = value; }
         }
-        
+
         /// <summary>
-        /// Initializes a new instance of the FirewallRuleUpdateParameters
-        /// class.
+        /// Initializes a new instance of the DatabaseUpdateParameters class.
         /// </summary>
-        public FirewallRuleUpdateParameters()
+        public DatabaseUpdateParameters()
         {
         }
     }
-    
+
     /// <summary>
     /// A standard service response including an HTTP status code and request
     /// ID.
     /// </summary>
-    public partial class FirewallRuleUpdateResponse : OperationResponse
+    public partial class DatabaseUpdateResponse : OperationResponse
     {
-        private string _endIPAddress;
-        
+        private string _collationName;
+
         /// <summary>
-        /// The ending IP address applied to this rule.
+        /// This database resource's collation name.
         /// </summary>
-        public string EndIPAddress
+        public string CollationName
         {
-            get { return this._endIPAddress; }
-            set { this._endIPAddress = value; }
+            get { return this._collationName; }
+            set { this._collationName = value; }
         }
-        
-        private string _name;
-        
+
+        private DateTime _creationDate;
+
         /// <summary>
-        /// The name of the Firewall Rule.
+        /// The date this database was created.
+        /// </summary>
+        public DateTime CreationDate
+        {
+            get { return this._creationDate; }
+            set { this._creationDate = value; }
+        }
+
+        private string _edition;
+
+        /// <summary>
+        /// This database resource's edition.
+        /// </summary>
+        public string Edition
+        {
+            get { return this._edition; }
+            set { this._edition = value; }
+        }
+
+        private int _id;
+
+        /// <summary>
+        /// The id of the database.
+        /// </summary>
+        public int Id
+        {
+            get { return this._id; }
+            set { this._id = value; }
+        }
+
+        private bool _isFederationRoot;
+
+        /// <summary>
+        /// Determines if this database is a federation root.
+        /// </summary>
+        public bool IsFederationRoot
+        {
+            get { return this._isFederationRoot; }
+            set { this._isFederationRoot = value; }
+        }
+
+        private bool _isSystemObject;
+
+        /// <summary>
+        /// Determines if this database a system object.
+        /// </summary>
+        public bool IsSystemObject
+        {
+            get { return this._isSystemObject; }
+            set { this._isSystemObject = value; }
+        }
+
+        private long _maximumDatabaseSizeInGB;
+
+        /// <summary>
+        /// Maximum size of this database, in Gigabytes.
+        /// </summary>
+        public long MaximumDatabaseSizeInGB
+        {
+            get { return this._maximumDatabaseSizeInGB; }
+            set { this._maximumDatabaseSizeInGB = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of the database.
         /// </summary>
         public string Name
         {
             get { return this._name; }
             set { this._name = value; }
         }
-        
-        private string _startIPAddress;
-        
+
+        private string _serviceObjectiveAssignmentErrorCode;
+
         /// <summary>
-        /// The beginning IP address applied to this rule.
+        /// The error code for this sevice objective.
         /// </summary>
-        public string StartIPAddress
+        public string ServiceObjectiveAssignmentErrorCode
         {
-            get { return this._startIPAddress; }
-            set { this._startIPAddress = value; }
+            get { return this._serviceObjectiveAssignmentErrorCode; }
+            set { this._serviceObjectiveAssignmentErrorCode = value; }
         }
-        
-        private string _state;
-        
+
+        private string _serviceObjectiveAssignmentErrorDescription;
+
         /// <summary>
-        /// The state of the rule.
+        /// The error description, if any.
+        /// </summary>
+        public string ServiceObjectiveAssignmentErrorDescription
+        {
+            get { return this._serviceObjectiveAssignmentErrorDescription; }
+            set { this._serviceObjectiveAssignmentErrorDescription = value; }
+        }
+
+        private string _serviceObjectiveAssignmentState;
+
+        /// <summary>
+        /// The state of the current assignment.
+        /// </summary>
+        public string ServiceObjectiveAssignmentState
+        {
+            get { return this._serviceObjectiveAssignmentState; }
+            set { this._serviceObjectiveAssignmentState = value; }
+        }
+
+        private string _serviceObjectiveAssignmentStateDescription;
+
+        /// <summary>
+        /// The state description.
+        /// </summary>
+        public string ServiceObjectiveAssignmentStateDescription
+        {
+            get { return this._serviceObjectiveAssignmentStateDescription; }
+            set { this._serviceObjectiveAssignmentStateDescription = value; }
+        }
+
+        private string _serviceObjectiveAssignmentSuccessDate;
+
+        /// <summary>
+        /// The date the service's assignment succeeded.
+        /// </summary>
+        public string ServiceObjectiveAssignmentSuccessDate
+        {
+            get { return this._serviceObjectiveAssignmentSuccessDate; }
+            set { this._serviceObjectiveAssignmentSuccessDate = value; }
+        }
+
+        private string _serviceObjectiveId;
+
+        /// <summary>
+        /// The id of this service objective.
+        /// </summary>
+        public string ServiceObjectiveId
+        {
+            get { return this._serviceObjectiveId; }
+            set { this._serviceObjectiveId = value; }
+        }
+
+        private string _sizeMB;
+
+        /// <summary>
+        /// The size of this database in megabytes (MB).
+        /// </summary>
+        public string SizeMB
+        {
+            get { return this._sizeMB; }
+            set { this._sizeMB = value; }
+        }
+
+        private string _state;
+
+        /// <summary>
+        /// The state of the database.
         /// </summary>
         public string State
         {
             get { return this._state; }
             set { this._state = value; }
         }
-        
+
         private string _type;
-        
+
         /// <summary>
         /// The type of resource.
         /// </summary>
@@ -1813,7 +1909,335 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._type; }
             set { this._type = value; }
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the DatabaseUpdateResponse class.
+        /// </summary>
+        public DatabaseUpdateResponse()
+        {
+        }
+    }
+
+    /// <summary>
+    /// The parameters for the Create Firewall Rule operation
+    /// </summary>
+    public partial class FirewallRuleCreateParameters
+    {
+        private string _endIPAddress;
+
+        /// <summary>
+        /// The ending IP address applied to this firewall rule.
+        /// </summary>
+        public string EndIPAddress
+        {
+            get { return this._endIPAddress; }
+            set { this._endIPAddress = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of this firewall rule.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+
+        private string _startIPAddress;
+
+        /// <summary>
+        /// The beginning IP address applied to this firewall rule.
+        /// </summary>
+        public string StartIPAddress
+        {
+            get { return this._startIPAddress; }
+            set { this._startIPAddress = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the FirewallRuleCreateParameters
+        /// class.
+        /// </summary>
+        public FirewallRuleCreateParameters()
+        {
+        }
+    }
+
+    /// <summary>
+    /// A standard service response including an HTTP status code and request
+    /// ID.
+    /// </summary>
+    public partial class FirewallRuleCreateResponse : OperationResponse
+    {
+        private string _endIPAddress;
+
+        /// <summary>
+        /// The ending IP address applied to this rule.
+        /// </summary>
+        public string EndIPAddress
+        {
+            get { return this._endIPAddress; }
+            set { this._endIPAddress = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of the Firewall Rule.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+
+        private string _startIPAddress;
+
+        /// <summary>
+        /// The beginning IP address applied to this rule.
+        /// </summary>
+        public string StartIPAddress
+        {
+            get { return this._startIPAddress; }
+            set { this._startIPAddress = value; }
+        }
+
+        private string _state;
+
+        /// <summary>
+        /// The state of the rule.
+        /// </summary>
+        public string State
+        {
+            get { return this._state; }
+            set { this._state = value; }
+        }
+
+        private string _type;
+
+        /// <summary>
+        /// The type of resource.
+        /// </summary>
+        public string Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the FirewallRuleCreateResponse class.
+        /// </summary>
+        public FirewallRuleCreateResponse()
+        {
+        }
+    }
+
+    /// <summary>
+    /// A standard service response including an HTTP status code and request
+    /// ID.
+    /// </summary>
+    public partial class FirewallRuleListResponse : OperationResponse, IEnumerable<FirewallRuleListResponse.FirewallRule>
+    {
+        private IList<FirewallRuleListResponse.FirewallRule> _firewallRules;
+
+        /// <summary>
+        /// The firewall rules for this SQL Database Server.
+        /// </summary>
+        public IList<FirewallRuleListResponse.FirewallRule> FirewallRules
+        {
+            get { return this._firewallRules; }
+            set { this._firewallRules = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the FirewallRuleListResponse class.
+        /// </summary>
+        public FirewallRuleListResponse()
+        {
+            this._firewallRules = new List<FirewallRuleListResponse.FirewallRule>();
+        }
+
+        /// <summary>
+        /// Gets the sequence of FirewallRules.
+        /// </summary>
+        public IEnumerator<FirewallRuleListResponse.FirewallRule> GetEnumerator()
+        {
+            return this.FirewallRules.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the sequence of FirewallRules.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public partial class FirewallRule
+        {
+            private string _endIPAddress;
+
+            /// <summary>
+            /// The ending IP address applied to this rule.
+            /// </summary>
+            public string EndIPAddress
+            {
+                get { return this._endIPAddress; }
+                set { this._endIPAddress = value; }
+            }
+
+            private string _name;
+
+            /// <summary>
+            /// The name of the Firewall Rule.
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+
+            private string _startIPAddress;
+
+            /// <summary>
+            /// The beginning IP address applied to this rule.
+            /// </summary>
+            public string StartIPAddress
+            {
+                get { return this._startIPAddress; }
+                set { this._startIPAddress = value; }
+            }
+
+            private string _type;
+
+            /// <summary>
+            /// The type of resource.
+            /// </summary>
+            public string Type
+            {
+                get { return this._type; }
+                set { this._type = value; }
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the FirewallRule class.
+            /// </summary>
+            public FirewallRule()
+            {
+            }
+        }
+    }
+
+    /// <summary>
+    /// The parameters for the Create Firewall Rule operation
+    /// </summary>
+    public partial class FirewallRuleUpdateParameters
+    {
+        private string _endIPAddress;
+
+        /// <summary>
+        /// The ending IP address applied to this firewall rule.
+        /// </summary>
+        public string EndIPAddress
+        {
+            get { return this._endIPAddress; }
+            set { this._endIPAddress = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of this firewall rule.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+
+        private string _startIPAddress;
+
+        /// <summary>
+        /// The beginning IP address applied to this firewall rule.
+        /// </summary>
+        public string StartIPAddress
+        {
+            get { return this._startIPAddress; }
+            set { this._startIPAddress = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the FirewallRuleUpdateParameters
+        /// class.
+        /// </summary>
+        public FirewallRuleUpdateParameters()
+        {
+        }
+    }
+
+    /// <summary>
+    /// A standard service response including an HTTP status code and request
+    /// ID.
+    /// </summary>
+    public partial class FirewallRuleUpdateResponse : OperationResponse
+    {
+        private string _endIPAddress;
+
+        /// <summary>
+        /// The ending IP address applied to this rule.
+        /// </summary>
+        public string EndIPAddress
+        {
+            get { return this._endIPAddress; }
+            set { this._endIPAddress = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of the Firewall Rule.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+
+        private string _startIPAddress;
+
+        /// <summary>
+        /// The beginning IP address applied to this rule.
+        /// </summary>
+        public string StartIPAddress
+        {
+            get { return this._startIPAddress; }
+            set { this._startIPAddress = value; }
+        }
+
+        private string _state;
+
+        /// <summary>
+        /// The state of the rule.
+        /// </summary>
+        public string State
+        {
+            get { return this._state; }
+            set { this._state = value; }
+        }
+
+        private string _type;
+
+        /// <summary>
+        /// The type of resource.
+        /// </summary>
+        public string Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the FirewallRuleUpdateResponse class.
         /// </summary>
@@ -1821,14 +2245,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// Parameters supplied to the Manage Administrator Password operation.
     /// </summary>
     public partial class ServerChangeAdministratorPasswordParameters
     {
         private string _newPassword;
-        
+
         /// <summary>
         /// The new password for the administrator
         /// </summary>
@@ -1837,7 +2261,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._newPassword; }
             set { this._newPassword = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the
         /// ServerChangeAdministratorPasswordParameters class.
@@ -1846,14 +2270,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// Parameters supplied to the Create Server operation.
     /// </summary>
     public partial class ServerCreateParameters
     {
         private string _administratorPassword;
-        
+
         /// <summary>
         /// The administrator password
         /// </summary>
@@ -1862,9 +2286,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._administratorPassword; }
             set { this._administratorPassword = value; }
         }
-        
+
         private string _administratorUserName;
-        
+
         /// <summary>
         /// The administrator username
         /// </summary>
@@ -1873,9 +2297,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._administratorUserName; }
             set { this._administratorUserName = value; }
         }
-        
+
         private string _location;
-        
+
         /// <summary>
         /// The region in which this server will be created.
         /// </summary>
@@ -1884,7 +2308,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._location; }
             set { this._location = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the ServerCreateParameters class.
         /// </summary>
@@ -1892,14 +2316,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// The response returned from the Create Server operation
     /// </summary>
     public partial class ServerCreateResponse : OperationResponse
     {
         private string _serverName;
-        
+
         /// <summary>
         /// The name of the server that was created
         /// </summary>
@@ -1908,7 +2332,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._serverName; }
             set { this._serverName = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the ServerCreateResponse class.
         /// </summary>
@@ -1916,14 +2340,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
         }
     }
-    
+
     /// <summary>
     /// The response structure for the Server List operation
     /// </summary>
     public partial class ServerListResponse : OperationResponse, IEnumerable<ServerListResponse.Server>
     {
         private IList<ServerListResponse.Server> _servers;
-        
+
         /// <summary>
         /// The SQL Servers that are valid for your subscription.
         /// </summary>
@@ -1932,7 +2356,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
             get { return this._servers; }
             set { this._servers = value; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the ServerListResponse class.
         /// </summary>
@@ -1940,7 +2364,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             this._servers = new List<ServerListResponse.Server>();
         }
-        
+
         /// <summary>
         /// Gets the sequence of Servers.
         /// </summary>
@@ -1948,7 +2372,7 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.Servers.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Gets the sequence of Servers.
         /// </summary>
@@ -1956,14 +2380,14 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
         {
             return this.GetEnumerator();
         }
-        
+
         /// <summary>
         /// An individual server in your Windows Azure subscription.
         /// </summary>
         public partial class Server
         {
             private string _administratorUserName;
-            
+
             /// <summary>
             /// The name of an administrator for this server.
             /// </summary>
@@ -1972,9 +2396,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._administratorUserName; }
                 set { this._administratorUserName = value; }
             }
-            
+
             private IDictionary<string, string> _features;
-            
+
             /// <summary>
             /// The list of features and the type of database server for an
             /// individual server.
@@ -1984,9 +2408,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._features; }
                 set { this._features = value; }
             }
-            
+
             private string _location;
-            
+
             /// <summary>
             /// The name of a data center location that is valid for your
             /// subscription.
@@ -1996,9 +2420,9 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._location; }
                 set { this._location = value; }
             }
-            
+
             private string _name;
-            
+
             /// <summary>
             /// The name of a SQL Server running in your subscription.
             /// </summary>
@@ -2007,13 +2431,549 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
                 get { return this._name; }
                 set { this._name = value; }
             }
-            
+
             /// <summary>
             /// Initializes a new instance of the Server class.
             /// </summary>
             public Server()
             {
                 this._features = new Dictionary<string, string>();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Response containing the service objective for a given server and
+    /// service objective Id.
+    /// </summary>
+    public partial class ServiceObjectiveGetResponse : OperationResponse
+    {
+        private string _description;
+
+        /// <summary>
+        /// The service objective description.
+        /// </summary>
+        public string Description
+        {
+            get { return this._description; }
+            set { this._description = value; }
+        }
+
+        private IList<ServiceObjectiveGetResponse.DimensionSettingResponse> _dimensionSettings;
+
+        /// <summary>
+        /// The service objective dimension settings.
+        /// </summary>
+        public IList<ServiceObjectiveGetResponse.DimensionSettingResponse> DimensionSettings
+        {
+            get { return this._dimensionSettings; }
+            set { this._dimensionSettings = value; }
+        }
+
+        private bool _enabled;
+
+        /// <summary>
+        /// The value indicating whether the service objective is enabled.
+        /// </summary>
+        public bool Enabled
+        {
+            get { return this._enabled; }
+            set { this._enabled = value; }
+        }
+
+        private string _id;
+
+        /// <summary>
+        /// The service objective id.
+        /// </summary>
+        public string Id
+        {
+            get { return this._id; }
+            set { this._id = value; }
+        }
+
+        private bool _isDefault;
+
+        /// <summary>
+        /// The value indicating whether the service objective is the default
+        /// objective.
+        /// </summary>
+        public bool IsDefault
+        {
+            get { return this._isDefault; }
+            set { this._isDefault = value; }
+        }
+
+        private bool _isSystem;
+
+        /// <summary>
+        /// The value indicating whether the service objective is a system
+        /// objective.
+        /// </summary>
+        public bool IsSystem
+        {
+            get { return this._isSystem; }
+            set { this._isSystem = value; }
+        }
+
+        private string _name;
+
+        /// <summary>
+        /// The name of the service objective.
+        /// </summary>
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+
+        private string _parentLink;
+
+        /// <summary>
+        /// The ParentLink of the service objective.
+        /// </summary>
+        public string ParentLink
+        {
+            get { return this._parentLink; }
+            set { this._parentLink = value; }
+        }
+
+        private string _selfLink;
+
+        /// <summary>
+        /// The SelfLink of the service objective.
+        /// </summary>
+        public string SelfLink
+        {
+            get { return this._selfLink; }
+            set { this._selfLink = value; }
+        }
+
+        private string _state;
+
+        /// <summary>
+        /// The state of the service objective.
+        /// </summary>
+        public string State
+        {
+            get { return this._state; }
+            set { this._state = value; }
+        }
+
+        private string _type;
+
+        /// <summary>
+        /// The type of resource.
+        /// </summary>
+        public string Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ServiceObjectiveGetResponse class.
+        /// </summary>
+        public ServiceObjectiveGetResponse()
+        {
+            this._dimensionSettings = new List<ServiceObjectiveGetResponse.DimensionSettingResponse>();
+        }
+
+        public partial class DimensionSettingResponse
+        {
+            private string _description;
+
+            /// <summary>
+            /// The dimension setting description.
+            /// </summary>
+            public string Description
+            {
+                get { return this._description; }
+                set { this._description = value; }
+            }
+
+            private string _id;
+
+            /// <summary>
+            /// The dimension setting id.
+            /// </summary>
+            public string Id
+            {
+                get { return this._id; }
+                set { this._id = value; }
+            }
+
+            private bool _isDefault;
+
+            /// <summary>
+            /// The value indicating whether the dimension setting is the
+            /// default setting.
+            /// </summary>
+            public bool IsDefault
+            {
+                get { return this._isDefault; }
+                set { this._isDefault = value; }
+            }
+
+            private string _name;
+
+            /// <summary>
+            /// The name of the dimension setting.
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+
+            private byte _ordinal;
+
+            /// <summary>
+            /// The dimension setting ordinal position.
+            /// </summary>
+            public byte Ordinal
+            {
+                get { return this._ordinal; }
+                set { this._ordinal = value; }
+            }
+
+            private string _parentLink;
+
+            /// <summary>
+            /// The ParentLink of the dimension setting.
+            /// </summary>
+            public string ParentLink
+            {
+                get { return this._parentLink; }
+                set { this._parentLink = value; }
+            }
+
+            private string _selfLink;
+
+            /// <summary>
+            /// The SelfLink of the dimension setting.
+            /// </summary>
+            public string SelfLink
+            {
+                get { return this._selfLink; }
+                set { this._selfLink = value; }
+            }
+
+            private string _state;
+
+            /// <summary>
+            /// The state of the dimension setting.
+            /// </summary>
+            public string State
+            {
+                get { return this._state; }
+                set { this._state = value; }
+            }
+
+            private string _type;
+
+            /// <summary>
+            /// The type of resource.
+            /// </summary>
+            public string Type
+            {
+                get { return this._type; }
+                set { this._type = value; }
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the DimensionSettingResponse
+            /// class.
+            /// </summary>
+            public DimensionSettingResponse()
+            {
+            }
+        }
+    }
+
+    /// <summary>
+    /// Response containing the list of service objective for a given server.
+    /// </summary>
+    public partial class ServiceObjectiveListResponse : OperationResponse, IEnumerable<ServiceObjectiveListResponse.ServiceObjective>
+    {
+        private IList<ServiceObjectiveListResponse.ServiceObjective> _serviceObjectives;
+
+        /// <summary>
+        /// The list of Service Objectives that are existing in a server.
+        /// </summary>
+        public IList<ServiceObjectiveListResponse.ServiceObjective> ServiceObjectives
+        {
+            get { return this._serviceObjectives; }
+            set { this._serviceObjectives = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ServiceObjectiveListResponse
+        /// class.
+        /// </summary>
+        public ServiceObjectiveListResponse()
+        {
+            this._serviceObjectives = new List<ServiceObjectiveListResponse.ServiceObjective>();
+        }
+
+        /// <summary>
+        /// Gets the sequence of ServiceObjectives.
+        /// </summary>
+        public IEnumerator<ServiceObjectiveListResponse.ServiceObjective> GetEnumerator()
+        {
+            return this.ServiceObjectives.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the sequence of ServiceObjectives.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public partial class ServiceObjective
+        {
+            private string _description;
+
+            /// <summary>
+            /// The service objective description.
+            /// </summary>
+            public string Description
+            {
+                get { return this._description; }
+                set { this._description = value; }
+            }
+
+            private IList<ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse> _dimensionSettings;
+
+            /// <summary>
+            /// The service objective dimension settings.
+            /// </summary>
+            public IList<ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse> DimensionSettings
+            {
+                get { return this._dimensionSettings; }
+                set { this._dimensionSettings = value; }
+            }
+
+            private bool _enabled;
+
+            /// <summary>
+            /// The value indicating whether the service objective is enabled.
+            /// </summary>
+            public bool Enabled
+            {
+                get { return this._enabled; }
+                set { this._enabled = value; }
+            }
+
+            private string _id;
+
+            /// <summary>
+            /// The service objective id.
+            /// </summary>
+            public string Id
+            {
+                get { return this._id; }
+                set { this._id = value; }
+            }
+
+            private bool _isDefault;
+
+            /// <summary>
+            /// The value indicating whether the service objective is the
+            /// default objective.
+            /// </summary>
+            public bool IsDefault
+            {
+                get { return this._isDefault; }
+                set { this._isDefault = value; }
+            }
+
+            private bool _isSystem;
+
+            /// <summary>
+            /// The value indicating whether the service objective is a system
+            /// objective.
+            /// </summary>
+            public bool IsSystem
+            {
+                get { return this._isSystem; }
+                set { this._isSystem = value; }
+            }
+
+            private string _name;
+
+            /// <summary>
+            /// The name of the service objective.
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+
+            private string _parentLink;
+
+            /// <summary>
+            /// The ParentLink of the service objective.
+            /// </summary>
+            public string ParentLink
+            {
+                get { return this._parentLink; }
+                set { this._parentLink = value; }
+            }
+
+            private string _selfLink;
+
+            /// <summary>
+            /// The SelfLink of the service objective.
+            /// </summary>
+            public string SelfLink
+            {
+                get { return this._selfLink; }
+                set { this._selfLink = value; }
+            }
+
+            private string _state;
+
+            /// <summary>
+            /// The state of the service objective.
+            /// </summary>
+            public string State
+            {
+                get { return this._state; }
+                set { this._state = value; }
+            }
+
+            private string _type;
+
+            /// <summary>
+            /// The type of resource.
+            /// </summary>
+            public string Type
+            {
+                get { return this._type; }
+                set { this._type = value; }
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the ServiceObjective class.
+            /// </summary>
+            public ServiceObjective()
+            {
+                this._dimensionSettings = new List<ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse>();
+            }
+
+            public partial class DimensionSettingResponse
+            {
+                private string _description;
+
+                /// <summary>
+                /// The dimension setting description.
+                /// </summary>
+                public string Description
+                {
+                    get { return this._description; }
+                    set { this._description = value; }
+                }
+
+                private string _id;
+
+                /// <summary>
+                /// The dimension setting id.
+                /// </summary>
+                public string Id
+                {
+                    get { return this._id; }
+                    set { this._id = value; }
+                }
+
+                private bool _isDefault;
+
+                /// <summary>
+                /// The value indicating whether the dimension setting is the
+                /// default setting.
+                /// </summary>
+                public bool IsDefault
+                {
+                    get { return this._isDefault; }
+                    set { this._isDefault = value; }
+                }
+
+                private string _name;
+
+                /// <summary>
+                /// The name of the dimension setting.
+                /// </summary>
+                public string Name
+                {
+                    get { return this._name; }
+                    set { this._name = value; }
+                }
+
+                private byte _ordinal;
+
+                /// <summary>
+                /// The dimension setting ordinal position.
+                /// </summary>
+                public byte Ordinal
+                {
+                    get { return this._ordinal; }
+                    set { this._ordinal = value; }
+                }
+
+                private string _parentLink;
+
+                /// <summary>
+                /// The ParentLink of the dimension setting.
+                /// </summary>
+                public string ParentLink
+                {
+                    get { return this._parentLink; }
+                    set { this._parentLink = value; }
+                }
+
+                private string _selfLink;
+
+                /// <summary>
+                /// The SelfLink of the dimension setting.
+                /// </summary>
+                public string SelfLink
+                {
+                    get { return this._selfLink; }
+                    set { this._selfLink = value; }
+                }
+
+                private string _state;
+
+                /// <summary>
+                /// The state of the dimension setting.
+                /// </summary>
+                public string State
+                {
+                    get { return this._state; }
+                    set { this._state = value; }
+                }
+
+                private string _type;
+
+                /// <summary>
+                /// The type of resource.
+                /// </summary>
+                public string Type
+                {
+                    get { return this._type; }
+                    set { this._type = value; }
+                }
+
+                /// <summary>
+                /// Initializes a new instance of the DimensionSettingResponse
+                /// class.
+                /// </summary>
+                public DimensionSettingResponse()
+                {
+                }
             }
         }
     }
@@ -2035,9 +2995,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </summary>
         Uri BaseUri
         {
-            get; 
+            get;
         }
-        
+
         /// <summary>
         /// When you create a Windows Azure subscription, it is uniquely
         /// identified by a subscription ID. The subscription ID forms part of
@@ -2049,27 +3009,36 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </summary>
         SubscriptionCloudCredentials Credentials
         {
-            get; 
+            get;
         }
-        
+
         /// <summary>
         /// The SQL DAC Management API includes operations for importing and
         /// exporting SQL Databases into and out of Windows Azure.
         /// </summary>
         IDacOperations Dacs
         {
-            get; 
+            get;
         }
-        
+
+        /// <summary>
+        /// The SQL Database Management API includes operations for get/stop
+        /// SQL Databases' operations for a subscription.
+        /// </summary>
+        IDatabaseOperationOperations DatabaseOperations
+        {
+            get;
+        }
+
         /// <summary>
         /// The SQL Database Management API includes operations for managing
         /// SQL Databases for a subscription.
         /// </summary>
         IDatabaseOperations Databases
         {
-            get; 
+            get;
         }
-        
+
         /// <summary>
         /// The Windows Azure SQL Database Management API includes operations
         /// for managing the server-level firewall rules for SQL Database
@@ -2082,9 +3051,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </summary>
         IFirewallRuleOperations FirewallRules
         {
-            get; 
+            get;
         }
-        
+
         /// <summary>
         /// The SQL Database Management API includes operations for managing
         /// SQL Database servers for a subscription.  (see
@@ -2093,10 +3062,19 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </summary>
         IServerOperations Servers
         {
-            get; 
+            get;
+        }
+
+        /// <summary>
+        /// The SQL Database Management API includes operations for getting
+        /// Service Objective for a subscription.
+        /// </summary>
+        IServiceObjectiveOperations ServiceObjectives
+        {
+            get;
         }
     }
-    
+
     /// <summary>
     /// The SQL Database Management API is a REST API for managing SQL Database
     /// servers and the firewall rules associated with SQL Database servers.
@@ -2107,7 +3085,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
     public static partial class SqlManagementClientExtensions
     {
     }
-    
+
     /// <summary>
     /// The SQL Database Management API is a REST API for managing SQL Database
     /// servers and the firewall rules associated with SQL Database servers.
@@ -2118,7 +3096,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
     public partial class SqlManagementClient : ServiceClient<SqlManagementClient>, ISqlManagementClient
     {
         private Uri _baseUri;
-        
+
         /// <summary>
         /// The URI used as the base for all SQL requests.
         /// </summary>
@@ -2126,9 +3104,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._baseUri; }
         }
-        
+
         private SubscriptionCloudCredentials _credentials;
-        
+
         /// <summary>
         /// When you create a Windows Azure subscription, it is uniquely
         /// identified by a subscription ID. The subscription ID forms part of
@@ -2142,9 +3120,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._credentials; }
         }
-        
+
         private IDacOperations _dacs;
-        
+
         /// <summary>
         /// The SQL DAC Management API includes operations for importing and
         /// exporting SQL Databases into and out of Windows Azure.
@@ -2153,9 +3131,20 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._dacs; }
         }
-        
+
+        private IDatabaseOperationOperations _databaseOperations;
+
+        /// <summary>
+        /// The SQL Database Management API includes operations for get/stop
+        /// SQL Databases' operations for a subscription.
+        /// </summary>
+        public virtual IDatabaseOperationOperations DatabaseOperations
+        {
+            get { return this._databaseOperations; }
+        }
+
         private IDatabaseOperations _databases;
-        
+
         /// <summary>
         /// The SQL Database Management API includes operations for managing
         /// SQL Databases for a subscription.
@@ -2164,9 +3153,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._databases; }
         }
-        
+
         private IFirewallRuleOperations _firewallRules;
-        
+
         /// <summary>
         /// The Windows Azure SQL Database Management API includes operations
         /// for managing the server-level firewall rules for SQL Database
@@ -2181,9 +3170,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._firewallRules; }
         }
-        
+
         private IServerOperations _servers;
-        
+
         /// <summary>
         /// The SQL Database Management API includes operations for managing
         /// SQL Database servers for a subscription.  (see
@@ -2194,7 +3183,18 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._servers; }
         }
-        
+
+        private IServiceObjectiveOperations _serviceObjectives;
+
+        /// <summary>
+        /// The SQL Database Management API includes operations for getting
+        /// Service Objective for a subscription.
+        /// </summary>
+        public virtual IServiceObjectiveOperations ServiceObjectives
+        {
+            get { return this._serviceObjectives; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the SqlManagementClient class.
         /// </summary>
@@ -2202,12 +3202,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
             : base()
         {
             this._dacs = new DacOperations(this);
+            this._databaseOperations = new DatabaseOperationOperations(this);
             this._databases = new DatabaseOperations(this);
             this._firewallRules = new FirewallRuleOperations(this);
             this._servers = new ServerOperations(this);
+            this._serviceObjectives = new ServiceObjectiveOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the SqlManagementClient class.
         /// </summary>
@@ -2236,10 +3238,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
             this._credentials = credentials;
             this._baseUri = baseUri;
-            
+
             this.Credentials.InitializeServiceClient(this);
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the SqlManagementClient class.
         /// </summary>
@@ -2261,11 +3263,11 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
             this._credentials = credentials;
             this._baseUri = new Uri("https://management.core.windows.net");
-            
+
             this.Credentials.InitializeServiceClient(this);
         }
     }
-    
+
     /// <summary>
     /// The SQL DAC Management API includes operations for importing and
     /// exporting SQL Databases into and out of Windows Azure.
@@ -2282,7 +3284,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// Response for an DAC Import/Export request.
         /// </returns>
         Task<DacImportExportResponse> ExportAsync(string serverName, DacExportParameters parameters, CancellationToken cancellationToken);
-        
+
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
@@ -2306,7 +3308,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// The response structure for the DAC GetStatus operation
         /// </returns>
         Task<DacGetStatusResponse> GetStatusAsync(string serverName, string fullyQualifiedServerName, string username, string password, string requestId, CancellationToken cancellationToken);
-        
+
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
@@ -2318,7 +3320,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </returns>
         Task<DacImportExportResponse> ImportAsync(string serverName, DacImportParameters parameters, CancellationToken cancellationToken);
     }
-    
+
     /// <summary>
     /// The SQL DAC Management API includes operations for importing and
     /// exporting SQL Databases into and out of Windows Azure.
@@ -2353,7 +3355,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
@@ -2368,7 +3370,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.ExportAsync(serverName, parameters, CancellationToken.None);
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
@@ -2410,7 +3412,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
@@ -2438,7 +3440,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.GetStatusAsync(serverName, fullyQualifiedServerName, username, password, requestId, CancellationToken.None);
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
@@ -2467,7 +3469,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDacOperations.
@@ -2483,7 +3485,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             return operations.ImportAsync(serverName, parameters, CancellationToken.None);
         }
     }
-    
+
     /// <summary>
     /// The SQL DAC Management API includes operations for importing and
     /// exporting SQL Databases into and out of Windows Azure.
@@ -2500,9 +3502,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             this._client = client;
         }
-        
+
         private SqlManagementClient _client;
-        
+
         /// <summary>
         /// Gets a reference to the
         /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
@@ -2511,7 +3513,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._client; }
         }
-        
+
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
@@ -2561,7 +3563,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                 }
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -2573,10 +3575,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "ExportAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Export";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -2584,68 +3586,68 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 if (parameters != null)
                 {
                     XElement exportInputElement = new XElement(XName.Get("ExportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     requestDoc.Add(exportInputElement);
-                    
+
                     if (parameters.BlobCredentials != null)
                     {
                         XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         exportInputElement.Add(blobCredentialsElement);
-                        
+
                         XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
                         typeAttribute.Value = "BlobStorageAccessKeyCredentials";
                         blobCredentialsElement.Add(typeAttribute);
-                        
+
                         XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         uriElement.Value = parameters.BlobCredentials.Uri.ToString();
                         blobCredentialsElement.Add(uriElement);
-                        
+
                         XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
                         blobCredentialsElement.Add(storageAccessKeyElement);
                     }
-                    
+
                     if (parameters.ConnectionInfo != null)
                     {
                         XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         exportInputElement.Add(connectionInfoElement);
-                        
+
                         XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
                         connectionInfoElement.Add(databaseNameElement);
-                        
+
                         XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         passwordElement.Value = parameters.ConnectionInfo.Password;
                         connectionInfoElement.Add(passwordElement);
-                        
+
                         XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         serverNameElement.Value = parameters.ConnectionInfo.ServerName;
                         connectionInfoElement.Add(serverNameElement);
-                        
+
                         XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         userNameElement.Value = parameters.ConnectionInfo.UserName;
                         connectionInfoElement.Add(userNameElement);
                     }
                 }
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -2671,7 +3673,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DacImportExportResponse result = new DacImportExportResponse();
                     result.StatusCode = statusCode;
@@ -2679,18 +3681,18 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement guidElement = responseDoc.Element(XName.Get("guid", "http://schemas.microsoft.com/2003/10/Serialization/"));
                     if (guidElement != null)
                     {
                         result.Guid = guidElement.Value;
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -2713,7 +3715,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
@@ -2759,7 +3761,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("requestId");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -2774,10 +3776,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("requestId", requestId);
                 Tracing.Enter(invocationId, this, "GetStatusAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Status?servername=" + fullyQualifiedServerName + "&username=" + username + "&password=" + password + "&reqId=" + requestId;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -2785,14 +3787,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -2818,7 +3820,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DacGetStatusResponse result = new DacGetStatusResponse();
                     result.StatusCode = statusCode;
@@ -2826,12 +3828,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement arrayOfStatusInfoElement = responseDoc.Element(XName.Get("ArrayOfStatusInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     if (arrayOfStatusInfoElement != null)
                     {
@@ -2841,21 +3843,21 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             {
                                 DacGetStatusResponse.StatusInfo statusInfoInstance = new DacGetStatusResponse.StatusInfo();
                                 result.StatusInfoList.Add(statusInfoInstance);
-                                
+
                                 XElement blobUriElement = statusInfoElement.Element(XName.Get("BlobUri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (blobUriElement != null)
                                 {
                                     Uri blobUriInstance = TypeConversion.TryParseUri(blobUriElement.Value);
                                     statusInfoInstance.BlobUri = blobUriInstance;
                                 }
-                                
+
                                 XElement databaseNameElement = statusInfoElement.Element(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (databaseNameElement != null)
                                 {
                                     string databaseNameInstance = databaseNameElement.Value;
                                     statusInfoInstance.DatabaseName = databaseNameInstance;
                                 }
-                                
+
                                 XElement errorMessageElement = statusInfoElement.Element(XName.Get("ErrorMessage", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (errorMessageElement != null)
                                 {
@@ -2871,42 +3873,42 @@ namespace Microsoft.WindowsAzure.Management.Sql
                                         statusInfoInstance.ErrorMessage = errorMessageInstance;
                                     }
                                 }
-                                
+
                                 XElement lastModifiedTimeElement = statusInfoElement.Element(XName.Get("LastModifiedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (lastModifiedTimeElement != null)
                                 {
                                     DateTime lastModifiedTimeInstance = DateTime.Parse(lastModifiedTimeElement.Value, CultureInfo.InvariantCulture);
                                     statusInfoInstance.LastModifiedTime = lastModifiedTimeInstance;
                                 }
-                                
+
                                 XElement queuedTimeElement = statusInfoElement.Element(XName.Get("QueuedTime", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (queuedTimeElement != null)
                                 {
                                     DateTime queuedTimeInstance = DateTime.Parse(queuedTimeElement.Value, CultureInfo.InvariantCulture);
                                     statusInfoInstance.QueuedTime = queuedTimeInstance;
                                 }
-                                
+
                                 XElement requestIdElement = statusInfoElement.Element(XName.Get("RequestId", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (requestIdElement != null)
                                 {
                                     string requestIdInstance = requestIdElement.Value;
                                     statusInfoInstance.RequestId = requestIdInstance;
                                 }
-                                
+
                                 XElement requestTypeElement = statusInfoElement.Element(XName.Get("RequestType", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (requestTypeElement != null)
                                 {
                                     string requestTypeInstance = requestTypeElement.Value;
                                     statusInfoInstance.RequestType = requestTypeInstance;
                                 }
-                                
+
                                 XElement serverNameElement = statusInfoElement.Element(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (serverNameElement != null)
                                 {
                                     string serverNameInstance = serverNameElement.Value;
                                     statusInfoInstance.ServerName = serverNameInstance;
                                 }
-                                
+
                                 XElement statusElement = statusInfoElement.Element(XName.Get("Status", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                                 if (statusElement != null)
                                 {
@@ -2916,7 +3918,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             }
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -2939,7 +3941,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='serverName'>
         /// The name of the server being imported to or exported from
         /// </param>
@@ -2989,7 +3991,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     }
                 }
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -3001,10 +4003,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "ImportAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/DacOperations/Import";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -3012,72 +4014,72 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 if (parameters != null)
                 {
                     XElement importInputElement = new XElement(XName.Get("ImportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     requestDoc.Add(importInputElement);
-                    
+
                     if (parameters.BlobCredentials != null)
                     {
                         XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         importInputElement.Add(blobCredentialsElement);
-                        
+
                         XAttribute typeAttribute = new XAttribute(XName.Get("type", "http://www.w3.org/2001/XMLSchema-instance"), "");
                         typeAttribute.Value = "BlobStorageAccessKeyCredentials";
                         blobCredentialsElement.Add(typeAttribute);
-                        
+
                         XElement uriElement = new XElement(XName.Get("Uri", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         uriElement.Value = parameters.BlobCredentials.Uri.ToString();
                         blobCredentialsElement.Add(uriElement);
-                        
+
                         XElement storageAccessKeyElement = new XElement(XName.Get("StorageAccessKey", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         storageAccessKeyElement.Value = parameters.BlobCredentials.StorageAccessKey;
                         blobCredentialsElement.Add(storageAccessKeyElement);
                     }
-                    
+
                     if (parameters.ConnectionInfo != null)
                     {
                         XElement connectionInfoElement = new XElement(XName.Get("ConnectionInfo", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         importInputElement.Add(connectionInfoElement);
-                        
+
                         XElement databaseNameElement = new XElement(XName.Get("DatabaseName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         databaseNameElement.Value = parameters.ConnectionInfo.DatabaseName;
                         connectionInfoElement.Add(databaseNameElement);
-                        
+
                         XElement passwordElement = new XElement(XName.Get("Password", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         passwordElement.Value = parameters.ConnectionInfo.Password;
                         connectionInfoElement.Add(passwordElement);
-                        
+
                         XElement serverNameElement = new XElement(XName.Get("ServerName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         serverNameElement.Value = parameters.ConnectionInfo.ServerName;
                         connectionInfoElement.Add(serverNameElement);
-                        
+
                         XElement userNameElement = new XElement(XName.Get("UserName", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                         userNameElement.Value = parameters.ConnectionInfo.UserName;
                         connectionInfoElement.Add(userNameElement);
                     }
-                    
+
                     XElement databaseSizeInGBElement = new XElement(XName.Get("DatabaseSizeInGB", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     databaseSizeInGBElement.Value = parameters.DatabaseSizeInGB.ToString();
                     importInputElement.Add(databaseSizeInGBElement);
                 }
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -3103,7 +4105,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DacImportExportResponse result = new DacImportExportResponse();
                     result.StatusCode = statusCode;
@@ -3111,18 +4113,18 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement guidElement = responseDoc.Element(XName.Get("guid", "http://schemas.microsoft.com/2003/10/Serialization/"));
                     if (guidElement != null)
                     {
                         result.Guid = guidElement.Value;
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -3146,7 +4148,961 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
     }
-    
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for get/stop SQL
+    /// Databases' operations for a subscription.
+    /// </summary>
+    public partial interface IDatabaseOperationOperations
+    {
+        /// <summary>
+        /// The 'Get Database Operation' retrieves information about one
+        /// operation on a given operation Guid.
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL Server on which the operation was executed.
+        /// </param>
+        /// <param name='operationGuid'>
+        /// The Guid of the SQL Server database operation to be obtained.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the database operation for a given operation
+        /// Guid.
+        /// </returns>
+        Task<DatabaseOperationGetResponse> GetAsync(string serverName, string operationGuid, CancellationToken cancellationToken);
+
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='databaseName'>
+        /// The name of the Database to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        Task<DatabaseOperationListResponse> ListByDatabaseAsync(string serverName, string databaseName, CancellationToken cancellationToken);
+
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        Task<DatabaseOperationListResponse> ListByServerAsync(string serverName, CancellationToken cancellationToken);
+    }
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for get/stop SQL
+    /// Databases' operations for a subscription.
+    /// </summary>
+    public static partial class DatabaseOperationOperationsExtensions
+    {
+        /// <summary>
+        /// The 'Get Database Operation' retrieves information about one
+        /// operation on a given operation Guid.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server on which the operation was executed.
+        /// </param>
+        /// <param name='operationGuid'>
+        /// The Guid of the SQL Server database operation to be obtained.
+        /// </param>
+        /// <returns>
+        /// Response containing the database operation for a given operation
+        /// Guid.
+        /// </returns>
+        public static DatabaseOperationGetResponse Get(this IDatabaseOperationOperations operations, string serverName, string operationGuid)
+        {
+            try
+            {
+                return operations.GetAsync(serverName, operationGuid).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The 'Get Database Operation' retrieves information about one
+        /// operation on a given operation Guid.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server on which the operation was executed.
+        /// </param>
+        /// <param name='operationGuid'>
+        /// The Guid of the SQL Server database operation to be obtained.
+        /// </param>
+        /// <returns>
+        /// Response containing the database operation for a given operation
+        /// Guid.
+        /// </returns>
+        public static Task<DatabaseOperationGetResponse> GetAsync(this IDatabaseOperationOperations operations, string serverName, string operationGuid)
+        {
+            return operations.GetAsync(serverName, operationGuid, CancellationToken.None);
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='databaseName'>
+        /// The name of the Database to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public static DatabaseOperationListResponse ListByDatabase(this IDatabaseOperationOperations operations, string serverName, string databaseName)
+        {
+            try
+            {
+                return operations.ListByDatabaseAsync(serverName, databaseName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='databaseName'>
+        /// The name of the Database to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public static Task<DatabaseOperationListResponse> ListByDatabaseAsync(this IDatabaseOperationOperations operations, string serverName, string databaseName)
+        {
+            return operations.ListByDatabaseAsync(serverName, databaseName, CancellationToken.None);
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public static DatabaseOperationListResponse ListByServer(this IDatabaseOperationOperations operations, string serverName)
+        {
+            try
+            {
+                return operations.ListByServerAsync(serverName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperationOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public static Task<DatabaseOperationListResponse> ListByServerAsync(this IDatabaseOperationOperations operations, string serverName)
+        {
+            return operations.ListByServerAsync(serverName, CancellationToken.None);
+        }
+    }
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for get/stop SQL
+    /// Databases' operations for a subscription.
+    /// </summary>
+    internal partial class DatabaseOperationOperations : IServiceOperations<SqlManagementClient>, IDatabaseOperationOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the DatabaseOperationOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal DatabaseOperationOperations(SqlManagementClient client)
+        {
+            this._client = client;
+        }
+
+        private SqlManagementClient _client;
+
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
+        /// </summary>
+        public SqlManagementClient Client
+        {
+            get { return this._client; }
+        }
+
+        /// <summary>
+        /// The 'Get Database Operation' retrieves information about one
+        /// operation on a given operation Guid.
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL Server on which the operation was executed.
+        /// </param>
+        /// <param name='operationGuid'>
+        /// The Guid of the SQL Server database operation to be obtained.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the database operation for a given operation
+        /// Guid.
+        /// </returns>
+        public async Task<DatabaseOperationGetResponse> GetAsync(string serverName, string operationGuid, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            if (operationGuid == null)
+            {
+                throw new ArgumentNullException("operationGuid");
+            }
+
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("operationGuid", operationGuid);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databaseoperations/" + operationGuid;
+
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+
+                    // Create Result
+                    DatabaseOperationGetResponse result = new DatabaseOperationGetResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+
+                    XElement serviceResourceElement = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourceElement != null)
+                    {
+                        XElement nameElement = serviceResourceElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                        if (nameElement != null)
+                        {
+                            string nameInstance = nameElement.Value;
+                            result.Name = nameInstance;
+                        }
+
+                        XElement typeElement = serviceResourceElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                        if (typeElement != null)
+                        {
+                            string typeInstance = typeElement.Value;
+                            result.Type = typeInstance;
+                        }
+
+                        XElement stateElement = serviceResourceElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateElement != null)
+                        {
+                            string stateInstance = stateElement.Value;
+                            result.State = stateInstance;
+                        }
+
+                        XElement selfLinkElement = serviceResourceElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                        if (selfLinkElement != null)
+                        {
+                            string selfLinkInstance = selfLinkElement.Value;
+                            result.SelfLink = selfLinkInstance;
+                        }
+
+                        XElement parentLinkElement = serviceResourceElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                        if (parentLinkElement != null)
+                        {
+                            string parentLinkInstance = parentLinkElement.Value;
+                            result.ParentLink = parentLinkInstance;
+                        }
+
+                        XElement idElement = serviceResourceElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            string idInstance = idElement.Value;
+                            result.Id = idInstance;
+                        }
+
+                        XElement stateIdElement = serviceResourceElement.Element(XName.Get("StateId", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateIdElement != null)
+                        {
+                            int stateIdInstance = int.Parse(stateIdElement.Value, CultureInfo.InvariantCulture);
+                            result.StateId = stateIdInstance;
+                        }
+
+                        XElement sessionActivityIdElement = serviceResourceElement.Element(XName.Get("SessionActivityId", "http://schemas.microsoft.com/windowsazure"));
+                        if (sessionActivityIdElement != null)
+                        {
+                            string sessionActivityIdInstance = sessionActivityIdElement.Value;
+                            result.SessionActivityId = sessionActivityIdInstance;
+                        }
+
+                        XElement databaseNameElement = serviceResourceElement.Element(XName.Get("DatabaseName", "http://schemas.microsoft.com/windowsazure"));
+                        if (databaseNameElement != null)
+                        {
+                            string databaseNameInstance = databaseNameElement.Value;
+                            result.DatabaseName = databaseNameInstance;
+                        }
+
+                        XElement percentCompleteElement = serviceResourceElement.Element(XName.Get("PercentComplete", "http://schemas.microsoft.com/windowsazure"));
+                        if (percentCompleteElement != null)
+                        {
+                            int percentCompleteInstance = int.Parse(percentCompleteElement.Value, CultureInfo.InvariantCulture);
+                            result.PercentComplete = percentCompleteInstance;
+                        }
+
+                        XElement errorCodeElement = serviceResourceElement.Element(XName.Get("ErrorCode", "http://schemas.microsoft.com/windowsazure"));
+                        if (errorCodeElement != null)
+                        {
+                            int errorCodeInstance = int.Parse(errorCodeElement.Value, CultureInfo.InvariantCulture);
+                            result.ErrorCode = errorCodeInstance;
+                        }
+
+                        XElement errorElement = serviceResourceElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
+                        if (errorElement != null)
+                        {
+                            string errorInstance = errorElement.Value;
+                            result.Error = errorInstance;
+                        }
+
+                        XElement errorSeverityElement = serviceResourceElement.Element(XName.Get("ErrorSeverity", "http://schemas.microsoft.com/windowsazure"));
+                        if (errorSeverityElement != null)
+                        {
+                            int errorSeverityInstance = int.Parse(errorSeverityElement.Value, CultureInfo.InvariantCulture);
+                            result.ErrorSeverity = errorSeverityInstance;
+                        }
+
+                        XElement errorStateElement = serviceResourceElement.Element(XName.Get("ErrorState", "http://schemas.microsoft.com/windowsazure"));
+                        if (errorStateElement != null)
+                        {
+                            int errorStateInstance = int.Parse(errorStateElement.Value, CultureInfo.InvariantCulture);
+                            result.ErrorState = errorStateInstance;
+                        }
+
+                        XElement startTimeElement = serviceResourceElement.Element(XName.Get("StartTime", "http://schemas.microsoft.com/windowsazure"));
+                        if (startTimeElement != null)
+                        {
+                            DateTime startTimeInstance = DateTime.Parse(startTimeElement.Value, CultureInfo.InvariantCulture);
+                            result.StartTime = startTimeInstance;
+                        }
+
+                        XElement lastModifyTimeElement = serviceResourceElement.Element(XName.Get("LastModifyTime", "http://schemas.microsoft.com/windowsazure"));
+                        if (lastModifyTimeElement != null)
+                        {
+                            DateTime lastModifyTimeInstance = DateTime.Parse(lastModifyTimeElement.Value, CultureInfo.InvariantCulture);
+                            result.LastModifyTime = lastModifyTimeInstance;
+                        }
+                    }
+
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='databaseName'>
+        /// The name of the Database to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public async Task<DatabaseOperationListResponse> ListByDatabaseAsync(string serverName, string databaseName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            if (databaseName == null)
+            {
+                throw new ArgumentNullException("databaseName");
+            }
+
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("databaseName", databaseName);
+                Tracing.Enter(invocationId, this, "ListByDatabaseAsync", tracingParameters);
+            }
+
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databaseoperations?databaseName=" + databaseName;
+
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+
+                    // Create Result
+                    DatabaseOperationListResponse result = new DatabaseOperationListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+
+                    XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourcesSequenceElement != null)
+                    {
+                        foreach (XElement serviceResourcesElement in serviceResourcesSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            DatabaseOperationListResponse.DatabaseOperation serviceResourceInstance = new DatabaseOperationListResponse.DatabaseOperation();
+                            result.DatabaseOperations.Add(serviceResourceInstance);
+
+                            XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                serviceResourceInstance.Name = nameInstance;
+                            }
+
+                            XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                            if (typeElement != null)
+                            {
+                                string typeInstance = typeElement.Value;
+                                serviceResourceInstance.Type = typeInstance;
+                            }
+
+                            XElement stateElement = serviceResourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateElement != null)
+                            {
+                                string stateInstance = stateElement.Value;
+                                serviceResourceInstance.State = stateInstance;
+                            }
+
+                            XElement selfLinkElement = serviceResourcesElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (selfLinkElement != null)
+                            {
+                                string selfLinkInstance = selfLinkElement.Value;
+                                serviceResourceInstance.SelfLink = selfLinkInstance;
+                            }
+
+                            XElement parentLinkElement = serviceResourcesElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (parentLinkElement != null)
+                            {
+                                string parentLinkInstance = parentLinkElement.Value;
+                                serviceResourceInstance.ParentLink = parentLinkInstance;
+                            }
+
+                            XElement idElement = serviceResourcesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                            if (idElement != null)
+                            {
+                                string idInstance = idElement.Value;
+                                serviceResourceInstance.Id = idInstance;
+                            }
+
+                            XElement stateIdElement = serviceResourcesElement.Element(XName.Get("StateId", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateIdElement != null)
+                            {
+                                int stateIdInstance = int.Parse(stateIdElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.StateId = stateIdInstance;
+                            }
+
+                            XElement sessionActivityIdElement = serviceResourcesElement.Element(XName.Get("SessionActivityId", "http://schemas.microsoft.com/windowsazure"));
+                            if (sessionActivityIdElement != null)
+                            {
+                                string sessionActivityIdInstance = sessionActivityIdElement.Value;
+                                serviceResourceInstance.SessionActivityId = sessionActivityIdInstance;
+                            }
+
+                            XElement databaseNameElement = serviceResourcesElement.Element(XName.Get("DatabaseName", "http://schemas.microsoft.com/windowsazure"));
+                            if (databaseNameElement != null)
+                            {
+                                string databaseNameInstance = databaseNameElement.Value;
+                                serviceResourceInstance.DatabaseName = databaseNameInstance;
+                            }
+
+                            XElement percentCompleteElement = serviceResourcesElement.Element(XName.Get("PercentComplete", "http://schemas.microsoft.com/windowsazure"));
+                            if (percentCompleteElement != null)
+                            {
+                                int percentCompleteInstance = int.Parse(percentCompleteElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.PercentComplete = percentCompleteInstance;
+                            }
+
+                            XElement errorCodeElement = serviceResourcesElement.Element(XName.Get("ErrorCode", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorCodeElement != null)
+                            {
+                                int errorCodeInstance = int.Parse(errorCodeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorCode = errorCodeInstance;
+                            }
+
+                            XElement errorElement = serviceResourcesElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorElement != null)
+                            {
+                                string errorInstance = errorElement.Value;
+                                serviceResourceInstance.Error = errorInstance;
+                            }
+
+                            XElement errorSeverityElement = serviceResourcesElement.Element(XName.Get("ErrorSeverity", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorSeverityElement != null)
+                            {
+                                int errorSeverityInstance = int.Parse(errorSeverityElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorSeverity = errorSeverityInstance;
+                            }
+
+                            XElement errorStateElement = serviceResourcesElement.Element(XName.Get("ErrorState", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorStateElement != null)
+                            {
+                                int errorStateInstance = int.Parse(errorStateElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorState = errorStateInstance;
+                            }
+
+                            XElement startTimeElement = serviceResourcesElement.Element(XName.Get("StartTime", "http://schemas.microsoft.com/windowsazure"));
+                            if (startTimeElement != null)
+                            {
+                                DateTime startTimeInstance = DateTime.Parse(startTimeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.StartTime = startTimeInstance;
+                            }
+
+                            XElement lastModifyTimeElement = serviceResourcesElement.Element(XName.Get("LastModifyTime", "http://schemas.microsoft.com/windowsazure"));
+                            if (lastModifyTimeElement != null)
+                            {
+                                DateTime lastModifyTimeInstance = DateTime.Parse(lastModifyTimeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.LastModifyTime = lastModifyTimeInstance;
+                            }
+                        }
+                    }
+
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of database operations for a given
+        /// server or database.
+        /// </returns>
+        public async Task<DatabaseOperationListResponse> ListByServerAsync(string serverName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                Tracing.Enter(invocationId, this, "ListByServerAsync", tracingParameters);
+            }
+
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databaseoperations?contentview=generic";
+
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+
+                    // Create Result
+                    DatabaseOperationListResponse result = new DatabaseOperationListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+
+                    XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourcesSequenceElement != null)
+                    {
+                        foreach (XElement serviceResourcesElement in serviceResourcesSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            DatabaseOperationListResponse.DatabaseOperation serviceResourceInstance = new DatabaseOperationListResponse.DatabaseOperation();
+                            result.DatabaseOperations.Add(serviceResourceInstance);
+
+                            XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                serviceResourceInstance.Name = nameInstance;
+                            }
+
+                            XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                            if (typeElement != null)
+                            {
+                                string typeInstance = typeElement.Value;
+                                serviceResourceInstance.Type = typeInstance;
+                            }
+
+                            XElement stateElement = serviceResourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateElement != null)
+                            {
+                                string stateInstance = stateElement.Value;
+                                serviceResourceInstance.State = stateInstance;
+                            }
+
+                            XElement selfLinkElement = serviceResourcesElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (selfLinkElement != null)
+                            {
+                                string selfLinkInstance = selfLinkElement.Value;
+                                serviceResourceInstance.SelfLink = selfLinkInstance;
+                            }
+
+                            XElement parentLinkElement = serviceResourcesElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (parentLinkElement != null)
+                            {
+                                string parentLinkInstance = parentLinkElement.Value;
+                                serviceResourceInstance.ParentLink = parentLinkInstance;
+                            }
+
+                            XElement idElement = serviceResourcesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                            if (idElement != null)
+                            {
+                                string idInstance = idElement.Value;
+                                serviceResourceInstance.Id = idInstance;
+                            }
+
+                            XElement stateIdElement = serviceResourcesElement.Element(XName.Get("StateId", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateIdElement != null)
+                            {
+                                int stateIdInstance = int.Parse(stateIdElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.StateId = stateIdInstance;
+                            }
+
+                            XElement sessionActivityIdElement = serviceResourcesElement.Element(XName.Get("SessionActivityId", "http://schemas.microsoft.com/windowsazure"));
+                            if (sessionActivityIdElement != null)
+                            {
+                                string sessionActivityIdInstance = sessionActivityIdElement.Value;
+                                serviceResourceInstance.SessionActivityId = sessionActivityIdInstance;
+                            }
+
+                            XElement databaseNameElement = serviceResourcesElement.Element(XName.Get("DatabaseName", "http://schemas.microsoft.com/windowsazure"));
+                            if (databaseNameElement != null)
+                            {
+                                string databaseNameInstance = databaseNameElement.Value;
+                                serviceResourceInstance.DatabaseName = databaseNameInstance;
+                            }
+
+                            XElement percentCompleteElement = serviceResourcesElement.Element(XName.Get("PercentComplete", "http://schemas.microsoft.com/windowsazure"));
+                            if (percentCompleteElement != null)
+                            {
+                                int percentCompleteInstance = int.Parse(percentCompleteElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.PercentComplete = percentCompleteInstance;
+                            }
+
+                            XElement errorCodeElement = serviceResourcesElement.Element(XName.Get("ErrorCode", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorCodeElement != null)
+                            {
+                                int errorCodeInstance = int.Parse(errorCodeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorCode = errorCodeInstance;
+                            }
+
+                            XElement errorElement = serviceResourcesElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorElement != null)
+                            {
+                                string errorInstance = errorElement.Value;
+                                serviceResourceInstance.Error = errorInstance;
+                            }
+
+                            XElement errorSeverityElement = serviceResourcesElement.Element(XName.Get("ErrorSeverity", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorSeverityElement != null)
+                            {
+                                int errorSeverityInstance = int.Parse(errorSeverityElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorSeverity = errorSeverityInstance;
+                            }
+
+                            XElement errorStateElement = serviceResourcesElement.Element(XName.Get("ErrorState", "http://schemas.microsoft.com/windowsazure"));
+                            if (errorStateElement != null)
+                            {
+                                int errorStateInstance = int.Parse(errorStateElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.ErrorState = errorStateInstance;
+                            }
+
+                            XElement startTimeElement = serviceResourcesElement.Element(XName.Get("StartTime", "http://schemas.microsoft.com/windowsazure"));
+                            if (startTimeElement != null)
+                            {
+                                DateTime startTimeInstance = DateTime.Parse(startTimeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.StartTime = startTimeInstance;
+                            }
+
+                            XElement lastModifyTimeElement = serviceResourcesElement.Element(XName.Get("LastModifyTime", "http://schemas.microsoft.com/windowsazure"));
+                            if (lastModifyTimeElement != null)
+                            {
+                                DateTime lastModifyTimeInstance = DateTime.Parse(lastModifyTimeElement.Value, CultureInfo.InvariantCulture);
+                                serviceResourceInstance.LastModifyTime = lastModifyTimeInstance;
+                            }
+                        }
+                    }
+
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Databases for a subscription.
@@ -3171,7 +5127,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<DatabaseCreateResponse> CreateAsync(string serverName, DatabaseCreateParameters parameters, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -3192,7 +5148,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<OperationResponse> DeleteAsync(string serverName, string databaseName, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3211,7 +5167,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<DatabaseGetResponse> GetAsync(string serverName, string databaseName, CancellationToken cancellationToken);
-        
+
         /// <param name='serverName'>
         /// The name of the database server to be queried.
         /// </param>
@@ -3222,7 +5178,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// Response containing the list of databases for a given server.
         /// </returns>
         Task<DatabaseListResponse> ListAsync(string serverName, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3245,7 +5201,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </returns>
         Task<DatabaseUpdateResponse> UpdateAsync(string serverName, string databaseName, DatabaseUpdateParameters parameters, CancellationToken cancellationToken);
     }
-    
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Databases for a subscription.
@@ -3288,7 +5244,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Create Database operation creates a database in a SQL Server
         /// database server.
@@ -3311,7 +5267,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.CreateAsync(serverName, parameters, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -3350,7 +5306,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -3375,7 +5331,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.DeleteAsync(serverName, databaseName, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3412,7 +5368,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3435,7 +5391,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.GetAsync(serverName, databaseName, CancellationToken.None);
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperations.
@@ -3464,7 +5420,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.WindowsAzure.Management.Sql.IDatabaseOperations.
@@ -3479,7 +5435,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.ListAsync(serverName, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3519,7 +5475,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -3546,7 +5502,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             return operations.UpdateAsync(serverName, databaseName, parameters, CancellationToken.None);
         }
     }
-    
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Databases for a subscription.
@@ -3563,9 +5519,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             this._client = client;
         }
-        
+
         private SqlManagementClient _client;
-        
+
         /// <summary>
         /// Gets a reference to the
         /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
@@ -3574,7 +5530,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._client; }
         }
-        
+
         /// <summary>
         /// The Create Database operation creates a database in a SQL Server
         /// database server.
@@ -3615,7 +5571,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.Name");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -3627,10 +5583,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databases";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -3638,48 +5594,48 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(serviceResourceElement);
-                
+
                 XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                 nameElement.Value = parameters.Name;
                 serviceResourceElement.Add(nameElement);
-                
+
                 XElement editionElement = new XElement(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                 editionElement.Value = parameters.Edition;
                 serviceResourceElement.Add(editionElement);
-                
+
                 XElement maxSizeGBElement = new XElement(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                 maxSizeGBElement.Value = parameters.MaximumDatabaseSizeInGB.ToString();
                 serviceResourceElement.Add(maxSizeGBElement);
-                
+
                 XElement collationNameElement = new XElement(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                 collationNameElement.Value = parameters.CollationName;
                 serviceResourceElement.Add(collationNameElement);
-                
+
                 if (parameters.ServiceObjectiveId != null)
                 {
                     XElement serviceObjectiveIdElement = new XElement(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                     serviceObjectiveIdElement.Value = parameters.ServiceObjectiveId;
                     serviceResourceElement.Add(serviceObjectiveIdElement);
                 }
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -3705,7 +5661,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DatabaseCreateResponse result = new DatabaseCreateResponse();
                     result.StatusCode = statusCode;
@@ -3713,12 +5669,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourceElement2 != null)
                     {
@@ -3728,112 +5684,112 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             string nameInstance = nameElement2.Value;
                             result.Name = nameInstance;
                         }
-                        
+
                         XElement idElement = serviceResourceElement2.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
                         if (idElement != null)
                         {
                             int idInstance = int.Parse(idElement.Value, CultureInfo.InvariantCulture);
                             result.Id = idInstance;
                         }
-                        
+
                         XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                         if (typeElement != null)
                         {
                             string typeInstance = typeElement.Value;
                             result.Type = typeInstance;
                         }
-                        
+
                         XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                         if (stateElement != null)
                         {
                             string stateInstance = stateElement.Value;
                             result.State = stateInstance;
                         }
-                        
+
                         XElement editionElement2 = serviceResourceElement2.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                         if (editionElement2 != null)
                         {
                             string editionInstance = editionElement2.Value;
                             result.Edition = editionInstance;
                         }
-                        
+
                         XElement maxSizeGBElement2 = serviceResourceElement2.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                         if (maxSizeGBElement2 != null)
                         {
                             long maxSizeGBInstance = long.Parse(maxSizeGBElement2.Value, CultureInfo.InvariantCulture);
                             result.MaximumDatabaseSizeInGB = maxSizeGBInstance;
                         }
-                        
+
                         XElement collationNameElement2 = serviceResourceElement2.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                         if (collationNameElement2 != null)
                         {
                             string collationNameInstance = collationNameElement2.Value;
                             result.CollationName = collationNameInstance;
                         }
-                        
+
                         XElement creationDateElement = serviceResourceElement2.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
                         if (creationDateElement != null)
                         {
                             DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
                             result.CreationDate = creationDateInstance;
                         }
-                        
+
                         XElement isFederationRootElement = serviceResourceElement2.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
                         if (isFederationRootElement != null)
                         {
                             bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
                             result.IsFederationRoot = isFederationRootInstance;
                         }
-                        
+
                         XElement isSystemObjectElement = serviceResourceElement2.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
                         if (isSystemObjectElement != null)
                         {
                             bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
                             result.IsSystemObject = isSystemObjectInstance;
                         }
-                        
+
                         XElement sizeMBElement = serviceResourceElement2.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
                         if (sizeMBElement != null)
                         {
                             string sizeMBInstance = sizeMBElement.Value;
                             result.SizeMB = sizeMBInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorCodeElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorCodeElement != null)
                         {
                             string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
                             result.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorDescriptionElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateElement != null)
                         {
                             string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
                             result.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateDescriptionElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentSuccessDateElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentSuccessDateElement != null)
                         {
                             string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
                             result.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
                         }
-                        
+
                         XElement serviceObjectiveIdElement2 = serviceResourceElement2.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveIdElement2 != null)
                         {
@@ -3841,7 +5797,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             result.ServiceObjectiveId = serviceObjectiveIdInstance;
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -3864,7 +5820,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -3895,7 +5851,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("databaseName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -3907,10 +5863,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("databaseName", databaseName);
                 Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databases/" + databaseName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -3918,14 +5874,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Delete;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -3951,7 +5907,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
@@ -3959,7 +5915,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -3982,7 +5938,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -4011,7 +5967,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("databaseName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -4023,10 +5979,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("databaseName", databaseName);
                 Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databases/" + databaseName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -4034,14 +5990,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -4067,7 +6023,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DatabaseGetResponse result = new DatabaseGetResponse();
                     result.StatusCode = statusCode;
@@ -4075,12 +6031,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourceElement = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourceElement != null)
                     {
@@ -4090,112 +6046,112 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             string nameInstance = nameElement.Value;
                             result.Name = nameInstance;
                         }
-                        
+
                         XElement idElement = serviceResourceElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
                         if (idElement != null)
                         {
                             int idInstance = int.Parse(idElement.Value, CultureInfo.InvariantCulture);
                             result.Id = idInstance;
                         }
-                        
+
                         XElement typeElement = serviceResourceElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                         if (typeElement != null)
                         {
                             string typeInstance = typeElement.Value;
                             result.Type = typeInstance;
                         }
-                        
+
                         XElement stateElement = serviceResourceElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                         if (stateElement != null)
                         {
                             string stateInstance = stateElement.Value;
                             result.State = stateInstance;
                         }
-                        
+
                         XElement editionElement = serviceResourceElement.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                         if (editionElement != null)
                         {
                             string editionInstance = editionElement.Value;
                             result.Edition = editionInstance;
                         }
-                        
+
                         XElement maxSizeGBElement = serviceResourceElement.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                         if (maxSizeGBElement != null)
                         {
                             long maxSizeGBInstance = long.Parse(maxSizeGBElement.Value, CultureInfo.InvariantCulture);
                             result.MaximumDatabaseSizeInGB = maxSizeGBInstance;
                         }
-                        
+
                         XElement collationNameElement = serviceResourceElement.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                         if (collationNameElement != null)
                         {
                             string collationNameInstance = collationNameElement.Value;
                             result.CollationName = collationNameInstance;
                         }
-                        
+
                         XElement creationDateElement = serviceResourceElement.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
                         if (creationDateElement != null)
                         {
                             DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
                             result.CreationDate = creationDateInstance;
                         }
-                        
+
                         XElement isFederationRootElement = serviceResourceElement.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
                         if (isFederationRootElement != null)
                         {
                             bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
                             result.IsFederationRoot = isFederationRootInstance;
                         }
-                        
+
                         XElement isSystemObjectElement = serviceResourceElement.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
                         if (isSystemObjectElement != null)
                         {
                             bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
                             result.IsSystemObject = isSystemObjectInstance;
                         }
-                        
+
                         XElement sizeMBElement = serviceResourceElement.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
                         if (sizeMBElement != null)
                         {
                             string sizeMBInstance = sizeMBElement.Value;
                             result.SizeMB = sizeMBInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorCodeElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorCodeElement != null)
                         {
                             string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
                             result.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorDescriptionElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateElement != null)
                         {
                             string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
                             result.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateDescriptionElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentSuccessDateElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentSuccessDateElement != null)
                         {
                             string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
                             result.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
                         }
-                        
+
                         XElement serviceObjectiveIdElement = serviceResourceElement.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveIdElement != null)
                         {
@@ -4203,7 +6159,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             result.ServiceObjectiveId = serviceObjectiveIdInstance;
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -4226,7 +6182,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <param name='serverName'>
         /// The name of the database server to be queried.
         /// </param>
@@ -4243,7 +6199,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("serverName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -4254,10 +6210,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("serverName", serverName);
                 Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databases?contentview=generic";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -4265,14 +6221,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -4298,7 +6254,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DatabaseListResponse result = new DatabaseListResponse();
                     result.StatusCode = statusCode;
@@ -4306,12 +6262,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourcesSequenceElement != null)
                     {
@@ -4319,119 +6275,119 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         {
                             DatabaseListResponse.Database serviceResourceInstance = new DatabaseListResponse.Database();
                             result.Databases.Add(serviceResourceInstance);
-                            
+
                             XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                             if (nameElement != null)
                             {
                                 string nameInstance = nameElement.Value;
                                 serviceResourceInstance.Name = nameInstance;
                             }
-                            
+
                             XElement idElement = serviceResourcesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
                             if (idElement != null)
                             {
                                 int idInstance = int.Parse(idElement.Value, CultureInfo.InvariantCulture);
                                 serviceResourceInstance.Id = idInstance;
                             }
-                            
+
                             XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                             if (typeElement != null)
                             {
                                 string typeInstance = typeElement.Value;
                                 serviceResourceInstance.Type = typeInstance;
                             }
-                            
+
                             XElement stateElement = serviceResourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                             if (stateElement != null)
                             {
                                 string stateInstance = stateElement.Value;
                                 serviceResourceInstance.State = stateInstance;
                             }
-                            
+
                             XElement editionElement = serviceResourcesElement.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                             if (editionElement != null)
                             {
                                 string editionInstance = editionElement.Value;
                                 serviceResourceInstance.Edition = editionInstance;
                             }
-                            
+
                             XElement maxSizeGBElement = serviceResourcesElement.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                             if (maxSizeGBElement != null)
                             {
                                 long maxSizeGBInstance = long.Parse(maxSizeGBElement.Value, CultureInfo.InvariantCulture);
                                 serviceResourceInstance.MaximumDatabaseSizeInGB = maxSizeGBInstance;
                             }
-                            
+
                             XElement collationNameElement = serviceResourcesElement.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                             if (collationNameElement != null)
                             {
                                 string collationNameInstance = collationNameElement.Value;
                                 serviceResourceInstance.CollationName = collationNameInstance;
                             }
-                            
+
                             XElement creationDateElement = serviceResourcesElement.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
                             if (creationDateElement != null)
                             {
                                 DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
                                 serviceResourceInstance.CreationDate = creationDateInstance;
                             }
-                            
+
                             XElement isFederationRootElement = serviceResourcesElement.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
                             if (isFederationRootElement != null)
                             {
                                 bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
                                 serviceResourceInstance.IsFederationRoot = isFederationRootInstance;
                             }
-                            
+
                             XElement isSystemObjectElement = serviceResourcesElement.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
                             if (isSystemObjectElement != null)
                             {
                                 bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
                                 serviceResourceInstance.IsSystemObject = isSystemObjectInstance;
                             }
-                            
+
                             XElement sizeMBElement = serviceResourcesElement.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
                             if (sizeMBElement != null)
                             {
                                 string sizeMBInstance = sizeMBElement.Value;
                                 serviceResourceInstance.SizeMB = sizeMBInstance;
                             }
-                            
+
                             XElement serviceObjectiveAssignmentErrorCodeElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveAssignmentErrorCodeElement != null)
                             {
                                 string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
                                 serviceResourceInstance.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
                             }
-                            
+
                             XElement serviceObjectiveAssignmentErrorDescriptionElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveAssignmentErrorDescriptionElement != null)
                             {
                                 string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
                                 serviceResourceInstance.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
                             }
-                            
+
                             XElement serviceObjectiveAssignmentStateElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveAssignmentStateElement != null)
                             {
                                 string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
                                 serviceResourceInstance.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
                             }
-                            
+
                             XElement serviceObjectiveAssignmentStateDescriptionElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveAssignmentStateDescriptionElement != null)
                             {
                                 string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
                                 serviceResourceInstance.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
                             }
-                            
+
                             XElement serviceObjectiveAssignmentSuccessDateElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveAssignmentSuccessDateElement != null)
                             {
                                 string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
                                 serviceResourceInstance.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
                             }
-                            
+
                             XElement serviceObjectiveIdElement = serviceResourcesElement.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                             if (serviceObjectiveIdElement != null)
                             {
@@ -4440,7 +6396,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             }
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -4463,7 +6419,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Database operation retrieves information about a SQL Server
         /// database.
@@ -4507,7 +6463,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.Edition");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -4520,10 +6476,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/databases/" + databaseName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -4531,55 +6487,55 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(serviceResourceElement);
-                
+
                 if (parameters.Name != null)
                 {
                     XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                     nameElement.Value = parameters.Name;
                     serviceResourceElement.Add(nameElement);
                 }
-                
+
                 XElement idElement = new XElement(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
                 idElement.Value = parameters.Id.ToString();
                 serviceResourceElement.Add(idElement);
-                
+
                 XElement editionElement = new XElement(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                 editionElement.Value = parameters.Edition;
                 serviceResourceElement.Add(editionElement);
-                
+
                 XElement maxSizeGBElement = new XElement(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                 maxSizeGBElement.Value = parameters.MaximumDatabaseSizeInGB.ToString();
                 serviceResourceElement.Add(maxSizeGBElement);
-                
+
                 XElement collationNameElement = new XElement(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                 collationNameElement.Value = parameters.CollationName;
                 serviceResourceElement.Add(collationNameElement);
-                
+
                 if (parameters.ServiceObjectiveId != null)
                 {
                     XElement serviceObjectiveIdElement = new XElement(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                     serviceObjectiveIdElement.Value = parameters.ServiceObjectiveId;
                     serviceResourceElement.Add(serviceObjectiveIdElement);
                 }
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -4605,7 +6561,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     DatabaseUpdateResponse result = new DatabaseUpdateResponse();
                     result.StatusCode = statusCode;
@@ -4613,12 +6569,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourceElement2 != null)
                     {
@@ -4628,112 +6584,112 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             string nameInstance = nameElement2.Value;
                             result.Name = nameInstance;
                         }
-                        
+
                         XElement idElement2 = serviceResourceElement2.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
                         if (idElement2 != null)
                         {
                             int idInstance = int.Parse(idElement2.Value, CultureInfo.InvariantCulture);
                             result.Id = idInstance;
                         }
-                        
+
                         XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                         if (typeElement != null)
                         {
                             string typeInstance = typeElement.Value;
                             result.Type = typeInstance;
                         }
-                        
+
                         XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                         if (stateElement != null)
                         {
                             string stateInstance = stateElement.Value;
                             result.State = stateInstance;
                         }
-                        
+
                         XElement editionElement2 = serviceResourceElement2.Element(XName.Get("Edition", "http://schemas.microsoft.com/windowsazure"));
                         if (editionElement2 != null)
                         {
                             string editionInstance = editionElement2.Value;
                             result.Edition = editionInstance;
                         }
-                        
+
                         XElement maxSizeGBElement2 = serviceResourceElement2.Element(XName.Get("MaxSizeGB", "http://schemas.microsoft.com/windowsazure"));
                         if (maxSizeGBElement2 != null)
                         {
                             long maxSizeGBInstance = long.Parse(maxSizeGBElement2.Value, CultureInfo.InvariantCulture);
                             result.MaximumDatabaseSizeInGB = maxSizeGBInstance;
                         }
-                        
+
                         XElement collationNameElement2 = serviceResourceElement2.Element(XName.Get("CollationName", "http://schemas.microsoft.com/windowsazure"));
                         if (collationNameElement2 != null)
                         {
                             string collationNameInstance = collationNameElement2.Value;
                             result.CollationName = collationNameInstance;
                         }
-                        
+
                         XElement creationDateElement = serviceResourceElement2.Element(XName.Get("CreationDate", "http://schemas.microsoft.com/windowsazure"));
                         if (creationDateElement != null)
                         {
                             DateTime creationDateInstance = DateTime.Parse(creationDateElement.Value, CultureInfo.InvariantCulture);
                             result.CreationDate = creationDateInstance;
                         }
-                        
+
                         XElement isFederationRootElement = serviceResourceElement2.Element(XName.Get("IsFederationRoot", "http://schemas.microsoft.com/windowsazure"));
                         if (isFederationRootElement != null)
                         {
                             bool isFederationRootInstance = bool.Parse(isFederationRootElement.Value);
                             result.IsFederationRoot = isFederationRootInstance;
                         }
-                        
+
                         XElement isSystemObjectElement = serviceResourceElement2.Element(XName.Get("IsSystemObject", "http://schemas.microsoft.com/windowsazure"));
                         if (isSystemObjectElement != null)
                         {
                             bool isSystemObjectInstance = bool.Parse(isSystemObjectElement.Value);
                             result.IsSystemObject = isSystemObjectInstance;
                         }
-                        
+
                         XElement sizeMBElement = serviceResourceElement2.Element(XName.Get("SizeMB", "http://schemas.microsoft.com/windowsazure"));
                         if (sizeMBElement != null)
                         {
                             string sizeMBInstance = sizeMBElement.Value;
                             result.SizeMB = sizeMBInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorCodeElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentErrorCode", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorCodeElement != null)
                         {
                             string serviceObjectiveAssignmentErrorCodeInstance = serviceObjectiveAssignmentErrorCodeElement.Value;
                             result.ServiceObjectiveAssignmentErrorCode = serviceObjectiveAssignmentErrorCodeInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentErrorDescriptionElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentErrorDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentErrorDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentErrorDescriptionInstance = serviceObjectiveAssignmentErrorDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentErrorDescription = serviceObjectiveAssignmentErrorDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentState", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateElement != null)
                         {
                             string serviceObjectiveAssignmentStateInstance = serviceObjectiveAssignmentStateElement.Value;
                             result.ServiceObjectiveAssignmentState = serviceObjectiveAssignmentStateInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentStateDescriptionElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentStateDescription", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentStateDescriptionElement != null)
                         {
                             string serviceObjectiveAssignmentStateDescriptionInstance = serviceObjectiveAssignmentStateDescriptionElement.Value;
                             result.ServiceObjectiveAssignmentStateDescription = serviceObjectiveAssignmentStateDescriptionInstance;
                         }
-                        
+
                         XElement serviceObjectiveAssignmentSuccessDateElement = serviceResourceElement2.Element(XName.Get("ServiceObjectiveAssignmentSuccessDate", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveAssignmentSuccessDateElement != null)
                         {
                             string serviceObjectiveAssignmentSuccessDateInstance = serviceObjectiveAssignmentSuccessDateElement.Value;
                             result.ServiceObjectiveAssignmentSuccessDate = serviceObjectiveAssignmentSuccessDateInstance;
                         }
-                        
+
                         XElement serviceObjectiveIdElement2 = serviceResourceElement2.Element(XName.Get("ServiceObjectiveId", "http://schemas.microsoft.com/windowsazure"));
                         if (serviceObjectiveIdElement2 != null)
                         {
@@ -4741,7 +6697,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             result.ServiceObjectiveId = serviceObjectiveIdInstance;
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -4765,7 +6721,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
     }
-    
+
     /// <summary>
     /// The Windows Azure SQL Database Management API includes operations for
     /// managing the server-level firewall rules for SQL Database servers.You
@@ -4801,7 +6757,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<FirewallRuleCreateResponse> CreateAsync(string serverName, FirewallRuleCreateParameters parameters, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Delete Server Firewall Rule operation deletes a server-level
         /// firewall rule from a SQL Database server that belongs to a
@@ -4824,7 +6780,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<OperationResponse> DeleteAsync(string serverName, string ruleName, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Get Server Firewall Rules operation retrieves a list of all the
         /// server-level firewall rules for a SQL Database server that belongs
@@ -4843,7 +6799,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<FirewallRuleListResponse> ListAsync(string serverName, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -4871,7 +6827,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </returns>
         Task<FirewallRuleUpdateResponse> UpdateAsync(string serverName, string ruleName, FirewallRuleUpdateParameters parameters, CancellationToken cancellationToken);
     }
-    
+
     /// <summary>
     /// The Windows Azure SQL Database Management API includes operations for
     /// managing the server-level firewall rules for SQL Database servers.You
@@ -4925,7 +6881,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -4953,7 +6909,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.CreateAsync(serverName, parameters, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Delete Server Firewall Rule operation deletes a server-level
         /// firewall rule from a SQL Database server that belongs to a
@@ -4994,7 +6950,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Delete Server Firewall Rule operation deletes a server-level
         /// firewall rule from a SQL Database server that belongs to a
@@ -5021,7 +6977,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.DeleteAsync(serverName, ruleName, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Get Server Firewall Rules operation retrieves a list of all the
         /// server-level firewall rules for a SQL Database server that belongs
@@ -5058,7 +7014,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Server Firewall Rules operation retrieves a list of all the
         /// server-level firewall rules for a SQL Database server that belongs
@@ -5081,7 +7037,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.ListAsync(serverName, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -5126,7 +7082,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -5158,7 +7114,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             return operations.UpdateAsync(serverName, ruleName, parameters, CancellationToken.None);
         }
     }
-    
+
     /// <summary>
     /// The Windows Azure SQL Database Management API includes operations for
     /// managing the server-level firewall rules for SQL Database servers.You
@@ -5181,9 +7137,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             this._client = client;
         }
-        
+
         private SqlManagementClient _client;
-        
+
         /// <summary>
         /// Gets a reference to the
         /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
@@ -5192,7 +7148,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._client; }
         }
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -5238,7 +7194,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.StartIPAddress");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -5250,10 +7206,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -5261,37 +7217,37 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(serviceResourceElement);
-                
+
                 XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                 nameElement.Value = parameters.Name;
                 serviceResourceElement.Add(nameElement);
-                
+
                 XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
                 startIPAddressElement.Value = parameters.StartIPAddress;
                 serviceResourceElement.Add(startIPAddressElement);
-                
+
                 XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
                 endIPAddressElement.Value = parameters.EndIPAddress;
                 serviceResourceElement.Add(endIPAddressElement);
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -5317,7 +7273,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     FirewallRuleCreateResponse result = new FirewallRuleCreateResponse();
                     result.StatusCode = statusCode;
@@ -5325,12 +7281,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourceElement2 != null)
                     {
@@ -5340,28 +7296,28 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             string nameInstance = nameElement2.Value;
                             result.Name = nameInstance;
                         }
-                        
+
                         XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                         if (typeElement != null)
                         {
                             string typeInstance = typeElement.Value;
                             result.Type = typeInstance;
                         }
-                        
+
                         XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                         if (stateElement != null)
                         {
                             string stateInstance = stateElement.Value;
                             result.State = stateInstance;
                         }
-                        
+
                         XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
                         if (startIPAddressElement2 != null)
                         {
                             string startIPAddressInstance = startIPAddressElement2.Value;
                             result.StartIPAddress = startIPAddressInstance;
                         }
-                        
+
                         XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
                         if (endIPAddressElement2 != null)
                         {
@@ -5369,7 +7325,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             result.EndIPAddress = endIPAddressInstance;
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -5392,7 +7348,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Delete Server Firewall Rule operation deletes a server-level
         /// firewall rule from a SQL Database server that belongs to a
@@ -5425,7 +7381,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("ruleName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -5437,10 +7393,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("ruleName", ruleName);
                 Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -5448,14 +7404,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Delete;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -5481,7 +7437,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
@@ -5489,7 +7445,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -5512,7 +7468,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Server Firewall Rules operation retrieves a list of all the
         /// server-level firewall rules for a SQL Database server that belongs
@@ -5537,7 +7493,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("serverName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -5548,10 +7504,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("serverName", serverName);
                 Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -5559,14 +7515,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -5592,7 +7548,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     FirewallRuleListResponse result = new FirewallRuleListResponse();
                     result.StatusCode = statusCode;
@@ -5600,12 +7556,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourcesSequenceElement != null)
                     {
@@ -5613,28 +7569,28 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         {
                             FirewallRuleListResponse.FirewallRule serviceResourceInstance = new FirewallRuleListResponse.FirewallRule();
                             result.FirewallRules.Add(serviceResourceInstance);
-                            
+
                             XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                             if (nameElement != null)
                             {
                                 string nameInstance = nameElement.Value;
                                 serviceResourceInstance.Name = nameInstance;
                             }
-                            
+
                             XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                             if (typeElement != null)
                             {
                                 string typeInstance = typeElement.Value;
                                 serviceResourceInstance.Type = typeInstance;
                             }
-                            
+
                             XElement startIPAddressElement = serviceResourcesElement.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
                             if (startIPAddressElement != null)
                             {
                                 string startIPAddressInstance = startIPAddressElement.Value;
                                 serviceResourceInstance.StartIPAddress = startIPAddressInstance;
                             }
-                            
+
                             XElement endIPAddressElement = serviceResourcesElement.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
                             if (endIPAddressElement != null)
                             {
@@ -5643,7 +7599,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             }
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -5666,7 +7622,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Set Server Firewall Rule operation updates an existing
         /// server-level firewall rule or adds a new server-level firewall
@@ -5719,7 +7675,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.StartIPAddress");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -5732,10 +7688,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "UpdateAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/firewallrules/" + ruleName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -5743,37 +7699,37 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement serviceResourceElement = new XElement(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                 requestDoc.Add(serviceResourceElement);
-                
+
                 XElement nameElement = new XElement(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                 nameElement.Value = parameters.Name;
                 serviceResourceElement.Add(nameElement);
-                
+
                 XElement startIPAddressElement = new XElement(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
                 startIPAddressElement.Value = parameters.StartIPAddress;
                 serviceResourceElement.Add(startIPAddressElement);
-                
+
                 XElement endIPAddressElement = new XElement(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
                 endIPAddressElement.Value = parameters.EndIPAddress;
                 serviceResourceElement.Add(endIPAddressElement);
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -5799,7 +7755,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     FirewallRuleUpdateResponse result = new FirewallRuleUpdateResponse();
                     result.StatusCode = statusCode;
@@ -5807,12 +7763,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serviceResourceElement2 = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
                     if (serviceResourceElement2 != null)
                     {
@@ -5822,28 +7778,28 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             string nameInstance = nameElement2.Value;
                             result.Name = nameInstance;
                         }
-                        
+
                         XElement typeElement = serviceResourceElement2.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
                         if (typeElement != null)
                         {
                             string typeInstance = typeElement.Value;
                             result.Type = typeInstance;
                         }
-                        
+
                         XElement stateElement = serviceResourceElement2.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
                         if (stateElement != null)
                         {
                             string stateInstance = stateElement.Value;
                             result.State = stateInstance;
                         }
-                        
+
                         XElement startIPAddressElement2 = serviceResourceElement2.Element(XName.Get("StartIPAddress", "http://schemas.microsoft.com/windowsazure"));
                         if (startIPAddressElement2 != null)
                         {
                             string startIPAddressInstance = startIPAddressElement2.Value;
                             result.StartIPAddress = startIPAddressInstance;
                         }
-                        
+
                         XElement endIPAddressElement2 = serviceResourceElement2.Element(XName.Get("EndIPAddress", "http://schemas.microsoft.com/windowsazure"));
                         if (endIPAddressElement2 != null)
                         {
@@ -5851,7 +7807,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             result.EndIPAddress = endIPAddressInstance;
                         }
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -5875,7 +7831,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             }
         }
     }
-    
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Database servers for a subscription.  (see
@@ -5905,7 +7861,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<OperationResponse> ChangeAdministratorPasswordAsync(string serverName, ServerChangeAdministratorPasswordParameters parameters, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Create Server operation adds a new SQL Database server to a
         /// subscription.  (see
@@ -5922,7 +7878,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// The response returned from the Create Server operation
         /// </returns>
         Task<ServerCreateResponse> CreateAsync(ServerCreateParameters parameters, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -5940,7 +7896,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// request ID.
         /// </returns>
         Task<OperationResponse> DeleteAsync(string serverName, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// The Get Servers operation enumerates SQL Database servers that are
         /// provisioned for a subscription.  (see
@@ -5955,7 +7911,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         /// </returns>
         Task<ServerListResponse> ListAsync(CancellationToken cancellationToken);
     }
-    
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Database servers for a subscription.  (see
@@ -6003,7 +7959,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Set Server Administrator Password operation sets the
         /// administrative password of a SQL Database server for a
@@ -6029,7 +7985,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.ChangeAdministratorPasswordAsync(serverName, parameters, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Create Server operation adds a new SQL Database server to a
         /// subscription.  (see
@@ -6064,7 +8020,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Create Server operation adds a new SQL Database server to a
         /// subscription.  (see
@@ -6085,7 +8041,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.CreateAsync(parameters, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -6121,7 +8077,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -6143,7 +8099,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             return operations.DeleteAsync(serverName, CancellationToken.None);
         }
-        
+
         /// <summary>
         /// The Get Servers operation enumerates SQL Database servers that are
         /// provisioned for a subscription.  (see
@@ -6175,7 +8131,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Servers operation enumerates SQL Database servers that are
         /// provisioned for a subscription.  (see
@@ -6194,7 +8150,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             return operations.ListAsync(CancellationToken.None);
         }
     }
-    
+
     /// <summary>
     /// The SQL Database Management API includes operations for managing SQL
     /// Database servers for a subscription.  (see
@@ -6213,9 +8169,9 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             this._client = client;
         }
-        
+
         private SqlManagementClient _client;
-        
+
         /// <summary>
         /// Gets a reference to the
         /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
@@ -6224,7 +8180,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         {
             get { return this._client; }
         }
-        
+
         /// <summary>
         /// The Set Server Administrator Password operation sets the
         /// administrative password of a SQL Database server for a
@@ -6260,7 +8216,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.NewPassword");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -6272,10 +8228,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "ChangeAdministratorPasswordAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "?op=ResetPassword";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -6283,27 +8239,27 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                 requestDoc.Add(administratorLoginPasswordElement);
-                
+
                 administratorLoginPasswordElement.Value = parameters.NewPassword;
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -6329,7 +8285,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
@@ -6337,7 +8293,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -6360,7 +8316,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Create Server operation adds a new SQL Database server to a
         /// subscription.  (see
@@ -6395,7 +8351,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("parameters.Location");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -6406,10 +8362,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("parameters", parameters);
                 Tracing.Enter(invocationId, this, "CreateAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -6417,37 +8373,37 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Serialize Request
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
-                
+
                 XElement serverElement = new XElement(XName.Get("Server", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                 requestDoc.Add(serverElement);
-                
+
                 XElement administratorLoginElement = new XElement(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                 administratorLoginElement.Value = parameters.AdministratorUserName;
                 serverElement.Add(administratorLoginElement);
-                
+
                 XElement administratorLoginPasswordElement = new XElement(XName.Get("AdministratorLoginPassword", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                 administratorLoginPasswordElement.Value = parameters.AdministratorPassword;
                 serverElement.Add(administratorLoginPasswordElement);
-                
+
                 XElement locationElement = new XElement(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                 locationElement.Value = parameters.Location;
                 serverElement.Add(locationElement);
-                
+
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -6473,7 +8429,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     ServerCreateResponse result = new ServerCreateResponse();
                     result.StatusCode = statusCode;
@@ -6481,18 +8437,18 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serverNameElement = responseDoc.Element(XName.Get("ServerName", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                     if (serverNameElement != null)
                     {
                         result.ServerName = serverNameElement.Value;
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -6515,7 +8471,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Drop Server operation drops a SQL Database server from a
         /// subscription.  (see
@@ -6539,7 +8495,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
             {
                 throw new ArgumentNullException("serverName");
             }
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -6550,10 +8506,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 tracingParameters.Add("serverName", serverName);
                 Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName;
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -6561,14 +8517,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Delete;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -6594,7 +8550,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     OperationResponse result = new OperationResponse();
                     result.StatusCode = statusCode;
@@ -6602,7 +8558,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
@@ -6625,7 +8581,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 }
             }
         }
-        
+
         /// <summary>
         /// The Get Servers operation enumerates SQL Database servers that are
         /// provisioned for a subscription.  (see
@@ -6641,7 +8597,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
         public async Task<ServerListResponse> ListAsync(CancellationToken cancellationToken)
         {
             // Validate
-            
+
             // Tracing
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
@@ -6651,10 +8607,10 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
             }
-            
+
             // Construct URL
             string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers";
-            
+
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
             try
@@ -6662,14 +8618,14 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 httpRequest = new HttpRequestMessage();
                 httpRequest.Method = HttpMethod.Get;
                 httpRequest.RequestUri = new Uri(url);
-                
+
                 // Set Headers
                 httpRequest.Headers.Add("x-ms-version", "2012-03-01");
-                
+
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
+
                 // Send Request
                 HttpResponseMessage httpResponse = null;
                 try
@@ -6695,7 +8651,7 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         }
                         throw ex;
                     }
-                    
+
                     // Create Result
                     ServerListResponse result = new ServerListResponse();
                     result.StatusCode = statusCode;
@@ -6703,12 +8659,12 @@ namespace Microsoft.WindowsAzure.Management.Sql
                     {
                         result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
                     }
-                    
+
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                     XDocument responseDoc = XDocument.Parse(responseContent);
-                    
+
                     XElement serversSequenceElement = responseDoc.Element(XName.Get("Servers", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                     if (serversSequenceElement != null)
                     {
@@ -6716,28 +8672,28 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         {
                             ServerListResponse.Server serverInstance = new ServerListResponse.Server();
                             result.Servers.Add(serverInstance);
-                            
+
                             XElement nameElement = serversElement.Element(XName.Get("Name", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                             if (nameElement != null)
                             {
                                 string nameInstance = nameElement.Value;
                                 serverInstance.Name = nameInstance;
                             }
-                            
+
                             XElement administratorLoginElement = serversElement.Element(XName.Get("AdministratorLogin", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                             if (administratorLoginElement != null)
                             {
                                 string administratorLoginInstance = administratorLoginElement.Value;
                                 serverInstance.AdministratorUserName = administratorLoginInstance;
                             }
-                            
+
                             XElement locationElement = serversElement.Element(XName.Get("Location", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                             if (locationElement != null)
                             {
                                 string locationInstance = locationElement.Value;
                                 serverInstance.Location = locationInstance;
                             }
-                            
+
                             XElement featuresSequenceElement = serversElement.Element(XName.Get("Features", "http://schemas.microsoft.com/sqlazure/2010/12/"));
                             if (featuresSequenceElement != null)
                             {
@@ -6750,7 +8706,717 @@ namespace Microsoft.WindowsAzure.Management.Sql
                             }
                         }
                     }
-                    
+
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for getting Service
+    /// Objective for a subscription.
+    /// </summary>
+    public partial interface IServiceObjectiveOperations
+    {
+        /// <summary>
+        /// The Get Service Objective operation retrieves information about a
+        /// certain Service Objective on a given Id.
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='serviceObjectiveId'>
+        /// The Id of the Service Objective to be obtained.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the service objective for a given server and
+        /// service objective Id.
+        /// </returns>
+        Task<ServiceObjectiveGetResponse> GetAsync(string serverName, string serviceObjectiveId, CancellationToken cancellationToken);
+
+        /// <param name='serverName'>
+        /// The name of the database server to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of service objective for a given
+        /// server.
+        /// </returns>
+        Task<ServiceObjectiveListResponse> ListAsync(string serverName, CancellationToken cancellationToken);
+    }
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for getting Service
+    /// Objective for a subscription.
+    /// </summary>
+    public static partial class ServiceObjectiveOperationsExtensions
+    {
+        /// <summary>
+        /// The Get Service Objective operation retrieves information about a
+        /// certain Service Objective on a given Id.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServiceObjectiveOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='serviceObjectiveId'>
+        /// The Id of the Service Objective to be obtained.
+        /// </param>
+        /// <returns>
+        /// Response containing the service objective for a given server and
+        /// service objective Id.
+        /// </returns>
+        public static ServiceObjectiveGetResponse Get(this IServiceObjectiveOperations operations, string serverName, string serviceObjectiveId)
+        {
+            try
+            {
+                return operations.GetAsync(serverName, serviceObjectiveId).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The Get Service Objective operation retrieves information about a
+        /// certain Service Objective on a given Id.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServiceObjectiveOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='serviceObjectiveId'>
+        /// The Id of the Service Objective to be obtained.
+        /// </param>
+        /// <returns>
+        /// Response containing the service objective for a given server and
+        /// service objective Id.
+        /// </returns>
+        public static Task<ServiceObjectiveGetResponse> GetAsync(this IServiceObjectiveOperations operations, string serverName, string serviceObjectiveId)
+        {
+            return operations.GetAsync(serverName, serviceObjectiveId, CancellationToken.None);
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServiceObjectiveOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the database server to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of service objective for a given
+        /// server.
+        /// </returns>
+        public static ServiceObjectiveListResponse List(this IServiceObjectiveOperations operations, string serverName)
+        {
+            try
+            {
+                return operations.ListAsync(serverName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.IServiceObjectiveOperations.
+        /// </param>
+        /// <param name='serverName'>
+        /// The name of the database server to be queried.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of service objective for a given
+        /// server.
+        /// </returns>
+        public static Task<ServiceObjectiveListResponse> ListAsync(this IServiceObjectiveOperations operations, string serverName)
+        {
+            return operations.ListAsync(serverName, CancellationToken.None);
+        }
+    }
+
+    /// <summary>
+    /// The SQL Database Management API includes operations for getting Service
+    /// Objective for a subscription.
+    /// </summary>
+    internal partial class ServiceObjectiveOperations : IServiceOperations<SqlManagementClient>, IServiceObjectiveOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the ServiceObjectiveOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal ServiceObjectiveOperations(SqlManagementClient client)
+        {
+            this._client = client;
+        }
+
+        private SqlManagementClient _client;
+
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.Sql.SqlManagementClient.
+        /// </summary>
+        public SqlManagementClient Client
+        {
+            get { return this._client; }
+        }
+
+        /// <summary>
+        /// The Get Service Objective operation retrieves information about a
+        /// certain Service Objective on a given Id.
+        /// </summary>
+        /// <param name='serverName'>
+        /// The name of the SQL Server to be queried.
+        /// </param>
+        /// <param name='serviceObjectiveId'>
+        /// The Id of the Service Objective to be obtained.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the service objective for a given server and
+        /// service objective Id.
+        /// </returns>
+        public async Task<ServiceObjectiveGetResponse> GetAsync(string serverName, string serviceObjectiveId, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+            if (serviceObjectiveId == null)
+            {
+                throw new ArgumentNullException("serviceObjectiveId");
+            }
+
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                tracingParameters.Add("serviceObjectiveId", serviceObjectiveId);
+                Tracing.Enter(invocationId, this, "GetAsync", tracingParameters);
+            }
+
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/serviceobjectives/" + serviceObjectiveId;
+
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+
+                    // Create Result
+                    ServiceObjectiveGetResponse result = new ServiceObjectiveGetResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+
+                    XElement serviceResourceElement = responseDoc.Element(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourceElement != null)
+                    {
+                        XElement nameElement = serviceResourceElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                        if (nameElement != null)
+                        {
+                            string nameInstance = nameElement.Value;
+                            result.Name = nameInstance;
+                        }
+
+                        XElement typeElement = serviceResourceElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                        if (typeElement != null)
+                        {
+                            string typeInstance = typeElement.Value;
+                            result.Type = typeInstance;
+                        }
+
+                        XElement stateElement = serviceResourceElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                        if (stateElement != null)
+                        {
+                            string stateInstance = stateElement.Value;
+                            result.State = stateInstance;
+                        }
+
+                        XElement selfLinkElement = serviceResourceElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                        if (selfLinkElement != null)
+                        {
+                            string selfLinkInstance = selfLinkElement.Value;
+                            result.SelfLink = selfLinkInstance;
+                        }
+
+                        XElement parentLinkElement = serviceResourceElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                        if (parentLinkElement != null)
+                        {
+                            string parentLinkInstance = parentLinkElement.Value;
+                            result.ParentLink = parentLinkInstance;
+                        }
+
+                        XElement idElement = serviceResourceElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                        if (idElement != null)
+                        {
+                            string idInstance = idElement.Value;
+                            result.Id = idInstance;
+                        }
+
+                        XElement isDefaultElement = serviceResourceElement.Element(XName.Get("IsDefault", "http://schemas.microsoft.com/windowsazure"));
+                        if (isDefaultElement != null)
+                        {
+                            bool isDefaultInstance = bool.Parse(isDefaultElement.Value);
+                            result.IsDefault = isDefaultInstance;
+                        }
+
+                        XElement isSystemElement = serviceResourceElement.Element(XName.Get("IsSystem", "http://schemas.microsoft.com/windowsazure"));
+                        if (isSystemElement != null)
+                        {
+                            bool isSystemInstance = bool.Parse(isSystemElement.Value);
+                            result.IsSystem = isSystemInstance;
+                        }
+
+                        XElement descriptionElement = serviceResourceElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                        if (descriptionElement != null)
+                        {
+                            string descriptionInstance = descriptionElement.Value;
+                            result.Description = descriptionInstance;
+                        }
+
+                        XElement enabledElement = serviceResourceElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/windowsazure"));
+                        if (enabledElement != null)
+                        {
+                            bool enabledInstance = bool.Parse(enabledElement.Value);
+                            result.Enabled = enabledInstance;
+                        }
+
+                        XElement dimensionSettingsSequenceElement = serviceResourceElement.Element(XName.Get("DimensionSettings", "http://schemas.microsoft.com/windowsazure"));
+                        if (dimensionSettingsSequenceElement != null)
+                        {
+                            foreach (XElement dimensionSettingsElement in dimensionSettingsSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                            {
+                                ServiceObjectiveGetResponse.DimensionSettingResponse serviceResourceInstance = new ServiceObjectiveGetResponse.DimensionSettingResponse();
+                                result.DimensionSettings.Add(serviceResourceInstance);
+
+                                XElement nameElement2 = dimensionSettingsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                if (nameElement2 != null)
+                                {
+                                    string nameInstance2 = nameElement2.Value;
+                                    serviceResourceInstance.Name = nameInstance2;
+                                }
+
+                                XElement typeElement2 = dimensionSettingsElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                                if (typeElement2 != null)
+                                {
+                                    string typeInstance2 = typeElement2.Value;
+                                    serviceResourceInstance.Type = typeInstance2;
+                                }
+
+                                XElement stateElement2 = dimensionSettingsElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                                if (stateElement2 != null)
+                                {
+                                    string stateInstance2 = stateElement2.Value;
+                                    serviceResourceInstance.State = stateInstance2;
+                                }
+
+                                XElement selfLinkElement2 = dimensionSettingsElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                                if (selfLinkElement2 != null)
+                                {
+                                    string selfLinkInstance2 = selfLinkElement2.Value;
+                                    serviceResourceInstance.SelfLink = selfLinkInstance2;
+                                }
+
+                                XElement parentLinkElement2 = dimensionSettingsElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                                if (parentLinkElement2 != null)
+                                {
+                                    string parentLinkInstance2 = parentLinkElement2.Value;
+                                    serviceResourceInstance.ParentLink = parentLinkInstance2;
+                                }
+
+                                XElement idElement2 = dimensionSettingsElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                                if (idElement2 != null)
+                                {
+                                    string idInstance2 = idElement2.Value;
+                                    serviceResourceInstance.Id = idInstance2;
+                                }
+
+                                XElement descriptionElement2 = dimensionSettingsElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                                if (descriptionElement2 != null)
+                                {
+                                    string descriptionInstance2 = descriptionElement2.Value;
+                                    serviceResourceInstance.Description = descriptionInstance2;
+                                }
+
+                                XElement ordinalElement = dimensionSettingsElement.Element(XName.Get("Ordinal", "http://schemas.microsoft.com/windowsazure"));
+                                if (ordinalElement != null)
+                                {
+                                    byte ordinalInstance = byte.Parse(ordinalElement.Value, CultureInfo.InvariantCulture);
+                                    serviceResourceInstance.Ordinal = ordinalInstance;
+                                }
+
+                                XElement isDefaultElement2 = dimensionSettingsElement.Element(XName.Get("IsDefault", "http://schemas.microsoft.com/windowsazure"));
+                                if (isDefaultElement2 != null)
+                                {
+                                    bool isDefaultInstance2 = bool.Parse(isDefaultElement2.Value);
+                                    serviceResourceInstance.IsDefault = isDefaultInstance2;
+                                }
+                            }
+                        }
+                    }
+
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+
+        /// <param name='serverName'>
+        /// The name of the database server to be queried.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Response containing the list of service objective for a given
+        /// server.
+        /// </returns>
+        public async Task<ServiceObjectiveListResponse> ListAsync(string serverName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serverName == null)
+            {
+                throw new ArgumentNullException("serverName");
+            }
+
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serverName", serverName);
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+
+            // Construct URL
+            string url = this.Client.BaseUri + this.Client.Credentials.SubscriptionId + "/services/sqlservers/servers/" + serverName + "/serviceobjectives";
+
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-03-01");
+
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+
+                    // Create Result
+                    ServiceObjectiveListResponse result = new ServiceObjectiveListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+
+                    XElement serviceResourcesSequenceElement = responseDoc.Element(XName.Get("ServiceResources", "http://schemas.microsoft.com/windowsazure"));
+                    if (serviceResourcesSequenceElement != null)
+                    {
+                        foreach (XElement serviceResourcesElement in serviceResourcesSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            ServiceObjectiveListResponse.ServiceObjective serviceResourceInstance = new ServiceObjectiveListResponse.ServiceObjective();
+                            result.ServiceObjectives.Add(serviceResourceInstance);
+
+                            XElement nameElement = serviceResourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                serviceResourceInstance.Name = nameInstance;
+                            }
+
+                            XElement typeElement = serviceResourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                            if (typeElement != null)
+                            {
+                                string typeInstance = typeElement.Value;
+                                serviceResourceInstance.Type = typeInstance;
+                            }
+
+                            XElement stateElement = serviceResourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                            if (stateElement != null)
+                            {
+                                string stateInstance = stateElement.Value;
+                                serviceResourceInstance.State = stateInstance;
+                            }
+
+                            XElement selfLinkElement = serviceResourcesElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (selfLinkElement != null)
+                            {
+                                string selfLinkInstance = selfLinkElement.Value;
+                                serviceResourceInstance.SelfLink = selfLinkInstance;
+                            }
+
+                            XElement parentLinkElement = serviceResourcesElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                            if (parentLinkElement != null)
+                            {
+                                string parentLinkInstance = parentLinkElement.Value;
+                                serviceResourceInstance.ParentLink = parentLinkInstance;
+                            }
+
+                            XElement idElement = serviceResourcesElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                            if (idElement != null)
+                            {
+                                string idInstance = idElement.Value;
+                                serviceResourceInstance.Id = idInstance;
+                            }
+
+                            XElement isDefaultElement = serviceResourcesElement.Element(XName.Get("IsDefault", "http://schemas.microsoft.com/windowsazure"));
+                            if (isDefaultElement != null)
+                            {
+                                bool isDefaultInstance = bool.Parse(isDefaultElement.Value);
+                                serviceResourceInstance.IsDefault = isDefaultInstance;
+                            }
+
+                            XElement isSystemElement = serviceResourcesElement.Element(XName.Get("IsSystem", "http://schemas.microsoft.com/windowsazure"));
+                            if (isSystemElement != null)
+                            {
+                                bool isSystemInstance = bool.Parse(isSystemElement.Value);
+                                serviceResourceInstance.IsSystem = isSystemInstance;
+                            }
+
+                            XElement descriptionElement = serviceResourcesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                            if (descriptionElement != null)
+                            {
+                                string descriptionInstance = descriptionElement.Value;
+                                serviceResourceInstance.Description = descriptionInstance;
+                            }
+
+                            XElement enabledElement = serviceResourcesElement.Element(XName.Get("Enabled", "http://schemas.microsoft.com/windowsazure"));
+                            if (enabledElement != null)
+                            {
+                                bool enabledInstance = bool.Parse(enabledElement.Value);
+                                serviceResourceInstance.Enabled = enabledInstance;
+                            }
+
+                            XElement dimensionSettingsSequenceElement = serviceResourcesElement.Element(XName.Get("DimensionSettings", "http://schemas.microsoft.com/windowsazure"));
+                            if (dimensionSettingsSequenceElement != null)
+                            {
+                                foreach (XElement dimensionSettingsElement in dimensionSettingsSequenceElement.Elements(XName.Get("ServiceResource", "http://schemas.microsoft.com/windowsazure")))
+                                {
+                                    ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse serviceResourceInstance2 = new ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse();
+                                    serviceResourceInstance.DimensionSettings.Add(serviceResourceInstance2);
+
+                                    XElement nameElement2 = dimensionSettingsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                    if (nameElement2 != null)
+                                    {
+                                        string nameInstance2 = nameElement2.Value;
+                                        serviceResourceInstance2.Name = nameInstance2;
+                                    }
+
+                                    XElement typeElement2 = dimensionSettingsElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
+                                    if (typeElement2 != null)
+                                    {
+                                        string typeInstance2 = typeElement2.Value;
+                                        serviceResourceInstance2.Type = typeInstance2;
+                                    }
+
+                                    XElement stateElement2 = dimensionSettingsElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
+                                    if (stateElement2 != null)
+                                    {
+                                        string stateInstance2 = stateElement2.Value;
+                                        serviceResourceInstance2.State = stateInstance2;
+                                    }
+
+                                    XElement selfLinkElement2 = dimensionSettingsElement.Element(XName.Get("SelfLink", "http://schemas.microsoft.com/windowsazure"));
+                                    if (selfLinkElement2 != null)
+                                    {
+                                        string selfLinkInstance2 = selfLinkElement2.Value;
+                                        serviceResourceInstance2.SelfLink = selfLinkInstance2;
+                                    }
+
+                                    XElement parentLinkElement2 = dimensionSettingsElement.Element(XName.Get("ParentLink", "http://schemas.microsoft.com/windowsazure"));
+                                    if (parentLinkElement2 != null)
+                                    {
+                                        string parentLinkInstance2 = parentLinkElement2.Value;
+                                        serviceResourceInstance2.ParentLink = parentLinkInstance2;
+                                    }
+
+                                    XElement idElement2 = dimensionSettingsElement.Element(XName.Get("Id", "http://schemas.microsoft.com/windowsazure"));
+                                    if (idElement2 != null)
+                                    {
+                                        string idInstance2 = idElement2.Value;
+                                        serviceResourceInstance2.Id = idInstance2;
+                                    }
+
+                                    XElement descriptionElement2 = dimensionSettingsElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
+                                    if (descriptionElement2 != null)
+                                    {
+                                        string descriptionInstance2 = descriptionElement2.Value;
+                                        serviceResourceInstance2.Description = descriptionInstance2;
+                                    }
+
+                                    XElement ordinalElement = dimensionSettingsElement.Element(XName.Get("Ordinal", "http://schemas.microsoft.com/windowsazure"));
+                                    if (ordinalElement != null)
+                                    {
+                                        byte ordinalInstance = byte.Parse(ordinalElement.Value, CultureInfo.InvariantCulture);
+                                        serviceResourceInstance2.Ordinal = ordinalInstance;
+                                    }
+
+                                    XElement isDefaultElement2 = dimensionSettingsElement.Element(XName.Get("IsDefault", "http://schemas.microsoft.com/windowsazure"));
+                                    if (isDefaultElement2 != null)
+                                    {
+                                        bool isDefaultInstance2 = bool.Parse(isDefaultElement2.Value);
+                                        serviceResourceInstance2.IsDefault = isDefaultInstance2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     if (shouldTrace)
                     {
                         Tracing.Exit(invocationId, result);
