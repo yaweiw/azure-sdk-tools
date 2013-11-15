@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "rootPath"), ex.Message);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "rootPath"), ex.Message);
             }
         }
 
