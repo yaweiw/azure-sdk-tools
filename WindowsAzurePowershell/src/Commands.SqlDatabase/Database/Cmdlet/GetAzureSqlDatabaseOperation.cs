@@ -21,11 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Services.Server;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Databases in the given server context.
+    /// Retrieves a list of Windows Azure SQL Database's Operations in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.None,
+    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseOperation", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = ByConnectionContext)]
-    public class GetAzureSqlDatabase : PSCmdlet
+    public class GetAzureSqlDatabaseOperation : PSCmdlet
     {
         #region Parameter Sets
 
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the server object upon which to operate
+        /// Gets or sets the server name upon which to operate
         /// </summary>
         [Parameter(Mandatory = true, Position = 0,
             ValueFromPipelineByPropertyName = true,
@@ -67,20 +67,31 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public string ServerName { get; set; }
 
         /// <summary>
-        /// Gets or sets the database object to refresh.
+        /// Gets or sets the database object to retrieve operations.
         /// </summary>
         [Parameter(Mandatory = false,
-            ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
+            ValueFromPipeline = true, 
+            HelpMessage = "The database object to retrieve operations.")]
         [ValidateNotNull]
         public Database Database { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the database to retrieve.
+        /// Gets or sets the name of the database to retrieve operations.
         /// </summary>
         [Parameter(Mandatory = false,
-            HelpMessage = "The name of the database to retrieve.")]
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the database to retrieve operations.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the database operation Guid to retrieve.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            ValueFromPipeline = true,
+            HelpMessage = "The guid of the database operation to retrieve.")]
+        [ValidateNotNullOrEmpty]
+        public Guid OperationGuid { get; set; }
 
         #endregion
 
@@ -89,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            ParameterValidation();
             IServerDataServiceContext context = null;
             switch (this.ParameterSetName)
             {
@@ -99,15 +111,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 case ByServerName:
                     context = ServerDataServiceCertAuth.Create(this.ServerName, WindowsAzureProfile.Instance.CurrentSubscription);
                     break;
-
-                default:
-                    throw new NotSupportedException("ParameterSet");
             }
-
             ProcessWithContext(context);
         }
 
-        private string GetDatabaseName()
+        private void ParameterValidation()
         {
             // This is to enforce the mutual exclusivity of the parameters: Database
             // and DatabaseName.  This can't be done with parameter sets without changing
@@ -122,18 +130,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     ErrorCategory.InvalidArgument,
                     null));
             }
-
-            // Obtain the database name from the given parameters.
-            string databaseName = null;
-            if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
-            {
-                databaseName = this.Database.Name;
-            }
-            else if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
-            {
-                databaseName = this.DatabaseName;
-            }
-            return databaseName;
         }
 
         /// <summary>
@@ -142,18 +138,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="databaseName">the name of the database to retrieve</param>
         private void ProcessWithContext(IServerDataServiceContext context)
         {
-            string databaseName = GetDatabaseName();
             try
             {
-                if (databaseName != null)
+                if (this.DatabaseName != null)
                 {
-                    // Retrieve the database with the specified name
-                    this.WriteObject(context.GetDatabase(databaseName), true);
+                    // Retrieve the operations with the specified database name
+                    this.WriteObject(context.GetDatabaseOperations(this.DatabaseName), true);
+                }
+                else if (this.Database != null)
+                {
+                    // Retrieve the operations with the database name specified by the database object
+                    this.WriteObject(context.GetDatabaseOperations(this.Database.Name), true);
+                }
+                else if (this.OperationGuid != Guid.Empty)
+                {
+                    // Retrieve the operation with the operation Guid
+                    this.WriteObject(context.GetDatabaseOperation(this.OperationGuid), true);
                 }
                 else
                 {
-                    // No name specified, retrieve all databases in the server
-                    this.WriteObject(context.GetDatabases(), true);
+                    // No name specified, retrieve all database's operations in the server
+                    this.WriteObject(context.GetDatabasesOperations(), true);
                 }
             }
             catch (Exception ex)

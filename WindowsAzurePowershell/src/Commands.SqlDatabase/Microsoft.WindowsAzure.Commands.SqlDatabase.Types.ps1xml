@@ -134,4 +134,25 @@
       </MemberSet>
     </Members>
   </Type>
+  <Type>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.DatabaseOperation</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>DatabaseName</Name>
+              <Name>Name</Name>
+              <Name>State</Name>
+              <Name>PercentComplete</Name>
+              <Name>StartTime</Name>
+              <Name>LastModifyTime</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
 </Types>
