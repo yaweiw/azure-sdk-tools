@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             new Uri("http://localhost:12345/MockTestServer/");
 
         /// <summary>
-        /// The HTTPS server prefix for tests
+        /// The HTTPS server prefix for tests which is been used in cert auth based unit tests
         /// </summary>
         public static readonly Uri DefaultHttpsServerPrefixUri =
             new Uri("https://localhost:65432/MockTestServer/");
