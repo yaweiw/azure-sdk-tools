@@ -112,7 +112,19 @@
             <Component Id="cmpB0487BB1F025BE0FEB2C4B6C86AB5FC9" Guid="745736A9-FBBA-41CB-BEE2-4D8F86722B4A">
                 <File Id="fil1ABCF6B5066BF6F1CAE928154CF3EF7A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.pdb" />
             </Component>
-            <Component Id="cmpE1199681916CCB06D3989ED61D5E69A3" Guid="8C1A7748-1E5B-49CF-B363-F0CD070FA992">
+
+
+          <Component Id="cmp78C482E5EC9CE1CF759368EF6B0E357A999" Guid="99164D55-3A09-49E9-9919-5E24E17EC283">
+            <File Id="filC4242FE2F167B321D6445B29AB2E5FE0999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.dll" />
+          </Component>
+          <Component Id="cmp31C6F11D5E4E4A45FDE9C4DC2D05EBDA999" Guid="84E6794A-AE4A-4866-97D8-498F8399B2D1">
+            <File Id="fil6CA1FBB5E6544D14A943ACFCDBE575F7999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.dll-Help.xml" />
+          </Component>
+          <Component Id="cmpB0487BB1F025BE0FEB2C4B6C86AB5FC9999" Guid="B8066AC2-D631-4BEA-8201-12A34F56275F">
+            <File Id="fil1ABCF6B5066BF6F1CAE928154CF3EF7A999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.pdb" />
+          </Component>
+
+          <Component Id="cmpE1199681916CCB06D3989ED61D5E69A3" Guid="8C1A7748-1E5B-49CF-B363-F0CD070FA992">
                 <File Id="fil913430711AE4509F93DBD8C1B8F01036" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.SqlDatabase.dll" />
             </Component>
             <Component Id="cmpAF963ECD52123E930A88367C4C029906" Guid="EAD162DC-C6D0-4551-A928-D39EB586FFB8">
@@ -202,6 +214,11 @@
             <Component Id="cmpE101A55CC3A274BCCE6AA82B0CEF5FC4" Guid="E7C60A94-71A7-4CFE-AA7A-A1209F4E2CAF">
                 <File Id="fil1CAB31C6537022A6BA9E5CDC95DB0C34" KeyPath="yes" Source="$(var.sourceDir)\PIR.psd1" />
             </Component>
+
+          <Component Id="cmpE101A55CC3A274BCCE6AA82B0CEF5FC4999" Guid="B21909DD-8532-4735-BC14-6D9AED764C47">
+            <File Id="fil1CAB31C6537022A6BA9E5CDC95DB0C34999" KeyPath="yes" Source="$(var.sourceDir)\VIPReservation.psd1" />
+          </Component>
+          
             <Component Id="cmp3832E7526FF89D57C2521958B2CCB2BF" Guid="396D1B03-EE18-449F-97FC-76F66B8AEFC7">
                 <File Id="filA7B4A3F29508843450BE7D5B7A67602C" KeyPath="yes" Source="$(var.sourceDir)\startup.ps1" />
             </Component>
@@ -674,6 +691,10 @@
             <ComponentRef Id="cmp21B4D7613134B6E8FCAD158844C590B5" />
             <ComponentRef Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" />
             <ComponentRef Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" />
+          <ComponentRef Id="cmp78C482E5EC9CE1CF759368EF6B0E357A999" />
+          <ComponentRef Id="cmp31C6F11D5E4E4A45FDE9C4DC2D05EBDA999" />
+          <ComponentRef Id="cmpB0487BB1F025BE0FEB2C4B6C86AB5FC9999" />
+          <ComponentRef Id="cmpE101A55CC3A274BCCE6AA82B0CEF5FC4999" />
         </ComponentGroup>
     </Fragment>
 </Include>
