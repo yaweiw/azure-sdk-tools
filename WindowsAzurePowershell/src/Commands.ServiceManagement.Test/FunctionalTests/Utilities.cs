@@ -114,6 +114,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         // AzureQuickVM
         public const string NewAzureQuickVMCmdletName = "New-AzureQuickVM";
 
+        //Get-AzureWinRMUri
+
+        public const string GetAzureWinRMUriCmdletName = "Get-AzureWinRMUri";
+
         // AzurePlatformVMImage
         public const string SetAzurePlatformVMImageCmdletName = "Set-AzurePlatformVMImage";
         public const string GetAzurePlatformVMImageCmdletName = "Get-AzurePlatformVMImage";

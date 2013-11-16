@@ -35,6 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Model.PersistentVMModel;
     using PIRCmdletInfo;
     using Microsoft.WindowsAzure.Storage.Blob;
+    
 
     public class ServiceManagementCmdletTestHelper
     {
@@ -622,12 +623,66 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize, string disableWinRMHttps)
+        {
+            ManagementOperationContext result = new ManagementOperationContext();
+            try
+            {
+                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps));
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("409"))
+                {
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize, disableWinRMHttps)),
+                        "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
+                }
+            }
+            return result;
+        }
+
+
         public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
 
         #endregion
+
+        #region WinRM
+
+        public Uri GetAzureWinRMUri(string servicename, string name)
+        {
+            Uri result = null;
+            try
+            {
+                result = RunPSCmdletAndReturnFirst<Uri>(new WinRMCmdletInfo(servicename, name));
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("409"))
+                {
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<Uri>(new WinRMCmdletInfo(servicename, name)),
+                        "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
+                }
+            }
+            return result;
+        }      
+
+
+        #endregion WinRM 
 
         #region AzurePlatformVMImage
 
