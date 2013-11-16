@@ -274,6 +274,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\WinRMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
