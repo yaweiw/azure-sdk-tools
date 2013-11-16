@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
         {
             initialize = new Lazy<bool>(() =>
             {
-                Mapper.Initialize(m => m.AddProfile<ServiceManagementProfile>());
+                Mapper.AddProfile<ServiceManagementProfile>();
                 return true;
             });
         }

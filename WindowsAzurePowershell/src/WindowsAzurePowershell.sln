@@ -63,7 +63,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementLibraries.NetFram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.WAPackIaaS.FunctionalTest", "Commands.WAPackIaaS.FunctionalTest\Commands.WAPackIaaS.FunctionalTest.csproj", "{2B9BF40E-45E0-4026-A5B8-F1EA8E810A62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.VIPReservation", "Commands.ServiceManagement.VIPReservation\Commands.ServiceManagement.VIPReservation.csproj", "{E895BBDA-0B06-46AB-B909-9B97B3ECE47E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Preview", "Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj", "{E895BBDA-0B06-46AB-B909-9B97B3ECE47E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6478FA8B-3801-4863-8591-87F0855D5C82} = {6478FA8B-3801-4863-8591-87F0855D5C82}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

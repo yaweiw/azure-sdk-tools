@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -75,8 +75,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Netwo
 
         public void ExecuteCommand()
         {
-            ServiceManagementPreviewProfile.Initialize();
-
             var parameters = new NetworkReservedIPCreateParameters
             {
                 Name = Name,
@@ -93,6 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Netwo
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementPreviewProfile.Initialize();
             this.ExecuteCommand();
         }
     }

@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
             if (CurrentDeploymentNewSM == null)
             {
-                return;
+                throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
             }
 
             // Auto generate disk names based off of default storage account 

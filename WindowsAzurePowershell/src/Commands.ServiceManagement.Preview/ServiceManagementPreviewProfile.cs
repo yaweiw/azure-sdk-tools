@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview
 {
     using System;
     using AutoMapper;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation
     using Management.VirtualNetworks.Models;
     using Model;
 
-    public class ServiceManagementPreviewProfile : ServiceManagementProfile
+    public class ServiceManagementPreviewProfile : Profile
     {
         private static readonly Lazy<bool> initialize;
 
@@ -28,14 +28,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation
         {
             initialize = new Lazy<bool>(() =>
             {
-                Mapper.Initialize(m => m.AddProfile<ServiceManagementPreviewProfile>());
+                Mapper.AddProfile<ServiceManagementPreviewProfile>();
                 return true;
             });
         }
 
-        public new static bool Initialize()
+        public static bool Initialize()
         {
-            return initialize.Value;
+            return ServiceManagementProfile.Initialize() && initialize.Value;
         }
 
         public override string ProfileName
@@ -45,8 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation
 
         protected override void Configure()
         {
-            base.Configure();
-
             // Reserved IP
             Mapper.CreateMap<OperationStatusResponse, ReservedIPContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))

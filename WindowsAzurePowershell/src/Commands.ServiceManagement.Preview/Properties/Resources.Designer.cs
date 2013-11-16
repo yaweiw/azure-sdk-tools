@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Properties {
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Properties {
     using System;
     
     
@@ -39,8 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Prope
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Properties.Resou" +
-                            "rces", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

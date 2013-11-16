@@ -12,29 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.HostedServices
 {
-    using Utilities.Common;
+    using System.Management.Automation;
+    using ServiceManagement.HostedServices;
+    using Model;
 
-    public class ReservedIPContext : ManagementOperationContext
+    /// <summary>
+    /// View details of a specified deployment.
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(DeploymentInfoContext))]
+    public class GetAzureDeploymentCmdlet : GetAzureDeploymentCommand
     {
-        public string Name { get; set; }
-
-        public string Address { get; set; }
-
-        public string Id { get; set; }
-
-        public string Label { get; set; }
-
-        public string AffinityGroup { get; set; }
-
-        public string State { get; set; }
-
-        public bool InUse { get; set; }
-
-        public string ServiceName { get; set; }
-
-        public string DeploymentName { get; set; }
+        protected override void OnProcessRecord()
+        {
+            ServiceManagementPreviewProfile.Initialize();
+            base.OnProcessRecord();
+        }
     }
 }
