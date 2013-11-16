@@ -115,13 +115,13 @@
 
 
           <Component Id="cmp78C482E5EC9CE1CF759368EF6B0E357A999" Guid="99164D55-3A09-49E9-9919-5E24E17EC283">
-            <File Id="filC4242FE2F167B321D6445B29AB2E5FE0999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.dll" />
+            <File Id="filC4242FE2F167B321D6445B29AB2E5FE0999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll" />
           </Component>
           <Component Id="cmp31C6F11D5E4E4A45FDE9C4DC2D05EBDA999" Guid="84E6794A-AE4A-4866-97D8-498F8399B2D1">
-            <File Id="fil6CA1FBB5E6544D14A943ACFCDBE575F7999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.dll-Help.xml" />
+            <File Id="fil6CA1FBB5E6544D14A943ACFCDBE575F7999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll-Help.xml" />
           </Component>
           <Component Id="cmpB0487BB1F025BE0FEB2C4B6C86AB5FC9999" Guid="B8066AC2-D631-4BEA-8201-12A34F56275F">
-            <File Id="fil1ABCF6B5066BF6F1CAE928154CF3EF7A999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.pdb" />
+            <File Id="fil1ABCF6B5066BF6F1CAE928154CF3EF7A999" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.pdb" />
           </Component>
 
           <Component Id="cmpE1199681916CCB06D3989ED61D5E69A3" Guid="8C1A7748-1E5B-49CF-B363-F0CD070FA992">
@@ -216,7 +216,7 @@
             </Component>
 
           <Component Id="cmpE101A55CC3A274BCCE6AA82B0CEF5FC4999" Guid="B21909DD-8532-4735-BC14-6D9AED764C47">
-            <File Id="fil1CAB31C6537022A6BA9E5CDC95DB0C34999" KeyPath="yes" Source="$(var.sourceDir)\VIPReservation.psd1" />
+            <File Id="fil1CAB31C6537022A6BA9E5CDC95DB0C34999" KeyPath="yes" Source="$(var.sourceDir)\AzurePreview.psd1" />
           </Component>
           
             <Component Id="cmp3832E7526FF89D57C2521958B2CCB2BF" Guid="396D1B03-EE18-449F-97FC-76F66B8AEFC7">

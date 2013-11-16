@@ -202,7 +202,9 @@
     <Compile Include="ServiceManagementPreviewProfile.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AzurePreview.psd1" />
+    <None Include="AzurePreview.psd1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -245,7 +247,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll-Help.xml" />
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll-Help.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
