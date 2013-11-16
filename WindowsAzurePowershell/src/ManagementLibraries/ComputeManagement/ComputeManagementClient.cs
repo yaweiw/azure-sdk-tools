@@ -18513,30 +18513,30 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         XElement virtualIPsSequenceElement = deploymentElement.Element(XName.Get("VirtualIPs", "http://schemas.microsoft.com/windowsazure"));
                         if (virtualIPsSequenceElement != null)
                         {
-                            foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIPAddress", "http://schemas.microsoft.com/windowsazure")))
+                            foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure")))
                             {
-                                VirtualIPAddress virtualIPAddressInstance = new VirtualIPAddress();
-                                result.VirtualIPAddresses.Add(virtualIPAddressInstance);
+                                VirtualIPAddress virtualIPInstance = new VirtualIPAddress();
+                                result.VirtualIPAddresses.Add(virtualIPInstance);
                                 
                                 XElement addressElement = virtualIPsElement.Element(XName.Get("Address", "http://schemas.microsoft.com/windowsazure"));
                                 if (addressElement != null)
                                 {
                                     string addressInstance = addressElement.Value;
-                                    virtualIPAddressInstance.Address = addressInstance;
+                                    virtualIPInstance.Address = addressInstance;
                                 }
                                 
                                 XElement nameElement4 = virtualIPsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                                 if (nameElement4 != null)
                                 {
                                     string nameInstance4 = nameElement4.Value;
-                                    virtualIPAddressInstance.Name = nameInstance4;
+                                    virtualIPInstance.Name = nameInstance4;
                                 }
                                 
                                 XElement isDnsProgrammedElement = virtualIPsElement.Element(XName.Get("IsDnsProgrammed", "http://schemas.microsoft.com/windowsazure"));
                                 if (isDnsProgrammedElement != null && string.IsNullOrEmpty(isDnsProgrammedElement.Value) == false)
                                 {
                                     bool isDnsProgrammedInstance = bool.Parse(isDnsProgrammedElement.Value);
-                                    virtualIPAddressInstance.IsDnsProgrammed = isDnsProgrammedInstance;
+                                    virtualIPInstance.IsDnsProgrammed = isDnsProgrammedInstance;
                                 }
                             }
                         }
@@ -19646,30 +19646,30 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         XElement virtualIPsSequenceElement = deploymentElement.Element(XName.Get("VirtualIPs", "http://schemas.microsoft.com/windowsazure"));
                         if (virtualIPsSequenceElement != null)
                         {
-                            foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIPAddress", "http://schemas.microsoft.com/windowsazure")))
+                            foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure")))
                             {
-                                VirtualIPAddress virtualIPAddressInstance = new VirtualIPAddress();
-                                result.VirtualIPAddresses.Add(virtualIPAddressInstance);
+                                VirtualIPAddress virtualIPInstance = new VirtualIPAddress();
+                                result.VirtualIPAddresses.Add(virtualIPInstance);
                                 
                                 XElement addressElement = virtualIPsElement.Element(XName.Get("Address", "http://schemas.microsoft.com/windowsazure"));
                                 if (addressElement != null)
                                 {
                                     string addressInstance = addressElement.Value;
-                                    virtualIPAddressInstance.Address = addressInstance;
+                                    virtualIPInstance.Address = addressInstance;
                                 }
                                 
                                 XElement nameElement4 = virtualIPsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                                 if (nameElement4 != null)
                                 {
                                     string nameInstance4 = nameElement4.Value;
-                                    virtualIPAddressInstance.Name = nameInstance4;
+                                    virtualIPInstance.Name = nameInstance4;
                                 }
                                 
                                 XElement isDnsProgrammedElement = virtualIPsElement.Element(XName.Get("IsDnsProgrammed", "http://schemas.microsoft.com/windowsazure"));
                                 if (isDnsProgrammedElement != null && string.IsNullOrEmpty(isDnsProgrammedElement.Value) == false)
                                 {
                                     bool isDnsProgrammedInstance = bool.Parse(isDnsProgrammedElement.Value);
-                                    virtualIPAddressInstance.IsDnsProgrammed = isDnsProgrammedInstance;
+                                    virtualIPInstance.IsDnsProgrammed = isDnsProgrammedInstance;
                                 }
                             }
                         }
@@ -24867,30 +24867,30 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 XElement virtualIPsSequenceElement = deploymentsElement.Element(XName.Get("VirtualIPs", "http://schemas.microsoft.com/windowsazure"));
                                 if (virtualIPsSequenceElement != null)
                                 {
-                                    foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIPAddress", "http://schemas.microsoft.com/windowsazure")))
+                                    foreach (XElement virtualIPsElement in virtualIPsSequenceElement.Elements(XName.Get("VirtualIP", "http://schemas.microsoft.com/windowsazure")))
                                     {
-                                        VirtualIPAddress virtualIPAddressInstance = new VirtualIPAddress();
-                                        deploymentInstance.VirtualIPAddresses.Add(virtualIPAddressInstance);
+                                        VirtualIPAddress virtualIPInstance = new VirtualIPAddress();
+                                        deploymentInstance.VirtualIPAddresses.Add(virtualIPInstance);
                                         
                                         XElement addressElement = virtualIPsElement.Element(XName.Get("Address", "http://schemas.microsoft.com/windowsazure"));
                                         if (addressElement != null)
                                         {
                                             string addressInstance = addressElement.Value;
-                                            virtualIPAddressInstance.Address = addressInstance;
+                                            virtualIPInstance.Address = addressInstance;
                                         }
                                         
                                         XElement nameElement4 = virtualIPsElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
                                         if (nameElement4 != null)
                                         {
                                             string nameInstance4 = nameElement4.Value;
-                                            virtualIPAddressInstance.Name = nameInstance4;
+                                            virtualIPInstance.Name = nameInstance4;
                                         }
                                         
                                         XElement isDnsProgrammedElement = virtualIPsElement.Element(XName.Get("IsDnsProgrammed", "http://schemas.microsoft.com/windowsazure"));
                                         if (isDnsProgrammedElement != null && string.IsNullOrEmpty(isDnsProgrammedElement.Value) == false)
                                         {
                                             bool isDnsProgrammedInstance = bool.Parse(isDnsProgrammedElement.Value);
-                                            virtualIPAddressInstance.IsDnsProgrammed = isDnsProgrammedInstance;
+                                            virtualIPInstance.IsDnsProgrammed = isDnsProgrammedInstance;
                                         }
                                     }
                                 }
