@@ -13,10 +13,28 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.VIPReservation.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
 {
-    public static class ReservedIPConstants
+    using Utilities.Common;
+
+    public class ReservedIPContext : ManagementOperationContext
     {
-        public const string CmdletNoun = "AzureReservedIP";
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string Id { get; set; }
+
+        public string Label { get; set; }
+
+        public string AffinityGroup { get; set; }
+
+        public string State { get; set; }
+
+        public bool InUse { get; set; }
+
+        public string ServiceName { get; set; }
+
+        public string DeploymentName { get; set; }
     }
 }
