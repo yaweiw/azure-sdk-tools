@@ -53,6 +53,8 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Commands.ScenarioTest")]
 [assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Commands.WAPackIaaS.Test")]
 [assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest")]
+[assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Commands.HDInsight")]
+[assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Commands.HDInsight.Test")]
 #endif
 
 [assembly: CLSCompliant(false)]
