@@ -74,7 +74,8 @@ FormatsToProcess = @(
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
                 '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-                '.\Microsoft.WindowsAzure.Commands.Storage.dll'
+                '.\Microsoft.WindowsAzure.Commands.Storage.dll',
+				'.\Microsoft.WindowsAzure.Commands.HDInsight.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
@@ -117,7 +118,8 @@ AliasesToExport = @(
 'Show-WAPackWebsite',
 'Start-WAPackWebsite',
 'Stop-WAPackWebsite',
-'Test-WAPackName')
+'Test-WAPackName',
+'Get-AzureHDInsightCluster')
 
 # List of all modules packaged with this module
 ModuleList = @()
