@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
         [Parameter(HelpMessage = "Metrics retention days. -1 means disable Metrics retention policy, otherwise enable.")]
         [ValidateRange(-1, 365)]
-        public int? RetentionDay { get; set; }
+        public int? RetentionDays { get; set; }
 
         [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
         [ValidateSet(StorageNouns.OffMetrics, StorageNouns.MinimalMetrics, StorageNouns.VerboseMetrics,
@@ -59,20 +59,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 serviceProperties.Metrics.Version = Version.ToString();
             }
 
-            if (RetentionDay != null)
+            if (RetentionDays != null)
             {
-                if (RetentionDay == -1)
+                if (RetentionDays == -1)
                 {
                     //Disable metrics retention policy
                     serviceProperties.Metrics.RetentionDays = null;
                 }
-                else if (RetentionDay < 1 || RetentionDay > 365)
+                else if (RetentionDays < 1 || RetentionDays > 365)
                 {
-                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDay));
+                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDays));
                 }
                 else
                 {
-                    serviceProperties.Metrics.RetentionDays = RetentionDay;
+                    serviceProperties.Metrics.RetentionDays = RetentionDays;
                 }
             }
 
@@ -141,6 +141,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties = 
                 GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
+            //Keep logging unchanged
+            serviceProperties.Logging = null;
             UpdateServiceProperties(serviceProperties);
             SetStorageServiceProperties(account, Type, serviceProperties);
 
