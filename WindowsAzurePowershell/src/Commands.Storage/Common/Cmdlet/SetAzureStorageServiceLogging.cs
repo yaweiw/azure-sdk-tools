@@ -39,12 +39,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
         [Parameter(HelpMessage = "Logging retention days. -1 means disable Logging retention policy, otherwise enable.")]
         [ValidateRange(-1, 365)]
-        public int? RetentionDay { get; set; }
+        public int? RetentionDays { get; set; }
 
         public const string LoggingOperationHelpMessage =
             "Logging operations. (All, None, combinations of Read, Write, delete that are seperated by semicolon.)";
         [Parameter(HelpMessage = LoggingOperationHelpMessage)]
-        public string LoggingOperation { get; set; }
+        public string LoggingOperations { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
@@ -60,26 +60,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 serviceProperties.Logging.Version = Version.ToString();
             }
 
-            if (RetentionDay != null)
+            if (RetentionDays != null)
             {
-                if (RetentionDay == -1)
+                if (RetentionDays == -1)
                 {
                     //Disable logging retention policy
                     serviceProperties.Logging.RetentionDays = null;
                 }
-                else if (RetentionDay < 1 || RetentionDay > 365)
+                else if (RetentionDays < 1 || RetentionDays > 365)
                 {
-                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDay));
+                    throw new ArgumentException(string.Format(Resources.InvalidRetentionDay, RetentionDays));
                 }
                 else
                 {
-                    serviceProperties.Logging.RetentionDays = RetentionDay;
+                    serviceProperties.Logging.RetentionDays = RetentionDays;
                 }
             }
 
-            if (LoggingOperation != null)
+            if (LoggingOperations != null)
             {
-                LoggingOperations logOperations = GetLoggingOperations(LoggingOperation);
+                LoggingOperations logOperations = GetLoggingOperations(LoggingOperations);
                 serviceProperties.Logging.LoggingOperations = logOperations;
                 //Set default logging version
                 if (string.IsNullOrEmpty(serviceProperties.Logging.Version))
@@ -169,6 +169,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties =
                 GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
+            //Keep metrics unchanged
+            serviceProperties.Metrics = null;
             UpdateServiceProperties(serviceProperties);
             SetStorageServiceProperties(account, Type, serviceProperties);
 
