@@ -221,6 +221,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
