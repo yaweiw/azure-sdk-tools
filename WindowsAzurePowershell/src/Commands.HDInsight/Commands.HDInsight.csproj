@@ -42,7 +42,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisLogFile>bin\x64\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\x64\Debug\Microsoft.WindowsAzure.Commands.HDInsight.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -54,13 +54,13 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  <!--<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Management.SqlDatabase.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Commands.HDInsight.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -71,7 +71,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+  </PropertyGroup>-->
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
@@ -84,7 +84,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Management.SqlDatabase.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Commands.HDInsight.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -100,7 +100,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Management.SqlDatabase.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Microsoft.WindowsAzure.Commands.HDInsight.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -203,33 +203,17 @@
     <Compile Include="GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterCommand.cs" />
     <Compile Include="GetAzureHDInsightClusters\AzureHDInsightClusterCommand.cs" />
     <Compile Include="GetAzureHDInsightClusters\AzureHDInsightClusterCommandBase.cs" />
-    <Compile Include="GetAzureHDInsightClusters\Extensions\CollectionExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="GetAzureHDInsightClusters\Extensions\ExceptionExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\CollectionExtensions.cs"/>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\ExceptionExtensions.cs"/>
     <Compile Include="GetAzureHDInsightClusters\Extensions\Help.cs" />
     <Compile Include="GetAzureHDInsightClusters\Extensions\NullLogWriter.cs" />
-    <Compile Include="GetAzureHDInsightClusters\Extensions\ObjectExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\ObjectExtensions.cs"/>
     <Compile Include="GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterManagementClientFactory.cs" />
-    <Compile Include="GetAzureHDInsightClusters\Extensions\QueueExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="GetAzureHDInsightClusters\Extensions\StackExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="GetAzureHDInsightClusters\Extensions\StringExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="GetAzureHDInsightClusters\Extensions\TaskExtensions.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="GetAzureHDInsightClusters\Extensions\ValidatedNotNullAttribute.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\QueueExtensions.cs"/>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\StackExtensions.cs"/>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\StringExtensions.cs"/>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\TaskExtensions.cs"/>
+    <Compile Include="GetAzureHDInsightClusters\Extensions\ValidatedNotNullAttribute.cs"/>
     <Compile Include="GetAzureHDInsightClusters\AzureHDInsightClientFactory.cs" />
     <Compile Include="GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightCommand.cs" />
     <Compile Include="GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterCommandBase.cs" />

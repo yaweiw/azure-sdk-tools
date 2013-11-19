@@ -20,7 +20,24 @@
             <Component Id="cmp74B628408AF89B5A884C6E96378E2003" Guid="9336C069-FD74-4FC7-8370-5DBC6CFEE6B1">
                 <File Id="fil0DFC655926D7C6BB7BF2F5037C9D7D5D" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
             </Component>
-            <Component Id="cmp8D69129D038708BB47E22C1AC05EBAB0" Guid="30C20AFD-3C37-4636-A2F8-44BFA83F1C8B">
+
+          <Component Id="cmp244206F119F04EAA89C07BB5639B9152" Guid="0406415B-B1B1-4A4F-B35B-01391EBB8374">
+            <File Id="fil9F659070A1BC43A1AB56DD6313CDB2A2" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.HDInsight.Threading.dll" />
+          </Component>
+          <Component Id="cmpAF45E7CCAC044BBBAAC157D52D3E529E" Guid="314049C9-3DC4-42AE-9E37-92F04A42BDA0">
+            <File Id="filC44A1D101D1944A0969096AD72DFBDA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Hadoop.Client.dll" />
+          </Component>
+          <Component Id="cmpD86881F1CF624B609F3FE183A3CA9252" Guid="59838D79-0753-4044-87C9-3D5B8F5490B5">
+            <File Id="filB6D019D64CA341E0B620FB229594911C" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll" />
+          </Component>
+          <Component Id="cmp52967C0ABEB84FD0B7DE1A8D66ED629C" Guid="22ECCDE8-A7E7-4562-A0B8-65790906FAAB">
+            <File Id="fil421DCD52AFF24EEDB370952D0AEDAD3C" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.HDInsight.dll" />
+          </Component>
+          <Component Id="cmp10EFCD414F834319BE099FDD11274265" Guid="D1946506-6740-44D6-8643-132C801F9486">
+            <File Id="filCA9A888B876F4113B8D901AA9D8B6391" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll" />
+          </Component>
+
+          <Component Id="cmp8D69129D038708BB47E22C1AC05EBAB0" Guid="30C20AFD-3C37-4636-A2F8-44BFA83F1C8B">
                 <Class Id="{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}" Context="InprocServer32" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" />
                 </Class>
@@ -159,6 +176,9 @@
             </Component>
             <Component Id="cmp47AD74929DE26AE91BCBE4FAF6BDD83F" Guid="CB7018E9-D84F-4BF8-BAD8-BB5AFD07DB82">
                 <File Id="fil3FFB6C88AEBB2BD2F1A11352BE435CFB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.Utilities.dll" />
+            </Component>
+            <Component Id="cmpB1ED0C06C69C4B649BC2EFAB66959926" Guid="B1ED0C06-C69C-4B64-9BC2-EFAB66959926">
+                <File Id="fil686A4B36FA984BA2B8221D2ACE4301FF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.HDInsight.dll" />
             </Component>
             <Component Id="cmp21C9E7BE02005FCC0A1E535762E799AE" Guid="24CD0947-BC09-4F04-9D04-68AD7AF7838E">
                 <File Id="filFC5D860539C0C2862F01BF3B7437B3AA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.Utilities.pdb" />
@@ -674,6 +694,12 @@
             <ComponentRef Id="cmp21B4D7613134B6E8FCAD158844C590B5" />
             <ComponentRef Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" />
             <ComponentRef Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" />
+            <ComponentRef Id="cmpB1ED0C06C69C4B649BC2EFAB66959926"/>
+            <ComponentRef Id="cmp244206F119F04EAA89C07BB5639B9152" />
+            <ComponentRef Id="cmpAF45E7CCAC044BBBAAC157D52D3E529E"/>
+            <ComponentRef Id="cmpD86881F1CF624B609F3FE183A3CA9252"/>
+            <ComponentRef Id="cmp52967C0ABEB84FD0B7DE1A8D66ED629C"/>
+            <ComponentRef Id="cmp10EFCD414F834319BE099FDD11274265"/>
         </ComponentGroup>
     </Fragment>
 </Include>
