@@ -14,32 +14,33 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using System.IO;
-    using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
 
-    public class ServicePathInfo
+    public class VisualStudioProjectPathInfo : CloudProjectPathInfo
     {
-        public string Definition { get; private set; }
-        public string CloudConfiguration { get; private set; }
-        public string LocalConfiguration { get; private set; }
-        public string Settings { get; private set; }
-        public string CloudPackage { get; private set; }
-        public string LocalPackage { get; private set; }
-        public string RootPath { get; private set; }
-
-        public ServicePathInfo(string rootPath)
+        public static bool IsVisualStudioProject(string rootPath)
         {
-            Validate.ValidateStringIsNullOrEmpty(rootPath, "service definition (*.csdef) file");
-            Validate.ValidatePathName(rootPath, Resources.InvalidRootNameMessage);
+            return Directory.GetFiles(
+                Directory.GetParent(rootPath).FullName,
+                "*.sln",
+                SearchOption.TopDirectoryOnly).Count() == 1;
+        }
 
-            RootPath = rootPath;
+        public VisualStudioProjectPathInfo(string rootPath)
+            : base(rootPath)
+        {
             Definition = Path.Combine(rootPath, Resources.ServiceDefinitionFileName);
             CloudConfiguration = Path.Combine(rootPath, Resources.CloudServiceConfigurationFileName);
             LocalConfiguration = Path.Combine(rootPath, Resources.LocalServiceConfigurationFileName);
             Settings = Path.Combine(rootPath, Resources.SettingsFileName);
             CloudPackage = Path.Combine(rootPath, Resources.CloudPackageFileName);
             LocalPackage = Path.Combine(rootPath, Resources.LocalPackageFileName);
+            RolesPath = Directory.GetParent(RootPath).FullName;
         }
     }
 }

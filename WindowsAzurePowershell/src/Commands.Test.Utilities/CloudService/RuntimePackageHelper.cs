@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
         /// <param name="version">The version of the runtime to be installed</param>
         /// <param name="overrideUrl">The value of the override url, if the user wants to opt out of the system</param>
         /// <returns>true if the settings were successfully changed</returns>
-        public static bool SetRoleRuntime(ServiceDefinition definition, string roleName, ServicePathInfo path, string version = null, string overrideUrl = null)
+        public static bool SetRoleRuntime(ServiceDefinition definition, string roleName, CloudProjectPathInfo path, string version = null, string overrideUrl = null)
         {
             bool changed = false;
             Variable[] environment = GetRoleRuntimeEnvironment(definition, roleName);

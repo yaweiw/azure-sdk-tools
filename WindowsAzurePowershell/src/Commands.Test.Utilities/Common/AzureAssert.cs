@@ -71,18 +71,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             Assert.IsTrue(File.Exists(actual.PackagePath));
         }
 
-        public static void AreEqualServicePathInfo(ServicePathInfo expected, ServicePathInfo actual)
+        public static void AreEqualServicePathInfo(CloudProjectPathInfo expected, CloudProjectPathInfo actual)
         {
             AreEqualServicePathInfo(expected.CloudConfiguration, expected.CloudPackage, expected.Definition, expected.LocalConfiguration,
                 expected.LocalPackage, expected.RootPath, expected.Settings, actual);
         }
 
-        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string rootPath, string settings, ServicePathInfo actual)
+        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string rootPath, string settings, CloudProjectPathInfo actual)
         {
             throw new NotImplementedException();
         }
 
-        public static void AreEqualServicePathInfo(string rootPath, ServicePathInfo actual)
+        public static void AreEqualServicePathInfo(string rootPath, CloudProjectPathInfo actual)
         {
             Assert.AreEqual<string>(rootPath, actual.RootPath);
             Assert.AreEqual<string>(Path.Combine(rootPath, Resources.ServiceDefinitionFileName), actual.Definition);
@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public static void AzureServiceExists(string serviceRootPath, string scaffoldFilePath, string serviceName, ServiceSettings settings = null, WebRoleInfo[] webRoles = null, WorkerRoleInfo[] workerRoles = null, string webScaff = null, string workerScaff = null, RoleInfo[] roles = null)
         {
-            ServiceComponents components = new ServiceComponents(new ServicePathInfo(serviceRootPath));
+            ServiceComponents components = new ServiceComponents(new PowerShellProjectPathInfo(serviceRootPath));
 
             ScaffoldingExists(serviceRootPath, scaffoldFilePath);
 

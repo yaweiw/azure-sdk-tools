@@ -215,6 +215,7 @@
     <Compile Include="CloudService\AzureTools\CsRun.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
+    <Compile Include="CloudService\CloudServicePathInfo.cs" />
     <Compile Include="CloudService\CloudServiceProject.cs" />
     <Compile Include="CloudService\CloudRuntime.cs" />
     <Compile Include="CloudService\CloudRuntimeApplicator.cs" />
@@ -237,9 +238,10 @@
     <Compile Include="CloudService\Parameters.cs" />
     <Compile Include="CloudService\RoleInfo.cs" />
     <Compile Include="CloudService\ServiceComponents.cs" />
-    <Compile Include="CloudService\ServicePathInfo.cs" />
+    <Compile Include="CloudService\PowerShellProjectPathInfo.cs" />
     <Compile Include="CloudService\ServiceSettings.cs" />
     <Compile Include="CloudService\SetSettings.cs" />
+    <Compile Include="CloudService\VisualStudioProjectPathInfo.cs" />
     <Compile Include="CloudService\WebRoleInfo.cs" />
     <Compile Include="CloudService\WorkerRoleInfo.cs" />
     <Compile Include="CloudService\Scaffolding\NodeRules.cs" />
