@@ -708,12 +708,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private static string FindServiceRootDirectory(string path)
         {
-            // Is the csdef file present in the folder
-            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
-
-            if (found)
+            if (Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1)
             {
                 return path;
+            }
+            else if (Directory.GetFiles(path, "*.sln").Length == 1)
+            {
+                foreach (string dirName in Directory.GetDirectories(path))
+                {
+                    if (Directory.GetFiles(dirName, Resources.ServiceDefinitionFileName).Length == 1)
+                    {
+                        return dirName;
+                    }
+                }
             }
 
             // Find the last slash
