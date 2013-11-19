@@ -194,8 +194,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BaseCommandInterfaces\IRemoveAzureHDInsightClusterBase.cs" />
     <Compile Include="Commands\CommandImplementations\GetAzureHDInsightPropertiesCommand.cs" />
+    <Compile Include="Commands\CommandImplementations\RemoveAzureHDInsightClusterCommand.cs" />
     <Compile Include="Commands\CommandInterfaces\IGetAzureHDInsightPropertiesCommand.cs" />
+    <Compile Include="Commands\CommandInterfaces\IRemoveAzureHDInsightClusterCommand.cs" />
     <Compile Include="DataObjects\AzureHDInsightCapabilities.cs" />
     <Compile Include="GetAzureHDInsightClusters\AzureHDInsightCommand.cs" />
     <Compile Include="GetAzureHDInsightClusters\AzureHDInsightCommandBase.cs" />
@@ -254,6 +257,7 @@
     <Compile Include="GetAzureHDInsightClusters\ServiceLocation\ServiceLocationRegistrarProxyFactory.cs" />
     <Compile Include="GetAzureHDInsightClusters\ServiceLocation\ServiceLocator.cs" />
     <Compile Include="PSCmdlets\GetAzureHDInsightPropertiesCmdlet.cs" />
+    <Compile Include="PSCmdlets\RemoveClusterHDInsightClusterCmdlet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands.HDInsight.dll-help.xml">

@@ -13,16 +13,21 @@
 // See the Apache Version 2.0 License for specific language governing
 // permissions and limitations under the License.
 
-namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
+namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
+    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces;
+    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
 
-    internal interface IAzureHDInsightCommandFactory
+    internal class RemoveAzureHDInsightClusterCommand : AzureHDInsightClusterCommandBase, IRemoveAzureHDInsightClusterCommand
     {
-        IGetAzureHDInsightClusterCommand CreateGet();
+        /// <inheritdoc />
+        public string Location { get; set; }
 
-        IGetAzureHDInsightPropertiesCommand CreateGetProperties();
-
-        IRemoveAzureHDInsightClusterCommand CreateDelete();
+        public override async Task EndProcessing()
+        {
+            IHDInsightClient client = this.GetClient();
+            await client.DeleteClusterAsync(this.Name);
+        }
     }
 }
