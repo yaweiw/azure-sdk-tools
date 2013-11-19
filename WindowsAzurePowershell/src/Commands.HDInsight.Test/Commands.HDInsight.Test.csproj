@@ -48,6 +48,11 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,24 +62,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -171,15 +161,9 @@
     <Compile Include="PowerShellTestAbstraction\Concretes\PipelineAbstraction.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\PipelineResultsAbstraction.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\RunspaceAbstraction.cs" />
-    <Compile Include="PowerShellTestAbstraction\Disposable\DisposableObject.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PowerShellTestAbstraction\Disposable\InterlockedBoolean.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PowerShellTestAbstraction\Disposable\IQueryDisposable.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="PowerShellTestAbstraction\Disposable\DisposableObject.cs" />
+    <Compile Include="PowerShellTestAbstraction\Disposable\InterlockedBoolean.cs" />
+    <Compile Include="PowerShellTestAbstraction\Disposable\IQueryDisposable.cs" />
     <Compile Include="PowerShellTestAbstraction\Interfaces\ICommand.cs" />
     <Compile Include="PowerShellTestAbstraction\Interfaces\IPipeline.cs" />
     <Compile Include="PowerShellTestAbstraction\Interfaces\IPipelineResult.cs" />
@@ -209,7 +193,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Commands.HDInsight\Commands.HDInsight.csproj">
       <Project>{43333c08-29f5-4948-a8c6-4f486331cdc9}</Project>
-      <Name>Microsoft.WindowsAzure.Management.HDInsight.Cmdlet</Name>
+      <Name>Commands.HDInsight</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
