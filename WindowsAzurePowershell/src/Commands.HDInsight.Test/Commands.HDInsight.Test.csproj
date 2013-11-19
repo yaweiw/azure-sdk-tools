@@ -155,8 +155,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CmdletAbstractionTests\AddHDInsightConfigValuesCommandTests.cs" />
     <Compile Include="CmdletAbstractionTests\HDInsightGetCommandTests.cs" />
     <Compile Include="CmdletAbstractionTests\HDInsightGetPropertiesCommandTests.cs" />
+    <Compile Include="CmdLetTests\AddConfigValuesCmdletTests.cs" />
     <Compile Include="CmdLetTests\GetCommandCmdletTests.cs" />
     <Compile Include="CmdLetTests\GetPropertiesCmdletTests.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\CommandAbstraction.cs" />
