@@ -40,10 +40,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
         }
 
         [TestMethod]
-        [TestCategory("Integration")]
         [TestCategory("CheckIn")]
-        [TestCategory("Rdfe")]
-        [TestCategory("GetAzureHDInsightClusterCommand")]
         public void ICanPerform_GetClusters_HDInsightGetCommand()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -57,10 +54,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
         }
 
         [TestMethod]
-        [TestCategory("Integration")]
         [TestCategory("CheckIn")]
-        [TestCategory("Rdfe")]
-        [TestCategory("GetAzureHDInsightClusterCommand")]
         public void ICanPerform_GetClusters_HDInsightGetCommand_DnsName()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -75,10 +69,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
         }
 
         [TestMethod]
-        [TestCategory("Integration")]
         [TestCategory("CheckIn")]
-        [TestCategory("Rdfe")]
-        [TestCategory("GetAzureHDInsightClusterCommand")]
         public void ICanPerform_GetClusters_HDInsightGetCommand_InvalidDnsName()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();

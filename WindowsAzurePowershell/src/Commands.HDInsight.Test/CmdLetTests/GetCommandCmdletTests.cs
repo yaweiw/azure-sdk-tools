@@ -36,12 +36,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
             base.TestCleanup();
         }
 
-
         [TestMethod]
         [TestCategory("CheckIn")]
-        [TestCategory("Integration")]
-        [TestCategory("PowerShell")]
-        [TestCategory("Scenario")]
         public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -60,9 +56,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        [TestCategory("Integration")]
-        [TestCategory("PowerShell")]
-        [TestCategory("Scenario")]
         public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet_WithADnsName()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -81,9 +74,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        [TestCategory("Integration")]
-        [TestCategory("PowerShell")]
-        [TestCategory("Scenario")]
         public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet_WithDebug()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -109,9 +99,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        [TestCategory("Integration")]
-        [TestCategory("PowerShell")]
-        [TestCategory("Scenario")]
         public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet_WithoutCertificate()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
@@ -130,9 +117,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        [TestCategory("Integration")]
-        [TestCategory("PowerShell")]
-        [TestCategory("Scenario")]
         public void ICannotCallThe_Get_ClusterHDInsightClusterCmdlet_WithNonExistantCluster()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();
