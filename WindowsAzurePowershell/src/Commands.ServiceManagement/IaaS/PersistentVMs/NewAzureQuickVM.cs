@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Waits for VM to boot")]
+        [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter WaitForBoot
         {
@@ -253,6 +253,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        public virtual string ReservedIPName
+        {
+            get;
+            set;
+        }
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -369,7 +375,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Name = this.ServiceName,
                         Label = this.ServiceName,
                         VirtualNetworkName = this.VNetName,
-                        Roles = {vm}
+                        Roles = {vm},
+                        ReservedIPName = ReservedIPName
                     };
 
                     if (this.DnsSettings != null)
