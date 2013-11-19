@@ -34,6 +34,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "Specify to remove the data disk and the underlying disk blob.")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
             var dataDisks = GetDataDisks();

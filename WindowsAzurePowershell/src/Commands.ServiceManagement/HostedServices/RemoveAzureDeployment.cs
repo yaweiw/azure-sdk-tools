@@ -44,7 +44,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(HelpMessage = "Do not confirm deletion of deployment")]
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Specify to remove the deployment and the underlying disk blob(s).")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, Mandatory = false, HelpMessage = "Do not confirm deletion of deployment")]
         public SwitchParameter Force
         {
             get;
@@ -57,10 +64,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             
             var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
+            if (DeleteVHD.IsPresent)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        var deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
+                        return this.ComputeClient.Deployments.DeleteByName(this.ServiceName, deploymentGetResponse.Name, true);
+                    });
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
+            }
         }
 
         protected override void OnProcessRecord()
