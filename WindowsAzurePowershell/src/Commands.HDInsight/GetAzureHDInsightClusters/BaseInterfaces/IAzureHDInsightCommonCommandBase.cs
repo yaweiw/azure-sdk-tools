@@ -22,8 +22,28 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
     internal interface IAzureHDInsightCommonCommandBase
     {
         /// <summary>
+        ///     Gets or sets the certificate File to be used.
+        /// </summary>
+        X509Certificate2 Certificate { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the cloud service name to use (if provided).
+        /// </summary>
+        string CloudServiceName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the EndPoint URI to use (if provided).
+        /// </summary>
+        Uri EndPoint { get; set; }
+
+        /// <summary>
         ///     Gets or sets a logger to write log messages to.
         /// </summary>
         ILogWriter Logger { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Azure Subscription to be used.
+        /// </summary>
+        string Subscription { get; set; }
     }
 }

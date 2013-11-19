@@ -117,6 +117,55 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
+        public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet_WithSubscriptionId()
+        {
+            IHDInsightCertificateCredential creds = GetValidCredentials();
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                IPipelineResult results =
+                    runspace.NewPipeline()
+                            .AddCommand(CmdletConstants.GetAzureHDInsightCluster)
+                            .WithParameter(CmdletConstants.Subscription, IntegrationTestBase.TestCredentials.SubscriptionId)
+                            .Invoke();
+                IEnumerable<AzureHDInsightCluster> clusters = results.Results.ToEnumerable<AzureHDInsightCluster>();
+                AzureHDInsightCluster wellKnownCluster = clusters.FirstOrDefault(cluster => cluster.Name == TestCredentials.WellKnownCluster.DnsName);
+                Assert.IsNotNull(wellKnownCluster);
+                ValidateGetCluster(wellKnownCluster);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void ICanCallThe_Get_ClusterHDInsightClusterCmdlet_WithInvalidSubscriptionId()
+        {
+            IHDInsightCertificateCredential creds = GetValidCredentials();
+            var invalidSubscriptionId = Guid.NewGuid().ToString();
+            var expectedErrorMessage =
+                string.Format(
+                    "Failed to retrieve Certificate for the subscription '{0}'.Please use Select-AzureSubscription -Current to select a subscription.",
+                    invalidSubscriptionId);
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                try
+                {
+                    IPipelineResult results =
+                runspace.NewPipeline()
+                        .AddCommand(CmdletConstants.GetAzureHDInsightCluster)
+                        .WithParameter(CmdletConstants.Subscription, invalidSubscriptionId)
+                        .Invoke();
+                    Assert.Fail("Test should have failed.");
+                }
+                catch (CmdletInvocationException cmdException)
+                {
+                    var innerException = cmdException.GetBaseException();
+                    Assert.IsInstanceOfType(innerException, typeof(ArgumentException));
+                    Assert.AreEqual(expectedErrorMessage, innerException.Message);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
         public void ICannotCallThe_Get_ClusterHDInsightClusterCmdlet_WithNonExistantCluster()
         {
             IHDInsightCertificateCredential creds = GetValidCredentials();

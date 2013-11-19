@@ -13,6 +13,8 @@
 // See the Apache Version 2.0 License for specific language governing
 // permissions and limitations under the License.
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
     using System;
@@ -45,6 +47,34 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         }
 
         /// <inheritdoc />
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "The management certificate used to manage the Azure subscription.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        [Alias(AzureHdInsightPowerShellConstants.AliasCert)]
+        public X509Certificate2 Certificate
+        {
+            get { return this.command.Certificate; }
+            set { this.command.Certificate = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 4, Mandatory = false, HelpMessage = "The CloudServiceName to use when managing the HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        public string CloudServiceName
+        {
+            get { return this.command.CloudServiceName; }
+            set { this.command.CloudServiceName = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 3, Mandatory = false, HelpMessage = "The Endpoint to use when connecting to Azure.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        public Uri EndPoint
+        {
+            get { return this.command.EndPoint; }
+            set { this.command.EndPoint = value; }
+        }
+
+        /// <inheritdoc />
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "The name of the HDInsight cluster to locate.", ValueFromPipeline = true,
             ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
         [Alias(AzureHdInsightPowerShellConstants.AliasClusterName, AzureHdInsightPowerShellConstants.AliasDnsName)]
@@ -54,6 +84,16 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             set { this.command.Name = value; }
         }
 
+        /// <inheritdoc />
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "The subscription id for the Azure subscription.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        [Alias(AzureHdInsightPowerShellConstants.AliasSub)]
+        public string Subscription
+        {
+            get { return this.command.Subscription; }
+            set { this.command.Subscription = value; }
+        }
+
         /// <summary>
         ///     Finishes the execution of the cmdlet by listing the clusters.
         /// </summary>
@@ -61,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             try
             {
-                this.command.CurrentSubscription = this.CurrentSubscription;
+                this.command.CurrentSubscription = this.GetCurrentSubscription(this.Subscription, this.Certificate);
                 this.command.Logger = this.Logger;
                 Task task = this.command.EndProcessing();
                 CancellationToken token = this.command.CancellationToken;
