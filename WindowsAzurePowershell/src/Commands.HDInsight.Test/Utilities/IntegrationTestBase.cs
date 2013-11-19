@@ -14,6 +14,7 @@
 // permissions and limitations under the License.
 
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Management.HDInsight.Test.Simulators;
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
 {
@@ -66,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
         {
             return new WindowsAzureSubscription()
             {
-                Certificate = new X509Certificate2(IntegrationTestBase.TestCredentials.Certificate),
+                Certificate = new X509Certificate2(Convert.FromBase64String(TestCredentials.Certificate), string.Empty),
                 SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString()
             };
         }
@@ -133,6 +134,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
 
             var cmdletRunManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
             cmdletRunManager.RegisterType<IBufferingLogWriterFactory, BufferingLogWriterFactory>();
+            cmdletRunManager.RegisterType<IAzureHDInsightSubscriptionResolverFactory, AzureHDInsightSubscriptionResolverSimulatorFactory>();
             cmdletRunManager.RegisterType<IAzureHDInsightClusterManagementClientFactory, AzureHDInsightClusterManagementClientSimulatorFactory>();
             var testManager = new IntegrationTestManager();
             if (!testManager.RunAzureTests())
@@ -146,7 +148,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
             }
 
             // Sets the certificate
-            var defaultCertificate = new X509Certificate2(TestCredentials.Certificate);
+            var defaultCertificate = new X509Certificate2(
+                    Convert.FromBase64String(TestCredentials.Certificate), string.Empty);
             // Sets the test static properties
             ClusterPrefix = string.Format("CLITest-{0}", Environment.GetEnvironmentVariable("computername") ?? "unknown");
 

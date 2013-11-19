@@ -102,11 +102,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
         public void CanGetSubscriptionsCertificateCredentialFromCurrentSubscription()
         {
             var getClustersCommand = new GetAzureHDInsightClusterCommand();
-            var waSubscription = new WindowsAzureSubscription()
-                {
-                    Certificate = new X509Certificate2(IntegrationTestBase.TestCredentials.Certificate),
-                    SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString()
-                };
+            var waSubscription = GetCurrentSubscription();
             var subscriptionCreds = getClustersCommand.GetSubscriptionCredentials(waSubscription);
 
             Assert.IsInstanceOfType(subscriptionCreds, typeof(HDInsightCertificateCredential));
@@ -114,7 +110,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
             Assert.AreEqual(waSubscription.SubscriptionId, asCertificateCreds.SubscriptionId.ToString());
             Assert.AreEqual(waSubscription.Certificate, asCertificateCreds.Certificate);
         }
-
 
         [TestMethod]
         [TestCategory("CheckIn")]

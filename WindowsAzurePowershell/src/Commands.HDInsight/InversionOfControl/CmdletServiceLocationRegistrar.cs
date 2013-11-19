@@ -41,6 +41,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet
             manager.RegisterType<IAzureHDInsightCommandFactory, AzureHDInsightCommandFactory>();
             manager.RegisterType<IBufferingLogWriterFactory, PowershellLogWriterFactory>();
             manager.RegisterType<IAzureHDInsightClusterManagementClientFactory, AzureHDInsightClusterManagementClientFactory>();
+            manager.RegisterType<IAzureHDInsightSubscriptionResolverFactory, AzureHDInsightSubscriptionResolverFactory>();
         }
     }
 }

@@ -13,11 +13,15 @@
 // See the Apache Version 2.0 License for specific language governing
 // permissions and limitations under the License.
 
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using System.Text;
     using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
@@ -104,6 +108,37 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 {
                     this.WriteDebug(line);
                 }
+            }
+        }
+
+        protected WindowsAzureSubscription GetCurrentSubscription(string Subscription, X509Certificate2 certificate)
+        {
+            if (Subscription.IsNullOrEmpty())
+            {
+                return this.CurrentSubscription;
+            }
+            else
+            {
+                this.WriteWarning("The -Subscription parameter is deprecated, Please use Select-AzureSubscription -Current to select a subscription to use.");
+                var subscriptionResolver =
+                    ServiceLocator.Instance.Locate<IAzureHDInsightSubscriptionResolverFactory>().Create(this.Profile);
+                var resolvedSubscription = subscriptionResolver.ResolveSubscription(Subscription);
+                if (certificate.IsNotNull() && resolvedSubscription.Certificate.Thumbprint != certificate.Thumbprint)
+                {
+                    resolvedSubscription.Certificate = certificate;
+                }
+
+                if (resolvedSubscription.IsNull())
+                {
+                    throw new ArgumentException(
+                         string.Format(
+                             CultureInfo.InvariantCulture,
+                             "Failed to retrieve Certificate for the subscription '{0}'." +
+                             "Please use Select-AzureSubscription -Current to select a subscription.",
+                             Subscription));
+                }
+
+                return resolvedSubscription;
             }
         }
     }
