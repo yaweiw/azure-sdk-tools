@@ -12571,7 +12571,7 @@
       <command:syntaxItem>
         <maml:name>Remove-WAPackVM</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
-          <maml:name>VirtualMachine</maml:name>
+          <maml:name>VM</maml:name>
           <maml:description>
             <maml:para>The VirtualMachine object</maml:para>
           </maml:description>
@@ -12595,7 +12595,7 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
-        <maml:name>VirtualMachine</maml:name>
+        <maml:name>VM</maml:name>
         <maml:description>
           <maml:para>The VirtualMachine object</maml:para>
         </maml:description>
@@ -12660,7 +12660,7 @@
         </maml:introduction>
         <dev:code>PS C:\&gt; Remove-WAPackVM -VM $vm</dev:code>
         <dev:remarks>
-          <maml:para>Deletes a VirtualMachine. Will ask the user for confirmation.</maml:para>
+          <maml:para>Removes a VirtualMachine. Will ask the user for confirmation.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
