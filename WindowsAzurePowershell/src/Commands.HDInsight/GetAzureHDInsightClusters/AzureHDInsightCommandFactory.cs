@@ -25,5 +25,10 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
         {
             return Help.SafeCreate<GetAzureHDInsightClusterCommand>();
         }
+
+        public IGetAzureHDInsightPropertiesCommand CreateGetProperties()
+        {
+            return Help.SafeCreate<GetAzureHDInsightPropertiesCommand>();
+        }
     }
 }
