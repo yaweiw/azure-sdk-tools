@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             this.PowerShell.AddScript("Get-AzureSubscription | Remove-AzureSubscription -Force").InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();
 
-            var publishSettingsPath = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Commands.WAPackIaaS.FunctionalTest\\Artifacts\\TestConfig.publishsettings"));
+            var publishSettingsPath = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Commands.ScenarioTest\\Artifacts\\WAPackTestConfig.publishsettings"));
             this.PowerShell.AddCommand("Import-AzurePublishSettingsFile").AddArgument(publishSettingsPath).InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();
         }

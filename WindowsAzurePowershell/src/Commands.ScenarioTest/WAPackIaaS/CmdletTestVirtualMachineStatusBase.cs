@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

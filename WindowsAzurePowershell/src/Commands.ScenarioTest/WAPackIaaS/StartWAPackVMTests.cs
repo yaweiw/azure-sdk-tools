@@ -12,33 +12,40 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [TestClass]
-    public class ResumeWAPackVMTests : CmdletTestVirtualMachineStatusBase
+    public class StartWAPackVMTests : CmdletTestVirtualMachineStatusBase
     {
         [TestMethod]
         [TestCategory("WAPackIaaS")]
-        public void ShouldResumeFromSuspended()
+        public void ShouldStartVmFromStop()
+        {
+            var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Stop");
+            Assert.AreEqual("Stopped", initialVm.Properties["StatusString"].Value);
+
+            var startedVm = this.SetVirtualMachineState(initialVm, "Start");
+            Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
+        }
+
+        [TestMethod]
+        [TestCategory("WAPackIaaS")]
+        public void ShouldStartVmAlreadyStarted()
         {
             var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Start");
             Assert.AreEqual("Running", initialVm.Properties["StatusString"].Value);
 
-            var suspendVm = this.SetVirtualMachineState(this.VirtualMachine, "Suspend");
-            Assert.AreEqual("Paused", suspendVm.Properties["StatusString"].Value);
-
-            var resumeVm = this.SetVirtualMachineState(suspendVm, "Resume");
-            Assert.AreEqual("Running", resumeVm.Properties["StatusString"].Value);
+            var startedVm = this.SetVirtualMachineState(initialVm, "Start");
+            Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS")]
         [TestCategory("Negative")]
-        public void ResumeVmThatNoLongerExistsFails()
+        public void StartVmThatNoLongerExistsFails()
         {
             var vm = VirtualMachine;
             var vmId = vm.Properties["ID"].Value;
@@ -48,42 +55,25 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Resume-WAPackVM").AddParameter("VM", vm);
-            PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Resume, vmId));
+            PowerShell.AddCommand("Start-WAPackVM").AddParameter("VM", vm);
+            PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Start, vmId));
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS")]
-        public void ShouldBeAbleToGetAndResumeAVmUsingPipeline()
+        public void ShouldBeAbleToGetAndStartAVmUsingPipeline()
         {
             var vm = VirtualMachine;
-            var initialVm = this.SetVirtualMachineState(vm, "Start");
-            Assert.AreEqual("Running", initialVm.Properties["StatusString"].Value);
-
-            var suspendedVm = this.SetVirtualMachineState(initialVm, "Suspend");
-            Assert.AreEqual("Paused", suspendedVm.Properties["StatusString"].Value);
+            var stoppedVm = this.SetVirtualMachineState(vm, "Stop");
+            Assert.AreEqual("Stopped", stoppedVm.Properties["StatusString"].Value);
 
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Get-WAPackVM")
-                .AddParameter("Id", suspendedVm.Properties["Id"].Value)
-                .AddCommand("Resume-WAPackVM");
+                .AddParameter("Id", stoppedVm.Properties["Id"].Value)
+                .AddCommand("Start-WAPackVM");
 
             var startedVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual("Running", startedVm[0].Properties["StatusString"].Value);
-        }
-
-        [TestMethod]
-        [TestCategory("WAPackIaaS")]
-        [TestCategory("Negative")]
-        public void ResumeFromStoppedFails()
-        {
-            var vm = VirtualMachine;
-            var initialVm = this.SetVirtualMachineState(vm, "Stop");
-            Assert.AreEqual("Stopped", initialVm.Properties["StatusString"].Value);
-
-            this.SetVirtualMachineState(initialVm, "Resume");
-            var errorMsg = PowerShell.GetPowershellErrorMessage();
-            Assert.IsTrue(errorMsg.Contains("Error: 1730"), errorMsg);
         }
     }
 }
