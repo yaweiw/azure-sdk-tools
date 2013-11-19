@@ -20,5 +20,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
     internal interface IAzureHDInsightCommandFactory
     {
         IGetAzureHDInsightClusterCommand CreateGet();
+
+        IGetAzureHDInsightPropertiesCommand CreateGetProperties();
     }
 }

@@ -156,7 +156,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CmdletAbstractionTests\HDInsightGetCommandTests.cs" />
+    <Compile Include="CmdletAbstractionTests\HDInsightGetPropertiesCommandTests.cs" />
     <Compile Include="CmdLetTests\GetCommandCmdletTests.cs" />
+    <Compile Include="CmdLetTests\GetPropertiesCmdletTests.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\CommandAbstraction.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\PipelineAbstraction.cs" />
     <Compile Include="PowerShellTestAbstraction\Concretes\PipelineResultsAbstraction.cs" />
