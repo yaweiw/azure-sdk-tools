@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Test.Operations
+namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 {
     using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
