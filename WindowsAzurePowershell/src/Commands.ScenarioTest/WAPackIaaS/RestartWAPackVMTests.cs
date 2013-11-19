@@ -75,6 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             ps.Commands.Clear();
             ps.AddCommand("Restart-WAPackVM");
             ps.AddParameter("VM", vm);
+            ps.AddParameter("PassThru");
             ps.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Restart, vm.Properties["ID"].Value));
         }
     }

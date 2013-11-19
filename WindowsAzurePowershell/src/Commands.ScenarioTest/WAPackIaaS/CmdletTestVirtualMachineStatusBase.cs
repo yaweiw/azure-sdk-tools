@@ -28,15 +28,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             get { return WAPackConfigurationFactory.VMSizeProfileName; }
         }
 
-        private PSObject virtualMachine;
-
         protected virtual PSObject VirtualMachine
         {
             get
             {
-                if (virtualMachine != null)
-                    return virtualMachine;
-
                 var commandBackup = PowerShell.Commands.Clone();
 
                 try
@@ -48,8 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
                     if (vm.Count > 0)
                     {
-                        virtualMachine = vm[0];
-                        return virtualMachine;
+                        return vm[0];
                     }
 
                     PowerShell.AddCommand("Get-WAPackVMOSDisk");
@@ -72,8 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     this.PowerShell.Commands.Clear();
 
                     Assert.AreEqual(1, createdVm.Count);
-                    virtualMachine = createdVm[0];
-                    return virtualMachine;
+                    return createdVm[0];
                 }
                 finally
                 {
@@ -86,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             PowerShell.Commands.Clear();
             PowerShell.Streams.ClearStreams();
-            PowerShell.AddCommand(string.Format("{0}-WAPackVM", state)).AddParameter("VM", vm);
+            PowerShell.AddCommand(string.Format("{0}-WAPackVM", state)).AddParameter("VM", vm).AddParameter("PassThru"); ;
             var updatedVm = PowerShell.Invoke();
             return updatedVm[0];
         }

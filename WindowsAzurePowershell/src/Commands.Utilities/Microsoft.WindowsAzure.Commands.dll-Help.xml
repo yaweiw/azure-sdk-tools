@@ -13458,6 +13458,13 @@ PS C:\&gt; Start-WAPackVM -VM $vm
           </maml:description>
           <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="2">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -13474,6 +13481,13 @@ PS C:\&gt; Start-WAPackVM -VM $vm
           <maml:para>The virtual machine size profile.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">VMSizeProfileObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="2">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>

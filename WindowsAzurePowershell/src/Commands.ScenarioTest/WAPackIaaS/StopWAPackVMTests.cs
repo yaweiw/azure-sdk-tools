@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             // access to the service on the OS that allows us to shut down the vm
             Thread.Sleep(50000);
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("Shutdown").AddParameter("VM", startedVm);
+            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("Shutdown").AddParameter("VM", startedVm).AddParameter("PassThru");
             var shutdownVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual(1, shutdownVm.Count);
             Assert.AreEqual("Stopped", shutdownVm[0].Properties["StatusString"].Value);
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm);
+            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm).AddParameter("PassThru");
             PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Stop, vmId));
         }
 
@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Get-WAPackVM")
                 .AddParameter("Id", startedVm.Properties["Id"].Value)
-                .AddCommand("Stop-WAPackVM");
+                .AddCommand("Stop-WAPackVM").AddParameter("PassThru");
 
             var stoppedVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual("Stopped", stoppedVm[0].Properties["StatusString"].Value);
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm).AddParameter("Shutdown");
+            PowerShell.AddCommand("Stop-WAPackVM").AddParameter("VM", vm).AddParameter("Shutdown").AddParameter("PassThru");
             PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Shutdown, vmId));
         }
     }

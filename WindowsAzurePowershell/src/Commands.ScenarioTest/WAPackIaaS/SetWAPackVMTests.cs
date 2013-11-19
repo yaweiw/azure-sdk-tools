@@ -59,6 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             ps.Commands.AddCommand("Set-WAPackVM");
             ps.AddParameter("VM", vm);
             ps.AddParameter("VMSizeProfile", newProfile);
+            ps.AddParameter("PassThru");
             var updatedVMList = ps.InvokeAndAssertForNoErrors();
             Assert.AreEqual(1, updatedVMList.Count);
 
@@ -94,6 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             ps.Commands.AddCommand("Set-WAPackVM");
             ps.AddParameter("VM", vm);
             ps.AddParameter("VMSizeProfile", sizeProfileList[0]);
+            ps.AddParameter("PassThru");
 
             var expectedError = string.Format(Resources.ResourceNotFound, vm.Properties["ID"].Value);
             var updatedVMList = ps.InvokeAndAssertForErrors(expectedError);
