@@ -95,10 +95,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("Negative")]
         public void RemoveVMDoesNotExist()
         {
-            this.VirtualMachine.Properties["Id"].Value = Guid.NewGuid();
+            var vm = this.VirtualMachine;
+            vm.Properties["Id"].Value = Guid.NewGuid();
             var inputParams = new Dictionary<string, object>()
             {
-                {"VM", this.VirtualMachine},
+                {"VM", vm},
                 {"Force", null}
             };
 

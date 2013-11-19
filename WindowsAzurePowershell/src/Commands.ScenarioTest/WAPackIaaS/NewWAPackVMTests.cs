@@ -174,7 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", vmNameToCreate},
                 {"OSDisk", osDisk.First()},
-                {"Name", vmSizeProfile.First()},
+                {"VMSizeProfile", vmSizeProfile.First()},
             };
             var actualCreatedVM = this.InvokeCmdlet(cmdletName, inputParams);
 
@@ -336,7 +336,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 var inputParams = new Dictionary<string, object>()
                 {
-                    {"VM", WAPackConfigurationFactory.Win7_64TemplateName},
+                    {"VM", vm},
                     {"Force", null}
                 };
 

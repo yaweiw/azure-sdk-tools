@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsCommon.New, "WAPackQuickVM")]
     public class NewWAPackQuickVM : IaaSCmdletBase
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "VirtualMachine Name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "VirtualMachine Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {

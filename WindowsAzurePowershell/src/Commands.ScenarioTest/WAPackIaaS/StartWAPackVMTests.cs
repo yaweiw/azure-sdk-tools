@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Start-WAPackVM").AddParameter("VM", vm);
+            PowerShell.AddCommand("Start-WAPackVM").AddParameter("VM", vm).AddParameter("PassThru");
             PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Start, vmId));
         }
 
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Get-WAPackVM")
                 .AddParameter("Id", stoppedVm.Properties["Id"].Value)
-                .AddCommand("Start-WAPackVM");
+                .AddCommand("Start-WAPackVM").AddParameter("PassThru");
 
             var startedVm = PowerShell.InvokeAndAssertForNoErrors();
             Assert.AreEqual("Running", startedVm[0].Properties["StatusString"].Value);
