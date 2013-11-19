@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void ServicePathInfoTest()
         {
-            ServicePathInfo paths = new ServicePathInfo("MyService");
+            PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo("MyService");
             AzureAssert.AreEqualServicePathInfo("MyService", paths);
         }
 
@@ -35,13 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             try
             {
-                ServicePathInfo paths = new ServicePathInfo(string.Empty);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(string.Empty);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "rootPath"), ex.Message);
             }
         }
 
@@ -50,13 +50,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             try
             {
-                ServicePathInfo paths = new ServicePathInfo(null);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(null);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "rootPath"), ex.Message);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             {
                 try
                 {
-                    ServicePathInfo paths = new ServicePathInfo(invalidDirectoryName);
+                    PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(invalidDirectoryName);
                     Assert.Fail("No exception was thrown");
                 }
                 catch (Exception ex)
