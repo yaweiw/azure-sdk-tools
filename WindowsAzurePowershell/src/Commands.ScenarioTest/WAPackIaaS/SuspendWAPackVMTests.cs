@@ -12,40 +12,37 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [TestClass]
-    public class StartWAPackVMTests : CmdletTestVirtualMachineStatusBase
+    public class SuspendWAPackVMTests : CmdletTestVirtualMachineStatusBase
     {
-        [TestMethod]
-        [TestCategory("WAPackIaaS")]
-        public void ShouldStartVmFromStop()
+        [TestCleanup]
+        public void Cleanup()
         {
-            var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Stop");
-            Assert.AreEqual("Stopped", initialVm.Properties["StatusString"].Value);
-
-            var startedVm = this.SetVirtualMachineState(initialVm, "Start");
-            Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
+            var vm = VirtualMachine;
+            if(vm.Properties["StatusString"].Value.ToString() == "Paused")
+                this.SetVirtualMachineState(vm, "Resume");
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS")]
-        public void ShouldStartVmAlreadyStarted()
+        public void ShouldSuspendExistingVm()
         {
-            var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Start");
-            Assert.AreEqual("Running", initialVm.Properties["StatusString"].Value);
-
-            var startedVm = this.SetVirtualMachineState(initialVm, "Start");
+            var vm = VirtualMachine;
+            var startedVm = this.SetVirtualMachineState(vm, "Start");
             Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
+            var suspendedVm = this.SetVirtualMachineState(startedVm, "Suspend");
+            Assert.AreEqual("Paused", suspendedVm.Properties["StatusString"].Value);
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS")]
         [TestCategory("Negative")]
-        public void StartVmThatNoLongerExistsFails()
+        public void SuspendVmThatNoLongerExistsFails()
         {
             var vm = VirtualMachine;
             var vmId = vm.Properties["ID"].Value;
@@ -55,25 +52,26 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.FunctionalTest
             PowerShell.InvokeAndAssertForNoErrors();
 
             PowerShell.Commands.Clear();
-            PowerShell.AddCommand("Start-WAPackVM").AddParameter("VM", vm);
-            PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Start, vmId));
+            PowerShell.AddCommand("Suspend-WAPackVM").AddParameter("VM", vm);
+            PowerShell.InvokeAndAssertForErrors(string.Format(Resources.OperationFailedErrorMessage, Resources.Suspend,
+                vmId));
         }
 
         [TestMethod]
         [TestCategory("WAPackIaaS")]
-        public void ShouldBeAbleToGetAndStartAVmUsingPipeline()
+        public void ShouldBeAbleToGetAndSuspendAVmUsingPipeline()
         {
             var vm = VirtualMachine;
-            var stoppedVm = this.SetVirtualMachineState(vm, "Stop");
-            Assert.AreEqual("Stopped", stoppedVm.Properties["StatusString"].Value);
+            var startedVm = this.SetVirtualMachineState(vm, "Start");
+            Assert.AreEqual("Running", startedVm.Properties["StatusString"].Value);
 
             PowerShell.Commands.Clear();
             PowerShell.AddCommand("Get-WAPackVM")
-                .AddParameter("Id", stoppedVm.Properties["Id"].Value)
-                .AddCommand("Start-WAPackVM");
+                .AddParameter("Id", startedVm.Properties["Id"].Value)
+                .AddCommand("Suspend-WAPackVM");
 
-            var startedVm = PowerShell.InvokeAndAssertForNoErrors();
-            Assert.AreEqual("Running", startedVm[0].Properties["StatusString"].Value);
+            var stoppedVm = PowerShell.InvokeAndAssertForNoErrors();
+            Assert.AreEqual("Paused", stoppedVm[0].Properties["StatusString"].Value);
         }
     }
 }
