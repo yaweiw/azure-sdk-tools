@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Test.WebClient
+namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;

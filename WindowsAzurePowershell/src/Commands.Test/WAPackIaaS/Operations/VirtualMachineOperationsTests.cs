@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Test.Operations
+namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Mocks;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
-    using Microsoft.WindowsAzure.Commands.WAPackIaaS.Test.Mocks;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient;
     using System;
     using System.Collections.Generic;
