@@ -33,6 +33,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Specify to remove the VM and the underlying disk blob(s).")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
         internal override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
@@ -54,14 +61,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name));
+                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name, DeleteVHD.IsPresent));
             }
             else
             {
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
+                    () => this.ComputeClient.Deployments.DeleteByName(this.ServiceName, CurrentDeploymentNewSM.Name, DeleteVHD.IsPresent));
             }
         }
     }
