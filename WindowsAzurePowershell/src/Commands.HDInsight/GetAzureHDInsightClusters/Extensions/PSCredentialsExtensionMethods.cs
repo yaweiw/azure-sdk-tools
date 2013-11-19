@@ -15,30 +15,35 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces;
+    using System;
+    using System.Management.Automation;
+    using System.Runtime.InteropServices;
+    using System.Security;
     using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
 
-    internal class AzureHDInsightCommandFactory : IAzureHDInsightCommandFactory
+    internal static class PsCredentialsExtensionMethods
     {
-        public IAddAzureHDInsightConfigValuesCommand CreateAddConfig()
+        internal static string GetCleartextFromSecureString(SecureString secureString)
         {
-            return Help.SafeCreate<AddAzureHDInsightConfigValuesCommand>();
+            secureString.ArgumentNotNull("secureString");
+            IntPtr bstr = Marshal.SecureStringToBSTR(secureString);
+            string clearTextValue;
+            try
+            {
+                clearTextValue = Marshal.PtrToStringBSTR(bstr);
+            }
+            finally
+            {
+                Marshal.FreeBSTR(bstr);
+            }
+
+            return clearTextValue;
         }
 
-        public IGetAzureHDInsightClusterCommand CreateGet()
+        internal static string GetCleartextPassword(this PSCredential credentials)
         {
-            return Help.SafeCreate<GetAzureHDInsightClusterCommand>();
-        }
-
-        public IGetAzureHDInsightPropertiesCommand CreateGetProperties()
-        {
-            return Help.SafeCreate<GetAzureHDInsightPropertiesCommand>();
-        }
-
-        public IRemoveAzureHDInsightClusterCommand CreateDelete()
-        {
-            return Help.SafeCreate<RemoveAzureHDInsightClusterCommand>();
+            credentials.ArgumentNotNull("credentials");
+            return GetCleartextFromSecureString(credentials.Password);
         }
     }
 }
