@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected string GetDeploymentServiceName { get; set; }
 
-        internal virtual void ExecuteCommand()
+        protected virtual void ExecuteCommand()
         {
             if (!string.IsNullOrEmpty(ServiceName))
             {

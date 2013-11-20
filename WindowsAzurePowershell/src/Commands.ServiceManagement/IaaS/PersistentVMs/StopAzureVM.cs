@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
+    using Management.VirtualNetworks;
     using Model;
     using Properties;
 
@@ -44,7 +45,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Position = 3, HelpMessage = "Allows the deallocation of last VM in a deployment")]
         public SwitchParameter Force { get; set; }
 
-        internal override void ExecuteCommand()
+        public virtual SwitchParameter DeleteReservedVIP
+        {
+            get;
+            set;
+        }
+
+        private bool toDeleteReservedIP = false;
+
+        protected override void ExecuteCommand()
         {
             base.ExecuteCommand();
             ServiceManagementProfile.Initialize();
@@ -83,12 +92,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             this.ServiceName,
                             this.CurrentDeploymentNewSM.Name, 
                             roleNames[0],
-                            new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.Stopped }),
-                        (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                            new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.Stopped }));
                 }
                 else
                 {
-                    if (!this.Force.IsPresent && this.IsLastVmInDeployment(roleNames.Count))
+                    bool lastVM = this.IsLastVmInDeployment(roleNames.Count, out toDeleteReservedIP);
+                    if (!this.Force.IsPresent && lastVM)
                     {
                         this.ConfirmAction(false,
                             Resources.DeploymentVIPLossWarning,
@@ -97,24 +106,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             () => this.ExecuteClientActionNewSM(
                                 null,
                                 this.CommandRuntime.ToString(),
-                                () => this.ComputeClient.VirtualMachines.Shutdown(
-                                    this.ServiceName,
-                                    this.CurrentDeploymentNewSM.Name, 
-                                    roleNames[0], 
-                                    new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
-                                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s)));
+                                () =>
+                                {
+                                    OperationResponse response = this.ComputeClient.VirtualMachines.Shutdown(
+                                        this.ServiceName,
+                                        this.CurrentDeploymentNewSM.Name,
+                                        roleNames[0],
+                                        new VirtualMachineShutdownParameters
+                                        {
+                                            PostShutdownAction = PostShutdownAction.StoppedDeallocated
+                                        });
+
+                                    if (toDeleteReservedIP)
+                                    {
+                                        this.NetworkClient.Networks.DeleteReservedIP(this.CurrentDeploymentNewSM.ReservedIPName);
+                                    }
+
+                                    return response;
+                                }));
                     }
                     else
                     {
                         this.ExecuteClientActionNewSM(
                                 null,
                                 this.CommandRuntime.ToString(),
-                                () => this.ComputeClient.VirtualMachines.Shutdown(
-                                    this.ServiceName,
-                                    this.CurrentDeploymentNewSM.Name, 
-                                    roleNames[0], 
-                                    new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
-                                (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                                () =>
+                                {
+                                    OperationResponse response = this.ComputeClient.VirtualMachines.Shutdown(
+                                        this.ServiceName,
+                                        this.CurrentDeploymentNewSM.Name,
+                                        roleNames[0],
+                                        new VirtualMachineShutdownParameters
+                                        {
+                                            PostShutdownAction = PostShutdownAction.StoppedDeallocated
+                                        });
+
+                                    if (toDeleteReservedIP)
+                                    {
+                                        this.NetworkClient.Networks.DeleteReservedIP(this.CurrentDeploymentNewSM.ReservedIPName);
+                                    }
+
+                                    return response;
+                                });
                     }
                 }
             }
@@ -143,7 +176,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     }
                     parameter.PostShutdownAction = PostShutdownAction.StoppedDeallocated;
 
-                    if (!this.Force.IsPresent && this.IsLastVmInDeployment(roleNames.Count))
+                    bool lastVM = this.IsLastVmInDeployment(roleNames.Count, out toDeleteReservedIP);
+                    if (!this.Force.IsPresent && lastVM)
                     {
                         this.ConfirmAction(false,
                             Resources.DeploymentVIPLossWarning,
@@ -152,20 +186,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             () => this.ExecuteClientActionNewSM(
                                 null,
                                 this.CommandRuntime.ToString(),
-                                () => this.ComputeClient.VirtualMachines.ShutdownRoles(this.ServiceName, this.CurrentDeploymentNewSM.Name, parameter)));
+                                () =>
+                                {
+                                    OperationResponse response = this.ComputeClient.VirtualMachines.ShutdownRoles(this.ServiceName, this.CurrentDeploymentNewSM.Name, parameter);
+                                    if (toDeleteReservedIP)
+                                    {
+                                        this.NetworkClient.Networks.DeleteReservedIP(this.CurrentDeploymentNewSM.ReservedIPName);
+                                    }
+
+                                    return response;
+                                }));
                     }
                     else
                     {
                         this.ExecuteClientActionNewSM(
                             null,
                             this.CommandRuntime.ToString(),
-                            () => this.ComputeClient.VirtualMachines.ShutdownRoles(this.ServiceName, this.CurrentDeploymentNewSM.Name, parameter));
+                            () =>
+                            {
+                                OperationResponse response = this.ComputeClient.VirtualMachines.ShutdownRoles(this.ServiceName, this.CurrentDeploymentNewSM.Name, parameter);
+                                if (toDeleteReservedIP)
+                                {
+                                    this.NetworkClient.Networks.DeleteReservedIP(this.CurrentDeploymentNewSM.ReservedIPName);
+                                }
+
+                                return response;
+                            });
                     }
                 }
             }
         }
 
-        private bool IsLastVmInDeployment(int vmCount)
+        private bool IsLastVmInDeployment(int vmCount, out bool toDeleteReservedIP)
         {
             Func<RoleInstance, bool> roleNotStoppedDeallocated =
                 r => String.Compare(
@@ -173,7 +225,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     PostShutdownAction.StoppedDeallocated.ToString(),
                     true, 
                     CultureInfo.InvariantCulture) != 0;
+
             bool result = this.CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
+            if (result && DeleteReservedVIP.IsPresent)
+            {
+                toDeleteReservedIP = !string.IsNullOrEmpty(this.CurrentDeploymentNewSM.ReservedIPName);
+            }
+            else
+            {
+                toDeleteReservedIP = false;
+            }
+
             return result;
         }
     }

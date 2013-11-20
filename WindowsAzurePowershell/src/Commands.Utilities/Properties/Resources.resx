@@ -1455,4 +1455,10 @@ Please follow these steps in the portal:
     <value>Restart</value>
     <comment>WAPackIaaS</comment>
   </data>
+  <data name="ReservedIPNameNoLongerInUseAndWillBeDeleted" xml:space="preserve">
+    <value>Reserved IP with the Name:'{0}' will be released along with the deletion of this deployment.</value>
+  </data>
+  <data name="ReservedIPNameNoLongerInUseButStillBeingReserved" xml:space="preserve">
+    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted, it is still reserved for later use.</value>
+  </data>
 </root>

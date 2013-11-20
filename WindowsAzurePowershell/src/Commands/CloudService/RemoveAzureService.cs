@@ -36,6 +36,12 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        public virtual SwitchParameter DeleteReservedVIP
+        {
+            get;
+            set;
+        }
+
         public override void ExecuteCmdlet()
         {
             ConfirmAction(
@@ -52,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                         WriteVerbose,
                         WriteWarning);
 
-                    CloudServiceClient.RemoveCloudService(ServiceName);
+                    CloudServiceClient.RemoveCloudService(ServiceName, this.DeleteReservedVIP.IsPresent);
 
                     if (PassThru)
                     {
