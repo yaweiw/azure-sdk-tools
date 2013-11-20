@@ -558,4 +558,7 @@
   <data name="NetworkConfigurationCannotBeDeserialized" xml:space="preserve">
     <value>Network configuration cannot be deserialized.</value>
   </data>
+  <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
+    <value>Cannot delete VM Data Disk for LUN '{0}', </value>
+  </data>
 </root>

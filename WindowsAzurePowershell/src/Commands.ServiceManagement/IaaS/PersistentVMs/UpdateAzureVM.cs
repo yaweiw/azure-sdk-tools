@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
     using Helpers;
@@ -117,6 +118,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             if (VM.ConfigurationSets != null)
             {
                 PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
+            }
+
+            if (VM.DeleteVHD)
+            {
+                var vmRole = CurrentDeploymentNewSM.Roles.First(r => r.RoleName == this.Name);
+                if (vmRole != null && vmRole.DataVirtualHardDisks != null && vmRole.DataVirtualHardDisks.Any())
+                {
+                    foreach (var dataDisk in vmRole.DataVirtualHardDisks)
+                    {
+                        bool found = false;
+
+                        foreach (var newDataDisk in parameters.DataVirtualHardDisks)
+                        {
+                            if (newDataDisk.DiskName == dataDisk.DiskName && newDataDisk.MediaLink == dataDisk.MediaLink)
+                            {
+                                found = true;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            int lun = dataDisk.LogicalUnitNumber.HasValue ? dataDisk.LogicalUnitNumber.Value : 0;
+                            try
+                            {
+                                this.ComputeClient.VirtualMachineDisks.DeleteDataDisk(
+                                    this.ServiceName,
+                                    CurrentDeploymentNewSM.Name,
+                                    vmRole.RoleName,
+                                    lun,
+                                    true);
+                            }
+                            catch (CloudException ex)
+                            {
+                                if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
+                                {
+                                    throw;
+                                }
+                                else
+                                {
+                                    WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             ExecuteClientActionNewSM(
