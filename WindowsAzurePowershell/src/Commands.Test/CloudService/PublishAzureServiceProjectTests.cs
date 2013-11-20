@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void SetupTest()
         {
             clientMock = new Mock<ICloudServiceClient>();
-            clientMock.Setup(f => f.PublishCloudService(serviceName, null, null, null, null, null, false))
+            clientMock.Setup(f => f.PublishCloudService(serviceName, null, null, null, null, null, false, false))
                 .Returns(new Deployment());
 
             commandRuntimeMock = new Mock<ICommandRuntime>();
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
             publishAzureServiceCmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(f => f.PublishCloudService(serviceName, null, null, null, null, null, false), Times.Once());
+            clientMock.Verify(f => f.PublishCloudService(serviceName, null, null, null, null, null, false, false), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<Deployment>()), Times.Once());
         }
     }
