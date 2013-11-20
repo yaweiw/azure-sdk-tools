@@ -30,8 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
         protected const string ReserveNewIPParamSet = "CreateNewReservedIP";
         protected const string ReserveInUseIPParamSet = "CreateInUseReservedIP";
 
-        [Parameter(Mandatory = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Name.")]
-        [Parameter(Mandatory = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Name.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Name.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -39,8 +39,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Label.")]
-        [Parameter(Mandatory = false, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Label.")]
+        [Parameter(Mandatory = false, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Label.")]
+        [Parameter(Mandatory = false, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Label.")]
         [ValidateNotNullOrEmpty]
         public string Label
         {
@@ -48,8 +48,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Affinity Group Name.")]
-        [Parameter(Mandatory = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Affinity Group Name.")]
+        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Affinity Group Name.")]
+        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Affinity Group Name.")]
         [ValidateNotNullOrEmpty]
         public string AffinityGroup
         {
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Service Name.")]
+        [Parameter(Mandatory = true, Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
         {
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Deployment Name.")]
+        [Parameter(Mandatory = true, Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
         public string DeploymentName
         {

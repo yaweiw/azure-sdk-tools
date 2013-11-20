@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
     [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(IEnumerable<ReservedIPContext>))]
     public class GetAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
-        [Parameter(Mandatory = false, HelpMessage = "Reserved IP Name.")]
+        [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {

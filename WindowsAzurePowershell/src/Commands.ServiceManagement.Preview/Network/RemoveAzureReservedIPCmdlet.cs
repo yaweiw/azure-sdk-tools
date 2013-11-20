@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
     {
         protected const string RemoveReservedIPParamSet = "RemoveReservedIP";
 
-        [Parameter(Mandatory = true, HelpMessage = "Reserved IP Name.")]
+        [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
