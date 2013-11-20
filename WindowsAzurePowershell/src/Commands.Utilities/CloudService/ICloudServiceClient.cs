@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="storageAccount">The storage account to store the package</param>
         /// <param name="deploymentName">The deployment name</param>
         /// <param name="launch">True to launch browser after publish is complete</param>
-        /// <param name="forceUpgrade">True force the upgrade when there's a data loss</param>
+        /// <param name="forceUpgrade">force the service upgrade even if this would result in loss of any local data on the vm (for example, changing the vm size)</param>
         /// <returns>The created deployment</returns>
         Deployment PublishCloudService(
             string name = null,
