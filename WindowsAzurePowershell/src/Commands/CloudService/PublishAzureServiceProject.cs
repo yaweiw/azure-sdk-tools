@@ -57,6 +57,10 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         [Alias("dn")]
         public string DeploymentName { get; set; }
 
+        [Parameter(Mandatory = false)]
+        [Alias("f")]
+        public SwitchParameter ForceUpgrade { get; set; }
+
         /// <summary>
         /// Execute the command.
         /// </summary>
@@ -77,7 +81,8 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                 AffinityGroup,
                 StorageAccountName,
                 DeploymentName,
-                Launch);
+                Launch,
+                ForceUpgrade);
 
             WriteObject(deployment);
         }
