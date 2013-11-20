@@ -11666,6 +11666,13 @@
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -11682,6 +11689,13 @@
           <maml:para>Forces the VM to shut down</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -11779,6 +11793,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -11788,6 +11809,13 @@
           <maml:para>The virtual machine object.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -12711,21 +12739,35 @@
       <command:syntaxItem>
         <maml:name>Restart-WAPackVM</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
-          <maml:name>VirtualMachine</maml:name>
+          <maml:name>VM</maml:name>
           <maml:description>
             <maml:para>The VirtualMachine object</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true" position="0">
-        <maml:name>VirtualMachine</maml:name>
+        <maml:name>VM</maml:name>
         <maml:description>
           <maml:para>The VirtualMachine object</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">VirtualMachineObject</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -13253,6 +13295,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -13262,6 +13311,13 @@
           <maml:para>The virtual machine.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -13352,6 +13408,13 @@ PS C:\&gt; Resume-WAPackVM -VM $vm
           </maml:description>
           <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" position="1">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -13361,6 +13424,13 @@ PS C:\&gt; Resume-WAPackVM -VM $vm
           <maml:para>The virtual machine.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">VirtualMachine</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" position="1">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>If set to true returns the updated VirtualMachine object else returns empty.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
