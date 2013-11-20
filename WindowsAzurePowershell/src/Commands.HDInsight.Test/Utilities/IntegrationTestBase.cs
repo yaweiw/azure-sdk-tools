@@ -133,9 +133,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
             types.Add(typeof(GetAzureHDInsightClusterCmdlet));
 
             var cmdletRunManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
+            cmdletRunManager.RegisterType<IAzureHDInsightConnectionSessionManagerFactory, AzureHDInsightConnectionSessionManagerSimulatorFactory>();
             cmdletRunManager.RegisterType<IBufferingLogWriterFactory, BufferingLogWriterFactory>();
+            cmdletRunManager.RegisterType<IAzureHDInsightStorageHandlerFactory, AzureHDInsightStorageHandlerSimulatorFactory>();
             cmdletRunManager.RegisterType<IAzureHDInsightSubscriptionResolverFactory, AzureHDInsightSubscriptionResolverSimulatorFactory>();
             cmdletRunManager.RegisterType<IAzureHDInsightClusterManagementClientFactory, AzureHDInsightClusterManagementClientSimulatorFactory>();
+            cmdletRunManager.RegisterType<IAzureHDInsightJobSubmissionClientFactory, AzureHDInsightJobSubmissionClientSimulatorFactory>();
             var testManager = new IntegrationTestManager();
             if (!testManager.RunAzureTests())
             {
@@ -168,24 +171,28 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Utilities
 
         public void ApplyFullMocking()
         {
+            WaitAzureHDInsightJobCommand.ReduceWaitTime = true;
             var cmdletManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
             cmdletManager.MockingLevel = ServiceLocationMockingLevel.ApplyFullMocking;
         }
 
         public void ApplyIndividualTestMockingOnly()
         {
+            WaitAzureHDInsightJobCommand.ReduceWaitTime = false;
             var cmdletManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
             cmdletManager.MockingLevel = ServiceLocationMockingLevel.ApplyIndividualTestMockingOnly;
         }
 
         public void ApplyNoMocking()
         {
+            WaitAzureHDInsightJobCommand.ReduceWaitTime = false;
             var cmdletManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
             cmdletManager.MockingLevel = ServiceLocationMockingLevel.ApplyNoMocking;
         }
 
         public void ApplySimulatorMockingOnly()
         {
+            WaitAzureHDInsightJobCommand.ReduceWaitTime = true;
             var cmdletManager = ServiceLocator.Instance.Locate<IServiceLocationSimulationManager>();
             cmdletManager.MockingLevel = ServiceLocationMockingLevel.ApplyTestRunMockingOnly;
         }

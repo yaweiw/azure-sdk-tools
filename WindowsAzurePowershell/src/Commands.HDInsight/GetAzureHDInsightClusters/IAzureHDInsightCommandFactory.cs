@@ -21,10 +21,46 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
     {
         IAddAzureHDInsightConfigValuesCommand CreateAddConfig();
 
+        IAddAzureHDInsightMetastoreCommand CreateAddMetastore();
+
+        IAddAzureHDInsightStorageCommand CreateAddStorage();
+
+        INewAzureHDInsightClusterCommand CreateCreate();
+
+        IRemoveAzureHDInsightClusterCommand CreateDelete();
+
         IGetAzureHDInsightClusterCommand CreateGet();
+
+        IGetAzureHDInsightJobOutputCommand CreateGetJobOutput();
+
+        IGetAzureHDInsightJobCommand CreateGetJobs();
 
         IGetAzureHDInsightPropertiesCommand CreateGetProperties();
 
-        IRemoveAzureHDInsightClusterCommand CreateDelete();
+        IInvokeHiveCommand CreateInvokeHive();
+
+        IManageAzureHDInsightHttpAccessCommand CreateManageHttpAccess();
+
+        INewAzureHDInsightClusterConfigCommand CreateNewConfig();
+
+        INewAzureHDInsightHiveJobDefinitionCommand CreateNewHiveDefinition();
+
+        INewAzureHDInsightMapReduceJobDefinitionCommand CreateNewMapReduceDefinition();
+
+        INewAzureHDInsightPigJobDefinitionCommand CreateNewPigJobDefinition();
+
+        INewAzureHDInsightSqoopJobDefinitionCommand CreateNewSqoopDefinition();
+
+        INewAzureHDInsightStreamingJobDefinitionCommand CreateNewStreamingMapReduceDefinition();
+
+        ISetAzureHDInsightDefaultStorageCommand CreateSetDefaultStorage();
+
+        IStartAzureHDInsightJobCommand CreateStartJob();
+
+        IStopAzureHDInsightJobCommand CreateStopJob();
+
+        IUseAzureHDInsightClusterCommand CreateUseCluster();
+
+        IWaitAzureHDInsightJobCommand CreateWaitJobs();
     }
 }

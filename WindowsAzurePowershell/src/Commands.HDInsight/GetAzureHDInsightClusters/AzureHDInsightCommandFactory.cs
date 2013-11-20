@@ -26,9 +26,39 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
             return Help.SafeCreate<AddAzureHDInsightConfigValuesCommand>();
         }
 
+        public IAddAzureHDInsightMetastoreCommand CreateAddMetastore()
+        {
+            return Help.SafeCreate<AddAzureHDInsightMetastoreCommand>();
+        }
+
+        public IAddAzureHDInsightStorageCommand CreateAddStorage()
+        {
+            return new AddAzureHDInsightStorageCommand();
+        }
+
+        public INewAzureHDInsightClusterCommand CreateCreate()
+        {
+            return Help.SafeCreate<NewAzureHDInsightClusterCommand>();
+        }
+
+        public IRemoveAzureHDInsightClusterCommand CreateDelete()
+        {
+            return Help.SafeCreate<RemoveAzureHDInsightClusterCommand>();
+        }
+
         public IGetAzureHDInsightClusterCommand CreateGet()
         {
             return Help.SafeCreate<GetAzureHDInsightClusterCommand>();
+        }
+
+        public IGetAzureHDInsightJobOutputCommand CreateGetJobOutput()
+        {
+            return Help.SafeCreate<GetAzureHDInsightJobOutputCommand>();
+        }
+
+        public IGetAzureHDInsightJobCommand CreateGetJobs()
+        {
+            return Help.SafeCreate<GetAzureHDInsightJobCommand>();
         }
 
         public IGetAzureHDInsightPropertiesCommand CreateGetProperties()
@@ -36,9 +66,69 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
             return Help.SafeCreate<GetAzureHDInsightPropertiesCommand>();
         }
 
-        public IRemoveAzureHDInsightClusterCommand CreateDelete()
+        public IInvokeHiveCommand CreateInvokeHive()
         {
-            return Help.SafeCreate<RemoveAzureHDInsightClusterCommand>();
+            return new InvokeHiveCommand();
+        }
+
+        public IManageAzureHDInsightHttpAccessCommand CreateManageHttpAccess()
+        {
+            return Help.SafeCreate<ManageAzureHDInsightHttpAccessCommand>();
+        }
+
+        public INewAzureHDInsightClusterConfigCommand CreateNewConfig()
+        {
+            return Help.SafeCreate<NewAzureHDInsightClusterConfigCommand>();
+        }
+
+        public INewAzureHDInsightHiveJobDefinitionCommand CreateNewHiveDefinition()
+        {
+            return Help.SafeCreate<NewAzureHDInsightHiveJobDefinitionCommand>();
+        }
+
+        public INewAzureHDInsightMapReduceJobDefinitionCommand CreateNewMapReduceDefinition()
+        {
+            return Help.SafeCreate<NewAzureHDInsightMapReduceJobJobDefinitionCommand>();
+        }
+
+        public INewAzureHDInsightPigJobDefinitionCommand CreateNewPigJobDefinition()
+        {
+            return Help.SafeCreate<NewAzureHDInsightPigJobDefinitionCommand>();
+        }
+
+        public INewAzureHDInsightSqoopJobDefinitionCommand CreateNewSqoopDefinition()
+        {
+            return Help.SafeCreate<NewAzureHDInsightSqoopJobDefinitionCommand>();
+        }
+
+        public INewAzureHDInsightStreamingJobDefinitionCommand CreateNewStreamingMapReduceDefinition()
+        {
+            return Help.SafeCreate<NewAzureHDInsightStreamingJobDefinitionCommand>();
+        }
+
+        public ISetAzureHDInsightDefaultStorageCommand CreateSetDefaultStorage()
+        {
+            return Help.SafeCreate<SetAzureHDInsightDefaultStorageCommand>();
+        }
+
+        public IStartAzureHDInsightJobCommand CreateStartJob()
+        {
+            return Help.SafeCreate<StartAzureHDInsightJobCommand>();
+        }
+
+        public IStopAzureHDInsightJobCommand CreateStopJob()
+        {
+            return Help.SafeCreate<StopAzureHDInsightJobCommand>();
+        }
+
+        public IUseAzureHDInsightClusterCommand CreateUseCluster()
+        {
+            return Help.SafeCreate<UseAzureHDInsightClusterCommand>();
+        }
+
+        public IWaitAzureHDInsightJobCommand CreateWaitJobs()
+        {
+            return Help.SafeCreate<WaitAzureHDInsightJobCommand>();
         }
     }
 }
