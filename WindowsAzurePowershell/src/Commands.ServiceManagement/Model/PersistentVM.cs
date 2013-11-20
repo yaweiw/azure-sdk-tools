@@ -108,6 +108,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             set;
         }
 
+        [XmlIgnore]
+        public bool DeleteVHD
+        {
+            get;
+            set;
+        }
+
         public PersistentVM GetInstance()
         {
             return this;
