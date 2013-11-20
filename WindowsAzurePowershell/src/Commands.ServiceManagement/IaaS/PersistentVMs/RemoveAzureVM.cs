@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Management.Compute;
     using Management.Compute.Models;
+    using Management.VirtualNetworks;
     using Properties;
     using Utilities.Common;
 
@@ -33,7 +34,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        internal override void ExecuteCommand()
+        public virtual SwitchParameter DeleteReservedVIP
+        {
+            get;
+            set;
+        }
+
+        protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
 
@@ -43,13 +50,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            DeploymentGetResponse deploymentResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
-            if (deploymentResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
+            DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+            if (deploymentGetResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
             {
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
             }
 
-            if (deploymentResponse.RoleInstances.Count > 1)
+            if (deploymentGetResponse.RoleInstances.Count > 1)
             {
                 ExecuteClientActionNewSM(
                     null,
@@ -58,10 +65,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
             else
             {
-                ExecuteClientActionNewSM(
+                bool toDeleteReservedIP = false;
+                if (DeleteReservedVIP.IsPresent)
+                {
+                    if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
+                    {
+                        WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseAndWillBeDeleted, deploymentGetResponse.ReservedIPName));
+                        toDeleteReservedIP = true;
+                    }
+                }
+                else if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
+                {
+                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                }
+
+                ExecuteClientActionNewSM<OperationResponse>(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
+                    () =>
+                    {
+                        OperationResponse response = this.ComputeClient.Deployments.DeleteByName(this.ServiceName, CurrentDeploymentNewSM.Name);
+
+                        if (toDeleteReservedIP)
+                        {
+                            this.NetworkClient.Networks.DeleteReservedIP(deploymentGetResponse.ReservedIPName);
+                        }
+
+                        return response;
+                    });
             }
         }
     }

@@ -124,8 +124,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters));
         }
-        
-        internal override void ExecuteCommand()
+
+        protected override void ExecuteCommand()
         {
             this.ExecuteCommandNewSM();
         }

@@ -131,5 +131,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         void RemoveCloudService(string name);
+
+        /// <summary>
+        /// Removes all deployments in the given cloud service and the service itself.
+        /// </summary>
+        /// <param name="name">The cloud service name</param>
+        /// <param name="deleteReservedIP">Delete the reserved IPs on this cloud service name</param>
+        void RemoveCloudService(string name, bool deleteReservedIP);
     }
 }
