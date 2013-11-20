@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         public string DeploymentName { get; set; }
 
         [Parameter(Mandatory = false)]
-        [Alias("fu")]
+        [Alias("f")]
         public SwitchParameter ForceUpgrade { get; set; }
 
         /// <summary>
