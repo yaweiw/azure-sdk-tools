@@ -44,7 +44,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
                 IPipelineResult results =
                     runspace.NewPipeline()
                             .AddCommand(CmdletConstants.GetAzureHDInsightProperties)
-                            .WithParameter(CmdletConstants.Subscription, creds.SubscriptionId.ToString())
                             .WithParameter(CmdletConstants.Certificate, creds.Certificate)
                             .Invoke();
 
@@ -82,8 +81,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
                 IPipelineResult results =
                     runspace.NewPipeline()
                             .AddCommand(CmdletConstants.GetAzureHDInsightProperties)
-                            .WithParameter(CmdletConstants.Subscription, creds.SubscriptionId.ToString())
-                            .WithParameter(CmdletConstants.Certificate, creds.Certificate)
                             .WithParameter(CmdletConstants.Locations, null)
                             .Invoke();
 
@@ -110,8 +107,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
                 IPipelineResult results =
                     runspace.NewPipeline()
                             .AddCommand(CmdletConstants.GetAzureHDInsightProperties)
-                            .WithParameter(CmdletConstants.Subscription, creds.SubscriptionId.ToString())
-                            .WithParameter(CmdletConstants.Certificate, creds.Certificate)
                             .WithParameter(CmdletConstants.Versions, null)
                             .Invoke();
 
@@ -142,7 +137,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdLetTests
                 IPipelineResult results =
                     runspace.NewPipeline()
                             .AddCommand(CmdletConstants.GetAzureHDInsightProperties)
-                            .WithParameter(CmdletConstants.Subscription, creds.SubscriptionId.ToString())
                             .Invoke();
 
                 HDInsightGetPropertiesCommandTests.ValidateCapabilities(results.Results.ToEnumerable<AzureHDInsightCapabilities>());

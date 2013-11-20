@@ -28,6 +28,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         /// <summary>
         ///     Gets or sets the subscription credentials for the connection.
         /// </summary>
-        public IHDInsightCertificateCredential Credential { get; set; }
+        public IHDInsightSubscriptionCredentials Credential { get; set; }
     }
 }
