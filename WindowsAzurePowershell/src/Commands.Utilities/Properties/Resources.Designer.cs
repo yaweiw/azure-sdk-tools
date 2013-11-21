@@ -3001,16 +3001,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will be released along with the deletion of this deployment..
-        /// </summary>
-        public static string ReservedIPNameNoLongerInUseAndWillBeDeleted {
-            get {
-                return ResourceManager.GetString("ReservedIPNameNoLongerInUseAndWillBeDeleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, it is still reserved for later use..
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, and it is still reserved for later use..
         /// </summary>
         public static string ReservedIPNameNoLongerInUseButStillBeingReserved {
             get {
