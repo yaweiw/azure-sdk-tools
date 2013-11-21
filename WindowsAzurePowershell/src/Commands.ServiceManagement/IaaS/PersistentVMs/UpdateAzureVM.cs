@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
     using Helpers;
@@ -119,13 +120,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
             }
 
+            if (VM.DataVirtualHardDisksToBeDeleted != null && VM.DataVirtualHardDisksToBeDeleted.Any())
+            {
+                var vmRole = CurrentDeploymentNewSM.Roles.First(r => r.RoleName == this.Name);
+                if (vmRole != null)
+                {
+                    foreach (var dataDiskToBeDeleted in VM.DataVirtualHardDisksToBeDeleted)
+                    {
+                        int lun = dataDiskToBeDeleted.Lun;
+                        try
+                        {
+                            this.ComputeClient.VirtualMachineDisks.DeleteDataDisk(
+                                this.ServiceName,
+                                CurrentDeploymentNewSM.Name,
+                                vmRole.RoleName,
+                                lun,
+                                true);
+                        }
+                        catch (CloudException ex)
+                        {
+                            if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
+                            {
+                                throw;
+                            }
+                            else
+                            {
+                                WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
+                            }
+                        }
+                    }
+                }
+            }
+
             ExecuteClientActionNewSM(
                 parameters,
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters));
         }
-        
-        internal override void ExecuteCommand()
+
+        protected override void ExecuteCommand()
         {
             this.ExecuteCommandNewSM();
         }

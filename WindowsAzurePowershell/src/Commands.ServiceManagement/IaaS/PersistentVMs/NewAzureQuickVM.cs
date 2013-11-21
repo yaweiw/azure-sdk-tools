@@ -253,12 +253,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        public virtual string ReservedIPName
-        {
-            get;
-            set;
-        }
-
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -375,8 +369,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Name = this.ServiceName,
                         Label = this.ServiceName,
                         VirtualNetworkName = this.VNetName,
-                        Roles = {vm},
-                        ReservedIPName = ReservedIPName
+                        Roles = {vm}
                     };
 
                     if (this.DnsSettings != null)

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
 
     public class ReservedIPContext : ManagementOperationContext
     {
-        public string Name { get; set; }
+        public string ReservedIPName { get; set; }
 
         public string Address { get; set; }
 

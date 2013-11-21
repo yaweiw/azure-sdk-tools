@@ -108,6 +108,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             set;
         }
 
+        [XmlIgnore]
+        public Collection<DataVirtualHardDisk> DataVirtualHardDisksToBeDeleted
+        {
+            get;
+            set;
+        }
+
         public PersistentVM GetInstance()
         {
             return this;
