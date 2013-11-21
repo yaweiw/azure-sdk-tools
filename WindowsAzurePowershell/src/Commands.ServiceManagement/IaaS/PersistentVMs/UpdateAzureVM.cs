@@ -120,45 +120,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
             }
 
-            if (VM.DeleteVHD)
+            if (VM.DataVirtualHardDisksToBeDeleted.Any())
             {
                 var vmRole = CurrentDeploymentNewSM.Roles.First(r => r.RoleName == this.Name);
                 if (vmRole != null && vmRole.DataVirtualHardDisks != null && vmRole.DataVirtualHardDisks.Any())
                 {
-                    foreach (var dataDisk in vmRole.DataVirtualHardDisks)
+                    foreach (var dataDiskToBeDeleted in VM.DataVirtualHardDisksToBeDeleted)
                     {
-                        bool found = false;
-
-                        foreach (var newDataDisk in parameters.DataVirtualHardDisks)
+                        int lun = dataDiskToBeDeleted.Lun;
+                        try
                         {
-                            if (newDataDisk.DiskName == dataDisk.DiskName && newDataDisk.MediaLink == dataDisk.MediaLink)
-                            {
-                                found = true;
-                            }
+                            this.ComputeClient.VirtualMachineDisks.DeleteDataDisk(
+                                this.ServiceName,
+                                CurrentDeploymentNewSM.Name,
+                                vmRole.RoleName,
+                                lun,
+                                true);
                         }
-
-                        if (!found)
+                        catch (CloudException ex)
                         {
-                            int lun = dataDisk.LogicalUnitNumber.HasValue ? dataDisk.LogicalUnitNumber.Value : 0;
-                            try
+                            if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
                             {
-                                this.ComputeClient.VirtualMachineDisks.DeleteDataDisk(
-                                    this.ServiceName,
-                                    CurrentDeploymentNewSM.Name,
-                                    vmRole.RoleName,
-                                    lun,
-                                    true);
+                                throw;
                             }
-                            catch (CloudException ex)
+                            else
                             {
-                                if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
-                                {
-                                    throw;
-                                }
-                                else
-                                {
-                                    WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
-                                }
+                                WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
                             }
                         }
                     }
