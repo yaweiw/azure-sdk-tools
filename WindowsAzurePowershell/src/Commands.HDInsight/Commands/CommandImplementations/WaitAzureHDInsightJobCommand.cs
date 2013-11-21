@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             else
             {
                 var job = new JobCreationResults { JobId = this.JobId };
-                await client.WaitForJobCompletionAsync(job, TimeSpan.FromSeconds(this.WaitTimeoutInSeconds), this.tokenSource.Token);
+                jobDetail = await client.WaitForJobCompletionAsync(job, TimeSpan.FromSeconds(this.WaitTimeoutInSeconds), this.tokenSource.Token);
             }
 
             this.Output.Add(new AzureHDInsightJob(jobDetail, this.Cluster));

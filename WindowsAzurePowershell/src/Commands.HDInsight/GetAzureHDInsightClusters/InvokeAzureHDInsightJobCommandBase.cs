@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
 
         public CancellationToken CancellationToken
         {
-            get { return this.client.CancellationToken; }
+            get { return this.client != null ? this.client.CancellationToken : new CancellationTokenSource().Token; }
         }
 
         public WindowsAzureSubscription CurrentSubscription { get; set; }
