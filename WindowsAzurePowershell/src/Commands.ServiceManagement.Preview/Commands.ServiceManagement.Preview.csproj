@@ -184,13 +184,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HostedServices\RemoveAzureDeploymentCmdlet.cs" />
     <Compile Include="HostedServices\GetAzureDeploymentCmdlet.cs" />
-    <Compile Include="HostedServices\RemoveAzureServiceCmdlet.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVMCmdlet.cs" />
-    <Compile Include="IaaS\PersistentVMs\NewAzureQuickVMCmdlet.cs" />
-    <Compile Include="IaaS\PersistentVMs\StopAzureVMCmdlet.cs" />
-    <Compile Include="IaaS\PersistentVMs\RemoveAzureVMCmdlet.cs" />
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\ReservedIPConstants.cs" />
     <Compile Include="Model\ReservedIPContext.cs" />

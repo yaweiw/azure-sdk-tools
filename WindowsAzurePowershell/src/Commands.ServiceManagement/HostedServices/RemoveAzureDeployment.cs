@@ -54,12 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        public virtual SwitchParameter DeleteReservedVIP
-        {
-            get;
-            set;
-        }
-
         public void RemoveDeploymentProcess()
         {
             ServiceManagementProfile.Initialize();
@@ -68,34 +62,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
             DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
 
-            bool toDeleteReservedIP = false;
-            if (DeleteReservedVIP.IsPresent)
+            if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
             {
-                if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-                {
-                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseAndWillBeDeleted, deploymentGetResponse.ReservedIPName));
-                    toDeleteReservedIP = true;
-                }
-            }
-            else if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-            {
-                WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
             }
 
             ExecuteClientActionNewSM<OperationResponse>(
                 null,
                 CommandRuntime.ToString(),
-                () =>
-                {
-                    OperationResponse response = this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType);
-
-                    if (toDeleteReservedIP)
-                    {
-                        this.NetworkClient.Networks.DeleteReservedIP(deploymentGetResponse.ReservedIPName);
-                    }
-
-                    return response;
-                });
+                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
         }
 
         protected override void OnProcessRecord()

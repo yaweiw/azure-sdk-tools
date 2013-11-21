@@ -12,14 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using Model;
@@ -30,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
     {
         [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string ReservedIPName
         {
             get;
             set;
@@ -38,18 +36,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         public void ExecuteCommand()
         {
-            if (Name != null)
+            if (ReservedIPName != null)
             {
                 ExecuteClientActionNewSM(null,
                     CommandRuntime.ToString(),
-                    () => NetworkClient.Networks.GetReservedIP(Name),
+                    () => NetworkClient.ReservedIPs.Get(ReservedIPName),
                     (s, r) => new int[1].Select(i => ContextFactory<NetworkReservedIPGetResponse, ReservedIPContext>(r, s)));
             }
             else
             {
                 ExecuteClientActionNewSM(null,
                     CommandRuntime.ToString(),
-                    () => NetworkClient.Networks.ListReservedIPs(),
+                    () => NetworkClient.ReservedIPs.List(),
                     (s, r) => r.ReservedIPs.Select(p => ContextFactory<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>(p, s)));
             }
         }
