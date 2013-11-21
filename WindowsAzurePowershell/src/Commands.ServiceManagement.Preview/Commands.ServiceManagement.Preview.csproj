@@ -186,7 +186,6 @@
   <ItemGroup>
     <Compile Include="HostedServices\GetAzureDeploymentCmdlet.cs" />
     <Compile Include="IaaS\PersistentVMs\NewAzureVMCmdlet.cs" />
-    <Compile Include="IaaS\PersistentVMs\NewAzureQuickVMCmdlet.cs" />
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\ReservedIPConstants.cs" />
     <Compile Include="Model\ReservedIPContext.cs" />
