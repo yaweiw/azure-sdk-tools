@@ -564,4 +564,7 @@
   <data name="ReservedIPNameNoLongerInUseAndWillBeDeleted" xml:space="preserve">
     <value>Reserved IP with the Name:'{0}' will be released along with the deletion of this deployment.</value>
   </data>
+  <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
+    <value>Cannot delete VM Data Disk for LUN '{0}', </value>
+  </data>
 </root>

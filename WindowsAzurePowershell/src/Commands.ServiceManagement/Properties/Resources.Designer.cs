@@ -205,6 +205,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete VM Data Disk for LUN &apos;{0}&apos;, .
+        /// </summary>
+        internal static string CannotDeleteVirtualMachineDataDiskForLUN {
+            get {
+                return ResourceManager.GetString("CannotDeleteVirtualMachineDataDiskForLUN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot Move Deployments with Virtual Machines Present in {0}.
         /// </summary>
         internal static string CanNotMoveDeploymentsWhileVMsArePresent {
