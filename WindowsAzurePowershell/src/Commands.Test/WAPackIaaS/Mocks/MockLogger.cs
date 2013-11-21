@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
+namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Mocks
 {
-    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
 
-    [Cmdlet(VerbsLifecycle.Suspend, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject)]
-    public class SuspendWAPackVM : VMOperationsCmdlet
+    internal class MockLogger : ILogger
     {
-        public override void ExecuteCmdlet()
+        public void Log(LogLevel logLevel, string message)
         {
-            this.ExecuteVMOperation(VMOperationsEnum.Suspend);
+ 	        //do nothing
         }
     }
 }
+
