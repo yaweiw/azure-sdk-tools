@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         }
 
         [XmlIgnore]
-        public bool DeleteVHD
+        public Collection<DataVirtualHardDisk> DataVirtualHardDisksToBeDeleted
         {
             get;
             set;
