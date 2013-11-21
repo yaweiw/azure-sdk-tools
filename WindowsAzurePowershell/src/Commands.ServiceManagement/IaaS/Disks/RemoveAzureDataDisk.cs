@@ -56,7 +56,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             dataDisks.Remove(dataDisk);
+
+            if (VM.GetInstance().DataVirtualHardDisksToBeDeleted == null)
+            {
+                VM.GetInstance().DataVirtualHardDisksToBeDeleted = new Collection<DataVirtualHardDisk>();
+            }
+
             VM.GetInstance().DataVirtualHardDisksToBeDeleted.Add(dataDisk);
+
             WriteObject(VM, true);
         }
 
