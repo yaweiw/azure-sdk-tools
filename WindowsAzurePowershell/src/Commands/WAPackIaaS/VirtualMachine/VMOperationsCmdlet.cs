@@ -33,6 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
+        [Parameter(Position = 1, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         protected void ExecuteVMOperation(VMOperationsEnum operation)
         {
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
@@ -76,12 +79,15 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             {
                 this.WriteErrorDetails(new Exception(jobInfo.errorMessage));
             }
-               
-            var updatedVMObject = virtualMachineOperations.Read(virtualMachine.ID);
-            WriteObject(updatedVMObject);
+
+            if (PassThru)
+            {
+                var updatedVMObject = virtualMachineOperations.Read(virtualMachine.ID);
+                WriteObject(updatedVMObject);
+            }
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             // no-op
         }

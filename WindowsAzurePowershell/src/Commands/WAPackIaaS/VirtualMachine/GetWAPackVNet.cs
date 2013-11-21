@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             IEnumerable<VMNetwork> results = null;
             var vmNetworkOperations = new VMNetworkOperations(this.WebClientFactory);
