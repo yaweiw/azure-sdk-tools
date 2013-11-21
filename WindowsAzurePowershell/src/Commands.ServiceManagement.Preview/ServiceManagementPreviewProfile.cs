@@ -52,24 +52,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview
                   .ForMember(c => c.Id, o => o.Ignore());
 
             Mapper.CreateMap<NetworkReservedIPGetResponse, ReservedIPContext>()
-                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.Label, o => o.MapFrom(r => r.Label))
-                  .ForMember(c => c.Id, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.AffinityGroup, o => o.MapFrom(r => r.AffinityGroup))
-                  .ForMember(c => c.State, o => o.MapFrom(r => r.State))
-                  .ForMember(c => c.InUse, o => o.MapFrom(r => r.InUse))
-                  .ForMember(c => c.ServiceName, o => o.MapFrom(r => r.ServiceName))
-                  .ForMember(c => c.DeploymentName, o => o.MapFrom(r => r.DeploymentName));
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name));
 
             Mapper.CreateMap<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>()
-                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.Label, o => o.MapFrom(r => r.Label))
-                  .ForMember(c => c.Id, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.AffinityGroup, o => o.MapFrom(r => r.AffinityGroup))
-                  .ForMember(c => c.State, o => o.MapFrom(r => r.State))
-                  .ForMember(c => c.InUse, o => o.MapFrom(r => r.InUse))
-                  .ForMember(c => c.ServiceName, o => o.MapFrom(r => r.ServiceName))
-                  .ForMember(c => c.DeploymentName, o => o.MapFrom(r => r.DeploymentName));
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name));
         }
     }
 }
