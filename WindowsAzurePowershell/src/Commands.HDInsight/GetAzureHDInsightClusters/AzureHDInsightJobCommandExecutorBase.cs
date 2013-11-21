@@ -48,39 +48,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
             Justification = "Url resolution is done when the EndProcessing method is called.")]
         internal IJobSubmissionClient GetClient(string cluster)
         {
-            IJobSubmissionClient client = null;
-            IJobSubmissionClientCredential clientCredential = null;
             cluster.ArgumentNotNull("ClusterEndpoint");
-            if (this.Credential != null)
-            {
-                clientCredential = new BasicAuthCredential
-                {
-                    Server = GatewayUriResolver.GetGatewayUri(cluster),
-                    UserName = this.Credential.UserName,
-                    Password = this.Credential.GetCleartextPassword()
-                };
-            }
-
-            if (this.CurrentSubscription != null)
-            {
-                var subscriptionCredentials = this.GetSubscriptionCredentials(this.CurrentSubscription);
-                var clusterClient = ServiceLocator.Instance.Locate<IAzureHDInsightClusterManagementClientFactory>().Create(subscriptionCredentials);
-                var jobSubmissionCluster = clusterClient.GetCluster(GetClusterName(cluster));
-                clientCredential = new BasicAuthCredential
-                {
-                    Server = GatewayUriResolver.GetGatewayUri(jobSubmissionCluster.ConnectionUrl),
-                    UserName = jobSubmissionCluster.HttpUserName,
-                    Password = jobSubmissionCluster.HttpPassword
-                };
-            }
-
+            IJobSubmissionClient client = null;
+            var clientCredential = this.GetJobSubmissionClientCredentials(this.CurrentSubscription, cluster);
             if (clientCredential != null)
             {
                 client = ServiceLocator.Instance.Locate<IAzureHDInsightJobSubmissionClientFactory>().Create(clientCredential);
-            }
-
-            if (client.IsNotNull())
-            {
                 client.SetCancellationSource(this.tokenSource);
                 if (this.Logger.IsNotNull())
                 {
@@ -90,19 +63,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
                 return client;
             }
 
-            throw new InvalidOperationException(
-                string.Format(CultureInfo.InvariantCulture, "Expected either a Subscription or Credential parameter."));
-        }
-
-        internal string GetClusterName(string clusterNameOrUri)
-        {
-            Uri clusterUri;
-            if (Uri.TryCreate(clusterNameOrUri, UriKind.Absolute, out clusterUri))
-            {
-                return clusterUri.DnsSafeHost.Split('.').First();
-            }
-
-            return clusterNameOrUri.Split('.').First();
+            throw new InvalidOperationException("Expected either a Subscription or Credential parameter.");
         }
     }
 }

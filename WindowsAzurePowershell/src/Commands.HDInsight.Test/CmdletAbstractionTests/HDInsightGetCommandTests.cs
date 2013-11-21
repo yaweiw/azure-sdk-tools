@@ -14,7 +14,9 @@
 // permissions and limitations under the License.
 
 using System;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Hadoop.Client;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations;
 using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.Simulators;
@@ -128,6 +130,109 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Tests.CmdletAbstrac
             var asAccessTokenCreds = accessTokenCreds as HDInsightAccessTokenCredential;
             Assert.AreEqual(accessToken, asAccessTokenCreds.AccessToken);
             Assert.AreEqual(waSubscription.SubscriptionId, asAccessTokenCreds.SubscriptionId.ToString());
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanGetJobSubmissionCertificateCredentialFromCurrentSubscription()
+        {
+            var getClustersCommand = new GetAzureHDInsightJobCommand();
+            var waSubscription = GetCurrentSubscription();
+            var subscriptionCreds = getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, IntegrationTestBase.TestCredentials.WellKnownCluster.DnsName);
+
+            Assert.IsInstanceOfType(subscriptionCreds, typeof(JobSubmissionCertificateCredential));
+            var asCertificateCreds = subscriptionCreds as JobSubmissionCertificateCredential;
+            Assert.AreEqual(waSubscription.SubscriptionId, asCertificateCreds.SubscriptionId.ToString());
+            Assert.AreEqual(waSubscription.Certificate, asCertificateCreds.Certificate);
+            Assert.AreEqual(IntegrationTestBase.TestCredentials.WellKnownCluster.DnsName, asCertificateCreds.Cluster);
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CannotGetJobSubmissionAccessTokenCredentialFromCurrentSubscription()
+        {
+            string accessToken = Guid.NewGuid().ToString("N");
+            var getClustersCommand = new GetAzureHDInsightJobCommand();
+            var waSubscription = new WindowsAzureSubscription()
+            {
+                SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString(),
+                ActiveDirectoryUserId = "BruceWayne",
+                TokenProvider = new FakeAccessTokenProvider(accessToken)
+            };
+            var accessTokenCreds = getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, IntegrationTestBase.TestCredentials.WellKnownCluster.DnsName);
+            Assert.IsNotInstanceOfType(accessTokenCreds, typeof(HDInsightAccessTokenCredential));
+            Assert.IsInstanceOfType(accessTokenCreds, typeof(BasicAuthCredential));
+            var asBasicAuthCredentials = accessTokenCreds as BasicAuthCredential;
+            Assert.IsNotNull(asBasicAuthCredentials);
+            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzureUserName, asBasicAuthCredentials.UserName);
+            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzurePassword, asBasicAuthCredentials.Password);
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanGetBasicAuthCredentialFromCredentials()
+        {
+            string accessToken = Guid.NewGuid().ToString("N");
+            var getClustersCommand = new GetAzureHDInsightJobCommand();
+            getClustersCommand.Credential = GetPSCredential(TestCredentials.AzureUserName, TestCredentials.AzurePassword);
+            var waSubscription = new WindowsAzureSubscription()
+            {
+                SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString(),
+                ActiveDirectoryUserId = "BruceWayne",
+                TokenProvider = new FakeAccessTokenProvider(accessToken)
+            };
+
+            var accessTokenCreds = getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, IntegrationTestBase.TestCredentials.WellKnownCluster.DnsName);
+            Assert.IsInstanceOfType(accessTokenCreds, typeof(BasicAuthCredential));
+            var asBasicAuthCredentials = accessTokenCreds as BasicAuthCredential;
+            Assert.IsNotNull(asBasicAuthCredentials);
+            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzureUserName, asBasicAuthCredentials.UserName);
+            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzurePassword, asBasicAuthCredentials.Password);
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void GetJobSubmissionCredentialsThrowsInvalidOperationExceptionIfClusterIsInvalid()
+        {
+            string accessToken = Guid.NewGuid().ToString("N");
+            string invalidClusterName = Guid.NewGuid().ToString("N");
+            var getClustersCommand = new GetAzureHDInsightJobCommand();
+            var waSubscription = new WindowsAzureSubscription()
+            {
+                SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString(),
+                ActiveDirectoryUserId = "BruceWayne",
+                TokenProvider = new FakeAccessTokenProvider(accessToken)
+            };
+
+            try
+            {
+                getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, invalidClusterName);
+                Assert.Fail("Should have failed.");
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                Assert.AreEqual(
+                    string.Format(CultureInfo.InvariantCulture, "Unable to find Cluster '{0}' in Subscription '{1}'",
+                                  invalidClusterName, waSubscription.SubscriptionId), invalidOperationException.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void GetJobSubmissionCredentialsThrowsInvalidOperationException()
+        {
+            string invalidClusterName = Guid.NewGuid().ToString("N");
+            var getClustersCommand = new GetAzureHDInsightJobCommand();
+
+            try
+            {
+                getClustersCommand.GetClient(invalidClusterName);
+                Assert.Fail("Should have failed.");
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                Assert.AreEqual("Expected either a Subscription or Credential parameter.", invalidOperationException.Message);
+            }
         }
 
         [TestInitialize]

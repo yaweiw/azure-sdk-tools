@@ -14,8 +14,11 @@
 // permissions and limitations under the License.
 
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Hadoop.Client;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations;
 using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.ServiceLocation;
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
@@ -61,11 +64,66 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
             };
         }
 
+        public static IJobSubmissionClientCredential GetJobSubmissionClientCredentials(this IAzureHDInsightJobCommandCredentialsBase command, WindowsAzureSubscription currentSubscription, string cluster)
+        {
+            IJobSubmissionClientCredential clientCredential = null;
+            if (command.Credential != null)
+            {
+                clientCredential = new BasicAuthCredential
+                {
+                    Server = GatewayUriResolver.GetGatewayUri(cluster),
+                    UserName = command.Credential.UserName,
+                    Password = command.Credential.GetCleartextPassword()
+                };
+            }
+            else if (currentSubscription.IsNotNull())
+            {
+                var subscriptionCredentials = GetSubscriptionCredentials(command, currentSubscription);
+                var asCertificateCredentials = subscriptionCredentials as HDInsightCertificateCredential;
+                if (asCertificateCredentials.IsNotNull())
+                {
+                    clientCredential = new JobSubmissionCertificateCredential(asCertificateCredentials, cluster);
+                }
+                else
+                {
+                    var clusterClient = ServiceLocator.Instance.Locate<IAzureHDInsightClusterManagementClientFactory>().Create(subscriptionCredentials);
+                    var jobSubmissionCluster = clusterClient.GetCluster(GetClusterName(cluster));
+                    if (jobSubmissionCluster.IsNull())
+                    {
+                        throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Unable to find Cluster '{0}' in Subscription '{1}'", cluster, currentSubscription.SubscriptionId));
+                    }
+                    else
+                    {
+                        clientCredential = new BasicAuthCredential
+                        {
+                            Server = GatewayUriResolver.GetGatewayUri(jobSubmissionCluster.ConnectionUrl),
+                            UserName = jobSubmissionCluster.HttpUserName,
+                            Password = jobSubmissionCluster.HttpPassword
+                        };
+                    }
+                }
+            }
+
+            return clientCredential;
+        }
+
         private static Guid ResolveSubscriptionId(string subscription)
         {
             Guid subscriptionId;
             Guid.TryParse(subscription, out subscriptionId);
             return subscriptionId;
+        }
+
+
+        internal static string GetClusterName(string clusterNameOrUri)
+        {
+            Uri clusterUri;
+            if (Uri.TryCreate(clusterNameOrUri, UriKind.Absolute, out clusterUri))
+            {
+                return clusterUri.DnsSafeHost.Split('.').First();
+            }
+
+            return clusterNameOrUri.Split('.').First();
         }
     }
 }
