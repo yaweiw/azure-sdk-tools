@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
             }
 
-            if (VM.DataVirtualHardDisksToBeDeleted.Any())
+            if (VM.DataVirtualHardDisksToBeDeleted != null && VM.DataVirtualHardDisksToBeDeleted.Any())
             {
                 var vmRole = CurrentDeploymentNewSM.Roles.First(r => r.RoleName == this.Name);
                 if (vmRole != null && vmRole.DataVirtualHardDisks != null && vmRole.DataVirtualHardDisks.Any())
