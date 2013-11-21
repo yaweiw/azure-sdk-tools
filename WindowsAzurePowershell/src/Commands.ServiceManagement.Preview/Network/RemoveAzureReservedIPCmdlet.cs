@@ -24,9 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
     {
         protected const string RemoveReservedIPParamSet = "RemoveReservedIP";
 
-        [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string ReservedIPName
         {
             get;
             set;
@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
         {
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => NetworkClient.Networks.DeleteReservedIP(Name));
+                () => NetworkClient.ReservedIPs.Delete(ReservedIPName));
         }
 
         protected override void OnProcessRecord()

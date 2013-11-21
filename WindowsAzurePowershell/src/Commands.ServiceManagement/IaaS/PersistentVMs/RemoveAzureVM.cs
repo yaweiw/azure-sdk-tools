@@ -34,12 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        public virtual SwitchParameter DeleteReservedVIP
-        {
-            get;
-            set;
-        }
-
         protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
@@ -61,38 +55,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name));
+                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name, false));
             }
             else
             {
-                bool toDeleteReservedIP = false;
-                if (DeleteReservedVIP.IsPresent)
+                if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
                 {
-                    if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-                    {
-                        WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseAndWillBeDeleted, deploymentGetResponse.ReservedIPName));
-                        toDeleteReservedIP = true;
-                    }
-                }
-                else if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-                {
-                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
                 }
 
                 ExecuteClientActionNewSM<OperationResponse>(
                     null,
                     CommandRuntime.ToString(),
-                    () =>
-                    {
-                        OperationResponse response = this.ComputeClient.Deployments.DeleteByName(this.ServiceName, CurrentDeploymentNewSM.Name);
-
-                        if (toDeleteReservedIP)
-                        {
-                            this.NetworkClient.Networks.DeleteReservedIP(deploymentGetResponse.ReservedIPName);
-                        }
-
-                        return response;
-                    });
+                    () => this.ComputeClient.Deployments.DeleteByName(this.ServiceName, CurrentDeploymentNewSM.Name, false));
             }
         }
     }

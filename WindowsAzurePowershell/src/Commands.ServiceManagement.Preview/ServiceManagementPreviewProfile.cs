@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview
                   .ForMember(c => c.Id, o => o.Ignore());
 
             Mapper.CreateMap<NetworkReservedIPGetResponse, ReservedIPContext>()
-                  .ForMember(c => c.Name, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.Label, o => o.MapFrom(r => r.Label))
                   .ForMember(c => c.Id, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.AffinityGroup, o => o.MapFrom(r => r.AffinityGroup))
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview
                   .ForMember(c => c.DeploymentName, o => o.MapFrom(r => r.DeploymentName));
 
             Mapper.CreateMap<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>()
-                  .ForMember(c => c.Name, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.Label, o => o.MapFrom(r => r.Label))
                   .ForMember(c => c.Id, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.AffinityGroup, o => o.MapFrom(r => r.AffinityGroup))

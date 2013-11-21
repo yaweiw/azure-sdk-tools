@@ -992,7 +992,8 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         private string _reservedIPName;
         
         /// <summary>
-        /// The name of the Reserved IP that the deployment belongs to.
+        /// Preview Only. The name of the Reserved IP that the deployment
+        /// belongs to.
         /// </summary>
         public string ReservedIPName
         {
@@ -5010,9 +5011,9 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
         private string _reservedIPName;
         
         /// <summary>
-        /// Optional. Specifies the name of an existing reserved IP to which
-        /// the deployment will belong. Reserved IPs are created by calling
-        /// the Create Reserved IP operation.
+        /// Optional and Preview Only. Specifies the name of an existing
+        /// reserved IP to which the deployment will belong. Reserved IPs are
+        /// created by calling the Create Reserved IP operation.
         /// </summary>
         public string ReservedIPName
         {
@@ -9260,6 +9261,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -9267,7 +9272,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> BeginDeletingByNameAsync(string serviceName, string deploymentName, CancellationToken cancellationToken);
+        Task<OperationResponse> BeginDeletingByNameAsync(string serviceName, string deploymentName, bool deleteFromStorage, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Delete Deployment operation deletes the specified deployment.
@@ -9824,6 +9829,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -9838,7 +9847,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        Task<ComputeOperationStatusResponse> DeleteByNameAsync(string serviceName, string deploymentName, CancellationToken cancellationToken);
+        Task<ComputeOperationStatusResponse> DeleteByNameAsync(string serviceName, string deploymentName, bool deleteFromStorage, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Delete Deployment operation deletes the specified deployment.
@@ -10786,15 +10795,19 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse BeginDeletingByName(this IDeploymentOperations operations, string serviceName, string deploymentName)
+        public static OperationResponse BeginDeletingByName(this IDeploymentOperations operations, string serviceName, string deploymentName, bool deleteFromStorage)
         {
             try
             {
-                return operations.BeginDeletingByNameAsync(serviceName, deploymentName).Result;
+                return operations.BeginDeletingByNameAsync(serviceName, deploymentName, deleteFromStorage).Result;
             }
             catch (AggregateException ex)
             {
@@ -10829,13 +10842,17 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static Task<OperationResponse> BeginDeletingByNameAsync(this IDeploymentOperations operations, string serviceName, string deploymentName)
+        public static Task<OperationResponse> BeginDeletingByNameAsync(this IDeploymentOperations operations, string serviceName, string deploymentName, bool deleteFromStorage)
         {
-            return operations.BeginDeletingByNameAsync(serviceName, deploymentName, CancellationToken.None);
+            return operations.BeginDeletingByNameAsync(serviceName, deploymentName, deleteFromStorage, CancellationToken.None);
         }
         
         /// <summary>
@@ -12266,6 +12283,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
         /// operation, indicating whether it has succeeded, is inprogress, or
@@ -12277,11 +12298,11 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public static ComputeOperationStatusResponse DeleteByName(this IDeploymentOperations operations, string serviceName, string deploymentName)
+        public static ComputeOperationStatusResponse DeleteByName(this IDeploymentOperations operations, string serviceName, string deploymentName, bool deleteFromStorage)
         {
             try
             {
-                return operations.DeleteByNameAsync(serviceName, deploymentName).Result;
+                return operations.DeleteByNameAsync(serviceName, deploymentName, deleteFromStorage).Result;
             }
             catch (AggregateException ex)
             {
@@ -12316,6 +12337,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
         /// operation, indicating whether it has succeeded, is inprogress, or
@@ -12327,9 +12352,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public static Task<ComputeOperationStatusResponse> DeleteByNameAsync(this IDeploymentOperations operations, string serviceName, string deploymentName)
+        public static Task<ComputeOperationStatusResponse> DeleteByNameAsync(this IDeploymentOperations operations, string serviceName, string deploymentName, bool deleteFromStorage)
         {
-            return operations.DeleteByNameAsync(serviceName, deploymentName, CancellationToken.None);
+            return operations.DeleteByNameAsync(serviceName, deploymentName, deleteFromStorage, CancellationToken.None);
         }
         
         /// <summary>
@@ -14929,6 +14954,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -14936,7 +14965,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> BeginDeletingByNameAsync(string serviceName, string deploymentName, CancellationToken cancellationToken)
+        public async Task<OperationResponse> BeginDeletingByNameAsync(string serviceName, string deploymentName, bool deleteFromStorage, CancellationToken cancellationToken)
         {
             // Validate
             if (serviceName == null)
@@ -14957,11 +14986,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("deploymentName", deploymentName);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
                 Tracing.Enter(invocationId, this, "BeginDeletingByNameAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName + "?";
+            if (deleteFromStorage == true)
+            {
+                url = url + "&comp=" + Uri.EscapeUriString("media");
+            }
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -17356,6 +17390,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='deploymentName'>
         /// The name of your deployment.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -17370,7 +17408,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public async Task<ComputeOperationStatusResponse> DeleteByNameAsync(string serviceName, string deploymentName, CancellationToken cancellationToken)
+        public async Task<ComputeOperationStatusResponse> DeleteByNameAsync(string serviceName, string deploymentName, bool deleteFromStorage, CancellationToken cancellationToken)
         {
             ComputeManagementClient client = this.Client;
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
@@ -17381,6 +17419,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("deploymentName", deploymentName);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
                 Tracing.Enter(invocationId, this, "DeleteByNameAsync", tracingParameters);
             }
             try
@@ -17391,7 +17430,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 }
                 
                 cancellationToken.ThrowIfCancellationRequested();
-                OperationResponse response = await client.Deployments.BeginDeletingByNameAsync(serviceName, deploymentName, cancellationToken).ConfigureAwait(false);
+                OperationResponse response = await client.Deployments.BeginDeletingByNameAsync(serviceName, deploymentName, deleteFromStorage, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;
@@ -21588,6 +21627,24 @@ namespace Microsoft.WindowsAzure.Management.Compute
         Task<OperationResponse> BeginAddingExtensionAsync(string serviceName, HostedServiceAddExtensionParameters parameters, CancellationToken cancellationToken);
         
         /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> BeginDeletingAllAsync(string serviceName, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// The Delete Extension operation deletes the specified extension from
         /// a cloud service.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
@@ -21661,6 +21718,31 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// request ID.
         /// </returns>
         Task<OperationResponse> DeleteAsync(string serviceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        Task<ComputeOperationStatusResponse> DeleteAllAsync(string serviceName, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Delete Extension operation deletes the specified extension from
@@ -21990,6 +22072,64 @@ namespace Microsoft.WindowsAzure.Management.Compute
         }
         
         /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse BeginDeletingAll(this IHostedServiceOperations operations, string serviceName)
+        {
+            try
+            {
+                return operations.BeginDeletingAllAsync(serviceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> BeginDeletingAllAsync(this IHostedServiceOperations operations, string serviceName)
+        {
+            return operations.BeginDeletingAllAsync(serviceName, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// The Delete Extension operation deletes the specified extension from
         /// a cloud service.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
@@ -22225,6 +22365,78 @@ namespace Microsoft.WindowsAzure.Management.Compute
         public static Task<OperationResponse> DeleteAsync(this IHostedServiceOperations operations, string serviceName)
         {
             return operations.DeleteAsync(serviceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static ComputeOperationStatusResponse DeleteAll(this IHostedServiceOperations operations, string serviceName)
+        {
+            try
+            {
+                return operations.DeleteAllAsync(serviceName).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IHostedServiceOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public static Task<ComputeOperationStatusResponse> DeleteAllAsync(this IHostedServiceOperations operations, string serviceName)
+        {
+            return operations.DeleteAllAsync(serviceName, CancellationToken.None);
         }
         
         /// <summary>
@@ -23032,6 +23244,116 @@ namespace Microsoft.WindowsAzure.Management.Compute
         }
         
         /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> BeginDeletingAllAsync(string serviceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serviceName == null)
+            {
+                throw new ArgumentNullException("serviceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                Tracing.Enter(invocationId, this, "BeginDeletingAllAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "?comp=media";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// The Delete Extension operation deletes the specified extension from
         /// a cloud service.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/dn169560.aspx
@@ -23579,6 +23901,90 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 if (httpRequest != null)
                 {
                     httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Hosted Service operation deletes the specified cloud
+        /// service from Windows Azure.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441305.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of the cloud service.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
+        /// </returns>
+        public async Task<ComputeOperationStatusResponse> DeleteAllAsync(string serviceName, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                Tracing.Enter(invocationId, this, "DeleteAllAsync", tracingParameters);
+            }
+            try
+            {
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
+                
+                cancellationToken.ThrowIfCancellationRequested();
+                OperationResponse response = await client.HostedServices.BeginDeletingAllAsync(serviceName, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 30;
+                while ((result.Status != OperationStatus.InProgress) == false)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
+                }
+                
+                if (shouldTrace)
+                {
+                    Tracing.Exit(invocationId, result);
+                }
+                
+                if (result.Status != OperationStatus.Succeeded)
+                {
+                    CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
+                    ex.ErrorCode = result.Error.Code;
+                    ex.ErrorMessage = result.Error.Message;
+                    if (shouldTrace)
+                    {
+                        Tracing.Error(invocationId, ex);
+                    }
+                    throw ex;
+                }
+                
+                return result;
+            }
+            finally
+            {
+                if (client != null && shouldTrace)
+                {
+                    client.Dispose();
                 }
             }
         }
@@ -27845,6 +28251,37 @@ namespace Microsoft.WindowsAzure.Management.Compute
     public partial interface IVirtualMachineDiskOperations
     {
         /// <summary>
+        /// The Delete Data Disk operation removes the specified data disk from
+        /// a virtual machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157179.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// The name of the deployment.
+        /// </param>
+        /// <param name='roleName'>
+        /// The name of the role to delete the data disk from.
+        /// </param>
+        /// <param name='logicalUnitNumber'>
+        /// The logical unit number of the disk.
+        /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<OperationResponse> BeginDeletingDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// The Add Data Disk operation adds a data disk to a virtual machine.
         /// There are three ways to create the data disk using the Add Data
         /// Disk operation.  Option 1 – Attach an empty data disk to the role
@@ -27923,14 +28360,25 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='logicalUnitNumber'>
         /// The logical unit number of the disk.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        Task<OperationResponse> DeleteDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, CancellationToken cancellationToken);
+        Task<ComputeOperationStatusResponse> DeleteDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Delete Disk operation deletes the specified data or operating
@@ -28072,6 +28520,90 @@ namespace Microsoft.WindowsAzure.Management.Compute
     /// </summary>
     public static partial class VirtualMachineDiskOperationsExtensions
     {
+        /// <summary>
+        /// The Delete Data Disk operation removes the specified data disk from
+        /// a virtual machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157179.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IVirtualMachineDiskOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// The name of the deployment.
+        /// </param>
+        /// <param name='roleName'>
+        /// The name of the role to delete the data disk from.
+        /// </param>
+        /// <param name='logicalUnitNumber'>
+        /// The logical unit number of the disk.
+        /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static OperationResponse BeginDeletingDataDisk(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage)
+        {
+            try
+            {
+                return operations.BeginDeletingDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, deleteFromStorage).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Delete Data Disk operation removes the specified data disk from
+        /// a virtual machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157179.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.Compute.IVirtualMachineDiskOperations.
+        /// </param>
+        /// <param name='serviceName'>
+        /// The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// The name of the deployment.
+        /// </param>
+        /// <param name='roleName'>
+        /// The name of the role to delete the data disk from.
+        /// </param>
+        /// <param name='logicalUnitNumber'>
+        /// The logical unit number of the disk.
+        /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<OperationResponse> BeginDeletingDataDiskAsync(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage)
+        {
+            return operations.BeginDeletingDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, deleteFromStorage, CancellationToken.None);
+        }
+        
         /// <summary>
         /// The Add Data Disk operation adds a data disk to a virtual machine.
         /// There are three ways to create the data disk using the Add Data
@@ -28260,15 +28792,26 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='logicalUnitNumber'>
         /// The logical unit number of the disk.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public static OperationResponse DeleteDataDisk(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber)
+        public static ComputeOperationStatusResponse DeleteDataDisk(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage)
         {
             try
             {
-                return operations.DeleteDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber).Result;
+                return operations.DeleteDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, deleteFromStorage).Result;
             }
             catch (AggregateException ex)
             {
@@ -28305,13 +28848,24 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='logicalUnitNumber'>
         /// The logical unit number of the disk.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public static Task<OperationResponse> DeleteDataDiskAsync(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber)
+        public static Task<ComputeOperationStatusResponse> DeleteDataDiskAsync(this IVirtualMachineDiskOperations operations, string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage)
         {
-            return operations.DeleteDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, CancellationToken.None);
+            return operations.DeleteDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, deleteFromStorage, CancellationToken.None);
         }
         
         /// <summary>
@@ -28738,6 +29292,145 @@ namespace Microsoft.WindowsAzure.Management.Compute
         public ComputeManagementClient Client
         {
             get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Delete Data Disk operation removes the specified data disk from
+        /// a virtual machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157179.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// The name of the deployment.
+        /// </param>
+        /// <param name='roleName'>
+        /// The name of the role to delete the data disk from.
+        /// </param>
+        /// <param name='logicalUnitNumber'>
+        /// The logical unit number of the disk.
+        /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<OperationResponse> BeginDeletingDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serviceName == null)
+            {
+                throw new ArgumentNullException("serviceName");
+            }
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException("deploymentName");
+            }
+            if (roleName == null)
+            {
+                throw new ArgumentNullException("roleName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                tracingParameters.Add("deploymentName", deploymentName);
+                tracingParameters.Add("roleName", roleName);
+                tracingParameters.Add("logicalUnitNumber", logicalUnitNumber);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
+                Tracing.Enter(invocationId, this, "BeginDeletingDataDiskAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName + "/roles/" + roleName + "/DataDisks/" + logicalUnitNumber + "?";
+            if (deleteFromStorage == true)
+            {
+                url = url + "&comp=" + Uri.EscapeUriString("media");
+            }
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Delete;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
         }
         
         /// <summary>
@@ -29215,30 +29908,27 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='logicalUnitNumber'>
         /// The logical unit number of the disk.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob for the disk should also
+        /// be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself.  If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request.  If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request, and also includes error
+        /// information regarding the failure.
         /// </returns>
-        public async Task<OperationResponse> DeleteDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, CancellationToken cancellationToken)
+        public async Task<ComputeOperationStatusResponse> DeleteDataDiskAsync(string serviceName, string deploymentName, string roleName, int logicalUnitNumber, bool deleteFromStorage, CancellationToken cancellationToken)
         {
-            // Validate
-            if (serviceName == null)
-            {
-                throw new ArgumentNullException("serviceName");
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException("deploymentName");
-            }
-            if (roleName == null)
-            {
-                throw new ArgumentNullException("roleName");
-            }
-            
-            // Tracing
+            ComputeManagementClient client = this.Client;
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
             string invocationId = null;
             if (shouldTrace)
@@ -29249,80 +29939,54 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 tracingParameters.Add("deploymentName", deploymentName);
                 tracingParameters.Add("roleName", roleName);
                 tracingParameters.Add("logicalUnitNumber", logicalUnitNumber);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
                 Tracing.Enter(invocationId, this, "DeleteDataDiskAsync", tracingParameters);
             }
-            
-            // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName + "/roles/" + roleName + "/DataDisks/" + logicalUnitNumber;
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
             try
             {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Delete;
-                httpRequest.RequestUri = new Uri(url);
+                if (shouldTrace)
+                {
+                    client = this.Client.WithHandler(new ClientRequestTrackingHandler(invocationId));
+                }
                 
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
-                
-                // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
+                OperationResponse response = await client.VirtualMachineDisks.BeginDeletingDataDiskAsync(serviceName, deploymentName, roleName, logicalUnitNumber, deleteFromStorage, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+                int delayInSeconds = 30;
+                while ((result.Status != OperationStatus.InProgress) == false)
                 {
-                    if (shouldTrace)
-                    {
-                        Tracing.SendRequest(invocationId, httpRequest);
-                    }
                     cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        Tracing.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            Tracing.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    OperationResponse result = new OperationResponse();
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        Tracing.Exit(invocationId, result);
-                    }
-                    return result;
+                    await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+                    delayInSeconds = 30;
                 }
-                finally
+                
+                if (shouldTrace)
                 {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
+                    Tracing.Exit(invocationId, result);
                 }
+                
+                if (result.Status != OperationStatus.Succeeded)
+                {
+                    CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
+                    ex.ErrorCode = result.Error.Code;
+                    ex.ErrorMessage = result.Error.Message;
+                    if (shouldTrace)
+                    {
+                        Tracing.Error(invocationId, ex);
+                    }
+                    throw ex;
+                }
+                
+                return result;
             }
             finally
             {
-                if (httpRequest != null)
+                if (client != null && shouldTrace)
                 {
-                    httpRequest.Dispose();
+                    client.Dispose();
                 }
             }
         }
@@ -32331,6 +32995,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -32338,7 +33006,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        Task<OperationResponse> BeginDeletingAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken);
+        Task<OperationResponse> BeginDeletingAsync(string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Restart role operation restarts the specified virtual machine.
@@ -32638,6 +33306,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -32652,7 +33324,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        Task<ComputeOperationStatusResponse> DeleteAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken);
+        Task<ComputeOperationStatusResponse> DeleteAsync(string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage, CancellationToken cancellationToken);
         
         /// <summary>
         /// The Get Role operation retrieves information about the specified
@@ -33119,15 +33791,19 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static OperationResponse BeginDeleting(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName)
+        public static OperationResponse BeginDeleting(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage)
         {
             try
             {
-                return operations.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName).Result;
+                return operations.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName, deleteFromStorage).Result;
             }
             catch (AggregateException ex)
             {
@@ -33161,13 +33837,17 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public static Task<OperationResponse> BeginDeletingAsync(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName)
+        public static Task<OperationResponse> BeginDeletingAsync(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage)
         {
-            return operations.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName, CancellationToken.None);
+            return operations.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName, deleteFromStorage, CancellationToken.None);
         }
         
         /// <summary>
@@ -33975,6 +34655,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
         /// operation, indicating whether it has succeeded, is inprogress, or
@@ -33986,11 +34670,11 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public static ComputeOperationStatusResponse Delete(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName)
+        public static ComputeOperationStatusResponse Delete(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage)
         {
             try
             {
-                return operations.DeleteAsync(serviceName, deploymentName, virtualMachineName).Result;
+                return operations.DeleteAsync(serviceName, deploymentName, virtualMachineName, deleteFromStorage).Result;
             }
             catch (AggregateException ex)
             {
@@ -34024,6 +34708,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
         /// operation, indicating whether it has succeeded, is inprogress, or
@@ -34035,9 +34723,9 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public static Task<ComputeOperationStatusResponse> DeleteAsync(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName)
+        public static Task<ComputeOperationStatusResponse> DeleteAsync(this IVirtualMachineOperations operations, string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage)
         {
-            return operations.DeleteAsync(serviceName, deploymentName, virtualMachineName, CancellationToken.None);
+            return operations.DeleteAsync(serviceName, deploymentName, virtualMachineName, deleteFromStorage, CancellationToken.None);
         }
         
         /// <summary>
@@ -36389,6 +37077,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -36396,7 +37088,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// A standard service response including an HTTP status code and
         /// request ID.
         /// </returns>
-        public async Task<OperationResponse> BeginDeletingAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken)
+        public async Task<OperationResponse> BeginDeletingAsync(string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage, CancellationToken cancellationToken)
         {
             // Validate
             if (serviceName == null)
@@ -36422,11 +37114,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("deploymentName", deploymentName);
                 tracingParameters.Add("virtualMachineName", virtualMachineName);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
                 Tracing.Enter(invocationId, this, "BeginDeletingAsync", tracingParameters);
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName + "/roles/" + virtualMachineName;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/hostedservices/" + serviceName + "/deployments/" + deploymentName + "/roles/" + virtualMachineName + "?";
+            if (deleteFromStorage == true)
+            {
+                url = url + "&comp=" + Uri.EscapeUriString("media");
+            }
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -39090,6 +39787,10 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// <param name='virtualMachineName'>
         /// The name of the virtual machine to delete.
         /// </param>
+        /// <param name='deleteFromStorage'>
+        /// Optional. Specifies that the source blob(s) for the virtual machine
+        /// should also be deleted from storage.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
@@ -39104,7 +39805,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
         /// status code for the failed request, and also includes error
         /// information regarding the failure.
         /// </returns>
-        public async Task<ComputeOperationStatusResponse> DeleteAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken)
+        public async Task<ComputeOperationStatusResponse> DeleteAsync(string serviceName, string deploymentName, string virtualMachineName, bool deleteFromStorage, CancellationToken cancellationToken)
         {
             ComputeManagementClient client = this.Client;
             bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
@@ -39116,6 +39817,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 tracingParameters.Add("serviceName", serviceName);
                 tracingParameters.Add("deploymentName", deploymentName);
                 tracingParameters.Add("virtualMachineName", virtualMachineName);
+                tracingParameters.Add("deleteFromStorage", deleteFromStorage);
                 Tracing.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
             try
@@ -39126,7 +39828,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 }
                 
                 cancellationToken.ThrowIfCancellationRequested();
-                OperationResponse response = await client.VirtualMachines.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName, cancellationToken).ConfigureAwait(false);
+                OperationResponse response = await client.VirtualMachines.BeginDeletingAsync(serviceName, deploymentName, virtualMachineName, deleteFromStorage, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 ComputeOperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
                 int delayInSeconds = 30;

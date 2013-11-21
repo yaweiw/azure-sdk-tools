@@ -14,15 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using Model;
     using Utilities.Common;
-
 
     [Cmdlet(VerbsCommon.New, ReservedIPConstants.CmdletNoun, DefaultParameterSetName = ReserveNewIPParamSet), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
@@ -33,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Name.")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string ReservedIPName
         {
             get;
             set;
@@ -65,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = true, Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Deployment Name.")]
+        [Parameter(Mandatory = true, Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
         public string DeploymentName
         {
@@ -77,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
         {
             var parameters = new NetworkReservedIPCreateParameters
             {
-                Name = Name,
+                Name = ReservedIPName,
                 Label = Label,
                 AffinityGroup = AffinityGroup,
                 ServiceName = ServiceName,
@@ -86,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => NetworkClient.Networks.CreateReservedIP(parameters));
+                () => NetworkClient.ReservedIPs.Create(parameters));
         }
 
         protected override void OnProcessRecord()

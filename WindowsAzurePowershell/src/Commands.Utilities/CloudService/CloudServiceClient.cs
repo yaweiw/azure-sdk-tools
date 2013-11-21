@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using Management;
     using Management.Compute;
     using Management.Compute.Models;
-    using Management.VirtualNetworks;
     using Management.Storage;
     using Management.Storage.Models;
     using Model;
@@ -52,8 +51,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         internal StorageManagementClient StorageClient { get; set; }
 
         internal ComputeManagementClient ComputeClient { get; set; }
-
-        internal VirtualNetworkManagementClient NetworkClient { get; set; }
 
         public WindowsAzureSubscription Subscription { get; set; }
 
@@ -349,34 +346,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void DeleteDeploymentIfExists(string name, DeploymentSlot slot, bool deleteReservedIP)
+        private void DeleteDeploymentIfExists(string name, DeploymentSlot slot)
         {
             if (DeploymentExists(name, slot))
             {
                 var deploymentGetResponse = ComputeClient.Deployments.GetBySlot(name, slot);
-                bool toDeleteReservedIP = false;
-                if (deleteReservedIP)
+                if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
                 {
-                    if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-                    {
-                        WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseAndWillBeDeleted, deploymentGetResponse.ReservedIPName));
-                        toDeleteReservedIP = true;
-                    }
-                }
-                else if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
-                {
-                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
                 }
 
                 WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
-                TranslateException(() =>
-                {
-                    ComputeClient.Deployments.DeleteBySlot(name, slot);
-                    if (toDeleteReservedIP)
-                    {
-                        NetworkClient.Networks.DeleteReservedIP(deploymentGetResponse.ReservedIPName);
-                    }
-                });
+                TranslateException(() => ComputeClient.Deployments.DeleteBySlot(name, slot));
             }   
         }
 
@@ -546,7 +527,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ManagementClient = subscription.CreateClient<ManagementClient>();
             StorageClient = subscription.CreateClient<StorageManagementClient>();
             ComputeClient = subscription.CreateClient<ComputeManagementClient>();
-            NetworkClient = subscription.CreateClient<VirtualNetworkManagementClient>();
         }
 
         private CloudServiceClient(string currentLocation, Action<string> debugStream, Action<string> verboseStream,
@@ -916,20 +896,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="name">The cloud service name</param>
         public void RemoveCloudService(string name)
         {
-            RemoveCloudService(name, false);
-        }
-
-        /// <summary>
-        /// Removes all deployments in the given cloud service and the service itself.
-        /// </summary>
-        /// <param name="name">The cloud service name</param>
-        /// <param name="deleteReservedIP">Delete the reserved IPs on this cloud service name</param>
-        public void RemoveCloudService(string name, bool deleteReservedIP)
-        {
             var cloudService = GetCloudService(name);
 
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production, deleteReservedIP);
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging, deleteReservedIP);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
             TranslateException(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
