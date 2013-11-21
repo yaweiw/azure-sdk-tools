@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.HostedServic
     /// View details of a specified deployment.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(DeploymentInfoContext))]
-    public class GetAzureDeploymentCmdlet : GetAzureDeploymentCommand
+    public class GetAzureDeploymentCommand : ServiceManagement.HostedServices.GetAzureDeploymentCommand
     {
         protected override void OnProcessRecord()
         {
