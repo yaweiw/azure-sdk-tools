@@ -177,9 +177,6 @@
             <Component Id="cmp47AD74929DE26AE91BCBE4FAF6BDD83F" Guid="CB7018E9-D84F-4BF8-BAD8-BB5AFD07DB82">
                 <File Id="fil3FFB6C88AEBB2BD2F1A11352BE435CFB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.Utilities.dll" />
             </Component>
-            <Component Id="cmpB1ED0C06C69C4B649BC2EFAB66959926" Guid="B1ED0C06-C69C-4B64-9BC2-EFAB66959926">
-                <File Id="fil686A4B36FA984BA2B8221D2ACE4301FF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.HDInsight.dll" />
-            </Component>
             <Component Id="cmp21C9E7BE02005FCC0A1E535762E799AE" Guid="24CD0947-BC09-4F04-9D04-68AD7AF7838E">
                 <File Id="filFC5D860539C0C2862F01BF3B7437B3AA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Commands.Utilities.pdb" />
             </Component>
@@ -694,7 +691,6 @@
             <ComponentRef Id="cmp21B4D7613134B6E8FCAD158844C590B5" />
             <ComponentRef Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" />
             <ComponentRef Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" />
-            <ComponentRef Id="cmpB1ED0C06C69C4B649BC2EFAB66959926"/>
             <ComponentRef Id="cmp244206F119F04EAA89C07BB5639B9152" />
             <ComponentRef Id="cmpAF45E7CCAC044BBBAAC157D52D3E529E"/>
             <ComponentRef Id="cmpD86881F1CF624B609F3FE183A3CA9252"/>

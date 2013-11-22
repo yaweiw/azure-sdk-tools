@@ -136,16 +136,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue.Cmdlet
             {
                 switch(op)
                 {
-                    case 'r':
+                    case StorageNouns.Permission.Read:
                         policy.Permissions |= SharedAccessQueuePermissions.Read;
                         break;
-                    case 'a':
+                    case StorageNouns.Permission.Add:
                         policy.Permissions |= SharedAccessQueuePermissions.Add;
                         break;
-                    case 'u':
+                    case StorageNouns.Permission.Update:
                         policy.Permissions |= SharedAccessQueuePermissions.Update;
                         break;
-                    case 'p':
+                    case StorageNouns.Permission.Process:
                         policy.Permissions |= SharedAccessQueuePermissions.ProcessMessages;
                         break;
                     default:

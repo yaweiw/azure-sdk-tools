@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             IEnumerable<VirtualHardDisk> results = null;
             var virtualHardDiskOperations = new VirtualHardDiskOperations(this.WebClientFactory);

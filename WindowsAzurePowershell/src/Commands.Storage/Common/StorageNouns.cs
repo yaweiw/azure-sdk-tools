@@ -163,5 +163,51 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Azure storage queue sas
         /// </summary>
         public const string QueueSas = "AzureStorageQueueSASToken";
+
+        /// <summary>
+        /// Permission const for New-AzureStorage(Blob/Container/Table/Queue)SasToken
+        /// </summary>
+        public static class Permission
+        {
+            /// <summary>
+            /// Read permission
+            /// </summary>
+            public const char Read = 'r';
+
+            /// <summary>
+            /// Write permission
+            /// </summary>
+            public const char Write = 'w';
+
+            /// <summary>
+            /// Delete permission
+            /// </summary>
+            public const char Delete = 'd';
+
+            /// <summary>
+            /// List permission
+            /// </summary>
+            public const char List = 'l';
+
+            /// <summary>
+            /// Update permission
+            /// </summary>
+            public const char Update = 'u';
+
+            /// <summary>
+            /// Add permission
+            /// </summary>
+            public const char Add = 'a';
+
+            /// <summary>
+            /// Process permission
+            /// </summary>
+            public const char Process = 'p';
+
+            /// <summary>
+            /// Query permission
+            /// </summary>
+            public const char Query = 'q';
+        }
     }
 }

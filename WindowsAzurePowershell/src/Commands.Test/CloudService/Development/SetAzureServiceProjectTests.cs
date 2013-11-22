@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
                 {
                     // Create new empty settings file
                     //
-                    ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                    PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
                     mockCommandRuntime = new MockCommandRuntime();
                     setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
                 string unknownLocation = "Unknown Location";
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 mockCommandRuntime = new MockCommandRuntime();
                 setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
                 {
                     // Create new empty settings file
                     //
-                    ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                    PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
                     settings.Save(paths.Settings);
 
@@ -174,7 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
@@ -189,7 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 // Create new empty settings file
                 //
-                ServicePathInfo paths = new ServicePathInfo(files.RootPath);
+                PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 

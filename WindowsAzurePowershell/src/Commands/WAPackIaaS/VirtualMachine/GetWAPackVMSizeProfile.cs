@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             IEnumerable<HardwareProfile> results = null;
             var hardwareProfileOperations = new HardwareProfileOperations(this.WebClientFactory);

@@ -88,6 +88,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public DatabaseEdition Edition { get; set; }
 
         /// <summary>
+        /// Gets or sets the new ServiceObjective for this database.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new ServiceObjective for the database.")]
+        [ValidateNotNull]
+        public ServiceObjective ServiceObjective { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum size of the newly created database in GB.
         /// </summary>
         [Parameter(Mandatory = false, HelpMessage = "The maximum size for the database in GB.")]
@@ -156,8 +163,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 this.WriteObject(context.CreateNewDatabase(
                     this.DatabaseName, 
                     maxSizeGb, 
-                    this.Collation, 
-                    this.Edition));
+                    this.Collation,
+                    this.Edition,
+                    this.ServiceObjective));
             }
             catch (Exception ex)
             {
@@ -180,7 +188,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.DatabaseName,
                     maxSizeGb,
                     this.Collation,
-                    this.Edition);
+                    this.Edition,
+                    this.ServiceObjective);
 
                 this.WriteObject(database, true);
             }

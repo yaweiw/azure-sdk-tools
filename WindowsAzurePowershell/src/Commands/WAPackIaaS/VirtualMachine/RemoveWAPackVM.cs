@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
         [Parameter(Position = 2, HelpMessage = "Confirm the removal of the VM")]
         public SwitchParameter Force { get; set; }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
             Guid? jobId = null;
