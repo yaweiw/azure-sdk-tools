@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.IaaS.Persist
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureVMCmdlet : NewAzureVMCommand
+    public class NewAzureVMCommand : ServiceManagement.IaaS.PersistentVMs.NewAzureVMCommand
     {
         [Parameter(HelpMessage = "The name of the reserved IP.")]
         [ValidateNotNullOrEmpty]
