@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     public interface ISiteConfig
     {
@@ -51,6 +52,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         bool? AzureTableTraceEnabled { get; set; }
 
         LogEntryType AzureTableTraceLevel { get; set; }
+
+        ManagedPipelineMode ManagedPipelineMode { get; set; }
+
+        bool WebSocketsEnabled { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -307,6 +312,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             get { return DiagnosticsSettings.AzureTableTraceLevel; }
             set { DiagnosticsSettings.AzureTableTraceLevel = value; }
         }
+
+        public ManagedPipelineMode ManagedPipelineMode
+        {
+            get { return SiteConfig.ManagedPipelineMode; }
+            set { SiteConfig.ManagedPipelineMode = value; }
+        }
+
+        public bool WebSocketsEnabled
+        {
+            get { return SiteConfig.WebSocketsEnabled; }
+            set { SiteConfig.WebSocketsEnabled = value; }
+        }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
@@ -351,5 +368,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         [DataMember(IsRequired = false)]
         public HandlerMapping[] HandlerMappings { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public ManagedPipelineMode ManagedPipelineMode { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public bool WebSocketsEnabled { get; set; }
     }
 }
