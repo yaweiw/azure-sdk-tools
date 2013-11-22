@@ -2486,7 +2486,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         Task<AddOnOperationStatusResponse> CreateAsync(CloudServiceCreateParameters parameters, CancellationToken cancellationToken);
         
         /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// The List Cloud Services operation enumerates Windows Azure Store
         /// entries that are provisioned for a subscription.
         /// </summary>
         /// <param name='cancellationToken'>
@@ -2641,7 +2641,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         }
         
         /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// The List Cloud Services operation enumerates Windows Azure Store
         /// entries that are provisioned for a subscription.
         /// </summary>
         /// <param name='operations'>
@@ -2671,7 +2671,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         }
         
         /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// The List Cloud Services operation enumerates Windows Azure Store
         /// entries that are provisioned for a subscription.
         /// </summary>
         /// <param name='operations'>
@@ -2772,7 +2772,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + parameters.Name;
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/" + parameters.Name + "/";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -2956,7 +2956,7 @@ namespace Microsoft.WindowsAzure.Management.Store
         }
         
         /// <summary>
-        /// The Get Cloud Services operation enumerates Windows Azure Store
+        /// The List Cloud Services operation enumerates Windows Azure Store
         /// entries that are provisioned for a subscription.
         /// </summary>
         /// <param name='cancellationToken'>
@@ -2980,7 +2980,7 @@ namespace Microsoft.WindowsAzure.Management.Store
             }
             
             // Construct URL
-            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices";
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/CloudServices/";
             
             // Create HTTP transport objects
             HttpRequestMessage httpRequest = null;
@@ -3054,7 +3054,7 @@ namespace Microsoft.WindowsAzure.Management.Store
                             XElement labelElement = cloudServicesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
                             if (labelElement != null)
                             {
-                                string labelInstance = labelElement.Value;
+                                string labelInstance = TypeConversion.FromBase64String(labelElement.Value);
                                 cloudServiceInstance.Label = labelInstance;
                             }
                             

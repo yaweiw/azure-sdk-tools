@@ -240,6 +240,14 @@
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
+    <Compile Include="WAPackIaaS\Common\WebClientFactoryTests.cs" />
+    <Compile Include="WAPackIaaS\Mocks\MockLogger.cs" />
+    <Compile Include="WAPackIaaS\Mocks\MockRequestChannel.cs" />
+    <Compile Include="WAPackIaaS\Operations\JobOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\Operations\VirtualMachineOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
+    <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
+    <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnosticTests.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDiagnosticTests.cs" />
     <Compile Include="Websites\GetAzureWebsiteDeploymentTests.cs" />
