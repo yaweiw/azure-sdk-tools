@@ -12,24 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
-
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PreviewCmdletInfo
 {
-    using PowershellCore;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
-    public class RemoveAzureVMCmdletInfo : CmdletsInfo
+
+    public class GetAzureReservedIPCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureVMCmdletInfo(string vmName, string serviceName, bool deleteVhd)
+        public GetAzureReservedIPCmdletInfo(string name)
         {
-            this.cmdletName = Utilities.RemoveAzureVMCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", vmName));
-            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            this.cmdletName = Utilities.GetAzureReservedIPCmdletName;
 
-            if (deleteVhd)
+            if (!string.IsNullOrEmpty(name))
             {
-                this.cmdletParams.Add(new CmdletParam("DeleteVhd"));
-            }
+                this.cmdletParams.Add(new CmdletParam("ReservedIPName", name));
+            }            
         }
     }
 }
