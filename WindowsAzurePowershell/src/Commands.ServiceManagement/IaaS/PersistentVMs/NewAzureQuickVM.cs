@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Waits for VM to boot")]
+        [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter WaitForBoot
         {
