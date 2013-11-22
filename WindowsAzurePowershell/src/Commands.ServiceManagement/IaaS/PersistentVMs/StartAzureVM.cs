@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Alias("InputObject")]
         public PersistentVM VM { get; set; }
 
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
 
