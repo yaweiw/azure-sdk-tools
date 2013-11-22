@@ -208,6 +208,7 @@
     </Compile>
     <Compile Include="Database\Cmdlet\RemoveAzureSqlDatabase.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabase.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseOperation.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
     <Compile Include="Database\Cmdlet\NewAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServerQuota.cs" />

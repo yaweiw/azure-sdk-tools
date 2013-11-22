@@ -46,8 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.CreateLinuxVMFromTemplate, HelpMessage = "Credentials for Admistrator account for Linux VM")]
-        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.CreateWindowsVMFromTemplate, HelpMessage = "Credentials for the localuser for Windows VM.")]
+        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.CreateLinuxVMFromTemplate, ValueFromPipelineByPropertyName = true, HelpMessage = "Credentials for Admistrator account for Linux VM")]
+        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.CreateWindowsVMFromTemplate, ValueFromPipelineByPropertyName = true, HelpMessage = "Credentials for the localuser for Windows VM.")]
         [ValidateNotNullOrEmpty]
         public PSCredential VMCredential
         {
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             VirtualMachine newVirtualMachine = null;
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
