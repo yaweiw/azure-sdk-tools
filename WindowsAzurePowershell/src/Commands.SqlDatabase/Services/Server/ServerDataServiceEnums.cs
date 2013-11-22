@@ -32,7 +32,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <summary>
         /// A database web edition
         /// </summary>
-        Web = 2
+        Web = 2,
+
+        /// <summary>
+        /// A database premium edition
+        /// </summary>
+        Premium = 3
     }
 }
 

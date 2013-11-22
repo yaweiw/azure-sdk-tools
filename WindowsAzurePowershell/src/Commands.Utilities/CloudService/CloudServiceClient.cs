@@ -241,14 +241,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void UpgradeDeployment(PublishContext context)
+        private void UpgradeDeployment(PublishContext context, bool forceUpgrade)
         {
             var upgradeParams = new DeploymentUpgradeParameters
             {
                 Configuration = General.GetConfiguration(context.ConfigPath),
                 PackageUri = UploadPackage(context),
                 Label = context.ServiceName,
-                Mode = DeploymentUpgradeMode.Auto
+                Mode = DeploymentUpgradeMode.Auto,
+                Force = forceUpgrade
             };
 
             WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
@@ -655,6 +656,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="storageAccount">The storage account to store the package</param>
         /// <param name="deploymentName">The deployment name</param>
         /// <param name="launch">Launch the service after publishing</param>
+        /// <param name="forceUpgrade">force the service upgrade even if this would result in loss of any local data on the vm (for example, changing the vm size)</param>
         /// <returns>The created deployment</returns>
         public Deployment PublishCloudService(
             string name = null,
@@ -663,7 +665,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string affinityGroup = null,
             string storageAccount = null,
             string deploymentName = null,
-            bool launch = false)
+            bool launch = false,
+            bool forceUpgrade = false)
         {
             // Initialize publish context
             PublishContext context = CreatePublishContext(
@@ -717,7 +720,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
             {
                 // Upgrade the deployment
-                UpgradeDeployment(context);
+                UpgradeDeployment(context, forceUpgrade);
             }
             else
             {

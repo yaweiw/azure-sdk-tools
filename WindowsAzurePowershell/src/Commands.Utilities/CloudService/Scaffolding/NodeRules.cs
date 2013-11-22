@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
         {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
-            ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
+            PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
             RoleSettings settings = General.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
 
             components.AddRoleToConfiguration(settings, DevEnv.Cloud);
@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
         {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
-            ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
+            PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
             WebRole webRole = General.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
 
             role.AddRoleToDefinition(components.Definition, webRole);
@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
         {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
-            ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
+            PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
             WorkerRole workerRole = General.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
 
             role.AddRoleToDefinition(components.Definition, workerRole);

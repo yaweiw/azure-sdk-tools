@@ -30,12 +30,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public ServiceConfiguration LocalConfig { get; private set; }
         public ServiceSettings Settings { get; private set; }
 
-        public ServiceComponents(ServicePathInfo paths)
+        public ServiceComponents(CloudProjectPathInfo paths)
         {
             LoadComponents(paths);
         }
 
-        private void LoadComponents(ServicePathInfo paths)
+        private void LoadComponents(CloudProjectPathInfo paths)
         {
             Validate.ValidateNullArgument(paths, string.Format(Resources.NullObjectMessage, "paths"));
             Validate.ValidateFileFull(paths.CloudConfiguration, Resources.ServiceConfiguration);
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Settings = ServiceSettings.Load(paths.Settings);
         }
 
-        public void Save(ServicePathInfo paths)
+        public void Save(CloudProjectPathInfo paths)
         {
             // Validate directory exists and it's valid
             if (paths == null) throw new ArgumentNullException("paths");
@@ -413,10 +413,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             foreach (string commandLine in commandLines)
             {
-                Task task = startup.Task.FirstOrDefault(t => t.commandLine.Equals(commandLine));
-                if (task != null)
+                if (startup != null)
                 {
-                    return task;
+                    Task task = startup.Task.FirstOrDefault(t => t.commandLine.Equals(commandLine));
+
+                    if (task != null)
+                    {
+                        return task;
+                    }
                 }
             }
 
