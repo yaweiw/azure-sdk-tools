@@ -139,13 +139,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         }
                         catch (CloudException ex)
                         {
+                            WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
+
                             if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
                             {
                                 throw;
-                            }
-                            else
-                            {
-                                WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
                             }
                         }
                     }
