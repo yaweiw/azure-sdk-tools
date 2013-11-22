@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsCommon.New, "WAPackQuickVM")]
     public class NewWAPackQuickVM : IaaSCmdletBase
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "VirtualMachine Name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "VirtualMachine Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             VirtualMachine pendingVirtualMachine = null;
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsLifecycle.Suspend, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject)]
     public class SuspendWAPackVM : VMOperationsCmdlet
     {
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             this.ExecuteVMOperation(VMOperationsEnum.Suspend);
         }
