@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void SetupTest()
         {
             clientMock = new Mock<ICloudServiceClient>();
-            clientMock.Setup(f => f.RemoveCloudService(serviceName));
+            clientMock.Setup(f => f.RemoveCloudService(serviceName, false));
 
             commandRuntimeMock = new Mock<ICommandRuntime>();
             commandRuntimeMock.Setup(f => f.WriteObject(true));
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
             removeAzureServiceCmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Once());
+            clientMock.Verify(f => f.RemoveCloudService(serviceName, false), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
 
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
             removeAzureServiceCmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Never());
+            clientMock.Verify(f => f.RemoveCloudService(serviceName, false), Times.Never());
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
     }
