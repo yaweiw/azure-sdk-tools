@@ -43,7 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 RequestTracingEnabled = getConfigResponse.RequestTracingEnabled,
                 RequestTracingExpirationTime = getConfigResponse.RequestTracingExpirationTime,
                 ScmType = getConfigResponse.ScmType,
-                Use32BitWorkerProcess = getConfigResponse.Use32BitWorkerProcess
+                Use32BitWorkerProcess = getConfigResponse.Use32BitWorkerProcess,
+                ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
+                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled
             };
 
             getConfigResponse.AppSettings.ForEach(kvp => update.AppSettings.Add(kvp.Key, kvp.Value));
@@ -92,7 +94,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     Arguments = hm.Arguments,
                     Extension = hm.Extension,
                     ScriptProcessor = hm.ScriptProcessor
-                }).ToArray()
+                }).ToArray(),
+                ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
+                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled
 
             };
             return config;
@@ -225,6 +229,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 PublishingPassword = config.PublishingPassword,
                 PublishingUserName = config.PublishingUsername,
                 RequestTracingEnabled = config.RequestTracingEnabled,
+                ManagedPipelineMode = config.ManagedPipelineMode,
+                WebSocketsEnabled = config.WebSocketsEnabled
             };
             config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
             config.ConnectionStrings.ForEach(
