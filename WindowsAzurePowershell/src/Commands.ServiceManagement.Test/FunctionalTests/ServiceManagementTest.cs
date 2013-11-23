@@ -29,6 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class ServiceManagementTest
     {
+        protected const string BadRequestException = "BadRequest";
+        protected const string ConflictErrorException = "ConflictError";
+        protected const string ResourceNotFoundException = "ResourceNotFound";
+
         protected const string serviceNamePrefix = "PSTestService";
         protected const string vmNamePrefix = "PSTestVM";
         protected const string password = "p@ssw0rd";
@@ -167,6 +171,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [AssemblyCleanup]
         public static void CleanUpAssembly()
         {
+            vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+
+            var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
+            if (affGroup.Count > 0)
+            {
+                foreach (var aff in affGroup)
+                {
+                    try
+                    {
+                        vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.ToString().Contains(BadRequestException))
+                        {
+                            Console.WriteLine("Affinity Group, {0}, is not deleted.", aff.Name);
+                        }
+                    }
+                }
+            }
+
             if (defaultAzureSubscription != null)
             {
                 Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
@@ -214,6 +239,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
             vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultAzureSubscription.CurrentStorageAccountName);
+        }
+
+        protected static void CleanupService(string svcName)
+        {
+            Utilities.TryAndIgnore(() => vmPowershellCmdlets.RemoveAzureService(svcName, true), "does not exist");
         }
     }
 }

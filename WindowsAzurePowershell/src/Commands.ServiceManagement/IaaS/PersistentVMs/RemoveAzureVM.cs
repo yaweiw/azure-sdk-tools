@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Management.Compute;
     using Management.Compute.Models;
+    using Management.VirtualNetworks;
     using Properties;
     using Utilities.Common;
 
@@ -33,7 +34,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        internal override void ExecuteCommand()
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Specify to remove the VM and the underlying disk blob(s).")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
+        protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
 
@@ -43,25 +51,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            DeploymentGetResponse deploymentResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
-            if (deploymentResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
+            DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+            if (deploymentGetResponse.Roles.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)) == null)
             {
                 throw new ArgumentOutOfRangeException(String.Format(Resources.RoleInstanceCanNotBeFoundWithName, Name));
             }
 
-            if (deploymentResponse.RoleInstances.Count > 1)
+            if (deploymentGetResponse.RoleInstances.Count > 1)
             {
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name));
+                    () => this.ComputeClient.VirtualMachines.Delete(this.ServiceName, CurrentDeploymentNewSM.Name, Name, DeleteVHD.IsPresent));
             }
             else
             {
-                ExecuteClientActionNewSM(
+                if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
+                {
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                }
+
+                ExecuteClientActionNewSM<OperationResponse>(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, DeploymentSlot.Production));
+                    () => this.ComputeClient.Deployments.DeleteByName(this.ServiceName, CurrentDeploymentNewSM.Name, DeleteVHD.IsPresent));
             }
         }
     }

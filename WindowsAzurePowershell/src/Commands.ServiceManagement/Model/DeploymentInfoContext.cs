@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
     using Management.Compute.Models;
@@ -26,6 +27,127 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     public class DeploymentInfoContext : ServiceOperationContext
     {
         private readonly XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
+
+
+        public string SdkVersion
+        {
+            get;
+            protected set;
+        }
+
+        public bool? RollbackAllowed
+        {
+            get;
+            protected set;
+        }
+
+        public string Slot
+        {
+            get;
+            protected set;
+        }
+
+        public string Name
+        {
+            get;
+            protected set;
+        }
+
+        public string DeploymentName
+        {
+            get;
+            protected set;
+        }
+
+        public Uri Url
+        {
+            get;
+            protected set;
+        }
+
+        public string Status
+        {
+            get;
+            protected set;
+        }
+
+        public int CurrentUpgradeDomain
+        {
+            get;
+            set;
+        }
+
+        public string CurrentUpgradeDomainState
+        {
+            get;
+            set;
+        }
+
+        public string UpgradeType
+        {
+            get;
+            set;
+        }
+
+        public IList<Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance> RoleInstanceList
+        {
+            get;
+            protected set;
+        }
+
+        public string Configuration
+        {
+            get;
+            protected set;
+        }
+
+        public string DeploymentId
+        {
+            get;
+            protected set;
+        }
+
+        public string Label
+        {
+            get;
+            protected set;
+        }
+
+        public string VNetName
+        {
+            get;
+            protected set;
+        }
+
+        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings DnsSettings
+        {
+            get;
+            protected set;
+        }
+
+        public string OSVersion
+        {
+            get;
+            set;
+        }
+
+        public IDictionary<string, RoleConfiguration> RolesConfiguration
+        {
+            get;
+            protected set;
+        }
+
+        public VirtualIPList VirtualIPs
+        {
+            get;
+            protected set;
+        }
+
+        public string ReservedIPName
+        {
+            get;
+            protected set;
+        }
 
         public DeploymentInfoContext(DeploymentGetResponse deployment)
         {
@@ -37,6 +159,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             this.DeploymentId = deployment.PrivateId;
             this.VNetName = deployment.VirtualNetworkName;
             this.SdkVersion = deployment.SdkVersion;
+
+            // IP Related
+            this.ReservedIPName = deployment.ReservedIPName;
+            this.VirtualIPs = deployment.VirtualIPAddresses == null ? null : new VirtualIPList(
+                deployment.VirtualIPAddresses.Select(a =>
+                    new VirtualIP
+                    {
+                        Address = a.Address,
+                        IsDnsProgrammed = a.IsDnsProgrammed,
+                        Name = a.Name
+                    }));
 
             if (deployment.DnsSettings != null)
             {
@@ -59,7 +192,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             bool result = false;
             bool.TryParse(deployment.RollbackAllowed, out result);
             this.RollbackAllowed = result;
-
 
             if (deployment.UpgradeStatus != null)
             {
@@ -98,110 +230,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                     this.RolesConfiguration.Add(role.Attribute("name").Value, new RoleConfiguration(role));
                 }
             }
-        }
-
-        public string SdkVersion
-        {
-            get;
-            protected set; 
-        }
-
-        public bool? RollbackAllowed
-        {
-            get;
-            protected set; 
-        }
-
-        public string Slot
-        {
-            get;
-            protected set;
-        }
-
-        public string Name
-        {
-            get;
-            protected set;
-        }
-
-        public string DeploymentName
-        {
-            get;
-            protected set;
-        }
-
-        public Uri Url
-        {
-            get;
-            protected set;
-        }
-
-        public string Status
-        {
-            get;
-            protected set;
-        }
-
-        public int CurrentUpgradeDomain 
-        { 
-            get; 
-            set; 
-        } 
-        
-        public string CurrentUpgradeDomainState 
-        { 
-            get; 
-            set; 
-        }
-        
-        public string UpgradeType 
-        { 
-            get; 
-            set; 
-        } 
-
-        public IList<Microsoft.WindowsAzure.Management.Compute.Models.RoleInstance> RoleInstanceList
-        {
-            get;
-            protected set;
-        }
-
-        public string Configuration
-        {
-            get;
-            protected set;
-        }
-
-        public string DeploymentId
-        {
-            get;
-            protected set;
-        }
-
-        public string Label
-        {
-            get;
-            protected set;
-        }
-
-        public string VNetName
-        {
-            get;
-            protected set;
-        }
-
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings DnsSettings
-        {
-            get;
-            protected set;
-        }
-
-        public string OSVersion { get; set; }
-
-        public IDictionary<string, RoleConfiguration> RolesConfiguration
-        {
-            get;
-            protected set;
         }
 
         public XDocument SerializeRolesConfiguration()

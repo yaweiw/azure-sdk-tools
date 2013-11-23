@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        public void NewPaaSDeploymentProcess()
+        public virtual void NewPaaSDeploymentProcess()
         {
             bool removePackage = false;
 
@@ -246,7 +246,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             this.NewPaaSDeploymentProcess();
         }
 
-        private void ValidateParameters()
+        protected virtual void ValidateParameters()
         {
             if (string.IsNullOrEmpty(this.Slot))
             {
