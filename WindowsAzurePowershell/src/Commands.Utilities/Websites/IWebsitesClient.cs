@@ -242,4 +242,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         StorageAccountName,
         LogLevel
     }
+
+    public enum RemoteDebuggingVersion
+    {
+        VS2012,
+        VS2013
+    }
 }

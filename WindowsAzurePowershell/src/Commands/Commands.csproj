@@ -137,7 +137,8 @@
     <Reference Include="AutoMapper, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>    <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
@@ -283,6 +284,8 @@
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnostic.cs" />
+    <Compile Include="Websites\EnableAzureWebsiteDebug.cs" />
+    <Compile Include="Websites\DisableAzureWebsiteDebug.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDiagnostic.cs" />
     <Compile Include="Websites\GetAzureWebSite.cs" />
     <Compile Include="Websites\GetAzureWebsiteDeployment.cs" />
