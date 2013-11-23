@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         bool? RemoteDebuggingEnabled { get; set; }
 
-        string RemoteDebuggingVersion { get; set; }
+        RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -335,7 +335,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             set { SiteConfig.RemoteDebuggingEnabled = value; }
         }
 
-        public string RemoteDebuggingVersion
+        public RemoteDebuggingVersion RemoteDebuggingVersion
         {
             get { return SiteConfig.RemoteDebuggingVersion; }
             set { SiteConfig.RemoteDebuggingVersion = value; }
@@ -395,6 +395,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         public bool? RemoteDebuggingEnabled { get; set; }
 
         [DataMember(IsRequired = false)]
-        public string RemoteDebuggingVersion { get; set; }
+        public RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
     }
 }
