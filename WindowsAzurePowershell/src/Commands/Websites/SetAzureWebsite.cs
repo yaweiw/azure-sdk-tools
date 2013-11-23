@@ -77,11 +77,11 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        // [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The managed pipeline mode of a website.")]
-        // public ManagedPipelineMode ManagedPipelineMode { get; set; }
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The managed pipeline mode of a website.")]
+        public ManagedPipelineMode? ManagedPipelineMode { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web sockets flag.")]
-        public bool WebSocketsEnabled { get; set; }
+        public bool? WebSocketsEnabled { get; set; }
 
         private Site website;
         private SiteConfig currentSiteConfig;
