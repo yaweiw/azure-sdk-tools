@@ -45,7 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ScmType = getConfigResponse.ScmType,
                 Use32BitWorkerProcess = getConfigResponse.Use32BitWorkerProcess,
                 ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
-                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled
+                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled,
+                RemoteDebuggingEnabled = getConfigResponse.RemoteDebuggingEnabled,
+                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion
             };
 
             getConfigResponse.AppSettings.ForEach(kvp => update.AppSettings.Add(kvp.Key, kvp.Value));
@@ -96,8 +98,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     ScriptProcessor = hm.ScriptProcessor
                 }).ToArray(),
                 ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
-                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled
-
+                WebSocketsEnabled = getConfigResponse.WebSocketsEnabled,
+                RemoteDebuggingEnabled = getConfigResponse.RemoteDebuggingEnabled,
+                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion
             };
             return config;
         }
@@ -230,7 +233,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 PublishingUserName = config.PublishingUsername,
                 RequestTracingEnabled = config.RequestTracingEnabled,
                 ManagedPipelineMode = config.ManagedPipelineMode,
-                WebSocketsEnabled = config.WebSocketsEnabled
+                WebSocketsEnabled = config.WebSocketsEnabled,
+                RemoteDebuggingEnabled = config.RemoteDebuggingEnabled,
+                RemoteDebuggingVersion = config.RemoteDebuggingVersion
             };
             config.AppSettings.ForEach(nvp => parameters.AppSettings.Add(ToKeyValuePair(nvp)));
             config.ConnectionStrings.ForEach(
