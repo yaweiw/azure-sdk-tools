@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Utilities.Websites;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.DeploymentEntities;
@@ -44,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             if (!siteConfig.RemoteDebuggingEnabled.Value)
             {
                 siteConfig.RemoteDebuggingEnabled = true;
-                siteConfig.RemoteDebuggingVersion = Version.ToString();
+                siteConfig.RemoteDebuggingVersion = Version;
                 WebsitesClient.UpdateWebsiteConfiguration(Name, siteConfig);
             }
 

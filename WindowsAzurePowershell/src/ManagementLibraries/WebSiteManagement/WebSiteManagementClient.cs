@@ -517,6 +517,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Models
     }
     
     /// <summary>
+    /// The remote debugging version.
+    /// </summary>
+    public enum RemoteDebuggingVersion
+    {
+        /// <summary>
+        /// Visual Studio 2012.
+        /// </summary>
+        VS2012 = 0,
+        
+        /// <summary>
+        /// Visual Studio 2013.
+        /// </summary>
+        VS2013 = 1,
+    }
+    
+    /// <summary>
     /// Parameters supplied to the Create Server Farm operation.
     /// </summary>
     public partial class ServerFarmCreateParameters
@@ -1971,12 +1987,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Models
             set { this._remoteDebuggingEnabled = value; }
         }
         
-        private string _remoteDebuggingVersion;
+        private RemoteDebuggingVersion _remoteDebuggingVersion;
         
         /// <summary>
         /// True remote debugging version.
         /// </summary>
-        public string RemoteDebuggingVersion
+        public RemoteDebuggingVersion RemoteDebuggingVersion
         {
             get { return this._remoteDebuggingVersion; }
             set { this._remoteDebuggingVersion = value; }
@@ -3250,12 +3266,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Models
             set { this._remoteDebuggingEnabled = value; }
         }
         
-        private string _remoteDebuggingVersion;
+        private RemoteDebuggingVersion _remoteDebuggingVersion;
         
         /// <summary>
         /// True remote debugging version.
         /// </summary>
-        public string RemoteDebuggingVersion
+        public RemoteDebuggingVersion RemoteDebuggingVersion
         {
             get { return this._remoteDebuggingVersion; }
             set { this._remoteDebuggingVersion = value; }
@@ -9494,7 +9510,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                         XElement remoteDebuggingVersionElement = siteConfigElement.Element(XName.Get("RemoteDebuggingVersion", "http://schemas.microsoft.com/windowsazure"));
                         if (remoteDebuggingVersionElement != null)
                         {
-                            string remoteDebuggingVersionInstance = remoteDebuggingVersionElement.Value;
+                            RemoteDebuggingVersion remoteDebuggingVersionInstance = (RemoteDebuggingVersion)Enum.Parse(typeof(RemoteDebuggingVersion), remoteDebuggingVersionElement.Value, false);
                             result.RemoteDebuggingVersion = remoteDebuggingVersionInstance;
                         }
                         
@@ -11427,12 +11443,9 @@ namespace Microsoft.WindowsAzure.Management.WebSites
                     siteConfigElement.Add(remoteDebuggingEnabledElement);
                 }
                 
-                if (parameters.RemoteDebuggingVersion != null)
-                {
-                    XElement remoteDebuggingVersionElement = new XElement(XName.Get("RemoteDebuggingVersion", "http://schemas.microsoft.com/windowsazure"));
-                    remoteDebuggingVersionElement.Value = parameters.RemoteDebuggingVersion;
-                    siteConfigElement.Add(remoteDebuggingVersionElement);
-                }
+                XElement remoteDebuggingVersionElement = new XElement(XName.Get("RemoteDebuggingVersion", "http://schemas.microsoft.com/windowsazure"));
+                remoteDebuggingVersionElement.Value = parameters.RemoteDebuggingVersion.ToString();
+                siteConfigElement.Add(remoteDebuggingVersionElement);
                 
                 if (parameters.RequestTracingEnabled != null)
                 {
