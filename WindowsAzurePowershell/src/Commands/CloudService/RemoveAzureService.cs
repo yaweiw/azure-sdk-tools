@@ -36,6 +36,9 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(Position = 3, Mandatory = false, HelpMessage = "Specify to remove the service and the underlying disk blob(s).")]
+        public SwitchParameter DeleteAll { get; set; }
+
         public override void ExecuteCmdlet()
         {
             ConfirmAction(
@@ -52,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                         WriteVerbose,
                         WriteWarning);
 
-                    CloudServiceClient.RemoveCloudService(ServiceName);
+                    CloudServiceClient.RemoveCloudService(ServiceName, DeleteAll.IsPresent);
 
                     if (PassThru)
                     {
