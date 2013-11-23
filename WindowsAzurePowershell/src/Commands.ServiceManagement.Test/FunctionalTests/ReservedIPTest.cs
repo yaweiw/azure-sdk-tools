@@ -32,18 +32,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string rsvIPLabel;
         private string svcNameLoc; // a service using location
         private string svcNameAG; // a service using AG
-        private string svcNameAG2; // a service using AG2
         private string vmName;
 
         private const string rsvIpNamePrefix = "PSReservedIP";
         private const string affNamePrefix = "PSAffinity";
         private const string rsvIPLabelPrefix = "PSReservedIPLabel";
-        private const string svcNamePrefix = "PSService";
-        private const string vmNamePrefix = "PSVM";
-
-        private string vhdName;
-        private string vhdBlobLocation;
-        private string image;
         
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -63,10 +56,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             affName1 = Utilities.GetUniqueShortName(affNamePrefix);
             affName2 = Utilities.GetUniqueShortName(affNamePrefix);
             rsvIPLabel = Utilities.GetUniqueShortName(rsvIPLabelPrefix);
-            svcNameLoc = Utilities.GetUniqueShortName(svcNamePrefix);
-            svcNameAG = Utilities.GetUniqueShortName(svcNamePrefix);
+            svcNameLoc = Utilities.GetUniqueShortName(serviceNamePrefix);
+            svcNameAG = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
-            
         }
 
         /// <summary>
@@ -762,7 +754,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 CleanupService(svcNameLoc);
                 CleanupService(svcNameAG);
-                CleanupService(svcNameAG2);
             }
         }
         
