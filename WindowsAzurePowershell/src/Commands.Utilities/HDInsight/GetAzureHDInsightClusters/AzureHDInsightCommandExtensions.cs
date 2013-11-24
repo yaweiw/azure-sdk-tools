@@ -80,27 +80,14 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
             {
                 var subscriptionCredentials = GetSubscriptionCredentials(command, currentSubscription);
                 var asCertificateCredentials = subscriptionCredentials as HDInsightCertificateCredential;
+                var asTokenCredentials = subscriptionCredentials as HDInsightAccessTokenCredential;
                 if (asCertificateCredentials.IsNotNull())
                 {
                     clientCredential = new JobSubmissionCertificateCredential(asCertificateCredentials, cluster);
                 }
-                else
+                else if (asTokenCredentials.IsNotNull())
                 {
-                    var clusterClient = ServiceLocator.Instance.Locate<IAzureHDInsightClusterManagementClientFactory>().Create(subscriptionCredentials);
-                    var jobSubmissionCluster = clusterClient.GetCluster(GetClusterName(cluster));
-                    if (jobSubmissionCluster.IsNull())
-                    {
-                        throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Unable to find Cluster '{0}' in Subscription '{1}'", cluster, currentSubscription.SubscriptionId));
-                    }
-                    else
-                    {
-                        clientCredential = new BasicAuthCredential
-                        {
-                            Server = GatewayUriResolver.GetGatewayUri(jobSubmissionCluster.ConnectionUrl),
-                            UserName = jobSubmissionCluster.HttpUserName,
-                            Password = jobSubmissionCluster.HttpPassword
-                        };
-                    }
+                    clientCredential = new JobSubmissionAccessTokenCredential(asTokenCredentials, cluster);
                 }
             }
 

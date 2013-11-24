@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        public void CannotGetJobSubmissionAccessTokenCredentialFromCurrentSubscription()
+        public void CanGetJobSubmissionAccessTokenCredentialFromCurrentSubscription()
         {
             string accessToken = Guid.NewGuid().ToString("N");
             var getClustersCommand = new GetAzureHDInsightJobCommand();
@@ -159,12 +159,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
                 TokenProvider = new FakeAccessTokenProvider(accessToken)
             };
             var accessTokenCreds = getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, IntegrationTestBase.TestCredentials.WellKnownCluster.DnsName);
-            Assert.IsNotInstanceOfType(accessTokenCreds, typeof(HDInsightAccessTokenCredential));
-            Assert.IsInstanceOfType(accessTokenCreds, typeof(BasicAuthCredential));
-            var asBasicAuthCredentials = accessTokenCreds as BasicAuthCredential;
-            Assert.IsNotNull(asBasicAuthCredentials);
-            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzureUserName, asBasicAuthCredentials.UserName);
-            Assert.AreEqual(IntegrationTestBase.TestCredentials.AzurePassword, asBasicAuthCredentials.Password);
+            Assert.IsInstanceOfType(accessTokenCreds, typeof(HDInsightAccessTokenCredential));
+            var asTokenCreds = accessTokenCreds as HDInsightAccessTokenCredential;
+            Assert.IsNotNull(asTokenCreds);
+            Assert.AreEqual(accessToken, asTokenCreds.AccessToken);
         }
 
         [TestMethod]
