@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     public interface ISiteConfig
     {
@@ -51,6 +52,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         bool? AzureTableTraceEnabled { get; set; }
 
         LogEntryType AzureTableTraceLevel { get; set; }
+
+        ManagedPipelineMode? ManagedPipelineMode { get; set; }
+
+        bool? WebSocketsEnabled { get; set; }
+
+        bool? RemoteDebuggingEnabled { get; set; }
+
+        RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -307,6 +316,30 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             get { return DiagnosticsSettings.AzureTableTraceLevel; }
             set { DiagnosticsSettings.AzureTableTraceLevel = value; }
         }
+
+        public ManagedPipelineMode? ManagedPipelineMode
+        {
+            get { return SiteConfig.ManagedPipelineMode; }
+            set { SiteConfig.ManagedPipelineMode = value; }
+        }
+
+        public bool? WebSocketsEnabled
+        {
+            get { return SiteConfig.WebSocketsEnabled; }
+            set { SiteConfig.WebSocketsEnabled = value; }
+        }
+
+        public bool? RemoteDebuggingEnabled
+        {
+            get { return SiteConfig.RemoteDebuggingEnabled; }
+            set { SiteConfig.RemoteDebuggingEnabled = value; }
+        }
+
+        public RemoteDebuggingVersion RemoteDebuggingVersion
+        {
+            get { return SiteConfig.RemoteDebuggingVersion; }
+            set { SiteConfig.RemoteDebuggingVersion = value; }
+        }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
@@ -351,5 +384,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         [DataMember(IsRequired = false)]
         public HandlerMapping[] HandlerMappings { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public ManagedPipelineMode? ManagedPipelineMode { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public bool? WebSocketsEnabled { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public bool? RemoteDebuggingEnabled { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public RemoteDebuggingVersion RemoteDebuggingVersion { get; set; }
     }
 }

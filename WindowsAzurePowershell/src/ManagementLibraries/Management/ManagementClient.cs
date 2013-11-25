@@ -4503,7 +4503,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Register a resource with your subscription.
         /// </summary>
         /// <param name='resourceName'>
-        /// Name of the reource to register.
+        /// Name of the resource to register.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -4518,7 +4518,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Unregister a resource with your subscription.
         /// </summary>
         /// <param name='resourceName'>
-        /// Name of the reource to unregister.
+        /// Name of the resource to unregister.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -4653,7 +4653,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
         /// </param>
         /// <param name='resourceName'>
-        /// Name of the reource to register.
+        /// Name of the resource to register.
         /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
@@ -4686,7 +4686,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
         /// </param>
         /// <param name='resourceName'>
-        /// Name of the reource to register.
+        /// Name of the resource to register.
         /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
@@ -4705,7 +4705,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
         /// </param>
         /// <param name='resourceName'>
-        /// Name of the reource to unregister.
+        /// Name of the resource to unregister.
         /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
@@ -4738,7 +4738,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Microsoft.WindowsAzure.Management.ISubscriptionOperations.
         /// </param>
         /// <param name='resourceName'>
-        /// Name of the reource to unregister.
+        /// Name of the resource to unregister.
         /// </param>
         /// <returns>
         /// A standard service response including an HTTP status code and
@@ -5250,7 +5250,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Register a resource with your subscription.
         /// </summary>
         /// <param name='resourceName'>
-        /// Name of the reource to register.
+        /// Name of the resource to register.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -5357,7 +5357,7 @@ namespace Microsoft.WindowsAzure.Management
         /// Unregister a resource with your subscription.
         /// </summary>
         /// <param name='resourceName'>
-        /// Name of the reource to unregister.
+        /// Name of the resource to unregister.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.

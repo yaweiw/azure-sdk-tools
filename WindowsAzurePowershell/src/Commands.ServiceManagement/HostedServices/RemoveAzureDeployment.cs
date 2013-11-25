@@ -16,8 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
+    using System.Net;
+    using AutoMapper;
     using Management.Compute;
     using Management.Compute.Models;
+    using Management.VirtualNetworks;
     using Model.PersistentVMModel;
     using Properties;
     using Utilities.Common;
@@ -44,7 +47,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(HelpMessage = "Do not confirm deletion of deployment")]
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Specify to remove the deployment and the underlying disk blob(s).")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, Mandatory = false, HelpMessage = "Do not confirm deletion of deployment")]
         public SwitchParameter Force
         {
             get;
@@ -57,11 +67,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             
             var slotType = (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
-        }
+            DeploymentGetResponse deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slotType);
+
+            if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
+            {
+                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+            }
+            if (DeleteVHD.IsPresent)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.Deployments.DeleteByName(this.ServiceName, deploymentGetResponse.Name, DeleteVHD.IsPresent));
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
+            }        }
 
         protected override void OnProcessRecord()
         {
