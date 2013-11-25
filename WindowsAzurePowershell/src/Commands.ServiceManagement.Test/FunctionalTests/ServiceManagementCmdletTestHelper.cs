@@ -12,7 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints;
+
+using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
@@ -34,7 +35,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
     using PIRCmdletInfo;
+    using Preview.Model;
+    using PreviewCmdletInfo;
+
     using Microsoft.WindowsAzure.Storage.Blob;
+    using SM = Model;
+    
 
     public class ServiceManagementCmdletTestHelper
     {
@@ -225,7 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<ManagementOperationContext> (new NewAzureAffinityGroupCmdletInfo(name, location, label, description));
         }
 
-        public Collection<AffinityGroupContext> GetAzureAffinityGroup(string name)
+        public Collection<AffinityGroupContext> GetAzureAffinityGroup(string name = null)
         {
             return RunPSCmdletAndReturnAll<AffinityGroupContext>(new GetAzureAffinityGroupCmdletInfo(name));
         }
@@ -352,12 +358,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureDeploymentCmdletInfo(serviceName, packagePath, configPath, slot, label, name, doNotStart, warning, config));
         }
 
-        public DeploymentInfoContext GetAzureDeployment(string serviceName, string slot)
+        public SM.DeploymentInfoContext GetAzureDeployment(string serviceName, string slot)
         {
-            return RunPSCmdletAndReturnFirst<DeploymentInfoContext>(new GetAzureDeploymentCmdletInfo(serviceName, slot));
+            return RunPSCmdletAndReturnFirst<SM.DeploymentInfoContext>(new GetAzureDeploymentCmdletInfo(serviceName, slot));
         }
 
-        public DeploymentInfoContext GetAzureDeployment(string serviceName)
+        public SM.DeploymentInfoContext GetAzureDeployment(string serviceName)
         {
             return GetAzureDeployment(serviceName, DeploymentSlotType.Production);
         }
@@ -622,12 +628,66 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize, string disableWinRMHttps)
+        {
+            ManagementOperationContext result = new ManagementOperationContext();
+            try
+            {
+                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps));
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("409"))
+                {
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize, disableWinRMHttps)),
+                        "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
+                }
+            }
+            return result;
+        }
+
+
         public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
 
         #endregion
+
+        #region WinRM
+
+        public Uri GetAzureWinRMUri(string servicename, string name)
+        {
+            Uri result = null;
+            try
+            {
+                result = RunPSCmdletAndReturnFirst<Uri>(new WinRMCmdletInfo(servicename, name));
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("409"))
+                {
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<Uri>(new WinRMCmdletInfo(servicename, name)),
+                        "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
+                }
+            }
+            return result;
+        }      
+
+
+        #endregion WinRM 
 
         #region AzurePlatformVMImage
 
@@ -658,6 +718,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         #endregion
+
+        #region AzureReservedIP
+
+
+        internal ManagementOperationContext NewAzureReservedIP(string name, string aff, string label = null)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureReservedIPCmdletInfo(name, aff, label, null, null));
+        }
+
+        internal ManagementOperationContext NewAzureReservedIP(string name, string aff, string svc, string dep, string label = null)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureReservedIPCmdletInfo(name, aff, label, svc, dep));
+        }
+
+        internal Collection<ReservedIPContext> GetAzureReservedIP(string name = null)
+        {
+            return RunPSCmdletAndReturnAll<ReservedIPContext>(new GetAzureReservedIPCmdletInfo(name));
+        }
+
+        internal ManagementOperationContext RemoveAzureReservedIP(string name)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureReservedIPCmdletInfo(name));
+        }
+
+        #endregion
+
+
 
         #region AzurePublishSettingsFile
 
@@ -823,11 +910,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
         }
 
-        public bool RemoveAzureService(string serviceName)
+        public bool RemoveAzureService(string serviceName, bool deleteAll = false)
         {
             bool result = false;
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName), false),
+                () => result = RunPSCmdletAndReturnFirst<bool>(new RemoveAzureServiceCmdletInfo(serviceName, deleteAll), false),
                 "ConflictError", 3, 60);
             return result;
         }
@@ -949,12 +1036,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
         }
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location =null, string affinityGroup = null)
+        internal Collection<ManagementOperationContext> NewAzureVMWithAG(string serviceName, PersistentVM[] VMs, string affGroupName)
+        {
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, affGroupName);
+        }
+
+        internal Collection<ManagementOperationContext> NewAzureVMWithReservedIP(string serviceName, PersistentVM[] VMs,
+            string rsvIPName, string affGroupName = null)
+        {
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, affGroupName, rsvIPName);
+        }
+
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms,
+            string vnetName, DnsServer[] dnsSettings,
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription,
+            string location = null, string affinityGroup = null, string rsvIPName = null)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms, vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel, deploymentDescription, location, affinityGroup)),
+                () =>
+                    result =
+                        RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms,
+                            vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel,
+                            deploymentDescription, location, affinityGroup, rsvIPName)),
                 "409", 5, 60);
             return result;
         }
@@ -964,9 +1068,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<PersistentVMRoleContext>(new GetAzureVMCmdletInfo(vmName, serviceName));
         }
 
-        public ManagementOperationContext RemoveAzureVM(string vmName, string serviceName)
+        public ManagementOperationContext RemoveAzureVM(string vmName, string serviceName, bool deleteVhd = false)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMCmdletInfo(vmName, serviceName));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureVMCmdletInfo(vmName, serviceName, deleteVhd));
         }
 
         public ManagementOperationContext StartAzureVM(string vmName, string serviceName)

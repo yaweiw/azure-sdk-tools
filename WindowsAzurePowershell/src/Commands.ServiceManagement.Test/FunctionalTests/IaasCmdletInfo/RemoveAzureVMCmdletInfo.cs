@@ -20,11 +20,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class RemoveAzureVMCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureVMCmdletInfo(string vmName, string serviceName)
+        public RemoveAzureVMCmdletInfo(string vmName, string serviceName, bool deleteVhd)
         {
             this.cmdletName = Utilities.RemoveAzureVMCmdletName;
             this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+
+            if (deleteVhd)
+            {
+                this.cmdletParams.Add(new CmdletParam("DeleteVhd"));
+            }
         }
     }
 }

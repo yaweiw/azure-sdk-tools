@@ -34,6 +34,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "Specify to remove the data disk and the underlying disk blob.")]
+        public SwitchParameter DeleteVHD
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
             var dataDisks = GetDataDisks();
@@ -49,6 +56,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             dataDisks.Remove(dataDisk);
+
+            if (DeleteVHD.IsPresent)
+            {
+                if (VM.GetInstance().DataVirtualHardDisksToBeDeleted == null)
+                {
+                    VM.GetInstance().DataVirtualHardDisksToBeDeleted = new Collection<DataVirtualHardDisk>();
+                }
+                
+                VM.GetInstance().DataVirtualHardDisksToBeDeleted.Add(dataDisk);
+            }
 
             WriteObject(VM, true);
         }
