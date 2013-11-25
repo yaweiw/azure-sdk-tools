@@ -328,6 +328,8 @@
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnostic.cs" />
+    <Compile Include="Websites\EnableAzureWebsiteDebug.cs" />
+    <Compile Include="Websites\DisableAzureWebsiteDebug.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDiagnostic.cs" />
     <Compile Include="Websites\GetAzureWebSite.cs" />
     <Compile Include="Websites\GetAzureWebsiteDeployment.cs" />

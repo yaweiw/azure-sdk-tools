@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
     using Utilities.Common;
+using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     /// <summary>
     /// Sets an azure website properties.
@@ -75,6 +76,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The managed pipeline mode of a website.")]
+        public ManagedPipelineMode? ManagedPipelineMode { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web sockets flag.")]
+        public bool? WebSocketsEnabled { get; set; }
 
         private Site website;
         private SiteConfig currentSiteConfig;

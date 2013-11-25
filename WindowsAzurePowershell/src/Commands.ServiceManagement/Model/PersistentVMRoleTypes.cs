@@ -1962,6 +1962,88 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         [EnumMember]
         Unavailable = 4
     }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ReservedIP : IExtensibleDataObject
+    {
+        public ReservedIP(string name)
+        {
+            this.Name = name;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; private set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Address { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Id { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Label { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string AffinityGroup { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public string State { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public bool InUse { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public string ServiceName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public string DeploymentName { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "ReservedIPs", ItemName = "ReservedIP", Namespace = Constants.ServiceManagementNS)]
+    public class ReservedIPList : List<ReservedIP>
+    {
+        public ReservedIPList()
+        {
+        }
+
+        public ReservedIPList(IEnumerable<ReservedIP> reservedIPs)
+            : base(reservedIPs)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public enum ReservedIPState
+    {
+        [EnumMember]
+        Created = 0,
+
+        [EnumMember]
+        Creating = 1,
+
+        [EnumMember]
+        Updating = 2,
+
+        [EnumMember]
+        Deleting = 3,
+
+        [EnumMember]
+        Unavailable = 4,
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class AddressAvailabilityResponse : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public bool IsAvailable { get; set; }
+
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public List<string> AvailableAddresses { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
     #endregion
 
     #region Role
