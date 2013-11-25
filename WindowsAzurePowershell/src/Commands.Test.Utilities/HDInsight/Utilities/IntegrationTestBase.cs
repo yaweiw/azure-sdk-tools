@@ -138,10 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
             cmdletRunManager.RegisterType<IAzureHDInsightClusterManagementClientFactory, AzureHDInsightClusterManagementClientSimulatorFactory>();
             cmdletRunManager.RegisterType<IAzureHDInsightJobSubmissionClientFactory, AzureHDInsightJobSubmissionClientSimulatorFactory>();
             var testManager = new IntegrationTestManager();
-            if (!testManager.RunAzureTests())
-            {
-                Assert.Inconclusive("Azure tests are not configured on this machine.");
-            }
+
             TestCredentials = testManager.GetCredentials("default");
             if (TestCredentials == null)
             {
