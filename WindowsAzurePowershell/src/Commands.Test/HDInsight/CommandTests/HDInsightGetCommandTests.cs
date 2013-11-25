@@ -189,33 +189,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
-        public void GetJobSubmissionCredentialsThrowsInvalidOperationExceptionIfClusterIsInvalid()
-        {
-            string accessToken = Guid.NewGuid().ToString("N");
-            string invalidClusterName = Guid.NewGuid().ToString("N");
-            var getClustersCommand = new GetAzureHDInsightJobCommand();
-            var waSubscription = new WindowsAzureSubscription()
-            {
-                SubscriptionId = IntegrationTestBase.TestCredentials.SubscriptionId.ToString(),
-                ActiveDirectoryUserId = "BruceWayne",
-                TokenProvider = new FakeAccessTokenProvider(accessToken)
-            };
-
-            try
-            {
-                getClustersCommand.GetJobSubmissionClientCredentials(waSubscription, invalidClusterName);
-                Assert.Fail("Should have failed.");
-            }
-            catch (InvalidOperationException invalidOperationException)
-            {
-                Assert.AreEqual(
-                    string.Format(CultureInfo.InvariantCulture, "Unable to find Cluster '{0}' in Subscription '{1}'",
-                                  invalidClusterName, waSubscription.SubscriptionId), invalidOperationException.Message);
-            }
-        }
-
-        [TestMethod]
-        [TestCategory("CheckIn")]
         public void GetJobSubmissionCredentialsThrowsInvalidOperationException()
         {
             string invalidClusterName = Guid.NewGuid().ToString("N");
