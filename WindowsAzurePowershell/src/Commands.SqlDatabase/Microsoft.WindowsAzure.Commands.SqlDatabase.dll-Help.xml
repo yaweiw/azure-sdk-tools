@@ -14,8 +14,10 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Use the Get-AzureSqlDatabase cmdlet to retrieve a SQL Database by name either from the specified SQL Database Server connection context or from a specified SQL Database Server. You can create a SQL Database Server connection context using the New-AzureSqlDatabaseServerContext cmdlet, and then use it with this cmdlet.</maml:para>
-      <maml:para>When you retrieve a database by specifying a SQL Database Server, the Get-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.</maml:para>
+      <maml:para>Use the Get-AzureSqlDatabase cmdlet to retrieve a SQL Database by name either from the specified SQL Database Server connection context or from a specified SQL Database Server. You can create a SQL Database Server connection context using the New-AzureSqlDatabaseServerContext cmdlet, and then use it with this cmdlet.
+</maml:para>
+      <maml:para>When you retrieve a database by specifying a SQL Database Server, the Get-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.
+</maml:para>
       <maml:para>If the database name is not specified, the Get-AzureSqlDatabase cmdlet returns all SQL Databases for the specified connection context or SQL Database Server.
 </maml:para>
     </maml:description>
@@ -25,7 +27,8 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
           <maml:name>ConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server from where to retrieve a SQL database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server from where to retrieve a SQL database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
@@ -51,7 +54,8 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of SQL Database Server from where to retrieve the database.</maml:para>
+            <maml:para>The name of SQL Database Server from where to retrieve the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -77,7 +81,8 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
         <maml:name>ConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to a SQL Database Server from where to retrieve a SQL database.</maml:para>
+          <maml:para>The connection context to a SQL Database Server from where to retrieve a SQL database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -115,7 +120,8 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of SQL Database Server from where to retrieve the database.</maml:para>
+          <maml:para>The name of SQL Database Server from where to retrieve the database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -156,16 +162,17 @@ Note: Some of the metadata returned by this output object are associated with th
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title>   
-   
--------------------------- EXAMPLE 1 --------------------------    
-   
-   
+        <maml:title>    
+    
+-------------------------- EXAMPLE 1 --------------------------     
+    
+    
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"
+
 
 </dev:code>
         <dev:remarks>
@@ -179,16 +186,17 @@ Note: Some of the metadata returned by this output object are associated with th
         </command:commandLines>
       </command:example>
       <command:example>
-        <maml:title>   
-   
--------------------------- EXAMPLE 2 --------------------------    
-   
-   
+        <maml:title>    
+    
+-------------------------- EXAMPLE 2 --------------------------     
+    
+    
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;$database1 = Get-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"
+
 
 </dev:code>
         <dev:remarks>
@@ -208,15 +216,15 @@ Note: Some of the metadata returned by this output object are associated with th
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
+        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Remove-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-AzureSqlDatabase</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -235,7 +243,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>This cmdlet returns the status of an import or export request initiated by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet. You can specify the request object with the Request parameter, or you can identify the request with the RequestId parameter along with the Username, Password, and ServerName parameters.</maml:para>
+      <maml:para>This cmdlet returns the status of an import or export request initiated by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet. You can specify the request object with the Request parameter, or you can identify the request with the RequestId parameter along with the Username, Password, and ServerName parameters.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -243,28 +252,32 @@ Note: Some of the metadata returned by this output object are associated with th
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>Username</maml:name>
           <maml:description>
-            <maml:para>If RequestId is specified, the user name required to connect to the Azure SQL Database Server.</maml:para>
+            <maml:para>If RequestId is specified, the user name required to connect to the Azure SQL Database Server.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>Password</maml:name>
           <maml:description>
-            <maml:para>If RequestId is specified, the password required to connect to the Azure SQL Database Server.</maml:para>
+            <maml:para>If RequestId is specified, the password required to connect to the Azure SQL Database Server.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>If RequestId is specified, the name of the Azure SQL Database Server.</maml:para>
+            <maml:para>If RequestId is specified, the name of the Azure SQL Database Server.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
           <maml:name>RequestId</maml:name>
           <maml:description>
-            <maml:para>The GUID of the import or export operation for which to return status. This parameter requires the UserName, Password, and ServerName parameters.</maml:para>
+            <maml:para>The GUID of the import or export operation for which to return status. This parameter requires the UserName, Password, and ServerName parameters.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -274,7 +287,8 @@ Note: Some of the metadata returned by this output object are associated with th
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>Request</maml:name>
           <maml:description>
-            <maml:para>The ImportExportRequest object representing the import or export request, as returned by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet.</maml:para>
+            <maml:para>The ImportExportRequest object representing the import or export request, as returned by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ImportExportRequest</command:parameterValue>
         </command:parameter>
@@ -284,7 +298,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>Password</maml:name>
         <maml:description>
-          <maml:para>If RequestId is specified, the password required to connect to the Azure SQL Database Server.</maml:para>
+          <maml:para>If RequestId is specified, the password required to connect to the Azure SQL Database Server.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -296,7 +311,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>Request</maml:name>
         <maml:description>
-          <maml:para>The ImportExportRequest object representing the import or export request, as returned by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet.</maml:para>
+          <maml:para>The ImportExportRequest object representing the import or export request, as returned by the Start-AzureSqlDatabaseImport or Start-AzureSqlDatabaseExport cmdlet.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">ImportExportRequest</command:parameterValue>
         <dev:type>
@@ -308,7 +324,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
         <maml:name>RequestId</maml:name>
         <maml:description>
-          <maml:para>The GUID of the import or export operation for which to return status. This parameter requires the UserName, Password, and ServerName parameters.</maml:para>
+          <maml:para>The GUID of the import or export operation for which to return status. This parameter requires the UserName, Password, and ServerName parameters.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -320,7 +337,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>If RequestId is specified, the name of the Azure SQL Database Server.</maml:para>
+          <maml:para>If RequestId is specified, the name of the Azure SQL Database Server.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -332,7 +350,8 @@ Note: Some of the metadata returned by this output object are associated with th
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>Username</maml:name>
         <maml:description>
-          <maml:para>If RequestId is specified, the user name required to connect to the Azure SQL Database Server.</maml:para>
+          <maml:para>If RequestId is specified, the user name required to connect to the Azure SQL Database Server.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -351,9 +370,7 @@ Note: Some of the metadata returned by this output object are associated with th
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
@@ -365,9 +382,7 @@ Note: Some of the metadata returned by this output object are associated with th
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:returnValue>
     </command:returnValues>
     <command:terminatingErrors />
@@ -375,10 +390,15 @@ Note: Some of the metadata returned by this output object are associated with th
     <command:examples>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 1 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
@@ -387,9 +407,11 @@ Note: Some of the metadata returned by this output object are associated with th
 
 C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
 
+
 </dev:code>
         <dev:remarks>
-          <maml:para>This example returns the status of an export request </maml:para>
+          <maml:para>This example returns the status of an export request
+</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -405,6 +427,252 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Start-AzureSqlDatabaseImport</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-AzureSqlDatabaseOperation</command:name>
+      <maml:description>
+        <maml:para>Returns the status of database operations on the specified Windows Azure SQL Database Server.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSqlDatabaseOperation</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>If the user specifies only a ServerName or ConnectionContext, then all the database operations for the server are returned. If the user specifies a database using Database or DatabaseName (along with ServerName or ConnectionContext), then all the operations for the specified database are returned. If the user specifies an OperationGUID (along with ServerName or ConnectionContext), then just the single database operation is returned.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSqlDatabaseOperation</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
+          <maml:name>ConnectionContext</maml:name>
+          <maml:description>
+            <maml:para>The connection context to a SQL Database Server.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>Database</maml:name>
+          <maml:description>
+            <maml:para>A database object representing a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>DatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>OperationGuid</maml:name>
+          <maml:description>
+            <maml:para>The operation ID representing a specific database operation for which you want status. You can obtain operation IDs by requesting all the database operations for a SQL Database or Server. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSqlDatabaseOperation</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+          <maml:name>ServerName</maml:name>
+          <maml:description>
+            <maml:para>The name of a SQL Database Server.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>Database</maml:name>
+          <maml:description>
+            <maml:para>A database object representing a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+          <maml:name>DatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+          <maml:name>OperationGuid</maml:name>
+          <maml:description>
+            <maml:para>The operation ID representing a specific database operation for which you want status. You can obtain operation IDs by requesting all the database operations for a SQL Database or Server. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
+        <maml:name>ConnectionContext</maml:name>
+        <maml:description>
+          <maml:para>The connection context to a SQL Database Server.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
+        <dev:type>
+          <maml:name>IServerDataServiceContext</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>Database</maml:name>
+        <maml:description>
+          <maml:para>A database object representing a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        <dev:type>
+          <maml:name>Database</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <maml:name>DatabaseName</maml:name>
+        <maml:description>
+          <maml:para>The name of a SQL Database. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="">
+        <maml:name>OperationGuid</maml:name>
+        <maml:description>
+          <maml:para>The operation ID representing a specific database operation for which you want status. You can obtain operation IDs by requesting all the database operations for a SQL Database or Server. If this parameter is specified then ServerName or ConnectionContext must also be specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
+        <dev:type>
+          <maml:name>Guid</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
+        <maml:name>ServerName</maml:name>
+        <maml:description>
+          <maml:para>The name of a SQL Database Server.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database</maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Model.SqlDatabaseServerContext</maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Guid</maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>The OperationGuid when requesting a specific operation.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database.DatabaseOperationResponseList[]</maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returned if a list of operations is requested.</maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database.DatabaseOperationResponse</maml:name>
+          <maml:uri></maml:uri>
+          <maml:description>
+            <maml:para />
+          </maml:description>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returned if a specific operation is requested.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <command:examples>
+      <command:example>
+        <maml:title>    
+    
+-------------------------- EXAMPLE 1 --------------------------     
+    
+    
+                      </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>C:\PS&gt;$operations = Get-AzureSqlDatabaseOperation -ConnectionContext $ctx -DatabaseName "Database1"
+
+
+
+</dev:code>
+        <dev:remarks>
+          <maml:para>This example returns the status of all database operations on the SQL Database, "Database1", on the SQL Database Server specified by the connection context “$ctx”.
+</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -492,6 +760,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command returns information about all of the SQL Database Servers in the current subscription.
@@ -509,6 +778,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServer -ServerName "lpqd0zbr8y"
+
 
 
 
@@ -645,6 +915,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command returns all the firewall rules in the specified SQL Database Server (“lpqd0zbr8y”).
@@ -662,6 +933,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>PS C:\&gt; Get-AzureSqlDatabaseServerFirewallRule -ServerName "lpqd0zbr8y" -RuleName "myRule"
+
 
 
 
@@ -708,7 +980,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The user specifies the server by supplying a connection context. If a quota name is not specified, then all the quota information for the server is returned.</maml:para>
+      <maml:para>The user specifies the server by supplying a connection context. If a quota name is not specified, then all the quota information for the server is returned.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -716,14 +989,16 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
           <maml:name>ConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified Windows Azure SQL Database Server.</maml:para>
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
           <maml:name>QuotaName</maml:name>
           <maml:description>
-            <maml:para>The name of the quota value to be retrieved. If a quota name is not specified, then all the quota information for the server is returned.</maml:para>
+            <maml:para>The name of the quota value to be retrieved. If a quota name is not specified, then all the quota information for the server is returned.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -733,7 +1008,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="Context">
         <maml:name>ConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified Windows Azure SQL Database Server.</maml:para>
+          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -745,7 +1021,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
         <maml:name>QuotaName</maml:name>
         <maml:description>
-          <maml:para>The name of the quota value to be retrieved. If a quota name is not specified, then all the quota information for the server is returned.</maml:para>
+          <maml:para>The name of the quota value to be retrieved. If a quota name is not specified, then all the quota information for the server is returned.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -764,9 +1041,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
@@ -778,9 +1053,7 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:returnValue>
     </command:returnValues>
     <command:terminatingErrors />
@@ -793,9 +1066,11 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </maml:introduction>
         <dev:code>C:\PS&gt;$quotaPremium = GetAzureSqlDatabaseServerQuota $ctx QuotaName "Premium_Databases"
 
+
 </dev:code>
         <dev:remarks>
-          <maml:para>This example returns the quota, "Premium_Databases", from the Windows Azure SQL Database Server specified by the connection $ctx.</maml:para>
+          <maml:para>This example returns the quota, "Premium_Databases", from the Windows Azure SQL Database Server specified by the connection $ctx.
+</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -810,9 +1085,11 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </maml:introduction>
         <dev:code>C:\PS&gt;$quotaList = GetAzureSqlDatabaseServerQuota $ctx
 
+
 </dev:code>
         <dev:remarks>
-          <maml:para>This example returns a list of all quota values from the Windows Azure SQL Database Server specified by the connection $ctx.</maml:para>
+          <maml:para>This example returns a list of all quota values from the Windows Azure SQL Database Server specified by the connection $ctx.
+</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -990,7 +1267,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     <maml:description>
       <maml:para>The New-AzureSqlDatabase cmdlet creates a new SQL Database either for the specified SQL Database Server connection context or in the specified SQL Database Server. You can create a SQL Database Server connection context using the New-AzureSqlDatabaseServerContext cmdlet, and then use it with this cmdlet.
 </maml:para>
-      <maml:para>When you create a new database by specifying a SQL Database Server, the New-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.</maml:para>
+      <maml:para>When you create a new database by specifying a SQL Database Server, the New-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -998,7 +1276,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Context">
           <maml:name>ConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server where you want to create new SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server where you want to create new SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
@@ -1021,10 +1300,16 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>The edition for the SQL Database. Acceptable values are Web and Business. The default value is Web.
+            <maml:para>The edition for the SQL Database. Acceptable values are Web, Business, and Premium. The default value is Web.
 </maml:para>
+            <maml:para>Note: The Premium value of this parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this value. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
+          </command:parameterValueGroup>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -1045,6 +1330,15 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ServiceObjective</maml:name>
+          <maml:description>
+            <maml:para>If specified, an object representing the new service objective for this database. This value represents the level of resources assigned to this database.</maml:para>
+            <maml:para>Note: This parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this parameter. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ServiceObjective</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
@@ -1063,7 +1357,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The SQL Database Server name where you want to create new SQL Database.</maml:para>
+            <maml:para>The SQL Database Server name where you want to create new SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -1086,10 +1381,16 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>The edition for the SQL Database. Acceptable values are Web and Business. The default value is Web.
+            <maml:para>The edition for the SQL Database. Acceptable values are Web, Business, and Premium. The default value is Web.
 </maml:para>
+            <maml:para>Note: The Premium value of this parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this value. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
+          </command:parameterValueGroup>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Force</maml:name>
@@ -1109,6 +1410,15 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ServiceObjective</maml:name>
+          <maml:description>
+            <maml:para>If specified, an object representing the new service objective for this database. This value represents the level of resources assigned to this database.</maml:para>
+            <maml:para>Note: This parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this parameter. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ServiceObjective</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
@@ -1141,7 +1451,8 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Context">
         <maml:name>ConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to a SQL Database Server where you want to create new SQL Database.</maml:para>
+          <maml:para>The connection context to a SQL Database Server where you want to create new SQL Database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -1166,8 +1477,9 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Edition</maml:name>
         <maml:description>
-          <maml:para>The edition for the SQL Database. Acceptable values are Web and Business. The default value is Web.
+          <maml:para>The edition for the SQL Database. Acceptable values are Web, Business, and Premium. The default value is Web.
 </maml:para>
+          <maml:para>Note: The Premium value of this parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this value. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         <dev:type>
@@ -1209,11 +1521,26 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The SQL Database Server name where you want to create new SQL Database.</maml:para>
+          <maml:para>The SQL Database Server name where you want to create new SQL Database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ServiceObjective</maml:name>
+        <maml:description>
+          <maml:para>If specified, an object representing the new service objective for this database. This value represents the level of resources assigned to this database.</maml:para>
+          <maml:para>Note: This parameter is a feature of the preview of Windows Azure SQL Database Premium Edition. Only participants in the preview are able to use this parameter. To learn more about the preview, please see <maml:navigationLink><maml:linkText>http://go.microsoft.com/fwlink/p/?LinkId=308949</maml:linkText><maml:uri></maml:uri></maml:navigationLink>.</maml:para>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ServiceObjective</command:parameterValue>
+        <dev:type>
+          <maml:name>ServiceObjective</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -1279,16 +1606,17 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>   
-   
--------------------------- EXAMPLE 1 --------------------------    
-   
-   
+        <maml:title>    
+    
+-------------------------- EXAMPLE 1 --------------------------     
+    
+    
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;$database1 = New-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1" -Edition "Business" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
+
 
 
 </dev:code>
@@ -1303,16 +1631,17 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         </command:commandLines>
       </command:example>
       <command:example>
-        <maml:title>   
-   
--------------------------- EXAMPLE 2 --------------------------    
-   
-   
+        <maml:title>    
+    
+-------------------------- EXAMPLE 2 --------------------------     
+    
+    
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;$database1 = New-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1" -Edition "Business" -MaxSizeGB 50 -Collation "SQL_Latin1_General_CP1_CI_AS"
+
 
 
 
@@ -1336,15 +1665,15 @@ C:\PS&gt;Get-AzureSqlDatabaseImportExportStatus -Request $exportRequest
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
+        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Remove-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-AzureSqlDatabase</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -1884,9 +2213,12 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureSqlDatabaseServerFirewallRule cmdlet creates a new firewall rule in the specified SQL Database Server. </maml:para>
-      <maml:para>Use the cmdlet with the IpRange parameter set to allow any IP address within the range specified in the StartIpAddress and EndIpAddress parameters to connect to the SQL Database Server.</maml:para>
-      <maml:para>Use the cmdlet with the AllowAllAzureServices parameter set to allow Windows Azure connections to the SQL Database Server. A firewall rule with starting and ending IP addresses equal to 0.0.0.0 will be created. If you do not specify a firewall rule name, a firewall rule with default name “AllowAllAzureServices” will be created.</maml:para>
+      <maml:para>The New-AzureSqlDatabaseServerFirewallRule cmdlet creates a new firewall rule in the specified SQL Database Server.
+</maml:para>
+      <maml:para>Use the cmdlet with the IpRange parameter set to allow any IP address within the range specified in the StartIpAddress and EndIpAddress parameters to connect to the SQL Database Server.
+</maml:para>
+      <maml:para>Use the cmdlet with the AllowAllAzureServices parameter set to allow Windows Azure connections to the SQL Database Server. A firewall rule with starting and ending IP addresses equal to 0.0.0.0 will be created. If you do not specify a firewall rule name, a firewall rule with default name “AllowAllAzureServices” will be created.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1971,7 +2303,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>AllowAllAzureServices</maml:name>
           <maml:description>
-            <maml:para>Allows Windows Azure connections to the SQL Database Server.</maml:para>
+            <maml:para>Allows Windows Azure connections to the SQL Database Server.
+</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
@@ -1992,7 +2325,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>AllowAllAzureServices</maml:name>
         <maml:description>
-          <maml:para>Allows Windows Azure connections to the SQL Database Server.</maml:para>
+          <maml:para>Allows Windows Azure connections to the SQL Database Server.
+</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2128,6 +2462,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command creates a new firewall rule (“myRule1”) in the specified SQL Database Server (“lpqd0zbr8y”) with the specified IP range values.
@@ -2149,6 +2484,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command creates a new firewall rule (“myRule2”) in the specified SQL Database Server (“lpqd0zbr8y”) to allow Windows Azure connections.
@@ -2166,6 +2502,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>PS C:\&gt; New-AzureSqlDatabaseServerFirewallRule -ServerName "lpqd0zbr8y" -AllowAllAzureServices
+
 
 
 
@@ -2213,7 +2550,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
     <maml:description>
       <maml:para>The Remove-AzureSqlDatabase cmdlet deletes a SQL Database from the specified SQL Database Server connection context or SQL Database Server. You can create a SQL Database Server connection context using the New-AzureSqlDatabaseServerContext cmdlet, and then use it with this cmdlet.
 </maml:para>
-      <maml:para>When you delete a database by specifying a SQL Database Server, the Remove-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.</maml:para>
+      <maml:para>When you delete a database by specifying a SQL Database Server, the Remove-AzureSqlDatabase cmdlet creates a temporary connection context using the specified SQL Database Server name and the current Windows Azure subscription information to perform the operation.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2221,7 +2559,46 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="Context">
           <maml:name>ConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="InputObject">
+          <maml:name>Database</maml:name>
+          <maml:description>
+            <maml:para>A database object representing the database to be removed.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Allows the action to complete without prompting the user for confirmation.
+</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureSqlDatabase</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="Context">
+          <maml:name>ConnectionContext</maml:name>
+          <maml:description>
+            <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
@@ -2255,47 +2632,11 @@ The rest of the commands select the subscription "mySubscription" to be designat
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Remove-AzureSqlDatabase</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="Context">
-          <maml:name>ConnectionContext</maml:name>
-          <maml:description>
-            <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="InputObject">
-          <maml:name>Database</maml:name>
-          <maml:description>
-            <maml:para>A database object representing the database to be removed.
-</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Force</maml:name>
-          <maml:description>
-            <maml:para>Allows the action to complete without prompting the user for confirmation.
-</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
-          </maml:description>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Remove-AzureSqlDatabase</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of SQL Database Server where you want to delete the database.</maml:para>
+            <maml:para>The name of SQL Database Server where you want to delete the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -2332,7 +2673,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of SQL Database Server where you want to delete the database.</maml:para>
+            <maml:para>The name of SQL Database Server where you want to delete the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -2369,7 +2711,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="Context">
         <maml:name>ConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.</maml:para>
+          <maml:para>The connection context to a SQL Database Server where you want to delete a SQL Database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         <dev:type>
@@ -2420,7 +2763,8 @@ The rest of the commands select the subscription "mySubscription" to be designat
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of SQL Database Server where you want to delete the database.</maml:para>
+          <maml:para>The name of SQL Database Server where you want to delete the database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2491,15 +2835,21 @@ The rest of the commands select the subscription "mySubscription" to be designat
     <command:examples>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 1 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;Remove-AzureSqlDatabase -ConnectionContext $ctx -DatabaseName "Database1"
+
 
 
 
@@ -2518,15 +2868,21 @@ The rest of the commands select the subscription "mySubscription" to be designat
       </command:example>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 2 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
         <dev:code>C:\PS&gt;Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y" -DatabaseName "Database1"
+
 
 
 
@@ -2545,10 +2901,15 @@ The rest of the commands select the subscription "mySubscription" to be designat
       </command:example>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 3 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
@@ -2559,6 +2920,7 @@ The rest of the commands select the subscription "mySubscription" to be designat
 
 
 C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
+
 
 </dev:code>
         <dev:remarks>
@@ -2582,11 +2944,11 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Set-AzureSqlDatabase</maml:linkText>
+        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>New-AzureSqlDatabaseServerContext</maml:linkText>
+        <maml:linkText>Set-AzureSqlDatabase</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -2730,6 +3092,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command deletes the specified SQL Database Server (“lpqd0zbr8y”).
@@ -2785,20 +3148,20 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Force</maml:name>
-          <maml:description>
-            <maml:para>Allows the action to complete without prompting you for confirmation.
-</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
             <maml:para>The SQL Database firewall rule name to be deleted.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Allows the action to complete without prompting you for confirmation.
+</maml:para>
+          </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
@@ -2828,7 +3191,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
           <maml:para>The SQL Database firewall rule name to be deleted.
@@ -2917,6 +3280,7 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command deletes a firewall rule (“myRule”) from the specified SQL Database Server (“lpqd0zbr8y”).
@@ -2972,13 +3336,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>DatabaseName</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
+          <maml:name>Database</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL Database to modify.
+            <maml:para>A database object representing the SQL Database to modify.
 </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
@@ -3052,13 +3416,13 @@ C:\PS&gt;$database1 | Remove-AzureSqlDatabase -ServerName "lpqd0zbr8y"
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="">
-          <maml:name>Database</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>A database object representing the SQL Database to modify.
+            <maml:para>The name of the SQL Database to modify.
 </maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Database</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
@@ -3926,6 +4290,7 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
 
 
 
+
 </dev:code>
         <dev:remarks>
           <maml:para>This command updates the start IP address and end IP address of the firewall rule (“myRule”) in the SQL Database Server (“lpqd0zbr8y”).
@@ -3967,7 +4332,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Use the Start-AzureSqlDatabaseExport cmdlet to initiate an export operation from an Azure SQL Database to blob storage. The operation requires a database server connection context. Use the Get-AzureSqlDatabaseImportExportStatus cmdlet to get status on the export operation.</maml:para>
+      <maml:para>Use the Start-AzureSqlDatabaseExport cmdlet to initiate an export operation from an Azure SQL Database to blob storage. The operation requires a database server connection context. Use the Get-AzureSqlDatabaseImportExportStatus cmdlet to get status on the export operation.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3975,28 +4341,32 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>SqlConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>StorageContainer</maml:name>
           <maml:description>
-            <maml:para>The blob storage container object into which the data is exported.</maml:para>
+            <maml:para>The blob storage container object into which the data is exported.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the database from which the data is exported.</maml:para>
+            <maml:para>The name of the database from which the data is exported.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
           <maml:name>BlobName</maml:name>
           <maml:description>
-            <maml:para>The name of the blob storage into which to export the database.</maml:para>
+            <maml:para>The name of the blob storage into which to export the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -4006,35 +4376,40 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>SqlConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>StorageContext</maml:name>
           <maml:description>
-            <maml:para>The context of the blob storage.</maml:para>
+            <maml:para>The context of the blob storage.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
           <maml:name>StorageContainerName</maml:name>
           <maml:description>
-            <maml:para>The name of the storage container containing the blob into which the data is exported.</maml:para>
+            <maml:para>The name of the storage container containing the blob into which the data is exported.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
           <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the database from which the data is exported.</maml:para>
+            <maml:para>The name of the database from which the data is exported.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5" aliases="">
           <maml:name>BlobName</maml:name>
           <maml:description>
-            <maml:para>The name of the blob storage into which to export the database.</maml:para>
+            <maml:para>The name of the blob storage into which to export the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -4044,7 +4419,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
         <maml:name>BlobName</maml:name>
         <maml:description>
-          <maml:para>The name of the blob storage into which to export the database.</maml:para>
+          <maml:para>The name of the blob storage into which to export the database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4053,10 +4429,11 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the database from which the data is exported.</maml:para>
+          <maml:para>The name of the database from which the data is exported.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4068,7 +4445,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>SqlConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+          <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         <dev:type>
@@ -4080,7 +4458,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>StorageContainer</maml:name>
         <maml:description>
-          <maml:para>The blob storage container object into which the data is exported.</maml:para>
+          <maml:para>The blob storage container object into which the data is exported.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
         <dev:type>
@@ -4092,7 +4471,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>StorageContainerName</maml:name>
         <maml:description>
-          <maml:para>The name of the storage container containing the blob into which the data is exported.</maml:para>
+          <maml:para>The name of the storage container containing the blob into which the data is exported.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4104,7 +4484,8 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>StorageContext</maml:name>
         <maml:description>
-          <maml:para>The context of the blob storage.</maml:para>
+          <maml:para>The context of the blob storage.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
         <dev:type>
@@ -4123,9 +4504,7 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
@@ -4137,9 +4516,7 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:returnValue>
     </command:returnValues>
     <command:terminatingErrors />
@@ -4147,10 +4524,15 @@ C:\PS&gt;Set-AzureSqlDatabase -ServerName "lpqd0zbr8y" -Database $database1 -Max
     <command:examples>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 1 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
@@ -4169,9 +4551,11 @@ C:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $S
 
 C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
 
+
 </dev:code>
         <dev:remarks>
-          <maml:para>This example initiates an export process from the SQL Database, "$DatabaseName", to the blob storage, "$BlobName".</maml:para>
+          <maml:para>This example initiates an export process from the SQL Database, "$DatabaseName", to the blob storage, "$BlobName".
+</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -4182,11 +4566,11 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Start-AzureSqlDatabaseImport</maml:linkText>
+        <maml:linkText>Get-AzureSqlDatabaseImportExportStatus</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Get-AzureSqlDatabaseImportExportStatus</maml:linkText>
+        <maml:linkText>Start-AzureSqlDatabaseImport</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -4205,7 +4589,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Use the Start-AzureSqlDatabaseImport cmdlet to initiate an import operation from blob storage to an Azure SQL Database. If the database does not exist, it is created using the size and edition values specified. The operation requires a database server connection context. Use the Get-AzureSqlDatabaseImportExportStatus cmdlet to get status on the import operation.</maml:para>
+      <maml:para>Use the Start-AzureSqlDatabaseImport cmdlet to initiate an import operation from blob storage to an Azure SQL Database. If the database does not exist, it is created using the size and edition values specified. The operation requires a database server connection context. Use the Get-AzureSqlDatabaseImportExportStatus cmdlet to get status on the import operation.
+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4213,53 +4598,59 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>SqlConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>StorageContext</maml:name>
+          <maml:name>StorageContainer</maml:name>
           <maml:description>
-            <maml:para>The context of the blob storage.</maml:para>
+            <maml:para>The name of the storage container containing the blob from which to import.
+</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>StorageContainerName</maml:name>
+          <maml:name>DatabaseName</maml:name>
           <maml:description>
-            <maml:para>The name of the blob storage.</maml:para>
+            <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
-          <maml:name>DatabaseName</maml:name>
-          <maml:description>
-            <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5" aliases="">
           <maml:name>BlobName</maml:name>
           <maml:description>
-            <maml:para>The name of the blob storage from which to import the database.</maml:para>
+            <maml:para>The name of the blob storage from which to import the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>DatabaseMaxSize</maml:name>
           <maml:description>
-            <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.</maml:para>
-            <maml:para>Web Edition values: 1 or 5</maml:para>
-            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150</maml:para>
+            <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.
+</maml:para>
+            <maml:para>Web Edition values: 1 or 5
+</maml:para>
+            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.</maml:para>
+            <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.
+</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
+          </command:parameterValueGroup>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -4267,54 +4658,76 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>SqlConnectionContext</maml:name>
           <maml:description>
-            <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+            <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>StorageContainer</maml:name>
+          <maml:name>StorageContext</maml:name>
           <maml:description>
-            <maml:para>The name of the storage container containing the blob from which to import.</maml:para>
+            <maml:para>The context of the blob storage.
+</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>DatabaseName</maml:name>
+          <maml:name>StorageContainerName</maml:name>
           <maml:description>
-            <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.</maml:para>
+            <maml:para>The name of the blob storage.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
+          <maml:name>DatabaseName</maml:name>
+          <maml:description>
+            <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.
+</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5" aliases="">
           <maml:name>BlobName</maml:name>
           <maml:description>
-            <maml:para>The name of the blob storage from which to import the database.</maml:para>
+            <maml:para>The name of the blob storage from which to import the database.
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>DatabaseMaxSize</maml:name>
           <maml:description>
-            <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.</maml:para>
-            <maml:para>Web Edition values: 1 or 5</maml:para>
-            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150</maml:para>
+            <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.
+</maml:para>
+            <maml:para>Web Edition values: 1 or 5
+</maml:para>
+            <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>Edition</maml:name>
           <maml:description>
-            <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.</maml:para>
+            <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.
+</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="true" variableLength="false">None</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Business</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Web</command:parameterValue>
+            <command:parameterValue required="true" variableLength="false">Premium</command:parameterValue>
+          </command:parameterValueGroup>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4" aliases="">
         <maml:name>BlobName</maml:name>
         <maml:description>
-          <maml:para>The name of the blob storage from which to import the database.</maml:para>
+          <maml:para>The name of the blob storage from which to import the database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4326,9 +4739,12 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>DatabaseMaxSize</maml:name>
         <maml:description>
-          <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.</maml:para>
-          <maml:para>Web Edition values: 1 or 5</maml:para>
-          <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150</maml:para>
+          <maml:para>If the database does not exist, it is created with this maximum size in gigabytes. The acceptable values differ based on edition.
+</maml:para>
+          <maml:para>Web Edition values: 1 or 5
+</maml:para>
+          <maml:para>Business Edition values: 10, 20, 30, 40, 50, 100, or 150
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -4340,7 +4756,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>DatabaseName</maml:name>
         <maml:description>
-          <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.</maml:para>
+          <maml:para>The name of the database into which the data is imported. If the database does not exist, it is created with this name.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4352,7 +4769,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>Edition</maml:name>
         <maml:description>
-          <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.</maml:para>
+          <maml:para>If the database does not exist, it is created as this edition. Acceptable values are Web and Business. The default is Web.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DatabaseEdition</command:parameterValue>
         <dev:type>
@@ -4364,7 +4782,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>SqlConnectionContext</maml:name>
         <maml:description>
-          <maml:para>The connection context to a SQL Database Server containing the SQL Database.</maml:para>
+          <maml:para>The connection context to a SQL Database Server containing the SQL Database.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">ServerDataServiceSqlAuth</command:parameterValue>
         <dev:type>
@@ -4376,7 +4795,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>StorageContainer</maml:name>
         <maml:description>
-          <maml:para>The name of the storage container containing the blob from which to import.</maml:para>
+          <maml:para>The name of the storage container containing the blob from which to import.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">AzureStorageContainer</command:parameterValue>
         <dev:type>
@@ -4388,7 +4808,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
         <maml:name>StorageContainerName</maml:name>
         <maml:description>
-          <maml:para>The name of the blob storage.</maml:para>
+          <maml:para>The name of the blob storage.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4400,7 +4821,8 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
         <maml:name>StorageContext</maml:name>
         <maml:description>
-          <maml:para>The context of the blob storage.</maml:para>
+          <maml:para>The context of the blob storage.
+</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
         <dev:type>
@@ -4419,9 +4841,7 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
@@ -4433,9 +4853,7 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
             <maml:para />
           </maml:description>
         </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
+        <maml:description></maml:description>
       </command:returnValue>
     </command:returnValues>
     <command:terminatingErrors />
@@ -4443,10 +4861,15 @@ C:\PS&gt;$exportRequest = Start-AzureSqlDatabaseExport -SqlConnectionContext $Sq
     <command:examples>
       <command:example>
         <maml:title>   
+
    
+
 -------------------------- EXAMPLE 1 --------------------------    
+
    
+
    
+
                       </maml:title>
         <maml:introduction>
           <maml:para></maml:para>
@@ -4462,9 +4885,11 @@ C:\PS&gt;$Container = Get-AzureStorageContainer -Name $ContainerName -Context $S
 
 C:\PS&gt;$importRequest = Start-AzureSqlDatabaseImport -SqlConnectionContext $SqlCtx -StorageContainer $Container -DatabaseName $DatabaseName -BlobName $BlobName
 
+
 </dev:code>
         <dev:remarks>
-          <maml:para>This example initiates an import process from the blob storage, "$BlobName", into the SQL Database, "DatabaseName".</maml:para>
+          <maml:para>This example initiates an import process from the blob storage, "$BlobName", into the SQL Database, "DatabaseName".
+</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
@@ -4475,11 +4900,11 @@ C:\PS&gt;$importRequest = Start-AzureSqlDatabaseImport -SqlConnectionContext $Sq
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Start-AzureSqlDatabaseExport</maml:linkText>
+        <maml:linkText>Get-AzureSqlDatabaseImportExportStatus</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Get-AzureSqlDatabaseImportExportStatus</maml:linkText>
+        <maml:linkText>Start-AzureSqlDatabaseExport</maml:linkText>
         <maml:uri />
       </maml:navigationLink>
     </maml:relatedLinks>
