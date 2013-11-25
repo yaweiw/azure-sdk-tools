@@ -109,15 +109,5 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
             this.credentialSets.TryGetValue(name, out creds);
             return creds;
         }
-
-        public bool RunAzureTests()
-        {
-            return this.GetConfigPath() != null;
-        }
-
-        private string GetConfigPath()
-        {
-            return Environment.GetEnvironmentVariable("MS_HADOOP_TEST_AZURECONFIG");
-        }
     }
 }
