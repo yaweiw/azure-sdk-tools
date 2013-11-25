@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         [Parameter(Mandatory = false, ParameterSetName = SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet, HelpMessage = "Probe timeout in seconds.")]
         public int ProbeTimeoutInSeconds { get; set; }
 
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
 
