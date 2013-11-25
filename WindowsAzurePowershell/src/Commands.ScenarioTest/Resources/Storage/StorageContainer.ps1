@@ -14,6 +14,82 @@
 
 $containerName = "testcredentials-storage";
 $containerPrefix = "testcredentials-";
+$createdStorageAccounts = @();
+$defaultLocation = Get-DefaultLocation;
+
+<#
+.SYNOPSIS
+Gets valid and available storage service name.
+#>
+function New-StorageServiceName
+{
+	do
+	{
+		$name = "onesdk" + (Get-Random).ToString()
+		$used = Test-AzureName -Storage $name
+	} while ($used)
+
+	return $name
+}
+
+<#
+.SYNOPSIS
+Gets a location that uses storage services.
+#>
+function Get-DefaultLocation
+{
+    $locations = Get-AzureLocation;
+	foreach ($location in $locations)
+	{
+	   if ($location.AvailableServices.Contains("Storage"))
+	   {
+	       return $location;
+		}
+	}
+
+	return $null;
+}
+
+<#
+.SYNOPSIS
+Creates a new storage service
+#>
+function New-StorageService
+{
+   $serviceName = New-StorageServiceName;
+   $location = Get-DefaultLocatiohn
+   New-AzureStorageAccount $serviceName -Location $location
+}
+
+<#
+.SYNOPSIS
+Sets up environment variables for storage commands
+.PARAMETER storageAccount
+   The storage account to use when provisioning test credentials
+#>
+function Provision-StorageCredentials
+{
+   param([string]$storageAccount);
+   $storage = Get-AzureStorageKey $storageAccount
+   $connectionString = [string]::Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", $storageAccount, $storage.Primary);
+   return $connectionString
+}
+
+function Cleanup-StorageCredentials
+{
+}
+
+<#
+.SYNOPSIS
+Create a storage account and container for test consumption
+#>
+function Test-GetAzureStorageContainerWithoutContainerName
+{
+    $containers = Get-AzureStorageContainer; 
+    Assert-True {$containers.Count -ge 1};
+    $container =  $containers | ? {$_.Name -eq $containerName}
+    Assert-NotNull $container;
+}
 
 <#
 .SYNOPSIS
