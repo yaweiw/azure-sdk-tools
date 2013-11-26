@@ -117,7 +117,30 @@ AliasesToExport = @(
 'Show-WAPackWebsite',
 'Start-WAPackWebsite',
 'Stop-WAPackWebsite',
-'Test-WAPackName')
+'Test-WAPackName',
+'Add-AzureHDInsightConfigValues',
+'Add-AzureHDInsightMetastore',
+'Add-AzureHDInsightStorage',
+'Get-AzureHDInsightCluster',
+'Get-AzureHDInsightJob',
+'Get-AzureHDInsightJobOutput',
+'Get-AzureHDInsightProperties',
+'Invoke-Hive',
+'New-AzureHDInsightCluster',
+'New-AzureHDInsightClusterConfig',
+'New-AzureHDInsightHiveJobDefinition',
+'New-AzureHDInsightMapReduceJobDefinition',
+'New-AzureHDInsightPigJobDefinition',
+'New-AzureHDInsightSqoopJobDefinition',
+'New-AzureHDInsightStreamingMapReduceJobDefinition',
+'Remove-AzureHDInsightCluster',
+'Revoke-AzureHDInsightHttpServicesAccess',
+'Set-AzureHDInsightDefaultStorage',
+'Start-AzureHDInsightJob',
+'Stop-AzureHDInsightJob',
+'Use-AzureHDInsightCluster',
+'Wait-AzureHDInsightJob'
+)
 
 # List of all modules packaged with this module
 ModuleList = @()
