@@ -14,8 +14,7 @@
 
 $containerName = "testcredentials-storage";
 $containerPrefix = "testcredentials-";
-$createdStorageAccounts = @();
-$defaultLocation = Get-DefaultLocation;
+$global:createdStorageAccounts = New-Object "System.Collections.Generic.List``1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]";
 
 <#
 .SYNOPSIS
@@ -29,7 +28,7 @@ function New-StorageServiceName
 		$used = Test-AzureName -Storage $name
 	} while ($used)
 
-	return $name
+	$name
 }
 
 <#
@@ -43,11 +42,40 @@ function Get-DefaultLocation
 	{
 	   if ($location.AvailableServices.Contains("Storage"))
 	   {
-	       return $location;
+	       return $location.Name;
 		}
 	}
 
-	return $null;
+	$null;
+}
+
+
+<#
+.SYNOPSIS
+Waits until an account is created
+.PARAMETER
+  The account name to check
+.RETURN
+  True if the account is created, otherwise false
+#>
+function Wait-UntilCreated
+{
+    param([string] $account);
+    Retry-Function { Verify-AccountCreated $account} $null 30 10;
+}
+
+<#
+.SYNOPSIS
+Checks if an account is created
+.PARAMETER
+  The account name to check
+.RETURN
+  True if the account is created, otherwise false
+#>
+function Verify-AccountCreated
+{
+    param([string] $account);
+    ((Get-AzureStorageAccount $account).StorageAccountStatus -eq "Created");
 }
 
 <#
@@ -56,9 +84,59 @@ Creates a new storage service
 #>
 function New-StorageService
 {
-   $serviceName = New-StorageServiceName;
-   $location = Get-DefaultLocatiohn
-   New-AzureStorageAccount $serviceName -Location $location
+   $serviceName = (New-StorageServiceName);
+   $location = (Get-DefaultLocation);
+   $toss = New-AzureStorageAccount $serviceName -Location $location;
+   $toss = Assert-True {Wait-UntilCreated $serviceName} "Unable to create storage account in the allotted time, test setup failure"
+   $global:createdStorageAccounts.Add($serviceName)
+   return $serviceName;
+}
+
+<#
+.SYNOPSIS
+Returns a storage account containing at least one container
+#>
+function Create-StorageAccount
+{
+    $storageService = New-StorageService;
+	$toss = Provision-StorageCredentials $storageService;
+	$toss = Create-TestContainer
+    return $storageService;
+}
+
+<#
+.SYNOPSIS
+Creates a test container in the current storage account
+#>
+function Create-TestContainer
+{
+   New-AzureStorageContainer $containerName;
+}
+
+<#
+.SYNOPSIS
+Cleans up any created containers and storage accounts
+#>
+function Cleanup-StorageAccounts
+{
+    foreach ($account in ($global:createdStorageAccounts.ToArray()))
+	{
+	   Provision-StorageCredentials $account;
+	   try
+	   {
+	      foreach ($storageContainer in (Get-AzureStorageContainer))
+		  {
+		     Remove-AzureStorageContainer $storageContainer.Name -Force;
+		  }
+
+		  Remove-AzureStorageAccount $account;
+		  $global:createdStorageAccounts.Remove($account);
+	   }
+	   finally 
+	   {
+	      Cleanup-StorageCredentials;
+	   }
+	}
 }
 
 <#
@@ -69,34 +147,29 @@ Sets up environment variables for storage commands
 #>
 function Provision-StorageCredentials
 {
-   param([string]$storageAccount);
-   $storage = Get-AzureStorageKey $storageAccount
+   param([string] $storageAccount);
+   $storage = Get-AzureStorageKey $storageAccount;
    $connectionString = [string]::Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", $storageAccount, $storage.Primary);
-   return $connectionString
+   $global:StorageConnectionString = Get-Item env:AZURE_STORAGE_CONNECTION_STRING;
+   Set-Item env:AZURE_STORAGE_CONNECTION_STRING $connectionString;
 }
 
+<#
+.SYNOPSIS
+Sets up environment variables for storage commands
+#>
 function Cleanup-StorageCredentials
 {
+    Set-Item env:AZURE_STORAGE_CONNECTION_STRING $global:StorageConnectionString
 }
 
 <#
 .SYNOPSIS
-Create a storage account and container for test consumption
+Lists existing storage containers
 #>
 function Test-GetAzureStorageContainerWithoutContainerName
 {
-    $containers = Get-AzureStorageContainer; 
-    Assert-True {$containers.Count -ge 1};
-    $container =  $containers | ? {$_.Name -eq $containerName}
-    Assert-NotNull $container;
-}
-
-<#
-.SYNOPSIS
-Tests using Get-AzureStorageContainer without container name.
-#>
-function Test-GetAzureStorageContainerWithoutContainerName
-{
+    
     $containers = Get-AzureStorageContainer; 
     Assert-True {$containers.Count -ge 1};
     $container =  $containers | ? {$_.Name -eq $containerName}
