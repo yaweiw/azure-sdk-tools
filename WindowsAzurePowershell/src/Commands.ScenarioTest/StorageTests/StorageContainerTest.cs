@@ -25,6 +25,21 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StorageTests
         {
         }
 
+        [TestInitialize]
+        public override void TestSetup()
+        {
+            base.TestSetup();
+            powershell.AddScript("Create-StorageAccount");
+        }
+
+        [TestCleanup]
+        public override void TestCleanup()
+        {
+            powershell.AddScript("Cleanup-StorageAccounts");
+            powershell.Invoke();
+            base.TestCleanup();
+        }
+
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
