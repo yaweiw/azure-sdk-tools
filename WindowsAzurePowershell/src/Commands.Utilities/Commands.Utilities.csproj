@@ -327,7 +327,6 @@
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAzureHDInsightStorageHandler.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAzureHDInsightStorageHandlerFactory.cs" />
-    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IGetAzureHDInsightClusterBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IGetAzureHDInsightJobBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IGetAzureHDInsightJobOutputBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IManageAzureHDInsightHttpAccessBase.cs" />
@@ -340,7 +339,6 @@
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightPigJobDefinitionBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightSqoopJobDefinitionBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightStreamingJobDefinitionBase.cs" />
-    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IRemoveAzureHDInsightClusterBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\ISetAzureHDInsightDefaultStorageBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IStartAzureHDInsightJobBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IStopAzureHDInsightJobBase.cs" />
