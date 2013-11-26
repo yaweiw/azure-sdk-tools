@@ -1,42 +1,41 @@
-﻿// Copyright (c) Microsoft Corporation
-// All rights reserved.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License"); you may not
-// use this file except in compliance with the License.  You may obtain a copy
-// of the License at http://www.apache.org/licenses/LICENSE-2.0
-// 
-// THIS CODE IS PROVIDED *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-// WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-// MERCHANTABLITY OR NON-INFRINGEMENT.
-// 
-// See the Apache Version 2.0 License for specific language governing
-// permissions and limitations under the License.
-
-using Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.PowerShellTestAbstraction.Concretes;
-using Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.PowerShellTestAbstraction.Interfaces;
-using Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Management.Automation;
-using System.Security;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.HDInsight;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
-using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.ServiceLocation;
-using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core;
-using Microsoft.WindowsAzure.Management.HDInsight.Logging;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Security;
+    using System.Security.Cryptography.X509Certificates;
+    using Commands.Utilities.Common;
+    using Management.HDInsight;
+    using Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces;
+    using Management.HDInsight.Cmdlet.Commands.CommandImplementations;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
+    using Management.HDInsight.Cmdlet.ServiceLocation;
+    using Management.HDInsight.Framework.Core;
+    using Management.HDInsight.Logging;
+    using PowerShellTestAbstraction.Concretes;
+    using PowerShellTestAbstraction.Interfaces;
+    using Simulators;
+    using VisualStudio.TestTools.UnitTesting;
+
     public class IntegrationTestBase : DisposableObject
     {
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes",
@@ -214,7 +213,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
         {
             // Random DNS name.
             DateTime time = DateTime.UtcNow;
-            string machineName = Environment.GetEnvironmentVariable("computername") ?? "unknown";
             string retval =
                 string.Format(
                     "{0}-{1}{2}{3}-{4}",
@@ -234,8 +232,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 
         public virtual void Initialize()
         {
-            // HDInsightClient.DefaultPollingInterval = TimeSpan.FromSeconds(1);
-            // IHadoopClientExtensions.GetPollingInterval = () => 500;
             if (!IsInitialized)
             {
                 TestRunSetup();
@@ -254,8 +250,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 
         public virtual void TestCleanup()
         {
-            // HDInsightClient.DefaultPollingInterval = TimeSpan.FromSeconds(1);
-            // IHadoopClientExtensions.GetPollingInterval = () => TestConstants.PollingInterval;
             this.ApplyFullMocking();
             this.ResetIndividualMocks();
         }

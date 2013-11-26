@@ -1,40 +1,38 @@
-﻿// Copyright (c) Microsoft Corporation
-// All rights reserved.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License"); you may not
-// use this file except in compliance with the License.  You may obtain a copy
-// of the License at http://www.apache.org/licenses/LICENSE-2.0
-// 
-// THIS CODE IS PROVIDED *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-// WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-// MERCHANTABLITY OR NON-INFRINGEMENT.
-// 
-// See the Apache Version 2.0 License for specific language governing
-// permissions and limitations under the License.
-
-using System.Security.Cryptography.X509Certificates;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
     using System;
     using System.Management.Automation;
     using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
-    using Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.ServiceLocation;
-    using Microsoft.WindowsAzure.Management.HDInsight.Logging;
+    using Commands.CommandInterfaces;
+    using DataObjects;
+    using GetAzureHDInsightClusters;
+    using GetAzureHDInsightClusters.Extensions;
+    using HDInsight.Logging;
+    using ServiceLocation;
 
     /// <summary>
     ///     Cmdlet that lists all the clusters registered in the HDInsight service.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, AzureHdInsightPowerShellConstants.AzureHDInsightCluster)]
-    public class GetAzureHDInsightClusterCmdlet : AzureHDInsightCmdlet, IGetAzureHDInsightClusterBase
+    [OutputType(typeof(AzureHDInsightCluster))]
+    public class GetAzureHDInsightClusterCmdlet : AzureHDInsightCmdlet, IAzureHDInsightClusterCommandBase
     {
         private readonly IGetAzureHDInsightClusterCommand command;
 
@@ -57,21 +55,22 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         }
 
         /// <inheritdoc />
-        [Parameter(Position = 4, Mandatory = false, HelpMessage = "The CloudServiceName to use when managing the HDInsight cluster.",
+        [Parameter(Position = 4, Mandatory = false, HelpMessage = "The HostedService to use when managing the HDInsight cluster.",
             ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
-        public string CloudServiceName
+        [Alias(AzureHdInsightPowerShellConstants.AliasCloudServiceName)]
+        public string HostedService
         {
-            get { return this.command.CloudServiceName; }
-            set { this.command.CloudServiceName = value; }
+            get { return this.command.HostedService; }
+            set { this.command.HostedService = value; }
         }
 
         /// <inheritdoc />
         [Parameter(Position = 3, Mandatory = false, HelpMessage = "The Endpoint to use when connecting to Azure.",
             ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
-        public Uri EndPoint
+        public Uri Endpoint
         {
-            get { return this.command.EndPoint; }
-            set { this.command.EndPoint = value; }
+            get { return this.command.Endpoint; }
+            set { this.command.Endpoint = value; }
         }
 
         /// <inheritdoc />

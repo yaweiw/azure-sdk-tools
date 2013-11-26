@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure EndPoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
+        /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure Endpoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlets ((Add,Get,Set,Remove)-AzureEndpoint), & Set-AzureLoadBalancedEndpoint")]
         public void AzureEndpointTest()
@@ -247,7 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Add an EndPoint with ACLs during deployment
+        /// Add an Endpoint with ACLs during deployment
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsWithNewDeployment()
@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Add an EndPoint with ACLs to an existing deployment
+        /// Add an Endpoint with ACLs to an existing deployment
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsonExistingDeployment()
