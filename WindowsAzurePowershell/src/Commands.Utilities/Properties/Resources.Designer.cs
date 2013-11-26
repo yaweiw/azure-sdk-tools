@@ -1170,7 +1170,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EndPoint can&apos;t be retrieved for storage account.
+        ///   Looks up a localized string similar to Endpoint can&apos;t be retrieved for storage account.
         /// </summary>
         public static string EndPointNotFoundForBlobStorage {
             get {

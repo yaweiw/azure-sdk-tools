@@ -266,7 +266,7 @@ function Test-NewAzureSBNamespaceWithInvalidLocation
 	# Setup
 
 	# Test
-	Assert-ThrowsContent { New-AzureSBNamespace $(Get-NamespaceName) "Invalid Location" } {$args[0].Message.Contains("Invalid Location") -and $args[0].Message.Contains("invalid")}
+	Assert-Throws { New-AzureSBNamespace $(Get-NamespaceName) "Invalid Location" } "The provided location `"Invalid Location`" does not exist in the available locations use Get-AzureSBLocation for listing available locations.`r`nParameter name: Location"
 }
 
 <#
@@ -345,7 +345,7 @@ function Test-RemoveAzureSBNamespaceWithExistingNamespace
 
 	# Assert
 	$namespace = Get-AzureSBNamespace $name
-	Wait-NamespaceRemoved $name
+	Assert-AreEqual "Removing" $namespace.Status
 }
 
 <#
@@ -407,4 +407,14 @@ function Test-RemoveAzureSBNamespaceWhatIf
 
 	# Assert
 	Assert-True { $removed }
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with WhatIf parameter.
+#>
+function Test-RemoveAzureSBNamespaceWhatIfError
+{
+	# Test
+	Assert-Throws { Remove-AzureSBNamespace "123InvalidName" -WhatIf -Force } "The provided name `"123InvalidName`" does not match the service bus namespace naming rules.`r`nParameter name: Name"
 }

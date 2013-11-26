@@ -1320,7 +1320,7 @@ Please follow these steps in the portal:
     <value>Account removed.</value>
   </data>
   <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
-    <value>EndPoint can't be retrieved for storage account</value>
+    <value>Endpoint can't be retrieved for storage account</value>
   </data>
   <data name="CannotUpdateUnknownSubscription" xml:space="preserve">
     <value>The subscription named {0} with id {1} is not currently imported. You must import this subscription before it can be updated.</value>
