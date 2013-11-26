@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using Model;
     using Utilities.Common;
     using NSM = Management.Compute.Models;
+    using NVM = Management.VirtualNetworks.Models;
     using PVM = Model.PersistentVMModel;
     using WSM = WindowsAzure.ServiceManagement;
 
@@ -363,6 +364,82 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.DomainToJoin, o => o.MapFrom(r => r.JoinDomain))
                   .ForMember(c => c.LdapMachineObjectOU, o => o.MapFrom(r => r.MachineObjectOU))
                   .ForMember(c => c.Provisioning, o => o.MapFrom(r => r.Provisioning));
+
+            // Networks mapping
+            Mapper.CreateMap<IList<string>, PVM.AddressPrefixList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(t);
+                          }
+                      }
+                  });
+            Mapper.CreateMap<NVM.NetworkListResponse.AddressSpace, PVM.AddressSpace>();
+            Mapper.CreateMap<NVM.NetworkListResponse.Connection, PVM.Connection>();
+            Mapper.CreateMap<NVM.NetworkListResponse.LocalNetworkSite, PVM.LocalNetworkSite>();
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.LocalNetworkSite>, PVM.LocalNetworkSiteList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.LocalNetworkSite>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<NVM.NetworkListResponse.DnsServer, PVM.DnsServer>();
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.DnsServer>, PVM.DnsServerList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.DnsServer>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<NVM.NetworkListResponse.Subnet, PVM.Subnet>();
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.Subnet>, PVM.SubnetList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.Subnet>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.DnsServer>, PVM.DnsSettings>()
+                  .ForMember(c => c.DnsServers, o => o.MapFrom(r => r));
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.Gateway>, PVM.Gateway>();
+            Mapper.CreateMap<NVM.NetworkListResponse.VirtualNetworkSite, PVM.VirtualNetworkSite>();
+            Mapper.CreateMap<IList<NVM.NetworkListResponse.VirtualNetworkSite>, PVM.VirtualNetworkSiteList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null && s != null)
+                      {
+                          foreach (var t in c)
+                          {
+                              s.Add(Mapper.Map<PVM.VirtualNetworkSite>(t));
+                          }
+                      }
+                  });
+            Mapper.CreateMap<NVM.NetworkListResponse.VirtualNetworkSite, VirtualNetworkSiteContext>()
+                  .ForMember(c => c.AddressSpacePrefixes, o => o.MapFrom(r => r.AddressSpace == null ? null : r.AddressSpace.AddressPrefixes == null ? null :
+                                                                              r.AddressSpace.AddressPrefixes.Select(p => p)))
+                  .ForMember(c => c.DnsServers, o => o.MapFrom(r => r.DnsServers.AsEnumerable()))
+                  .ForMember(c => c.GatewayProfile, o => o.MapFrom(r => r.Gateway.Profile))
+                  .ForMember(c => c.GatewaySites, o => o.MapFrom(r => r.Gateway.Sites));
+
+            Mapper.CreateMap<OperationStatusResponse, VirtualNetworkSiteContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             // New SM to Model
             Mapper.CreateMap<NSM.StoredCertificateSettings, PVM.CertificateSetting>();
