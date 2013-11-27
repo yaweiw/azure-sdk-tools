@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     ///     Cmdlet that lists submits a jobDetails to a running HDInsight cluster.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Invoke, AzureHdInsightPowerShellConstants.Hive)]
-    [Alias(AzureHdInsightPowerShellConstants.HiveCmd)]
     [OutputType(typeof(string))]
     public class InvokeHiveCmdlet : AzureHDInsightCmdlet, INewAzureHDInsightHiveJobDefinitionBase
     {

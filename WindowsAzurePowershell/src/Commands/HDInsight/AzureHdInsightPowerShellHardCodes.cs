@@ -61,8 +61,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         public const string AzureHDInsightStreamingMapReduceJobDefinition = "AzureHDInsightStreamingMapReduceJobDefinition";
         public const string Exec = "Exec";
         public const string FromDateTime = "From";
-        public const string Hive = "Hive";
-        public const string HiveCmd = "hive";
+        public const string Hive = "AzureHDInsightHiveJob";
         public const string HiveCmdExecute = "execute";
         public const string HiveCmdExecuteAlias = "e";
 
