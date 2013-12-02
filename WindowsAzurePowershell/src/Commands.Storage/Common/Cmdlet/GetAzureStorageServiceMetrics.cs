@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties = GetStorageServiceProperties(account, Type);
-            WriteObject(serviceProperties.Metrics);
+            WriteObject(serviceProperties.HourMetrics);
         }
     }
 }

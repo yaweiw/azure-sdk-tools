@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             if (Version != null)
             {
-                serviceProperties.Metrics.Version = Version.ToString();
+                serviceProperties.HourMetrics.Version = Version.ToString();
             }
 
             if (RetentionDays != null)
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 if (RetentionDays == -1)
                 {
                     //Disable metrics retention policy
-                    serviceProperties.Metrics.RetentionDays = null;
+                    serviceProperties.HourMetrics.RetentionDays = null;
                 }
                 else if (RetentionDays < 1 || RetentionDays > 365)
                 {
@@ -72,19 +72,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
                 else
                 {
-                    serviceProperties.Metrics.RetentionDays = RetentionDays;
+                    serviceProperties.HourMetrics.RetentionDays = RetentionDays;
                 }
             }
 
             if (MetricsLevel != null)
             {
                 MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
-                serviceProperties.Metrics.MetricsLevel = metricsLevel;
+                serviceProperties.HourMetrics.MetricsLevel = metricsLevel;
                 //Set default metrics version
-                if (string.IsNullOrEmpty(serviceProperties.Metrics.Version))
+                if (string.IsNullOrEmpty(serviceProperties.HourMetrics.Version))
                 {
                     string defaultMetricsVersion = "1.0";
-                    serviceProperties.Metrics.Version = defaultMetricsVersion;
+                    serviceProperties.HourMetrics.Version = defaultMetricsVersion;
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
             if (PassThru)
             {
-                WriteObject(serviceProperties.Metrics);
+                WriteObject(serviceProperties.HourMetrics);
             }
         }
     }
