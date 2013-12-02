@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             ServiceProperties serviceProperties =
                 GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
             //Keep metrics unchanged
-            serviceProperties.Metrics = null;
+            serviceProperties.HourMetrics = null;
             UpdateServiceProperties(serviceProperties);
             SetStorageServiceProperties(account, Type, serviceProperties);
 
