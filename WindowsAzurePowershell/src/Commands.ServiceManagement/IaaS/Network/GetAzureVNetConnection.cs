@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.NetworkClient.Gateways.ListConnections(this.VNetName),
-                this.WaitForNewGatewayOperation,
                 (s, r) => r.Connections.Select(c => new GatewayConnectionContext
                 {
                     OperationId               = s.Id,
