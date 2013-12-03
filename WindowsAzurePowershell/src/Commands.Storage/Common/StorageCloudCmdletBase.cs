@@ -17,9 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Management.Automation;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Queue;
+    using Microsoft.WindowsAzure.Storage.Table;
     using Model.ResourceModel;
     using ServiceModel = System.ServiceModel;
 
@@ -32,6 +36,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
         public virtual AzureStorageContext Context {get; set;}
+
+        [Parameter(HelpMessage = "The server time out for each request in seconds.")]
+        public virtual int? RequestServerTimeout { get; set; }
+
+        [Parameter(HelpMessage = "The client side maximum execution time for each request in seconds.")]
+        public virtual int? RequestMaximumExecutionTime { get; set; }
 
         /// <summary>
         /// whether stop processing
@@ -56,6 +66,42 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         internal void WriteDebugLog(string msg)
         {
             WriteDebugWithTimestamp(msg);
+        }
+
+        /// <summary>
+        /// Get a request options
+        /// </summary>
+        /// <param name="type">Service type</param>
+        /// <returns>Request options</returns>
+        public IRequestOptions GetRequestOptions(string type)
+        {
+            IRequestOptions options = default(IRequestOptions);
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
+            {
+                case StorageNouns.BlobService:
+                    options = new BlobRequestOptions();
+                    break;
+                case StorageNouns.QueueService:
+                    options = new QueueRequestOptions();
+                    break;
+                case StorageNouns.TableService:
+                    options = new TableRequestOptions();
+                    break;
+                default:
+                    throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
+            }
+
+            if (RequestMaximumExecutionTime != null)
+            {
+                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)RequestMaximumExecutionTime);
+            }
+
+            if (RequestServerTimeout != null)
+            {
+                options.ServerTimeout = TimeSpan.FromSeconds((double)RequestServerTimeout);
+            }
+
+            return options;
         }
 
         /// <summary>

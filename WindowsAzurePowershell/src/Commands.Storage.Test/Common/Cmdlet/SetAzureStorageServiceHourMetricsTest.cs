@@ -21,17 +21,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     [TestClass]
-    public class SetAzureStorageServiceMetricsTest : StorageTestBase
+    public class SetAzureStorageServiceHourMetricsTest : StorageTestBase
     {
         /// <summary>
         /// StorageCmdletBase command
         /// </summary>
-        public SetAzureStorageServiceMetricsCommand command = null;
+        public SetAzureStorageServiceHourMetricsCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new SetAzureStorageServiceMetricsCommand
+            command = new SetAzureStorageServiceHourMetricsCommand
             {
                 CommandRuntime = new MockCommandRuntime()
             };

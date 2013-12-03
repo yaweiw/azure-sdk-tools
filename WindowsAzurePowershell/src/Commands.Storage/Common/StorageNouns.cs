@@ -105,9 +105,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string CopyBlobStatus = "AzureStorageBlobCopyState";
 
         /// <summary>
-        /// Azure storage service metrics
+        /// Azure storage service hour metrics
         /// </summary>
-        public const string StorageServiceMetrics = "AzureStorageServiceMetrics";
+        public const string StorageServiceHourMetrics = "AzureStorageServiceHourMetrics";
+
+        /// <summary>
+        /// Azure storage service minute metrics
+        /// </summary>
+        public const string StorageServiceMinuteMetrics = "AzureStorageServiceMinuteMetrics";
 
         /// <summary>
         /// Azure storage service logging
