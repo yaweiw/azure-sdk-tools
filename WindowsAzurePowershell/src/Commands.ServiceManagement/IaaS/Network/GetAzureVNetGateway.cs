@@ -37,7 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.NetworkClient.Gateways.Get(this.VNetName),
-                this.WaitForNewGatewayOperation,
                 (operation, operationResponse) => new VirtualNetworkGatewayContext
                 {
                     OperationId          = operation.Id,
@@ -48,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     LastEventID          = GetEventId(operationResponse.LastEvent),
                     LastEventTimeStamp   = (operationResponse.LastEvent != null) ? (DateTime?)operationResponse.LastEvent.Timestamp : null,
                     State                = (ProvisioningState)Enum.Parse(typeof(ProvisioningState), operationResponse.State, true),
-                    VIPAddress           = operationResponse.VipAddress.ToString()
+                    VIPAddress           = operationResponse.VipAddress != null ? operationResponse.VipAddress.ToString() : null
                 });
         }
 
