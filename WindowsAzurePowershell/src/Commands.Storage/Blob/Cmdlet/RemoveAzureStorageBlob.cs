@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         internal bool HasSnapShot(ICloudBlob blob)
         {
             BlobListingDetails details = BlobListingDetails.Snapshots;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             bool useFlatBlobListing = true;
 
             if (IsSnapshot(blob)) //snapshot can't have snapshot
@@ -162,7 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             DeleteSnapshotsOption deleteSnapshotsOption = DeleteSnapshotsOption.None;
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             if (IsSnapshot(blob) && deleteSnapshot)
             {
@@ -210,7 +210,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
 
             if (null == blob && container.ServiceClient.Credentials.IsSharedKey)

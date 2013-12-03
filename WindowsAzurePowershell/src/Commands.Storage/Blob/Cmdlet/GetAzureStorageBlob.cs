@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, containerName));
             }
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
 
             if (!skipCheckExists && container.ServiceClient.Credentials.IsSharedKey 
@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         internal IEnumerable<IListBlobItem> ListBlobsByName(string containerName, string blobName)
         {
             CloudBlobContainer container = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             bool useFlatBlobListing = true;
@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             CloudBlobContainer container = GetCloudBlobContainerByName(containerName);
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             bool useFlatBlobListing = true;
             BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 

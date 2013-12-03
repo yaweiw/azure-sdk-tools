@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             string prefix = string.Empty;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             if (!NameUtil.IsValidContainerPrefix(prefix))
             {
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 yield break;
             }
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             foreach (CloudBlobContainer container in containerList)

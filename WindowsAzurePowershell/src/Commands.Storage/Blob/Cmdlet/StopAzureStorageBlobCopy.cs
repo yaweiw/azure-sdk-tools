@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             ValidateContainerName(container.Name);
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = RequestOptions;
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
 
             if (blob == null)
@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         private bool StopCopyBlob(ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
         {
             AccessCondition accessCondition = null;
-            BlobRequestOptions abortRequestOption = new BlobRequestOptions();
+            BlobRequestOptions abortRequestOption = RequestOptions;
 
             //Set no retry to resolve the 409 conflict exception
             abortRequestOption.RetryPolicy = new NoRetry();
@@ -207,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 //Make sure we use the correct copy id to abort
                 //Use default retry policy for FetchBlobAttributes
-                BlobRequestOptions options = null;
+                BlobRequestOptions options = RequestOptions;
                 Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
 
                 if (blob.CopyState == null || String.IsNullOrEmpty(blob.CopyState.CopyId))

@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
                     throw new ArgumentException(Resources.OnlyOnePermissionForContainer);
             }
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             CloudBlobContainer container = Channel.GetContainerReference(name);

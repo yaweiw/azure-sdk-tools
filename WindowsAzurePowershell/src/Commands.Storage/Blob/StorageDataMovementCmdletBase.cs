@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using System.Management.Automation;
     using System.Net;
     using System.Threading;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
@@ -191,9 +192,22 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             BlobTransferOptions opts = new BlobTransferOptions();
             opts.Concurrency = concurrentTaskCount;
+            SetRequestOptionsInDataMovement(opts);
             transferManager = new BlobTransferManager(opts);
             
             base.BeginProcessing();
+        }
+
+        private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)
+        {
+            BlobRequestOptions cmdletOptions = RequestOptions;
+            foreach (BlobRequestOperation operation in Enum.GetValues(typeof(BlobRequestOperation)))
+            {
+                BlobRequestOptions requestOptions = opts.GetBlobRequestOptions(operation);
+                requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
+                requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+                opts.SetBlobRequestOptions(operation, requestOptions);    
+            }
         }
 
         /// <summary>

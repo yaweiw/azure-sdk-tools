@@ -75,6 +75,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>Request options</returns>
         public IRequestOptions GetRequestOptions(string type)
         {
+            if (RequestMaximumExecutionTime == null && RequestServerTimeout == null)
+            {
+                return null;
+            }
+
             IRequestOptions options = default(IRequestOptions);
             switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
             {
