@@ -15,43 +15,24 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
     using System;
-    using System.Globalization;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Text;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceMetrics),
-        OutputType(typeof(ServiceProperties))]
-    public class GetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
+    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceMinuteMetrics),
+        OutputType(typeof(MetricsProperties))]
+    public class GetAzureStorageServiceMinuteMetricsCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type(Blob, Table, Queue).")]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
         public string Type { get; set; }
-
-        /// <summary>
-        /// Get storage service properties
-        /// </summary>
-        /// <param name="account">Cloud storage account</param>
-        /// <param name="type">Service type</param>
-        /// <returns>Storage service properties</returns>
-        internal static ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type)
-        {
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
-            {
-                case StorageNouns.BlobService:
-                    return account.CreateCloudBlobClient().GetServiceProperties();
-                case StorageNouns.QueueService:
-                    return account.CreateCloudQueueClient().GetServiceProperties();
-                case StorageNouns.TableService:
-                    return account.CreateCloudTableClient().GetServiceProperties();
-                default:
-                    throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
-            }
-        }
 
         /// <summary>
         /// Execute command
@@ -60,8 +41,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = GetStorageServiceProperties(account, Type);
-            WriteObject(serviceProperties.HourMetrics);
+            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
+                Type, GetRequestOptions(Type) , OperationContext);
+            WriteObject(serviceProperties.MinuteMetrics);
         }
     }
 }

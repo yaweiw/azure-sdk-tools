@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using System.Collections.Generic;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     /// <summary>
     /// Blob management interface
@@ -174,5 +175,25 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Blob request options</param>
         /// <param name="operationContext">Operation context</param>
         void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// Get the service properties
+        /// </summary>
+        /// <param name="account">Cloud storage account</param>
+        /// <param name="type">Service type</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>The service properties of the specified service type</returns>
+        ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type, IRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// Set service properties
+        /// </summary>
+        /// <param name="account">Cloud storage account</param>
+        /// <param name="type">Service type</param>
+        /// <param name="properties">Service properties</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation context</param>
+        void SetStorageServiceProperties(CloudStorageAccount account, string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
     }
 }

@@ -44,6 +44,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         }
 
         /// <summary>
+        /// Blob request options
+        /// </summary>
+        public BlobRequestOptions RequestOptions 
+        {
+            get 
+            {
+                return (BlobRequestOptions) GetRequestOptions(StorageNouns.BlobService);
+            }
+        }
+
+        /// <summary>
         /// Make sure the pipeline blob is valid and already existing
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>

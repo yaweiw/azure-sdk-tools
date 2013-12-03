@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// Show azure storage service properties
     /// </summary>
     [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceLogging),
-        OutputType(typeof(ServiceProperties))]
+        OutputType(typeof(LoggingProperties))]
     public class SetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
@@ -52,12 +52,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         /// <summary>
         /// Update the specified service properties according to the input
         /// </summary>
-        /// <param name="serviceProperties">Service properties</param>
-        internal void UpdateServiceProperties(ServiceProperties serviceProperties)
+        /// <param name="logging">Service properties</param>
+        internal void UpdateServiceProperties(LoggingProperties logging)
         {
             if (Version != null)
             {
-                serviceProperties.Logging.Version = Version.ToString();
+                logging.Version = Version.ToString();
             }
 
             if (RetentionDays != null)
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 if (RetentionDays == -1)
                 {
                     //Disable logging retention policy
-                    serviceProperties.Logging.RetentionDays = null;
+                    logging.RetentionDays = null;
                 }
                 else if (RetentionDays < 1 || RetentionDays > 365)
                 {
@@ -73,19 +73,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
                 else
                 {
-                    serviceProperties.Logging.RetentionDays = RetentionDays;
+                    logging.RetentionDays = RetentionDays;
                 }
             }
 
             if (LoggingOperations != null)
             {
                 LoggingOperations logOperations = GetLoggingOperations(LoggingOperations);
-                serviceProperties.Logging.LoggingOperations = logOperations;
+                logging.LoggingOperations = logOperations;
                 //Set default logging version
-                if (string.IsNullOrEmpty(serviceProperties.Logging.Version))
+                if (string.IsNullOrEmpty(logging.Version))
                 {
                     string defaultLoggingVersion = "1.0";
-                    serviceProperties.Logging.Version = defaultLoggingVersion;
+                    logging.Version = defaultLoggingVersion;
                 }
             }
         }
@@ -136,43 +136,21 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         }
 
         /// <summary>
-        /// Set storage service properties
-        /// </summary>
-        /// <param name="account">Cloud storage account</param>
-        /// <param name="type">Service type</param>
-        /// <param name="serviceProperties">Service properties</param>
-        private void SetStorageServiceProperties(CloudStorageAccount account, string type,
-            ServiceProperties serviceProperties)
-        {
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
-            {
-                case StorageNouns.BlobService:
-                    account.CreateCloudBlobClient().SetServiceProperties(serviceProperties);
-                    break;
-                case StorageNouns.QueueService:
-                    account.CreateCloudQueueClient().SetServiceProperties(serviceProperties);
-                    break;
-                case StorageNouns.TableService:
-                    account.CreateCloudTableClient().SetServiceProperties(serviceProperties);
-                    break;
-                default:
-                    throw new ArgumentException(Resources.InvalidStorageServiceType);
-            }
-        }
-
-        /// <summary>
         /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties =
-                GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
-            //Keep metrics unchanged
-            serviceProperties.HourMetrics = null;
-            UpdateServiceProperties(serviceProperties);
-            SetStorageServiceProperties(account, Type, serviceProperties);
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
+                Type, GetRequestOptions(Type), OperationContext);
+            ServiceProperties serviceProperties = new ServiceProperties();
+            serviceProperties.Logging = currentServiceProperties.Logging;
+
+            UpdateServiceProperties(serviceProperties.Logging);
+
+            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
+                GetRequestOptions(Type), OperationContext);
 
             if (PassThru)
             {

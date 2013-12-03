@@ -14,22 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Text;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceLogging),
-        OutputType(typeof(LoggingProperties))]
-    public class GetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
+    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceHourMetrics),
+        OutputType(typeof(MetricsProperties))]
+    public class SetAzureStorageServiceMinuteMetrics : SetAzureStorageServiceHourMetricsCommand
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string Type { get; set; }
-
         /// <summary>
         /// Execute command
         /// </summary>
@@ -37,9 +37,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
                 Type, GetRequestOptions(Type), OperationContext);
-            WriteObject(serviceProperties.Logging);
+            ServiceProperties serviceProperties = new ServiceProperties();
+            serviceProperties.MinuteMetrics = currentServiceProperties.MinuteMetrics;
+
+            UpdateServiceProperties(serviceProperties.MinuteMetrics);
+            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
+                GetRequestOptions(Type), OperationContext);
+
+            if (PassThru)
+            {
+                WriteObject(serviceProperties.MinuteMetrics);
+            }
         }
     }
 }

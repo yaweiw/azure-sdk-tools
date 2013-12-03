@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
     using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     /// <summary>
     /// Mock blob management
@@ -418,6 +419,32 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             return;
+        }
+
+        /// <summary>
+        /// Get the service properties
+        /// </summary>
+        /// <param name="account">Cloud storage account</param>
+        /// <param name="type">Service type</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>The service properties of the specified service type</returns>
+        public ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type, IRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Set service properties
+        /// </summary>
+        /// <param name="account">Cloud storage account</param>
+        /// <param name="type">Service type</param>
+        /// <param name="properties">Service properties</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation context</param>
+        public void SetStorageServiceProperties(CloudStorageAccount account, string type, WindowsAzure.Storage.Shared.Protocol.ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

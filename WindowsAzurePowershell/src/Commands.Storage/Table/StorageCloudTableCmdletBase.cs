@@ -48,5 +48,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
 
             return Channel;
         }
+
+        /// <summary>
+        /// Table request options
+        /// </summary>
+        public TableRequestOptions RequestOptions
+        {
+            get
+            {
+                return (TableRequestOptions)GetRequestOptions(StorageNouns.TableService);
+            }
+        }
     }
 }

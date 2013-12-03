@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
+    using System;
+    using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Storage;
@@ -22,11 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceLogging),
-        OutputType(typeof(LoggingProperties))]
-    public class GetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
+    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceHourMetrics),
+        OutputType(typeof(MetricsProperties))]
+    public class GetAzureStorageServiceHourMetricsCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type(Blob, Table, Queue).")]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
         public string Type { get; set; }
 
@@ -38,8 +40,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type), OperationContext);
-            WriteObject(serviceProperties.Logging);
+                Type, GetRequestOptions(Type) , OperationContext);
+            WriteObject(serviceProperties.HourMetrics);
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceMetrics),
-        OutputType(typeof(ServiceProperties))]
-    public class SetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
+    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceHourMetrics),
+        OutputType(typeof(MetricsProperties))]
+    public class SetAzureStorageServiceHourMetricsCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
@@ -52,11 +52,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         /// Update the specified service properties according to the input
         /// </summary>
         /// <param name="serviceProperties">Service properties</param>
-        internal void UpdateServiceProperties(ServiceProperties serviceProperties)
+        internal void UpdateServiceProperties(MetricsProperties metrics)
         {
             if (Version != null)
             {
-                serviceProperties.HourMetrics.Version = Version.ToString();
+                metrics.Version = Version.ToString();
             }
 
             if (RetentionDays != null)
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 if (RetentionDays == -1)
                 {
                     //Disable metrics retention policy
-                    serviceProperties.HourMetrics.RetentionDays = null;
+                    metrics.RetentionDays = null;
                 }
                 else if (RetentionDays < 1 || RetentionDays > 365)
                 {
@@ -72,19 +72,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
                 else
                 {
-                    serviceProperties.HourMetrics.RetentionDays = RetentionDays;
+                    metrics.RetentionDays = RetentionDays;
                 }
             }
 
             if (MetricsLevel != null)
             {
                 MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
-                serviceProperties.HourMetrics.MetricsLevel = metricsLevel;
+                metrics.MetricsLevel = metricsLevel;
                 //Set default metrics version
-                if (string.IsNullOrEmpty(serviceProperties.HourMetrics.Version))
+                if (string.IsNullOrEmpty(metrics.Version))
                 {
                     string defaultMetricsVersion = "1.0";
-                    serviceProperties.HourMetrics.Version = defaultMetricsVersion;
+                    metrics.Version = defaultMetricsVersion;
                 }
             }
         }
@@ -108,43 +108,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         }
 
         /// <summary>
-        /// Set storage service properties
-        /// </summary>
-        /// <param name="account">Cloud storage account</param>
-        /// <param name="type">Service type</param>
-        /// <param name="serviceProperties">Service properties</param>
-        private void SetStorageServiceProperties(CloudStorageAccount account, string type,
-            ServiceProperties serviceProperties)
-        {
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
-            {
-                case StorageNouns.BlobService:
-                    account.CreateCloudBlobClient().SetServiceProperties(serviceProperties);
-                    break;
-                case StorageNouns.QueueService:
-                    account.CreateCloudQueueClient().SetServiceProperties(serviceProperties);
-                    break;
-                case StorageNouns.TableService:
-                    account.CreateCloudTableClient().SetServiceProperties(serviceProperties);
-                    break;
-                default:
-                    throw new ArgumentException(Resources.InvalidStorageServiceType);
-            }
-        }
-
-        /// <summary>
         /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = 
-                GetAzureStorageServiceMetricsCommand.GetStorageServiceProperties(account, Type);
-            //Keep logging unchanged
-            serviceProperties.Logging = null;
-            UpdateServiceProperties(serviceProperties);
-            SetStorageServiceProperties(account, Type, serviceProperties);
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
+                Type, GetRequestOptions(Type), OperationContext);
+            ServiceProperties serviceProperties = new ServiceProperties();
+            serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
+
+            UpdateServiceProperties(serviceProperties.HourMetrics);
+            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
+                GetRequestOptions(Type), OperationContext);
 
             if (PassThru)
             {
