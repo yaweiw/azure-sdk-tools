@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidTableName, name));
             }
 
-            TableRequestOptions requestOptions = null;
+            TableRequestOptions requestOptions = RequestOptions;
             CloudTable table = Channel.GetTableReference(name);
             bool created = Channel.CreateTableIfNotExists(table, requestOptions, OperationContext);
 

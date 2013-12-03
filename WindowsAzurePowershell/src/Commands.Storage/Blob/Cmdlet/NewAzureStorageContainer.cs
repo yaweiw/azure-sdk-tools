@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
             }
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
             CloudBlobContainer container = Channel.GetContainerReference(name);
 

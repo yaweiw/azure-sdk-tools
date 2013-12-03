@@ -345,7 +345,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             ICloudBlob blobRef = Channel.GetBlobReferenceFromServer(blob.Container, blob.Name, accessCondition, requestOptions, OperationContext);
 
             if (null != blobRef)
@@ -450,7 +450,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             Channel.SetBlobProperties(blob, accessCondition, requestOptions, OperationContext);
         }
@@ -493,7 +493,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             Channel.SetBlobMetadata(blob, accessCondition, requestOptions, OperationContext);
         }

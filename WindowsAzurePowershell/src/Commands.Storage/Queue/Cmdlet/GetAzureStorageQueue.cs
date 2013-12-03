@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
         {
             string prefix = String.Empty;
             QueueListingDetails queueListingDetails = QueueListingDetails.All;
-            QueueRequestOptions requestOptions = null;
+            QueueRequestOptions requestOptions = RequestOptions;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
         {
             List<CloudQueue> queueList = new List<CloudQueue>();
             QueueListingDetails queueListingDetails = QueueListingDetails.All;
-            QueueRequestOptions requestOptions = null;
+            QueueRequestOptions requestOptions = RequestOptions;
 
             if (!NameUtil.IsValidQueuePrefix(prefix))
             {
@@ -151,7 +151,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
                 return;
             }
 
-            QueueRequestOptions requestOptions = null;
+            QueueRequestOptions requestOptions = RequestOptions;
             
             foreach (CloudQueue queue in queueList)
             {
