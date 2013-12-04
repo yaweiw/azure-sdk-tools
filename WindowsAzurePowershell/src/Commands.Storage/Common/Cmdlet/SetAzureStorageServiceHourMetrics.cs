@@ -117,6 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
                 Type, GetRequestOptions(Type), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
+            SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
             serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
 
             UpdateServiceProperties(serviceProperties.HourMetrics);

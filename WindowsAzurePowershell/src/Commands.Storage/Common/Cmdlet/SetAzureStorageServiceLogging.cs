@@ -136,6 +136,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         }
 
         /// <summary>
+        /// Clean all the settings on the ServiceProperties project
+        /// </summary>
+        /// <param name="serviceProperties">Service properties</param>
+        internal static void CleanServiceProperties(ServiceProperties serviceProperties)
+        {
+            serviceProperties.Logging = null;
+            serviceProperties.HourMetrics = null;
+            serviceProperties.MinuteMetrics = null;
+            serviceProperties.Cors = null;
+            serviceProperties.DefaultServiceVersion = null;
+        }
+
+        /// <summary>
         /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -145,6 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
                 Type, GetRequestOptions(Type), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
+            CleanServiceProperties(serviceProperties);
             serviceProperties.Logging = currentServiceProperties.Logging;
 
             UpdateServiceProperties(serviceProperties.Logging);

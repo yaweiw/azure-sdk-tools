@@ -826,7 +826,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The minimum value of retention days 1, the largest value is 365 (one year). Current is {0}..
+        ///   Looks up a localized string similar to The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}..
         /// </summary>
         internal static string InvalidRetentionDay {
             get {
