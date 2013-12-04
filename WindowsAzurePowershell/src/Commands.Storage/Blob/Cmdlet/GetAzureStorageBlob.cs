@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
                 container = GetCloudBlobContainerByName(containerName);
-
+                prefix = NameUtil.GetNonWildcardPrefix(blobName);
                 IEnumerable<IListBlobItem> blobs = Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;

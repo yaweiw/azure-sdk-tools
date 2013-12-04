@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -168,6 +168,8 @@
     <Compile Include="Common\Cmdlet\SetAzureStorageServiceHourMetrics.cs" />
     <Compile Include="Common\Cmdlet\SetAzureStorageServiceMinuteMetrics.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
+    <Compile Include="Common\ConfirmTaskCompletionSource.cs" />
+    <Compile Include="Common\LimitedConcurrencyTaskScheduler.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Common\TaskOutputStream.cs" />
     <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Model\Contract\IStorageTableManagement.cs" />
     <Compile Include="Model\Contract\StorageQueueManagement.cs" />
@@ -236,7 +239,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
