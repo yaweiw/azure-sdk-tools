@@ -830,7 +830,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
                     if (vnet.Equals(vnet1))
                     {
-                        Assert.AreEqual(ProvisioningState.Deprovisioning, gateway.State);
+                        if (gateway.State != ProvisioningState.Deprovisioning &&
+                            gateway.State != ProvisioningState.NotProvisioned)
+                        {
+                            Assert.Fail("The state of the gateway is neither Deprovisioning nor NotProvisioned!");
+                        }
                     }
                     else
                     {
