@@ -446,5 +446,56 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         {
             throw new NotImplementedException();
         }
+
+
+        public System.Threading.Tasks.Task<BlobContainerPermissions> GetContainerPermissionsAsync(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task<bool> DoesContainerExistAsync(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task<bool> DoesBlobExistAsync(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task<ICloudBlob> GetBlobReferenceFromServerAsync(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task FetchBlobAttributesAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task<bool> CreateContainerIfNotExistsAsync(CloudBlobContainer container, BlobContainerPublicAccessType accessType, BlobRequestOptions requestOptions, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task DeleteContainerAsync(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task AbortCopyAsync(ICloudBlob blob, string abortCopyId, AccessCondition accessCondition, BlobRequestOptions abortRequestOption, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task SetContainerPermissionsAsync(CloudBlobContainer container, BlobContainerPermissions permissions, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task DeleteICloudBlobAsync(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

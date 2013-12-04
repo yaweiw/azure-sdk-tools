@@ -597,4 +597,15 @@ Failed: {2}.</value>
     <value>The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}.</value>
     <comment>0 for the user specified retention day</comment>
   </data>
+  <data name="ConfirmCaption" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="TransmitActiveSummary" xml:space="preserve">
+    <value>Total: {0}. Successful: {1}. Failed: {2}. Active: {3}.</value>
+    <comment>0 for total task count, 1 for successful count, 2 for failed count, 3 for active count.</comment>
+  </data>
+  <data name="TransmitActivity" xml:space="preserve">
+    <value>{0} task status :</value>
+    <comment>0 for cmdlet name.</comment>
+  </data>
 </root>

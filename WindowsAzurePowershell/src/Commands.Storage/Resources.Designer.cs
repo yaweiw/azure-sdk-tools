@@ -205,6 +205,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string ConfirmCaption {
+            get {
+                return ResourceManager.GetString("ConfirmCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The blob &apos;{0}&apos; in container &apos;{1}&apos; has snapshots..
         /// </summary>
         internal static string ConfirmRemoveBlobWithSnapshot {
@@ -1204,6 +1213,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string TransferSummary {
             get {
                 return ResourceManager.GetString("TransferSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0}. Successful: {1}. Failed: {2}. Active: {3}..
+        /// </summary>
+        internal static string TransmitActiveSummary {
+            get {
+                return ResourceManager.GetString("TransmitActiveSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} task status :.
+        /// </summary>
+        internal static string TransmitActivity {
+            get {
+                return ResourceManager.GetString("TransmitActivity", resourceCulture);
             }
         }
         

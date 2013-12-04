@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
@@ -195,5 +197,35 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         void SetStorageServiceProperties(CloudStorageAccount account, string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// Async get container presssions
+        /// </summary>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cancellationToken">User cancellation token</param>
+        /// <returns>A task object which retrieve the permission of the specified container</returns>
+        Task<BlobContainerPermissions> GetContainerPermissionsAsync(CloudBlobContainer container, AccessCondition accessCondition,
+            BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken);
+
+        Task<bool> DoesContainerExistAsync(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task<bool> DoesBlobExistAsync(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task<ICloudBlob> GetBlobReferenceFromServerAsync(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task FetchBlobAttributesAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task<bool> CreateContainerIfNotExistsAsync(CloudBlobContainer container, BlobContainerPublicAccessType accessType, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task DeleteContainerAsync(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task AbortCopyAsync(ICloudBlob blob, string abortCopyId, AccessCondition accessCondition, BlobRequestOptions abortRequestOption, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task SetContainerPermissionsAsync(CloudBlobContainer container, BlobContainerPermissions permissions, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        Task DeleteICloudBlobAsync(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
     }
 }
