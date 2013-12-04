@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceHourMetrics),
+    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceMinuteMetrics),
         OutputType(typeof(MetricsProperties))]
     public class SetAzureStorageServiceMinuteMetrics : SetAzureStorageServiceHourMetricsCommand
     {
