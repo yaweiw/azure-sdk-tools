@@ -14,12 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 

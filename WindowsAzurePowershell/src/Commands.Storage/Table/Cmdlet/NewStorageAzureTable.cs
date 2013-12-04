@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using Common;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Common;
+    using Microsoft.WindowsAzure.Storage.Table;
     using Model.Contract;
     using Model.ResourceModel;
 
