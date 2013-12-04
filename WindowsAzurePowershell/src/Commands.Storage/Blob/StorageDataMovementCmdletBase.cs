@@ -201,11 +201,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)
         {
             BlobRequestOptions cmdletOptions = RequestOptions;
+            if (cmdletOptions == null)
+            {
+                return;
+            }
             foreach (BlobRequestOperation operation in Enum.GetValues(typeof(BlobRequestOperation)))
             {
                 BlobRequestOptions requestOptions = opts.GetBlobRequestOptions(operation);
-                requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
-                requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+
+                if (cmdletOptions.MaximumExecutionTime != null)
+                {
+                    requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
+                }
+
+                if (cmdletOptions.ServerTimeout != null)
+                {
+                    requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+                }
+
                 opts.SetBlobRequestOptions(operation, requestOptions);    
             }
         }
