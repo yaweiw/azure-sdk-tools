@@ -24,11 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
         /// <summary>
-        /// Amount of concurrent async tasks to run per available core.
-        /// </summary>
-        protected int concurrentTaskCount = 0;
-
-        /// <summary>
         /// whether the transfer progress finished
         /// </summary>
         private bool finished;

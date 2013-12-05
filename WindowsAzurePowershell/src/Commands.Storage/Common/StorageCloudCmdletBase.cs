@@ -47,6 +47,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual int? RequestMaximumExecutionTime { get; set; }
 
         /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        protected int concurrentTaskCount = 10;
+
+        /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is 10.")]
+        public virtual int? ConcurrentTaskCount
+        {
+            get { return concurrentTaskCount; }
+            set
+            {
+                int count = value.Value;
+
+                if (count > 0)
+                {
+                    concurrentTaskCount = count;
+                }
+            }
+        }
+
+        /// <summary>
         /// Cancellation Token Source
         /// </summary>
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -55,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <summary>
         /// whether stop processing
         /// </summary>
-        protected bool ShouldForceQuit = false;
+        protected bool ShouldForceQuit { get { return cancellationTokenSource.Token.IsCancellationRequested; } }
 
         /// <summary>
         /// Enable or disable multithread
@@ -363,7 +386,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>The max number of concurrent task/rest call</returns>
         protected int GetCmdletConcurrency()
         {
-            return 10;
+            return concurrentTaskCount;
         }
 
         /// <summary>
@@ -371,7 +394,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         private void ConfigureServicePointManager()
         {
-            ServicePointManager.DefaultConnectionLimit = GetCmdletConcurrency();
+            int maxConcurrency = 1000;
+            int cmdletConcurrency = GetCmdletConcurrency();
+            maxConcurrency = Math.Max(maxConcurrency, cmdletConcurrency);
+            //Set the default connection limit to a very high value and control the concurrency with LimitedConcurrencyTaskScheduler.
+            //If so, there is no need to set the ConnectionLimit for each ServicePoint.
+            ServicePointManager.DefaultConnectionLimit = maxConcurrency;
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.UseNagleAlgorithm = true;
         }
@@ -480,7 +508,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         protected override void StopProcessing()
         {
             //ctrl + c and etc
-            ShouldForceQuit = true;
+            cancellationTokenSource.Cancel();
             base.StopProcessing();
         }
     }

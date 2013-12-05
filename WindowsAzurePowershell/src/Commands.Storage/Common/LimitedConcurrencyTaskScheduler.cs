@@ -106,7 +106,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             bool finishedTaskStatus = true;
 
             Interlocked.Increment(ref activeTaskCount);
-            taskCounter.AddCount();
 
             try
             {
@@ -169,6 +168,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             long taskId = GetAvailableTaskId();
 
             Interlocked.Increment(ref totalTaskCount);
+            taskCounter.AddCount();
 
             if (Interlocked.Read(ref activeTaskCount) < maxConcurrency)
             {
