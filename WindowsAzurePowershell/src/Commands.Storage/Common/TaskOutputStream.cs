@@ -24,6 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Task output stream in multithread environment
+    /// It's the multithread version of WriteOuput/WriterVerbose/WriteError and etc.
+    /// </summary>
     internal class TaskOutputStream
     {
         /// <summary>
@@ -69,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         private ConcurrentQueue<ProgressRecord> Progress;
 
         /// <summary>
-        /// Create an OrderedStreamWriter
+        /// Create an Task output stream
         /// </summary>
         public TaskOutputStream()
         {
@@ -122,23 +126,41 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             WriteOutputUnit(taskId, unit);
         }
 
+        /// <summary>
+        /// Write verbose into output stream
+        /// </summary>
+        /// <param name="taskId">Task id</param>
+        /// <param name="message">Verbose message</param>
         public void WriteVerbose(long taskId, string message)
         {
             OutputUnit unit = new OutputUnit(message, OutputType.Verbose);
             WriteOutputUnit(taskId, unit);
         }
 
+        /// <summary>
+        /// Write progress into the output stream
+        /// </summary>
+        /// <param name="record">Progress record</param>
         public void WriteProgress(ProgressRecord record)
         {
             Progress.Enqueue(record);
         }
 
+        /// <summary>
+        /// Write debug message into the output stream.
+        /// </summary>
+        /// <param name="message">Debug message</param>
         public void WriteDebug(string message)
         {
             DebugMessages.Enqueue(message);
         }
 
-        public bool IsTaskDone(long taskId)
+        /// <summary>
+        /// Is the specified task done
+        /// </summary>
+        /// <param name="taskId">Task id</param>
+        /// <returns>True if the task is done, otherwise false</returns>
+        private bool IsTaskDone(long taskId)
         {
             if (TaskStatusQueryer == null)
             {
@@ -163,12 +185,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Confirm the request
+        /// </summary>
+        /// <param name="tcs">Confirm task completion source</param>
         internal void ConfirmRequest(ConfirmTaskCompletionSource tcs)
         {
             bool result = ConfirmWriter(string.Empty, tcs.Message, Resources.ConfirmCaption);
             tcs.SetResult(result);
         }
 
+        /// <summary>
+        /// Process all the confirmation request
+        /// </summary>
         protected void ProcessConfirmRequest()
         {
             if (ConfirmQueue.IsValueCreated)
@@ -181,16 +210,28 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
         }
 
+        /// <summary>
+        /// Process all the debug messages
+        /// </summary>
         protected void ProcessDebugMessages()
         {
             ProcessUnorderedOutputStream<string>(DebugMessages, DebugWriter);
         }
 
+        /// <summary>
+        /// Process all the progress information.
+        /// </summary>
         protected void ProcessProgress()
         {
             ProcessUnorderedOutputStream<ProgressRecord>(Progress, ProgressWriter);
         }
 
+        /// <summary>
+        /// Process all the data without any predefined order.
+        /// </summary>
+        /// <typeparam name="T">Data type</typeparam>
+        /// <param name="data">Data queue</param>
+        /// <param name="Writer">Output writer</param>
         protected void ProcessUnorderedOutputStream<T>(ConcurrentQueue<T> data, Action<T> Writer)
         {
             int count = data.Count;
@@ -217,6 +258,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
         }
 
+        /// <summary>
+        /// Process all the data output
+        /// </summary>
         protected void ProcessDataOutput()
         {
             OutputUnit unit = null;

@@ -23,6 +23,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// A task scheduler with limited concurrency.
+    /// </summary>
     internal class LimitedConcurrencyTaskScheduler
     {
         /// <summary>
@@ -43,10 +46,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public long FinishedTaskCount { get { return Interlocked.Read(ref finishedTaskCount); } }
         public long ActiveTaskCount { get { return Interlocked.Read(ref activeTaskCount); } }
 
-        public delegate void ErrorEventHandler(object sender, ExceptionEventArgs e);
+        public delegate void ErrorEventHandler(object sender, TaskExceptionEventArgs e);
 
+        /// <summary>
+        /// The error event for the running task.
+        /// </summary>
         public event ErrorEventHandler OnError;
 
+        /// <summary>
+        /// Task waiting queue
+        /// </summary>
         private ConcurrentQueue<Tuple<long, Func<long, Task>>> taskQueue;
 
         /// <summary>
@@ -56,6 +65,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         private ConcurrentDictionary<long, bool> TaskStatus;
 
+        /// <summary>
+        /// Construct a limited concurrency task scheduler
+        /// </summary>
+        /// <param name="maxConcurrency"></param>
+        /// <param name="cancellationToken"></param>
         public LimitedConcurrencyTaskScheduler(int maxConcurrency, CancellationToken cancellationToken)
         {
             taskQueue = new ConcurrentQueue<Tuple<long, Func<long, Task>>>();
@@ -66,6 +80,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             TaskStatus = new ConcurrentDictionary<long, bool>();
         }
 
+        /// <summary>
+        /// Wait for all task completion
+        /// </summary>
+        /// <param name="millisecondsTimeout">Wait time out</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if all task completed, otherwise false.</returns>
         public bool WaitForComplete(int millisecondsTimeout, CancellationToken cancellationToken)
         {
             //There is no concurrency issue here since it should be only called by EndProcessing in PowerShell.
@@ -88,6 +108,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             return totalTaskCount;
         }
 
+        /// <summary>
+        /// Is the specified task completed
+        /// </summary>
+        /// <param name="taskId">Task id</param>
+        /// <returns>True if the specified task completed, otherwise false</returns>
         public bool IsTaskCompleted(long taskId)
         {
             bool finished = false;
@@ -119,7 +144,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
                 if (OnError != null)
                 {
-                    ExceptionEventArgs eventArgs = new ExceptionEventArgs(taskId, e);
+                    TaskExceptionEventArgs eventArgs = new TaskExceptionEventArgs(taskId, e);
 
                     try
                     {
@@ -142,6 +167,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             RunRemainingTask();
         }
 
+        /// <summary>
+        /// Run the remaining task in the waiting queue
+        /// </summary>
         private void RunRemainingTask()
         {
             if (cancellationToken.IsCancellationRequested)
@@ -158,6 +186,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
         }
 
+        /// <summary>
+        /// Run a task
+        /// </summary>
+        /// <param name="taskGenerator">Task generator</param>
         public void RunTask(Func<long, Task> taskGenerator)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -183,12 +215,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         }
     }
 
-    public class ExceptionEventArgs : EventArgs
+    /// <summary>
+    /// Task exception event arguments
+    /// </summary>
+    public class TaskExceptionEventArgs : EventArgs
     {
         public long TaskId { get; private set; }
         public Exception Exception { get; private set; }
 
-        public ExceptionEventArgs(long taskId, Exception e)
+        /// <summary>
+        /// Construct a task exception event arguments object.
+        /// </summary>
+        /// <param name="taskId">Task id</param>
+        /// <param name="e">Task exception</param>
+        public TaskExceptionEventArgs(long taskId, Exception e)
         {
             TaskId = taskId;
             Exception = e;

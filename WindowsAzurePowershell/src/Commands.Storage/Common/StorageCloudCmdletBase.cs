@@ -404,7 +404,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             ServicePointManager.UseNagleAlgorithm = true;
         }
 
-        private void TaskErrorHandler(object sender, ExceptionEventArgs args)
+        private void TaskErrorHandler(object sender, TaskExceptionEventArgs args)
         {
             if (OutputStream != null)
             {
@@ -424,6 +424,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             OutputStream.ProgressWriter = WriteProgress;
             OutputStream.VerboseWriter = WriteVerbose;
             OutputStream.DebugWriter = WriteDebugWithTimestamp;
+            OutputStream.ConfirmWriter = ShouldProcess;
             OutputStream.TaskStatusQueryer = taskScheduler.IsTaskCompleted;
             taskScheduler.OnError += TaskErrorHandler;
 

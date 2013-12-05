@@ -149,11 +149,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
-        internal IEnumerable<AzureStorageContainer> PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
+        internal void PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
         {
             if (null == containerList)
             {
-                yield break;
+                return;
             }
 
             foreach (CloudBlobContainer container in containerList)
@@ -198,8 +198,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 containerList = ListContainersByName(Name);
             }
 
-            IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
-            WriteObjectWithStorageContext(azureContainers);
+            PackCloudBlobContainerWithAcl(containerList);
         }
     }
 }
