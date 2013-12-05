@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         private bool StopCopyBlob(ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
         {
             AccessCondition accessCondition = null;
-            BlobRequestOptions abortRequestOption = RequestOptions;
+            BlobRequestOptions abortRequestOption = RequestOptions ?? new BlobRequestOptions();
 
             //Set no retry to resolve the 409 conflict exception
             abortRequestOption.RetryPolicy = new NoRetry();
