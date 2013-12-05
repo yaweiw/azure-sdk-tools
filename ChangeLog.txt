@@ -38,6 +38,11 @@
   * New-AzureReservedIP
   * New-AzureVM
   * Remove-AzureReservedIP
+* Support these cmdlets for Visual Studio Cloud Service projects:
+  * Start-AzureEmulator
+  * Publish-AzureServiceProject
+  * Save-AzureServiceProjectPackage
+
 
 2013.11.07 Version 0.7.1
 * Regression fixes
