@@ -156,6 +156,7 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContent.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
+    <Compile Include="Blob\DataMovementUserData.cs" />
     <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Blob\StorageDataMovementCmdletBase.cs" />
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
     <Compile Include="Common\TaskOutputStream.cs" />
+    <Compile Include="Common\Util.cs" />
     <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Model\Contract\IStorageTableManagement.cs" />
     <Compile Include="Model\Contract\StorageQueueManagement.cs" />

@@ -479,5 +479,31 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         {
             return blob.ExistsAsync(options, operationContext, cmdletCancellationToken);
         }
+
+        /// <summary>
+        /// Return a task that asynchronously set blob properties
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public Task SetBlobPropertiesAsync(ICloudBlob blob, AccessCondition accessCondition,
+            BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken)
+        {
+            return blob.SetPropertiesAsync(accessCondition, options, operationContext, cmdletCancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public Task SetBlobMetadataAsync(ICloudBlob blob, AccessCondition accessCondition,
+            BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken)
+        {
+            return blob.SetMetadataAsync(accessCondition, options, operationContext, cmdletCancellationToken);
+        }
     }
 }
