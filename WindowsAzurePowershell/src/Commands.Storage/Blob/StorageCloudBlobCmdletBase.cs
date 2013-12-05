@@ -71,12 +71,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage
             }
 
             ValidatePipelineCloudBlobContainer(blob.Container);
-            BlobRequestOptions requestOptions = RequestOptions;
+            //BlobRequestOptions requestOptions = RequestOptions;
 
-            if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
-            {
-                throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
-            }
+            //if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
+            //{
+            //    throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
+            //}
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, container.Name));
             }
 
-            BlobRequestOptions requestOptions = RequestOptions;
+            //BlobRequestOptions requestOptions = RequestOptions;
 
-            if (container.ServiceClient.Credentials.IsSharedKey 
-                && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
-            {
-                throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
-            }
+            //if (container.ServiceClient.Credentials.IsSharedKey 
+            //    && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
+            //{
+            //    throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
+            //}
         }
 
         /// <summary>

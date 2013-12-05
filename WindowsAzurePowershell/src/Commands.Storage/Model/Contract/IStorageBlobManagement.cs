@@ -310,5 +310,23 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="cmdletCancellationToken">Cancellation token</param>
         /// <returns>Return a task that asynchronously delete the specified blob</returns>
         Task DeleteICloudBlobAsync(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        /// <summary>
+        /// Return a task that asynchronously set blob properties
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        Task SetBlobPropertiesAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        /// <summary>
+        /// Return a task that asynchronously set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        Task SetBlobMetadataAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
     }
 }
