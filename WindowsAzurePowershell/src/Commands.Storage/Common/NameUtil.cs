@@ -254,6 +254,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             return fileName;
         }
 
+        /// <summary>
+        /// Get the prefix that don't contain wildcard
+        /// </summary>
+        /// <param name="pattern">Wildcard pattern</param>
+        /// <returns>Non wildcard prefix</returns>
         public static string GetNonWildcardPrefix(string pattern)
         {
             if (string.IsNullOrEmpty(pattern)) return string.Empty;
