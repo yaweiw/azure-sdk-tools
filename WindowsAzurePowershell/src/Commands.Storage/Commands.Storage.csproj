@@ -157,6 +157,7 @@
     <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContent.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
     <Compile Include="Blob\DataMovementUserData.cs" />
+    <Compile Include="Common\AzureBlobNameResolver.cs" />
     <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Blob\StorageDataMovementCmdletBase.cs" />
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
