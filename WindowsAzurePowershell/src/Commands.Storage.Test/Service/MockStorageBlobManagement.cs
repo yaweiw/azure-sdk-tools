@@ -497,5 +497,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         {
             throw new NotImplementedException();
         }
+
+
+        public System.Threading.Tasks.Task SetBlobPropertiesAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task SetBlobMetadataAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cmdletCancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

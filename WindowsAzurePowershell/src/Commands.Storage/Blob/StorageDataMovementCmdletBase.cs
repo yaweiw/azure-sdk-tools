@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// on data movement job start
         /// </summary>
         /// <param name="data">User data</param>
-        internal virtual void OnDMJobStart(object data)
+        protected virtual void OnDMJobStart(object data)
         {
             if (ShouldForceQuit)
             {
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <param name="progress">progress information</param>
         /// <param name="speed">download speed</param>
         /// <param name="percent">download percent</param>
-        internal virtual void OnDMJobProgress(object data, double speed, double percent)
+        protected virtual void OnDMJobProgress(object data, double speed, double percent)
         {
             if (ShouldForceQuit)
             {
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         /// <param name="progress">progress information</param>
         /// <param name="e">run time exception</param>
-        internal virtual void OnDMJobFinish(object data, Exception e)
+        protected virtual void OnDMJobFinish(object data, Exception e)
         {
             try
             {

@@ -139,11 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
         private Hashtable BlobMetadata = null;
 
-        /// <summary>
-        /// the root dir for sending file
-        /// make sure the root dir is lower case.
-        /// </summary>
-        private string sendRootDir = String.Empty;
+        private AzureBlobNameRequestResolver blobNameResolver = new AzureBlobNameRequestResolver();
 
         /// <summary>
         /// Initializes a new instance of the SetAzureBlobContentCommand class.
@@ -199,19 +195,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             String filePath = Path.Combine(CurrentPath(), fileName);
 
-            if (!System.IO.File.Exists(filePath))
-            {
-                if (System.IO.Directory.Exists(filePath))
-                {
-                    WriteWarning(String.Format(Resources.CannotSendDirectory, filePath));
-                    filePath = string.Empty;
-                }
-                else
-                {
-                    throw new ArgumentException(String.Format(Resources.FileNotFound, filePath));
-                }
-            }
-
             return filePath;
         }
 
@@ -226,17 +209,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             string fileName = Path.GetFileName(filePath);
             string dirPath = Path.GetDirectoryName(filePath).ToLower();
 
-            if (string.IsNullOrEmpty(sendRootDir) || !dirPath.StartsWith(sendRootDir))
-            {
-                //if sendRoot dir is empty or dir path is not sub folder of the sending root dir
-                //set the current dir as the root sending dir
-                sendRootDir = dirPath + Path.DirectorySeparatorChar;
-                blobName = fileName;
-            }
-            else
-            {
-                blobName = filePath.Substring(sendRootDir.Length);
-            }
+            //if (string.IsNullOrEmpty(sendRootDir) || !dirPath.StartsWith(sendRootDir))
+            //{
+            //    //if sendRoot dir is empty or dir path is not sub folder of the sending root dir
+            //    //set the current dir as the root sending dir
+            //    sendRootDir = dirPath + Path.DirectorySeparatorChar;
+            //    blobName = fileName;
+            //}
+            //else
+            //{
+            //    blobName = filePath.Substring(sendRootDir.Length);
+            //}
 
             return blobName;
         }
@@ -263,9 +246,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
         internal void SetAzureBlobContent(string fileName, CloudBlobContainer container, string blobName)
         {
-            string filePath = GetFullSendFilePath(fileName);
-
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(fileName))
             {
                 return;
             }
@@ -274,7 +255,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             if (string.IsNullOrEmpty(blobName))
             {
-                blobName = GetBlobNameFromRelativeFilePath(filePath);
+                blobName = Path.GetFileName(fileName);
             }
 
             ICloudBlob blob = default(ICloudBlob);
@@ -315,6 +296,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
+            blobNameResolver.Container = blob.Container;
+            blobNameResolver.Type = blob.BlobType;
+
             if (blob.BlobType == WindowsAzure.Storage.Blob.BlobType.PageBlob)
             {
                 long fileSize = new FileInfo(filePath).Length;
@@ -338,8 +322,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 ValidatePipelineCloudBlobContainer(blob.Container);
             }
 
-            Func<long, Task> taskGenerator = (taskId) => Upload2Blob(taskId, filePath, blob);
-            RunTask(taskGenerator);
+            Console.WriteLine("Upload {0} to {1}", filePath, blob.Name);
+            blobNameResolver.AddFile(filePath);
+        }
+
+        protected override void EndProcessing()
+        {
+            while (blobNameResolver.IsEmpty())
+            {
+                Tuple<string, ICloudBlob> uploadRequest = blobNameResolver.GetFileAndBlobTuple();
+                Func<long, Task> taskGenerator = (taskId) => Upload2Blob(taskId, uploadRequest.Item1, uploadRequest.Item2);
+                RunTask(taskGenerator);
+            }
+
+            base.EndProcessing();
         }
 
         //only support the common blob properties for block blob and page blob
