@@ -20,25 +20,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    //[TestClass]
     public class RemoveAzureAffinityGroupTests : TestBase
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void RemoveAzureAffinityGroupTest()
         {
             const string affinityGroupName = "myAffinity";

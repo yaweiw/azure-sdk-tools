@@ -16,13 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services
 {
     public class Constants
     {
-        public const string ServiceManagementNamespace = "http://schemas.microsoft.com/windowsazure";
         public const string SqlDatabaseManagementNamespace = "http://schemas.microsoft.com/sqlazure/2010/12/";
         public const string WebServicesNamespace = "Microsoft.SqlServer.Management.Framework.Web.Services";
-        public const string VersionHeaderName = "x-ms-version";
-        public const string VersionHeaderContent = "2012-03-01";
         public const string ClientSessionIdHeaderName = "x-ms-client-session-id";
         public const string ClientRequestIdHeaderName = "x-ms-client-request-id";
         public const string RequestIdHeaderName = "x-ms-request-id";
+        public const string OperationSuccess = "Success";
     }
 }

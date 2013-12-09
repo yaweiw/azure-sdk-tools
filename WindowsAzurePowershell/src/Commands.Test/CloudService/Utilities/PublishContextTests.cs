@@ -14,17 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
-    using Commands.Subscription;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Commands.Utilities.Properties;
-    using Commands.Utilities.Subscription.Contract;
     using Moq;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using Test.Utilities.CloudService;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
@@ -262,15 +258,5 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         }
 
         #endregion
-
-        private ISubscriptionClient CreateMockSubscriptionClient()
-        {
-            var mock = new Mock<ISubscriptionClient>();
-            mock.Setup(c => c.ListResourcesAsync(It.IsAny<IEnumerable<string>>()))
-                .Returns(() => Task.Factory.StartNew(() => (IEnumerable<ProviderResource>)new ProviderResource[0]));
-            mock.Setup(c => c.RegisterResourceTypeAsync(It.IsAny<string>()))
-                .Returns(() => Task.Factory.StartNew(() => true));
-            return mock.Object;
-        }
     }
 }

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Model;
@@ -34,6 +36,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     internal class Utilities 
     {
+
+        #region Constants
+
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
         public const string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Commands.Storage.dll";
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Commands.dll";
@@ -41,6 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
         public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository =
             "Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll";
+       public const string windowsAzurePowershellModuleServiceManagementPreview =
+            "Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";
@@ -61,7 +68,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string RemoveAzureCertificateCmdletName = "Remove-AzureCertificate";
         public const string NewAzureCertificateSettingCmdletName = "New-AzureCertificateSetting";
 
-
         // AzureDataDisk
         public const string AddAzureDataDiskCmdletName = "Add-AzureDataDisk";
         public const string GetAzureDataDiskCmdletName = "Get-AzureDataDisk";
@@ -81,7 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string UpdateAzureDiskCmdletName = "Update-AzureDisk";
         public const string RemoveAzureDiskCmdletName = "Remove-AzureDisk";
 
-
         // AzureDns
         public const string NewAzureDnsCmdletName = "New-AzureDns";
         public const string GetAzureDnsCmdletName = "Get-AzureDns";
@@ -92,12 +97,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureEndpointCmdletName = "Set-AzureEndpoint";
         public const string RemoveAzureEndpointCmdletName = "Remove-AzureEndpoint";
 
-
-
         // AzureLocation
         public const string GetAzureLocationCmdletName = "Get-AzureLocation";
         
-
         // AzureOSDisk & AzureOSVersion
         public const string GetAzureOSDiskCmdletName = "Get-AzureOSDisk";
         public const string SetAzureOSDiskCmdletName = "Set-AzureOSDisk";
@@ -114,15 +116,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         // AzureQuickVM
         public const string NewAzureQuickVMCmdletName = "New-AzureQuickVM";
 
+        //Get-AzureWinRMUri
+
+        public const string GetAzureWinRMUriCmdletName = "Get-AzureWinRMUri";
+
         // AzurePlatformVMImage
         public const string SetAzurePlatformVMImageCmdletName = "Set-AzurePlatformVMImage";
         public const string GetAzurePlatformVMImageCmdletName = "Get-AzurePlatformVMImage";
         public const string RemoveAzurePlatformVMImageCmdletName = "Remove-AzurePlatformVMImage";
-
+        
         // AzureRemoteDesktopFile
         public const string GetAzureRemoteDesktopFileCmdletName = "Get-AzureRemoteDesktopFile";
-        
 
+        // AzureReservedIP
+        public const string NewAzureReservedIPCmdletName = "New-AzureReservedIP";
+        public const string GetAzureReservedIPCmdletName = "Get-AzureReservedIP";
+        public const string RemoveAzureReservedIPCmdletName = "Remove-AzureReservedIP";
 
         // AzureRole & AzureRoleInstnace
         public const string GetAzureRoleCmdletName = "Get-AzureRole";
@@ -157,7 +166,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureStorageAccountCmdletName = "Set-AzureStorageAccount";        
         public static string RemoveAzureStorageAccountCmdletName = "Remove-AzureStorageAccount";
 
-
         // AzureStorageKey
         public static string NewAzureStorageKeyCmdletName = "New-AzureStorageKey";
         public static string GetAzureStorageKeyCmdletName = "Get-AzureStorageKey";
@@ -166,13 +174,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string GetAzureSubnetCmdletName = "Get-AzureSubnet";
         public static string SetAzureSubnetCmdletName = "Set-AzureSubnet";
 
-
         // AzureSubscription
         public const string GetAzureSubscriptionCmdletName = "Get-AzureSubscription";
         public const string SetAzureSubscriptionCmdletName = "Set-AzureSubscription";
         public const string SelectAzureSubscriptionCmdletName = "Select-AzureSubscription";
         public const string RemoveAzureSubscriptionCmdletName = "Remove-AzureSubscription";        
-
 
         // AzureVhd
         public static string AddAzureVhdCmdletName = "Add-AzureVhd";
@@ -190,9 +196,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string StartAzureVMCmdletName = "Start-AzureVM";
         public const string StopAzureVMCmdletName = "Stop-AzureVM";
         public const string RestartAzureVMCmdletName = "Restart-AzureVM";
-        
-        
-        
 
         // AzureVMConfig
         public const string NewAzureVMConfigCmdletName = "New-AzureVMConfig";
@@ -243,6 +246,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string GetAzureAclConfigCmdletName = "Get-AzureAclConfig";
 
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
+
+        #endregion
+
+
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
@@ -432,6 +439,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return new BlobHandle(blobPath, key);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="act"></param>
+        /// <param name="errorMessage"></param>
+        /// <param name="maxTry"></param>
+        /// <param name="intervalSeconds"></param>
         public static void RetryActionUntilSuccess(Action act, string errorMessage, int maxTry, int intervalSeconds)
         {
             int i = 0;
@@ -465,6 +479,61 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
             }
         }
+
+        /// <summary>
+        /// This method verifies if a given error occurs during the action.  Otherwise, it throws.
+        /// </summary>
+        /// <param name="act">Action item</param>
+        /// <param name="errorMessage">Required error message</param>
+        public static void VerifyFailure(Action act, string errorMessage)
+        {            
+            try
+            {
+                act();
+                Assert.Fail("Should have failed, but it succeeded!!");
+            }
+            catch (Exception e)
+            {
+                if (e is AssertFailedException)
+                {
+                    throw;
+                }
+                if (e.ToString().Contains(errorMessage))
+                {
+                    Console.WriteLine("This failure is expected: {0}", e.InnerException);                    
+                }
+                else
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="act"></param>
+        /// <param name="errorMessage"></param>
+        public static void TryAndIgnore(Action act, string errorMessage)
+        {
+            try
+            {
+                act();                
+            }
+            catch (Exception e)
+            {                
+                if (e.ToString().Contains(errorMessage))
+                {
+                    Console.WriteLine("Ignoring exception: {0}", e.InnerException);
+                }
+                else
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }        
 
         public static X509Certificate2 InstallCert(string certFile, StoreLocation location = StoreLocation.CurrentUser, StoreName name = StoreName.My)
         {
@@ -671,6 +740,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             var period = DateTime.Now - prev;
             Console.WriteLine("{0} minutes {1} seconds and {2} ms passed...", period.Minutes.ToString(), period.Seconds.ToString(), period.Milliseconds.ToString());
             prev = DateTime.Now;
+        }
+
+        public static void PrintContext<T>(T obj)
+        {            
+            Type type = typeof(T);
+
+            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                string typeName = property.PropertyType.FullName;
+                if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
+                    typeName.Contains("Nullable"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null));
+                }
+                else if (typeName.Contains("Boolean"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null).ToString());
+                }
+                else
+                {
+                    Console.WriteLine("This type is not printed: {0}", typeName);
+                }
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Authentication;
     using Properties;
     using Subscriptions;
@@ -46,14 +47,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// Url for the Active Directory tenant for this environment
         /// </summary>
         /// <remarks>If null, this environment does not support AD authentication</remarks>
-        public string AdTenantUrl { get; set; }
+        public string ActiveDirectoryEndpoint { get; set; }
 
         /// <summary>
         /// Name for the common tenant used as the first step
         /// in the AD authentication process for this environment.
         /// </summary>
         /// <remarks>If null, this environment does not support AD authentication</remarks>
-        public string CommonTenantId { get; set; }
+        public string ActiveDirectoryCommonTenantId { get; set; }
 
         private string storageEndpointSuffix;
 
@@ -168,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
         {
-            if (AdTenantUrl == null)
+            if (ActiveDirectoryEndpoint == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }
@@ -179,12 +180,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
             {
                 var result = subscriptionClient.Subscriptions.List();
-                foreach (var subscription in result.Subscriptions)
+                // Filter out subscriptions with no tenant, backfill's not done on them
+                foreach (var subscription in result.Subscriptions.Where(s => !string.IsNullOrEmpty(s.ActiveDirectoryTenantId)))
                 {
                     var azureSubscription = new WindowsAzureSubscription
                     {
-                        ActiveDirectoryEndpoint = AdTenantUrl,
-                        ActiveDirectoryLoginType = mainToken.LoginType,
+                        ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                         ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantId,
                         ActiveDirectoryUserId = mainToken.UserId,
                         SubscriptionId = subscription.SubscriptionId,
@@ -195,7 +196,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                     if (mainToken.LoginType == LoginType.LiveId)
                     {
-                        azureSubscription.SetAccessToken(tokenProvider.GetToken(azureSubscription, mainToken.UserId));
+                        azureSubscription.SetAccessToken(tokenProvider.GetNewToken(azureSubscription, mainToken.UserId));
                     }
                     else
                     {
@@ -226,8 +227,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     // TODO: Get real endpoint for prod
-                    AdTenantUrl = "https://login.windows.net/",
-                    CommonTenantId = "common",
+                    ActiveDirectoryEndpoint = "https://login.windows.net/",
+                    ActiveDirectoryCommonTenantId = "common",
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix
                 }
             },

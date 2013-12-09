@@ -125,6 +125,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        public virtual string ReservedIPName
+        {
+            get;
+            set;
+        }
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -214,12 +220,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Name = this.DeploymentName ?? this.ServiceName,
                         Label = this.DeploymentLabel ?? this.ServiceName,
                         VirtualNetworkName = this.VNetName,
-                        Roles = { persistentVMs[0] }
+                        Roles = { persistentVMs[0] },
+                        ReservedIPName = ReservedIPName
                     };
 
                     if (this.DnsSettings != null)
                     {
-                        //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/114
                         parameters.DnsSettings = new Management.Compute.Models.DnsSettings();
 
                         foreach (var dns in this.DnsSettings)
@@ -333,8 +339,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
-                RoleSize = string.IsNullOrEmpty(persistentVM.RoleSize) ? VirtualMachineRoleSize.Small
-                                                                       : (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize, true),
+                RoleSize = string.IsNullOrEmpty(persistentVM.RoleSize) ? null :
+                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize, true),
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
@@ -344,8 +350,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 persistentVM.DataVirtualHardDisks.ForEach(c => 
                 {
                     var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
-                    // Modify the LUN, so that it won't show up in the request
-                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber == "0" ? null : dataDisk.LogicalUnitNumber;
+                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber;
                     result.DataVirtualHardDisks.Add(dataDisk);
                 });
             }
@@ -417,27 +422,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     throw new ArgumentException(string.Format(Resources.VMMissingProvisioningConfiguration, pVM.RoleName));
                 }
             }
-        }
-
-        protected bool DoesCloudServiceExist(string serviceName)
-        {
-            try
-            {
-                WriteVerboseWithTimestamp(string.Format(Resources.AzureVMBeginOperation, CommandRuntime));
-                var response = this.ComputeClient.HostedServices.CheckNameAvailability(serviceName);
-                WriteVerboseWithTimestamp(string.Format(Resources.AzureVMCompletedOperation, CommandRuntime));
-                return response.IsAvailable;
-            }
-            catch (CloudException ex)
-            {
-                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return false;
-                }
-                this.WriteExceptionDetails(ex);
-            }
-
-            return false;
         }
     }
 }

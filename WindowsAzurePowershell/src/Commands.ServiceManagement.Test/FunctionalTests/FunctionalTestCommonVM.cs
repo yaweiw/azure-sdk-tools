@@ -48,11 +48,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            do
-            {
-                defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            }
-            while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
+            defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //do
+            //{
+            //    defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
+            //}
+            //while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
 
             defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService));
@@ -311,15 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [ClassCleanup]
         public static void ClassCleanUp()
         {
-            try
-            {
-                vmPowershellCmdlets.RemoveAzureService(defaultService);
-                Console.WriteLine("Service, {0}, is deleted", defaultService);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error during removing the service: {0}", e.ToString());
-            }
+            CleanupService(defaultService);
         }
     }
 }

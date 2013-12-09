@@ -15,12 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using Authentication;
+    using Management;
     using Management.Storage;
     using Storage;
     using Storage.Auth;
+    using Subscriptions;
     using WindowsAzure.Common;
     using Properties;
 
@@ -32,7 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string SubscriptionName { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
-        public Uri SqlAzureServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
         public string ActiveDirectoryTenantId { get; set; }
@@ -42,6 +46,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string currentStorageAccountName;
         private CloudStorageAccount cloudStorageAccount;
+
+        private readonly List<string> registeredResourceProviders = new List<string>();
+
+        internal List<string> RegisteredResourceProviders
+        {
+            get { return registeredResourceProviders; }
+        }
+
+        /// <summary>
+        /// Delegate used to trigger profile to save itself, used
+        /// when cached list of resource providers is updated.
+        /// </summary>
+        internal Action Save { get; set; }
 
         public string CurrentStorageAccountName
         {
@@ -63,7 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Access token / account name for Active Directory
         public string ActiveDirectoryUserId { get; set; }
-        public LoginType? ActiveDirectoryLoginType { get; set; }
         internal ITokenProvider TokenProvider { get; set; }
 
         private IAccessToken accessToken;
@@ -81,12 +97,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             if (token != null)
             {
                 ActiveDirectoryUserId = token.UserId;
-                ActiveDirectoryLoginType = token.LoginType;
             }
             else
             {
                 ActiveDirectoryUserId = null;
-                ActiveDirectoryLoginType = null;
             }
             accessToken = token;
         }
@@ -99,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             if (accessToken == null)
             {
-                accessToken = TokenProvider.GetToken(this, ActiveDirectoryUserId);
+                accessToken = TokenProvider.GetCachedToken(this, ActiveDirectoryUserId);
             }
             return new AccessTokenCredential(SubscriptionId, accessToken);
         }
@@ -115,12 +129,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // AD Data - if present in new subscription, take it else preserve existing
             ActiveDirectoryEndpoint = newSubscription.ActiveDirectoryEndpoint ??
                 ActiveDirectoryEndpoint;
-            ActiveDirectoryLoginType = newSubscription.ActiveDirectoryLoginType ??
-                ActiveDirectoryLoginType;
             ActiveDirectoryTenantId = newSubscription.ActiveDirectoryTenantId ??
                 ActiveDirectoryTenantId;
             ActiveDirectoryUserId = newSubscription.ActiveDirectoryUserId ??
                 ActiveDirectoryUserId;
+
+            // Wipe out current access token - it will be reloaded from 
+            // token provider when needed to get new access/refresh tokens
+            accessToken = null;
 
             // Certificate - if present in new take it, else preserve
             Certificate = newSubscription.Certificate ??
@@ -144,6 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public TClient CreateClient<TClient>() where TClient : ServiceClient<TClient>
         {
             var credential = CreateCredentials();
+            RegisterRequiredResourceProviders<TClient>(credential);
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
             if (constructor == null)
             {
@@ -180,6 +197,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
             return cloudStorageAccount;
+        }
+
+        private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
+        {
+            var requiredProviders = RequiredResourceLookup.RequiredProvidersFor<T>();
+            var unregisteredProviders = requiredProviders.Where(p => !RegisteredResourceProviders.Contains(p)).ToList();
+
+            if (unregisteredProviders.Count > 0)
+            {
+                using(var client = new ManagementClient(credentials, ServiceEndpoint))
+                {
+                    foreach (var provider in unregisteredProviders)
+                    {
+                        try
+                        {
+                            client.Subscriptions.RegisterResource(provider);
+                        }
+                        catch (CloudException ex)
+                        {
+                            if (ex.Response.StatusCode != HttpStatusCode.Conflict && ex.Response.StatusCode != HttpStatusCode.NotFound)
+                            {
+                                // Conflict means already registered, that's OK.
+                                // NotFound means there is no registration support, like Windows Azure Pack.
+                                // Otherwise it's a failure.
+                                throw;
+                            }
+                        }
+                        RegisteredResourceProviders.Add(provider);
+                    }
+                    Save();
+                }
+            }
         }
     }
 }

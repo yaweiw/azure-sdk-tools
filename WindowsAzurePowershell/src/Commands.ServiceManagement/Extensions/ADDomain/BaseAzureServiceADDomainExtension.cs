@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
     public abstract class BaseAzureServiceADDomainExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
-        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
+        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions.Test8";
         protected const string DomainExtensionType = "ADDomain";
 
         protected const string ADDomainExtensionNoun = "AzureServiceADDomainExtension";

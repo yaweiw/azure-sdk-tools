@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
 

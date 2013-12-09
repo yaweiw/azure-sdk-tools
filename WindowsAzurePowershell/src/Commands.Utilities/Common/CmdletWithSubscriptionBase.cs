@@ -14,6 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System;
+    using Properties;
+
     /// <summary>
     /// Base class for cmdlets that need the current subscription but don't
     /// otherwise need the channel stuff.
@@ -43,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public WindowsAzureSubscription CurrentSubscription
         {
-            get { return currentSubscription ?? Profile.CurrentSubscription; }
+            get { return ThrowIfNull(currentSubscription ?? Profile.CurrentSubscription); }
             set
             {
                 if (currentSubscription != value)
@@ -52,6 +55,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     OnCurrentSubscriptionUpdated();
                 }
             }
+        }
+
+        public bool HasCurrentSubscription
+        {
+            get { return currentSubscription != null || Profile.CurrentSubscription != null; }
+        }
+
+        private WindowsAzureSubscription ThrowIfNull(WindowsAzureSubscription subscription)
+        {
+            if (subscription != null) return subscription;
+            throw new Exception(Resources.InvalidCurrentSubscription);
         }
     }
 }

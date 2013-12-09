@@ -32,6 +32,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
     using ServiceManagementConstants = Microsoft.WindowsAzure.ServiceManagement.Constants;
     using CloudService = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService;
     using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
+    using Microsoft.WindowsAzure.Management;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Management.Models;
 
     public class StoreClient
     {
@@ -44,6 +47,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
         private StoreManagementClient storeClient;
 
         private ComputeManagementClient computeClient { get; set; }
+
+        private ManagementClient managementClient { get; set; }
 
         private string subscriptionId;
 
@@ -144,13 +149,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                 subscription,
                 subscription.CreateClient<ComputeManagementClient>(),
                 subscription.CreateClient<StoreManagementClient>(),
-                new MarketplaceClient()) { }
+                new MarketplaceClient(),
+                subscription.CreateClient<ManagementClient>()) { }
 
         public StoreClient(
             WindowsAzureSubscription subscription,
             ComputeManagementClient compute,
             StoreManagementClient store,
-            MarketplaceClient marketplace)
+            MarketplaceClient marketplace,
+            ManagementClient management)
         {
             Validate.ValidateStringIsNullOrEmpty(subscription.SubscriptionId, null, true);
             this.subscriptionId = subscription.SubscriptionId;
@@ -158,6 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             computeClient = compute;
             storeClient = store;
             MarketplaceClient = marketplace;
+            managementClient = management;
         }
 
         /// <summary>
@@ -374,6 +382,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
                     throw new Exception(Resources.FirstPurchaseMessage);
                 }
             }
+        }
+
+        public virtual List<LocationsListResponse.Location> GetLocations()
+        {
+            return managementClient.Locations.List().Locations.ToList();
         }
     }
 

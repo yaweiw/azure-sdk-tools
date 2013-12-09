@@ -41,127 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             try
             {
                 sr = new StreamReader(this.ConfigurationPath);
-                XmlSerializer ser = new XmlSerializer(typeof(NetworkConfiguration));
-                NetworkConfiguration netConfig = (NetworkConfiguration)ser.Deserialize(sr);
-                if (netConfig == null)
+
+                var netParams = new NetworkSetConfigurationParameters
                 {
-                    throw new ArgumentException(Resources.NetworkConfigurationCannotBeDeserialized);
-                }
-
-                var netParams = new NetworkSetConfigurationParameters();
-
-                if (netConfig.VirtualNetworkConfiguration != null)
-                {
-                    if (netConfig.VirtualNetworkConfiguration.Dns != null &&
-                        netConfig.VirtualNetworkConfiguration.Dns.DnsServers != null)
-                    {
-                        foreach (var ds in netConfig.VirtualNetworkConfiguration.Dns.DnsServers)
-                        {
-                            netParams.DnsServers.Add(
-                                new NetworkSetConfigurationParameters.DnsServer
-                                {
-                                    IPAddress = ds.IPAddress,
-                                    Name = ds.name
-                                });
-                        }
-                    }
-
-                    if (netConfig.VirtualNetworkConfiguration.LocalNetworkSites != null)
-                    {
-                        foreach (var lns in netConfig.VirtualNetworkConfiguration.LocalNetworkSites)
-                        {
-                            var newItem = new NetworkSetConfigurationParameters.LocalNetworkSite();
-                            if (lns.AddressSpace != null)
-                            {
-                                foreach (var aa in lns.AddressSpace)
-                                {
-                                    newItem.AddressSpace.Add(aa);
-                                }
-                            }
-
-                            newItem.Name = lns.name;
-                            newItem.VpnGatewayAddress = lns.VPNGatewayAddress;
-                            netParams.LocalNetworkSites.Add(newItem);
-                        }
-                    }
-
-                    if (netConfig.VirtualNetworkConfiguration.VirtualNetworkSites != null)
-                    {
-                        foreach (var vns in netConfig.VirtualNetworkConfiguration.VirtualNetworkSites)
-                        {
-                            var newItem = new NetworkSetConfigurationParameters.VirtualNetworkSite();
-                            newItem.AffinityGroup = vns.AffinityGroup;
-                            newItem.Name = vns.name;
-                            newItem.Label = vns.InternetGatewayNetwork == null ? vns.name : vns.InternetGatewayNetwork.name;
-
-                            if (vns.AddressSpace != null)
-                            {
-                                foreach (var aa in vns.AddressSpace)
-                                {
-                                    newItem.AddressSpace.Add(aa);
-                                }
-                            }
-
-                            if (vns.DnsServersRef != null)
-                            {
-                                foreach (var dsr in vns.DnsServersRef)
-                                {
-                                    newItem.DnsServerReferences.Add(
-                                        new NetworkSetConfigurationParameters.DnsServerReference
-                                        {
-                                            Name = dsr.name
-                                        });
-                                }
-                            }
-
-                            newItem.Gateway = new NetworkSetConfigurationParameters.Gateway();
-                            if (vns.Gateway != null)
-                            {
-                                newItem.Gateway.Profile = vns.Gateway.profile.ToString();
-
-                                if (vns.Gateway.VPNClientAddressPool != null)
-                                {
-                                    foreach (var ca in vns.Gateway.VPNClientAddressPool)
-                                    {
-                                        newItem.Gateway.VpnClientAddressPool.Add(ca);
-                                    }
-                                }
-
-                                if (vns.Gateway.ConnectionsToLocalNetwork != null)
-                                {
-                                    foreach (var lnsr in vns.Gateway.ConnectionsToLocalNetwork)
-                                    {
-                                        if (lnsr.Connection != null)
-                                        {
-                                            foreach (var conn in lnsr.Connection)
-                                            {
-
-                                                newItem.Gateway.ConnectionsToLocalNetwork.Add(
-                                                    new NetworkSetConfigurationParameters.LocalNetworkSiteReference
-                                                    {
-                                                        ConnectionType = (LocalNetworkConnectionType)Enum.Parse(typeof(LocalNetworkConnectionType), conn.type.ToString(), true),
-                                                        Name = lnsr.name
-                                                    });
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (vns.Subnets != null)
-                            {
-                                foreach (var sn in vns.Subnets)
-                                {
-                                    newItem.Subnets.Add(new NetworkSetConfigurationParameters.Subnet
-                                    {
-                                        AddressPrefix = sn.AddressPrefix,
-                                        Name = sn.name
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
+                    Configuration = sr.ReadToEnd()
+                };
 
                 ExecuteClientActionNewSM(
                     null,
@@ -179,6 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
 

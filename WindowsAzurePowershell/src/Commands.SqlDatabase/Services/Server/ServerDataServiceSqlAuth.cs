@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             this.credentials = credentials;
 
             // Generate a requestId and retrieve the server name
-            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
             this.serverName = this.Servers.First().Name;
         }
 
@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         {
             get
             {
-                return SqlDatabaseManagementCmdletBase.clientSessionId;
+                return SqlDatabaseCmdletBase.clientSessionId;
             }
         }
 
@@ -252,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public XDocument RetrieveMetadata()
         {
             // Create a new request Id for this operation
-            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 
             XDocument doc = DataConnectionUtility.GetMetadata(this, EnhanceRequest);
             return doc;
@@ -271,14 +271,33 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #region IServerDataServiceContext Members
 
+
         /// <summary>
-        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// Ensures any extra property on the given <paramref name="obj"/> is loaded.
         /// </summary>
-        /// <param name="obj">The object that contains the property to load.</param>
-        /// <param name="propertyName">The name of the property to load.</param>
-        new public void LoadProperty(object obj, string propertyName)
+        /// <param name="obj">The object that needs the extra properties.</param>
+        public void LoadExtraProperties(object obj)
         {
-            base.LoadProperty(obj, propertyName);
+            try
+            {
+                Database database = obj as Database;
+                if (database != null)
+                {
+                    this.LoadExtraProperties(database);
+                    return;
+                }
+
+                ServiceObjective serviceObjective = obj as ServiceObjective;
+                if (database != null)
+                {
+                    this.LoadExtraProperties(serviceObjective);
+                    return;
+                }
+            }
+            catch
+            {
+                // Ignore exceptions when loading extra properties, for backward compatibility.
+            }
         }
 
         #region Database Operations
@@ -295,10 +314,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
-            DatabaseEdition databaseEdition)
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective)
         {
             // Create a new request Id for this operation
-            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 
             // Create the new entity and set its properties
             Database database = new Database();
@@ -318,6 +338,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             {
                 database.Edition = databaseEdition.ToString();
             }
+
+            if (serviceObjective != null)
+            {
+                database.ServiceObjectiveId = serviceObjective.Id;
+            }
+            else
+            {
+                database.ServiceObjectiveId = null;
+            }
+
 
             // Save changes
             this.AddToDatabases(database);
@@ -339,7 +369,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Load the extra properties for this object.
-            database.LoadExtraProperties(this);
+            this.LoadExtraProperties(database);
 
             return database;
         }
@@ -360,7 +390,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Load the extra properties for all objects.
             foreach (Database database in allDatabases)
             {
-                database.LoadExtraProperties(this);
+                this.LoadExtraProperties(database);
             }
 
             return allDatabases;
@@ -391,7 +421,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Load the extra properties for this object.
-            database.LoadExtraProperties(this);
+            this.LoadExtraProperties(database);
 
             return database;
         }
@@ -439,6 +469,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             if (serviceObjective != null)
             {
                 database.ServiceObjectiveId = serviceObjective.Id;
+            }
+            else
+            {
+                database.ServiceObjectiveId = null;
             }
 
             // Mark the database object for update and submit the changes
@@ -498,7 +532,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Load the extra properties for all objects.
             foreach (ServiceObjective objective in allObjectives)
             {
-                objective.LoadExtraProperties(this);
+                this.LoadExtraProperties(objective);
             }
 
             return allObjectives;
@@ -534,9 +568,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Load the extra properties for this object.
-            objective.LoadExtraProperties(this);
+            this.LoadExtraProperties(objective);
 
             return objective;
+        }
+
+        /// <summary>
+        /// Retrieve information on latest service objective with service objective
+        /// <paramref name="serviceObjectives"/>.
+        /// </summary>
+        /// <param name="serviceObjective">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        public ServiceObjective GetServiceObjective(ServiceObjective serviceObjective)
+        {
+            return this.GetServiceObjective(serviceObjective.Name);
         }
 
         /// <summary>
@@ -584,6 +631,70 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Get/Stop Database Operations
+
+        /// <summary>
+        /// Retrieve information on operation with the guid 
+        /// </summary>
+        /// <param name="OperationGuid">The Guid of the operation to retrieve.</param>
+        /// <returns>An object containing the information about the specific operation.</returns>
+        public DatabaseOperation GetDatabaseOperation(Guid OperationGuid)
+        {
+            DatabaseOperation operation;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                operation = this.DatabaseOperations.Where(op => op.Id == OperationGuid).FirstOrDefault();
+            }
+
+            return operation;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all operations on the database.
+        /// </summary>
+        /// <param name="databaseName">The name of database to retrieve operations.</param>
+        /// <returns>An array of all operations on the database.</returns>
+        public DatabaseOperation[] GetDatabaseOperations(string databaseName)
+        {
+            DatabaseOperation[] operations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                operations = this.DatabaseOperations.Where(operation => operation.DatabaseName == databaseName).ToArray();
+                if (operations.Count() == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseOperationNotFoundOnDatabase,
+                            this.ServerName,
+                            databaseName));
+                }
+            }
+
+            return operations;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all databases' operations on the server.
+        /// </summary>
+        /// <returns>An array of all operations on the server.</returns>
+        public DatabaseOperation[] GetDatabasesOperations()
+        {
+            DatabaseOperation[] operations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // We do not validate the number of operations returned since it's possible that there is no 
+                // database operations on a new created server.
+                operations = this.DatabaseOperations.ToArray();
+            }
+
+            return operations;
+        }
+        #endregion
+        
         #endregion
 
         /// <summary>
@@ -640,5 +751,37 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             request.Headers[Constants.ClientSessionIdHeaderName] = context.ClientSessionId;
             request.Headers[Constants.ClientRequestIdHeaderName] = context.ClientRequestId;
         }
+
+        #region LoadExtraProperties Implementations
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(Database database)
+        {
+            // Fill in the context property
+            database.Context = this;
+
+            // Fill in the service objective properties
+            this.LoadProperty(database, "ServiceObjective");
+            database.ServiceObjectiveName =
+                database.ServiceObjective == null ? null : database.ServiceObjective.Name;
+        }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="serviceObjective"/> is loaded.
+        /// </summary>
+        /// <param name="serviceObjective">The serviceObjective that needs the extra properties.</param>
+        private void LoadExtraProperties(ServiceObjective serviceObjective)
+        {
+            // Fill in the context property
+            serviceObjective.Context = this;
+
+            // Fill in the service objective Dimension Settings
+            this.LoadProperty(serviceObjective, "DimensionSettings");
+        }
+
+        #endregion
     }
 }

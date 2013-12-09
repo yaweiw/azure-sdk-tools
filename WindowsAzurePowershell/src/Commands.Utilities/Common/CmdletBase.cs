@@ -91,6 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             try
             {
+                HttpRestCallLogger.CurrentCmdlet = this;
                 base.ProcessRecord();
                 ExecuteCmdlet();
             }
@@ -98,7 +99,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 WriteExceptionError(ex);
             }
-            finally { WriteDebug(HttpRestCallLogger.Flush()); }
         }
 
         /// <summary>

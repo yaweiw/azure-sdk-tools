@@ -143,8 +143,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                 var newWinCfg = Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig);
                 if (windowsConfig.WinRM != null)
                 {
-                    // TODO: Issue 239
-                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
                     newWinCfg.WindowsRemoteManagement = new WindowsRemoteManagementSettings();
 
                     // AutoMapper doesn't work for WinRM.Listeners -> WindowsRemoteManagement.Listeners
