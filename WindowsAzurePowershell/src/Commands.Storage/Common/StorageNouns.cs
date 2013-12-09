@@ -103,5 +103,111 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Copy status for azure storage blob
         /// </summary>
         public const string CopyBlobStatus = "AzureStorageBlobCopyState";
+
+        /// <summary>
+        /// Azure storage service metrics
+        /// </summary>
+        public const string StorageServiceMetrics = "AzureStorageServiceMetrics";
+
+        /// <summary>
+        /// Azure storage service logging
+        /// </summary>
+        public const string StorageServiceLogging = "AzureStorageServiceLogging";
+
+        /// <summary>
+        /// Azure storage blob service
+        /// </summary>
+        public const string BlobService = "Blob";
+
+        /// <summary>
+        /// Azure storage table service
+        /// </summary>
+        public const string TableService = "Table";
+
+        /// <summary>
+        /// Azure storage queue service
+        /// </summary>
+        public const string QueueService = "Queue";
+
+        /// <summary>
+        /// Turn off metrics
+        /// </summary>
+        public const string OffMetrics = "None";
+
+        /// <summary>
+        /// Minimal metrics
+        /// </summary>
+        public const string MinimalMetrics = "Service";
+
+        /// <summary>
+        /// Verbose metrics
+        /// </summary>
+        public const string VerboseMetrics = "ServiceAndApi";
+
+        /// <summary>
+        /// Azure storage container sas
+        /// </summary>
+        public const string ContainerSas = "AzureStorageContainerSASToken";
+
+        /// <summary>
+        /// Azure storage blob sas
+        /// </summary>
+        public const string BlobSas = "AzureStorageBlobSASToken";
+
+        /// <summary>
+        /// Azure storage table sas
+        /// </summary>
+        public const string TableSas = "AzureStorageTableSASToken";
+
+        /// <summary>
+        /// Azure storage queue sas
+        /// </summary>
+        public const string QueueSas = "AzureStorageQueueSASToken";
+
+        /// <summary>
+        /// Permission const for New-AzureStorage(Blob/Container/Table/Queue)SasToken
+        /// </summary>
+        public static class Permission
+        {
+            /// <summary>
+            /// Read permission
+            /// </summary>
+            public const char Read = 'r';
+
+            /// <summary>
+            /// Write permission
+            /// </summary>
+            public const char Write = 'w';
+
+            /// <summary>
+            /// Delete permission
+            /// </summary>
+            public const char Delete = 'd';
+
+            /// <summary>
+            /// List permission
+            /// </summary>
+            public const char List = 'l';
+
+            /// <summary>
+            /// Update permission
+            /// </summary>
+            public const char Update = 'u';
+
+            /// <summary>
+            /// Add permission
+            /// </summary>
+            public const char Add = 'a';
+
+            /// <summary>
+            /// Process permission
+            /// </summary>
+            public const char Process = 'p';
+
+            /// <summary>
+            /// Query permission
+            /// </summary>
+            public const char Query = 'q';
+        }
     }
 }

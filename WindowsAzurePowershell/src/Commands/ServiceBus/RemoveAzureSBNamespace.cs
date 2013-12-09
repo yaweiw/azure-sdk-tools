@@ -20,14 +20,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus;
-    using Commands.Utilities.ServiceBus.Contract;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
+    public class RemoveAzureSBNamespaceCommand : CmdletWithSubscriptionBase
     {
+        public ServiceBusClientExtensions Client { get; set; }
+
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
@@ -38,64 +39,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceBus
         public SwitchParameter Force { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
-        /// </summary>
-        public RemoveAzureSBNamespaceCommand()
-            : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
-        /// </summary>
-        /// <param name="channel">
-        /// Channel used for communication with Azure's service management APIs.
-        /// </param>
-        public RemoveAzureSBNamespaceCommand(IServiceBusManagement channel)
-        {
-            Channel = channel;
-        }
-
-        /// <summary>
         /// Removes a service bus namespace.
         /// </summary>
         public override void ExecuteCmdlet()
         {
-            string subscriptionId = CurrentSubscription.SubscriptionId;
-            string name = Name;
-
-            try
-            {
-                if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemoveServiceBusNamespaceConfirmation, Name),
+                string.Format(Resources.RemovingNamespaceMessage),
+                Name,
+                () =>
                 {
+                    Client = Client ?? new ServiceBusClientExtensions(CurrentSubscription);
+                    Client.RemoveNamespace(Name);
 
-                    ConfirmAction(
-                        Force.IsPresent,
-                        string.Format(Resources.RemoveServiceBusNamespaceConfirmation, name),
-                        string.Format(Resources.RemovingNamespaceMessage),
-                        name,
-                        () =>
-                        {
-                            Channel.DeleteServiceBusNamespace(subscriptionId, name);
-
-                            if (PassThru)
-                            {
-                                WriteObject(true);
-                            }
-                        });
-                }
-                else
-                {
-                    WriteExceptionError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Equals(Resources.InternalServerErrorMessage))
-                {
-                    WriteExceptionError(new Exception(Resources.RemoveNamespaceErrorMessage));
-                }
-            }
+                    if (PassThru)
+                    {
+                        WriteObject(true);
+                    }
+                });
         }
     }
 }

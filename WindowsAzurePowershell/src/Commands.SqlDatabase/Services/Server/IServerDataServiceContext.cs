@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
+	using System;
     /// <summary>
     /// Common interface for all server based operations.
     /// </summary>
@@ -35,11 +36,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         string ServerName { get; }
 
         /// <summary>
-        /// Ensures the property on the given <paramref name="obj"/> is loaded.
+        /// Ensures any extra property on the given <paramref name="obj"/> is loaded.
         /// </summary>
-        /// <param name="obj">The object that contains the property to load.</param>
-        /// <param name="propertyName">The name of the property to load.</param>
-        void LoadProperty(object obj, string propertyName);
+        /// <param name="obj">The object that needs the extra properties.</param>
+        void LoadExtraProperties(object obj);
 
         #region Database Operations
 
@@ -63,12 +63,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="databaseMaxSize">The max size for the database.</param>
         /// <param name="databaseCollation">The collation for the database.</param>
         /// <param name="databaseEdition">The edition for the database.</param>
+        /// <param name="serviceObjective">The SLO for the premium database.</param>
         /// <returns>The newly created Sql Database.</returns>
         Database CreateNewDatabase(
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
-            DatabaseEdition databaseEdition);
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective);
 
         /// <summary>
         /// Updates the property on the database with the name <paramref name="databaseName"/>.
@@ -111,14 +113,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         ServiceObjective[] GetServiceObjectives();
 
         /// <summary>
-        /// Retrieve information on service objective with the name
-        /// <paramref name="serviceObjectivesName"/>.
+        /// Retrieve information on service objective with the specified name
         /// </summary>
         /// <param name="serviceObjectiveName">The service objective to retrieve.</param>
         /// <returns>
         /// An object containing the information about the specific service objective.
         /// </returns>
         ServiceObjective GetServiceObjective(string serviceObjectiveName);
+
+        /// <summary>
+        /// Retrieve information on latest service objective with service objective
+        /// </summary>
+        /// <param name="serviceObjective">The service objective to refresh.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>        
+        ServiceObjective GetServiceObjective(ServiceObjective serviceObjective);
 
         /// <summary>
         /// Get a specific quota for a server
@@ -132,6 +142,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <returns>An array of server quota objects</returns>
         ServerQuota[] GetQuotas();
+
+        #endregion
+
+        #region Get/Stop Database Operation
+
+        /// <summary>
+        /// Retrieve information on operation with the guid 
+        /// </summary>
+        /// <param name="OperationGuid">The Guid of the operation to retrieve.</param>
+        /// <returns>An object containing the information about the specific operation.</returns>
+        DatabaseOperation GetDatabaseOperation(Guid OperationGuid);
+
+        /// <summary>
+        /// Retrieves the list of all operations on the database.
+        /// </summary>
+        /// <param name="databaseName">The name of database to retrieve operations.</param>
+        /// <returns>An array of all operations on the database.</returns>
+        DatabaseOperation[] GetDatabaseOperations(string databaseName);
+
+        /// <summary>
+        /// Retrieves the list of all databases' operations on the server.
+        /// </summary>
+        /// <returns>An array of all operations on the server.</returns>
+        DatabaseOperation[] GetDatabasesOperations();
 
         #endregion
     }

@@ -17,25 +17,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    ////[TestClass]
     public class GetAzureStorageAccountTests : TestBase
     {
         FileSystemHelper files;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             files = new FileSystemHelper(this);
             //files.CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
             //files.Dispose();
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetAzureStorageAccountTest()
         {
         }

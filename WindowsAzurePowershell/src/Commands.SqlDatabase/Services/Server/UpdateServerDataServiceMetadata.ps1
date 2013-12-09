@@ -20,7 +20,7 @@ $clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Se
 $clientModelBaseContext = "ServerContextInternal";
 
 ######## Import Server module from the build
-Import-Module ..\..\..\..\..\Package\Release\Azure.psd1
+Import-Module ..\..\..\..\..\Package\Debug\Azure.psd1
 
 ######## Create a new Server data service context
 Write-Host "Connecting to management service at $ManageUrl"
@@ -68,8 +68,9 @@ $metadataHashDeclaration="namespace $clientModelNamespace
     public abstract partial class $clientModelBaseContext
     {
         public readonly string[] metadataHashes = new string[]{ 
-            `"$metadataHash`", 
-            `"5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9`", 
+            `"$metadataHash`",
+            `"F903DB500E018B00ECB1E355BC55F73B7342FC76`",
+            `"5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9`",
             `"68BA8B4EB74E0C5A91D0A734B742001018A9F9D2`",
             `"80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F`",
             `"3070BEE06139E0754E2F022E56E9798BF8A57F30`"};

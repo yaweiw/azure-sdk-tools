@@ -256,7 +256,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestCategory(Category.ServiceBus)]
         public void TestRemoveAzureSBNamespaceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureSBNamespace \"AnyName\"}");
+            RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureSBNamespace \"AnyName\" -Force }");
         }
 
         #endregion

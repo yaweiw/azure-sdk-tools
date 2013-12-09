@@ -15,9 +15,12 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
 {
     using System;
+    using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
     /// <summary>
@@ -32,10 +35,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             new Uri("http://localhost:12345/MockTestServer/");
 
         /// <summary>
-        /// The HTTPS server prefix for tests
+        /// The HTTPS server prefix for tests which is been used in cert auth based unit tests
         /// </summary>
         public static readonly Uri DefaultHttpsServerPrefixUri =
-            new Uri("https://localhost:12345/MockTestServer/");
+            new Uri("https://localhost:65432/MockTestServer/");
+
+        /// <summary>
+        /// The app id for the https binding
+        /// </summary>
+        private static readonly Guid HttpsAppId = new Guid("C1714DD7-CAB5-4031-8622-3D3D3D2795DB");
 
         private readonly Uri baseUri;
         private readonly AsyncExceptionManager exceptionManager;
@@ -151,6 +159,61 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
         }
 
         /// <summary>
+        /// Setup certificates required for the unit tests
+        /// </summary>
+        public static void SetupCertificates()
+        {
+            // Check if the cert has been installed 
+            Process proc = ExecuteProcess(
+                "netsh",
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "http show sslcert ipport=0.0.0.0:{0}",
+                    DefaultHttpsServerPrefixUri.Port));
+
+            if (proc.ExitCode != 0)
+            {
+                // Install the SSL and client certificates to the LocalMachine store
+                X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+                store.Open(OpenFlags.ReadWrite);
+                store.Add(UnitTestHelper.GetUnitTestSSLCertificate());
+                store.Add(UnitTestHelper.GetUnitTestClientCertificate());
+                store.Close();
+                store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
+                store.Open(OpenFlags.ReadWrite);
+                store.Add(UnitTestHelper.GetUnitTestSSLCertificate());
+                store.Add(UnitTestHelper.GetUnitTestClientCertificate());
+                store.Close();
+
+                // Remove any existing certs on the default port 
+                proc = ExecuteProcess(
+                    "netsh",
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "http delete sslcert ipport=0.0.0.0:{0}",
+                        DefaultHttpsServerPrefixUri.Port));
+
+                // Install the ssl cert on the default port
+                proc = ExecuteProcess(
+                    "netsh",
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "http add sslcert ipport=0.0.0.0:{0} certhash={1} appid={2:B}",
+                        DefaultHttpsServerPrefixUri.Port,
+                        UnitTestHelper.GetUnitTestSSLCertificate().Thumbprint,
+                        MockHttpServer.HttpsAppId));
+
+                if (proc.ExitCode != 0)
+                {
+                    throw new InvalidOperationException(string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Unable to add ssl certificate: {0}",
+                        proc.StandardOutput.ReadToEnd()));
+                }
+            }
+        }
+
+        /// <summary>
         /// Stop and closes the listener.
         /// </summary>
         public void Dispose()
@@ -184,6 +247,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             {
                 return new Uri(newPrefix, relativeUri);
             }
+        }
+
+        /// <summary>
+        /// Helper method to execute and wait for process to complete.
+        /// </summary>
+        /// <param name="filename">An application with which to start the process.</param>
+        /// <param name="arguments">Arguments passed to the application.</param>
+        /// <returns>The <see cref="Process"/> info.</returns>
+        private static Process ExecuteProcess(string filename, string arguments)
+        {
+            Process proc = new Process();
+            proc.StartInfo = new ProcessStartInfo(filename, arguments)
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
+            proc.Start();
+            proc.WaitForExit();
+
+            return proc;
         }
 
         #region Helper methods for response record/playback
@@ -283,6 +367,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
                 }
             }
 
+            // Retrieve the certificate on the request if any.
+            requestInfo.Certificate = originalRequest.GetClientCertificate();
+
             return requestInfo;
         }
 
@@ -376,6 +463,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
                 request.Headers.Add(header.Name, header.Value);
             }
 
+            if (originalRequest.Certificate != null)
+            {
+                request.ClientCertificates.Add(originalRequest.Certificate);
+            }
+
             // Copy all request cookies
             request.CookieContainer = new CookieContainer();
             foreach (HttpMessage.Cookie cookie in originalRequest.Cookies)
@@ -445,9 +537,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             }
 
             // Copy response stream
-            using (StreamWriter writer = new StreamWriter(response.OutputStream))
+            byte[] responseBytes = Encoding.UTF8.GetBytes(responseInfo.ResponseText);
+            response.ContentLength64 = responseBytes.Length;
+            using (BinaryWriter writer = new BinaryWriter(response.OutputStream))
             {
-                writer.Write(responseInfo.ResponseText);
+                writer.Write(responseBytes);
             }
         }
 

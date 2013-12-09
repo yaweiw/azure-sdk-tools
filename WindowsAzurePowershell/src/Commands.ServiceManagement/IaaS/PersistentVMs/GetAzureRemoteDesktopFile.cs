@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [SecurityPermission(SecurityAction.LinkDemand)]
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             base.ExecuteCommand();
             if (CurrentDeploymentNewSM == null)
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     OperationDescription = CommandRuntime.ToString(),
                     OperationStatus = operation.Status.ToString(),
-                    OperationId = operation.RequestId
+                    OperationId = operation.Id
                 };
             }
 

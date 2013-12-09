@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         // Func used to create the default instance
         private static readonly Func<WindowsAzureProfile> defaultCreator =
-            () => new WindowsAzureProfile(new PowershellProfileStore());
+            () => new WindowsAzureProfile(new PowershellDefaultProfileStore());
 
         // Singleton instance management
         // The default profile
@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     string.Format(Resources.SubscriptionAlreadyExists, s.SubscriptionName));
             }
 
-            subscriptions.Add(s);
+            AddSubscriptionInternal(s);
             if (s.IsDefault)
             {
                 UpdateDefaultSubscription(s);
@@ -332,7 +332,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
                 else
                 {
-                    subscriptions.Add(newSubscription);
+                    AddSubscriptionInternal(newSubscription);
                 }
             }
         }
@@ -370,7 +370,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             data.DefaultEnvironmentName = CurrentEnvironment.Name;
             data.Environments = Environments.Values
                 .Where(e => !IsPublicEnvironment(e.Name))
-                .Select(e => new AzureEnvironmentData(e));
+                .Select(e => new AzureEnvironmentData(e)).ToList();
         }
 
         private void LoadEnvironmentData(ProfileData data)
@@ -400,10 +400,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 foreach (var s in data.Subscriptions)
                 {
                     var newSub = s.ToAzureSubscription();
-                    newSub.TokenProvider = tokenProvider;
-                    subscriptions.Add(newSub);
+                    AddSubscriptionInternal(newSub);
                 }
             }
+        }
+
+        private void AddSubscriptionInternal(WindowsAzureSubscription subscription)
+        {
+            subscription.TokenProvider = tokenProvider;
+            subscription.Save = Save;
+            subscriptions.Add(subscription);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         [TestCleanup]
         public void CleanupTest()
         {
-            DatabaseTestHelper.SaveDefaultSessionCollection();
+            MockServerHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     powershell,
                     "$context");
 
-                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlServiceObjectiveWithSqlAuth");
                 DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =

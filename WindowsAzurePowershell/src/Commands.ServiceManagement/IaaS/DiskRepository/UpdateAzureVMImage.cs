@@ -58,44 +58,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         
         public void UpdateVMImageProcess()
         {
-            var parameters = new VirtualMachineImageUpdateParameters();
-            parameters.Label = this.Label;
-            parameters.Eula = this.Eula;
-            parameters.Description = this.Description;
-            parameters.ImageFamily = this.ImageFamily;
-            parameters.PublishedDate = this.PublishedDate;
-            parameters.PrivacyUri = this.PrivacyUri;
-            parameters.RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? VirtualMachineRoleSize.Small :
-                                           (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true);
+            var parameters = new VirtualMachineImageUpdateParameters
+            {
+                Label = this.Label,
+                Eula = this.Eula,
+                Description = this.Description,
+                ImageFamily = this.ImageFamily,
+                PublishedDate = this.PublishedDate,
+                PrivacyUri = this.PrivacyUri,
+                RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? null :
+                                    (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true)
+            };
 
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachineImages.Update(this.ImageName, parameters),
                 (s, response) => this.ContextFactory<VirtualMachineImageUpdateResponse, OSImageContext>(response, s));
-
-                //(op, responseImage) => new OSImageContext
-                //{
-                //    AffinityGroup = responseImage.AffinityGroup,
-                //    Category = responseImage.Category,
-                //    Label = responseImage.Label,
-                //    Location = responseImage.Location,
-                //    MediaLink = responseImage.MediaLink,
-                //    ImageName = responseImage.Name,
-                //    OS = responseImage.OS,
-                //    LogicalSizeInGB = responseImage.LogicalSizeInGB,
-                //    Eula = responseImage.Eula,
-                //    Description = responseImage.Description,
-                //    ImageFamily = responseImage.ImageFamily,
-                //    PublishedDate = responseImage.PublishedDate,
-                //    IsPremium = responseImage.IsPremium,
-                //    PrivacyUri = responseImage.PrivacyUri,
-                //    PublisherName = responseImage.PublisherName,
-                //    RecommendedVMSize = responseImage.RecommendedVMSize,
-                //    OperationDescription = CommandRuntime.ToString(),
-                //    OperationId = op.OperationTrackingId,
-                //    OperationStatus = op.Status
-                //});
         }
 
         protected override void OnProcessRecord()

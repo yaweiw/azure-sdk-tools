@@ -41,6 +41,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         bool DeploymentExists(string name = null, string slot = null);
 
         /// <summary>
+        /// Checks if the given name is avalable for usage in azure hosted service
+        /// </summary>
+        /// <param name="name">The short name of the hosted service to check</param>
+        /// <returns></returns>
+        bool CheckHostedServiceNameAvailability(string name);
+
+        /// <summary>
         /// Publishes a service project on Windows Azure.
         /// </summary>
         /// <param name="name">The cloud service name</param>
@@ -50,6 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="storageAccount">The storage account to store the package</param>
         /// <param name="deploymentName">The deployment name</param>
         /// <param name="launch">True to launch browser after publish is complete</param>
+        /// <param name="forceUpgrade">force the service upgrade even if this would result in loss of any local data on the vm (for example, changing the vm size)</param>
         /// <returns>The created deployment</returns>
         Deployment PublishCloudService(
             string name = null,
@@ -58,7 +66,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string affinityGroup = null,
             string storageAccount = null,
             string deploymentName = null,
-            bool launch = false);
+            bool launch = false,
+            bool forceUpgrade = false);
 
         /// <summary>
         /// Creates storage service if it does not exist.
@@ -79,6 +88,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The location name</returns>
         string GetDefaultLocation();
 
+        /// <summary>
+        /// Check iof the given storage service name is available
+        /// </summary>
+        /// <param name="name">The name of the storage service to check</param>
+        /// <returns></returns>
+        bool CheckStorageServiceAvailability(string name);
         /// <summary>
         /// Checks if the provided storage service exists under the subscription or not.
         /// </summary>
@@ -117,6 +132,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// Removes all deployments in the given cloud service and the service itself.
         /// </summary>
         /// <param name="name">The cloud service name</param>
-        void RemoveCloudService(string name);
+        void RemoveCloudService(
+            string name);
+
+        /// <summary>
+        /// Removes all deployments in the given cloud service and the service itself.
+        /// </summary>
+        /// <param name="name">The cloud service name</param>
+        /// <param name="deleteFromStorage">Indicates whether the underlying disk blob(s) should be deleted from storage.</param>
+        void RemoveCloudService(
+            string name,
+            bool deleteFromStorage);
     }
 }

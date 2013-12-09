@@ -18,12 +18,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
-    using Commands.Utilities.Common;
+    using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
-    using Storage;
     using Model;
     using Properties;
+    using Storage;
+    using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class UpdateAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -54,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
             if (CurrentDeploymentNewSM == null)
             {
-                return;
+                throw new ApplicationException(String.Format(Resources.CouldNotFindDeployment, ServiceName, Model.PersistentVMModel.DeploymentSlotType.Production));
             }
 
             // Auto generate disk names based off of default storage account 
@@ -94,39 +95,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 }
             }
 
-            VirtualMachineRoleSize roleSizeResult;
-            if (string.IsNullOrEmpty(VM.RoleSize))
-            {
-                roleSizeResult = VirtualMachineRoleSize.Small;
-            }
-            else if (!Enum.TryParse(VM.RoleSize, true, out roleSizeResult))
-            {
-                throw new ArgumentOutOfRangeException("RoleSize:" + VM.RoleSize);
-            }
-
             var parameters = new VirtualMachineUpdateParameters
             {
                 AvailabilitySetName = VM.AvailabilitySetName,
                 Label = VM.Label,
-                OSVirtualHardDisk = Mapper.Map(VM.OSVirtualHardDisk, new Microsoft.WindowsAzure.Management.Compute.Models.OSVirtualHardDisk()),
+                OSVirtualHardDisk = Mapper.Map<OSVirtualHardDisk>(VM.OSVirtualHardDisk),
                 RoleName = VM.RoleName,
-                RoleSize = roleSizeResult,
+                RoleSize = string.IsNullOrEmpty(VM.RoleSize) ? null :
+                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), VM.RoleSize, true),
             };
 
             if (VM.DataVirtualHardDisks != null)
             {
                 VM.DataVirtualHardDisks.ForEach(c =>
                 {
-                    var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
-                    // Modify the LUN, so that it won't show up in the request
-                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber == "0" ? null : dataDisk.LogicalUnitNumber;
+                    var dataDisk = Mapper.Map<DataVirtualHardDisk>(c);
+                    dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber;
                     parameters.DataVirtualHardDisks.Add(dataDisk);
                 });
             }
 
             if (VM.ConfigurationSets != null)
             {
-                Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers.PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
+                PersistentVMHelper.MapConfigurationSets(VM.ConfigurationSets).ForEach(c => parameters.ConfigurationSets.Add(c));
+            }
+
+            if (VM.DataVirtualHardDisksToBeDeleted != null && VM.DataVirtualHardDisksToBeDeleted.Any())
+            {
+                var vmRole = CurrentDeploymentNewSM.Roles.First(r => r.RoleName == this.Name);
+                if (vmRole != null)
+                {
+                    foreach (var dataDiskToBeDeleted in VM.DataVirtualHardDisksToBeDeleted)
+                    {
+                        int lun = dataDiskToBeDeleted.Lun;
+                        try
+                        {
+                            this.ComputeClient.VirtualMachineDisks.DeleteDataDisk(
+                                this.ServiceName,
+                                CurrentDeploymentNewSM.Name,
+                                vmRole.RoleName,
+                                lun,
+                                true);
+                        }
+                        catch (CloudException ex)
+                        {
+                            WriteWarning(string.Format(Resources.CannotDeleteVirtualMachineDataDiskForLUN, lun));
+
+                            if (ex.Response.StatusCode != System.Net.HttpStatusCode.NotFound)
+                            {
+                                throw;
+                            }
+                        }
+                    }
+                }
             }
 
             ExecuteClientActionNewSM(
@@ -134,12 +155,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachines.Update(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameters));
         }
-        
-        internal override void ExecuteCommand()
+
+        protected override void ExecuteCommand()
         {
-            //TODO: Update-AzureVM Issue (maybe caused by the Lun value '0'
-            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/187
-            // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/240
             this.ExecuteCommandNewSM();
         }
     }

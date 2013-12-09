@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Waits for VM to boot")]
+        [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter WaitForBoot
         {
@@ -452,16 +452,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistenVMRole(CloudStorageAccount currentStorage)
         {
-            if (string.IsNullOrEmpty(InstanceSize))
-            {
-                InstanceSize = VirtualMachineRoleSize.Small.ToString();
-            }
-
             var vm = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = (VirtualMachineRoleSize)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
+                RoleSize = string.IsNullOrEmpty(InstanceSize) ? null :
+                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
@@ -492,8 +488,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
                     StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                    // TODO: Issue 239
-                    // https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/239
                     WinRM = GetWinRmConfiguration()
                 };
 
@@ -592,7 +586,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 WriteVerboseWithTimestamp(string.Format(Resources.QuickVMBeginOperation, CommandRuntime));
                 var response = this.ComputeClient.HostedServices.CheckNameAvailability(serviceName);
                 WriteVerboseWithTimestamp(string.Format(Resources.QuickVMCompletedOperation, CommandRuntime));
-                return response.IsAvailable;
+                return !response.IsAvailable;
             }
             catch (CloudException ex)
             {

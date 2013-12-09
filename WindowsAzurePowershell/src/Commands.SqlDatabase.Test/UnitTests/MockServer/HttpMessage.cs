@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
     using System.Linq;
     using System.Net;
     using System.Runtime.Serialization;
+    using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
     /// Stores information about a Http Web Response.
@@ -63,6 +64,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             [DataMember(Order = 7)]
             public string Accept { get; set; }
 
+            public X509Certificate2 Certificate { get; set; }
+
             public ExtensionDataObject ExtensionData { get; set; }
 
             /// <summary>
@@ -73,11 +76,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    DataContractSerializer serializer =
-                        new DataContractSerializer(typeof(Request));
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(Request));
                     serializer.WriteObject(stream, this);
                     stream.Position = 0;
-                    return (Request)serializer.ReadObject(stream);
+                    Request request = (Request)serializer.ReadObject(stream);
+                    request.Certificate = this.Certificate;
+                    return request;
                 }
             }
         }

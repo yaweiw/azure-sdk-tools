@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Position = 3, HelpMessage = "Allows the deallocation of last VM in a deployment")]
         public SwitchParameter Force { get; set; }
 
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             base.ExecuteCommand();
             ServiceManagementProfile.Initialize();
@@ -123,7 +123,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 if (this.StayProvisioned.IsPresent)
                 {
                     var parameter = new VirtualMachineShutdownRolesParameters();
-                    //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/158
                     foreach (var role in roleNames)
                     {
                         parameter.Roles.Add(role);
@@ -138,7 +137,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 else
                 {
                     var parameter = new VirtualMachineShutdownRolesParameters();
-                    //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/158
                     foreach (var role in roleNames)
                     {
                         parameter.Roles.Add(role);
@@ -171,11 +169,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             Func<RoleInstance, bool> roleNotStoppedDeallocated =
                 r => String.Compare(
-                    r.InstanceStatus, 
-                    PostShutdownAction.StoppedDeallocated.ToString(), 
+                    r.InstanceStatus,
+                    PostShutdownAction.StoppedDeallocated.ToString(),
                     true, 
                     CultureInfo.InvariantCulture) != 0;
             bool result = this.CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
+
+            if (result && !this.StayProvisioned.IsPresent)
+            {
+                if (this.CurrentDeploymentNewSM != null && !string.IsNullOrEmpty(this.CurrentDeploymentNewSM.ReservedIPName))
+                {
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
+                }
+            }
+
             return result;
         }
     }
