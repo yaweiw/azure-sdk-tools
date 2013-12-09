@@ -19,25 +19,49 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.IO;
     using System.Linq;
     using System.Text;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage.Blob;
 
-    internal class AzureBlobNameRequestResolver
+    internal class BlobUploadRequestQueue
     {
         private string root;
-        private Queue<string> files;
+        private Queue<string> Requests;
 
-        public BlobType Type { get; set; }
-        public CloudBlobContainer Container { get; set; }
-        public string BlobName { get; set; }
+        private BlobType Type { get; set; }
+        private CloudBlobContainer Container { get; set; }
+        private string BlobName { get; set; }
 
-        public AzureBlobNameRequestResolver()
+        public BlobUploadRequestQueue()
         {
             root = string.Empty;
-            files = new Queue<string>();
+            Requests = new Queue<string>();
         }
 
-        public bool AddFile(string absolutFilePath)
+        public void SetDestinationContainer(IStorageBlobManagement channel, string containerName)
         {
+            if (Container == null)
+            {
+                if (!NameUtil.IsValidContainerName(containerName))
+                {
+                    throw new ArgumentException(String.Format(Resources.InvalidContainerName, containerName));
+                }
+
+                Container = channel.GetContainerReference(containerName);
+            }
+        }
+
+        public bool EnqueueRequest(string absolutFilePath, BlobType type, string blobName)
+        {
+            if (!string.IsNullOrEmpty(blobName) && Requests.Count > 0)
+            {
+                throw new ArgumentException(Resources.BlobNameShouldBeEmptyWhenUploading);
+            }
+            else
+            {
+                BlobName = blobName;
+                Type = type;
+            }
+
             if (!System.IO.File.Exists(absolutFilePath))
             {
                 if (System.IO.Directory.Exists(absolutFilePath))
@@ -57,18 +81,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 root = GetCommonDirectory(root, dirPath);
             }
 
-            files.Enqueue(absolutFilePath);
+            Requests.Enqueue(absolutFilePath);
+            
             return true;
         }
 
         public bool IsEmpty()
         {
-            return files.Count == 0;
+            return Requests.Count == 0;
         }
 
-        public Tuple<string, ICloudBlob> GetFileAndBlobTuple()
+        public Tuple<string, ICloudBlob> DequeueRequest()
         {
-            string filePath = files.Dequeue();
+            string filePath = Requests.Dequeue();
             string blobName = string.Empty;
 
             if (!string.IsNullOrEmpty(BlobName))

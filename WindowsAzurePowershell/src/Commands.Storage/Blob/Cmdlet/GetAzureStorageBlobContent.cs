@@ -130,7 +130,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Record = pr
             };
 
-            transferManager.QueueDownload(blob, filePath, checkMd5, OnDMJobStart, OnDMJobProgress, OnDMJobFinish, pr);
+            transferManager.QueueDownload(blob, filePath, checkMd5, OnDMJobStart, OnDMJobProgress, OnDMJobFinish, data);
 
             return await data.taskSource.Task;
         }

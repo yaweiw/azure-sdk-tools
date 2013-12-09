@@ -50,80 +50,80 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
             command = null;
         }
 
-        [TestMethod]
-        public void ListContainersByNameWithEmptyNameTest()
-        {
-            //List all the azure container
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
-            Assert.IsFalse(containerList.Any());
+        //[TestMethod]
+        //public void ListContainersByNameWithEmptyNameTest()
+        //{
+        //    //List all the azure container
+        //    IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
+        //    Assert.IsFalse(containerList.Any());
 
-            AddTestContainers();
+        //    AddTestContainers();
 
-            containerList = command.ListContainersByName(String.Empty);
-            Assert.AreEqual(5, containerList.Count());
-        }
+        //    containerList = command.ListContainersByName(String.Empty);
+        //    Assert.AreEqual(5, containerList.Count());
+        //}
 
-        [TestMethod]
-        public void ListContainersByNameWithWildCardsTest()
-        {
-            AddTestContainers();
+        //[TestMethod]
+        //public void ListContainersByNameWithWildCardsTest()
+        //{
+        //    AddTestContainers();
 
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("te*t");
-            Assert.AreEqual(2, containerList.Count());
+        //    IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("te*t");
+        //    Assert.AreEqual(2, containerList.Count());
 
-            containerList = command.ListContainersByName("tx*t");
-            Assert.IsFalse(containerList.Any());
+        //    containerList = command.ListContainersByName("tx*t");
+        //    Assert.IsFalse(containerList.Any());
 
-            containerList = command.ListContainersByName("t?st");
-            Assert.AreEqual(1, containerList.Count());
+        //    containerList = command.ListContainersByName("t?st");
+        //    Assert.AreEqual(1, containerList.Count());
             
-            Assert.AreEqual("test", containerList.First().Name);
-        }
+        //    Assert.AreEqual("test", containerList.First().Name);
+        //}
 
-        [TestMethod]
-        public void ListContainersByNameWithInvalidNameTest()
-        {
-            string invalidName = "a";
-            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName).ToList(),
-                String.Format(Resources.InvalidContainerName, invalidName));
-            invalidName = "xx%%d";
-            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName).ToList(),
-                String.Format(Resources.InvalidContainerName, invalidName));
-        }
+        //[TestMethod]
+        //public void ListContainersByNameWithInvalidNameTest()
+        //{
+        //    string invalidName = "a";
+        //    AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName).ToList(),
+        //        String.Format(Resources.InvalidContainerName, invalidName));
+        //    invalidName = "xx%%d";
+        //    AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName).ToList(),
+        //        String.Format(Resources.InvalidContainerName, invalidName));
+        //}
 
-        [TestMethod]
-        public void ListContainersByNameWithContainerNameTest()
-        {
-            AddTestContainers();
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("text");
-            Assert.AreEqual(1, containerList.Count());
-            Assert.AreEqual("text", containerList.First().Name);
-        }
+        //[TestMethod]
+        //public void ListContainersByNameWithContainerNameTest()
+        //{
+        //    AddTestContainers();
+        //    IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("text");
+        //    Assert.AreEqual(1, containerList.Count());
+        //    Assert.AreEqual("text", containerList.First().Name);
+        //}
 
-        [TestMethod]
-        public void ListContainersByNameWithNotExistingContainerTest()
-        {
-            string notExistingName = "abcdefg";
-            AssertThrows<ResourceNotFoundException>(() => command.ListContainersByName(notExistingName).ToList(),
-                String.Format(Resources.ContainerNotFound, notExistingName));
-        }
+        //[TestMethod]
+        //public void ListContainersByNameWithNotExistingContainerTest()
+        //{
+        //    string notExistingName = "abcdefg";
+        //    AssertThrows<ResourceNotFoundException>(() => command.ListContainersByName(notExistingName).ToList(),
+        //        String.Format(Resources.ContainerNotFound, notExistingName));
+        //}
 
-        [TestMethod]
-        public void ListContainersByPrefixTest()
-        {
-            AddTestContainers();
+        //[TestMethod]
+        //public void ListContainersByPrefixTest()
+        //{
+        //    AddTestContainers();
 
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByPrefix("te");
-            Assert.AreEqual(2, containerList.Count());
+        //    IEnumerable<CloudBlobContainer> containerList = command.ListContainersByPrefix("te");
+        //    Assert.AreEqual(2, containerList.Count());
             
-            containerList = command.ListContainersByPrefix("tes");
-            Assert.AreEqual(1, containerList.Count());
-            Assert.AreEqual("test", containerList.First().Name);
+        //    containerList = command.ListContainersByPrefix("tes");
+        //    Assert.AreEqual(1, containerList.Count());
+        //    Assert.AreEqual("test", containerList.First().Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerList = command.ListContainersByPrefix("testx");
-            Assert.IsFalse(containerList.Any());
-        }
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    containerList = command.ListContainersByPrefix("testx");
+        //    Assert.IsFalse(containerList.Any());
+        //}
 
         [TestMethod]
         public void ListContainerByPrefixWithInvalidPrefixTest()

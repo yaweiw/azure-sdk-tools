@@ -608,4 +608,7 @@ Failed: {2}.</value>
     <value>{0} task status :</value>
     <comment>0 for cmdlet name.</comment>
   </data>
+  <data name="BlobNameShouldBeEmptyWhenUploading" xml:space="preserve">
+    <value>Blob name should be empty when uploading multiple files.</value>
+  </data>
 </root>

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -66,20 +67,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// confirm the remove operation
-        /// </summary>
-        /// <param name="message">confirmation message</param>
-        /// <returns>true if the operation is confirmed by user, otherwise false</returns>
-        internal virtual bool ConfirmRemove(string message)
-        {
-            return ShouldProcess(message);
-        }
-
-        /// <summary>
         /// remove azure container by container name
         /// </summary>
         /// <param name="name">container name</param>
-        internal void RemoveAzureContainer(string name)
+        internal async Task RemoveAzureContainer(long taskId, string name)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -91,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
             CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
+            if (!await Channel.DoesContainerExistAsync(container, requestOptions, OperationContext, CmdletCancellationToken))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
@@ -99,9 +90,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             string result = string.Empty;
             bool removed = false;
 
-            if (force || ConfirmRemove(name))
+            if (force || await OutputStream.ConfirmAsyc(name))
             {
-                Channel.DeleteContainer(container, accessCondition, requestOptions, OperationContext);
+                await Channel.DeleteContainerAsync(container, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
                 removed = true;
             }
@@ -110,11 +101,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 result = String.Format(Resources.RemoveContainerCancelled, name);
             }
 
-            WriteVerbose(result);
+            OutputStream.WriteVerbose(taskId, result);
 
             if (PassThru)
             {
-                WriteObject(removed);
+                OutputStream.WriteObject(taskId, removed);
             }
         }
 
@@ -124,7 +115,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            RemoveAzureContainer(Name);
+            string localName = Name;
+            Func<long, Task> taskGenerator = (taskId) => RemoveAzureContainer(taskId, localName);
+            RunTask(taskGenerator);
         }
     }
 }

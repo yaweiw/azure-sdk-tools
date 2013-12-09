@@ -454,6 +454,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 //When task add to datamovement library, it will immediately start.
                 //So, we'd better output status at first.
                 OutputStream.Output();
+                WriteTransmitSummaryStatus();
             }
             while (!taskScheduler.WaitForComplete(WaitTimeout, CmdletCancellationToken));
 
@@ -466,6 +467,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         internal void RunTask(Func<long, Task> taskGenerator)
         {
             taskScheduler.RunTask(taskGenerator);
+        }
+
+        /// <summary>
+        /// Write transmit summary status
+        /// </summary>
+        protected virtual void WriteTransmitSummaryStatus()
+        {
+            string summary = String.Format(Resources.TransmitActiveSummary, taskScheduler.TotalTaskCount,
+                taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount);
+            summaryRecord.StatusDescription = summary;
+            WriteProgress(summaryRecord);
         }
 
         /// <summary>

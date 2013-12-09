@@ -124,6 +124,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blob name should be empty when uploading multiple files..
+        /// </summary>
+        internal static string BlobNameShouldBeEmptyWhenUploading {
+            get {
+                return ResourceManager.GetString("BlobNameShouldBeEmptyWhenUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not find blob &apos;{0}&apos; in container &apos;{1}&apos;..
         /// </summary>
         internal static string BlobNotFound {

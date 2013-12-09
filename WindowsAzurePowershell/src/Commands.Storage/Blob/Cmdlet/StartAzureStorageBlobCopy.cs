@@ -351,7 +351,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Record = null
             };
 
-            transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnCopyTaskFinish, null);
+            transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnCopyTaskFinish, data);
             await data.taskSource.Task;
         }
 

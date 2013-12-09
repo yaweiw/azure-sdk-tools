@@ -42,50 +42,50 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             command = null;
         }
 
-        [TestMethod]
-        public void CreateContainerWithInvalidContainerNameTest()
-        {
-            string name = String.Empty;
-            string accesslevel = StorageNouns.ContainerAclOff;
+        //[TestMethod]
+        //public void CreateContainerWithInvalidContainerNameTest()
+        //{
+        //    string name = String.Empty;
+        //    string accesslevel = StorageNouns.ContainerAclOff;
 
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
-                String.Format(Resources.InvalidContainerName, name));
+        //    AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+        //        String.Format(Resources.InvalidContainerName, name));
 
-            name = "a";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
-                String.Format(Resources.InvalidContainerName, name));
+        //    name = "a";
+        //    AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+        //        String.Format(Resources.InvalidContainerName, name));
 
-            name = "&*(";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
-                String.Format(Resources.InvalidContainerName, name));
-        }
+        //    name = "&*(";
+        //    AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+        //        String.Format(Resources.InvalidContainerName, name));
+        //}
 
-        [TestMethod]
-        public void CreateContainerForAlreadyExistsContainerTest()
-        {
-            AddTestContainers();
-            string name = "text";
-            string accesslevel = StorageNouns.ContainerAclOff;
+        //[TestMethod]
+        //public void CreateContainerForAlreadyExistsContainerTest()
+        //{
+        //    AddTestContainers();
+        //    string name = "text";
+        //    string accesslevel = StorageNouns.ContainerAclOff;
 
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
-                String.Format(Resources.ContainerAlreadyExists, name));
-        }
+        //    AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
+        //        String.Format(Resources.ContainerAlreadyExists, name));
+        //}
 
-        [TestMethod]
-        public void CreateContainerSuccessfullyTest()
-        {
-            string name = String.Empty;
-            string accesslevel = StorageNouns.ContainerAclOff;
+        //[TestMethod]
+        //public void CreateContainerSuccessfullyTest()
+        //{
+        //    string name = String.Empty;
+        //    string accesslevel = StorageNouns.ContainerAclOff;
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            name = "test";
-            AzureStorageContainer container = command.CreateAzureContainer(name, accesslevel);
-            Assert.AreEqual("test", container.Name);
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    name = "test";
+        //    AzureStorageContainer container = command.CreateAzureContainer(name, accesslevel);
+        //    Assert.AreEqual("test", container.Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
-                String.Format(Resources.ContainerAlreadyExists, name));
-        }
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
+        //        String.Format(Resources.ContainerAlreadyExists, name));
+        //}
 
         [TestMethod]
         public void ExcuteCommandNewContainerTest()

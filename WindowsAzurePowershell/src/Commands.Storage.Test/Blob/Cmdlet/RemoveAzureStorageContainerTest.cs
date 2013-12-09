@@ -46,55 +46,55 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             command = null;
         }
 
-        [TestMethod]
-        public void RemoveContainerWithInvalidContainerNameTest()
-        {
-            string name = "a*b";
-            AssertThrows<ArgumentException>(() => command.RemoveAzureContainer(name),
-                String.Format(Resources.InvalidContainerName, name));
-        }
+        //[TestMethod]
+        //public void RemoveContainerWithInvalidContainerNameTest()
+        //{
+        //    string name = "a*b";
+        //    AssertThrows<ArgumentException>(() => command.RemoveAzureContainer(name),
+        //        String.Format(Resources.InvalidContainerName, name));
+        //}
 
-        [TestMethod]
-        public void RemoveContainerForNotExistsContainerTest()
-        {
-            string name = "test";
-            AssertThrows<ResourceNotFoundException>(() => command.RemoveAzureContainer(name),
-                String.Format(Resources.ContainerNotFound, name));
-        }
+        //[TestMethod]
+        //public void RemoveContainerForNotExistsContainerTest()
+        //{
+        //    string name = "test";
+        //    AssertThrows<ResourceNotFoundException>(() => command.RemoveAzureContainer(name),
+        //        String.Format(Resources.ContainerNotFound, name));
+        //}
 
-        [TestMethod]
-        public void RemoveContainerCancelledTest()
-        {
-            AddTestContainers();
+        //[TestMethod]
+        //public void RemoveContainerCancelledTest()
+        //{
+        //    AddTestContainers();
 
-            string name = "test";
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            command.RemoveAzureContainer(name);
-            string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-            Assert.AreEqual(String.Format(Resources.RemoveContainerCancelled, name), result);
-        }
+        //    string name = "test";
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    command.RemoveAzureContainer(name);
+        //    string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
+        //    Assert.AreEqual(String.Format(Resources.RemoveContainerCancelled, name), result);
+        //}
 
-        [TestMethod]
-        public void RemoveContainerSuccessfullyTest()
-        {
-            AddTestContainers();
+        //[TestMethod]
+        //public void RemoveContainerSuccessfullyTest()
+        //{
+        //    AddTestContainers();
 
-            string name = "test";
+        //    string name = "test";
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            command.confirm = true;
-            command.RemoveAzureContainer(name);
-            string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-            Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    command.confirm = true;
+        //    command.RemoveAzureContainer(name);
+        //    string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
+        //    Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            name = "text";
-            command.Force = true;
-            command.confirm = false;
-            command.RemoveAzureContainer(name);
-            result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-            Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);            
-        }
+        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+        //    name = "text";
+        //    command.Force = true;
+        //    command.confirm = false;
+        //    command.RemoveAzureContainer(name);
+        //    result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
+        //    Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);            
+        //}
 
         [TestMethod]
         public void ExecuteCommandRemoveContainer()

@@ -43,6 +43,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public DateTimeOffset? LastModified { get; private set; }
 
         /// <summary>
+        /// Container continuation token
+        /// </summary>
+        public BlobContinuationToken ContinuationToken { get; set; }
+
+        /// <summary>
         /// init azure storage container using CloudBlobContainer and BlobContainerPermissions
         /// </summary>
         /// <param name="container">CloudBlobContainer object</param>

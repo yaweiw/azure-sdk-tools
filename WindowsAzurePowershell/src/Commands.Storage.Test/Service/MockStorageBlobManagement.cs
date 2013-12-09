@@ -508,5 +508,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         {
             throw new NotImplementedException();
         }
+
+
+        public System.Threading.Tasks.Task<BlobResultSegment> ListBlobsSegmentedAsync(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext, System.Threading.CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken continuationToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
