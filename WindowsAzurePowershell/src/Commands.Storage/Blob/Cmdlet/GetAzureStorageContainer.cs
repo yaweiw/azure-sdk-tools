@@ -54,6 +54,28 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Prefix { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "The max count of the containers that the listing operation should returned.")]
+        public int? MaxCount
+        {
+            get { return InternalMaxCount; }
+            set
+            {
+                if (value.Value <= 0)
+                {
+                    InternalMaxCount = int.MaxValue;
+                }
+                else
+                {
+                    InternalMaxCount = value.Value;
+                }
+            }
+        }
+
+        private int InternalMaxCount = int.MaxValue;
+
+        [Parameter(Mandatory = false, HelpMessage = "Continuation Token.")]
+        public BlobContinuationToken ContinuationToken { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the GetAzureStorageContainerCommand class.
         /// </summary>
@@ -76,9 +98,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="name">Container name pattern</param>
         /// <returns>An enumerable collection of cloudblob container</returns>
-        internal IEnumerable<CloudBlobContainer> ListContainersByName(string name)
+        internal IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> ListContainersByName(string name)
         {
-            ContainerListingDetails details = ContainerListingDetails.Metadata;
             string prefix = string.Empty;
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
@@ -86,7 +107,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
                 prefix = NameUtil.GetNonWildcardPrefix(name);
-                IEnumerable<CloudBlobContainer> containers = Channel.ListContainers(prefix, details, requestOptions, OperationContext);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
                 
@@ -95,12 +115,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     wildcard = new WildcardPattern(name, options);
                 }
 
-                foreach (CloudBlobContainer container in containers)
+                Func<CloudBlobContainer, bool> containerFilter = (container) => null == wildcard || wildcard.IsMatch(container.Name);
+                IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containers = ListContainersByPrefix(prefix);
+
+                foreach (var  containerInfo in containers)
                 {
-                    if (null == wildcard || wildcard.IsMatch(container.Name))
-                    {
-                        yield return container;
-                    }
+                    yield return containerInfo;
                 }
             }
             else
@@ -116,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 {
                     //fetch container attributes
                     Channel.FetchContainerAttributes(container, accessCondition, requestOptions, OperationContext);
-                    yield return container;
+                    yield return new Tuple<CloudBlobContainer, BlobContinuationToken>(container, null);
                 }
                 else
                 {
@@ -130,18 +150,46 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="prefix">Container name prefix</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
-        internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
+        internal IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> ListContainersByPrefix(string prefix, Func<CloudBlobContainer, bool> containerFilter = null)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             BlobRequestOptions requestOptions = RequestOptions;
 
-            if (!NameUtil.IsValidContainerPrefix(prefix))
+            if (!string.IsNullOrEmpty(prefix) && !NameUtil.IsValidContainerPrefix(prefix))
             {
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, prefix));
             }
 
-            IEnumerable<CloudBlobContainer> containers = Channel.ListContainers(prefix, details, requestOptions, OperationContext);
-            return containers;
+            int listCount = InternalMaxCount;
+            int MaxListCount = 5000;
+            int requestCount = MaxListCount;
+            int realListCount = 0;
+            BlobContinuationToken continuationToken = ContinuationToken;
+
+            do
+            {
+                requestCount = Math.Min(listCount, MaxListCount);
+                realListCount = 0;
+
+                ContainerResultSegment containerResult = Channel.ListContainersSegmented(prefix, details, requestCount, continuationToken, requestOptions, OperationContext);
+
+                foreach (CloudBlobContainer container in containerResult.Results)
+                {
+                    if (containerFilter == null || containerFilter(container))
+                    {
+                        yield return new Tuple<CloudBlobContainer, BlobContinuationToken>(container, containerResult.ContinuationToken);
+                        realListCount++;
+                    }
+                }
+
+                if (InternalMaxCount != int.MaxValue)
+                {
+                    listCount -= realListCount;
+                }
+
+                continuationToken = containerResult.ContinuationToken;
+            }
+            while (listCount > 0 && continuationToken != null);
         }
 
         /// <summary>
@@ -149,16 +197,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
-        internal void PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
+        internal void PackCloudBlobContainerWithAcl(IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList)
         {
             if (null == containerList)
             {
                 return;
             }
 
-            foreach (CloudBlobContainer container in containerList)
+            foreach (Tuple<CloudBlobContainer, BlobContinuationToken> containerInfo in containerList)
             {
-                Func<long, Task> generator = (taskId) => GetContainerPermission(taskId, container, Context);
+                Func<long, Task> generator = (taskId) => GetContainerPermission(taskId, containerInfo.Item1, Context, containerInfo.Item2);
                 RunTask(generator);
             }
         }
@@ -170,7 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="taskId">Task id</param>
         /// <param name="context">Azure storage context</param>
         /// <returns></returns>
-        internal async Task GetContainerPermission(long taskId, CloudBlobContainer container, AzureStorageContext context)
+        internal async Task GetContainerPermission(long taskId, CloudBlobContainer container, AzureStorageContext context, BlobContinuationToken continuationToken)
         {
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
@@ -178,6 +226,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     requestOptions, OperationContext, CmdletCancellationToken);
             AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
             azureContainer.Context = context;
+            azureContainer.ContinuationToken = continuationToken;
             OutputStream.WriteObject(taskId, azureContainer);
         }
 
@@ -187,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            IEnumerable<CloudBlobContainer> containerList = null;
+            IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList = null;
 
             if (PrefixParameterSet == ParameterSetName)
             {

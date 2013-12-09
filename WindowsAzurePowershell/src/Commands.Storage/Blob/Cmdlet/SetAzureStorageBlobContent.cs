@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using Model.Contract;
     using Model.ResourceModel;
+    using StorageBlob = WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// download blob from azure
@@ -139,7 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
         private Hashtable BlobMetadata = null;
 
-        private AzureBlobNameRequestResolver blobNameResolver = new AzureBlobNameRequestResolver();
+        private BlobUploadRequestQueue UploadRequests = new BlobUploadRequestQueue();
 
         /// <summary>
         /// Initializes a new instance of the SetAzureBlobContentCommand class.
@@ -199,138 +200,41 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         }
 
         /// <summary>
-        /// get blob name according to the relative file path
-        /// </summary>
-        /// <param name="filePath">absolute file path</param>
-        /// <returns>blob name</returns>
-        internal string GetBlobNameFromRelativeFilePath(string filePath)
-        {
-            string blobName = string.Empty;
-            string fileName = Path.GetFileName(filePath);
-            string dirPath = Path.GetDirectoryName(filePath).ToLower();
-
-            //if (string.IsNullOrEmpty(sendRootDir) || !dirPath.StartsWith(sendRootDir))
-            //{
-            //    //if sendRoot dir is empty or dir path is not sub folder of the sending root dir
-            //    //set the current dir as the root sending dir
-            //    sendRootDir = dirPath + Path.DirectorySeparatorChar;
-            //    blobName = fileName;
-            //}
-            //else
-            //{
-            //    blobName = filePath.Substring(sendRootDir.Length);
-            //}
-
-            return blobName;
-        }
-
-        /// <summary>
         /// set azure blob content
         /// </summary>
         /// <param name="fileName">local file path</param>
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name</param>
         /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        internal void SetAzureBlobContent(string fileName, string containerName, string blobName)
+        internal void SetAzureBlobContent(string fileName, string blobName)
         {
-            CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            SetAzureBlobContent(fileName, container, blobName);
-        }
+            BlobType type = StorageBlob.BlobType.BlockBlob;
 
-        /// <summary>
-        /// set azure blob content
-        /// </summary>
-        /// <param name="fileName">local file path</param>
-        /// <param name="container">destination container</param>
-        /// <param name="blobName">blob name</param>
-        /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        internal void SetAzureBlobContent(string fileName, CloudBlobContainer container, string blobName)
-        {
-            if (string.IsNullOrEmpty(fileName))
+            if (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(blobType) == PageBlobType)
             {
-                return;
+                type = StorageBlob.BlobType.PageBlob;
+            }
+            
+            if (!string.IsNullOrEmpty(blobName) && !NameUtil.IsValidBlobName(blobName))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            ValidatePipelineCloudBlobContainer(container);
-
-            if (string.IsNullOrEmpty(blobName))
-            {
-                blobName = Path.GetFileName(fileName);
-            }
-
-            ICloudBlob blob = default(ICloudBlob);
-
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(blobType))
-            {
-                case PageBlobType:
-                    blob = container.GetPageBlobReference(blobName);
-                    break;
-
-                case BlockBlobType:
-                default:
-                    blob = container.GetBlockBlobReference(blobName);
-                    break;
-            }
-
-            SetAzureBlobContent(fileName, blob);
-        }
-
-        /// <summary>
-        /// set azure blob
-        /// </summary>
-        /// <param name="fileName">local file name</param>
-        /// <param name="blob">destination blob</param>
-        /// <param name="isValidContainer">whether the destination container is validated</param>
-        /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        internal void SetAzureBlobContent(string fileName, ICloudBlob blob, bool isValidContainer = false)
-        {
             string filePath = GetFullSendFilePath(fileName);
 
-            if (String.IsNullOrEmpty(filePath))
+            bool isFile = UploadRequests.EnqueueRequest(filePath, type, blobName);
+
+            if (!isFile)
             {
-                return;
+                WriteWarning(String.Format(Resources.CannotSendDirectory, filePath));
             }
-
-            if (null == blob)
-            {
-                throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
-            }
-
-            blobNameResolver.Container = blob.Container;
-            blobNameResolver.Type = blob.BlobType;
-
-            if (blob.BlobType == WindowsAzure.Storage.Blob.BlobType.PageBlob)
-            {
-                long fileSize = new FileInfo(filePath).Length;
-                long pageBlobUnit = 512;
-                long remainder = fileSize % pageBlobUnit;
-
-                if (remainder != 0)
-                {
-                    //the blob size must be a multiple of 512 bytes.
-                    throw new ArgumentException(String.Format(Resources.InvalidPageBlobSize, filePath, fileSize));
-                }
-            }
-
-            if (!NameUtil.IsValidBlobName(blob.Name))
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidBlobName, blob.Name));
-            }
-
-            if (!isValidContainer)
-            {
-                ValidatePipelineCloudBlobContainer(blob.Container);
-            }
-
-            Console.WriteLine("Upload {0} to {1}", filePath, blob.Name);
-            blobNameResolver.AddFile(filePath);
         }
 
         protected override void EndProcessing()
         {
-            while (blobNameResolver.IsEmpty())
+            while (!UploadRequests.IsEmpty())
             {
-                Tuple<string, ICloudBlob> uploadRequest = blobNameResolver.GetFileAndBlobTuple();
+                Tuple<string, ICloudBlob> uploadRequest = UploadRequests.DequeueRequest();
                 Func<long, Task> taskGenerator = (taskId) => Upload2Blob(taskId, uploadRequest.Item1, uploadRequest.Item2);
                 RunTask(taskGenerator);
             }
@@ -340,7 +244,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
         //only support the common blob properties for block blob and page blob
         //http://msdn.microsoft.com/en-us/library/windowsazure/ee691966.aspx
-        private Dictionary<string, Action<BlobProperties, string>> validICloudBlobProperties = new Dictionary<string,Action<BlobProperties,string>>(StringComparer.OrdinalIgnoreCase)
+        private Dictionary<string, Action<BlobProperties, string>> validICloudBlobProperties =
+            new Dictionary<string,Action<BlobProperties,string>>(StringComparer.OrdinalIgnoreCase)
             {
                 {"CacheControl", (p, v) => p.CacheControl = v},
                 {"ContentEncoding", (p, v) => p.ContentEncoding = v},
@@ -484,21 +389,28 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 ValidateBlobProperties(BlobProperties);
             }
 
+            string containerName = string.Empty;
+
             switch (ParameterSetName)
             {
                 case ContainerParameterSet:
-                    SetAzureBlobContent(FileName, CloudBlobContainer, BlobName);
+                    SetAzureBlobContent(FileName, BlobName);
+                    containerName = CloudBlobContainer.Name;
                     break;
 
                 case BlobParameterSet:
-                    SetAzureBlobContent(FileName, ICloudBlob);
+                    SetAzureBlobContent(FileName, ICloudBlob.Name);
+                    containerName = ICloudBlob.Container.Name;
                     break;
 
                 case ManualParameterSet:
                 default:
-                    SetAzureBlobContent(FileName, ContainerName, BlobName);
+                    SetAzureBlobContent(FileName, BlobName);
+                    containerName = ContainerName;
                     break;
             }
+
+            UploadRequests.SetDestinationContainer(Channel, containerName);
         }
     }
 }

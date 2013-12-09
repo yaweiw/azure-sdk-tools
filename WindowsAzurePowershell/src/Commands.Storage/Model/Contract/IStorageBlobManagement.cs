@@ -38,6 +38,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
+        /// Get a list of cloudblobcontainer in azure
+        /// </summary>
+        /// <param name="prefix">Container prefix</param>
+        /// <param name="detailsIncluded">Container listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
+        ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken continuationToken, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
         /// Get container presssions
         /// </summary>
         /// <param name="container">A cloudblobcontainer object</param>
@@ -328,5 +338,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         Task SetBlobMetadataAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken);
+
+        /// <summary>
+        /// List the blobs segmented in specified containers
+        /// </summary>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing(whether treat "container/" as directory)</param>
+        /// <param name="blobListingDetails">Blob listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        Task<BlobResultSegment> ListBlobsSegmentedAsync(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken);
     }
 }

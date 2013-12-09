@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -71,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// create a new azure container
         /// </summary>
         /// <param name="name">container name</param>
-        internal AzureStorageContainer CreateAzureContainer(string name, string accesslevel)
+        internal async Task CreateAzureContainer(long taskId, string name, string accesslevel)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -79,15 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             }
 
             BlobRequestOptions requestOptions = RequestOptions;
-            AccessCondition accessCondition = null;
             CloudBlobContainer container = Channel.GetContainerReference(name);
-
-            bool created = Channel.CreateContainerIfNotExists(container, requestOptions, OperationContext);
-
-            if (!created)
-            {
-                throw new ResourceAlreadyExistException(String.Format(Resources.ContainerAlreadyExists, name));
-            }
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
             accessLevel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel);
@@ -107,18 +100,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     throw new ArgumentException(Resources.OnlyOnePermissionForContainer);
             }
 
-            if(accessLevel == StorageNouns.ContainerAclContainer || accessLevel == StorageNouns.ContainerAclBlob)
+            bool created = await Channel.CreateContainerIfNotExistsAsync(container, permissions.PublicAccess, requestOptions, OperationContext, CmdletCancellationToken);
+
+            if (!created)
             {
-                Channel.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
-            }
-            else
-            {
-                permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                throw new ResourceAlreadyExistException(String.Format(Resources.ContainerAlreadyExists, name));
             }
 
             AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
 
-            return azureContainer;
+            OutputStream.WriteObject(taskId, azureContainer);
         }
 
         /// <summary>
@@ -127,8 +118,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            AzureStorageContainer azureContainer = CreateAzureContainer(Name, accessLevel);
-            WriteObjectWithStorageContext(azureContainer);
+            Func<long, Task> taskGenerator = (taskId) => CreateAzureContainer(taskId, Name, accessLevel);
+            RunTask(taskGenerator);
         }
     }
 }

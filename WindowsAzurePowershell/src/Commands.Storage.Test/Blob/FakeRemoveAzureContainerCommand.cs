@@ -23,12 +23,5 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             : base(channel)
         {
         }
-
-        public bool confirm = false;
-
-        internal override bool ConfirmRemove(string message)
-        {
-            return confirm;
-        }
     }
 }

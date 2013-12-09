@@ -95,8 +95,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             OutputStream.AddOrUpdate(id, unit, (key, oldUnit) => 
                 {
                     //Merge data queue
-                    List<object> newDataQueue = unit.DataQueue.ToList();
-                    foreach (object data in newDataQueue)
+                    List<Tuple<OutputType, object>> newDataQueue = unit.DataQueue.ToList();
+                    foreach (var data in newDataQueue)
                     {
                         oldUnit.DataQueue.Enqueue(data);
                     }
@@ -277,19 +277,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 {
                     try
                     {
-                        object data = null;
+                        Tuple<OutputType, object> data = null;
                         while (unit.DataQueue.TryDequeue(out data))
                         {
-                            switch (unit.Type)
+                            switch (data.Item1)
                             {
                                 case OutputType.Object:
-                                    OutputWriter(data);
+                                    OutputWriter(data.Item2);
                                     break;
                                 case OutputType.Error:
-                                    ErrorWriter(data as Exception);
+                                    ErrorWriter(data.Item2 as Exception);
                                     break;
                                 case OutputType.Verbose:
-                                    VerboseWriter(data as string);
+                                    VerboseWriter(data.Item2 as string);
                                     break;
                             }
                         }
@@ -351,7 +351,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// Output list
             /// All the output unit which has the same output key will be merged in the OutputStream
             /// </summary>
-            public ConcurrentQueue<object> DataQueue;
+            public ConcurrentQueue<Tuple<OutputType, object>> DataQueue;
 
             /// <summary>
             /// Create an OutputUnit
@@ -361,8 +361,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             public OutputUnit(object data, OutputType type)
             {
                 Type = type;
-                DataQueue = new ConcurrentQueue<object>();
-                DataQueue.Enqueue(data);
+                DataQueue = new ConcurrentQueue<Tuple<OutputType, object>>();
+                DataQueue.Enqueue(new Tuple<OutputType, object>(type,data));
             }
         }
     }
