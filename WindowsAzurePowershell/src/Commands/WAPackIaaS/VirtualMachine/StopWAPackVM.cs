@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsLifecycle.Stop, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject)]
     public class StopWAPackVM : VMOperationsCmdlet
     {
-        [Parameter(Mandatory = false, ParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject, ValueFromPipelineByPropertyName = true, HelpMessage = "Shutdown an existing VirtualMachine.")]
+        [Parameter(Mandatory = false, ParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject, HelpMessage = "Shutdown an existing VirtualMachine.")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter Shutdown
         {
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (Shutdown.IsPresent)
             {

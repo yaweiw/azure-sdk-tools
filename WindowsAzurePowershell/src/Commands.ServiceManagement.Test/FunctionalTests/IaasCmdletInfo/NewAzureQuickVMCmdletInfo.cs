@@ -58,6 +58,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }               
         }
 
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize, string disableWinRMHttps)
+            : this(os, name, serviceName, imageName, userName, password, locationName, instanceSize)
+        {
+            if (!string.IsNullOrEmpty(disableWinRMHttps))
+            {
+
+                cmdletParams.Add(new CmdletParam("DisableWinRMHttps",disableWinRMHttps));
+            }
+
+        }
+
         public NewAzureQuickVMCmdletInfo(
 
             OS os,

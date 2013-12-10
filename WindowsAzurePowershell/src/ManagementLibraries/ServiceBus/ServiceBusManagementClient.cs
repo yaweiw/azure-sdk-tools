@@ -6120,8 +6120,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         Task<ServiceBusQueuesResponse> ListAsync(string namespaceName, CancellationToken cancellationToken);
         
         /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
+        /// Updates the queue description and makes a call to update
+        /// corresponding DB entries.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
         /// for more information)
         /// </summary>
@@ -6349,8 +6349,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         }
         
         /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
+        /// Updates the queue description and makes a call to update
+        /// corresponding DB entries.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
         /// for more information)
         /// </summary>
@@ -6381,8 +6381,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         }
         
         /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
+        /// Updates the queue description and makes a call to update
+        /// corresponding DB entries.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
         /// for more information)
         /// </summary>
@@ -7932,8 +7932,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus
         }
         
         /// <summary>
-        /// Updates the queue description and sends the updates status to the
-        /// FE/BE to update corresponding DB entries.  (see
+        /// Updates the queue description and makes a call to update
+        /// corresponding DB entries.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/jj856305.aspx
         /// for more information)
         /// </summary>

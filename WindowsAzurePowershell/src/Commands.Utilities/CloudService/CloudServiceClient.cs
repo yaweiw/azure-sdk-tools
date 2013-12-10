@@ -69,8 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             Start,
             Stop
         }
-
-        private void VerifyDeploymentExists(HostedServiceGetDetailedResponse cloudService, DeploymentSlot slot)
+        
+        private void VerifyDeploymentExists(HostedServiceGetDetailedResponse cloudService, DeploymentSlot slot, out string name)
         {
             bool exists = false;
 
@@ -79,18 +79,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 exists = cloudService.Deployments.Any(d => d.DeploymentSlot == slot );
             }
 
-            if (!exists)
+            if (exists)
+            {
+                name = cloudService.Deployments.First(d => d.DeploymentSlot == slot).Name;
+            }
+            else
             {
                 throw new Exception(string.Format(Resources.CannotFindDeployment, cloudService.ServiceName, slot));
             }
-            
         }
 
         private void SetCloudServiceState(string name, DeploymentSlot slot, CloudServiceState state)
         {
             HostedServiceGetDetailedResponse cloudService = GetCloudService(name);
 
-            VerifyDeploymentExists(cloudService, slot);
+            string deploymentName = null;
+            VerifyDeploymentExists(cloudService, slot, out deploymentName);
             ComputeClient.Deployments.UpdateStatusByDeploymentSlot(cloudService.ServiceName,
                 slot, new DeploymentUpdateStatusParameters
                 {
@@ -237,14 +241,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void UpgradeDeployment(PublishContext context)
+        private void UpgradeDeployment(PublishContext context, bool forceUpgrade)
         {
             var upgradeParams = new DeploymentUpgradeParameters
             {
                 Configuration = General.GetConfiguration(context.ConfigPath),
                 PackageUri = UploadPackage(context),
                 Label = context.ServiceName,
-                Mode = DeploymentUpgradeMode.Auto
+                Mode = DeploymentUpgradeMode.Auto,
+                Force = forceUpgrade
             };
 
             WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
@@ -346,12 +351,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
         }
 
-        private void DeleteDeploymentIfExists(string name, DeploymentSlot slot)
+        private void DeleteDeploymentIfExists(string name, DeploymentSlot slot, bool deleteFromStorage)
         {
-            if (DeploymentExists(name, slot))
+            string deploymentName = null;
+            if (DeploymentExists(name, slot, out deploymentName))
             {
+                var deploymentGetResponse = ComputeClient.Deployments.GetBySlot(name, slot);
+                if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
+                {
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                }
+
                 WriteVerboseWithTimestamp(Resources.RemoveDeploymentWaitMessage, slot, name);
-                TranslateException(() => ComputeClient.Deployments.DeleteBySlot(name, slot));
+                TranslateException(() => ComputeClient.Deployments.DeleteByName(name, deploymentName, deleteFromStorage));
             }   
         }
 
@@ -583,15 +595,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public bool DeploymentExists(string name = null, string slot = null)
         {
             DeploymentSlot deploymentSlot = GetSlot(slot);
-            return DeploymentExists(name, deploymentSlot);
+            string deploymentName = null;
+            return DeploymentExists(name, deploymentSlot, out deploymentName);
         }
 
-        private bool DeploymentExists(string name, DeploymentSlot slot)
+        private bool DeploymentExists(string name, DeploymentSlot slot, out string deploymentName)
         {
             HostedServiceGetDetailedResponse cloudService = GetCloudService(name);
+            deploymentName = null;
             try
             {
-                VerifyDeploymentExists(cloudService, slot);
+                VerifyDeploymentExists(cloudService, slot, out deploymentName);
                 return true;
             }
             catch (Exception)
@@ -642,6 +656,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="storageAccount">The storage account to store the package</param>
         /// <param name="deploymentName">The deployment name</param>
         /// <param name="launch">Launch the service after publishing</param>
+        /// <param name="forceUpgrade">force the service upgrade even if this would result in loss of any local data on the vm (for example, changing the vm size)</param>
         /// <returns>The created deployment</returns>
         public Deployment PublishCloudService(
             string name = null,
@@ -650,7 +665,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string affinityGroup = null,
             string storageAccount = null,
             string deploymentName = null,
-            bool launch = false)
+            bool launch = false,
+            bool forceUpgrade = false)
         {
             // Initialize publish context
             PublishContext context = CreatePublishContext(
@@ -704,7 +720,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
             {
                 // Upgrade the deployment
-                UpgradeDeployment(context);
+                UpgradeDeployment(context, forceUpgrade);
             }
             else
             {
@@ -883,20 +899,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             return cloudStorageAccount.ToString(true);
         }
-
+        
         /// <summary>
         /// Removes all deployments in the given cloud service and the service itself.
         /// </summary>
         /// <param name="name">The cloud service name</param>
         public void RemoveCloudService(string name)
         {
+            RemoveCloudService(name, false);
+        }
+
+        /// <summary>
+        /// Removes all deployments in the given cloud service and the service itself.
+        /// </summary>
+        /// <param name="name">The cloud service name</param>
+        /// <param name="deleteFromStorage">Indicates whether the underlying disk blob(s) should be deleted from storage.</param>
+        public void RemoveCloudService(string name, bool deleteFromStorage)
+        {
             var cloudService = GetCloudService(name);
 
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production);
-            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Production, deleteFromStorage);
+            DeleteDeploymentIfExists(cloudService.ServiceName, DeploymentSlot.Staging, deleteFromStorage);
 
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, cloudService.ServiceName));
-            TranslateException(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
+            if (deleteFromStorage)
+            {
+                TranslateException(() => ComputeClient.HostedServices.DeleteAll(cloudService.ServiceName));
+            }
+            else
+            {
+                TranslateException(() => ComputeClient.HostedServices.Delete(cloudService.ServiceName));
+            }
         }
     }
 }

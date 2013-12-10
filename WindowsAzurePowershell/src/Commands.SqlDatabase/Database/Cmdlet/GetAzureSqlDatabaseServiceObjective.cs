@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using SqlDatabase.Properties;
     using Services.Common;
     using Services.Server;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
@@ -27,29 +28,56 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         DefaultParameterSetName = "ByName")]
     public class GetAzureSqlDatabaseServiceObjective : PSCmdlet
     {
+        #region Parameter Sets
+
+        /// <summary>
+        /// The parameter set string for connecting with a connection context
+        /// </summary>
+        internal const string ByConnectionContext =
+            "ByConnectionContext";
+
+        /// <summary>
+        /// The parameter set string for connecting using azure subscription
+        /// </summary>
+        internal const string ByServerName =
+            "ByServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ParameterSetName = ByConnectionContext,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext Context { get; set; }
 
         /// <summary>
-        /// Gets or sets the database object to refresh.
+        /// Gets or sets the server namee upon which to operate
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByInputObject",
+        [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByServerName,
+            HelpMessage = "The name of the server to operate on")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the service objective object to refresh.
+        /// </summary>
+        [Parameter(Mandatory = false, 
             ValueFromPipeline = true, HelpMessage = "The Service Objective object to refresh.")]
         [ValidateNotNull]
         public ServiceObjective ServiceObjective { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the database to retrieve.
+        /// Gets or sets the name of the service objective to retrieve.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByName",
+        [Parameter(Mandatory = false, 
             HelpMessage = "The name of the Service Objective to retrieve.")]
         [ValidateNotNullOrEmpty]
         public string ServiceObjectiveName { get; set; }
@@ -61,35 +89,45 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
-            // Obtain the service objective name from the given parameters.
-            string serviceObjectiveName = null;
-            if (this.MyInvocation.BoundParameters.ContainsKey("ServiceObjective"))
+            IServerDataServiceContext context = null;
+            switch (this.ParameterSetName)
             {
-                serviceObjectiveName = this.ServiceObjective.Name;
-            }
-            else if (this.MyInvocation.BoundParameters.ContainsKey("ServiceObjectiveName"))
-            {
-                serviceObjectiveName = this.ServiceObjectiveName;
-            }
+                case ByConnectionContext:
+                    context = this.Context;
+                    break;
 
+                case ByServerName:
+                    context = ServerDataServiceCertAuth.Create(this.ServerName, WindowsAzureProfile.Instance.CurrentSubscription);
+                    break;
+            }
+            ProcessWithContext(context);
+        }
+
+        private void ProcessWithContext(IServerDataServiceContext context)
+        {
             try
             {
-                if (serviceObjectiveName != null)
+                if (this.ServiceObjectiveName != null)
                 {
                     // Retrieve the service objective with the specified name
-                    this.WriteObject(this.Context.GetServiceObjective(serviceObjectiveName));
+                    this.WriteObject(context.GetServiceObjective(this.ServiceObjectiveName));
+                }
+                else if (this.ServiceObjective != null)
+                {
+                    // Retrieve the latest service objective with the specified service objective
+                    this.WriteObject(context.GetServiceObjective(this.ServiceObjective));
                 }
                 else
                 {
                     // No name specified, retrieve all service objectives in the server
-                    this.WriteObject(this.Context.GetServiceObjectives(), true);
+                    this.WriteObject(context.GetServiceObjectives(), true);
                 }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    context.ClientRequestId,
                     ex);
             }
         }
