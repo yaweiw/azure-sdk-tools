@@ -24,9 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceExtensionImage"), OutputType(typeof(IEnumerable<ExtensionImageContext>))]
+    [Cmdlet(VerbsCommon.Get, AzureServiceExtensionImageCmdletNoun), OutputType(typeof(IEnumerable<ExtensionImageContext>))]
     public class GetAzureServiceExtensionImageCommand : ServiceManagementBaseCmdlet
     {
+        protected const string AzureServiceExtensionImageCmdletNoun = "AzureServiceExtensionImage";
+
         public void ExecuteCommand()
         {
             ExecuteClientActionNewSM(null,
