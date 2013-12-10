@@ -27,11 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Remove, ADDomainExtensionNoun, DefaultParameterSetName = RemoveByRolesParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        public RemoveAzureServiceADDomainExtensionCommand()
-            : base()
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = RemoveByRolesParameterSet, HelpMessage = ServiceNameHelpMessage)]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = RemoveAllRolesParameterSet, HelpMessage = ServiceNameHelpMessage)]
         public override string ServiceName

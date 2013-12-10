@@ -29,8 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string ADDomainExtensionNoun = "AzureServiceADDomainExtension";
         protected const string ADDomainExtensionConfigNoun = "AzureServiceADDomainExtensionConfig";
 
-        protected const string DomainParameterSet = "DomainName";
-        protected const string DomainThumbprintParameterSet = "DomainNameThumbprint";
+        protected const string DomainParameterSet = "JoinDomainUsingEnumOptions";
+        protected const string DomainThumbprintParameterSet = "JoinDomainUsingEnumOptionsAndThumbprint";
+        protected const string DomainJoinOptionParameterSet = "JoinDomainUsingJoinOption";
+        protected const string DomainJoinOptionThumbprintParameterSet = "JoinDomainUsingJoinOptionAndThumbprint";
         protected const string WorkgroupParameterSet = "WorkGroupName";
         protected const string WorkgroupThumbprintParameterSet = "WorkGroupNameThumbprint";
 
@@ -75,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        public virtual uint AdditionalOptions
+        public virtual uint JoinOption
         {
             set
             {
@@ -158,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             var config = Deserialize(ext.PublicConfiguration, typeof(PublicConfig)) as PublicConfig;
             return new ADDomainExtensionContext
             {
-                OperationId = op.RequestId,
+                OperationId = op.Id,
                 OperationDescription = CommandRuntime.ToString(),
                 OperationStatus = op.Status.ToString(),
                 Extension = ext.Type,
