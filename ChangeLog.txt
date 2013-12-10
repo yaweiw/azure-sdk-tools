@@ -1,4 +1,4 @@
-2013.12.05 Version 0.7.2
+﻿2013.12.10 Version 0.7.2
 * HDInsight cmdlets
   * Add-AzureHDInsightConfigValues
   * Add-AzureHDInsightMetastore
