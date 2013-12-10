@@ -1164,6 +1164,80 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Reset-AzureRoleInstanceTest with Reboot and Reimage paramaeters)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void ReSetAzureRoleInstanceTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow[2]);
+            string configName = Convert.ToString(TestContext.DataRow[3]);
+
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "file not exist={0}", configPath1);
+
+            string deploymentName = Utilities.GetUniqueShortName("ResetRoleInst",20);
+            string deploymentLabel = Utilities.GetUniqueShortName("ResetRoleInstDepLabel",20);
+            DeploymentInfoContext result;
+
+            try
+            {
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Staging, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                //Reboot the role instance
+                vmPowershellCmdlets.ReSet_AzureRoleInstance(serviceName, "WebRole1_IN_0", DeploymentSlotType.Staging, Reboot: true);
+                var deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
+                //verify that other instances are in ready state
+                string roleStatus = string.Empty;
+                foreach (var instance in deploymentContextInfo.RoleInstanceList)
+                {
+                    if (instance.InstanceName.Equals("WebRole1_IN_1"))
+                    {
+                        roleStatus = instance.InstanceStatus;
+                        break;
+                    }
+                }
+                pass = roleStatus == "ReadyRole" ? true : false;
+
+                //Reimage the role instance
+                vmPowershellCmdlets.ReSet_AzureRoleInstance(serviceName, "WebRole1_IN_1", DeploymentSlotType.Staging, Reimage: true);
+                //verify that other instances are in ready state
+                deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
+                roleStatus = string.Empty;
+                foreach (var instance in deploymentContextInfo.RoleInstanceList)
+                {
+                    if (instance.InstanceName.Equals("WebRole1_IN_0"))
+                    {
+                        roleStatus = instance.InstanceStatus;
+                        break;
+                    }
+                }
+                pass = roleStatus == "ReadyRole" ? true : false;
+
+                
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+                //Ceanup service
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Staging);
+            }
+        }
 
         /// <summary>
         /// Deploy an IaaS VM with Domain Join
