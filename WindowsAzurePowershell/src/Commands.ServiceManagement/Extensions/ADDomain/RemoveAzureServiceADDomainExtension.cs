@@ -14,10 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using Properties;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 

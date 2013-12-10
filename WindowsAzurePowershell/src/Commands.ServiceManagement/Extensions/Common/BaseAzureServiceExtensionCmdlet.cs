@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Net;
     using System.Security;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
@@ -59,7 +58,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected string PublicConfiguration { get; set; }
         protected string PrivateConfiguration { get; set; }
         protected DeploymentGetResponse Deployment { get; set; }
-        //protected Deployment Deployment { get; set; }
 
         public virtual string ServiceName { get; set; }
         public virtual string Slot { get; set; }
