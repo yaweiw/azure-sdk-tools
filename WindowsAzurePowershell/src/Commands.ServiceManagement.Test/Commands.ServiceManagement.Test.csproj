@@ -274,6 +274,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\WinRMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
@@ -296,6 +297,10 @@
     <Compile Include="FunctionalTests\PIRCmdletInfo\SetAzurePlatformVMImage.cs" />
     <Compile Include="FunctionalTests\PIRTest.cs" />
     <Compile Include="FunctionalTests\PowershellCore\PowershellCmdletScript.cs" />
+    <Compile Include="FunctionalTests\PreviewCmdletInfo\GetAzureReservedIPCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PreviewCmdletInfo\NewAzureReservedIPCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PreviewCmdletInfo\RemoveAzureReservedIPCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\ReservedIPTest.cs" />
     <Compile Include="FunctionalTests\SaveAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\ScenarioTest.cs" />
     <Compile Include="FunctionalTests\ServiceManagementCmdletTestHelper.cs">
@@ -376,22 +381,22 @@
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
     <None Include="Resources\wrongPara_VHD.csv" />
-    <None Include="VhdFiles\dynamic_50.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\dynamic_50_child01.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50_child01.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\dynamic_50_child02.vhd">
+    <None Include="vendor\VhdFiles\dynamic_50_child02.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50.vhd">
+    <None Include="vendor\VhdFiles\fixed_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50_child01.vhd">
+    <None Include="vendor\VhdFiles\fixed_50_child01.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VhdFiles\fixed_50_child02.vhd">
+    <None Include="vendor\VhdFiles\fixed_50_child02.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -419,6 +424,10 @@
     <ProjectReference Include="..\Commands.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj">
       <Project>{6478fa8b-3801-4863-8591-87f0855d5c82}</Project>
       <Name>Commands.ServiceManagement.PlatformImageRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj">
+      <Project>{e895bbda-0b06-46ab-b909-9b97b3ece47e}</Project>
+      <Name>Commands.ServiceManagement.Preview</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>

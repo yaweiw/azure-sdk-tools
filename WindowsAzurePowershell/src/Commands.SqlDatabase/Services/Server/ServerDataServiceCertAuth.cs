@@ -15,9 +15,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
@@ -205,7 +207,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             int? databaseMaxSizeInGB,
             string databaseCollation,
-            DatabaseEdition databaseEdition)
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective)
         {
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 
@@ -223,7 +226,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         databaseEdition.ToString() : DatabaseEdition.Web.ToString(),
                     CollationName = databaseCollation ?? string.Empty,
                     MaximumDatabaseSizeInGB = databaseMaxSizeInGB ??
-                        (databaseEdition == DatabaseEdition.Business ? 10 : 1),
+                        (databaseEdition == DatabaseEdition.Business || databaseEdition == DatabaseEdition.Premium ? 10 : 1),
+                    ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
                 });
 
             // Construct the resulting Database object
@@ -303,21 +307,90 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #region Service Objective Operations
 
+        /// <summary>
+        /// Retrieves the list of all service objectives on the server.
+        /// </summary>
+        /// <returns>An array of all service objectives on the server.</returns>
         public ServiceObjective[] GetServiceObjectives()
         {
-            throw new NotSupportedException();
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified database
+            ServiceObjectiveListResponse response = sqlManagementClient.ServiceObjectives.List(
+                this.serverName);
+
+            // Construct the resulting Database object
+            ServiceObjective[] serviceObjectives = response.Select(serviceObjective => CreateServiceObjectiveFromResponse(serviceObjective)).ToArray();
+            return serviceObjectives;
         }
 
+        /// <summary>
+        /// Retrieve information on service objective with the specified name
+        /// </summary>
+        /// <param name="serviceObjectiveName">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
         public ServiceObjective GetServiceObjective(string serviceObjectiveName)
         {
-            throw new NotSupportedException();
+            ServiceObjective serviceObjective = GetServiceObjectives()
+                .Where(s => s.Name == serviceObjectiveName)
+                .FirstOrDefault();
+            if (serviceObjective == null)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.ServiceObjectiveNotFound,
+                        this.ServerName,
+                        serviceObjectiveName));
+            }
+            return serviceObjective;
         }
 
+        /// <summary>
+        /// Retrieve information on latest service objective with service objective
+        /// </summary>
+        /// <param name="serviceObjective">The service objective to refresh.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        public ServiceObjective GetServiceObjective(ServiceObjective serviceObjectiveToRefresh)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified database
+            ServiceObjectiveGetResponse response = sqlManagementClient.ServiceObjectives.Get(
+                this.serverName,
+                serviceObjectiveToRefresh.Id.ToString());
+
+            // Construct the resulting Database object
+            ServiceObjective serviceObjective = CreateServiceObjectiveFromResponse(response);
+            return serviceObjective;
+        }
+
+        /// <summary>
+        /// Get a specific quota for a server
+        /// </summary>
+        /// <param name="quotaName">The name of the quota to retrieve</param>
+        /// <returns>A quota object.</returns>
         public ServerQuota GetQuota(string quotaName)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Get a list of all quotas for a server
+        /// </summary>
+        /// <returns>An array of server quota objects</returns>
         public ServerQuota[] GetQuotas()
         {
             throw new NotSupportedException();
@@ -325,9 +398,225 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Database Operation Functions
+
+        /// <summary>
+        /// Retrieve information on operation with the guid 
+        /// </summary>
+        /// <param name="OperationGuid">The Guid of the operation to retrieve.</param>
+        /// <returns>An object containing the information about the specific operation.</returns>
+        public DatabaseOperation GetDatabaseOperation(Guid OperationGuid)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified Operation
+            DatabaseOperationGetResponse response = sqlManagementClient.DatabaseOperations.Get(
+                this.serverName,
+                OperationGuid.ToString());
+
+            // Construct the resulting Operation object
+            DatabaseOperation operation = CreateDatabaseOperationFromResponse(response);
+            return operation;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all operations on the database.
+        /// </summary>
+        /// <param name="databaseName">The name of database to retrieve operations.</param>
+        /// <returns>An array of all operations on the database.</returns>
+        public DatabaseOperation[] GetDatabaseOperations(string databaseName)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve all operations on specified database
+            DatabaseOperationListResponse response = sqlManagementClient.DatabaseOperations.ListByDatabase(
+                this.serverName,
+                databaseName);
+
+            // For any database which has ever been created, there should be at least one operation
+            if (response.Count() == 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.DatabaseOperationNotFoundOnDatabase,
+                        this.ServerName,
+                        databaseName));
+            }
+
+            // Construct the resulting database operations
+            DatabaseOperation[] operations = response.Select(operation => CreateDatabaseOperationsFromResponse(operation)).ToArray();
+            return operations;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all databases' operations on the server.
+        /// </summary>
+        /// <returns>An array of all operations on the server.</returns>
+        public DatabaseOperation[] GetDatabasesOperations()
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the operations on specified server 
+            // We do not validate the number of operations returned since it's possible that there is no 
+            // database operations on a new created server.
+            DatabaseOperationListResponse response = sqlManagementClient.DatabaseOperations.ListByServer(
+                this.serverName);
+
+            // Construct the resulting database operations array
+            DatabaseOperation[] operations = response.Select(operation => CreateDatabaseOperationsFromResponse(operation)).ToArray();
+            return operations;
+        }
+
+        #endregion
+
         #endregion
 
         #region Helper functions
+
+        private DimensionSetting CreateDimensionSettings(string name, string id, string description, byte ordinal, bool isDefault)
+        {
+            return new DimensionSetting()
+            {
+                Name = name,
+                Id = Guid.Parse(id),
+                Description = description,
+                Ordinal = ordinal,
+                IsDefault = isDefault
+            };
+        }
+
+        private Collection<DimensionSetting> CreateDimensionSettingsFromResponse(IList<ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse> dimensionSettingsList)
+        {
+            Collection<DimensionSetting> result = new Collection<DimensionSetting>();
+            foreach (var response in dimensionSettingsList)
+            {
+                result.Add(CreateDimensionSettings(
+                    response.Name,
+                    response.Id,
+                    response.Description,
+                    response.Ordinal,
+                    response.IsDefault
+                    ));
+            }
+            return result;
+        }
+
+        private Collection<DimensionSetting> CreateDimensionSettingsFromResponse(IList<ServiceObjectiveGetResponse.DimensionSettingResponse> dimensionSettingsList)
+        {
+            Collection<DimensionSetting> result = new Collection<DimensionSetting>();
+            foreach (var response in dimensionSettingsList)
+            {
+                result.Add(CreateDimensionSettings(
+                    response.Name,
+                    response.Id,
+                    response.Description,
+                    response.Ordinal,
+                    response.IsDefault
+                    ));
+            }
+            return result;
+        }
+
+        private ServiceObjective CreateServiceObjectiveFromResponse(ServiceObjectiveListResponse.ServiceObjective response)
+        {
+            return new ServiceObjective()
+            {
+                Name = response.Name,
+                Id = Guid.Parse(response.Id),
+                IsDefault = response.IsDefault,
+                IsSystem = response.IsSystem,
+                Enabled = response.Enabled,
+                Description = response.Description,
+                Context = this,
+                DimensionSettings = CreateDimensionSettingsFromResponse(response.DimensionSettings)
+            };
+        }
+
+        private ServiceObjective CreateServiceObjectiveFromResponse(ServiceObjectiveGetResponse response)
+        {
+            return new ServiceObjective()
+            {
+                Name = response.Name,
+                Id = Guid.Parse(response.Id),
+                IsDefault = response.IsDefault,
+                IsSystem = response.IsSystem,
+                Enabled = response.Enabled,
+                Description = response.Description,
+                Context = this,
+                DimensionSettings = CreateDimensionSettingsFromResponse(response.DimensionSettings)
+            };
+        }
+
+        private DatabaseOperation CreateDatabaseOperation(string name, string state, string id, int stateId, string sessionActivityId, string databaseName, int percentComplete, int errorCode, string error, int errorSeverity, int errorState, DateTime startTime, DateTime lastModifyTime)
+        {
+            return new DatabaseOperation()
+            {
+                Name = name,
+                State = state,
+                Id = Guid.Parse(id),
+                StateId = stateId,
+                SessionActivityId = Guid.Parse(sessionActivityId),
+                DatabaseName = databaseName,
+                PercentComplete = percentComplete,
+                ErrorCode = errorCode,
+                Error = error,
+                ErrorSeverity = errorSeverity,
+                ErrorState = errorState,
+                StartTime = startTime,
+                LastModifyTime = lastModifyTime,
+            };
+        }
+
+        private DatabaseOperation CreateDatabaseOperationFromResponse(DatabaseOperationGetResponse response)
+        {
+            return CreateDatabaseOperation(
+                    response.Name,
+                    response.State,
+                    response.Id,
+                    response.StateId,
+                    response.SessionActivityId,
+                    response.DatabaseName,
+                    response.PercentComplete,
+                    response.ErrorCode,
+                    response.Error,
+                    response.ErrorSeverity,
+                    response.ErrorState,
+                    response.StartTime,
+                    response.LastModifyTime
+                    );
+        }
+
+        private DatabaseOperation CreateDatabaseOperationsFromResponse(DatabaseOperationListResponse.DatabaseOperation response)
+        {
+            return CreateDatabaseOperation(
+                    response.Name,
+                    response.State,
+                    response.Id,
+                    response.StateId,
+                    response.SessionActivityId,
+                    response.DatabaseName,
+                    response.PercentComplete,
+                    response.ErrorCode,
+                    response.Error,
+                    response.ErrorSeverity,
+                    response.ErrorState,
+                    response.StartTime,
+                    response.LastModifyTime
+                    );
+        }
 
         /// <summary>
         /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 

@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected string GetDeploymentServiceName { get; set; }
 
-        internal virtual void ExecuteCommand()
+        protected virtual void ExecuteCommand()
         {
             if (!string.IsNullOrEmpty(ServiceName))
             {
@@ -69,10 +69,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         GetDeploymentOperationNewSM = GetOperationNewSM(CurrentDeploymentNewSM.RequestId);
                         WriteVerboseWithTimestamp(Resources.GetDeploymentCompletedOperation);
                     }
-                    catch (Exception e)
+                    catch (CloudException ex)
                     {
-                        var we = e.InnerException as WebException;
-                        if (we != null && ((HttpWebResponse)we.Response).StatusCode != HttpStatusCode.NotFound)
+                        if (ex.Response.StatusCode != HttpStatusCode.NotFound)
                         {
                             throw;
                         }
@@ -108,10 +107,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     {
                         d = this.ComputeClient.Deployments.GetBySlot(ServiceName, DeploymentSlot.Production);
                     }
-                    catch (Exception e)
+                    catch (CloudException ex)
                     {
-                        var we = e.InnerException as WebException;
-                        if (we != null && ((HttpWebResponse)we.Response).StatusCode != HttpStatusCode.NotFound)
+                        if (ex.Response.StatusCode != HttpStatusCode.NotFound)
                         {
                             throw;
                         }

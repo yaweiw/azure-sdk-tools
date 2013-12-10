@@ -314,7 +314,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
-            DatabaseEdition databaseEdition)
+            DatabaseEdition databaseEdition,
+            ServiceObjective serviceObjective)
         {
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
@@ -337,6 +338,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             {
                 database.Edition = databaseEdition.ToString();
             }
+
+            if (serviceObjective != null)
+            {
+                database.ServiceObjectiveId = serviceObjective.Id;
+            }
+            else
+            {
+                database.ServiceObjectiveId = null;
+            }
+
 
             // Save changes
             this.AddToDatabases(database);
@@ -459,6 +470,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             {
                 database.ServiceObjectiveId = serviceObjective.Id;
             }
+            else
+            {
+                database.ServiceObjectiveId = null;
+            }
 
             // Mark the database object for update and submit the changes
             this.UpdateObject(database);
@@ -559,6 +574,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
 
         /// <summary>
+        /// Retrieve information on latest service objective with service objective
+        /// <paramref name="serviceObjectives"/>.
+        /// </summary>
+        /// <param name="serviceObjective">The service objective to retrieve.</param>
+        /// <returns>
+        /// An object containing the information about the specific service objective.
+        /// </returns>
+        public ServiceObjective GetServiceObjective(ServiceObjective serviceObjective)
+        {
+            return this.GetServiceObjective(serviceObjective.Name);
+        }
+
+        /// <summary>
         /// Gets a quota for a server
         /// </summary>
         /// <param name="quotaName">The name of the quota to retrieve</param>
@@ -603,6 +631,70 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Get/Stop Database Operations
+
+        /// <summary>
+        /// Retrieve information on operation with the guid 
+        /// </summary>
+        /// <param name="OperationGuid">The Guid of the operation to retrieve.</param>
+        /// <returns>An object containing the information about the specific operation.</returns>
+        public DatabaseOperation GetDatabaseOperation(Guid OperationGuid)
+        {
+            DatabaseOperation operation;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                operation = this.DatabaseOperations.Where(op => op.Id == OperationGuid).FirstOrDefault();
+            }
+
+            return operation;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all operations on the database.
+        /// </summary>
+        /// <param name="databaseName">The name of database to retrieve operations.</param>
+        /// <returns>An array of all operations on the database.</returns>
+        public DatabaseOperation[] GetDatabaseOperations(string databaseName)
+        {
+            DatabaseOperation[] operations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                operations = this.DatabaseOperations.Where(operation => operation.DatabaseName == databaseName).ToArray();
+                if (operations.Count() == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseOperationNotFoundOnDatabase,
+                            this.ServerName,
+                            databaseName));
+                }
+            }
+
+            return operations;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all databases' operations on the server.
+        /// </summary>
+        /// <returns>An array of all operations on the server.</returns>
+        public DatabaseOperation[] GetDatabasesOperations()
+        {
+            DatabaseOperation[] operations;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // We do not validate the number of operations returned since it's possible that there is no 
+                // database operations on a new created server.
+                operations = this.DatabaseOperations.ToArray();
+            }
+
+            return operations;
+        }
+        #endregion
+        
         #endregion
 
         /// <summary>

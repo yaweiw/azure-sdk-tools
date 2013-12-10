@@ -113,6 +113,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Hadoop.Client, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.2.0\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -123,6 +135,26 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.0.2.0\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.2.0\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.2.0\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.1.1308.2321, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.1.1308.2321\lib\net40\Moq.dll</HintPath>
@@ -158,6 +190,10 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -179,6 +215,43 @@
     <Compile Include="Common\MockServicesHost.cs" />
     <Compile Include="Common\MockStorageService.cs" />
     <Compile Include="Common\TestDirBuilder.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\CommandAbstraction.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\PipelineAbstraction.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\PipelineResultsAbstraction.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\RunspaceAbstraction.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Disposable\DisposableObject.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Disposable\InterlockedBoolean.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Disposable\IQueryDisposable.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Interfaces\ICommand.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Interfaces\IPipeline.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Interfaces\IPipelineResult.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Interfaces\IRunspace.cs" />
+    <Compile Include="HDInsight\PowerShellTestAbstraction\Interfaces\IRunspaceBase.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightClusterManagementClientSimulator.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightClusterManagementClientSimulatorFactory.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightConnectionSessionManagerSimulator.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightConnectionSessionManagerSimulatorFactory.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightJobSubmissionClientSimulator.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightJobSubmissionClientSimulatorFactory.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightStorageHandlerSimulator.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightStorageHandlerSimulatorFactory.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightSubscriptionResolverSimulator.cs" />
+    <Compile Include="HDInsight\Simulators\AzureHDInsightSubscriptionResolverSimulatorFactory.cs" />
+    <Compile Include="HDInsight\Simulators\BufferingLogWriterFactory.cs" />
+    <Compile Include="HDInsight\Simulators\FakeAccessToken.cs" />
+    <Compile Include="HDInsight\Simulators\FakeAccessTokenProvider.cs" />
+    <Compile Include="HDInsight\Simulators\HDInsightSDKSupportedVersions.cs" />
+    <Compile Include="HDInsight\Simulators\Types\ErrorDetails.cs" />
+    <Compile Include="HDInsight\Simulators\Types\UserChangeOperationState.cs" />
+    <Compile Include="HDInsight\Simulators\Types\UserChangeOperationType.cs" />
+    <Compile Include="HDInsight\Simulators\Types\UserType.cs" />
+    <Compile Include="HDInsight\Utilities\AzureTestCredentials.cs" />
+    <Compile Include="HDInsight\Utilities\IntegrationTestBase.cs" />
+    <Compile Include="HDInsight\Utilities\IntegrationTestManager.cs" />
+    <Compile Include="HDInsight\Utilities\Logger.cs" />
+    <Compile Include="HDInsight\Utilities\TaskExtensions.cs" />
+    <Compile Include="HDInsight\Utilities\TestConstants.cs" />
+    <Compile Include="HDInsight\Utilities\UserChangeOperationStatusResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

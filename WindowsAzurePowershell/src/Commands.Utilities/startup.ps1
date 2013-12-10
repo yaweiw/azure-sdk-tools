@@ -53,3 +53,8 @@ New-Alias Remove-WAPackSBNamespace Remove-AzureSBNamespace
 New-Alias Get-AzureStorageContainerAcl Get-AzureStorageContainer
 New-Alias Start-CopyAzureStorageBlob Start-AzureStorageBlobCopy
 New-Alias Stop-CopyAzureStorageBlob Stop-AzureStorageBlobCopy
+
+# HDInsight alias
+
+New-Alias Invoke-Hive Invoke-AzureHDInsightHiveJob
+New-Alias hive Invoke-AzureHDInsightHiveJob

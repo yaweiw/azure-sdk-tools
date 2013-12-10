@@ -272,5 +272,73 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 }
             }
         }
+
+        [TestMethod]
+        public void SetAzureSqlPremiumDatabaseServiceObjectiveWithSqlAuth()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.SetAzureSqlPremiumDatabaseServiceObjectiveWithSqlAuth");
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);                
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    // Create context with both ManageUrl and ServerName overriden
+                    Collection<PSObject> database, premiumDB;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        powershell.InvokeBatchScript(
+                            @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
+                            @" -Context $context" +
+                            @" -ServiceObjectiveName ""Reserved P1""");
+
+                        powershell.InvokeBatchScript(
+                            @"$premiumDB_P1 = New-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Edition Premium " +
+                            @"-ServiceObjective $P1 ");
+
+                        premiumDB = powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Edition Business " +
+                            @"-Force " +
+                            @"-PassThru");
+
+                        powershell.InvokeBatchScript(
+                            @"Remove-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName SetAzureSqlPremiumDatabaseTests_P1 " +
+                            @"-Force ");
+                    }
+
+                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                    powershell.Streams.ClearStreams();
+
+                   
+                    Assert.IsTrue(
+                        premiumDB.Single().BaseObject is Services.Server.Database,
+                        "Expecting a Database object");
+                    Services.Server.Database premiumDBObj =
+                        (Services.Server.Database)premiumDB.Single().BaseObject;
+
+                    Assert.AreEqual("SetAzureSqlPremiumDatabaseTests_P1", premiumDBObj.Name, "Expected db name to be SetAzureSqlPremiumDatabaseTests_P1");
+                    Assert.AreEqual("Business", premiumDBObj.Edition, "Expected db edition to be Business");
+                    Assert.AreEqual("Shared", premiumDBObj.ServiceObjective.Name, "Expected db ServiceObjective to be Shared");
+                }
+            }
+        }
     }
 }

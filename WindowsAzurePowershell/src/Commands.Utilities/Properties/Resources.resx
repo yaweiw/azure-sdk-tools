@@ -640,7 +640,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.1.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.2.xml</value>
   </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
@@ -1320,7 +1320,7 @@ Please follow these steps in the portal:
     <value>Account removed.</value>
   </data>
   <data name="EndPointNotFoundForBlobStorage" xml:space="preserve">
-    <value>EndPoint can't be retrieved for storage account</value>
+    <value>Endpoint can't be retrieved for storage account</value>
   </data>
   <data name="CannotUpdateUnknownSubscription" xml:space="preserve">
     <value>The subscription named {0} with id {1} is not currently imported. You must import this subscription before it can be updated.</value>
@@ -1454,5 +1454,8 @@ Please follow these steps in the portal:
   <data name="Restart" xml:space="preserve">
     <value>Restart</value>
     <comment>WAPackIaaS</comment>
+  </data>
+  <data name="ReservedIPNameNoLongerInUseButStillBeingReserved" xml:space="preserve">
+    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted, and it is still reserved for later use.</value>
   </data>
 </root>
