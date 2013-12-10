@@ -198,13 +198,13 @@
     <Compile Include="AffinityGroups\GetAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
+    <Compile Include="Extensions\ADDomain\ADPrivateSchema.cs" />
+    <Compile Include="Extensions\ADDomain\ADPublicSchema.cs" />
     <Compile Include="Extensions\ADDomain\BaseAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\ADDomain\ADDomainExtensionContext.cs" />
     <Compile Include="Extensions\ADDomain\GetAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\ADDomain\JoinOptions.cs" />
     <Compile Include="Extensions\ADDomain\NewAzureServiceADDomainExtensionConfig.cs" />
-    <Compile Include="Extensions\ADDomain\PrivateSchema.cs" />
-    <Compile Include="Extensions\ADDomain\PublicSchema.cs" />
     <Compile Include="Extensions\ADDomain\RemoveAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\ADDomain\SetAzureServiceDomainExtension.cs" />
     <Compile Include="Extensions\Common\ExtensionContext.cs" />
@@ -218,56 +218,56 @@
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
-    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\BaseAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\BaseAzureServiceExtensionCmdlet.cs">
+    <Compile Include="Extensions\Common\BaseAzureServiceExtensionCmdlet.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\BaseAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\DiagnosticsExtensionContext.cs">
+    <Compile Include="Extensions\Diagnostics\DiagnosticsExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionConfigurationBuilder.cs">
+    <Compile Include="Extensions\Common\ExtensionConfigurationBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionConfigurationInput.cs">
+    <Compile Include="Extensions\Common\ExtensionConfigurationInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionManager.cs">
+    <Compile Include="Extensions\Common\ExtensionManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionRole.cs">
+    <Compile Include="Extensions\Common\ExtensionRole.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionRoleList.cs" />
-    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Common\ExtensionRoleList.cs" />
+    <Compile Include="Extensions\Diagnostics\GetAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\GetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs">
+    <Compile Include="Extensions\Diagnostics\NewAzureServiceDiagnosticsExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs">
+    <Compile Include="Extensions\RDP\NewAzureServiceRemoteDesktopExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoteDesktopExtensionContext.cs">
+    <Compile Include="Extensions\RDP\RemoteDesktopExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\RemoveAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\RemoveAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\SetAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\SetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\CertUtils.cs" />
@@ -409,13 +409,13 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Extensions\ADDomain\PrivateSchema.xsd">
+    <None Include="Extensions\ADDomain\ADBuildSchema.cmd" />
+    <None Include="Extensions\ADDomain\ADPrivateSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Extensions\ADDomain\PublicSchema.xsd">
+    <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Extensions\ADDomain\XsdGenCode.cmd" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>

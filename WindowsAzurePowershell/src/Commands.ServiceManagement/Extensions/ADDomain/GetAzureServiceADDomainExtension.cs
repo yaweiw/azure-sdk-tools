@@ -27,11 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Get, ADDomainExtensionNoun), OutputType(typeof(IEnumerable<ADDomainExtensionContext>))]
     public class GetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        public GetAzureServiceADDomainExtensionCommand()
-            : base()
-        {
-        }
-
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ServiceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ServiceName

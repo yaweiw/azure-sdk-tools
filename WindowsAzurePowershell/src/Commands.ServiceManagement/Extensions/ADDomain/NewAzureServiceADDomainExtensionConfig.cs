@@ -27,15 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.New, ADDomainExtensionConfigNoun, DefaultParameterSetName = DomainParameterSet), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceADDomainExtensionConfigCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        public NewAzureServiceADDomainExtensionConfigCommand()
-            : base()
-        {
-        }
-
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = RoleHelpMessage)]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = RoleHelpMessage)]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = RoleHelpMessage)]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = RoleHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = RoleHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -44,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = X509CertificateHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet, HelpMessage = X509CertificateHelpMessage)]
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = X509CertificateHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
@@ -53,6 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
@@ -61,10 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = ThumbprintAlgorithmHelpMessage)]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = ThumbprintAlgorithmHelpMessage)]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = ThumbprintAlgorithmHelpMessage)]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = ThumbprintAlgorithmHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ThumbprintAlgorithmHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -74,6 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override string DomainName
         {
@@ -102,10 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet)]
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupThumbprintParameterSet)]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false)]
         public override SwitchParameter Restart
         {
             get
@@ -118,10 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet)]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupThumbprintParameterSet)]
+        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = false)]
         [ValidateNotNullOrEmpty]
         public override PSCredential Credential
         {
@@ -137,6 +124,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
+        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override PSCredential UnjoinDomainCredential
         {
@@ -152,6 +141,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
+        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override JoinOptions Options
         {
@@ -167,17 +158,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
+        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
-        public override uint AdditionalOptions
+        public override uint JoinOption
         {
             set
             {
-                base.AdditionalOptions = value;
+                base.JoinOption = value;
             }
         }
 
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainThumbprintParameterSet)]
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override string OUPath
         {
