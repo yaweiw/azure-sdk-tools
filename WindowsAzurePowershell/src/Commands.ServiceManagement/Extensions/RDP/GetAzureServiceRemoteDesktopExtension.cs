@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Remote Desktop Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(IEnumerable<RemoteDesktopExtensionContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(RemoteDesktopExtensionContext))]
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]

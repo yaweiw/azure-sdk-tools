@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.New, ADDomainExtensionConfigNoun, DefaultParameterSetName = DomainParameterSet), OutputType(typeof(ExtensionConfigurationInput))]
     public class NewAzureServiceADDomainExtensionConfigCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = RoleHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -32,9 +32,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = X509CertificateHelpMessage)]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet, HelpMessage = X509CertificateHelpMessage)]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = X509CertificateHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -42,9 +42,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
         {
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ThumbprintAlgorithmHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {

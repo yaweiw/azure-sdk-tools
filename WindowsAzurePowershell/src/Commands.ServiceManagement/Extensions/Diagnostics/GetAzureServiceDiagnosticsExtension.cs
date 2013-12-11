@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(IEnumerable<DiagnosticExtensionContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(DiagnosticExtensionContext))]
     public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
