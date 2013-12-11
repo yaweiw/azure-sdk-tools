@@ -14,14 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Utilities.Common;
-
-    public class RemoteDesktopExtensionContext : ManagementOperationContext
+    public class RemoteDesktopExtensionContext : ExtensionContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Id { get; set; }
         public string UserName { get; set; }
         public string Expiration { get; set; }
     }

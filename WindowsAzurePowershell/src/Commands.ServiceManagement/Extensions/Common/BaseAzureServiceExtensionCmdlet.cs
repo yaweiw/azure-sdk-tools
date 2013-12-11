@@ -40,14 +40,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string RemoveByRolesParameterSet = "RemoveByRoles";
         protected const string RemoveAllRolesParameterSet = "RemoveAllRoles";
 
-        protected const string ServiceNameHelpMessage = "Cloud service name.";
-        protected const string SlotHelpMessage = "Production (default) or Staging";
-        protected const string RoleHelpMessage = "Default All Roles, or specify ones for Named Roles.";
-        protected const string X509CertificateHelpMessage = "X509Certificate used to encrypt the content in private configuration.";
-        protected const string CertificateThumbprintHelpMessage = "Thumbprint of a certificate used for encryption.";
-        protected const string ThumbprintAlgorithmHelpMessage = "Algorithm associated with the Thumbprint.";
-        protected const string UninstallConfigurationHelpMessage = "If specified, uninstall all extension configurations in this type from the cloud service.";
-
         protected ExtensionManager ExtensionManager { get; set; }
         protected string ExtensionNameSpace { get; set; }
         protected string ExtensionType { get; set; }

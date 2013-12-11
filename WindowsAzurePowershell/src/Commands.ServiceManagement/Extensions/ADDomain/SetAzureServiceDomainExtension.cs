@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Set, ADDomainExtensionNoun, DefaultParameterSetName = DomainParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ServiceNameHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = SlotHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = RoleHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.RoleHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -50,9 +50,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = X509CertificateHelpMessage)]
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet, HelpMessage = X509CertificateHelpMessage)]
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = X509CertificateHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = DomainJoinOptionParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = WorkgroupParameterSet, HelpMessage = ExtensionParameterPropertyHelper.X509CertificateHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -60,9 +60,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = WorkgroupThumbprintParameterSet, HelpMessage = ExtensionParameterPropertyHelper.CertificateThumbprintHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string CertificateThumbprint
         {
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ThumbprintAlgorithmHelpMessage)]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ExtensionParameterPropertyHelper.ThumbprintAlgorithmHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -213,7 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public void ExecuteCommand()
         {
-            ValidateParameters();
+            this.ValidateParameters();
             ExtensionConfigurationInput context = new ExtensionConfigurationInput
             {
                 ProviderNameSpace = ExtensionNameSpace,

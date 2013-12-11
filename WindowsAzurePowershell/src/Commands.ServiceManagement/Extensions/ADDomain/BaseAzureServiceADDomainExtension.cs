@@ -11,11 +11,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System;
     using System.Management.Automation;
-    using System.Security;
-    using System.Text;
-    using System.Xml.Linq;
     using ADDomain;
     using Management.Compute.Models;
     using Management.Models;
@@ -23,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
     public abstract class BaseAzureServiceADDomainExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
-        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions.Test8";
+        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
         protected const string DomainExtensionType = "ADDomain";
 
         protected const string ADDomainExtensionNoun = "AzureServiceADDomainExtension";
@@ -81,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             set
             {
-                PublicConfig.Options |= value;
+                PublicConfig.Options = value;
             }
         }
 
@@ -169,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 Role = role,
                 Name = config.Name,
                 OUPath = config.OUPath,
-                Options = config.Options,
+                JoinOption = config.Options,
                 User = config.User,
                 UnjoinDomainUser = config.UnjoinDomainUser,
                 Restart = config.Restart
