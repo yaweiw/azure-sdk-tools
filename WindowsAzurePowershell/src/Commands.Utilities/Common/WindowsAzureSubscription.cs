@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Subscriptions;
     using WindowsAzure.Common;
     using Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder;
 
     /// <summary>
     /// Representation of a subscription in memory
@@ -59,6 +60,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// when cached list of resource providers is updated.
         /// </summary>
         internal Action Save { get; set; }
+
+        /// <summary>
+        /// Event that's trigged when a new client has been created.
+        /// </summary>
+        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
 
         public string CurrentStorageAccountName
         {
@@ -167,17 +173,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
 
-            // Dispose the client because the WithHandler call will create a
-            // new instance that we'll be using with our commands
-            using (var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint }))
-            {
-                // Set the UserAgent
-                client.UserAgent.Add(ApiConstants.UserAgentValue);
+            var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+            
+            // Set the UserAgent
+            client.UserAgent.Add(ApiConstants.UserAgentValue);
 
-                // Add the logging handler
-                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-                return (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            if (OnClientCreated != null)
+            {
+                ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
+                OnClientCreated(this, args);
+                client = (TClient)args.CreatedClient;
             }
+
+            // Add the logging handler
+            var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            client = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+
+            return client;
         }
 
         public CloudStorageAccount GetCloudStorageAccount()
