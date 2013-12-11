@@ -1,0 +1,3 @@
+"$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A\@InstallationFolder)bin\xsd.exe" /c /n:Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions.ADDomain ADPublicSchema.xsd"
+
+"$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A\@InstallationFolder)bin\xsd.exe" /c /n:Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions.ADDomain ADPrivateSchema.xsd"

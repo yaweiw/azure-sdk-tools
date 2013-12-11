@@ -89,11 +89,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             return new ExtensionConfigurationBuilder(this, config);
         }
 
-        public string GetExtensionId(string roleName, string type, string slot, int index)
-        {
-            return string.Format(ExtensionIdTemplate, roleName, type, slot, index);
-        }
-
         private void GetThumbprintAndAlgorithm(IList<HostedServiceListExtensionsResponse.Extension> extensionList, string extensionId, ref string thumbprint, ref string thumbprintAlgorithm)
         {
             var existingExtension = extensionList == null || !extensionList.Any(e => e.Id == extensionId) ? null : extensionList.First(e => e.Id == extensionId);
@@ -145,13 +140,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        public Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration InstallExtension(ExtensionConfigurationInput context, string slot, Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration extConfig)
+        public ExtensionConfiguration InstallExtension(ExtensionConfigurationInput context, string slot, Microsoft.WindowsAzure.Management.Compute.Models.ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             foreach (ExtensionRole r in context.Roles)
             {
                 var extensionIds = (from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
-                                    select GetExtensionId(r.PrefixName, context.Type, slot, index)).ToList();
+                                    select r.GetExtensionId(context.Type, slot, index)).ToList();
 
                 string availableId = (from extensionId in extensionIds
                                       where !builder.ExistAny(extensionId)
