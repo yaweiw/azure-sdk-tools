@@ -411,6 +411,13 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extensions\ADDomain\ADBuildSchema.cmd" />
+    <None Include="Extensions\ADDomain\ADPrivateSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
