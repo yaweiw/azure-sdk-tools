@@ -44,6 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
     {
+        private const string ReadyState = "ReadyRole";
         private string serviceName;
         
         string perfFile;
@@ -1195,7 +1196,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("successfully deployed the package");
 
                 //Reboot the role instance
-                vmPowershellCmdlets.ReSet_AzureRoleInstance(serviceName, "WebRole1_IN_0", DeploymentSlotType.Staging, Reboot: true);
+                vmPowershellCmdlets.ResetAzureRoleInstance(serviceName, "WebRole1_IN_0", DeploymentSlotType.Staging, reboot: true);
                 var deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
                 //verify that other instances are in ready state
                 string roleStatus = string.Empty;
@@ -1207,10 +1208,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                         break;
                     }
                 }
-                pass = roleStatus == "ReadyRole" ? true : false;
+                pass = roleStatus == ReadyState;
 
                 //Reimage the role instance
-                vmPowershellCmdlets.ReSet_AzureRoleInstance(serviceName, "WebRole1_IN_1", DeploymentSlotType.Staging, Reimage: true);
+                vmPowershellCmdlets.ResetAzureRoleInstance(serviceName, "WebRole1_IN_1", DeploymentSlotType.Staging, reimage: true);
                 //verify that other instances are in ready state
                 deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
                 roleStatus = string.Empty;
@@ -1222,9 +1223,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                         break;
                     }
                 }
-                pass = roleStatus == "ReadyRole" ? true : false;
-
-                
+                pass = roleStatus == ReadyState;
             }
             catch (Exception e)
             {
