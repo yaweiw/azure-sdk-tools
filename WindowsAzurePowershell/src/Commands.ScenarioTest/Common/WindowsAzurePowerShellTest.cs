@@ -15,13 +15,19 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder;
+    using System.Collections.Generic;
 
     [TestClass]
     public class WindowsAzurePowerShellTest : PowerShellTest
     {
         protected TestCredentialHelper credentials;
+        
         protected string credentialFile;
+        
+        protected List<HttpRecorder> mockServers;
 
         public WindowsAzurePowerShellTest(params string[] modules)
             : base(modules)
@@ -34,11 +40,29 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestSetup()
         {
             base.TestSetup();
+            this.mockServers = new List<HttpRecorder>();
+            WindowsAzureSubscription.OnClientCreated += WindowsAzureSubscription_OnClientCreated;
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
             {
                 return true;
             };
+
+        }
+
+        [TestCleanup]
+        public override void TestCleanup()
+        {
+            base.TestCleanup();
+            WindowsAzureSubscription.OnClientCreated -= WindowsAzureSubscription_OnClientCreated;
+            mockServers.ForEach(ms => ms.Dispose());
+        }
+
+        void WindowsAzureSubscription_OnClientCreated(object sender, ClientCreatedArgs e)
+        {
+            HttpRecorder mockServer = new HttpRecorder();
+            e.AddHandlerToClient(mockServer);
+            mockServers.Add(mockServer);
         }
     }
 }
