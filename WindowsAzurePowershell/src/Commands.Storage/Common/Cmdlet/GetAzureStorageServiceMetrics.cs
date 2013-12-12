@@ -14,21 +14,26 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+    using System.Globalization;
+using System.Management.Automation;
+using System.Security.Permissions;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceMinuteMetrics),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceMetrics),
         OutputType(typeof(MetricsProperties))]
-    public class GetAzureStorageServiceMinuteMetricsCommand : StorageCloudBlobCmdletBase
+    public class GetAzureStorageServiceHourMetricsCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type(Blob, Table, Queue).")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string Type { get; set; }
+        public string ServiceType { get; set; }
+
+        [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
+        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
+        public string MetricsType { get; set; }
 
         /// <summary>
         /// Execute command
@@ -38,8 +43,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type) , OperationContext);
-            WriteObject(serviceProperties.MinuteMetrics);
+                ServiceType, GetRequestOptions(ServiceType) , OperationContext);
+
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(MetricsType))
+            {
+                case StorageNouns.MetricsType.Hour:
+                    WriteObject(serviceProperties.HourMetrics);
+                    break;
+                case StorageNouns.MetricsType.Minute:
+                default:
+                    WriteObject(serviceProperties.MinuteMetrics);
+                    break;
+            }
         }
     }
 }

@@ -26,9 +26,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         OutputType(typeof(LoggingProperties))]
     public class GetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
+        public const string ServiceTypeHelpMessage = "Azure storage service type(Blob, Table, Queue).";
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = ServiceTypeHelpMessage)]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string Type { get; set; }
+        public string ServiceType { get; set; }
 
         /// <summary>
         /// Execute command
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type), OperationContext);
+                ServiceType, GetRequestOptions(ServiceType), OperationContext);
             WriteObject(serviceProperties.Logging);
         }
     }
