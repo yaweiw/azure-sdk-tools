@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
             }
 
-            if (LoggingOperations.Length > 0)
+            if (LoggingOperations!= null && LoggingOperations.Length > 0)
             {
                 LoggingOperations logOperations = default(LoggingOperations);
 
