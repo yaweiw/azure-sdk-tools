@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             string activity = String.Format(Resources.SendAzureBlobActivity, filePath, blob.Name, blob.Container.Name);
             string status = Resources.PrepareUploadingBlob;
-            ProgressRecord pr = new ProgressRecord((int)taskId, activity, status);
+            ProgressRecord pr = new ProgressRecord(OutputStream.GetProgressId(taskId), activity, status);
 
             DataMovementUserData data = new DataMovementUserData()
             {

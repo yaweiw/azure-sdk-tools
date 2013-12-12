@@ -224,7 +224,7 @@
     <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
   </data>
   <data name="CannotSendDirectory" xml:space="preserve">
-    <value>Can not send the directory '{0}' to azure. If you want to send directory to azure, please use "ls -File | Set-AzureStorageBlobContent -Container containerName".</value>
+    <value>Can not send the directory '{0}' to azure. If you want to send directory to azure, please use "ls -File -Recurse | Set-AzureStorageBlobContent -Container containerName".</value>
   </data>
   <data name="PrepareUploadingBlob" xml:space="preserve">
     <value>Prepare to upload blob.</value>

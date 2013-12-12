@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. If you want to send directory to azure, please use &quot;ls -File | Set-AzureStorageBlobContent -Container containerName&quot;..
+        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. If you want to send directory to azure, please use &quot;ls -File -Recurse | Set-AzureStorageBlobContent -Container containerName&quot;..
         /// </summary>
         internal static string CannotSendDirectory {
             get {

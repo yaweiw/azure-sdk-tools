@@ -260,7 +260,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         protected async Task MonitorBlobCopyStatusAsync(long taskId)
         {
-            ProgressRecord records = new ProgressRecord((int)taskId, Resources.CopyBlobActivity, Resources.CopyBlobActivity);
+            ProgressRecord records = new ProgressRecord(OutputStream.GetProgressId(taskId), Resources.CopyBlobActivity, Resources.CopyBlobActivity);
             Tuple<long, ICloudBlob> monitorRequest = null;
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
