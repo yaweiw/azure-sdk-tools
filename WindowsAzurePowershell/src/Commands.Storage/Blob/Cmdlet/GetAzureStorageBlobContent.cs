@@ -118,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="blob">Source blob object</param>
         /// <param name="filePath">Destination file path</param>
-        internal virtual async Task<bool> DownloadBlob(long taskId, ICloudBlob blob, string filePath)
+        internal virtual async Task<bool> DownloadBlob(long taskId, IStorageBlobManagement localChannel, ICloudBlob blob, string filePath)
         {
             string activity = String.Format(Resources.ReceiveAzureBlobActivity, blob.Name, filePath);
             string status = Resources.PrepareDownloadingBlob;
@@ -127,6 +127,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 Data = blob,
                 TaskId = taskId,
+                Channel = localChannel,
                 Record = pr
             };
 
@@ -233,7 +234,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Directory.CreateDirectory(dirPath);
             }
 
-            Func<long, Task> taskGenerator = (taskId) => DownloadBlob(taskId, blob, filePath);
+            IStorageBlobManagement localChannel = Channel;
+            Func<long, Task> taskGenerator = (taskId) => DownloadBlob(taskId, localChannel, blob, filePath);
             RunTask(taskGenerator);
         }
 
@@ -292,6 +294,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 case ManualParameterSet:
                     GetBlobContent(ContainerName, BlobName, FileName);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// On Task run successfully
+        /// </summary>
+        /// <param name="data">User data</param>
+        protected override void OnTaskSuccessful(DataMovementUserData data)
+        {
+            ICloudBlob blob = data.Data as ICloudBlob;
+
+            if (blob != null)
+            {
+                WriteICloudBlobObject(data.TaskId, data.Channel, blob);
             }
         }
     }

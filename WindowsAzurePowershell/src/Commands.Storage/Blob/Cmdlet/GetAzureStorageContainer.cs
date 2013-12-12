@@ -204,9 +204,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 return;
             }
 
+            IStorageBlobManagement localChannel = Channel;
             foreach (Tuple<CloudBlobContainer, BlobContinuationToken> containerInfo in containerList)
             {
-                Func<long, Task> generator = (taskId) => GetContainerPermission(taskId, containerInfo.Item1, Context, containerInfo.Item2);
+                Func<long, Task> generator = (taskId) => GetContainerPermission(taskId, localChannel, containerInfo.Item1, containerInfo.Item2);
                 RunTask(generator);
             }
         }
@@ -218,16 +219,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="taskId">Task id</param>
         /// <param name="context">Azure storage context</param>
         /// <returns></returns>
-        internal async Task GetContainerPermission(long taskId, CloudBlobContainer container, AzureStorageContext context, BlobContinuationToken continuationToken)
+        internal async Task GetContainerPermission(long taskId, IStorageBlobManagement localChannel, CloudBlobContainer container, BlobContinuationToken continuationToken)
         {
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
-            BlobContainerPermissions permissions = await Channel.GetContainerPermissionsAsync(container, accessCondition,
+            BlobContainerPermissions permissions = await localChannel.GetContainerPermissionsAsync(container, accessCondition,
                     requestOptions, OperationContext, CmdletCancellationToken);
-            AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
-            azureContainer.Context = context;
-            azureContainer.ContinuationToken = continuationToken;
-            OutputStream.WriteObject(taskId, azureContainer);
+            WriteCloudContainerObject(taskId, localChannel, container, permissions, continuationToken);
         }
 
         /// <summary>

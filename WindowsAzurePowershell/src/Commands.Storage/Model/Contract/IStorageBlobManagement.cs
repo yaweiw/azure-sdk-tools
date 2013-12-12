@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     /// <summary>
     /// Blob management interface
     /// </summary>
-    public interface IStorageBlobManagement
+    public interface IStorageBlobManagement : IStorageManagement
     {
         /// <summary>
         /// Get a list of cloudblobcontainer in azure
@@ -196,17 +196,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type, IRequestOptions options, OperationContext operationContext);
+        ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext);
 
         /// <summary>
         /// Set service properties
         /// </summary>
-        /// <param name="account">Cloud storage account</param>
         /// <param name="type">Service type</param>
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        void SetStorageServiceProperties(CloudStorageAccount account, string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
+        void SetStorageServiceProperties(string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
 
         /// <summary>
         /// Async get container presssions

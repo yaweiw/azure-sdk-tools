@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
         /// </summary>
         /// <param name="name">container name</param>
         /// <param name="accessLevel">access level in ("off", "blob", "container")</param>
-        internal async Task SetContainerAcl(long taskId, string name, string accessLevel)
+        internal async Task SetContainerAcl(long taskId, IStorageBlobManagement localChannel, string name, string accessLevel)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -102,19 +102,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
-            CloudBlobContainer container = Channel.GetContainerReference(name);
+            CloudBlobContainer container = localChannel.GetContainerReference(name);
 
-            if (!await Channel.DoesContainerExistAsync(container, requestOptions, OperationContext, CmdletCancellationToken))
+            if (!await localChannel.DoesContainerExistAsync(container, requestOptions, OperationContext, CmdletCancellationToken))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
 
-            await Channel.SetContainerPermissionsAsync(container, permissions, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
+            await localChannel.SetContainerPermissionsAsync(container, permissions, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
 
             if (PassThru)
             {
-                AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
-                OutputStream.WriteObject(taskId, azureContainer);
+                WriteCloudContainerObject(taskId, localChannel, container, permissions);
             }
         }
 
@@ -125,7 +124,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
         public override void ExecuteCmdlet()
         {
             string localName = Name;
-            Func<long, Task> taskGenerator = (taskId) => SetContainerAcl(taskId, localName, accessLevel);
+            IStorageBlobManagement localChannel = Channel;
+            Func<long, Task> taskGenerator = (taskId) => SetContainerAcl(taskId, localChannel, localName, accessLevel);
             RunTask(taskGenerator);
         }
     }

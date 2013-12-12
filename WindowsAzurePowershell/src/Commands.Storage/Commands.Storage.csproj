@@ -181,6 +181,7 @@
     <Compile Include="Common\StorageNouns.cs" />
     <Compile Include="Common\TaskOutputStream.cs" />
     <Compile Include="Common\Util.cs" />
+    <Compile Include="Model\Contract\IStorageManagement.cs" />
     <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Model\Contract\IStorageTableManagement.cs" />
     <Compile Include="Model\Contract\StorageQueueManagement.cs" />

@@ -12,16 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
+namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
-    using Model.Contract;
-    using Storage.Blob.Cmdlet;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
 
-    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
+    /// <summary>
+    /// Storage management interface
+    /// </summary>
+    public interface IStorageManagement
     {
-        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
-            : base(channel)
-        {
-        }
+        /// <summary>
+        /// The azure storage context assoicated with this IStorageBlobManagement
+        /// </summary>
+        AzureStorageContext StorageContext { get; }
     }
 }

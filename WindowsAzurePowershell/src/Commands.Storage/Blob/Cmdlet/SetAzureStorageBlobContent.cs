@@ -165,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <param name="taskId">Task id</param>
         /// <param name="filePath">local file path</param>
         /// <param name="blob">destination azure blob object</param>
-        internal virtual async Task<bool> Upload2Blob(long taskId, string filePath, ICloudBlob blob)
+        internal virtual async Task<bool> Upload2Blob(long taskId, IStorageBlobManagement localChannel, string filePath, ICloudBlob blob)
         {
             string activity = String.Format(Resources.SendAzureBlobActivity, filePath, blob.Name, blob.Container.Name);
             string status = Resources.PrepareUploadingBlob;
@@ -175,6 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 Data = blob,
                 TaskId = taskId,
+                Channel = localChannel,
                 Record = pr
             };
 
@@ -235,7 +236,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             while (!UploadRequests.IsEmpty())
             {
                 Tuple<string, ICloudBlob> uploadRequest = UploadRequests.DequeueRequest();
-                Func<long, Task> taskGenerator = (taskId) => Upload2Blob(taskId, uploadRequest.Item1, uploadRequest.Item2);
+                IStorageBlobManagement localChannel = Channel;
+                Func<long, Task> taskGenerator = (taskId) => Upload2Blob(taskId, localChannel, uploadRequest.Item1, uploadRequest.Item2);
                 RunTask(taskGenerator);
             }
 
@@ -279,7 +281,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">ICloudBlob object</param>
         /// <param name="meta">blob properties hashtable</param>
-        private async Task SetBlobProperties(ICloudBlob blob, Hashtable properties)
+        private async Task SetBlobProperties(IStorageBlobManagement localChannel, ICloudBlob blob, Hashtable properties)
         {
             if (properties == null)
             {
@@ -309,7 +311,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">ICloudBlob object</param>
         /// <param name="meta">meta data hashtable</param>
-        private async Task SetBlobMeta(ICloudBlob blob, Hashtable meta)
+        private async Task SetBlobMeta(IStorageBlobManagement localChannel, ICloudBlob blob, Hashtable meta)
         {
             if (meta == null)
             {
@@ -344,6 +346,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected override void OnTaskSuccessful(DataMovementUserData data)
         {
             ICloudBlob blob = data.Data as ICloudBlob;
+            IStorageBlobManagement localChannel = data.Channel;
 
             if (blob != null)
             {
@@ -353,16 +356,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 if (BlobProperties != null || BlobMetadata != null)
                 {
                     Task[] tasks = new Task[2];
-                    Channel.FetchBlobAttributesAsync(blob, accessCondition,
-                        requestOptions, OperationContext, CmdletCancellationToken);
-                    tasks[1] = SetBlobProperties(blob, BlobProperties);
-                    tasks[2] = SetBlobMeta(blob, BlobMetadata);
+                    tasks[1] = SetBlobProperties(localChannel, blob, BlobProperties);
+                    tasks[2] = SetBlobMeta(localChannel, blob, BlobMetadata);
                     Task.WaitAll(tasks);
                 }
 
                 try
                 {
-                    Channel.FetchBlobAttributesAsync(blob, accessCondition, requestOptions, OperationContext, CmdletCancellationToken).Wait();
+                    localChannel.FetchBlobAttributesAsync(blob, accessCondition, requestOptions, OperationContext, CmdletCancellationToken).Wait();
                 }
                 catch (AggregateException e)
                 {
@@ -373,9 +374,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                         throw e.InnerException;
                     }
                 }
-                
-                AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
-                OutputStream.WriteObject(data.TaskId, azureBlob);
+
+                WriteICloudBlobObject(data.TaskId, localChannel, blob);
             }
         }
 

@@ -25,16 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
     public class StorageCloudTableCmdletBase : StorageCloudCmdletBase<IStorageTableManagement>
     {
         /// <summary>
-        /// get table client
-        /// </summary>
-        /// <returns>a CloudTableClient object</returns>
-        private CloudTableClient GetCloudTableClient()
-        {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            return account.CreateCloudTableClient();
-        }
-
-        /// <summary>
         /// create table storage service management channel.
         /// </summary>
         /// <returns>IStorageTableManagement object</returns>
@@ -43,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
             //Init storage table management channel
             if (Channel == null || !ShareChannel)
             {
-                Channel = new StorageTableManagement(GetCloudTableClient());
+                Channel = new StorageTableManagement(GetCmdletStorageContext());
             }
 
             return Channel;

@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// create a new azure container
         /// </summary>
         /// <param name="name">container name</param>
-        internal async Task CreateAzureContainer(long taskId, string name, string accesslevel)
+        internal async Task CreateAzureContainer(long taskId, IStorageBlobManagement localChannel, string name, string accesslevel)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             }
 
             BlobRequestOptions requestOptions = RequestOptions;
-            CloudBlobContainer container = Channel.GetContainerReference(name);
+            CloudBlobContainer container = localChannel.GetContainerReference(name);
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
             accessLevel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel);
@@ -100,16 +100,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     throw new ArgumentException(Resources.OnlyOnePermissionForContainer);
             }
 
-            bool created = await Channel.CreateContainerIfNotExistsAsync(container, permissions.PublicAccess, requestOptions, OperationContext, CmdletCancellationToken);
+            bool created = await localChannel.CreateContainerIfNotExistsAsync(container, permissions.PublicAccess, requestOptions, OperationContext, CmdletCancellationToken);
 
             if (!created)
             {
                 throw new ResourceAlreadyExistException(String.Format(Resources.ContainerAlreadyExists, name));
             }
 
-            AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
-
-            OutputStream.WriteObject(taskId, azureContainer);
+            WriteCloudContainerObject(taskId, localChannel, container, permissions);
         }
 
         /// <summary>
@@ -118,7 +116,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            Func<long, Task> taskGenerator = (taskId) => CreateAzureContainer(taskId, Name, accessLevel);
+            IStorageBlobManagement localChannel = Channel;
+            Func<long, Task> taskGenerator = (taskId) => CreateAzureContainer(taskId, localChannel, Name, accessLevel);
             RunTask(taskGenerator);
         }
     }

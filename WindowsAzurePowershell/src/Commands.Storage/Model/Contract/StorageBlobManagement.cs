@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Queue;
@@ -37,12 +38,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         private CloudBlobClient blobClient;
 
         /// <summary>
+        /// Internal storage context
+        /// </summary>
+        private AzureStorageContext internalStorageContext;
+
+        /// <summary>
+        /// The azure storage context assoicated with this IStorageBlobManagement
+        /// </summary>
+        public AzureStorageContext StorageContext
+        {
+            get
+            {
+                return internalStorageContext;
+            }
+        }
+
+        /// <summary>
         /// Init blob management
         /// </summary>
         /// <param name="client">a cloud blob object</param>
-        public StorageBlobManagement(CloudBlobClient client)
+        public StorageBlobManagement(AzureStorageContext context)
         {
-            blobClient = client;
+            internalStorageContext = context;
+            blobClient = internalStorageContext.StorageAccount.CreateCloudBlobClient();
         }
 
         /// <summary>
@@ -295,8 +313,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        public ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, string type, IRequestOptions options, OperationContext operationContext)
+        public ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext)
         {
+            CloudStorageAccount account = StorageContext.StorageAccount;
             switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
             {
                 case StorageNouns.BlobService:
@@ -318,8 +337,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        public void SetStorageServiceProperties(CloudStorageAccount account, string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
+        public void SetStorageServiceProperties(string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
+            CloudStorageAccount account = StorageContext.StorageAccount;
             switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
             {
                 case StorageNouns.BlobService:

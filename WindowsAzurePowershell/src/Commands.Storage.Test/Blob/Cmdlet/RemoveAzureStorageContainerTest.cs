@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.Test.Utilities.Common;
     using Storage.Common;
+    using Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet;
 
     /// <summary>
     /// unit test for RemoveAzureStorageContainer
@@ -29,15 +30,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         /// <summary>
         /// faked remove azure container command
         /// </summary>
-        internal FakeRemoveAzureContainerCommand command = null;
+        internal RemoveAzureStorageContainerCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new FakeRemoveAzureContainerCommand(BlobMock)
-                {
-                    CommandRuntime = new MockCommandRuntime()
-                };
+            command = new RemoveAzureStorageContainerCommand(BlobMock)
+            {
+                CommandRuntime = MockCmdRunTime
+            };
+            CurrentBlobCmd = command;
         }
 
         [TestCleanup]
@@ -46,63 +48,65 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             command = null;
         }
 
-        //[TestMethod]
-        //public void RemoveContainerWithInvalidContainerNameTest()
-        //{
-        //    string name = "a*b";
-        //    AssertThrows<ArgumentException>(() => command.RemoveAzureContainer(name),
-        //        String.Format(Resources.InvalidContainerName, name));
-        //}
+        [TestMethod]
+        public void RemoveContainerWithInvalidContainerNameTest()
+        {
+            string name = "a*b";
+            AssertThrowsAsync<ArgumentException>(() => command.RemoveAzureContainer(InitTaskId, BlobMock, name),
+                String.Format(Resources.InvalidContainerName, name));
+        }
 
-        //[TestMethod]
-        //public void RemoveContainerForNotExistsContainerTest()
-        //{
-        //    string name = "test";
-        //    AssertThrows<ResourceNotFoundException>(() => command.RemoveAzureContainer(name),
-        //        String.Format(Resources.ContainerNotFound, name));
-        //}
+        [TestMethod]
+        public void RemoveContainerForNotExistsContainerTest()
+        {
+            string name = "test";
+            AssertThrowsAsync<ResourceNotFoundException>(() => command.RemoveAzureContainer(InitTaskId, BlobMock, name),
+                String.Format(Resources.ContainerNotFound, name));
+        }
 
-        //[TestMethod]
-        //public void RemoveContainerCancelledTest()
-        //{
-        //    AddTestContainers();
+        [TestMethod]
+        public void RemoveContainerCancelledTest()
+        {
+            AddTestContainers();
 
-        //    string name = "test";
-        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-        //    command.RemoveAzureContainer(name);
-        //    string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-        //    Assert.AreEqual(String.Format(Resources.RemoveContainerCancelled, name), result);
-        //}
+            string name = "test";
+            MockCmdRunTime.ResetPipelines();
+            command.Name = name;
+            this.Confirmed = false;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            string result = (string)MockCmdRunTime.VerboseStream.FirstOrDefault();
+            Assert.AreEqual(String.Format(Resources.RemoveContainerCancelled, name), result);
+        }
 
-        //[TestMethod]
-        //public void RemoveContainerSuccessfullyTest()
-        //{
-        //    AddTestContainers();
+        [TestMethod]
+        public void RemoveContainerSuccessfullyTest()
+        {
+            AddTestContainers();
 
-        //    string name = "test";
+            string name = "test";
 
-        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-        //    command.confirm = true;
-        //    command.RemoveAzureContainer(name);
-        //    string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-        //    Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
+            MockCmdRunTime.ResetPipelines();
+            command.Name = name;
+            this.Confirmed = true;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            string result = (string)MockCmdRunTime.VerboseStream.FirstOrDefault();
+            Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
 
-        //    ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-        //    name = "text";
-        //    command.Force = true;
-        //    command.confirm = false;
-        //    command.RemoveAzureContainer(name);
-        //    result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
-        //    Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);            
-        //}
+            MockCmdRunTime.ResetPipelines();
+            name = "text";
+            command.Force = true;
+            RunAsyncCommand(() => command.RemoveAzureContainer(InitTaskId, BlobMock, name).Wait());
+            result = (string)MockCmdRunTime.VerboseStream.FirstOrDefault();
+            Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
+        }
 
         [TestMethod]
         public void ExecuteCommandRemoveContainer()
         {
             string name = "test";
             command.Name = name;
-            AssertThrows<ResourceNotFoundException>(() => command.ExecuteCmdlet(),
-                String.Format(Resources.ContainerNotFound, name));
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            Assert.AreEqual(String.Format(Resources.ContainerNotFound, name), MockCmdRunTime.ErrorStream[0].Exception.Message);
         }
     }
 }
