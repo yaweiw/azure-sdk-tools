@@ -24,16 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     public class StorageQueueBaseCmdlet : StorageCloudCmdletBase<IStorageQueueManagement>
     {
         /// <summary>
-        /// get cloud queue client
-        /// </summary>
-        /// <returns>CloudQueueClient object</returns>
-        private CloudQueueClient GetCloudQueueClient()
-        {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            return account.CreateCloudQueueClient();
-        }
-
-        /// <summary>
         /// create queue service management channel.
         /// </summary>
         /// <returns>IStorageQueueManagement object</returns>
@@ -42,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             //init storage blob managment channel
             if (Channel == null || !ShareChannel)
             {
-                Channel = new StorageQueueManagement(GetCloudQueueClient());
+                Channel = new StorageQueueManagement(GetCmdletStorageContext());
             }
 
             return Channel;

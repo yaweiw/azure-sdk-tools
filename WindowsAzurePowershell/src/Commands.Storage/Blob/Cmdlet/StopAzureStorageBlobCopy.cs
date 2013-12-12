@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Common;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
@@ -94,22 +95,23 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             Func<long, Task> taskGenerator = null;
+            IStorageBlobManagement localChannel = Channel;
 
             switch (ParameterSetName)
             { 
                 case NameParameterSet:
                     string localContainerName = ContainerName;
                     string localBlobName = BlobName;
-                    taskGenerator = (taskId) => StopCopyBlob(taskId, localContainerName, localBlobName, copyId);
+                    taskGenerator = (taskId) => StopCopyBlob(taskId, localChannel, localContainerName, localBlobName, copyId);
                     break;
                 case ContainerPipelineParmeterSet:
                     CloudBlobContainer localContainer = CloudBlobContainer;
                     string localName = BlobName;
-                    taskGenerator = (taskId) => StopCopyBlob(taskId, localContainer, localName, copyId);
+                    taskGenerator = (taskId) => StopCopyBlob(taskId, localChannel, localContainer, localName, copyId);
                     break;
                 case BlobPipelineParameterSet:
                     ICloudBlob localBlob = ICloudBlob;
-                    taskGenerator = (taskId) => StopCopyBlob(taskId, localBlob, copyId, true);
+                    taskGenerator = (taskId) => StopCopyBlob(taskId, localChannel, localBlob, copyId, true);
                     break;
             }
 
@@ -122,10 +124,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="containerName">Container name</param>
         /// <param name="blobName">Blob name</param>
         /// <param name="copyId">copy id</param>
-        private async Task StopCopyBlob(long taskId, string containerName, string blobName, string copyId)
+        private async Task StopCopyBlob(long taskId, IStorageBlobManagement localChannel, string containerName, string blobName, string copyId)
         {            
-            CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            await StopCopyBlob(taskId, container, blobName, copyId);
+            CloudBlobContainer container = localChannel.GetContainerReference(containerName);
+            await StopCopyBlob(taskId, localChannel, container, blobName, copyId);
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="blobName">Blob name</param>
         /// <param name="copyId">Copy id</param>
-        private async Task StopCopyBlob(long taskId, CloudBlobContainer container, string blobName, string copyId)
+        private async Task StopCopyBlob(long taskId, IStorageBlobManagement localChannel, CloudBlobContainer container, string blobName, string copyId)
         {
             ValidateBlobName(blobName);
 
@@ -142,14 +144,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
             AccessCondition accessCondition = null;
             BlobRequestOptions options = RequestOptions;
-            ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
+            ICloudBlob blob = localChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
 
             if (blob == null)
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, container.Name));
             }
 
-            await StopCopyBlob(taskId, blob, copyId);
+            await StopCopyBlob(taskId, localChannel, blob, copyId);
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <param name="copyId">Copy id</param>
-        private async Task StopCopyBlob(long taskId, ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
+        private async Task StopCopyBlob(long taskId, IStorageBlobManagement localChannel, ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions abortRequestOption = RequestOptions ?? new BlobRequestOptions();
@@ -187,7 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 //Make sure we use the correct copy id to abort
                 //Use default retry policy for FetchBlobAttributes
                 BlobRequestOptions options = RequestOptions;
-                await Channel.FetchBlobAttributesAsync(blob, accessCondition, options, OperationContext, CmdletCancellationToken);
+                await localChannel.FetchBlobAttributesAsync(blob, accessCondition, options, OperationContext, CmdletCancellationToken);
 
                 if (blob.CopyState == null || String.IsNullOrEmpty(blob.CopyState.CopyId))
                 {
@@ -214,7 +216,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 abortCopyId = specifiedCopyId;
             }
 
-            await Channel.AbortCopyAsync(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext, CmdletCancellationToken);
+            await localChannel.AbortCopyAsync(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext, CmdletCancellationToken);
             string message = String.Format(Resources.StopCopyBlobSuccessfully, blob.Name, blob.Container.Name);
             OutputStream.WriteObject(taskId, message);
         }

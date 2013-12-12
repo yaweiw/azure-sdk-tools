@@ -37,9 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
-                ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType), OperationContext);
             WriteObject(serviceProperties.Logging);
         }
     }

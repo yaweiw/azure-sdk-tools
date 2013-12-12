@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// remove azure container by container name
         /// </summary>
         /// <param name="name">container name</param>
-        internal async Task RemoveAzureContainer(long taskId, string name)
+        internal async Task RemoveAzureContainer(long taskId, IStorageBlobManagement localChannel, string name)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -80,9 +80,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
-            CloudBlobContainer container = Channel.GetContainerReference(name);
+            CloudBlobContainer container = localChannel.GetContainerReference(name);
 
-            if (!await Channel.DoesContainerExistAsync(container, requestOptions, OperationContext, CmdletCancellationToken))
+            if (!await localChannel.DoesContainerExistAsync(container, requestOptions, OperationContext, CmdletCancellationToken))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
             if (force || await OutputStream.ConfirmAsyc(name))
             {
-                await Channel.DeleteContainerAsync(container, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
+                await localChannel.DeleteContainerAsync(container, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
                 removed = true;
             }
@@ -116,7 +116,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             string localName = Name;
-            Func<long, Task> taskGenerator = (taskId) => RemoveAzureContainer(taskId, localName);
+            IStorageBlobManagement localChannel = Channel;
+            Func<long, Task> taskGenerator = (taskId) => RemoveAzureContainer(taskId, localChannel, localName);
             RunTask(taskGenerator);
         }
     }
