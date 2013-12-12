@@ -14,14 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Utilities.Common;
-
-    public class DiagnosticExtensionContext : ManagementOperationContext
+    public class DiagnosticExtensionContext : ExtensionContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Id { get; set; }
         public string StorageAccountName { get; set; }
         public string WadCfg { get; set; }
     }

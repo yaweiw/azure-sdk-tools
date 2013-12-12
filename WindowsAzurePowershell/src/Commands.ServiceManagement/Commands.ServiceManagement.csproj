@@ -206,9 +206,10 @@
     <Compile Include="Extensions\ADDomain\JoinOptions.cs" />
     <Compile Include="Extensions\ADDomain\NewAzureServiceADDomainExtensionConfig.cs" />
     <Compile Include="Extensions\ADDomain\RemoveAzureServiceADDomainExtension.cs" />
-    <Compile Include="Extensions\ADDomain\SetAzureServiceDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\SetAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\Common\ExtensionContext.cs" />
     <Compile Include="Extensions\Common\ExtensionImageContext.cs" />
+    <Compile Include="Extensions\Common\ExtensionParameterPropertyHelper.cs" />
     <Compile Include="Extensions\Common\ExtensionRoleType.cs" />
     <Compile Include="Extensions\Common\GetAzureServiceExtensionImage.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
@@ -410,6 +411,13 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extensions\ADDomain\ADBuildSchema.cmd" />
+    <None Include="Extensions\ADDomain\ADPrivateSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>

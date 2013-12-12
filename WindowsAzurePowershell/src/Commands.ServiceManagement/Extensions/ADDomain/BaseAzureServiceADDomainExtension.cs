@@ -11,11 +11,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System;
     using System.Management.Automation;
-    using System.Security;
-    using System.Text;
-    using System.Xml.Linq;
     using ADDomain;
     using Management.Compute.Models;
     using Management.Models;
@@ -23,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
     public abstract class BaseAzureServiceADDomainExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
-        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions.Test8";
+        protected const string DomainExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
         protected const string DomainExtensionType = "ADDomain";
 
         protected const string ADDomainExtensionNoun = "AzureServiceADDomainExtension";
@@ -47,6 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             set
             {
+                /// To make the lowest bit of 'Options' always '1'.
                 Options |= JoinOptions.JoinDomain;
                 PublicConfig.Name = value;
             }
@@ -60,6 +57,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             set
             {
+                /// It is to set the lowest bit to 0 without using shift operation.
+                /// Since 'JoinOptions.JoinDomain' is equal to '1', the operation
+                /// 'Options ^ JoinOptions.JoinDomain' will flip the last bit of
+                /// 'Options' ('0' -> '1', '1' -> '0').
+                /// And then doing an '&' operation with the original value will
+                /// make the last bit always '0'.
                 Options &= (Options ^ JoinOptions.JoinDomain);
                 PublicConfig.Name = value;
             }
@@ -81,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             set
             {
-                PublicConfig.Options |= value;
+                PublicConfig.Options = value;
             }
         }
 
@@ -169,7 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 Role = role,
                 Name = config.Name,
                 OUPath = config.OUPath,
-                Options = config.Options,
+                JoinOption = config.Options,
                 User = config.User,
                 UnjoinDomainUser = config.UnjoinDomainUser,
                 Restart = config.Restart

@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    public class ADDomainExtensionContext : ExtensionContext
+    public static class ExtensionParameterPropertyHelper
     {
-        public string Name { get; set; }
-        public uint JoinOption { get; set; }
-        public string OUPath { get; set; }
-        public string User { get; set; }
-        public string UnjoinDomainUser { get; set; }
-        public bool Restart { get; set; }
+        public const string ServiceNameHelpMessage = "Cloud service name.";
+        public const string SlotHelpMessage = "Production (default) or Staging";
+        public const string RoleHelpMessage = "Default All Roles, or specify ones for Named Roles.";
+        public const string X509CertificateHelpMessage = "X509Certificate used to encrypt the content in private configuration.";
+        public const string CertificateThumbprintHelpMessage = "Thumbprint of a certificate used for encryption.";
+        public const string ThumbprintAlgorithmHelpMessage = "Algorithm associated with the Thumbprint.";
+        public const string UninstallConfigurationHelpMessage = "If specified, uninstall all extension configurations in this type from the cloud service.";
     }
 }
