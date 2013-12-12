@@ -107,17 +107,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <summary>
         /// Azure storage service hour metrics
         /// </summary>
-        public const string StorageServiceHourMetrics = "AzureStorageServiceHourMetrics";
-
-        /// <summary>
-        /// Azure storage service minute metrics
-        /// </summary>
-        public const string StorageServiceMinuteMetrics = "AzureStorageServiceMinuteMetrics";
+        public const string StorageServiceMetrics = "AzureStorageServiceMetricsProperty";
 
         /// <summary>
         /// Azure storage service logging
         /// </summary>
-        public const string StorageServiceLogging = "AzureStorageServiceLogging";
+        public const string StorageServiceLogging = "AzureStorageServiceLoggingProperty";
 
         /// <summary>
         /// Azure storage blob service
@@ -213,6 +208,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// Query permission
             /// </summary>
             public const char Query = 'q';
+        }
+
+        public static class MetricsType
+        {
+            /// <summary>
+            /// Hour metrics
+            /// </summary>
+            public const string Hour = "Hour";
+
+            /// <summary>
+            /// Minute metrics
+            /// </summary>
+            public const string Minute = "Minute";
         }
     }
 }
