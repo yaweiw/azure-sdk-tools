@@ -43,6 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             set
             {
+                /// To make the lowest bit of 'Options' always '1'.
                 Options |= JoinOptions.JoinDomain;
                 PublicConfig.Name = value;
             }
@@ -56,6 +57,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             set
             {
+                /// It is to set the lowest bit to 0 without using shift operation.
+                /// Since 'JoinOptions.JoinDomain' is equal to '1', the operation
+                /// 'Options ^ JoinOptions.JoinDomain' will flip the last bit of
+                /// 'Options' ('0' -> '1', '1' -> '0').
+                /// And then doing an '&' operation with the original value will
+                /// make the last bit always '0'.
                 Options &= (Options ^ JoinOptions.JoinDomain);
                 PublicConfig.Name = value;
             }
