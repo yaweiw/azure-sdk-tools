@@ -247,6 +247,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
 
+        public const string ResetAzureRoleInstanceCmdletName = "ReSet-AzureRoleInstance";
+
         #endregion
 
 
