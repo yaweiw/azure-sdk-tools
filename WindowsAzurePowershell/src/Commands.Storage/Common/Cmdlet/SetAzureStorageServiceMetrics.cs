@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
     using System;
+    using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Storage;
@@ -23,14 +24,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceHourMetrics),
+    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceMetrics),
         OutputType(typeof(MetricsProperties))]
     public class SetAzureStorageServiceHourMetricsCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
             IgnoreCase = true)]
-        public string Type { get; set; }
+        public string ServiceType { get; set; }
+
+        [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
+        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
+        public string MetricsType { get; set; }
 
         [Parameter(HelpMessage = "Metrics version")]
         public double? Version { get; set; }
@@ -114,18 +119,39 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type), OperationContext);
+                ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
             SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
-            serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
 
-            UpdateServiceProperties(serviceProperties.HourMetrics);
-            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
-                GetRequestOptions(Type), OperationContext);
+            bool isHourMetrics = false;
+
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(MetricsType))
+            {
+                case StorageNouns.MetricsType.Hour:
+                    serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
+                    UpdateServiceProperties(serviceProperties.HourMetrics);
+                    isHourMetrics = true;
+                    break;
+                case StorageNouns.MetricsType.Minute:
+                    serviceProperties.MinuteMetrics = currentServiceProperties.MinuteMetrics;
+                    UpdateServiceProperties(serviceProperties.MinuteMetrics);
+                    isHourMetrics = false;
+                    break;
+            }
+            
+            Channel.SetStorageServiceProperties(account, ServiceType, serviceProperties,
+                GetRequestOptions(ServiceType), OperationContext);
 
             if (PassThru)
             {
-                WriteObject(serviceProperties.HourMetrics);
+                if (isHourMetrics)
+                {
+                    WriteObject(serviceProperties.HourMetrics);
+                }
+                else
+                {
+                    WriteObject(serviceProperties.MinuteMetrics);
+                }
             }
         }
     }
