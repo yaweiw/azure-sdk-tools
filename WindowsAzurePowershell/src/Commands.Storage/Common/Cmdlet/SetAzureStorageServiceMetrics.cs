@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceMetrics),
         OutputType(typeof(MetricsProperties))]
-    public class SetAzureStorageServiceHourMetricsCommand : StorageCloudBlobCmdletBase
+    public class SetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
