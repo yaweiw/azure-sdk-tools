@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     null));
             }
 
-            Management.Compute.Models.ExtensionConfiguration extConfig = null;
+            ExtensionConfiguration extConfig = null;
             if (ExtensionConfiguration != null)
             {
                 string errorConfigInput = null;
