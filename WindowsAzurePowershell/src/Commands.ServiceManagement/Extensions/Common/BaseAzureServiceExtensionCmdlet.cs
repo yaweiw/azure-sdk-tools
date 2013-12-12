@@ -87,6 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
             }
+
             ExtensionManager = new ExtensionManager(this, ServiceName);
         }
 
@@ -329,6 +330,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                         }
                     }
                 }
+
                 ChangeDeployment(configBuilder.ToConfiguration());
             }
             else
