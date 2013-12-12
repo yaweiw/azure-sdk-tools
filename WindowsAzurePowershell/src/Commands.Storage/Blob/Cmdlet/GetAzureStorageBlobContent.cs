@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             string activity = String.Format(Resources.ReceiveAzureBlobActivity, blob.Name, filePath);
             string status = Resources.PrepareDownloadingBlob;
-            ProgressRecord pr = new ProgressRecord((int)taskId, activity, status);
+            ProgressRecord pr = new ProgressRecord(OutputStream.GetProgressId(taskId), activity, status);
             DataMovementUserData data = new DataMovementUserData()
             {
                 Data = blob,

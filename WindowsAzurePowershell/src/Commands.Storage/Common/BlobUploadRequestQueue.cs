@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
         public bool EnqueueRequest(string absolutFilePath, BlobType type, string blobName)
         {
+            absolutFilePath = Path.GetFullPath(absolutFilePath);
             if (!string.IsNullOrEmpty(blobName) && Requests.Count > 0)
             {
                 throw new ArgumentException(Resources.BlobNameShouldBeEmptyWhenUploading);
@@ -105,6 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 blobName = filePath.Substring(root.Length);
             }
 
+            blobName = NameUtil.ResolveBlobName(blobName);
+
             ICloudBlob blob = default(ICloudBlob);
 
             switch (Type)
@@ -123,14 +126,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
         private string GetCommonDirectory(string dir1, string dir2)
         {
+            string commonDir = string.Empty;
             if (string.IsNullOrEmpty(dir1) || string.IsNullOrEmpty(dir2))
-            { 
-                return string.IsNullOrEmpty(dir2) ? dir1 : dir2;
+            {
+                commonDir = string.IsNullOrEmpty(dir2) ? dir1 : dir2;
+            }
+            else
+            {
+                string[] path1 = dir1.Split(Path.DirectorySeparatorChar);
+                string[] path2 = dir2.Split(Path.DirectorySeparatorChar);
+                commonDir = GetCommonDirectory(path1, path2);
             }
 
-            string [] path1 = dir1.Split(Path.DirectorySeparatorChar);
-            string[] path2 = dir2.Split(Path.DirectorySeparatorChar);
-            return GetCommonDirectory(path1, path2);
+            if (string.IsNullOrEmpty(commonDir))
+            {
+                throw new ArgumentException(Resources.InvalidFileName);
+            }
+
+            if (!commonDir.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                commonDir += Path.DirectorySeparatorChar;
+            }
+
+            return commonDir;
         }
 
         private string GetCommonDirectory(string[] path1, string[] path2)

@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             opts.OverwritePromptCallback = ConfirmOverwrite;
             SetRequestOptionsInDataMovement(opts);
             transferManager = new BlobTransferManager(opts);
-            CmdletCancellationToken.Register(() => transferManager.CancelWorkAndWaitForCompletion());
+            CmdletCancellationToken.Register(() => transferManager.CancelWork());
         }
 
         private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)

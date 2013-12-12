@@ -417,7 +417,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         internal void InitMutltiThreadResources()
         {
             taskScheduler = new LimitedConcurrencyTaskScheduler(GetCmdletConcurrency(), CmdletCancellationToken);
-            OutputStream = new TaskOutputStream();
+            OutputStream = new TaskOutputStream(CmdletCancellationToken);
             OutputStream.OutputWriter = WriteObject;
             OutputStream.ErrorWriter = WriteExceptionError;
             OutputStream.ProgressWriter = WriteProgress;
@@ -432,6 +432,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount);
             string activity = string.Format(Resources.TransmitActivity, this.MyInvocation.MyCommand);
             summaryRecord = new ProgressRecord(summaryRecordId, activity, summary);
+            CmdletCancellationToken.Register(() => OutputStream.CancelConfirmRequest());
         }
 
         /// <summary>
@@ -450,10 +451,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         {
             do
             {
+                WriteTransmitSummaryStatus();
                 //When task add to datamovement library, it will immediately start.
                 //So, we'd better output status at first.
                 OutputStream.Output();
-                WriteTransmitSummaryStatus();
             }
             while (!taskScheduler.WaitForComplete(WaitTimeout, CmdletCancellationToken));
 

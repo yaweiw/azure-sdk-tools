@@ -70,19 +70,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
         private ConcurrentQueue<string> DebugMessages;
 
-        private ConcurrentQueue<ProgressRecord> Progress;
+
+        private int DefaultProgressCount = 4;
+        private ConcurrentDictionary<int, ProgressRecord> Progress;
+
+        private CancellationToken cancelllationToken;
 
         /// <summary>
         /// Create an Task output stream
         /// </summary>
-        public TaskOutputStream()
+        public TaskOutputStream(CancellationToken token)
         {
             OutputStream = new ConcurrentDictionary<long, OutputUnit>();
             CurrentOutputId = 0;
             ConfirmQueue = new Lazy<ConcurrentQueue<ConfirmTaskCompletionSource>>(
                 () => new ConcurrentQueue<ConfirmTaskCompletionSource>(), true);
             DebugMessages = new ConcurrentQueue<string>();
-            Progress = new ConcurrentQueue<ProgressRecord>();
+            Progress = new ConcurrentDictionary<int, ProgressRecord>();
+            cancelllationToken = token;
         }
 
         /// <summary>
@@ -93,15 +98,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         private void WriteOutputUnit(long id, OutputUnit unit)
         {
             OutputStream.AddOrUpdate(id, unit, (key, oldUnit) => 
+            {
+                //Merge data queue
+                List<Tuple<OutputType, object>> newDataQueue = unit.DataQueue.ToList();
+                foreach (var data in newDataQueue)
                 {
-                    //Merge data queue
-                    List<Tuple<OutputType, object>> newDataQueue = unit.DataQueue.ToList();
-                    foreach (var data in newDataQueue)
-                    {
-                        oldUnit.DataQueue.Enqueue(data);
-                    }
-                    return oldUnit;
-                });
+                    oldUnit.DataQueue.Enqueue(data);
+                }
+                return oldUnit;
+            });
         }
 
         /// <summary>
@@ -143,7 +148,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <param name="record">Progress record</param>
         public void WriteProgress(ProgressRecord record)
         {
-            Progress.Enqueue(record);
+            int activityId = record.ActivityId; //Acitity 0 is reserved for summary
+            Progress.AddOrUpdate(activityId, record, (id, oldRecord) =>
+            {
+                //Merge data queue
+                if (record.PercentComplete != 100 || oldRecord.PercentComplete == 100)
+                {
+                    return record;
+                }
+                else
+                {
+                    return oldRecord;
+                }
+            });
+        }
+
+        public int GetProgressId(long taskId)
+        {
+            return (int) taskId % DefaultProgressCount + 1;
         }
 
         /// <summary>
@@ -185,14 +207,62 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             return tcs.Task;
         }
 
+        private object confirmTaskLock = new object();
+        private ConfirmTaskCompletionSource currentTaskSource = null;
+
         /// <summary>
         /// Confirm the request
         /// </summary>
         /// <param name="tcs">Confirm task completion source</param>
         internal void ConfirmRequest(ConfirmTaskCompletionSource tcs)
         {
-            bool result = ConfirmWriter(string.Empty, tcs.Message, Resources.ConfirmCaption);
-            tcs.SetResult(result);
+            if (cancelllationToken.IsCancellationRequested)
+            {
+                tcs.SetCanceled();
+            }
+
+            lock (confirmTaskLock)
+            {
+                currentTaskSource = tcs;
+            }
+
+            try
+            {
+                bool result = ConfirmWriter(string.Empty, tcs.Message, Resources.ConfirmCaption);
+                tcs.SetResult(result);
+            }
+            catch (Exception e)
+            {
+                tcs.SetException(e);
+            }
+
+            lock (confirmTaskLock)
+            {
+                currentTaskSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Cancel the confirmation request
+        /// </summary>
+        public void CancelConfirmRequest()
+        {
+            ConfirmTaskCompletionSource tcs = null;
+
+            while (ConfirmQueue.Value.TryDequeue(out tcs))
+            {
+                tcs.SetCanceled();
+            }
+
+            lock (confirmTaskLock)
+            {
+                if (currentTaskSource != null)
+                {
+                    currentTaskSource.SetCanceled();
+                }
+
+                currentTaskSource = null;
+            }
         }
 
         /// <summary>
@@ -223,7 +293,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         protected void ProcessProgress()
         {
-            ProcessUnorderedOutputStream<ProgressRecord>(Progress, ProgressWriter);
+            ProgressRecord record = null;
+            bool removed = false;
+
+            for (var i = 0; i < DefaultProgressCount; i++)
+            {
+                removed = Progress.TryRemove(i + 1, out record);
+                if (removed && record != null)
+                {
+                    ProgressWriter(record);
+                }
+            }
         }
 
         /// <summary>
