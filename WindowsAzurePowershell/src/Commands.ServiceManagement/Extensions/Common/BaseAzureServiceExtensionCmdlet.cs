@@ -265,17 +265,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected string Serialize(object config)
         {
-            StringWriter sw = new StringWriter();
-            XmlSerializer serializer = new XmlSerializer(config.GetType());
-            serializer.Serialize(sw, config);
-            return sw.ToString();
+            string result = null;
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+                serializer.Serialize(sw, config);
+                result = sw.ToString();
+            }
+
+            return result;
         }
 
         protected object Deserialize(string config, Type type)
         {
-            StringReader sr = new StringReader(config);
-            XmlSerializer serializer = new XmlSerializer(type);
-            return serializer.Deserialize(sr);
+            object result = null;
+            using (StringReader sr = new StringReader(config))
+            {
+                XmlSerializer serializer = new XmlSerializer(type);
+                result = serializer.Deserialize(sr);
+            }
+
+            return result;
         }
 
         protected virtual ExtensionContext GetContext(OperationStatusResponse op, ExtensionRole role, HostedServiceListExtensionsResponse.Extension ext)
