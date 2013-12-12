@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
+    using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Storage;
@@ -22,10 +23,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     /// <summary>
     /// Show azure storage service properties
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.StorageServiceMinuteMetrics),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.StorageServiceMetrics),
         OutputType(typeof(MetricsProperties))]
-    public class SetAzureStorageServiceMinuteMetrics : SetAzureStorageServiceHourMetricsCommand
+    public class GetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
     {
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
+        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
+        public string ServiceType { get; set; }
+
+        [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
+        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
+        public string MetricsType { get; set; }
+
         /// <summary>
         /// Execute command
         /// </summary>
@@ -33,19 +42,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type), OperationContext);
-            ServiceProperties serviceProperties = new ServiceProperties();
-            SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
-            serviceProperties.MinuteMetrics = currentServiceProperties.MinuteMetrics;
+            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
+                ServiceType, GetRequestOptions(ServiceType) , OperationContext);
 
-            UpdateServiceProperties(serviceProperties.MinuteMetrics);
-            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
-                GetRequestOptions(Type), OperationContext);
-
-            if (PassThru)
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(MetricsType))
             {
-                WriteObject(serviceProperties.MinuteMetrics);
+                case StorageNouns.MetricsType.Hour:
+                    WriteObject(serviceProperties.HourMetrics);
+                    break;
+                case StorageNouns.MetricsType.Minute:
+                default:
+                    WriteObject(serviceProperties.MinuteMetrics);
+                    break;
             }
         }
     }

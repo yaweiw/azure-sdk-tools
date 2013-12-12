@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
         /// <summary>
         /// StorageCmdletBase command
         /// </summary>
-        public SetAzureStorageServiceHourMetricsCommand command = null;
+        public SetAzureStorageServiceMetricsCommand command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new SetAzureStorageServiceHourMetricsCommand
+            command = new SetAzureStorageServiceMetricsCommand
             {
                 CommandRuntime = new MockCommandRuntime()
             };

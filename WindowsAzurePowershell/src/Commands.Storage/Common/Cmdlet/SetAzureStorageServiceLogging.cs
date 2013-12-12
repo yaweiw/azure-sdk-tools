@@ -28,10 +28,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         OutputType(typeof(LoggingProperties))]
     public class SetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Azure storage type")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
         [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
             IgnoreCase = true)]
-        public string Type { get; set; }
+        public string ServiceType { get; set; }
 
         [Parameter(HelpMessage = "Logging version")]
         public double? Version { get; set; }
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public const string LoggingOperationHelpMessage =
             "Logging operations. (All, None, combinations of Read, Write, Delete that are seperated by semicolon.)";
         [Parameter(HelpMessage = LoggingOperationHelpMessage)]
-        public string LoggingOperations { get; set; }
+        public LoggingOperations[] LoggingOperations { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
@@ -76,9 +76,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
             }
 
-            if (LoggingOperations != null)
+            if (LoggingOperations.Length > 0)
             {
-                LoggingOperations logOperations = GetLoggingOperations(LoggingOperations);
+                LoggingOperations logOperations = default(LoggingOperations);
+
+                for (int i = 0; i < LoggingOperations.Length; i++)
+                {
+                    logOperations |= LoggingOperations[i];
+                }
+
                 logging.LoggingOperations = logOperations;
                 //Set default logging version
                 if (string.IsNullOrEmpty(logging.Version))
@@ -155,15 +161,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
-                Type, GetRequestOptions(Type), OperationContext);
+                ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
             CleanServiceProperties(serviceProperties);
             serviceProperties.Logging = currentServiceProperties.Logging;
 
             UpdateServiceProperties(serviceProperties.Logging);
 
-            Channel.SetStorageServiceProperties(account, Type, serviceProperties,
-                GetRequestOptions(Type), OperationContext);
+            Channel.SetStorageServiceProperties(account, ServiceType, serviceProperties,
+                GetRequestOptions(ServiceType), OperationContext);
 
             if (PassThru)
             {
