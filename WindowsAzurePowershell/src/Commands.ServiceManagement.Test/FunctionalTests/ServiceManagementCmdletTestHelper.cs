@@ -1298,6 +1298,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new GetAzureRemoteDesktopFileCmdletInfo(vmName, serviceName, localPath, launch));
         }
 
+        public ManagementOperationContext ResetAzureRoleInstance(string serviceName,string instanceName,string slotType,bool reboot=false,bool reimage=false)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new ResetAzureRoleInstanceCmdletInfo(serviceName,instanceName,slotType,reboot,reimage));
+        }
+
         internal PersistentVM GetPersistentVM(PersistentVMConfigInfo configInfo)
         {
             PersistentVM vm = null;

@@ -288,6 +288,7 @@
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FunctionalTests\PaasCmdletInfo\ResetAzureRoleInstanceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
