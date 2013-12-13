@@ -35,8 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Both the object and exception are the valid output.
         /// Key: Output id
         /// Value: OutputUnit object which store the output data
+        /// It's thread safe to access the value even it's a Queue.
+        /// Don't use ConcurrentQueue for value since it'll cause a huge perfomance downgrade.
         /// </summary>
-        private ConcurrentDictionary<long, OutputUnit> OutputStream;
+        private ConcurrentDictionary<long, Queue<OutputUnit>> OutputStream;
 
         /// <summary>
         /// Current output id
@@ -64,6 +66,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public Func<long, bool> TaskStatusQueryer;
 
         /// <summary>
+        /// is progress bard disabled
+        /// </summary>
+        private bool isProgressDisabled = false;
+
+        /// <summary>
+        /// Progress bar is harm for performance.
+        /// </summary>
+        public bool DisableProgressBar
+        {
+            get
+            {
+                return isProgressDisabled;
+            }
+            set
+            {
+                isProgressDisabled = value;
+            }
+        }
+
+        /// <summary>
         /// The operation that should be confirmed by user.
         /// </summary>
         private Lazy<ConcurrentQueue<ConfirmTaskCompletionSource>> ConfirmQueue;
@@ -81,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         public TaskOutputStream(CancellationToken token)
         {
-            OutputStream = new ConcurrentDictionary<long, OutputUnit>();
+            OutputStream = new ConcurrentDictionary<long, Queue<OutputUnit>>();
             CurrentOutputId = 0;
             ConfirmQueue = new Lazy<ConcurrentQueue<ConfirmTaskCompletionSource>>(
                 () => new ConcurrentQueue<ConfirmTaskCompletionSource>(), true);
@@ -97,16 +119,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <param name="unit">Output unit</param>
         private void WriteOutputUnit(long id, OutputUnit unit)
         {
-            OutputStream.AddOrUpdate(id, unit, (key, oldUnit) => 
+            //It's thread for the specified id
+            Queue<OutputUnit> outputQueue = null;
+            bool found = OutputStream.TryGetValue(id, out outputQueue);
+            if (!found || outputQueue == null)
             {
-                //Merge data queue
-                List<Tuple<OutputType, object>> newDataQueue = unit.DataQueue.ToList();
-                foreach (var data in newDataQueue)
-                {
-                    oldUnit.DataQueue.Enqueue(data);
-                }
-                return oldUnit;
-            });
+                outputQueue = new Queue<OutputUnit>();
+                OutputStream.TryAdd(id, outputQueue);
+            }
+
+            outputQueue.Enqueue(unit);
         }
 
         /// <summary>
@@ -148,18 +170,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <param name="record">Progress record</param>
         public void WriteProgress(ProgressRecord record)
         {
+            if (isProgressDisabled)
+            {
+                return;
+            }
+
             int activityId = record.ActivityId; //Acitity 0 is reserved for summary
             Progress.AddOrUpdate(activityId, record, (id, oldRecord) =>
             {
-                //Merge data queue
-                if (record.PercentComplete != 100 || oldRecord.PercentComplete == 100)
-                {
-                    return record;
-                }
-                else
-                {
-                    return oldRecord;
-                }
+                return record;
             });
         }
 
@@ -301,6 +320,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 removed = Progress.TryRemove(i + 1, out record);
                 if (removed && record != null)
                 {
+                    if (isProgressDisabled)
+                    {
+                        //Close the progress bar
+                        record.RecordType = ProgressRecordType.Completed;
+                    }
+
                     ProgressWriter(record);
                 }
             }
@@ -343,7 +368,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         protected void ProcessDataOutput()
         {
-            OutputUnit unit = null;
+            Queue<OutputUnit> outputQueue = null;
             bool removed = false;
             bool taskDone = false;
 
@@ -351,44 +376,43 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             {
                 taskDone = IsTaskDone(CurrentOutputId);
 
-                removed = OutputStream.TryRemove(CurrentOutputId, out unit);
-
-                if (removed)
-                {
-                    try
-                    {
-                        Tuple<OutputType, object> data = null;
-                        while (unit.DataQueue.TryDequeue(out data))
-                        {
-                            switch (data.Item1)
-                            {
-                                case OutputType.Object:
-                                    OutputWriter(data.Item2);
-                                    break;
-                                case OutputType.Error:
-                                    ErrorWriter(data.Item2 as Exception);
-                                    break;
-                                case OutputType.Verbose:
-                                    VerboseWriter(data.Item2 as string);
-                                    break;
-                            }
-                        }
-                    }
-                    catch (PipelineStoppedException)
-                    {
-                        //Directly stop the output stream when throw an exception.
-                        //If so, we could quickly response for ctrl + c and etc.
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Fail(String.Format("{0}", e));
-                        break;
-                    }
-                }
-
                 if (taskDone)
                 {
+                    removed = OutputStream.TryRemove(CurrentOutputId, out outputQueue);
+
+                    if (removed && outputQueue != null)
+                    {
+                        try
+                        {
+                            foreach(OutputUnit unit in outputQueue)
+                            {
+                                switch (unit.Type)
+                                {
+                                    case OutputType.Object:
+                                        OutputWriter(unit.Data);
+                                        break;
+                                    case OutputType.Error:
+                                        ErrorWriter(unit.Data as Exception);
+                                        break;
+                                    case OutputType.Verbose:
+                                        VerboseWriter(unit.Data as string);
+                                        break;
+                                }
+                            }
+                        }
+                        catch (PipelineStoppedException)
+                        {
+                            //Directly stop the output stream when throw an exception.
+                            //If so, we could quickly response for ctrl + c and etc.
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Fail(String.Format("{0}", e));
+                            break;
+                        }
+                    }
+
                     CurrentOutputId++;
                 }   //Otherwise wait for the task completion
             }
@@ -431,7 +455,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// Output list
             /// All the output unit which has the same output key will be merged in the OutputStream
             /// </summary>
-            public ConcurrentQueue<Tuple<OutputType, object>> DataQueue;
+            public object Data;
 
             /// <summary>
             /// Create an OutputUnit
@@ -440,9 +464,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// <param name="data">Output data</param>
             public OutputUnit(object data, OutputType type)
             {
+                Data = data;
                 Type = type;
-                DataQueue = new ConcurrentQueue<Tuple<OutputType, object>>();
-                DataQueue.Enqueue(new Tuple<OutputType, object>(type,data));
             }
         }
     }

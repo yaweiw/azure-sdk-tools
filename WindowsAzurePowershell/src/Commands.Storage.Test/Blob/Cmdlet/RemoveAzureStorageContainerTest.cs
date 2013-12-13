@@ -94,8 +94,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
 
             MockCmdRunTime.ResetPipelines();
             name = "text";
+            command.Name = name;
             command.Force = true;
-            RunAsyncCommand(() => command.RemoveAzureContainer(InitTaskId, BlobMock, name).Wait());
+            RunAsyncCommand(() => command.ExecuteCmdlet());
             result = (string)MockCmdRunTime.VerboseStream.FirstOrDefault();
             Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
         }
