@@ -59,6 +59,10 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get/Create DNS settings of a deployment.
 * VNet
   * Manage virtual network config, connection and gateway.
+* HDInsight
+  * Manage clusters, such as CRUD, add/set storage
+  * Manage jobs, such as CRUD, start/stop/wait/invoke
+  * Manage HTTP service access. such as grant/revoke
 * Store
   * View available Windows Azure Store Add-On plans.
   * Purchase, view, upgrade and remove Windows Azure Store Add-On instances.
