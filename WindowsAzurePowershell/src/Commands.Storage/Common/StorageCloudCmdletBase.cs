@@ -38,7 +38,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual AzureStorageContext Context {get; set;}
 
         [Parameter(HelpMessage = "The server time out for each request in seconds.")]
-        public virtual int? TimeoutPerRequest { get; set; }
+        public virtual int? ServerTimeoutPerRequest { get; set; }
+
+        [Parameter(HelpMessage = "The client side maximum execution time for each request in seconds.")]
+        public virtual int? MaximumExecutionTimePerRequest { get; set; }
 
         /// <summary>
         /// whether stop processing
@@ -72,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>Request options</returns>
         public IRequestOptions GetRequestOptions(string type)
         {
-            if (TimeoutPerRequest == null)
+            if (ServerTimeoutPerRequest == null)
             {
                 return null;
             }
@@ -93,10 +96,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                     throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
             }
 
-            if (TimeoutPerRequest != null)
+            if (ServerTimeoutPerRequest != null)
             {
-                options.ServerTimeout = TimeSpan.FromSeconds((double)TimeoutPerRequest);
-                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)TimeoutPerRequest);
+                options.ServerTimeout = TimeSpan.FromSeconds((double)ServerTimeoutPerRequest);
+            }
+
+            if (MaximumExecutionTimePerRequest != null)
+            {
+                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)MaximumExecutionTimePerRequest);
             }
 
             return options;
