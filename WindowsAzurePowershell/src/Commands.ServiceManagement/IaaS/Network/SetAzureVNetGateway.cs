@@ -53,6 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
+
             var connParams = new GatewayConnectDisconnectOrTestParameters
             {
                 Operation = this.Connect.IsPresent ? GatewayConnectionUpdateOperation.Connect : GatewayConnectionUpdateOperation.Disconnect
@@ -61,8 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.NetworkClient.Gateways.ConnectDisconnectOrTest(this.VNetName, this.LocalNetworkSiteName, connParams),
-                this.WaitForNewGatewayOperation);
+                () => this.NetworkClient.Gateways.ConnectDisconnectOrTest(this.VNetName, this.LocalNetworkSiteName, connParams));
         }
     }
 }
