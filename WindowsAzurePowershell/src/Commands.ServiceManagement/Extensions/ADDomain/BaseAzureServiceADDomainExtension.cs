@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set
             {
                 PublicConfig.User = value.UserName;
-                PrivateConfig.Password = value.Password.ConvertToUnsecureString();
+                PrivateConfig.Password = value.Password == null ? string.Empty : value.Password.ConvertToUnsecureString();
             }
         }
 
@@ -134,7 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set
             {
                 PublicConfig.UnjoinDomainUser = value.UserName;
-                PrivateConfig.UnjoinDomainPassword = value.Password.ConvertToUnsecureString();
+                PrivateConfig.UnjoinDomainPassword = value.Password == null ? string.Empty : value.Password.ConvertToUnsecureString();
             }
         }
 
@@ -150,6 +150,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ExtensionType = DomainExtensionType;
             PublicConfig = new PublicConfig();
             PrivateConfig = new PrivateConfig();
+            PrivateConfig.Password = string.Empty;
+            PrivateConfig.UnjoinDomainPassword = string.Empty;
         }
 
         protected override void ValidateConfiguration()
