@@ -82,6 +82,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
                 for (int i = 0; i < LoggingOperations.Length; i++)
                 {
+                    if (LoggingOperations[i] == StorageClient.LoggingOperations.None
+                        || LoggingOperations[i] == StorageClient.LoggingOperations.All)
+                    {
+                        if (LoggingOperations.Length > 1)
+                        {
+                            throw new ArgumentException(Resources.NoneAndAllOperationShouldBeAlone);
+                        }
+                    }
+
                     logOperations |= LoggingOperations[i];
                 }
 

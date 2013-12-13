@@ -597,4 +597,7 @@ Failed: {2}.</value>
     <value>The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}.</value>
     <comment>0 for the user specified retention day</comment>
   </data>
+  <data name="NoneAndAllOperationShouldBeAlone" xml:space="preserve">
+    <value>None or All operation can't be used with other operations.</value>
+  </data>
 </root>

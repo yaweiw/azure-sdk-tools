@@ -898,6 +898,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None or All operation can&apos;t be used with other operations..
+        /// </summary>
+        internal static string NoneAndAllOperationShouldBeAlone {
+            get {
+                return ResourceManager.GetString("NoneAndAllOperationShouldBeAlone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Object &apos;{0}&apos; cannot be null..
         /// </summary>
         internal static string ObjectCannotBeNull {
