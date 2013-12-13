@@ -117,7 +117,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             IStorageBlobManagement localChannel = Channel;
-            Func<long, Task> taskGenerator = (taskId) => CreateAzureContainer(taskId, localChannel, Name, accessLevel);
+            string localName = Name;
+            Func<long, Task> taskGenerator = (taskId) => CreateAzureContainer(taskId, localChannel, localName, accessLevel);
             RunTask(taskGenerator);
         }
     }
