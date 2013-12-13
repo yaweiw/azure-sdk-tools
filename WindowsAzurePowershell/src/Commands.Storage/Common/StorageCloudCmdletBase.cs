@@ -458,10 +458,21 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
             while (!taskScheduler.WaitForComplete(WaitTimeout, CmdletCancellationToken));
 
+            CloseSummaryProgressBar();
             OutputStream.Output();
 
             WriteVerbose(String.Format(Resources.TransferSummary, taskScheduler.TotalTaskCount,
                 taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount));
+        }
+
+        /// <summary>
+        /// Close the summary progress bar, otherwise it'll cause a very bad performance on output.
+        /// </summary>
+        private void CloseSummaryProgressBar()
+        {
+            OutputStream.DisableProgressBar = true;
+            summaryRecord.RecordType = ProgressRecordType.Completed;
+            WriteProgress(summaryRecord);
         }
 
         internal void RunTask(Func<long, Task> taskGenerator)

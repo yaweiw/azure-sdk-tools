@@ -79,7 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
 
             MockCmdRunTime.ResetPipelines();
             name = "test";
-            RunAsyncCommand(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel).Wait());
+            command.Name = name;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
             AzureStorageContainer container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual("test", container.Name);
 
