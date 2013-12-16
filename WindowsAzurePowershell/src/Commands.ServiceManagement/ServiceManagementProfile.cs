@@ -204,6 +204,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<OperationStatusResponse, LocationsContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            //Role sizes mapping
+            Mapper.CreateMap<RoleSizesListResponse.RoleSize, RoleSizeContext>();
+            Mapper.CreateMap<OperationStatusResponse, RoleSizeContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
             
             //ServiceCertificate mapping
             Mapper.CreateMap<ServiceCertificateGetResponse, CertificateContext>()
