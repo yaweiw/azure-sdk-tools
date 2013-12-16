@@ -1,5 +1,5 @@
 // 
-// Copyright (c) Microsoft.  All rights reserved.
+// Copyright (c) Microsoft and contributors.  All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -916,6 +916,126 @@ namespace Microsoft.WindowsAzure.Management.Models
     }
     
     /// <summary>
+    /// The List Role Sizes operation response.
+    /// </summary>
+    public partial class RoleSizesListResponse : OperationResponse, IEnumerable<RoleSizesListResponse.RoleSize>
+    {
+        private IList<RoleSizesListResponse.RoleSize> _roleSizes;
+        
+        /// <summary>
+        /// The role sizes that are valid for your subscription.
+        /// </summary>
+        public IList<RoleSizesListResponse.RoleSize> RoleSizes
+        {
+            get { return this._roleSizes; }
+            set { this._roleSizes = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the RoleSizesListResponse class.
+        /// </summary>
+        public RoleSizesListResponse()
+        {
+            this._roleSizes = new List<RoleSizesListResponse.RoleSize>();
+        }
+        
+        /// <summary>
+        /// Gets the sequence of RoleSizes.
+        /// </summary>
+        public IEnumerator<RoleSizesListResponse.RoleSize> GetEnumerator()
+        {
+            return this.RoleSizes.GetEnumerator();
+        }
+        
+        /// <summary>
+        /// Gets the sequence of RoleSizes.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        
+        /// <summary>
+        /// A role size that is valid for your subscription.
+        /// </summary>
+        public partial class RoleSize
+        {
+            private int _cores;
+            
+            /// <summary>
+            /// Number of cores available for the role size.
+            /// </summary>
+            public int Cores
+            {
+                get { return this._cores; }
+                set { this._cores = value; }
+            }
+            
+            private string _label;
+            
+            /// <summary>
+            /// Localized label of the role size.
+            /// </summary>
+            public string Label
+            {
+                get { return this._label; }
+                set { this._label = value; }
+            }
+            
+            private int _memoryInMb;
+            
+            /// <summary>
+            /// Memory available for the role size.
+            /// </summary>
+            public int MemoryInMb
+            {
+                get { return this._memoryInMb; }
+                set { this._memoryInMb = value; }
+            }
+            
+            private string _name;
+            
+            /// <summary>
+            /// The name of a role size that is valid for your subscription.
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+            
+            private bool _supportedByVirtualMachines;
+            
+            /// <summary>
+            /// Indicating if the role size is supported by VMs.
+            /// </summary>
+            public bool SupportedByVirtualMachines
+            {
+                get { return this._supportedByVirtualMachines; }
+                set { this._supportedByVirtualMachines = value; }
+            }
+            
+            private bool _supportedByWebWorkerRoles;
+            
+            /// <summary>
+            /// Indicating if the role size is supported by web/worker roles.
+            /// </summary>
+            public bool SupportedByWebWorkerRoles
+            {
+                get { return this._supportedByWebWorkerRoles; }
+                set { this._supportedByWebWorkerRoles = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the RoleSize class.
+            /// </summary>
+            public RoleSize()
+            {
+            }
+        }
+    }
+    
+    /// <summary>
     /// The Get Subscription operation response.
     /// </summary>
     public partial class SubscriptionGetResponse : OperationResponse
@@ -1597,6 +1717,15 @@ namespace Microsoft.WindowsAzure.Management
         }
         
         /// <summary>
+        /// The Service Management API includes operations for listing the
+        /// available role sizes for VMs in your subscription.
+        /// </summary>
+        IRoleSizeOperations RoleSizes
+        {
+            get; 
+        }
+        
+        /// <summary>
         /// Operation for listing subscription operations and details.  (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/gg715315.aspx
         /// for more information)
@@ -1802,6 +1931,17 @@ namespace Microsoft.WindowsAzure.Management
             get { return this._managementCertificates; }
         }
         
+        private IRoleSizeOperations _roleSizes;
+        
+        /// <summary>
+        /// The Service Management API includes operations for listing the
+        /// available role sizes for VMs in your subscription.
+        /// </summary>
+        public virtual IRoleSizeOperations RoleSizes
+        {
+            get { return this._roleSizes; }
+        }
+        
         private ISubscriptionOperations _subscriptions;
         
         /// <summary>
@@ -1823,6 +1963,7 @@ namespace Microsoft.WindowsAzure.Management
             this._affinityGroups = new AffinityGroupOperations(this);
             this._locations = new LocationOperations(this);
             this._managementCertificates = new ManagementCertificateOperations(this);
+            this._roleSizes = new RoleSizeOperations(this);
             this._subscriptions = new SubscriptionOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
@@ -4432,6 +4573,271 @@ namespace Microsoft.WindowsAzure.Management
                             {
                                 DateTime createdInstance = DateTime.Parse(createdElement.Value, CultureInfo.InvariantCulture);
                                 subscriptionCertificateInstance.Created = createdInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available role sizes for VMs in your subscription.
+    /// </summary>
+    public partial interface IRoleSizeOperations
+    {
+        /// <summary>
+        /// The List Role Sizes operation lists all of the role sizes that are
+        /// valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Role Sizes operation response.
+        /// </returns>
+        Task<RoleSizesListResponse> ListAsync(CancellationToken cancellationToken);
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available role sizes for VMs in your subscription.
+    /// </summary>
+    public static partial class RoleSizeOperationsExtensions
+    {
+        /// <summary>
+        /// The List Role Sizes operation lists all of the role sizes that are
+        /// valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IRoleSizeOperations.
+        /// </param>
+        /// <returns>
+        /// The List Role Sizes operation response.
+        /// </returns>
+        public static RoleSizesListResponse List(this IRoleSizeOperations operations)
+        {
+            try
+            {
+                return operations.ListAsync().Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The List Role Sizes operation lists all of the role sizes that are
+        /// valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.IRoleSizeOperations.
+        /// </param>
+        /// <returns>
+        /// The List Role Sizes operation response.
+        /// </returns>
+        public static Task<RoleSizesListResponse> ListAsync(this IRoleSizeOperations operations)
+        {
+            return operations.ListAsync(CancellationToken.None);
+        }
+    }
+    
+    /// <summary>
+    /// The Service Management API includes operations for listing the
+    /// available role sizes for VMs in your subscription.
+    /// </summary>
+    internal partial class RoleSizeOperations : IServiceOperations<ManagementClient>, IRoleSizeOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the RoleSizeOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal RoleSizeOperations(ManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private ManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.ManagementClient.
+        /// </summary>
+        public ManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The List Role Sizes operation lists all of the role sizes that are
+        /// valid for your subscription.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The List Role Sizes operation response.
+        /// </returns>
+        public async Task<RoleSizesListResponse> ListAsync(CancellationToken cancellationToken)
+        {
+            // Validate
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                Tracing.Enter(invocationId, this, "ListAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/rolesizes";
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-03-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    RoleSizesListResponse result = new RoleSizesListResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement roleSizesSequenceElement = responseDoc.Element(XName.Get("RoleSizes", "http://schemas.microsoft.com/windowsazure"));
+                    if (roleSizesSequenceElement != null)
+                    {
+                        foreach (XElement roleSizesElement in roleSizesSequenceElement.Elements(XName.Get("RoleSize", "http://schemas.microsoft.com/windowsazure")))
+                        {
+                            RoleSizesListResponse.RoleSize roleSizeInstance = new RoleSizesListResponse.RoleSize();
+                            result.RoleSizes.Add(roleSizeInstance);
+                            
+                            XElement nameElement = roleSizesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                            if (nameElement != null)
+                            {
+                                string nameInstance = nameElement.Value;
+                                roleSizeInstance.Name = nameInstance;
+                            }
+                            
+                            XElement labelElement = roleSizesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
+                            if (labelElement != null)
+                            {
+                                string labelInstance = labelElement.Value;
+                                roleSizeInstance.Label = labelInstance;
+                            }
+                            
+                            XElement coresElement = roleSizesElement.Element(XName.Get("Cores", "http://schemas.microsoft.com/windowsazure"));
+                            if (coresElement != null)
+                            {
+                                int coresInstance = int.Parse(coresElement.Value, CultureInfo.InvariantCulture);
+                                roleSizeInstance.Cores = coresInstance;
+                            }
+                            
+                            XElement memoryInMbElement = roleSizesElement.Element(XName.Get("MemoryInMb", "http://schemas.microsoft.com/windowsazure"));
+                            if (memoryInMbElement != null)
+                            {
+                                int memoryInMbInstance = int.Parse(memoryInMbElement.Value, CultureInfo.InvariantCulture);
+                                roleSizeInstance.MemoryInMb = memoryInMbInstance;
+                            }
+                            
+                            XElement supportedByWebWorkerRolesElement = roleSizesElement.Element(XName.Get("SupportedByWebWorkerRoles", "http://schemas.microsoft.com/windowsazure"));
+                            if (supportedByWebWorkerRolesElement != null)
+                            {
+                                bool supportedByWebWorkerRolesInstance = bool.Parse(supportedByWebWorkerRolesElement.Value);
+                                roleSizeInstance.SupportedByWebWorkerRoles = supportedByWebWorkerRolesInstance;
+                            }
+                            
+                            XElement supportedByVirtualMachinesElement = roleSizesElement.Element(XName.Get("SupportedByVirtualMachines", "http://schemas.microsoft.com/windowsazure"));
+                            if (supportedByVirtualMachinesElement != null)
+                            {
+                                bool supportedByVirtualMachinesInstance = bool.Parse(supportedByVirtualMachinesElement.Value);
+                                roleSizeInstance.SupportedByVirtualMachines = supportedByVirtualMachinesInstance;
                             }
                         }
                     }
