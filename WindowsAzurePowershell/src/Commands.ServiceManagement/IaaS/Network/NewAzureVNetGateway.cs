@@ -31,13 +31,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            var gatewayParams = new GatewayCreateParameters();
-
+            ServiceManagementProfile.Initialize();
             ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.NetworkClient.Gateways.Create(this.VNetName, gatewayParams),
-                this.WaitForNewGatewayOperation);
+                () => this.NetworkClient.Gateways.Create(this.VNetName, new GatewayCreateParameters()));
         }
     }
 }

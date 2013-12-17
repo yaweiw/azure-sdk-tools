@@ -30,11 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.NetworkClient.Gateways.Delete(this.VNetName),
-                this.WaitForNewGatewayOperation);
+                () => this.NetworkClient.Gateways.Delete(this.VNetName));
         }
     }
 }
