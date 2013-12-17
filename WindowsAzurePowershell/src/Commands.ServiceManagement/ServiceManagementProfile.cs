@@ -206,7 +206,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Role sizes mapping
-            Mapper.CreateMap<RoleSizesListResponse.RoleSize, RoleSizeContext>();
+            Mapper.CreateMap<RoleSizesListResponse.RoleSize, RoleSizeContext>()
+                  .ForMember(c => c.InstanceSize, o => o.MapFrom(r => r.Name));
             Mapper.CreateMap<OperationStatusResponse, RoleSizeContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));

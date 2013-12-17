@@ -369,6 +369,18 @@ namespace Microsoft.WindowsAzure.Management.Compute.Models
             set { this._sshSettings = value; }
         }
         
+        private string _staticVirtualNetworkIPAddress;
+        
+        /// <summary>
+        /// Optional. Specifies a Customer Address, i.e. an IP address assigned
+        /// to a VM in a VNet's SubNet, for example: 10.0.0.4.
+        /// </summary>
+        public string StaticVirtualNetworkIPAddress
+        {
+            get { return this._staticVirtualNetworkIPAddress; }
+            set { this._staticVirtualNetworkIPAddress = value; }
+        }
+        
         private IList<StoredCertificateSettings> _storedCertificateSettings;
         
         /// <summary>
@@ -18042,6 +18054,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                             }
                                         }
                                         
+                                        XElement staticVirtualNetworkIPAddressElement = configurationSetsElement.Element(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                                        if (staticVirtualNetworkIPAddressElement != null)
+                                        {
+                                            string staticVirtualNetworkIPAddressInstance = staticVirtualNetworkIPAddressElement.Value;
+                                            configurationSetInstance.StaticVirtualNetworkIPAddress = staticVirtualNetworkIPAddressInstance;
+                                        }
+                                        
                                         XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
                                         if (computerNameElement != null)
                                         {
@@ -19173,6 +19192,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                             {
                                                 configurationSetInstance.SubnetNames.Add(subnetNamesElement.Value);
                                             }
+                                        }
+                                        
+                                        XElement staticVirtualNetworkIPAddressElement = configurationSetsElement.Element(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                                        if (staticVirtualNetworkIPAddressElement != null)
+                                        {
+                                            string staticVirtualNetworkIPAddressInstance = staticVirtualNetworkIPAddressElement.Value;
+                                            configurationSetInstance.StaticVirtualNetworkIPAddress = staticVirtualNetworkIPAddressInstance;
                                         }
                                         
                                         XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -24761,6 +24787,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                     {
                                                         configurationSetInstance.SubnetNames.Add(subnetNamesElement.Value);
                                                     }
+                                                }
+                                                
+                                                XElement staticVirtualNetworkIPAddressElement = configurationSetsElement.Element(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                                                if (staticVirtualNetworkIPAddressElement != null)
+                                                {
+                                                    string staticVirtualNetworkIPAddressInstance = staticVirtualNetworkIPAddressElement.Value;
+                                                    configurationSetInstance.StaticVirtualNetworkIPAddress = staticVirtualNetworkIPAddressInstance;
                                                 }
                                                 
                                                 XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -35943,6 +35976,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         provisioningConfigurationElement.Add(subnetNamesSequenceElement);
                     }
                     
+                    if (parameters.ProvisioningConfiguration.StaticVirtualNetworkIPAddress != null)
+                    {
+                        XElement staticVirtualNetworkIPAddressElement = new XElement(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                        staticVirtualNetworkIPAddressElement.Value = parameters.ProvisioningConfiguration.StaticVirtualNetworkIPAddress;
+                        provisioningConfigurationElement.Add(staticVirtualNetworkIPAddressElement);
+                    }
+                    
                     if (parameters.ProvisioningConfiguration.ComputerName != null)
                     {
                         XElement computerNameElement = new XElement(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -36573,6 +36613,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 subnetNamesSequenceElement.Add(subnetNamesItemElement);
                             }
                             configurationSetElement.Add(subnetNamesSequenceElement);
+                        }
+                        
+                        if (configurationSetsItem.StaticVirtualNetworkIPAddress != null)
+                        {
+                            XElement staticVirtualNetworkIPAddressElement = new XElement(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                            staticVirtualNetworkIPAddressElement.Value = configurationSetsItem.StaticVirtualNetworkIPAddress;
+                            configurationSetElement.Add(staticVirtualNetworkIPAddressElement);
                         }
                         
                         if (configurationSetsItem.ComputerName != null)
@@ -37345,6 +37392,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     subnetNamesSequenceElement.Add(subnetNamesItemElement);
                                 }
                                 configurationSetElement.Add(subnetNamesSequenceElement);
+                            }
+                            
+                            if (configurationSetsItem.StaticVirtualNetworkIPAddress != null)
+                            {
+                                XElement staticVirtualNetworkIPAddressElement = new XElement(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                                staticVirtualNetworkIPAddressElement.Value = configurationSetsItem.StaticVirtualNetworkIPAddress;
+                                configurationSetElement.Add(staticVirtualNetworkIPAddressElement);
                             }
                             
                             if (configurationSetsItem.ComputerName != null)
@@ -39008,6 +39062,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             configurationSetElement.Add(subnetNamesSequenceElement);
                         }
                         
+                        if (configurationSetsItem.StaticVirtualNetworkIPAddress != null)
+                        {
+                            XElement staticVirtualNetworkIPAddressElement = new XElement(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                            staticVirtualNetworkIPAddressElement.Value = configurationSetsItem.StaticVirtualNetworkIPAddress;
+                            configurationSetElement.Add(staticVirtualNetworkIPAddressElement);
+                        }
+                        
                         if (configurationSetsItem.ComputerName != null)
                         {
                             XElement computerNameElement = new XElement(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -40396,6 +40457,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     {
                                         configurationSetInstance.SubnetNames.Add(subnetNamesElement.Value);
                                     }
+                                }
+                                
+                                XElement staticVirtualNetworkIPAddressElement = configurationSetsElement.Element(XName.Get("StaticVirtualNetworkIPAddress", "http://schemas.microsoft.com/windowsazure"));
+                                if (staticVirtualNetworkIPAddressElement != null)
+                                {
+                                    string staticVirtualNetworkIPAddressInstance = staticVirtualNetworkIPAddressElement.Value;
+                                    configurationSetInstance.StaticVirtualNetworkIPAddress = staticVirtualNetworkIPAddressInstance;
                                 }
                                 
                                 XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));

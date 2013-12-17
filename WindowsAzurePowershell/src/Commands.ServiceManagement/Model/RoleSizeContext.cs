@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
     public class RoleSizeContext : ManagementOperationContext
     {
-        public string Name { get; set; }
+        public string InstanceSize { get; set; }
 
         public string Label { get; set; }
 
