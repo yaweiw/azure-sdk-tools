@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
 
-            var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+            TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
             
             // Set the UserAgent
             client.UserAgent.Add(ApiConstants.UserAgentValue);
@@ -187,9 +187,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             // Add the logging handler
             var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-            client = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
 
-            return client;
+            return finalClient;
         }
 
         public CloudStorageAccount GetCloudStorageAccount()
