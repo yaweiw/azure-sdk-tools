@@ -788,6 +788,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             public string Path { get; set; }
         }
     }
+    
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class NetworkConfigurationSet : ConfigurationSet
@@ -840,6 +841,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             set
             {
                 this.SetValue("VirtualIPGroups", value);
+            }
+        }
+
+        [DataMember(Name = "StaticVirtualNetworkIPAddress", EmitDefaultValue = false, Order = 3)]
+        public string StaticVirtualNetworkIPAddress
+        {
+            get
+            {
+                return this.GetValue<string>("StaticVirtualNetworkIPAddress");
+            }
+            set
+            {
+                this.SetValue("StaticVirtualNetworkIPAddress", value);
             }
         }
     }
