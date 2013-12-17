@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         /// <param name="type">Service type</param>
         /// <returns>Request options</returns>
-        public IRequestOptions GetRequestOptions(string type)
+        public IRequestOptions GetRequestOptions(StorageServiceType type)
         {
             if (RequestMaximumExecutionTime == null && RequestServerTimeout == null)
             {
@@ -137,15 +137,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
 
             IRequestOptions options = default(IRequestOptions);
-            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
+
+            switch (type)
             {
-                case StorageNouns.BlobService:
+                case StorageServiceType.Blob:
                     options = new BlobRequestOptions();
                     break;
-                case StorageNouns.QueueService:
+                case StorageServiceType.Queue:
                     options = new QueueRequestOptions();
                     break;
-                case StorageNouns.TableService:
+                case StorageServiceType.Table:
                     options = new TableRequestOptions();
                     break;
                 default:

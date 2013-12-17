@@ -29,13 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     public class SetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
-            IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
-        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
-        public string MetricsType { get; set; }
+        public ServiceMetricsType MetricsType { get; set; }
 
         [Parameter(HelpMessage = "Metrics version")]
         public double? Version { get; set; }
@@ -123,14 +120,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
             bool isHourMetrics = false;
 
-            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(MetricsType))
+            switch (MetricsType)
             {
-                case StorageNouns.MetricsType.Hour:
+                case ServiceMetricsType.Hour:
                     serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
                     UpdateServiceProperties(serviceProperties.HourMetrics);
                     isHourMetrics = true;
                     break;
-                case StorageNouns.MetricsType.Minute:
+                case ServiceMetricsType.Minute:
                     serviceProperties.MinuteMetrics = currentServiceProperties.MinuteMetrics;
                     UpdateServiceProperties(serviceProperties.MinuteMetrics);
                     isHourMetrics = false;

@@ -115,21 +115,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string StorageServiceLogging = "AzureStorageServiceLoggingProperty";
 
         /// <summary>
-        /// Azure storage blob service
-        /// </summary>
-        public const string BlobService = "Blob";
-
-        /// <summary>
-        /// Azure storage table service
-        /// </summary>
-        public const string TableService = "Table";
-
-        /// <summary>
-        /// Azure storage queue service
-        /// </summary>
-        public const string QueueService = "Queue";
-
-        /// <summary>
         /// Turn off metrics
         /// </summary>
         public const string OffMetrics = "None";
@@ -209,18 +194,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// </summary>
             public const char Query = 'q';
         }
+    }
 
-        public static class MetricsType
-        {
-            /// <summary>
-            /// Hour metrics
-            /// </summary>
-            public const string Hour = "Hour";
+    public enum StorageServiceType
+    {
+        Blob,
+        Table,
+        Queue
+    }
 
-            /// <summary>
-            /// Minute metrics
-            /// </summary>
-            public const string Minute = "Minute";
-        }
+    public enum ServiceMetricsType
+    {
+        Hour,
+        Minute
     }
 }
