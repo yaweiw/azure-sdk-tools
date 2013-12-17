@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
         private static HttpRecorderMode GetCurrentMode()
         {
             string input = Environment.GetEnvironmentVariable(modeEnvironmentVariableName);
+            input = null;
             HttpRecorderMode mode;
 
             if (string.IsNullOrEmpty(input))
