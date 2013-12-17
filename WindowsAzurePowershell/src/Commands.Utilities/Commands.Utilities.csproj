@@ -119,6 +119,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -280,13 +283,16 @@
     <Compile Include="Common\Authentication\ITokenProvider.cs" />
     <Compile Include="Common\Authentication\LoginType.cs" />
     <Compile Include="Common\Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="Common\HttpRecorder\IRecordMatcher.cs" />
     <Compile Include="Common\HttpRecorder\RecordEntry.cs" />
     <Compile Include="Common\HttpRecorder\ClientCreatedArgs.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\CmdletWithSubscriptionBase.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
-    <Compile Include="Common\HttpRecorder\HttpRecorder.cs" />
+    <Compile Include="Common\HttpRecorder\HttpMockServer.cs" />
+    <Compile Include="Common\HttpRecorder\Names.cs" />
+    <Compile Include="Common\HttpRecorder\SimpleMatcher.cs" />
     <Compile Include="Common\HttpRecorder\Records.cs" />
     <Compile Include="Common\HttpRestCallLogger.cs" />
     <Compile Include="Common\IProfileStore.cs" />

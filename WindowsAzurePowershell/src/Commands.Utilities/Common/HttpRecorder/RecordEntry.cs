@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
     using System.Net.Http;
     using System.Linq;
     using System.Net;
+    using System.Text;
 
     public class RecordEntry
     {
@@ -46,33 +47,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
             HttpRequestMessage request = response.RequestMessage;
             RequestUri = request.RequestUri.ToString();
             RequestMethod = request.Method.Method;
-            RequestBody = request.Content == null ? string.Empty : request.Content.ReadAsStringAsync().Result;
+            RequestBody = request.Content == null ? string.Empty : 
+                General.FormatString(request.Content.ReadAsStringAsync().Result);
             RequestHeaders = new Dictionary<string, List<string>>();
             request.Headers.ForEach(h => RequestHeaders.Add(h.Key, h.Value.ToList()));
-            ResponseBody = response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
+            ResponseBody = response.Content == null ? string.Empty : General.FormatString(response.Content.ReadAsStringAsync().Result);
             ResponseHeaders = new Dictionary<string, List<string>>();
             response.Headers.ForEach(h => ResponseHeaders.Add(h.Key, h.Value.ToList()));
             StatusCode = response.StatusCode;
-        }
-
-        private static string GetKey(string httpMethod, string requestUri)
-        {
-            return string.Format("{0} {1}", httpMethod, requestUri);
-        }
-
-        public static string GetKey(RecordEntry recordEntry)
-        {
-            return GetKey(recordEntry.RequestMethod, recordEntry.RequestUri);
-        }
-
-        public static string GetKey(HttpResponseMessage response)
-        {
-            return GetKey(response.RequestMessage);
-        }
-
-        public static string GetKey(HttpRequestMessage request)
-        {
-            return GetKey(request.Method.Method, request.RequestUri.ToString());
         }
 
         public HttpResponseMessage GetResponse()

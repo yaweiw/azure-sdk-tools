@@ -37,6 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
     using System.Net.Http;
+    using System.Web.Script.Serialization;
+    using Ionic.Zip;
 
     public static class General
     {
@@ -950,6 +952,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static string CombinePath(params string[] paths)
         {
             return Path.Combine(paths);
+        }
+
+        public static void SerializeJson<T>(T data, string path)
+        {
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = int.MaxValue;
+            File.WriteAllText(path, TryFormatJson(javaScriptSerializer.Serialize(data)));
+        }
+
+        public static T DeserializeJson<T>(string path)
+        {
+            string json = File.ReadAllText(path);
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = int.MaxValue;
+            return javaScriptSerializer.Deserialize<T>(json);
+        }
+
+        public static void Decompress(string zipToUnpack, string unpackDirectory)
+        {
+            using (ZipFile zipFile = ZipFile.Read(zipToUnpack))
+            {
+                foreach (ZipEntry e in zipFile)
+                {
+                    e.Extract(unpackDirectory, ExtractExistingFileAction.OverwriteSilently);
+                }
+            }
+        }
+
+        public static void Compress(string dir, string zipFilePath)
+        {
+            ZipFile zipFile = new ZipFile();
+            zipFile.AddDirectory(dir);
+            zipFile.Save(zipFilePath);
         }
     }
 }

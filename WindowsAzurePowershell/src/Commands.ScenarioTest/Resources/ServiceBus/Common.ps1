@@ -31,13 +31,7 @@ Gets valid and available service bus namespace name.
 #>
 function Get-NamespaceName
 {
-	do
-	{
-		$name = "OneSDK" + (Get-Random).ToString()
-		$used = Test-AzureName -ServiceBusNamespace $name
-	} while ($used)
-
-	return $name
+	return getAssetName
 }
 
 <#

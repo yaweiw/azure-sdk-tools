@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         
         protected string credentialFile;
         
-        protected List<HttpRecorder> mockServers;
+        protected List<HttpMockServer> mockServers;
 
         public WindowsAzurePowerShellTest(params string[] modules)
             : base(modules)
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestSetup()
         {
             base.TestSetup();
-            this.mockServers = new List<HttpRecorder>();
+            this.mockServers = new List<HttpMockServer>();
             WindowsAzureSubscription.OnClientCreated += WindowsAzureSubscription_OnClientCreated;
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         void WindowsAzureSubscription_OnClientCreated(object sender, ClientCreatedArgs e)
         {
-            HttpRecorder mockServer = new HttpRecorder();
+            HttpMockServer mockServer = new HttpMockServer(new SimpleMatcher());
             e.AddHandlerToClient(mockServer);
             mockServers.Add(mockServer);
         }

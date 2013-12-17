@@ -16,9 +16,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
 
-    public class Records : List<RecordEntry>
+    public class Records : Dictionary<string, Queue<RecordEntry>>
     {
+        private void EnqueueRecord(RecordEntry record, IRecordMatcher matcher)
+        {
+            string recordKey = matcher.GetMatchingKey(record);
+            if (!base.ContainsKey(recordKey))
+            {
+                this[recordKey] = new Queue<RecordEntry>();
+            }
+            this[recordKey].Enqueue(record);
+        }
+
         /// <summary>
         /// Empty collection
         /// </summary>
@@ -28,6 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
         /// Initialize collection
         /// </summary>
         /// <param name="records"></param>
-        public Records(List<RecordEntry> records) : base(records) { }
+        public Records(Dictionary<string, Queue<RecordEntry>> records) : base(records) { }
+
+        public void AddRecord(RecordEntry record, IRecordMatcher matcher)
+        {
+            EnqueueRecord(record, matcher);
+        }
     }
 }
