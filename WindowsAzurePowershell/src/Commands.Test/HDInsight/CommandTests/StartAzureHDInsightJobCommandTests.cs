@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanAutoGenerateStatusDirectoryForMapReduceJob()
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewHiveJob_StartJob()
@@ -73,10 +73,42 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
             TestJobStart(hiveJobFromCommand);
         }
 
+
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
+        [TestCategory("Jobs")]
+        [TestCategory("Start-AzureHDInsightJob")]
+        public void CannotCreateNewHiveJob_WithRestrictedCharacters_StartJob()
+        {
+            var hiveJobDefinition = new HiveJobCreateParameters { JobName = "show tables jobDetails", Query = "show tables %" };
+
+            INewAzureHDInsightHiveJobDefinitionCommand newHiveJobDefinitionCommand =
+                ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateNewHiveDefinition();
+            newHiveJobDefinitionCommand.JobName = hiveJobDefinition.JobName;
+            newHiveJobDefinitionCommand.Query = hiveJobDefinition.Query;
+            newHiveJobDefinitionCommand.EndProcessing();
+
+            AzureHDInsightHiveJobDefinition hiveJobFromCommand = newHiveJobDefinitionCommand.Output.ElementAt(0);
+            try
+            {
+                TestJobStart(hiveJobFromCommand);
+                Assert.Fail();
+            }
+            catch (AggregateException aggregateException)
+            {
+                var invalidOperationException = aggregateException.GetBaseException() as InvalidOperationException;
+                Assert.IsNotNull(invalidOperationException);
+                Assert.AreEqual("Query text contains restricted character '%', please upload the query to a file in storage and re-submit the job using the -File parameter",
+                    invalidOperationException.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        [TestCategory("Integration")]
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewHiveJob_WithoutJobName_WithFile()
@@ -93,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewHiveJob_WithoutJobName_WithQuery()
@@ -107,7 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewMapReduceJob_StartJob()
@@ -134,7 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewMapReduceJob_WithoutJobName()
@@ -153,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewPigJob_StartJob()
@@ -173,7 +205,37 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
+        [TestCategory("Jobs")]
+        [TestCategory("Start-AzureHDInsightJob")]
+        public void CannotCreateNewPigJob_WithRestrictedCharacters_StartJob()
+        {
+            var pigJobDefinition = new PigJobCreateParameters { Query = "load table from 'A' %" };
+
+            INewAzureHDInsightPigJobDefinitionCommand newMapReduceJobDefinitionCommand =
+                ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateNewPigJobDefinition();
+            newMapReduceJobDefinitionCommand.Query = pigJobDefinition.Query;
+            newMapReduceJobDefinitionCommand.EndProcessing();
+
+            AzureHDInsightPigJobDefinition pigJobFromCommand = newMapReduceJobDefinitionCommand.Output.ElementAt(0);
+            try
+            {
+                TestJobStart(pigJobFromCommand);
+                Assert.Fail();
+            }
+            catch (AggregateException aggregateException)
+            {
+                var invalidOperationException = aggregateException.GetBaseException() as InvalidOperationException;
+                Assert.IsNotNull(invalidOperationException);
+                Assert.AreEqual("Query text contains restricted character '%', please upload the query to a file in storage and re-submit the job using the -File parameter",
+                    invalidOperationException.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        [TestCategory("Integration")]
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewPigJob_WithoutJobName_WithFile()
@@ -190,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewPigJob_WithoutJobName_WithQuery()
@@ -204,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewStreamingJob_StartJob()
@@ -238,7 +300,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanCreateNewStreamingMapReduceJob_WithoutJobName()
@@ -259,7 +321,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Defect")]
         public void CanCreateNewStreamingMapReduceJob_WithoutJobName_FilesName()
@@ -281,7 +343,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Defect")]
         public void CanCreateNewStreamingMapReduceJob_WithoutJobName_FilesRelative()
@@ -302,7 +364,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanStartHiveJob()
@@ -315,7 +377,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanStartMapReduceJob()
@@ -332,7 +394,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CanStartSqoopJob()
@@ -342,10 +404,34 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
             TestJobStart(sqoopJobDefinition);
         }
 
+
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
+        [TestCategory("Jobs")]
+        [TestCategory("Start-AzureHDInsightJob")]
+        public void CannotStartSqoopJob_WithRestrictedCharacters()
+        {
+            var sqoopJobDefinition = new AzureHDInsightSqoopJobDefinition { Command = "show tables; %" };
+            try
+            {
+                TestJobStart(sqoopJobDefinition);
+                Assert.Fail();
+            }
+            catch (AggregateException aggregateException)
+            {
+                var invalidOperationException = aggregateException.GetBaseException() as InvalidOperationException;
+                Assert.IsNotNull(invalidOperationException);
+                Assert.AreEqual("Command text contains restricted character '%', please upload the query to a file in storage and re-submit the job using the -File parameter",
+                    invalidOperationException.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        [TestCategory("Integration")]
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void CannotStartCustomJobType()
@@ -370,7 +456,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
-        
+
         [TestCategory("Jobs")]
         [TestCategory("Start-AzureHDInsightJob")]
         public void UserCanSupplyStatusDirectoryForMapReduceJob()
