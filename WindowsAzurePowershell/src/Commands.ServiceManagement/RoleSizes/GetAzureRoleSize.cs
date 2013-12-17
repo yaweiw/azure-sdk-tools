@@ -28,9 +28,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureRoleSize"), OutputType(typeof(RoleSizeContext))]
     public class AzureRoleSizeCommand : ServiceManagementBaseCmdlet
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The Role Size Name.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The Role Instance Size Name.")]
         [ValidateNotNullOrEmpty]
-        public string RoleSizeName
+        public string InstanceSize
         {
             get;
             set;
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             ServiceManagementProfile.Initialize();
 
-            if (string.IsNullOrEmpty(this.RoleSizeName))
+            if (string.IsNullOrEmpty(this.InstanceSize))
             {
                 ExecuteClientActionNewSM(
                     null,
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     () => this.ManagementClient.RoleSizes.List(),
-                    (op, response) => response.RoleSizes.Where(roleSize => string.Equals(roleSize.Name, this.RoleSizeName, StringComparison.OrdinalIgnoreCase))
+                    (op, response) => response.RoleSizes.Where(roleSize => string.Equals(roleSize.Name, this.InstanceSize, StringComparison.OrdinalIgnoreCase))
                                                         .Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
             }
         }
