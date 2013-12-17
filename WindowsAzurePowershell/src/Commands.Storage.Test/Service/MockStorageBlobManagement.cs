@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
     using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using System.Threading;
+    using Microsoft.WindowsAzure.Commands.Storage.Common;
 
     /// <summary>
     /// Mock blob management
@@ -452,7 +453,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        public ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext)
+        public ServiceProperties GetStorageServiceProperties(StorageServiceType type, IRequestOptions options, OperationContext operationContext)
         {
             throw new NotImplementedException();
         }
@@ -465,7 +466,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        public void SetStorageServiceProperties(string type, WindowsAzure.Storage.Shared.Protocol.ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
+        public void SetStorageServiceProperties(StorageServiceType type, WindowsAzure.Storage.Shared.Protocol.ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
             throw new NotImplementedException();
         }

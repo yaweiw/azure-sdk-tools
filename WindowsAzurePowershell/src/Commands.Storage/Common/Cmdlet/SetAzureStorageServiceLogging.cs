@@ -29,9 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     public class SetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
-            IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         [Parameter(HelpMessage = "Logging version")]
         public double? Version { get; set; }

@@ -28,8 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     {
         public const string ServiceTypeHelpMessage = "Azure storage service type(Blob, Table, Queue).";
         [Parameter(Mandatory = true, Position = 0, HelpMessage = ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         /// <summary>
         /// Execute command

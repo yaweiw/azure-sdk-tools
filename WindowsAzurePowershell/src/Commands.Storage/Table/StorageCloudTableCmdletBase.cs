@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
         {
             get
             {
-                return (TableRequestOptions)GetRequestOptions(StorageNouns.TableService);
+                return (TableRequestOptions)GetRequestOptions(StorageServiceType.Table);
             }
         }
     }

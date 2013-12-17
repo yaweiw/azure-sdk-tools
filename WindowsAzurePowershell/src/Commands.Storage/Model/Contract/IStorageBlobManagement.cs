@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
@@ -196,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext);
+        ServiceProperties GetStorageServiceProperties(StorageServiceType type, IRequestOptions options, OperationContext operationContext);
 
         /// <summary>
         /// Set service properties
@@ -205,7 +206,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        void SetStorageServiceProperties(string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
+        void SetStorageServiceProperties(StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext);
 
         /// <summary>
         /// Async get container presssions

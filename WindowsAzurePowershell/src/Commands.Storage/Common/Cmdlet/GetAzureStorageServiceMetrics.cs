@@ -28,12 +28,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     public class GetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
-        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
-        public string MetricsType { get; set; }
+        public ServiceMetricsType MetricsType { get; set; }
 
         /// <summary>
         /// Execute command
@@ -43,12 +41,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType) , OperationContext);
 
-            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(MetricsType))
+            switch (MetricsType)
             {
-                case StorageNouns.MetricsType.Hour:
+                case ServiceMetricsType.Hour:
                     WriteObject(serviceProperties.HourMetrics);
                     break;
-                case StorageNouns.MetricsType.Minute:
+                case ServiceMetricsType.Minute:
                 default:
                     WriteObject(serviceProperties.MinuteMetrics);
                     break;

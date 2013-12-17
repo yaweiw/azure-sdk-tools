@@ -313,16 +313,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        public ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext)
+        public ServiceProperties GetStorageServiceProperties(StorageServiceType type, IRequestOptions options, OperationContext operationContext)
         {
             CloudStorageAccount account = StorageContext.StorageAccount;
-            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
+            switch (type)
             {
-                case StorageNouns.BlobService:
+                case StorageServiceType.Blob:
                     return account.CreateCloudBlobClient().GetServiceProperties((BlobRequestOptions) options, operationContext);
-                case StorageNouns.QueueService:
+                case StorageServiceType.Queue:
                     return account.CreateCloudQueueClient().GetServiceProperties((QueueRequestOptions) options, operationContext);
-                case StorageNouns.TableService:
+                case StorageServiceType.Table:
                     return account.CreateCloudTableClient().GetServiceProperties((TableRequestOptions) options, operationContext);
                 default:
                     throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
@@ -337,18 +337,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        public void SetStorageServiceProperties(string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
+        public void SetStorageServiceProperties(StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
             CloudStorageAccount account = StorageContext.StorageAccount;
-            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
+            switch (type)
             {
-                case StorageNouns.BlobService:
+                case StorageServiceType.Blob:
                     account.CreateCloudBlobClient().SetServiceProperties(properties, (BlobRequestOptions)options, operationContext);
                     break;
-                case StorageNouns.QueueService:
+                case StorageServiceType.Queue:
                     account.CreateCloudQueueClient().SetServiceProperties(properties, (QueueRequestOptions)options, operationContext);
                     break;
-                case StorageNouns.TableService:
+                case StorageServiceType.Table:
                     account.CreateCloudTableClient().SetServiceProperties(properties, (TableRequestOptions)options, operationContext);
                     break;
                 default:
