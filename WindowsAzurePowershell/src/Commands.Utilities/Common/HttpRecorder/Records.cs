@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
     using System.Collections.Generic;
     using System.Net.Http;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
     public class Records : Dictionary<string, Queue<RecordEntry>>
     {
         private void EnqueueRecord(RecordEntry record, IRecordMatcher matcher)
