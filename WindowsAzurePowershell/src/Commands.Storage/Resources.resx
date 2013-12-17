@@ -611,4 +611,7 @@ Failed: {2}.</value>
   <data name="BlobNameShouldBeEmptyWhenUploading" xml:space="preserve">
     <value>Blob name should be empty when uploading multiple files.</value>
   </data>
+  <data name="NoneAndAllOperationShouldBeAlone" xml:space="preserve">
+    <value>None or All operation can't be used with other operations.</value>
+  </data>
 </root>

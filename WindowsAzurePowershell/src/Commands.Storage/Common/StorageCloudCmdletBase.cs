@@ -41,10 +41,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual AzureStorageContext Context {get; set;}
 
         [Parameter(HelpMessage = "The server time out for each request in seconds.")]
-        public virtual int? RequestServerTimeout { get; set; }
+        public virtual int? ServerTimeoutPerRequest { get; set; }
 
         [Parameter(HelpMessage = "The client side maximum execution time for each request in seconds.")]
-        public virtual int? RequestMaximumExecutionTime { get; set; }
+        public virtual int? MaximumExecutionTimePerRequest { get; set; }
 
         /// <summary>
         /// Amount of concurrent async tasks to run per available core.
@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>Request options</returns>
         public IRequestOptions GetRequestOptions(StorageServiceType type)
         {
-            if (RequestMaximumExecutionTime == null && RequestServerTimeout == null)
+            if (ServerTimeoutPerRequest == null)
             {
                 return null;
             }
@@ -153,14 +153,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                     throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
             }
 
-            if (RequestMaximumExecutionTime != null)
+            if (ServerTimeoutPerRequest != null)
             {
-                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)RequestMaximumExecutionTime);
+                options.ServerTimeout = TimeSpan.FromSeconds((double)ServerTimeoutPerRequest);
             }
 
-            if (RequestServerTimeout != null)
+            if (MaximumExecutionTimePerRequest != null)
             {
-                options.ServerTimeout = TimeSpan.FromSeconds((double)RequestServerTimeout);
+                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)MaximumExecutionTimePerRequest);
             }
 
             return options;
