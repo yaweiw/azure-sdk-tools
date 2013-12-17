@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
             bool isHourMetrics = false;
 
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(MetricsType))
+            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(MetricsType))
             {
                 case StorageNouns.MetricsType.Hour:
                     serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;

@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Prefix { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "The max count of the containers that the listing operation should returned.")]
+        [Parameter(Mandatory = false, HelpMessage = "The max count of the containers that can return.")]
         public int? MaxCount
         {
             get { return InternalMaxCount; }

@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         }
         private string containerName = String.Empty;
 
-        [Parameter(Mandatory = false, HelpMessage = "The max count of the blobs that the listing operation should returned.")]
+        [Parameter(Mandatory = false, HelpMessage = "The max count of the blobs that can return.")]
         public int? MaxCount 
         {
             get { return InternalMaxCount; }

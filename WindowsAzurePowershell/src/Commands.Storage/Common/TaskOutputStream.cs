@@ -96,7 +96,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         private int DefaultProgressCount = 4;
         private ConcurrentDictionary<int, ProgressRecord> Progress;
 
-        private CancellationToken cancelllationToken;
+        private CancellationToken cancellationToken;
+
+        /// <summary>
+        /// Confirmation lock
+        /// </summary>
+        private object confirmTaskLock = new object();
+
+        /// <summary>
+        /// Current ConfirmTaskCompletionSource
+        /// </summary>
+        private ConfirmTaskCompletionSource currentTaskSource = null;
 
         /// <summary>
         /// Create an Task output stream
@@ -109,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 () => new ConcurrentQueue<ConfirmTaskCompletionSource>(), true);
             DebugMessages = new ConcurrentQueue<string>();
             Progress = new ConcurrentDictionary<int, ProgressRecord>();
-            cancelllationToken = token;
+            cancellationToken = token;
         }
 
         /// <summary>
@@ -175,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 return;
             }
 
-            int activityId = record.ActivityId; //Acitity 0 is reserved for summary
+            int activityId = record.ActivityId; //Actity 0 is reserved for summary
             Progress.AddOrUpdate(activityId, record, (id, oldRecord) =>
             {
                 return record;
@@ -214,20 +224,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         }
 
         /// <summary>
-        /// Asyc confirm to continue.
+        /// Async confirmation.
         /// *****Please note*****
         /// Dead lock will happen if the main thread is blocked.
         /// </summary>
         /// <param name="message">Confirm message</param>
-        public Task<bool> ConfirmAsyc(string message)
+        public Task<bool> ConfirmAsync(string message)
         {
             ConfirmTaskCompletionSource tcs = new ConfirmTaskCompletionSource(message);
             ConfirmQueue.Value.Enqueue(tcs);
             return tcs.Task;
         }
-
-        private object confirmTaskLock = new object();
-        private ConfirmTaskCompletionSource currentTaskSource = null;
 
         /// <summary>
         /// Confirm the request
@@ -235,7 +242,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <param name="tcs">Confirm task completion source</param>
         internal void ConfirmRequest(ConfirmTaskCompletionSource tcs)
         {
-            if (cancelllationToken.IsCancellationRequested)
+            if (cancellationToken.IsCancellationRequested)
             {
                 tcs.SetCanceled();
             }
@@ -416,7 +423,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                     CurrentOutputId++;
                 }   //Otherwise wait for the task completion
             }
-            while (taskDone);
+            while (taskDone);//We could skip checking the cancellationToken
+                             //since the inner loop would throw an exception when it's cancelled.
         }
 
         /// <summary>

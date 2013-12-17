@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 string message = string.Format(Resources.ConfirmRemoveBlobWithSnapshot, blob.Name, blob.Container.Name);
 
-                if (await OutputStream.ConfirmAsyc(message))
+                if (await OutputStream.ConfirmAsync(message))
                 {
                     deleteSnapshotsOption = DeleteSnapshotsOption.IncludeSnapshots;
                     await DeleteICloudAsync(taskId, localChannel, blob, deleteSnapshotsOption);

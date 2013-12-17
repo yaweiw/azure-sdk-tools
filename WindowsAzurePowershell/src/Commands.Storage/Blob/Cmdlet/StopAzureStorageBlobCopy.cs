@@ -204,7 +204,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 if (!Force)
                 {
                     string confirmation = String.Format(Resources.ConfirmAbortCopyOperation, blob.Name, blob.Container.Name, abortCopyId);
-                    if (!await OutputStream.ConfirmAsyc(confirmation))
+                    if (!await OutputStream.ConfirmAsync(confirmation))
                     {
                         string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
                         OutputStream.WriteVerbose(taskId, cancelMessage);
