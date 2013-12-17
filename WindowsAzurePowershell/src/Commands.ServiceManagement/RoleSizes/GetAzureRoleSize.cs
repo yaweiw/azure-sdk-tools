@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
     using Management;
@@ -27,15 +28,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureRoleSize"), OutputType(typeof(RoleSizeContext))]
     public class AzureRoleSizeCommand : ServiceManagementBaseCmdlet
     {
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The Role Size Name.")]
+        [ValidateNotNullOrEmpty]
+        public string RoleSizeName
+        {
+            get;
+            set;
+        }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ManagementClient.RoleSizes.List(),
-                (op, roleSizes) => roleSizes.RoleSizes.Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
+            if (string.IsNullOrEmpty(this.RoleSizeName))
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ManagementClient.RoleSizes.List(),
+                    (op, response) => response.RoleSizes.Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ManagementClient.RoleSizes.List(),
+                    (op, response) => response.RoleSizes.Where(roleSize => string.Equals(roleSize.Name, this.RoleSizeName, StringComparison.OrdinalIgnoreCase))
+                                                        .Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
+            }
         }
     }
 }
