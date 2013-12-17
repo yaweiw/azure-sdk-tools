@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             };
 
             client.DefaultRequestHeaders.Accept.Clear();
-
+            
             return client;
         }
 

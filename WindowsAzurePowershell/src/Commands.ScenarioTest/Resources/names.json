@@ -1,0 +1,47 @@
+{
+  "Test-StopAzureServiceWithEmptyDeployment": [
+    "onesdk2741"
+  ],
+  "Test-StopAzureServiceWithProductionDeployment": [
+    "onesdk9374"
+  ],
+  "Test-AzureNameWithExistingStorageService": [
+    "onesdk2384"
+  ],
+  "Test-StartAzureServiceWithProductionDeployment": [
+    "onesdk5525"
+  ],
+  "Test-StopAzureServiceWithStagingDeployment": [
+    "onesdk6812"
+  ],
+  "Test-AzureNameWithExistingHostedService": [
+    "onesdk1882"
+  ],
+  "Test-RemoveAzureServiceWithProductionDeployment": [
+    "onesdk715"
+  ],
+  "Test-StartAzureServiceWithoutName": [
+    "onesdk4231"
+  ],
+  "Test-RemoveAzureServiceWhatIf": [
+    "onesdk3808"
+  ],
+  "Test-StartAzureServiceWithStagingDeployment": [
+    "onesdk8706"
+  ],
+  "Test-StopAzureServiceWithoutName": [
+    "onesdk2621"
+  ],
+  "Test-PublishUsesSettingsLocation": [
+    "onesdk8145"
+  ],
+  "Test-RemoveAzureServicePipedFromGetAzureService": [
+    "onesdk2839"
+  ],
+  "Test-AzureNameWithExistingServiceBusNamespace": [
+    "onesdk4871"
+  ],
+  "Test-StartAzureServiceWithEmptyDeployment": [
+    "onesdk5761"
+  ]
+}
