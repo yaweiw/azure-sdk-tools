@@ -316,7 +316,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         public ServiceProperties GetStorageServiceProperties(string type, IRequestOptions options, OperationContext operationContext)
         {
             CloudStorageAccount account = StorageContext.StorageAccount;
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
+            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
             {
                 case StorageNouns.BlobService:
                     return account.CreateCloudBlobClient().GetServiceProperties((BlobRequestOptions) options, operationContext);
@@ -340,7 +340,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         public void SetStorageServiceProperties(string type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
             CloudStorageAccount account = StorageContext.StorageAccount;
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
+            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
             {
                 case StorageNouns.BlobService:
                     account.CreateCloudBlobClient().SetServiceProperties(properties, (BlobRequestOptions)options, operationContext);

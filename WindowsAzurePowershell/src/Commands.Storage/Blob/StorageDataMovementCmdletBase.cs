@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         internal virtual bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
-            return overwrite || OutputStream.ConfirmAsyc(overwriteMessage).Result;
+            return overwrite || OutputStream.ConfirmAsync(overwriteMessage).Result;
         }
 
         /// <summary>
@@ -161,9 +161,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                     OutputStream.WriteProgress(userData.Record);
                 }
             }
-            catch (Exception unkownException)
+            catch (Exception unknownException)
             {
-                Debug.Fail(unkownException.ToString());
+                Debug.Fail(unknownException.ToString());
             }
         }
 

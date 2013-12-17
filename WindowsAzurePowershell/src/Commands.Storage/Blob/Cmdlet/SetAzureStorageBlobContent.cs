@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             BlobType type = StorageBlob.BlobType.BlockBlob;
 
-            if (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(blobType) == PageBlobType)
+            if (string.Compare(blobType, PageBlobType, StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 type = StorageBlob.BlobType.PageBlob;
             }

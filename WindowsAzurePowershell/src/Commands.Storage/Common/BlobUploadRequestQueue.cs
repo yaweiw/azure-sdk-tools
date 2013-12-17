@@ -50,9 +50,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
         }
 
-        public bool EnqueueRequest(string absolutFilePath, BlobType type, string blobName)
+        public bool EnqueueRequest(string absoluteFilePath, BlobType type, string blobName)
         {
-            absolutFilePath = Path.GetFullPath(absolutFilePath);
+            absoluteFilePath = Path.GetFullPath(absoluteFilePath);
             if (!string.IsNullOrEmpty(blobName) && Requests.Count > 0)
             {
                 throw new ArgumentException(Resources.BlobNameShouldBeEmptyWhenUploading);
@@ -63,26 +63,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 Type = type;
             }
 
-            if (!System.IO.File.Exists(absolutFilePath))
+            if (!System.IO.File.Exists(absoluteFilePath))
             {
-                if (System.IO.Directory.Exists(absolutFilePath))
+                if (System.IO.Directory.Exists(absoluteFilePath))
                 {
                     return false;
                 }
                 else
                 {
-                    throw new ArgumentException(String.Format(Resources.FileNotFound, absolutFilePath));
+                    throw new ArgumentException(String.Format(Resources.FileNotFound, absoluteFilePath));
                 }
             }
 
-            string dirPath = Path.GetDirectoryName(absolutFilePath).ToLower();
+            string dirPath = Path.GetDirectoryName(absoluteFilePath).ToLower();
 
             if (string.IsNullOrEmpty(root) || !dirPath.StartsWith(root))
             {
                 root = GetCommonDirectory(root, dirPath);
             }
 
-            Requests.Enqueue(absolutFilePath);
+            Requests.Enqueue(absoluteFilePath);
             
             return true;
         }

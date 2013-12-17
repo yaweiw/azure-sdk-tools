@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
 
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel))
+            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(accessLevel))
             {
                 case StorageNouns.ContainerAclOff:
                     permissions.PublicAccess = BlobContainerPublicAccessType.Off;

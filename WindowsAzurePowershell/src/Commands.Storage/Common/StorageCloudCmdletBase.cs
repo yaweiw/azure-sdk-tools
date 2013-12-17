@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
 
             IRequestOptions options = default(IRequestOptions);
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
+            switch (CultureInfo.InvariantCulture.TextInfo.ToTitleCase(type))
             {
                 case StorageNouns.BlobService:
                     options = new BlobRequestOptions();

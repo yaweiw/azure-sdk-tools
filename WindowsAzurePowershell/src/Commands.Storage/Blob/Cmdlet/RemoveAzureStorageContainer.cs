@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             string result = string.Empty;
             bool removed = false;
 
-            if (force || await OutputStream.ConfirmAsyc(name))
+            if (force || await OutputStream.ConfirmAsync(name))
             {
                 await localChannel.DeleteContainerAsync(container, accessCondition, requestOptions, OperationContext, CmdletCancellationToken);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
