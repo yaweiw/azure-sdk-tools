@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
+        [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
             get;
