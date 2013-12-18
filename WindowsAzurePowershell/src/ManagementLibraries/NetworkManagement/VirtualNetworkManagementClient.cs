@@ -1791,7 +1791,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// A response that indicates the availability of a virtual IP address, and
+    /// A response that indicates the availability of a static IP address, and
     /// if not, provide a list of suggestions.
     /// </summary>
     public partial class NetworkStaticIPAvailabilityResponse : OperationResponse
@@ -1799,7 +1799,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private IList<string> _availableAddresses;
         
         /// <summary>
-        /// The addresses of the available IPs.
+        /// The list of the available IP addresses.
         /// </summary>
         public IList<string> AvailableAddresses
         {
@@ -9572,20 +9572,20 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
     public partial interface IStaticIPOperations
     {
         /// <summary>
-        /// The Check Virtual IP operation retrieves the details for the
-        /// availability of virtual IP addresses for the given virtual network.
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
         /// </summary>
         /// <param name='virtualNetworkName'>
         /// The name of the virtual network.
         /// </param>
         /// <param name='ipAddress'>
-        /// The address of the virtual IP.
+        /// The address of the static IP.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A response that indicates the availability of a virtual IP address,
+        /// A response that indicates the availability of a static IP address,
         /// and if not, provide a list of suggestions.
         /// </returns>
         Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken);
@@ -9594,8 +9594,8 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
     public static partial class StaticIPOperationsExtensions
     {
         /// <summary>
-        /// The Check Virtual IP operation retrieves the details for the
-        /// availability of virtual IP addresses for the given virtual network.
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -9605,10 +9605,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// The name of the virtual network.
         /// </param>
         /// <param name='ipAddress'>
-        /// The address of the virtual IP.
+        /// The address of the static IP.
         /// </param>
         /// <returns>
-        /// A response that indicates the availability of a virtual IP address,
+        /// A response that indicates the availability of a static IP address,
         /// and if not, provide a list of suggestions.
         /// </returns>
         public static NetworkStaticIPAvailabilityResponse Check(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
@@ -9631,8 +9631,8 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Check Virtual IP operation retrieves the details for the
-        /// availability of virtual IP addresses for the given virtual network.
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -9642,10 +9642,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// The name of the virtual network.
         /// </param>
         /// <param name='ipAddress'>
-        /// The address of the virtual IP.
+        /// The address of the static IP.
         /// </param>
         /// <returns>
-        /// A response that indicates the availability of a virtual IP address,
+        /// A response that indicates the availability of a static IP address,
         /// and if not, provide a list of suggestions.
         /// </returns>
         public static Task<NetworkStaticIPAvailabilityResponse> CheckAsync(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
@@ -9679,20 +9679,20 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         }
         
         /// <summary>
-        /// The Check Virtual IP operation retrieves the details for the
-        /// availability of virtual IP addresses for the given virtual network.
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
         /// </summary>
         /// <param name='virtualNetworkName'>
         /// The name of the virtual network.
         /// </param>
         /// <param name='ipAddress'>
-        /// The address of the virtual IP.
+        /// The address of the static IP.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A response that indicates the availability of a virtual IP address,
+        /// A response that indicates the availability of a static IP address,
         /// and if not, provide a list of suggestions.
         /// </returns>
         public async Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken)
