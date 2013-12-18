@@ -235,6 +235,8 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         Connecting = 1,
         
         NotConnected = 2,
+        
+        Unknown = 3,
     }
     
     /// <summary>
@@ -1789,6 +1791,44 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
+    /// A response that indicates the availability of a virtual IP address, and
+    /// if not, provide a list of suggestions.
+    /// </summary>
+    public partial class NetworkStaticIPAvailabilityResponse : OperationResponse
+    {
+        private IList<string> _availableAddresses;
+        
+        /// <summary>
+        /// The addresses of the available IPs.
+        /// </summary>
+        public IList<string> AvailableAddresses
+        {
+            get { return this._availableAddresses; }
+            set { this._availableAddresses = value; }
+        }
+        
+        private bool _isAvailable;
+        
+        /// <summary>
+        /// Whether the IP address is available.
+        /// </summary>
+        public bool IsAvailable
+        {
+            get { return this._isAvailable; }
+            set { this._isAvailable = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// NetworkStaticIPAvailabilityResponse class.
+        /// </summary>
+        public NetworkStaticIPAvailabilityResponse()
+        {
+            this._availableAddresses = new List<string>();
+        }
+    }
+    
+    /// <summary>
     /// The status of the asynchronous request.
     /// </summary>
     public enum OperationStatus
@@ -1995,6 +2035,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get; 
         }
         
+        IStaticIPOperations StaticIPs
+        {
+            get; 
+        }
+        
         /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
@@ -2173,6 +2218,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get { return this._reservedIPs; }
         }
         
+        private IStaticIPOperations _staticIPs;
+        
+        public virtual IStaticIPOperations StaticIPs
+        {
+            get { return this._staticIPs; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the VirtualNetworkManagementClient
         /// class.
@@ -2184,6 +2236,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             this._gateways = new GatewayOperations(this);
             this._networks = new NetworkOperations(this);
             this._reservedIPs = new ReservedIPOperations(this);
+            this._staticIPs = new StaticIPOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -9488,6 +9541,257 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                             {
                                 string deploymentNameInstance = deploymentNameElement.Value;
                                 reservedIPInstance.DeploymentName = deploymentNameInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    public partial interface IStaticIPOperations
+    {
+        /// <summary>
+        /// The Check Virtual IP operation retrieves the details for the
+        /// availability of virtual IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the virtual IP.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a virtual IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken);
+    }
+    
+    public static partial class StaticIPOperationsExtensions
+    {
+        /// <summary>
+        /// The Check Virtual IP operation retrieves the details for the
+        /// availability of virtual IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IStaticIPOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the virtual IP.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a virtual IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public static NetworkStaticIPAvailabilityResponse Check(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
+        {
+            try
+            {
+                return operations.CheckAsync(virtualNetworkName, ipAddress).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Check Virtual IP operation retrieves the details for the
+        /// availability of virtual IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IStaticIPOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the virtual IP.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a virtual IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public static Task<NetworkStaticIPAvailabilityResponse> CheckAsync(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
+        {
+            return operations.CheckAsync(virtualNetworkName, ipAddress, CancellationToken.None);
+        }
+    }
+    
+    internal partial class StaticIPOperations : IServiceOperations<VirtualNetworkManagementClient>, IStaticIPOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the StaticIPOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal StaticIPOperations(VirtualNetworkManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private VirtualNetworkManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.VirtualNetworkManagementClient.
+        /// </summary>
+        public VirtualNetworkManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Check Virtual IP operation retrieves the details for the
+        /// availability of virtual IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the virtual IP.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a virtual IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public async Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (virtualNetworkName == null)
+            {
+                throw new ArgumentNullException("virtualNetworkName");
+            }
+            if (ipAddress == null)
+            {
+                throw new ArgumentNullException("ipAddress");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                tracingParameters.Add("ipAddress", ipAddress);
+                Tracing.Enter(invocationId, this, "CheckAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "?op=checkavailability&address=" + ipAddress;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    NetworkStaticIPAvailabilityResponse result = new NetworkStaticIPAvailabilityResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement addressAvailabilityResponseElement = responseDoc.Element(XName.Get("AddressAvailabilityResponse", "http://schemas.microsoft.com/windowsazure"));
+                    if (addressAvailabilityResponseElement != null)
+                    {
+                        XElement isAvailableElement = addressAvailabilityResponseElement.Element(XName.Get("IsAvailable", "http://schemas.microsoft.com/windowsazure"));
+                        if (isAvailableElement != null)
+                        {
+                            bool isAvailableInstance = bool.Parse(isAvailableElement.Value);
+                            result.IsAvailable = isAvailableInstance;
+                        }
+                        
+                        XElement availableAddressesSequenceElement = addressAvailabilityResponseElement.Element(XName.Get("AvailableAddresses", "http://schemas.microsoft.com/windowsazure"));
+                        if (availableAddressesSequenceElement != null)
+                        {
+                            foreach (XElement availableAddressesElement in availableAddressesSequenceElement.Elements(XName.Get("AvailableAddress", "http://schemas.microsoft.com/windowsazure")))
+                            {
+                                result.AvailableAddresses.Add(availableAddressesElement.Value);
                             }
                         }
                     }

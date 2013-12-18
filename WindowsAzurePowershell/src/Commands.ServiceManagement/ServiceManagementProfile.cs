@@ -448,6 +448,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
+            // Check Static IP Availability Response Mapping
+            Mapper.CreateMap<NVM.NetworkStaticIPAvailabilityResponse, VirtualNetworkStaticIPAvailabilityContext>();
+            Mapper.CreateMap<OperationStatusResponse, VirtualNetworkStaticIPAvailabilityContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
             // New SM to Model
             Mapper.CreateMap<NSM.StoredCertificateSettings, PVM.CertificateSetting>();
             Mapper.CreateMap<IList<NSM.StoredCertificateSettings>, PVM.CertificateSettingList>()
