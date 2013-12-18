@@ -420,8 +420,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 CloudBlobContainer container = destChannel.GetContainerReference(destBlobPath["Container"]);
-                ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
-                WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
+
+                try
+                {
+                    ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
+                    WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
+                }
+                catch(Exception readException)
+                {
+                    e = readException;
+                }
             }
 
             OnDMJobFinish(userData, e);
