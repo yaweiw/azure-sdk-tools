@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(HelpMessage = "Represents the size of the machine.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
         [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
