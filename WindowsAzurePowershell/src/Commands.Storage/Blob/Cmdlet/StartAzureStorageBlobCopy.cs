@@ -404,6 +404,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             DataMovementUserData data = userData as DataMovementUserData;
             IStorageBlobManagement destChannel = data.Channel;
+            bool outputCopyId = false;
 
             if (data != null)
             {
@@ -413,22 +414,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 if (destBlobPath != null)
                 {
                     OutputStream.WriteVerbose(data.TaskId, String.Format(Resources.CopyDestinationBlobPending, destBlobPath["Blob"], destBlobPath["Container"], copyId));
+                    CloudBlobContainer container = destChannel.GetContainerReference(destBlobPath["Container"]);
+
+                    try
+                    {
+                        ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
+                        WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
+                    }
+                    catch (StorageException se)
+                    {
+                        if (se.IsNotFoundException())
+                        {
+                            outputCopyId = true;
+                        }
+                    }
+                    catch (Exception readException)
+                    {
+                        e = readException;
+                    }
                 }
-                else
+
+                if (outputCopyId)
                 {
                     OutputStream.WriteVerbose(data.TaskId, copyId);
-                }
-
-                CloudBlobContainer container = destChannel.GetContainerReference(destBlobPath["Container"]);
-
-                try
-                {
-                    ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
-                    WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
-                }
-                catch(Exception readException)
-                {
-                    e = readException;
                 }
             }
 
