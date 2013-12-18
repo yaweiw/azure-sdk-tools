@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
         [ValidateNotNullOrEmpty]
         public string InstanceSize
         {

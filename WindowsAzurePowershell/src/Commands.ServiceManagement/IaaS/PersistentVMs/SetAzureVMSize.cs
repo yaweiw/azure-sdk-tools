@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
     public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
         [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
