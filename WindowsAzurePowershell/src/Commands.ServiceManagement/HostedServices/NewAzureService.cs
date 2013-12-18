@@ -78,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                 AffinityGroup =  this.AffinityGroup,
                 Location = this.Location
             };
+
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.HostedServices.Create(parameter));
