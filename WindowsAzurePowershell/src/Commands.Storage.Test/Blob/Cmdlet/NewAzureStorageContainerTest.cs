@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using System;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Model.ResourceModel;
     using Storage.Blob.Cmdlet;
     using Storage.Common;
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         public void CreateContainerWithInvalidContainerNameTest()
         {
             string name = String.Empty;
-            string accesslevel = StorageNouns.ContainerAclOff;
+            BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
             AssertThrowsAsync<ArgumentException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
@@ -65,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             AddTestContainers();
             string name = "text";
-            string accesslevel = StorageNouns.ContainerAclOff;
+            BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
             AssertThrowsAsync<ResourceAlreadyExistException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.ContainerAlreadyExists, name));
@@ -75,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         public void CreateContainerSuccessfullyTest()
         {
             string name = String.Empty;
-            string accesslevel = StorageNouns.ContainerAclOff;
+            BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
             MockCmdRunTime.ResetPipelines();
             name = "test";

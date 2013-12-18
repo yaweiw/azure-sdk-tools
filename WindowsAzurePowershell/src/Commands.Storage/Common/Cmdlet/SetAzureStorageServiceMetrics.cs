@@ -42,9 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public int? RetentionDays { get; set; }
 
         [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
-        [ValidateSet(StorageNouns.OffMetrics, StorageNouns.MinimalMetrics, StorageNouns.VerboseMetrics,
-            IgnoreCase = true)]
-        public string MetricsLevel { get; set; }
+        public MetricsLevel? MetricsLevel { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
@@ -79,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
             if (MetricsLevel != null)
             {
-                MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
+                MetricsLevel metricsLevel = MetricsLevel.Value;
                 metrics.MetricsLevel = metricsLevel;
                 //Set default metrics version
                 if (string.IsNullOrEmpty(metrics.Version))
