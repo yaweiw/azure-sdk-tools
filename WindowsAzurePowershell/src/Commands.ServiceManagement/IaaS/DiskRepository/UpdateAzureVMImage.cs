@@ -66,8 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 ImageFamily = this.ImageFamily,
                 PublishedDate = this.PublishedDate,
                 PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? null :
-                                    (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true)
+                RecommendedVMSize = this.RecommendedVMSize
             };
 
             this.ExecuteClientActionNewSM(

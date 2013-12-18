@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, HelpMessage = "The static IP address.")]
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "The static IP address.")]
         [ValidateNotNullOrEmpty]
         public string IPAddress
         {
