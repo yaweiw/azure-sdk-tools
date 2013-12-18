@@ -162,15 +162,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
-            bool useFlatBlobListing = true;
             string prefix = string.Empty;
-            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
                 container = await GetCloudBlobContainerByName(localChannel, containerName);
                 prefix = NameUtil.GetNonWildcardPrefix(blobName);
-                BlobResultSegment blobResult = await localChannel.ListBlobsSegmentedAsync(container, prefix, useFlatBlobListing, details, MaxCount, ContinuationToken, requestOptions, OperationContext, CmdletCancellationToken);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
 
@@ -276,7 +273,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             else
             {
                 string localContainerName = containerName;
-                string localBlobName = blobPrefix;
+                string localBlobName = blobName;
                 taskGenerator = (taskId) => ListBlobsByName(taskId, localChannel, localContainerName, localBlobName);
             }
 

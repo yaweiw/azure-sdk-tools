@@ -404,11 +404,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             DataMovementUserData data = userData as DataMovementUserData;
             IStorageBlobManagement destChannel = data.Channel;
-            bool outputCopyId = false;
 
             if (data != null)
             {
-
+                OutputStream.WriteVerbose(data.TaskId, copyId);
                 Dictionary<string, string> destBlobPath = data.Data as Dictionary<string, string>;
 
                 if (destBlobPath != null)
@@ -419,24 +418,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     try
                     {
                         ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
-                        WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
-                    }
-                    catch (StorageException se)
-                    {
-                        if (se.IsNotFoundException())
+                        if (destBlob != null)
                         {
-                            outputCopyId = true;
+                            WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
                         }
                     }
                     catch (Exception readException)
                     {
                         e = readException;
                     }
-                }
-
-                if (outputCopyId)
-                {
-                    OutputStream.WriteVerbose(data.TaskId, copyId);
                 }
             }
 

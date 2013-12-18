@@ -16,15 +16,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Model.Contract;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
-    using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+    using Model.Contract;
 
     /// <summary>
     /// Mock blob management

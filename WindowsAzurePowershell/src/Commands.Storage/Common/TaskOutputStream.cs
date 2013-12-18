@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 return;
             }
 
-            int activityId = record.ActivityId; //Actity 0 is reserved for summary
+            int activityId = record.ActivityId; //Activity 0 is reserved for summary
             Progress.AddOrUpdate(activityId, record, (id, oldRecord) =>
             {
                 return record;
