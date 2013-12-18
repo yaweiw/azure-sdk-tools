@@ -45,21 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string ContainerAcl = "AzureStorageContainerAcl";
 
         /// <summary>
-        /// BlobContainerPublicAccessType is off
-        /// </summary>
-        public const string ContainerAclOff = "Off";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is blob
-        /// </summary>
-        public const string ContainerAclBlob = "Blob";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is container
-        /// </summary>
-        public const string ContainerAclContainer = "Container";
-
-        /// <summary>
         /// Http protocol
         /// </summary>
         public const string HTTP = "Http";
@@ -113,21 +98,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Azure storage service logging
         /// </summary>
         public const string StorageServiceLogging = "AzureStorageServiceLoggingProperty";
-
-        /// <summary>
-        /// Turn off metrics
-        /// </summary>
-        public const string OffMetrics = "None";
-
-        /// <summary>
-        /// Minimal metrics
-        /// </summary>
-        public const string MinimalMetrics = "Service";
-
-        /// <summary>
-        /// Verbose metrics
-        /// </summary>
-        public const string VerboseMetrics = "ServiceAndApi";
 
         /// <summary>
         /// Azure storage container sas
