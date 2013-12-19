@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
 
         public RecordEntry()
         {
-
+            
         }
 
         public RecordEntry(HttpResponseMessage response)

@@ -1,0 +1,615 @@
+[
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926/ConnectionDetails",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<feed xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <title type=\"text\"></title>\r\n  <id>uuid:9238b73c-74a3-4072-a562-bc81938afb25;id=5109466</id>\r\n  <updated>2013-12-19T03:39:36Z</updated>\r\n  <entry>\r\n    <id>uuid:9238b73c-74a3-4072-a562-bc81938afb25;id=5109467</id>\r\n    <title type=\"text\"></title>\r\n    <updated>2013-12-19T03:39:36Z</updated>\r\n    <content type=\"application/xml\">\r\n      <ConnectionDetail xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n        <KeyName>ACSOwnerKey</KeyName>\r\n        <ConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=HWtvNzcOWbX5cNtSnpW844Jf17FUzi/0OTQ6Cz2IDn0=</ConnectionString>\r\n        <AuthorizationType>ACSAuthorization</AuthorizationType>\r\n        <Rights>\r\n          <AccessRights>Listen</AccessRights>\r\n          <AccessRights>Manage</AccessRights>\r\n          <AccessRights>Send</AccessRights>\r\n        </Rights>\r\n      </ConnectionDetail>\r\n    </content>\r\n  </entry>\r\n  <entry>\r\n    <id>uuid:9238b73c-74a3-4072-a562-bc81938afb25;id=5109468</id>\r\n    <title type=\"text\"></title>\r\n    <updated>2013-12-19T03:39:36Z</updated>\r\n    <content type=\"application/xml\">\r\n      <ConnectionDetail xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n        <KeyName>RootManageSharedAccessKey</KeyName>\r\n        <ConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Z9xW7MifrAK12Ky2R7QQ4sCD/p6c7iWN86od7AvSf3I=</ConnectionString>\r\n        <SecondaryConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=cBG/408wfHoTu4NO35aeqvJ5xu7z66QjEJMARpt0t3E=</SecondaryConnectionString>\r\n        <AuthorizationType>SharedAccessAuthorization</AuthorizationType>\r\n        <Rights>\r\n          <AccessRights>Listen</AccessRights>\r\n          <AccessRights>Manage</AccessRights>\r\n          <AccessRights>Send</AccessRights>\r\n        </Rights>\r\n      </ConnectionDetail>\r\n    </content>\r\n  </entry>\r\n</feed>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "148c671a2a555ff68e9ca20c3510abd3"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:39:35 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:282f4591-771a-4c39-b780-5fa87f0921a4;id=5362694</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:39:41Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk3926</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Active</Status>\r\n      <CreatedAt>2013-12-19T03:36:53.55Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk3926-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk3926.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:39:18.593Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "ef31449eaeae530b80d0268cb460ea7f"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:39:41 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926/ConnectionDetails",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<feed xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <title type=\"text\"></title>\r\n  <id>uuid:282f4591-771a-4c39-b780-5fa87f0921a4;id=5362708</id>\r\n  <updated>2013-12-19T03:39:43Z</updated>\r\n  <entry>\r\n    <id>uuid:282f4591-771a-4c39-b780-5fa87f0921a4;id=5362709</id>\r\n    <title type=\"text\"></title>\r\n    <updated>2013-12-19T03:39:43Z</updated>\r\n    <content type=\"application/xml\">\r\n      <ConnectionDetail xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n        <KeyName>ACSOwnerKey</KeyName>\r\n        <ConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=HWtvNzcOWbX5cNtSnpW844Jf17FUzi/0OTQ6Cz2IDn0=</ConnectionString>\r\n        <AuthorizationType>ACSAuthorization</AuthorizationType>\r\n        <Rights>\r\n          <AccessRights>Listen</AccessRights>\r\n          <AccessRights>Manage</AccessRights>\r\n          <AccessRights>Send</AccessRights>\r\n        </Rights>\r\n      </ConnectionDetail>\r\n    </content>\r\n  </entry>\r\n  <entry>\r\n    <id>uuid:282f4591-771a-4c39-b780-5fa87f0921a4;id=5362710</id>\r\n    <title type=\"text\"></title>\r\n    <updated>2013-12-19T03:39:43Z</updated>\r\n    <content type=\"application/xml\">\r\n      <ConnectionDetail xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n        <KeyName>RootManageSharedAccessKey</KeyName>\r\n        <ConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Z9xW7MifrAK12Ky2R7QQ4sCD/p6c7iWN86od7AvSf3I=</ConnectionString>\r\n        <SecondaryConnectionString>Endpoint=sb://onesdk3926.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=cBG/408wfHoTu4NO35aeqvJ5xu7z66QjEJMARpt0t3E=</SecondaryConnectionString>\r\n        <AuthorizationType>SharedAccessAuthorization</AuthorizationType>\r\n        <Rights>\r\n          <AccessRights>Listen</AccessRights>\r\n          <AccessRights>Manage</AccessRights>\r\n          <AccessRights>Send</AccessRights>\r\n        </Rights>\r\n      </ConnectionDetail>\r\n    </content>\r\n  </entry>\r\n</feed>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "235f6f9e43675f97bcb9c10e02d4f15a"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:39:44 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "DELETE",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "",
+    "ResponseHeaders": {
+      "Transfer-Encoding": [
+        "chunked"
+      ],
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "30b9484031ab5d4198704e799e978b0d"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:39:44 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4676604f-95ca-4176-8d14-55fe17616faa;id=59885</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:39:51Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk3926</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Removing</Status>\r\n      <CreatedAt>2013-12-19T03:36:53.55Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk3926-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk3926.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>false</Enabled>\r\n      <UpdatedAt>2013-12-19T03:39:44.327Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/CH1"
+      ],
+      "x-ms-request-id": [
+        "1a3a111da3975f45b64c9312932c1437"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:39:50 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:01 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:14 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:24 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:35 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:46 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:40:57 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:41:07 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:41:18 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:41:29 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:41:39 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:41:53 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:42:09 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:42:19 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:42:29 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk3926",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Request to a downlevel service failed.</string>",
+    "ResponseHeaders": {
+      "Date": [
+        "Thu, 19 Dec 2013 03:42:40 GMT"
+      ],
+      "Server": [
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 404
+  }
+]

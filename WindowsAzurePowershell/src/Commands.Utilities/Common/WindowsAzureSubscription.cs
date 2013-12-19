@@ -40,12 +40,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public Uri ServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
+
         public string ActiveDirectoryTenantId { get; set; }
 
         public bool IsDefault { get; set; }
+        
         public X509Certificate2 Certificate { get; set; }
 
         private string currentStorageAccountName;
+        
         private CloudStorageAccount cloudStorageAccount;
 
         private readonly List<string> registeredResourceProviders = new List<string>();
@@ -174,14 +177,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
-            
-            // Set the UserAgent
             client.UserAgent.Add(ApiConstants.UserAgentValue);
-
-            if (OnClientCreated != null)
+            EventHandler<ClientCreatedArgs> clientCreatedHandler = OnClientCreated;
+            if (clientCreatedHandler != null)
             {
                 ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
-                OnClientCreated(this, args);
+                clientCreatedHandler(this, args);
                 client = (TClient)args.CreatedClient;
             }
 

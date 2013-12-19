@@ -17,34 +17,57 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Collections;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
-    public class Records : Dictionary<string, Queue<RecordEntry>>
+    [SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+    public class Records : IEnumerable<KeyValuePair<string, Queue<RecordEntry>>>
     {
-        private void EnqueueRecord(RecordEntry record, IRecordMatcher matcher)
+        private Dictionary<string, Queue<RecordEntry>> sessionRecords;
+
+        private IRecordMatcher matcher;
+
+        public Records(IRecordMatcher matcher)
+            : this(new Dictionary<string, Queue<RecordEntry>>(), matcher) { }
+
+        public Records(Dictionary<string, Queue<RecordEntry>> records, IRecordMatcher matcher)
         {
-            string recordKey = matcher.GetMatchingKey(record);
-            if (!base.ContainsKey(recordKey))
-            {
-                this[recordKey] = new Queue<RecordEntry>();
-            }
-            this[recordKey].Enqueue(record);
+            this.sessionRecords = new Dictionary<string, Queue<RecordEntry>>(records);
+            this.matcher = matcher;
         }
 
-        /// <summary>
-        /// Empty collection
-        /// </summary>
-        public Records() { }
-
-        /// <summary>
-        /// Initialize collection
-        /// </summary>
-        /// <param name="records"></param>
-        public Records(Dictionary<string, Queue<RecordEntry>> records) : base(records) { }
-
-        public void AddRecord(RecordEntry record, IRecordMatcher matcher)
+        public void Enqueue(RecordEntry record)
         {
-            EnqueueRecord(record, matcher);
+            string recordKey = matcher.GetMatchingKey(record);
+            if (!sessionRecords.ContainsKey(recordKey))
+            {
+                sessionRecords[recordKey] = new Queue<RecordEntry>();
+            }
+            sessionRecords[recordKey].Enqueue(record);
+        }
+
+        public Queue<RecordEntry> this[string key]
+        {
+            get { return sessionRecords[key]; }
+            set { sessionRecords[key] = value; }
+        }
+
+        public IEnumerator<KeyValuePair<string, Queue<RecordEntry>>> GetEnumerator()
+        {
+            return sessionRecords.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return sessionRecords.GetEnumerator();
+        }
+
+        public void EnqueueRange(List<RecordEntry> records)
+        {
+            foreach (RecordEntry recordEntry in records)
+            {
+                Enqueue(recordEntry);
+            }
         }
     }
 }

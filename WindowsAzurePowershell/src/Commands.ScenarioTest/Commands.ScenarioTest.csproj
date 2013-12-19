@@ -216,6 +216,9 @@
     <Resource Include="Resources\Websites\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Resources\assetNames.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\CloudService\Cache\connman.tgz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -241,12 +244,6 @@
     <None Include="Resources\MediaServices\MediaServices.ps1" />
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
-    <Content Include="Resources\names.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\records.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\Scaffolding.ps1" />
     <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

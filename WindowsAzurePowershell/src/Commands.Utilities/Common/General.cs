@@ -969,22 +969,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return javaScriptSerializer.Deserialize<T>(json);
         }
 
-        public static void Decompress(string zipToUnpack, string unpackDirectory)
+        public static void RecreateDirectory(string dir)
         {
-            using (ZipFile zipFile = ZipFile.Read(zipToUnpack))
+            if (Directory.Exists(dir))
             {
-                foreach (ZipEntry e in zipFile)
-                {
-                    e.Extract(unpackDirectory, ExtractExistingFileAction.OverwriteSilently);
-                }
+                Directory.Delete(dir, true);
             }
-        }
 
-        public static void Compress(string dir, string zipFilePath)
-        {
-            ZipFile zipFile = new ZipFile();
-            zipFile.AddDirectory(dir);
-            zipFile.Save(zipFilePath);
+            Directory.CreateDirectory(dir);
         }
     }
 }
