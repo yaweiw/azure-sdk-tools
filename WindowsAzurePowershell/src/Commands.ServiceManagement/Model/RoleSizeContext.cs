@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     {
         public string InstanceSize { get; set; }
 
-        public string Label { get; set; }
+        public string RoleSizeLabel { get; set; }
 
         public int Cores { get; set; }
 
