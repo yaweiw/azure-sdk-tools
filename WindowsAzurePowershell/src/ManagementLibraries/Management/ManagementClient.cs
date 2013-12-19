@@ -4609,9 +4609,7 @@ namespace Microsoft.WindowsAzure.Management
     {
         /// <summary>
         /// The List Role Sizes operation lists all of the role sizes that are
-        /// valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
+        /// valid for your subscription.
         /// </summary>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -4630,9 +4628,7 @@ namespace Microsoft.WindowsAzure.Management
     {
         /// <summary>
         /// The List Role Sizes operation lists all of the role sizes that are
-        /// valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
+        /// valid for your subscription.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -4662,9 +4658,7 @@ namespace Microsoft.WindowsAzure.Management
         
         /// <summary>
         /// The List Role Sizes operation lists all of the role sizes that are
-        /// valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
+        /// valid for your subscription.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -4709,9 +4703,7 @@ namespace Microsoft.WindowsAzure.Management
         
         /// <summary>
         /// The List Role Sizes operation lists all of the role sizes that are
-        /// valid for your subscription.  (see
-        /// http://msdn.microsoft.com/en-us/library/windowsazure/gg441293.aspx
-        /// for more information)
+        /// valid for your subscription.
         /// </summary>
         /// <param name='cancellationToken'>
         /// Cancellation token.
