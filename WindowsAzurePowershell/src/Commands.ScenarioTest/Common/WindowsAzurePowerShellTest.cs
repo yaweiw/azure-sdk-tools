@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
-    using System;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder;
+    using System;
     using System.Collections.Generic;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class WindowsAzurePowerShellTest : PowerShellTest
@@ -28,6 +28,13 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         protected string credentialFile;
         
         protected List<HttpMockServer> mockServers;
+
+        private void OnClientCreated(object sender, ClientCreatedArgs e)
+        {
+            HttpMockServer mockServer = new HttpMockServer(new SimpleRecordMatcher());
+            e.AddHandlerToClient(mockServer);
+            mockServers.Add(mockServer);
+        }
 
         public WindowsAzurePowerShellTest(params string[] modules)
             : base(modules)
@@ -41,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             base.TestSetup();
             this.mockServers = new List<HttpMockServer>();
-            WindowsAzureSubscription.OnClientCreated += WindowsAzureSubscription_OnClientCreated;
+            WindowsAzureSubscription.OnClientCreated += OnClientCreated;
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
             {
@@ -54,15 +61,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public override void TestCleanup()
         {
             base.TestCleanup();
-            WindowsAzureSubscription.OnClientCreated -= WindowsAzureSubscription_OnClientCreated;
+            WindowsAzureSubscription.OnClientCreated -= OnClientCreated;
             mockServers.ForEach(ms => ms.Dispose());
-        }
-
-        void WindowsAzureSubscription_OnClientCreated(object sender, ClientCreatedArgs e)
-        {
-            HttpMockServer mockServer = new HttpMockServer(new SimpleMatcher());
-            e.AddHandlerToClient(mockServer);
-            mockServers.Add(mockServer);
         }
     }
 }

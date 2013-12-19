@@ -322,16 +322,16 @@ function Retry-Function
 function getAssetName
 {
     $stack = Get-PSCallStack
-	$testName = $null;
-	foreach ($frame in $stack)
-	{
-		if ($frame.Command.StartsWith("Test-", "CurrentCultureIgnoreCase"))
-		{
-			$testName = $frame.Command
-		}
-	}
+    $testName = $null;
+    foreach ($frame in $stack)
+    {
+        if ($frame.Command.StartsWith("Test-", "CurrentCultureIgnoreCase"))
+        {
+            $testName = $frame.Command
+        }
+    }
+	
+    $assetName = [Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder.HttpMockServer]::GetAssetName($testName, "onesdk")
 
-	$assetName = [Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder.HttpMockServer]::GetAssetName($testName)
-
-	return $assetName
+    return $assetName
 }

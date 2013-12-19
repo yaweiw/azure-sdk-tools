@@ -283,6 +283,7 @@
     <Compile Include="Common\Authentication\ITokenProvider.cs" />
     <Compile Include="Common\Authentication\LoginType.cs" />
     <Compile Include="Common\Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="Common\HttpRecorder\HttpRecorderMode.cs" />
     <Compile Include="Common\HttpRecorder\IRecordMatcher.cs" />
     <Compile Include="Common\HttpRecorder\RecordEntry.cs" />
     <Compile Include="Common\HttpRecorder\ClientCreatedArgs.cs" />
@@ -291,8 +292,8 @@
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\HttpRecorder\HttpMockServer.cs" />
-    <Compile Include="Common\HttpRecorder\Names.cs" />
-    <Compile Include="Common\HttpRecorder\SimpleMatcher.cs" />
+    <Compile Include="Common\HttpRecorder\AssetNames.cs" />
+    <Compile Include="Common\HttpRecorder\SimpleRecordMatcher.cs" />
     <Compile Include="Common\HttpRecorder\Records.cs" />
     <Compile Include="Common\HttpRestCallLogger.cs" />
     <Compile Include="Common\IProfileStore.cs" />

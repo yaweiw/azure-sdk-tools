@@ -24,30 +24,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
 
     public class HttpMockServer : DelegatingHandler
     {
-        private IRecordMatcher matcher;
+        private static string recordsDir = "SessionRecords";
 
-        private Records records;
+        private static string namesPath = "assetNames.json";
 
-        private static string recordsTempDir;
+        private static string modeEnvironmentVariableName = "AZURE_TEST_MODE";
 
-        private static string recordsZipPath;
+        private static AssetNames names;
 
-        private static string namesPath;
-
-        private static string modeEnvironmentVariableName;
-
-        private static HttpRecorderMode mode;
+        private static List<RecordEntry> sessionRecords;
 
         private static int instanceCount;
 
-        private static List<RecordEntry> rawRecords;
+        private IRecordMatcher matcher;
 
-        private static Names names;
+        public static HttpRecorderMode Mode { get; set; }
+
+        public Records Records { get; private set; }
 
         private static HttpRecorderMode GetCurrentMode()
         {
             string input = Environment.GetEnvironmentVariable(modeEnvironmentVariableName);
-            input = null;
             HttpRecorderMode mode;
 
             if (string.IsNullOrEmpty(input))
@@ -62,42 +59,52 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
             return mode;
         }
 
-        private static void ReadRecordedNames()
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
-            Dictionary<string, string[]> savedNames = General.DeserializeJson<Dictionary<string, string[]>>(namesPath)
-                ?? new Dictionary<string, string[]>();
-            savedNames.ForEach(r => names.EnqueueName(r.Key, r.Value));
-        }
-
-        private static void ReadRecordedSessions()
-        {
-            General.Decompress(recordsZipPath, recordsTempDir);
-            foreach (string recordFile in Directory.GetFiles(recordsTempDir))
-            {
-                rawRecords = General.DeserializeJson<List<RecordEntry>>(recordFile) ?? new List<RecordEntry>();
-            }
-            Directory.Delete(recordsTempDir, true);
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            if (mode == HttpRecorderMode.Playback)
+            if (Mode == HttpRecorderMode.Playback)
             {
                 // Will throw KeyNotFoundException if the request is not recorded
-                return Tasks.FromResult(records[matcher.GetMatchingKey(request)].Dequeue().GetResponse());
+                return Tasks.FromResult(Records[matcher.GetMatchingKey(request)].Dequeue().GetResponse());
             }
             else
             {
                 return base.SendAsync(request, cancellationToken).ContinueWith<HttpResponseMessage>(response =>
                 {
                     HttpResponseMessage result = response.Result;
-                    if (mode == HttpRecorderMode.Record)
+                    if (Mode == HttpRecorderMode.Record)
                     {
-                        rawRecords.Add(new RecordEntry(result));
+                        RecordEntry recordEntry = new RecordEntry(result);
+                        Records.Enqueue(new RecordEntry(result));
+                        sessionRecords.Add(recordEntry);
                     }
 
                     return result;
                 });
+            }
+        }
+
+        public static string GetAssetName(string testName, string prefix)
+        {
+            if (Mode == HttpRecorderMode.Playback)
+            {
+                return names[testName].Dequeue();
+            }
+            else
+            {
+                string generated = prefix + new Random().Next(9999);
+
+                if (names.ContainsKey(testName))
+                {
+                    while (names[testName].Any(n => n.Equals(generated)))
+                    {
+                        generated = prefix + new Random().Next(9999);
+                    };
+                }
+                names.Enqueue(testName, generated);
+
+                return generated;
             }
         }
 
@@ -106,83 +113,78 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
             base.Dispose(disposing);
             instanceCount--;
 
-            if (mode == HttpRecorderMode.Record && instanceCount == 0)
+            if (Mode == HttpRecorderMode.Record && instanceCount == 0)
             {
-                Directory.CreateDirectory(recordsTempDir);
-                int filesCount = 0;
-                foreach (KeyValuePair<string, Queue<RecordEntry>> item in records)
+                General.RecreateDirectory(recordsDir);
+                int count = 0;
+                const int packSize = 20;
+                List<RecordEntry> pack = new List<RecordEntry>();
+
+                foreach (RecordEntry recordEntry in sessionRecords)
+                {
+                    pack.Add(recordEntry);
+
+                    if (pack.Count == packSize)
+                    {
+                        General.SerializeJson<List<RecordEntry>>(
+                            pack,
+                            Path.Combine(recordsDir, string.Format("record{0}.json", count++)));
+                        pack.Clear();
+                    }
+                }
+
+                if (pack.Count != 0)
                 {
                     General.SerializeJson<List<RecordEntry>>(
-                        rawRecords,
-                        Path.Combine(recordsTempDir, "record" + filesCount++ + ".json"));
-                }
-                General.Compress(recordsTempDir, recordsZipPath);
-                General.SerializeJson(names, namesPath);
-            }
-        }
-
-        public static string GetAssetName(string testName)
-        {
-            if (GetCurrentMode() == HttpRecorderMode.Playback)
-            {
-                return names[testName].Dequeue();
-            }
-            else
-            {
-                string generated = "onesdk" + new Random().Next(9999);
-
-                if (names.ContainsKey(testName))
-                {
-                    while (names[testName].Any(n => n.Equals(generated)))
-                    {
-                        generated = "onesdk" + new Random().Next(9999);
-                    };
+                        pack,
+                        Path.Combine(recordsDir, string.Format("record{0}.json", count++)));
                 }
 
-                names.EnqueueName(testName, generated);
-
-                return generated;
+                General.SerializeJson(names.Names, namesPath);
             }
         }
 
         public void InjectRecordEntry(RecordEntry record)
         {
-            if (mode == HttpRecorderMode.Playback)
+            if (Mode == HttpRecorderMode.Playback)
             {
-                records.AddRecord(record, matcher);
+                Records.Enqueue(record);
             }
         }
 
         static HttpMockServer()
         {
-            recordsZipPath = "records.zip";
-            recordsTempDir = "RecordsTempDir";
-            namesPath = "names.json";
-            modeEnvironmentVariableName = "AZURE_TEST_MODE";
-            mode = GetCurrentMode();
-            names = new Names();
-            rawRecords = new List<RecordEntry>();
+            names = new AssetNames();
+            sessionRecords = new List<RecordEntry>();
+            instanceCount = 0;
+            Mode = GetCurrentMode();
 
-            if (mode == HttpRecorderMode.Playback)
+            if (Mode == HttpRecorderMode.Playback)
             {
-                ReadRecordedSessions();
-                ReadRecordedNames();
+                if (Directory.Exists(recordsDir))
+                {
+                    foreach (string recordsFile in Directory.GetFiles(recordsDir))
+                    {
+                        sessionRecords.AddRange(General.DeserializeJson<List<RecordEntry>>(recordsFile));
+                    }
+                }
+
+                Dictionary<string, string[]> savedNames = General.DeserializeJson<Dictionary<string, string[]>>(namesPath)
+                    ?? new Dictionary<string, string[]>();
+                savedNames.ForEach(r => names.Enqueue(r.Key, r.Value));
             }
         }
 
         public HttpMockServer(IRecordMatcher matcher)
         {
-            this.matcher = matcher;
-            this.records = new Records();
-            rawRecords.ForEach(r => records.AddRecord(r, matcher));
             instanceCount++;
+            this.matcher = matcher;
+            this.Records = new Records(matcher);
+            
+            if (Mode == HttpRecorderMode.Playback)
+            {
+                Records.EnqueueRange(sessionRecords);
+            }
         }
     }
-}
-
-public enum HttpRecorderMode
-{
-    Record,
-    Playback,
-    None
 }
