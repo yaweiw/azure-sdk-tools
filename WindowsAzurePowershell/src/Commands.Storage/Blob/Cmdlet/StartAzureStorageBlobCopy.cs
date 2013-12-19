@@ -405,7 +405,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             DataMovementUserData data = userData as DataMovementUserData;
             IStorageBlobManagement destChannel = data.Channel;
 
-            if (data != null)
+            if (data != null && e == null)
             {
                 OutputStream.WriteVerbose(data.TaskId, copyId);
                 Dictionary<string, string> destBlobPath = data.Data as Dictionary<string, string>;
