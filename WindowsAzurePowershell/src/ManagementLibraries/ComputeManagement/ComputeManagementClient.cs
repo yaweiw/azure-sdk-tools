@@ -36108,16 +36108,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 XElement listenerElement = new XElement(XName.Get("Listener", "http://schemas.microsoft.com/windowsazure"));
                                 listenersSequenceElement.Add(listenerElement);
                                 
-                                XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
-                                protocolElement3.Value = listenersItem.ListenerType.ToString();
-                                listenerElement.Add(protocolElement3);
-                                
                                 if (listenersItem.CertificateThumbprint != null)
                                 {
                                     XElement certificateThumbprintElement = new XElement(XName.Get("CertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
                                     certificateThumbprintElement.Value = listenersItem.CertificateThumbprint;
                                     listenerElement.Add(certificateThumbprintElement);
                                 }
+                                
+                                XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
+                                protocolElement3.Value = listenersItem.ListenerType.ToString();
+                                listenerElement.Add(protocolElement3);
                             }
                             winRMElement.Add(listenersSequenceElement);
                         }
@@ -36747,16 +36747,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     XElement listenerElement = new XElement(XName.Get("Listener", "http://schemas.microsoft.com/windowsazure"));
                                     listenersSequenceElement.Add(listenerElement);
                                     
-                                    XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
-                                    protocolElement3.Value = listenersItem.ListenerType.ToString();
-                                    listenerElement.Add(protocolElement3);
-                                    
                                     if (listenersItem.CertificateThumbprint != null)
                                     {
                                         XElement certificateThumbprintElement = new XElement(XName.Get("CertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
                                         certificateThumbprintElement.Value = listenersItem.CertificateThumbprint;
                                         listenerElement.Add(certificateThumbprintElement);
                                     }
+                                    
+                                    XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
+                                    protocolElement3.Value = listenersItem.ListenerType.ToString();
+                                    listenerElement.Add(protocolElement3);
                                 }
                                 winRMElement.Add(listenersSequenceElement);
                             }
@@ -37526,16 +37526,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         XElement listenerElement = new XElement(XName.Get("Listener", "http://schemas.microsoft.com/windowsazure"));
                                         listenersSequenceElement.Add(listenerElement);
                                         
-                                        XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
-                                        protocolElement3.Value = listenersItem.ListenerType.ToString();
-                                        listenerElement.Add(protocolElement3);
-                                        
                                         if (listenersItem.CertificateThumbprint != null)
                                         {
                                             XElement certificateThumbprintElement = new XElement(XName.Get("CertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
                                             certificateThumbprintElement.Value = listenersItem.CertificateThumbprint;
                                             listenerElement.Add(certificateThumbprintElement);
                                         }
+                                        
+                                        XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
+                                        protocolElement3.Value = listenersItem.ListenerType.ToString();
+                                        listenerElement.Add(protocolElement3);
                                     }
                                     winRMElement.Add(listenersSequenceElement);
                                 }
@@ -39194,16 +39194,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     XElement listenerElement = new XElement(XName.Get("Listener", "http://schemas.microsoft.com/windowsazure"));
                                     listenersSequenceElement.Add(listenerElement);
                                     
-                                    XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
-                                    protocolElement3.Value = listenersItem.ListenerType.ToString();
-                                    listenerElement.Add(protocolElement3);
-                                    
                                     if (listenersItem.CertificateThumbprint != null)
                                     {
                                         XElement certificateThumbprintElement = new XElement(XName.Get("CertificateThumbprint", "http://schemas.microsoft.com/windowsazure"));
                                         certificateThumbprintElement.Value = listenersItem.CertificateThumbprint;
                                         listenerElement.Add(certificateThumbprintElement);
                                     }
+                                    
+                                    XElement protocolElement3 = new XElement(XName.Get("Protocol", "http://schemas.microsoft.com/windowsazure"));
+                                    protocolElement3.Value = listenersItem.ListenerType.ToString();
+                                    listenerElement.Add(protocolElement3);
                                 }
                                 winRMElement.Add(listenersSequenceElement);
                             }
