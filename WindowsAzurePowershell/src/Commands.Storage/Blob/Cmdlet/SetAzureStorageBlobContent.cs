@@ -356,8 +356,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 if (BlobProperties != null || BlobMetadata != null)
                 {
                     Task[] tasks = new Task[2];
-                    tasks[1] = SetBlobProperties(localChannel, blob, BlobProperties);
-                    tasks[2] = SetBlobMeta(localChannel, blob, BlobMetadata);
+                    tasks[0] = SetBlobProperties(localChannel, blob, BlobProperties);
+                    tasks[1] = SetBlobMeta(localChannel, blob, BlobMetadata);
                     Task.WaitAll(tasks);
                 }
 
