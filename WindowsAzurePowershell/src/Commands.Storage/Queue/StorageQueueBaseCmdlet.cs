@@ -23,6 +23,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     /// </summary>
     public class StorageQueueBaseCmdlet : StorageCloudCmdletBase<IStorageQueueManagement>
     {
+        //Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
+
         /// <summary>
         /// create queue service management channel.
         /// </summary>

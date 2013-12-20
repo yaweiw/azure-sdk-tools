@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 Func<CloudBlobContainer, bool> containerFilter = (container) => null == wildcard || wildcard.IsMatch(container.Name);
-                IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containers = ListContainersByPrefix(prefix);
+                IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containers = ListContainersByPrefix(prefix, containerFilter);
 
                 foreach (var  containerInfo in containers)
                 {
@@ -223,8 +223,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         {
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
-            BlobContainerPermissions permissions = await localChannel.GetContainerPermissionsAsync(container, accessCondition,
+            BlobContainerPermissions permissions = null;
+            try
+            {
+                permissions = await localChannel.GetContainerPermissionsAsync(container, accessCondition,
                     requestOptions, OperationContext, CmdletCancellationToken);
+            }
+            catch(StorageException e)
+            {
+                if(!e.IsNotFoundException())
+                {
+                    throw;
+                }
+                //404 Not found means we don't have permission to query the Permission of the specified container.
+            }
             WriteCloudContainerObject(taskId, localChannel, container, permissions, continuationToken);
         }
 

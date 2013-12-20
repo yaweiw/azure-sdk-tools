@@ -461,7 +461,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
             CloseSummaryProgressBar();
             OutputStream.Output();
+        }
 
+        protected void WriteTaskSummary()
+        {
             WriteVerbose(String.Format(Resources.TransferSummary, taskScheduler.TotalTaskCount,
                 taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount));
         }

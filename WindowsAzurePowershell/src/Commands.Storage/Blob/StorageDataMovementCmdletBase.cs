@@ -210,6 +210,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
         }
 
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+            WriteTaskSummary();
+        }
+
         /// <summary>
         /// Dispose DataMovement cmdlet
         /// </summary>

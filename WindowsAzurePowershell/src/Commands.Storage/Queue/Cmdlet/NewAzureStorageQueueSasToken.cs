@@ -78,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue.Cmdlet
         public NewAzureStorageQueueSasTokenCommand(IStorageQueueManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

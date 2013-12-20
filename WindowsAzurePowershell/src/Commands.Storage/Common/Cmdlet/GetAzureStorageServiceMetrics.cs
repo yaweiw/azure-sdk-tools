@@ -33,6 +33,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
         public ServiceMetricsType MetricsType { get; set; }
 
+        //Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
+
+        public GetAzureStorageServiceMetricsCommand()
+        {
+            EnableMultiThread = false;
+        }
+
         /// <summary>
         /// Execute command
         /// </summary>

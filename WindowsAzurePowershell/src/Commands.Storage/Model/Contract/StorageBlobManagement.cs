@@ -395,9 +395,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="operationContext">Operation context</param>
         /// <param name="cmdletCancellationToken">Cancellation token</param>
         /// <returns>A task object that asynchronously get the blob reference from server</returns>
-        public Task<ICloudBlob> GetBlobReferenceFromServerAsync(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
+        public async Task<ICloudBlob> GetBlobReferenceFromServerAsync(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            return container.GetBlobReferenceFromServerAsync(blobName, accessCondition, options, operationContext, cancellationToken);
+            try
+            {
+                ICloudBlob blob = await container.GetBlobReferenceFromServerAsync(blobName, accessCondition, options, operationContext, cancellationToken);
+                return blob;
+            }
+            catch (StorageException e)
+            {
+                if (e.IsNotFoundException())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         /// <summary>
