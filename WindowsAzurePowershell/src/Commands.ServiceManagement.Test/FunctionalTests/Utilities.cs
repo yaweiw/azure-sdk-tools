@@ -166,6 +166,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureStorageAccountCmdletName = "Set-AzureStorageAccount";        
         public static string RemoveAzureStorageAccountCmdletName = "Remove-AzureStorageAccount";
 
+        //AzureDomainJoinExtension
+        public const string NewAzureServiceDomainJoinExtensionConfig = "New-AzureServiceADDomainExtensionConfig";
+        public const string SetAzureServiceDomainJoinExtension = "Set-AzureServiceADDomainExtension";
+        public const string RemoveAzureServiceDomainJoinExtension = "Remove-AzureServiceADDomainExtension";
+        public const string GetAzureServiceDomainJoinExtension = "Get-AzureServiceADDomainExtension";
+
         // AzureStorageKey
         public static string NewAzureStorageKeyCmdletName = "New-AzureStorageKey";
         public static string GetAzureStorageKeyCmdletName = "Get-AzureStorageKey";
