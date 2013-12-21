@@ -178,6 +178,7 @@
   <ItemGroup>
     <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
+    <Compile Include="FunctionalTests\AzureServiceADDomainJoinExtensionTests.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
     <Compile Include="FunctionalTests\BVTTest.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\ACLAction.cs" />
@@ -277,19 +278,23 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\WinRMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDomainJoinExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceDiagnosticsExtensionConfigCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceDomainJoinExtensionConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceDomainJoinExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FunctionalTests\PaasCmdletInfo\ResetAzureRoleInstanceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceDomainJoinExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
