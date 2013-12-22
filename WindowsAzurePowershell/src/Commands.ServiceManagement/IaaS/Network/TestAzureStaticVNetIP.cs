@@ -26,8 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Properties;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVNetStaticIPAvailability"), OutputType(typeof(VirtualNetworkStaticIPAvailabilityContext))]
-    public class GetAzureVNetStaticIPAvailabilityCommand : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsDiagnostic.Test, "AzureStaticVNetIP"), OutputType(typeof(VirtualNetworkStaticIPAvailabilityContext))]
+    public class TestAzureStaticVNetIPCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "The virtual network name.")]
         [ValidateNotNullOrEmpty]
