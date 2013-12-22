@@ -20,36 +20,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Set, "AzureSubnet"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureSubnetCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Remove, StaticVNetIPNoun), OutputType(typeof(IPersistentVM))]
+    public class RemoveAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "The list of subnet names.")]
-        public string[] SubnetNames
-        {
-            get;
-            set;
-        }
-
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance();
-
-            var networkConfiguration = role.ConfigurationSets
-                        .OfType<NetworkConfigurationSet>()
-                        .SingleOrDefault();
-
+            var vmRole = VM.GetInstance();
+            var networkConfiguration = vmRole.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
             if (networkConfiguration == null)
             {
                 networkConfiguration = new NetworkConfigurationSet();
-                role.ConfigurationSets.Add(networkConfiguration);
+                vmRole.ConfigurationSets.Add(networkConfiguration);
             }
 
-            networkConfiguration.SubnetNames = new SubnetNamesCollection();
-            foreach (string subnet in SubnetNames)
-            {
-                networkConfiguration.SubnetNames.Add(subnet);
-            }
-
+            networkConfiguration.StaticVirtualNetworkIPAddress = null;
             WriteObject(VM, true);
         }
 
