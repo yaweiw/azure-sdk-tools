@@ -788,7 +788,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             public string Path { get; set; }
         }
     }
-    
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class NetworkConfigurationSet : ConfigurationSet

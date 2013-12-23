@@ -159,6 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                         }
                     }
                 }
+
                 result.Add(newWinCfg);
             }
 
