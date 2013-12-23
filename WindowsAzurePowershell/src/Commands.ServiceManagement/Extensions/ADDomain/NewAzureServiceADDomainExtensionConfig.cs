@@ -138,8 +138,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainParameterSet)]
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainThumbprintParameterSet)]
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override JoinOptions Options
         {
@@ -153,8 +151,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainParameterSet)]
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainThumbprintParameterSet)]
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
