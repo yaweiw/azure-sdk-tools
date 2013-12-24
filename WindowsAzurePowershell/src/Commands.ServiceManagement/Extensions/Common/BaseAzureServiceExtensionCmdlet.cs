@@ -130,17 +130,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, X509Certificate.Thumbprint);
                 if (uploadCert)
                 {
-                    var parameters = new ServiceCertificateCreateParameters
-                    {
-                        Data = CertUtilsNewSM.GetCertificateData(X509Certificate),
-                        Password = null,
-                        CertificateFormat = CertificateFormat.Pfx
-                    };
-
                     ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
+                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtilsNewSM.Create(X509Certificate)));
                 }
 
                 CertificateThumbprint = X509Certificate.Thumbprint;
