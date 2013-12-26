@@ -41,14 +41,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Alias("PublicAccess")]
         [Parameter(Position = 1, Mandatory = false,
             HelpMessage = "Permission string Off/Blob/Container")]
-        [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer, IgnoreCase = true)]
-        [ValidateNotNullOrEmpty]
-        public string Permission
+        public BlobContainerPublicAccessType Permission
         {
             get { return accessLevel; }
             set { accessLevel = value; }
         }
-        private string accessLevel = StorageNouns.ContainerAclOff;
+        private BlobContainerPublicAccessType accessLevel = BlobContainerPublicAccessType.Off;
 
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageContainerCommand class.
@@ -71,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// create a new azure container
         /// </summary>
         /// <param name="name">container name</param>
-        internal AzureStorageContainer CreateAzureContainer(string name, string accesslevel)
+        internal AzureStorageContainer CreateAzureContainer(string name, BlobContainerPublicAccessType accesslevel)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -90,24 +88,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             }
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
-            accessLevel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel);
+            permissions.PublicAccess = accessLevel;
 
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel))
-            {
-                case StorageNouns.ContainerAclOff:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Off;
-                    break;
-                case StorageNouns.ContainerAclBlob:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
-                    break;
-                case StorageNouns.ContainerAclContainer:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-                    break;
-                default:
-                    throw new ArgumentException(Resources.OnlyOnePermissionForContainer);
-            }
-
-            if(accessLevel == StorageNouns.ContainerAclContainer || accessLevel == StorageNouns.ContainerAclBlob)
+            if (accessLevel == BlobContainerPublicAccessType.Container || accessLevel == BlobContainerPublicAccessType.Blob)
             {
                 Channel.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
             }
