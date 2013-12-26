@@ -28,8 +28,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     {
         public const string ServiceTypeHelpMessage = "Azure storage service type(Blob, Table, Queue).";
         [Parameter(Mandatory = true, Position = 0, HelpMessage = ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService, IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
+
+        //Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        //public override int? ConcurrentTaskCount { get; set; }
+
+        public GetAzureStorageServiceLoggingCommand()
+        {
+            //EnableMultiThread = false;
+        }
 
         /// <summary>
         /// Execute command
@@ -38,8 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account,
-                ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
             WriteObject(serviceProperties.Logging);
         }
     }

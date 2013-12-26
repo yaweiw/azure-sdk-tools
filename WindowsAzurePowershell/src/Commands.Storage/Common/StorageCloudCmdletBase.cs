@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual int? ServerTimeoutPerRequest { get; set; }
 
         [Parameter(HelpMessage = "The client side maximum execution time for each request in seconds.")]
-        public virtual int? MaximumExecutionTimePerRequest { get; set; }
+        public virtual int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
         /// whether stop processing
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         /// <param name="type">Service type</param>
         /// <returns>Request options</returns>
-        public IRequestOptions GetRequestOptions(string type)
+        public IRequestOptions GetRequestOptions(StorageServiceType type)
         {
             if (ServerTimeoutPerRequest == null)
             {
@@ -81,15 +81,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
 
             IRequestOptions options = default(IRequestOptions);
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(type))
+
+            switch (type)
             {
-                case StorageNouns.BlobService:
+                case StorageServiceType.Blob:
                     options = new BlobRequestOptions();
                     break;
-                case StorageNouns.QueueService:
+                case StorageServiceType.Queue:
                     options = new QueueRequestOptions();
                     break;
-                case StorageNouns.TableService:
+                case StorageServiceType.Table:
                     options = new TableRequestOptions();
                     break;
                 default:
@@ -101,9 +102,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 options.ServerTimeout = TimeSpan.FromSeconds((double)ServerTimeoutPerRequest);
             }
 
-            if (MaximumExecutionTimePerRequest != null)
+            if (ClientTimeoutPerRequest != null)
             {
-                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)MaximumExecutionTimePerRequest);
+                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)ClientTimeoutPerRequest);
             }
 
             return options;

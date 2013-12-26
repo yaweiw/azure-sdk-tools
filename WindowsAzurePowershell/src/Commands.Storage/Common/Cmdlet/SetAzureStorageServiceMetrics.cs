@@ -29,13 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     public class SetAzureStorageServiceMetricsCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
-            IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         [Parameter(Mandatory = true, Position = 1, HelpMessage = "Azure storage service metrics type(Hour, Minute).")]
-        [ValidateSet(StorageNouns.MetricsType.Hour, StorageNouns.MetricsType.Minute, IgnoreCase = true)]
-        public string MetricsType { get; set; }
+        public ServiceMetricsType MetricsType { get; set; }
 
         [Parameter(HelpMessage = "Metrics version")]
         public double? Version { get; set; }
@@ -45,12 +42,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public int? RetentionDays { get; set; }
 
         [Parameter(HelpMessage = "Metrics level.(None/Service/ServiceAndApi)")]
-        [ValidateSet(StorageNouns.OffMetrics, StorageNouns.MinimalMetrics, StorageNouns.VerboseMetrics,
-            IgnoreCase = true)]
-        public string MetricsLevel { get; set; }
+        public MetricsLevel? MetricsLevel { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
+
+        //Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        //public override int? ConcurrentTaskCount { get; set; }
+
+        public SetAzureStorageServiceMetricsCommand()
+        {
+            //EnableMultiThread = false;
+        }
 
         /// <summary>
         /// Update the specified service properties according to the input
@@ -82,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
             if (MetricsLevel != null)
             {
-                MetricsLevel metricsLevel = GetMetricsLevel(MetricsLevel);
+                MetricsLevel metricsLevel = MetricsLevel.Value;
                 metrics.MetricsLevel = metricsLevel;
                 //Set default metrics version
                 if (string.IsNullOrEmpty(metrics.Version))
@@ -105,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             {
                 return (MetricsLevel)Enum.Parse(typeof(MetricsLevel), MetricsLevel, true);
             }
-            catch 
+            catch
             {
                 throw new ArgumentException(String.Format(Resources.InvalidEnumName, MetricsLevel));
             }
@@ -118,27 +123,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
-                ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
             SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
 
             bool isHourMetrics = false;
 
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(MetricsType))
+            switch (MetricsType)
             {
-                case StorageNouns.MetricsType.Hour:
+                case ServiceMetricsType.Hour:
                     serviceProperties.HourMetrics = currentServiceProperties.HourMetrics;
                     UpdateServiceProperties(serviceProperties.HourMetrics);
                     isHourMetrics = true;
                     break;
-                case StorageNouns.MetricsType.Minute:
+                case ServiceMetricsType.Minute:
                     serviceProperties.MinuteMetrics = currentServiceProperties.MinuteMetrics;
                     UpdateServiceProperties(serviceProperties.MinuteMetrics);
                     isHourMetrics = false;
                     break;
             }
-            
+
             Channel.SetStorageServiceProperties(account, ServiceType, serviceProperties,
                 GetRequestOptions(ServiceType), OperationContext);
 

@@ -29,9 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
     public class SetAzureStorageServiceLoggingCommand : StorageCloudBlobCmdletBase
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = GetAzureStorageServiceLoggingCommand.ServiceTypeHelpMessage)]
-        [ValidateSet(StorageNouns.BlobService, StorageNouns.TableService, StorageNouns.QueueService,
-            IgnoreCase = true)]
-        public string ServiceType { get; set; }
+        public StorageServiceType ServiceType { get; set; }
 
         [Parameter(HelpMessage = "Logging version")]
         public double? Version { get; set; }
@@ -47,6 +45,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
+
+        //Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        //public override int? ConcurrentTaskCount { get; set; }
+
+        public SetAzureStorageServiceLoggingCommand()
+        {
+            //EnableMultiThread = false;
+        }
 
         /// <summary>
         /// Update the specified service properties according to the input
@@ -76,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
             }
 
-            if (LoggingOperations!= null && LoggingOperations.Length > 0)
+            if (LoggingOperations != null && LoggingOperations.Length > 0)
             {
                 LoggingOperations logOperations = default(LoggingOperations);
 
@@ -135,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                     throw new ArgumentException(LoggingOperationHelpMessage);
                 }
             }
-            else 
+            else
             {
                 try
                 {
@@ -169,8 +177,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account,
-                ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
             CleanServiceProperties(serviceProperties);
             serviceProperties.Logging = currentServiceProperties.Logging;

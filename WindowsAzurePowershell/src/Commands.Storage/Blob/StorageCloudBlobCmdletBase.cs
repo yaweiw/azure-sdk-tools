@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         {
             get 
             {
-                return (BlobRequestOptions) GetRequestOptions(StorageNouns.BlobService);
+                return (BlobRequestOptions) GetRequestOptions(StorageServiceType.Blob);
             }
         }
 

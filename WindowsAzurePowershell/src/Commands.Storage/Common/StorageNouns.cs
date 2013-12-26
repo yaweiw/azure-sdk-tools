@@ -45,21 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string ContainerAcl = "AzureStorageContainerAcl";
 
         /// <summary>
-        /// BlobContainerPublicAccessType is off
-        /// </summary>
-        public const string ContainerAclOff = "Off";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is blob
-        /// </summary>
-        public const string ContainerAclBlob = "Blob";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is container
-        /// </summary>
-        public const string ContainerAclContainer = "Container";
-
-        /// <summary>
         /// Http protocol
         /// </summary>
         public const string HTTP = "Http";
@@ -113,36 +98,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Azure storage service logging
         /// </summary>
         public const string StorageServiceLogging = "AzureStorageServiceLoggingProperty";
-
-        /// <summary>
-        /// Azure storage blob service
-        /// </summary>
-        public const string BlobService = "Blob";
-
-        /// <summary>
-        /// Azure storage table service
-        /// </summary>
-        public const string TableService = "Table";
-
-        /// <summary>
-        /// Azure storage queue service
-        /// </summary>
-        public const string QueueService = "Queue";
-
-        /// <summary>
-        /// Turn off metrics
-        /// </summary>
-        public const string OffMetrics = "None";
-
-        /// <summary>
-        /// Minimal metrics
-        /// </summary>
-        public const string MinimalMetrics = "Service";
-
-        /// <summary>
-        /// Verbose metrics
-        /// </summary>
-        public const string VerboseMetrics = "ServiceAndApi";
 
         /// <summary>
         /// Azure storage container sas
@@ -209,18 +164,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// </summary>
             public const char Query = 'q';
         }
+    }
 
-        public static class MetricsType
-        {
-            /// <summary>
-            /// Hour metrics
-            /// </summary>
-            public const string Hour = "Hour";
+    public enum StorageServiceType
+    {
+        Blob,
+        Table,
+        Queue
+    }
 
-            /// <summary>
-            /// Minute metrics
-            /// </summary>
-            public const string Minute = "Minute";
-        }
+    public enum ServiceMetricsType
+    {
+        Hour,
+        Minute
     }
 }

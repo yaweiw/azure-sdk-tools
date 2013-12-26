@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         {
             get
             {
-                return (QueueRequestOptions)GetRequestOptions(StorageNouns.QueueService);
+                return (QueueRequestOptions)GetRequestOptions(StorageServiceType.Queue);
             }
         }
     }
