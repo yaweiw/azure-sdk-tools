@@ -47,9 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
 
-        //Overwrite the useless parameter
-        public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? ClientTimeoutPerRequest { get; set; }
         //public override int? ConcurrentTaskCount { get; set; }
 
         public SetAzureStorageServiceMetricsCommand()

@@ -77,6 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         [Parameter(HelpMessage = "End Row Key")]
         public string EndRowKey { get; set; }
 
+        //Override the useless parameters
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
         /// </summary>
