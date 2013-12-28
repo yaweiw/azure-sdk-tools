@@ -174,6 +174,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         [ValidateNotNullOrEmpty]
         public override uint JoinOption
         {
+            get
+            {
+                return base.JoinOption;
+            }
             set
             {
                 base.JoinOption = value;
