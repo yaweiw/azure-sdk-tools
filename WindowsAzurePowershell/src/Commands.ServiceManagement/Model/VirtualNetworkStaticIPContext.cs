@@ -12,22 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Management.Automation;
-    using Model;
+    using Utilities.Common;
 
-    public class VirtualMachineConfigurationCmdletBase : PSCmdlet
+    public class VirtualNetworkStaticIPContext : ManagementOperationContext
     {
-        protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
-
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
-        [ValidateNotNullOrEmpty]
-        [Alias("InputObject")]
-        public IPersistentVM VM
-        {
-            get;
-            set;
-        }
+        public string IPAddress { get; set; }
     }
 }

@@ -842,6 +842,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 this.SetValue("VirtualIPGroups", value);
             }
         }
+
+        [DataMember(Name = "StaticVirtualNetworkIPAddress", EmitDefaultValue = false, Order = 3)]
+        public string StaticVirtualNetworkIPAddress
+        {
+            get
+            {
+                return this.GetValue<string>("StaticVirtualNetworkIPAddress");
+            }
+            set
+            {
+                this.SetValue("StaticVirtualNetworkIPAddress", value);
+            }
+        }
     }
 
     [CollectionDataContract(Name = "LoadBalancedEndpointList", Namespace = Constants.ServiceManagementNS)]
