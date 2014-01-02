@@ -82,6 +82,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public virtual uint JoinOption
         {
+            get
+            {
+                return PublicConfig.Options;
+            }
             set
             {
                 PublicConfig.Options = value;

@@ -204,6 +204,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<OperationStatusResponse, LocationsContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            //Role sizes mapping
+            Mapper.CreateMap<RoleSizesListResponse.RoleSize, RoleSizeContext>()
+                  .ForMember(c => c.InstanceSize, o => o.MapFrom(r => r.Name));
+            Mapper.CreateMap<OperationStatusResponse, RoleSizeContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
             
             //ServiceCertificate mapping
             Mapper.CreateMap<ServiceCertificateGetResponse, CertificateContext>()
@@ -438,6 +445,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.GatewaySites, o => o.MapFrom(r => r.Gateway.Sites));
 
             Mapper.CreateMap<OperationStatusResponse, VirtualNetworkSiteContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            // Check Static IP Availability Response Mapping
+            Mapper.CreateMap<NVM.NetworkStaticIPAvailabilityResponse, VirtualNetworkStaticIPAvailabilityContext>();
+            Mapper.CreateMap<OperationStatusResponse, VirtualNetworkStaticIPAvailabilityContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 

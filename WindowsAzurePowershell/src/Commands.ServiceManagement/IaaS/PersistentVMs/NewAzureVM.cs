@@ -307,23 +307,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistentVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
-            if (!string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName) && !NetworkConfigurationSetBuilder.HasNetworkConfigurationSet(persistentVM.ConfigurationSets))
-            {
-//                var networkConfigurationSetBuilder = new NetworkConfigurationSetBuilder(persistentVM.ConfigurationSets);
-//
-//                Disk disk = this.Channel.GetDisk(CurrentSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
-//                if (disk.OS == OS.Windows && !persistentVM.NoRDPEndpoint)
-//                {
-//                    networkConfigurationSetBuilder.AddRdpEndpoint();
-//                }
-//                else if (disk.OS == OS.Linux && !persistentVM.NoSSHEndpoint)
-//                {
-//                    networkConfigurationSetBuilder.AddSshEndpoint();
-//                }
-            }
-
             var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
-
             if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))
             {
                 persistentVM.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
@@ -339,8 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
-                RoleSize = string.IsNullOrEmpty(persistentVM.RoleSize) ? null :
-                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize, true),
+                RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
