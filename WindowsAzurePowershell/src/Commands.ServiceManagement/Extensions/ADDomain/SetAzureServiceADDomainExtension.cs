@@ -174,6 +174,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         [ValidateNotNullOrEmpty]
         public override uint JoinOption
         {
+            get
+            {
+                return base.JoinOption;
+            }
             set
             {
                 base.JoinOption = value;
@@ -221,6 +225,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 PrivateConfiguration = PrivateConfiguration,
                 Roles = new ExtensionRoleList(Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)) : Enumerable.Repeat(new ExtensionRole(), 1))
             };
+
             var extConfig = ExtensionManager.InstallExtension(context, Slot, Deployment.ExtensionConfiguration);
             ChangeDeployment(extConfig);
         }

@@ -12,41 +12,38 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
+    using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Get, StaticVNetIPNoun), OutputType(typeof(VirtualNetworkStaticIPContext))]
+    public class GetAzureStaticVNetIPNounCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateNotNullOrEmpty]
-        public string InstanceSize
-        {
-            get;
-            set;
-        }
-
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance(); 
-            role.RoleSize = InstanceSize;
-            WriteObject(VM, true);
+            var vmRole = VM.GetInstance();
+            var networkConfiguration = vmRole.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+            if (networkConfiguration == null)
+            {
+                WriteObject(null);
+            }
+            else
+            {
+                WriteObject(
+                    new VirtualNetworkStaticIPContext
+                    {
+                        IPAddress = networkConfiguration.StaticVirtualNetworkIPAddress
+                    },
+                    true);
+            }
         }
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            ExecuteCommand();
         }
     }
 }

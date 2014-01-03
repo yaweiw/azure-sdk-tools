@@ -12,22 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Management.Automation;
-    using Model;
+    using Utilities.Common;
 
-    public class VirtualMachineConfigurationCmdletBase : PSCmdlet
+    public class RoleSizeContext : ManagementOperationContext
     {
-        protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
+        public string InstanceSize { get; set; }
 
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
-        [ValidateNotNullOrEmpty]
-        [Alias("InputObject")]
-        public IPersistentVM VM
-        {
-            get;
-            set;
-        }
+        public string RoleSizeLabel { get; set; }
+
+        public int Cores { get; set; }
+
+        public int MemoryInMb { get; set; }
+
+        public bool SupportedByWebWorkerRoles { get; set; }
+
+        public bool SupportedByVirtualMachines { get; set; }
     }
 }
