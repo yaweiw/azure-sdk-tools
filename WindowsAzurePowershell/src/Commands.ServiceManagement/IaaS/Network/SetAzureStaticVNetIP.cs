@@ -15,15 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
+    using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Set, StaticVNetIPNoun), OutputType(typeof(IPersistentVM))]
+    public class SetAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "The Static Customer IP Address.")]
         [ValidateNotNullOrEmpty]
-        public string InstanceSize
+        public string IPAddress
         {
             get;
             set;
@@ -31,8 +33,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance(); 
-            role.RoleSize = InstanceSize;
+            var vmRole = VM.GetInstance();
+            var networkConfiguration = vmRole.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+            if (networkConfiguration == null)
+            {
+                networkConfiguration = new NetworkConfigurationSet();
+                vmRole.ConfigurationSets.Add(networkConfiguration);
+            }
+
+            networkConfiguration.StaticVirtualNetworkIPAddress = IPAddress;
             WriteObject(VM, true);
         }
 
