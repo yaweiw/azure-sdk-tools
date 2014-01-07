@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Linq;
     using System.Net;
     using AutoMapper;
+    using Extensions;
     using Management.Compute.Models;
     using Management.Models;
     using Management.Storage.Models;
@@ -42,14 +43,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             });
         }
 
+        public override string ProfileName
+        {
+            get { return "ServiceManagementProfile"; }
+        }
+
         public static bool Initialize()
         {
             return initialize.Value;
         }
 
-        public override string ProfileName
+        public static bool Initialize(GetAzureServiceExtensionImageCommand command)
         {
-            get { return "ServiceManagementProfile"; }
+            Mapper.CreateMap<OperationStatusResponse, ExtensionImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()))
+                  .ForMember(c => c.Type, o => o.Ignore());
+
+            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>();
+
+            return Initialize();
         }
 
         protected override void Configure()
