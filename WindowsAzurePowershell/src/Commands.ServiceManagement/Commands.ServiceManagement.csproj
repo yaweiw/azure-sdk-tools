@@ -208,8 +208,10 @@
     <Compile Include="Extensions\ADDomain\RemoveAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\ADDomain\SetAzureServiceADDomainExtension.cs" />
     <Compile Include="Extensions\Common\ExtensionContext.cs" />
+    <Compile Include="Extensions\Common\ExtensionImageContext.cs" />
     <Compile Include="Extensions\Common\ExtensionParameterPropertyHelper.cs" />
     <Compile Include="Extensions\Common\ExtensionRoleType.cs" />
+    <Compile Include="Extensions\Common\GetAzureServiceExtensionImage.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
