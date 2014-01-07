@@ -564,4 +564,7 @@
   <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
     <value>Cannot delete VM Data Disk for LUN '{0}', </value>
   </data>
+  <data name="NetworkConfigurationNotFoundOnPersistentVM" xml:space="preserve">
+    <value>Network configuration not found on the persistent VM.</value>
+  </data>
 </root>
