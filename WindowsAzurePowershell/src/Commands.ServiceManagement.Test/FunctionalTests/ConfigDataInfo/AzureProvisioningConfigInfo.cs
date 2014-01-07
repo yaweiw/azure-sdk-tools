@@ -104,6 +104,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
+        public AzureProvisioningConfigInfo(string linexUser, string password, bool sSHEndpoint = false, bool disableSSH = false,
+            LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList =null,LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null)
+        {
+            this.OS = ConfigDataInfo.OS.Linux;
+            this.Password = password;
+            this.LinuxUser = linexUser;
+            this.DisableSSH = disableSSH;
+            this.NoSSHEndpoint = sSHEndpoint;
+            if (sSHKeyPairList != null)
+            {
+                this.SSHKeyPairs = sSHKeyPairList;
+            }
+            if (sSHPublicKeyList != null)
+            {
+                this.SshPublicKeys = sSHPublicKeyList;
+            }
+        }
+
+        public AzureProvisioningConfigInfo( string adminUsername, string password, X509Certificate2 winRMCertificate)
+        {
+            this.OS= OS.Windows;
+            this.AdminUsername = adminUsername;
+            this.Password = password;
+            this.WinRMCertificate = winRMCertificate;
+
+        }
 
         public PersistentVM  Vm { get; set; }
     }
