@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
             get { return force; }
             set { force = value; }
         }
+
         private bool force;
 
         [Parameter(Mandatory = false, HelpMessage = "Return whether the specified table is successfully removed")]

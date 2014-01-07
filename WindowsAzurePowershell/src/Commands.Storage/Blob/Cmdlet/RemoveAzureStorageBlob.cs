@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// container pipeline paremeter set name
         /// </summary>
-        private const string ContainerPipelineParmeterSet = "ContainerPipeline";
+        private const string ContainerPipelineParameterSet = "ContainerPipeline";
 
         /// <summary>
         /// blob name and container name parameter set
@@ -47,10 +47,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(HelpMessage = "CloudBlobContainer Object", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParameterSet)]
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
-        [Parameter(ParameterSetName = ContainerPipelineParmeterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
+        [Parameter(ParameterSetName = ContainerPipelineParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         [Parameter(ParameterSetName = NameParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         public string Blob 
         {
@@ -256,7 +256,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                     containerName = ICloudBlob.Container.Name;
                     break;
 
-                case ContainerPipelineParmeterSet:
+                case ContainerPipelineParameterSet:
                     removed = RemoveAzureBlob(CloudBlobContainer, BlobName);
                     blobName = BlobName;
                     containerName = ContainerName;

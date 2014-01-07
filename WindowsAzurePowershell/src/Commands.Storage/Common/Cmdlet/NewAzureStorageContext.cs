@@ -115,6 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             get { return isLocalDevAccount; }
             set { isLocalDevAccount = value; }
         }
+
         private bool isLocalDevAccount;
 
         private const string AnonymousHelpMessage = "Use anonymous storage account";
@@ -127,6 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             get { return isAnonymous; }
             set { isAnonymous = value; }
         }
+
         private bool isAnonymous;
 
         private const string ProtocolHelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS";
@@ -146,6 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             get { return protocolType; }
             set { protocolType = value; }
         }
+
         private string protocolType = StorageNouns.HTTPS;
 
         private const string EndPointHelpMessage = "Azure storage endpoint";
@@ -157,6 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             get { return storageEndpoint; }
             set { storageEndpoint = value; }
         }
+
         private string storageEndpoint = string.Empty;
 
         private const string AzureEnvironmentHelpMessage = "Azure environment name";
@@ -171,6 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             get { return environmentName; }
             set { environmentName = value; }
         }
+
         private string environmentName = string.Empty;
 
         /// <summary>

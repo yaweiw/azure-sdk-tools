@@ -49,6 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
             get { return accessPolicyIdentifier; }
             set { accessPolicyIdentifier = value; }
         }
+
         private string accessPolicyIdentifier;
 
         [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"audq\".",
@@ -77,8 +78,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         [Parameter(HelpMessage = "End Row Key")]
         public string EndRowKey { get; set; }
 
-        //Override the useless parameters
+        // Override the useless parameters
         public override int? ServerTimeoutPerRequest { get; set; }
+
         public override int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
@@ -164,7 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         /// Set up access policy permission
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
-        /// <param name="permission">Permisson</param>
+        /// <param name="permission">Permission</param>
         internal void SetupAccessPolicyPermission(SharedAccessTablePolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;
