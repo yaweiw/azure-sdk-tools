@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using WindowsAzure.ServiceManagement;
     using System.Security.Cryptography.X509Certificates;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
-    
+    using System.Linq;
     
     
 
@@ -48,6 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string serviceName;
         
         string perfFile;
+        
 
         [TestInitialize]
         public void Initialize()
@@ -747,18 +748,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             List<string> localNets = new List<string>();
             List<string> virtualNets = new List<string>();
             HashSet<string> affinityGroups = new HashSet<string>();
+            Dictionary<string,string> dns = new Dictionary<string,string>();
+            List<LocalNetworkSite> localNetworkSites = new List<LocalNetworkSite>();
+            AddressPrefixList prefixlist = null;
 
             foreach (XElement el in vnetconfigxml.Descendants())
             {
                 switch (el.Name.LocalName)
                 {
                     case "LocalNetworkSite":
-                        localNets.Add(el.FirstAttribute.Value);
+                        {
+                            localNets.Add(el.FirstAttribute.Value);
+                            List<XElement> elements = el.Elements().ToList<XElement>();
+                            prefixlist = new AddressPrefixList();
+                            prefixlist.Add(elements[0].Elements().First().Value);
+                            localNetworkSites.Add(new LocalNetworkSite()
+                                {
+                                    VpnGatewayAddress = elements[1].Value,
+                                    AddressSpace = new AddressSpace() { AddressPrefixes = prefixlist }
+                                }
+                            );
+                        }
                         break;
                     case "VirtualNetworkSite":
                         virtualNets.Add(el.Attribute("name").Value);
                         affinityGroups.Add(el.Attribute("AffinityGroup").Value);
                         break;
+                    case "DnsServer":
+                        {
+                            dns.Add(el.Attribute("name").Value, el.Attribute("IPAddress").Value);
+                            break;
+                        }
                     default:
                         break;
                 }
@@ -790,7 +810,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 foreach (string vnet in virtualNets)
                 {
-                    Assert.AreEqual(vnet, vmPowershellCmdlets.GetAzureVNetSite(vnet)[0].Name);
+                    VirtualNetworkSiteContext vnetsite = vmPowershellCmdlets.GetAzureVNetSite(vnet)[0];
+                    Assert.AreEqual(vnet, vnetsite.Name);
+                    //Verify DNS and IPAddress
+                    Assert.AreEqual(1, vnetsite.DnsServers.Count());
+                    Assert.IsTrue(dns.ContainsKey(vnetsite.DnsServers.First().Name));
+                    Assert.AreEqual(dns[vnetsite.DnsServers.First().Name], vnetsite.DnsServers.First().Address);
+
+                    //Verify the Gateway sites
+                    Assert.AreEqual(1,vnetsite.GatewaySites.Count);
+                    Assert.AreEqual(localNetworkSites[0].VpnGatewayAddress, vnetsite.GatewaySites[0].VpnGatewayAddress);
+                    Assert.IsTrue(localNetworkSites[0].AddressSpace.AddressPrefixes.All(c => vnetsite.GatewaySites[0].AddressSpace.AddressPrefixes.Contains(c)));
+
                     Assert.AreEqual(ProvisioningState.NotProvisioned, vmPowershellCmdlets.GetAzureVNetGateway(vnet)[0].State);
                 }
 
@@ -1283,6 +1314,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        
+
         [TestCleanup]
         public virtual void CleanUp()
         {
@@ -1404,5 +1437,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 return false;
             }
         }
+
+
     }
 }

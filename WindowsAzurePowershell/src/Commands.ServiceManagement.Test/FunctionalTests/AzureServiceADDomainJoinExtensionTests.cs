@@ -21,45 +21,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         string cerFileName = "testcert.cer";
         PSObject certToUpload;
         X509Certificate2 installedCert;
+        string domainName = "djtest.com";
+        string thumbprintAlgorithm = "sha1";
+        string storageAccount = "djteststrg";
+        string deploymentName = "deployment1";
+        string deploymentLabel = "label1";
+
+        // Choose the package and config files from local machine
+        string packageName;
+        string configName;
+        FileInfo packagePath1;
+        FileInfo configPath1;
+        PSCredential cred;
+
 
         [TestInitialize]
         public void Initialize()
         {
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
-            testStartTime = DateTime.Now;
             InstallCertificate();
+            // Choose the package and config files from local machine
+            packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
         }
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        public void SetAzureServiceDomainJoinExtensions()
+        public void SetAzureServiceDomainJoinExtensionwithDefaultParamterSetTest()
         {
-
-            // Choose the package and config files from local machine
-            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
-            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
-            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
-            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
-
+            testStartTime = DateTime.Now;
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
 
-            string deploymentName = "deployment1";
-            string deploymentLabel = "label1";
-            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
-            
-            string storageAccount = "djteststrg";
-            string vmName1 = Utilities.GetUniqueShortName("DjExtVM1");
-            string vmName2 = Utilities.GetUniqueShortName("DjExtVM2");
             string[] role = { "WebRole1" };
-            string domainName = "djtest.com";
-            string thumbprintAlgorithm = "sha1";
             SwitchParameter restart = new SwitchParameter();
 
             try
             {
-
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
                 vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
@@ -74,6 +77,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
                 Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
 
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDomainJoinParmaterSetAndJoinOtionsTest()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
                 //Join Domian with DomainJoinParmaterSet with JoinOptions.JoinDomain
                 vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, null, JoinOptions.JoinDomain, role, DeploymentSlotType.Production.ToString(), serviceName, thumbprintAlgorithm, null, cred, null, null);
                 Console.WriteLine("Servie {0} added to domain {1} successfully using join option 35.", serviceName, domainName);
@@ -82,47 +116,206 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
                 Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
 
-                ////Join Domian with DomainParmaterSet
-                //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName,installedCert, null, role, DeploymentSlotType.Production.ToString(), serviceName, thumbprintAlgorithm, null, cred, null, null);
-                //Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
 
-                ////Join Domian with DomainJoinParmaterSet and certificate
-                //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert, JoinOptions.JoinDomain, role, DeploymentSlotType.Production.ToString(), serviceName, thumbprintAlgorithm, null, cred, null, null);
-                //Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
 
-                //vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDomainParmaterSetTest()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
 
-                ////Join domain with DomainThumbprintParameterSet
-                //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert.Thumbprint, null, role, null, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
-                //Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                //Join Domian with DomainParmaterSet
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert, null, role, DeploymentSlotType.Production.ToString(), serviceName, thumbprintAlgorithm, null, cred, null, null);
+                Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDomainJoinParmaterSetAndCertificateTest()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                //Join Domian with DomainJoinParmaterSet and certificate
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert, JoinOptions.JoinDomain, role, DeploymentSlotType.Production.ToString(), serviceName, thumbprintAlgorithm, null, cred, null, null);
+                Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDomainThumbprintParameterSetTest()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
+
+                //Join domain with DomainThumbprintParameterSet
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert.Thumbprint, null, role, null, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
+                Console.WriteLine("Servie {0} added to domain {1} successfully.", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDefaultParameterSet35Test()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
 
                 //Join domain with DomainJoinThumbprintParameterSet
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName,null, null, role, 35, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, null, null, role, 35, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
                 Console.WriteLine("Servie {0} added to domain {1} successfully", serviceName, domainName);
                 vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
                 Console.WriteLine("Service domain join extension fetched successfully.");
                 vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
                 Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
 
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithDomainJoinThumbprintParameterSetAndJoinOption35Test()
+        {
+            testStartTime = DateTime.Now;
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
+
                 //Join domain with DomainJoinThumbprintParameterSet and join oprtion 35
-                //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert.Thumbprint, null, role, 35, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
-                //Console.WriteLine("Servie {0} added to domain {1} successfully using join option 35", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(domainName, installedCert.Thumbprint, null, role, 35, DeploymentSlotType.Production, serviceName, thumbprintAlgorithm, null, cred, null);
+                Console.WriteLine("Servie {0} added to domain {1} successfully using join option 35", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
 
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
                 vmPowershellCmdlets.RemoveAzureService(serviceName, true);
@@ -137,36 +330,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        public void NewAzureServiceDomainJoinExtensionConfigTests()
+        public void NewAzureServiceDomainJoinExtensionConfigWithDefaultParmateSetTests()
         {
-
-            // Choose the package and config files from local machine
-            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
-            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
-            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
-            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
-
+            testStartTime = DateTime.Now;
+            
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
-
-            string deploymentName = "deployment1";
-            string deploymentLabel = "label1";
-
-            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
-            //string affinityGroup = "djtestuswest";
-            string storageAccount = "djteststrg";
-            string vmName1 = Utilities.GetUniqueShortName("DjExtVM1");
-            string vmName2 = Utilities.GetUniqueShortName("DjExtVM2");
+            
             string[] role = { "WebRole1" };
-            string domainName = "djtest.com";
-            string thumbprintAlgorithm = "sha1";
             SwitchParameter restart = new SwitchParameter();
             ExtensionConfigurationInput domainJoinExtensionConfig;
             try
             {
-
-                string subscriptionName = vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName;
-                vmPowershellCmdlets.SetAzureSubscription(subscriptionName, storageAccount);
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
@@ -183,6 +361,40 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
 
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+                
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDefaultParmateSetAndJoinOptionsTests()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
                 //Prepare a new domain join config with default parameter set and one of the join options
                 domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, null, JoinOptions.JoinDomain, null, null, null, null, null, cred);
                 vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
@@ -193,37 +405,172 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
 
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDomainParmateSetTests()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
                 //Prepare a new domain join config with DomainParameterSet (using only X509certicate2)
-                //domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert, null, null, null, null, null, null, cred);
-                //vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
-                //Console.WriteLine("New deployment with domain join created successfully.", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
-                //vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert, null, null, null, null, null, null, cred);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
+                Console.WriteLine("New deployment with domain join created successfully.", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Production.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDomainParameterSetAndCertTest()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
 
                 ////Prepare a new domain join config with DomainParameterSet (using X509certicate2 and Options)
-                //domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert, JoinOptions.JoinDomain, null, null, null, null, null, cred);
-                //vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
-                //Console.WriteLine("New deployment with domain join created successfully.", serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
-                //Console.WriteLine("Service domain join extension fetched successfully.");
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
-                //Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
-                //vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
+                domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert, JoinOptions.JoinDomain, null, null, null, null, null, cred);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
+                Console.WriteLine("New deployment with domain join created successfully.", serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
+                Console.WriteLine("Service domain join extension fetched successfully.");
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
+                Console.WriteLine("Removed domain join extension for the deployment {0} succefully.", deploymentName);
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
 
-                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload,password);
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
 
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDomianThumbprintParameterSetTest()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
                 //Prepare a new domain join config with DomianThumbprintParameterSet
-                //domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName,installedCert.Thumbprint, null, null, role, thumbprintAlgorithm,null, null, cred);
-                //vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
-                //Console.WriteLine("{0}:New deployment{1} with domain join {2} created successfully.", DateTime.Now, serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
-                //Console.WriteLine("{0}:Service domain join extension fetched successfully.", DateTime.Now);
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
-                //Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
-                //vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
+                domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert.Thumbprint, null, null, role, thumbprintAlgorithm, null, null, cred);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
+                Console.WriteLine("{0}:New deployment{1} with domain join {2} created successfully.", DateTime.Now, serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
+                Console.WriteLine("{0}:Service domain join extension fetched successfully.", DateTime.Now);
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
+                Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
+
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDefaultParmateSetAndJoinOption35Test()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
 
                 //Prepare a new domain join config with default parameter set and joinOption 35
                 domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, null, null, null, role, thumbprintAlgorithm, 35, null, cred);
@@ -235,18 +582,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
 
-                ////Prepare a new domain join config with DomianJoinThumbprintParameterSet
-                //domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName,installedCert.Thumbprint, null, null, role, thumbprintAlgorithm, 35, null, cred);
-                //vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
-                //Console.WriteLine("{0}:New deployment{1} with domain join {2} created successfully.", DateTime.Now, serviceName, domainName);
-                //vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
-                //Console.WriteLine("{0}:Service domain join extension fetched successfully.", DateTime.Now);
-                //vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
-                //Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
-                //vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
-
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
                 //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
-                
+
             }
             catch (Exception e)
             {
@@ -254,6 +592,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
         }
+
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void NewDomainJoinExtConfigWithDomianJoinThumbprintParameterSetTests()
+        {
+            testStartTime = DateTime.Now;
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string[] role = { "WebRole1" };
+            SwitchParameter restart = new SwitchParameter();
+            ExtensionConfigurationInput domainJoinExtensionConfig;
+            try
+            {
+                testStartTime = DateTime.Now;
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName, storageAccount);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                Console.WriteLine("service, {0}, is created.", serviceName);
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload, password);
+                //Prepare a new domain join config with DomianJoinThumbprintParameterSet
+                domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(domainName, installedCert.Thumbprint, null, null, role, thumbprintAlgorithm, 35, null, cred);
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false, domainJoinExtensionConfig);
+                Console.WriteLine("{0}:New deployment{1} with domain join {2} created successfully.", DateTime.Now, serviceName, domainName);
+                vmPowershellCmdlets.GetAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString());
+                Console.WriteLine("{0}:Service domain join extension fetched successfully.", DateTime.Now);
+                vmPowershellCmdlets.RemoveAzureServiceDomainJoinExtension(serviceName, DeploymentSlotType.Staging.ToString(), role, null);
+                Console.WriteLine("{0}Removed domain join extension for the deployment {1} succefully.", DateTime.Now, deploymentName);
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
+
+                vmPowershellCmdlets.RemoveAzureService(serviceName, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+		
 
         private void InstallCertificate()
         {
@@ -271,8 +654,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation.ToString(), certStoreName.ToString(), installedCert.Thumbprint))[0];
 
         }
-
-        
 
         [TestCleanup]
         public virtual void CleanUp()
