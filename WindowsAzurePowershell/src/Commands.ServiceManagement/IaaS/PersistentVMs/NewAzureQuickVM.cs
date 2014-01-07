@@ -536,7 +536,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Model.PersistentVMModel.NetworkConfigurationSet CreateNetworkConfigurationSet()
         {
-            var netConfig = new Model.PersistentVMModel.NetworkConfigurationSet {InputEndpoints = new Collection<InputEndpoint>()};
+            var netConfig = new Model.PersistentVMModel.NetworkConfigurationSet
+            {
+                InputEndpoints = new Collection<InputEndpoint>()
+            };
+
             if (SubnetNames != null)
             {
                 netConfig.SubnetNames = new Model.PersistentVMModel.SubnetNamesCollection();

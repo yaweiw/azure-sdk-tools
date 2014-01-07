@@ -610,6 +610,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network configuration not found on the persistent VM..
+        /// </summary>
+        internal static string NetworkConfigurationNotFoundOnPersistentVM {
+            get {
+                return ResourceManager.GetString("NetworkConfigurationNotFoundOnPersistentVM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cloud Service is not present or there is no virtual machine deployment..
         /// </summary>
         internal static string NoCloudServicePresent {
