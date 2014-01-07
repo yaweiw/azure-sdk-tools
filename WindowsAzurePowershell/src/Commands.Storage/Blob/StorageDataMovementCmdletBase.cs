@@ -54,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return overwrite; }
             set { overwrite = value; }
         }
+
         protected bool overwrite;
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// Confirm the overwrite operation
         /// </summary>
         /// <param name="msg">Confirmation message</param>
-        /// <returns>True if the opeation is confirmed, otherwise return false</returns>
+        /// <returns>True if the operation is confirmed, otherwise return false</returns>
         internal virtual bool ConfirmOverwrite(string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);

@@ -86,10 +86,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             {
                 MetricsLevel metricsLevel = MetricsLevel.Value;
                 metrics.MetricsLevel = metricsLevel;
-                //Set default metrics version
+                // Set default metrics version
                 if (string.IsNullOrEmpty(metrics.Version))
                 {
-                    string defaultMetricsVersion = "1.0";
+                    string defaultMetricsVersion = StorageNouns.DefaultMetricsVersion;
                     metrics.Version = defaultMetricsVersion;
                 }
             }
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
-            SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
+            serviceProperties.Clean();
 
             bool isHourMetrics = false;
 

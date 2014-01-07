@@ -171,10 +171,13 @@
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\SasTokenHelper.cs" />
+    <Compile Include="Common\ServiceMetricsType.cs" />
+    <Compile Include="Common\ServicePropertiesExtension.cs" />
     <Compile Include="Common\StorageCloudCmdletBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Common\StorageServiceType.cs" />
     <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Model\Contract\IStorageTableManagement.cs" />
     <Compile Include="Model\Contract\StorageQueueManagement.cs" />

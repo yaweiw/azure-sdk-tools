@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// Set up access policy permission
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
-        /// <param name="permission">Permisson</param>
+        /// <param name="permission">Permission</param>
         internal void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;

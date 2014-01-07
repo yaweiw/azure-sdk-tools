@@ -100,10 +100,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
 
                 logging.LoggingOperations = logOperations;
-                //Set default logging version
+                // Set default logging version
                 if (string.IsNullOrEmpty(logging.Version))
                 {
-                    string defaultLoggingVersion = "1.0";
+                    string defaultLoggingVersion = StorageNouns.DefaultLoggingVersion;
                     logging.Version = defaultLoggingVersion;
                 }
             }
@@ -155,19 +155,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         }
 
         /// <summary>
-        /// Clean all the settings on the ServiceProperties project
-        /// </summary>
-        /// <param name="serviceProperties">Service properties</param>
-        internal static void CleanServiceProperties(ServiceProperties serviceProperties)
-        {
-            serviceProperties.Logging = null;
-            serviceProperties.HourMetrics = null;
-            serviceProperties.MinuteMetrics = null;
-            serviceProperties.Cors = null;
-            serviceProperties.DefaultServiceVersion = null;
-        }
-
-        /// <summary>
         /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -176,7 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             CloudStorageAccount account = GetCloudStorageAccount();
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
-            CleanServiceProperties(serviceProperties);
+            serviceProperties.Clean();
             serviceProperties.Logging = currentServiceProperties.Logging;
 
             UpdateServiceProperties(serviceProperties.Logging);

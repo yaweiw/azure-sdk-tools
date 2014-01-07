@@ -48,11 +48,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return blobName;
             }
+
             set
             {
                 blobName = value;
             }
         }
+
         private string blobName = String.Empty;
 
         [Parameter(HelpMessage = "Blob Prefix", ParameterSetName = PrefixParameterSet)]
@@ -62,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return blobPrefix;
             }
+
             set
             {
                 blobPrefix = value;
@@ -79,11 +82,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return containerName;
             }
+
             set
             {
                 containerName = value;
             }
         }
+
         private string containerName = String.Empty;
 
         /// <summary>
@@ -104,10 +109,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// get the CloudBlobContianer object by name if container exists
+        /// get the CloudBlobContainer object by name if container exists
         /// </summary>
         /// <param name="containerName">container name</param>
-        /// <returns>return CloudBlobContianer object if specified container exists, otherwise throw an exception</returns>
+        /// <returns>return CloudBlobContainer object if specified container exists, otherwise throw an exception</returns>
         internal CloudBlobContainer GetCloudBlobContainerByName(string containerName, bool skipCheckExists = false)
         {
             if (!NameUtil.IsValidContainerName(containerName))
@@ -197,7 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// list blobs by blob prefix and container name
         /// </summary>
         /// <param name="containerName">container name</param>
-        /// <param name="prefix">blob preifx</param>
+        /// <param name="prefix">blob prefix</param>
         /// <returns>An enumerable collection of IListBlobItem</returns>
         internal IEnumerable<IListBlobItem> ListBlobsByPrefix(string containerName, string prefix)
         {

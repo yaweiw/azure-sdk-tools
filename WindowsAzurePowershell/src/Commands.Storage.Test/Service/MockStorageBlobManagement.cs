@@ -432,7 +432,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <returns>The service properties of the specified service type</returns>
         public ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, StorageServiceType type, IRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("No need to cover this in unit test since the logic is quite simple. For more details, please read GetAzureStorageServiceLogging.cs");
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <param name="operationContext">Operation context</param>
         public void SetStorageServiceProperties(CloudStorageAccount account, StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("No need to cover this in unit test since there are no additional logics on this api");
         }
     }
 }

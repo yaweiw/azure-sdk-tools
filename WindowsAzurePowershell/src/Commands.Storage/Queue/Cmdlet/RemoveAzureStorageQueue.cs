@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
             get { return force; }
             set { force = value; }
         }
+
         private bool force;
 
         [Parameter(Mandatory = false, HelpMessage = "Return whether the specified queue is successfully removed")]
