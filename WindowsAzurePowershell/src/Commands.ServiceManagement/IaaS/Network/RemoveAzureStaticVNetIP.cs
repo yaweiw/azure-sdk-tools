@@ -15,22 +15,19 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Linq;
     using System.Management.Automation;
     using Model;
-    using Model.PersistentVMModel;
+    using Properties;
 
     [Cmdlet(VerbsCommon.Remove, StaticVNetIPNoun), OutputType(typeof(IPersistentVM))]
     public class RemoveAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
         internal void ExecuteCommand()
         {
-            var vmRole = VM.GetInstance();
-            var networkConfiguration = vmRole.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+            var networkConfiguration = GetNetworkConfiguration();
             if (networkConfiguration == null)
             {
-                networkConfiguration = new NetworkConfigurationSet();
-                vmRole.ConfigurationSets.Add(networkConfiguration);
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
             }
 
             networkConfiguration.StaticVirtualNetworkIPAddress = null;

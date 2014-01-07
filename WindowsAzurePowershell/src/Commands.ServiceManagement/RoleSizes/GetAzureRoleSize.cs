@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     [Cmdlet(VerbsCommon.Get, "AzureRoleSize"), OutputType(typeof(RoleSizeContext))]
     public class AzureRoleSizeCommand : ServiceManagementBaseCmdlet
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The Role Instance Size Name.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Role Instance Size Name.")]
         [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
@@ -40,23 +40,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             ServiceManagementProfile.Initialize();
 
-            if (string.IsNullOrEmpty(this.InstanceSize))
-            {
-                ExecuteClientActionNewSM(
-                    null,
-                    CommandRuntime.ToString(),
-                    () => this.ManagementClient.RoleSizes.List(),
-                    (op, response) => response.RoleSizes.Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
-            }
-            else
-            {
-                ExecuteClientActionNewSM(
-                    null,
-                    CommandRuntime.ToString(),
-                    () => this.ManagementClient.RoleSizes.List(),
-                    (op, response) => response.RoleSizes.Where(roleSize => string.Equals(roleSize.Name, this.InstanceSize, StringComparison.OrdinalIgnoreCase))
-                                                        .Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
-            }
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ManagementClient.RoleSizes.List(),
+                (op, response) => response.RoleSizes.Where(roleSize => string.IsNullOrEmpty(this.InstanceSize) ||
+                                                                       string.Equals(this.InstanceSize, roleSize.Name, StringComparison.OrdinalIgnoreCase))
+                                                    .Select(roleSize => ContextFactory<RoleSizesListResponse.RoleSize, RoleSizeContext>(roleSize, op)));
         }
     }
 }
