@@ -14,9 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Utilities.Common;
-
-    public class VirtualNetworkStaticIPContext : ManagementOperationContext
+    public class VirtualNetworkStaticIPContext
     {
         public string IPAddress { get; set; }
     }

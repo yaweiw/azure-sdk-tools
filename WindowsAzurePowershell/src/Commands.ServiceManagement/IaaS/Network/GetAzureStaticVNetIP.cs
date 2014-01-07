@@ -14,36 +14,44 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
     using Model;
     using Model.PersistentVMModel;
+    using Properties;
 
     [Cmdlet(VerbsCommon.Get, StaticVNetIPNoun), OutputType(typeof(VirtualNetworkStaticIPContext))]
-    public class GetAzureStaticVNetIPNounCommand : VirtualMachineConfigurationCmdletBase
+    public class GetAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
         internal void ExecuteCommand()
         {
-            var vmRole = VM.GetInstance();
-            var networkConfiguration = vmRole.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+            var networkConfiguration = GetNetworkConfiguration();
             if (networkConfiguration == null)
             {
-                WriteObject(null);
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
             }
-            else
+
+            if (!string.IsNullOrEmpty(networkConfiguration.StaticVirtualNetworkIPAddress))
             {
-                WriteObject(
-                    new VirtualNetworkStaticIPContext
-                    {
-                        IPAddress = networkConfiguration.StaticVirtualNetworkIPAddress
-                    },
-                    true);
+                WriteObject(new VirtualNetworkStaticIPContext
+                {
+                    IPAddress = networkConfiguration.StaticVirtualNetworkIPAddress
+                });
             }
         }
 
         protected override void ProcessRecord()
         {
-            ExecuteCommand();
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCommand();
+            }
+            catch (Exception ex)
+            {
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
         }
     }
 }
