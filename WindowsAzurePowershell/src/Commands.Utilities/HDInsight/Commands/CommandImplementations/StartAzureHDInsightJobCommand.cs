@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         private static async Task<JobCreationResults> CreateSqoopJob(
             AzureHDInsightSqoopJobDefinition azureSqoopJobDefinition, IJobSubmissionClient client)
         {
+            AssertQueryDoesNotContainRestrictedCharacters(azureSqoopJobDefinition.Command, "Command");
             SqoopJobCreateParameters sqoopJobDefinition = azureSqoopJobDefinition.ToSqoopJobCreateParameters();
 
             var jobCreationResults = await client.CreateSqoopJobAsync(sqoopJobDefinition);
@@ -159,6 +160,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         private static async Task<JobCreationResults> SubmitHiveJob(
             AzureHDInsightHiveJobDefinition azureHiveJobDefinition, IJobSubmissionClient client)
         {
+            AssertQueryDoesNotContainRestrictedCharacters(azureHiveJobDefinition.Query, "Query");
             var hiveJobDefinition = new HiveJobCreateParameters
             {
                 JobName = azureHiveJobDefinition.JobName,
@@ -185,6 +187,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         private static async Task<JobCreationResults> SubmitPigJob(AzureHDInsightPigJobDefinition azurePigJobDefinition, IJobSubmissionClient client)
         {
+            AssertQueryDoesNotContainRestrictedCharacters(azurePigJobDefinition.Query, "Query");
             var pigJobDefinition = new PigJobCreateParameters { Query = azurePigJobDefinition.Query, File = azurePigJobDefinition.File };
 
             pigJobDefinition.StatusFolder = azurePigJobDefinition.StatusFolder;
@@ -193,6 +196,17 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
             var jobCreationResults = await client.CreatePigJobAsync(pigJobDefinition);
             return jobCreationResults;
+        }
+
+        private static void AssertQueryDoesNotContainRestrictedCharacters(string queryText, string queryFieldName)
+        {
+            if (queryText.IsNotNullOrEmpty() && queryText.Contains("%"))
+            {
+                throw new InvalidOperationException(
+                        string.Format(CultureInfo.InvariantCulture,
+                        "{0} text contains restricted character '%', please upload the query to a file in storage and re-submit the job using the -File parameter",
+                        queryFieldName));
+            }
         }
     }
 }
