@@ -1,5 +1,5 @@
 // 
-// Copyright (c) Microsoft.  All rights reserved.
+// Copyright (c) Microsoft and contributors.  All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
 using Microsoft.WindowsAzure.Management.MediaServices;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.WindowsAzure.Management.MediaServices.Models
 {
@@ -1053,28 +1054,28 @@ namespace Microsoft.WindowsAzure.Management.MediaServices
                 string requestContent = null;
                 XDocument requestDoc = new XDocument();
                 
-                XElement accountCreationRequestElement = new XElement(XName.Get("AccountCreationRequest", ""));
+                XElement accountCreationRequestElement = new XElement(XName.Get("AccountCreationRequest", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
                 requestDoc.Add(accountCreationRequestElement);
                 
-                XElement accountNameElement = new XElement(XName.Get("AccountName", ""));
+                XElement accountNameElement = new XElement(XName.Get("AccountName", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
                 accountNameElement.Value = parameters.AccountName;
                 accountCreationRequestElement.Add(accountNameElement);
                 
-                XElement storageAccountKeyElement = new XElement(XName.Get("StorageAccountKey", ""));
-                storageAccountKeyElement.Value = parameters.StorageAccountKey;
-                accountCreationRequestElement.Add(storageAccountKeyElement);
-                
-                XElement storageAccountNameElement = new XElement(XName.Get("StorageAccountName", ""));
-                storageAccountNameElement.Value = parameters.StorageAccountName;
-                accountCreationRequestElement.Add(storageAccountNameElement);
-                
-                XElement blobStorageEndpointUriElement = new XElement(XName.Get("BlobStorageEndpointUri", ""));
+                XElement blobStorageEndpointUriElement = new XElement(XName.Get("BlobStorageEndpointUri", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
                 blobStorageEndpointUriElement.Value = parameters.BlobStorageEndpointUri.ToString();
                 accountCreationRequestElement.Add(blobStorageEndpointUriElement);
                 
-                XElement regionElement = new XElement(XName.Get("Region", ""));
+                XElement regionElement = new XElement(XName.Get("Region", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
                 regionElement.Value = parameters.Region;
                 accountCreationRequestElement.Add(regionElement);
+                
+                XElement storageAccountKeyElement = new XElement(XName.Get("StorageAccountKey", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
+                storageAccountKeyElement.Value = parameters.StorageAccountKey;
+                accountCreationRequestElement.Add(storageAccountKeyElement);
+                
+                XElement storageAccountNameElement = new XElement(XName.Get("StorageAccountName", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
+                storageAccountNameElement.Value = parameters.StorageAccountName;
+                accountCreationRequestElement.Add(storageAccountNameElement);
                 
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -1098,7 +1099,7 @@ namespace Microsoft.WindowsAzure.Management.MediaServices
                     if (statusCode != HttpStatusCode.Created)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        CloudException ex = CloudException.CreateFromJson(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -1117,29 +1118,28 @@ namespace Microsoft.WindowsAzure.Management.MediaServices
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    JToken responseDoc = JToken.Parse(responseContent);
                     
-                    XElement accountCreationResultElement = responseDoc.Element(XName.Get("AccountCreationResult", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                    if (accountCreationResultElement != null)
+                    if (responseDoc != null)
                     {
-                        XElement accountIdElement = accountCreationResultElement.Element(XName.Get("AccountId", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountIdElement != null)
+                        JToken accountIdValue = responseDoc["AccountId"];
+                        if (accountIdValue != null)
                         {
-                            string accountIdInstance = accountIdElement.Value;
+                            string accountIdInstance = (string)accountIdValue;
                             result.AccountId = accountIdInstance;
                         }
                         
-                        XElement accountNameElement2 = accountCreationResultElement.Element(XName.Get("AccountName", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountNameElement2 != null)
+                        JToken accountNameValue = responseDoc["AccountName"];
+                        if (accountNameValue != null)
                         {
-                            string accountNameInstance = accountNameElement2.Value;
+                            string accountNameInstance = (string)accountNameValue;
                             result.AccountName = accountNameInstance;
                         }
                         
-                        XElement subscriptionElement = accountCreationResultElement.Element(XName.Get("Subscription", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (subscriptionElement != null)
+                        JToken subscriptionValue = responseDoc["Subscription"];
+                        if (subscriptionValue != null)
                         {
-                            string subscriptionInstance = subscriptionElement.Value;
+                            string subscriptionInstance = (string)subscriptionValue;
                             result.SubscriptionId = subscriptionInstance;
                         }
                     }
@@ -1347,7 +1347,7 @@ namespace Microsoft.WindowsAzure.Management.MediaServices
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        CloudException ex = CloudException.CreateFromJson(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -1366,57 +1366,56 @@ namespace Microsoft.WindowsAzure.Management.MediaServices
                     // Deserialize Response
                     cancellationToken.ThrowIfCancellationRequested();
                     string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    JToken responseDoc = JToken.Parse(responseContent);
                     
-                    XElement accountDetailsElement = responseDoc.Element(XName.Get("AccountDetails", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                    if (accountDetailsElement != null)
+                    if (responseDoc != null)
                     {
-                        XElement accountNameElement = accountDetailsElement.Element(XName.Get("AccountName", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountNameElement != null)
+                        JToken accountNameValue = responseDoc["AccountName"];
+                        if (accountNameValue != null)
                         {
-                            string accountNameInstance = accountNameElement.Value;
+                            string accountNameInstance = (string)accountNameValue;
                             result.AccountName = accountNameInstance;
                         }
                         
-                        XElement accountKeyElement = accountDetailsElement.Element(XName.Get("AccountKey", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountKeyElement != null)
+                        JToken accountKeyValue = responseDoc["AccountKey"];
+                        if (accountKeyValue != null)
                         {
-                            string accountKeyInstance = accountKeyElement.Value;
+                            string accountKeyInstance = (string)accountKeyValue;
                             result.AccountKey = accountKeyInstance;
                         }
                         
-                        XElement accountKeysElement = accountDetailsElement.Element(XName.Get("AccountKeys", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountKeysElement != null)
+                        JToken accountKeysValue = responseDoc["AccountKeys"];
+                        if (accountKeysValue != null)
                         {
                             MediaServicesAccountGetResponse.AccountKeys accountKeysInstance = new MediaServicesAccountGetResponse.AccountKeys();
                             result.StorageAccountKeys = accountKeysInstance;
                             
-                            XElement primaryElement = accountKeysElement.Element(XName.Get("Primary", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                            if (primaryElement != null)
+                            JToken primaryValue = accountKeysValue["Primary"];
+                            if (primaryValue != null)
                             {
-                                string primaryInstance = primaryElement.Value;
+                                string primaryInstance = (string)primaryValue;
                                 accountKeysInstance.Primary = primaryInstance;
                             }
                             
-                            XElement secondaryElement = accountKeysElement.Element(XName.Get("Secondary", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                            if (secondaryElement != null)
+                            JToken secondaryValue = accountKeysValue["Secondary"];
+                            if (secondaryValue != null)
                             {
-                                string secondaryInstance = secondaryElement.Value;
+                                string secondaryInstance = (string)secondaryValue;
                                 accountKeysInstance.Secondary = secondaryInstance;
                             }
                         }
                         
-                        XElement accountRegionElement = accountDetailsElement.Element(XName.Get("AccountRegion", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (accountRegionElement != null)
+                        JToken accountRegionValue = responseDoc["AccountRegion"];
+                        if (accountRegionValue != null)
                         {
-                            string accountRegionInstance = accountRegionElement.Value;
+                            string accountRegionInstance = (string)accountRegionValue;
                             result.AccountRegion = accountRegionInstance;
                         }
                         
-                        XElement storageAccountNameElement = accountDetailsElement.Element(XName.Get("StorageAccountName", "http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models"));
-                        if (storageAccountNameElement != null)
+                        JToken storageAccountNameValue = responseDoc["StorageAccountName"];
+                        if (storageAccountNameValue != null)
                         {
-                            string storageAccountNameInstance = storageAccountNameElement.Value;
+                            string storageAccountNameInstance = (string)storageAccountNameValue;
                             result.StorageAccountName = storageAccountNameInstance;
                         }
                     }
