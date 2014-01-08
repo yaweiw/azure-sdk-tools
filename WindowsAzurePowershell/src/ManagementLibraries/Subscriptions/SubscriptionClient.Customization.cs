@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Subscriptions
             string token = ConfigurationHelper.GetString(settings, "Token", false);
             if (token != null)
             {
-                credentials = new TokenCloudCredentials { Token = token };
+                credentials = new TokenCloudCredentials(null, token);
             }
             else
             {
