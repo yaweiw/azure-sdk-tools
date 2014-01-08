@@ -381,10 +381,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <ProjectReference Include="..\ManagementLibraries.NetFramework\ManagementLibraries.NetFramework.csproj">
-      <Project>{14529261-9f9f-4d2f-80d5-b26677f51e8b}</Project>
-      <Name>ManagementLibraries.NetFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
       <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
       <Name>ManagementLibraries</Name>

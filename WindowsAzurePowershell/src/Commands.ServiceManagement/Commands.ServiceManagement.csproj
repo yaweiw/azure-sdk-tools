@@ -414,10 +414,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ManagementLibraries.NetFramework\ManagementLibraries.NetFramework.csproj">
-      <Project>{14529261-9f9f-4d2f-80d5-b26677f51e8b}</Project>
-      <Name>ManagementLibraries.NetFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
       <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
       <Name>ConsoleAppUtils</Name>
