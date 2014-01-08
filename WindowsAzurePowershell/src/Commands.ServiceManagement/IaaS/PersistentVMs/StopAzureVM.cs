@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 if (this.CurrentDeploymentNewSM != null && !string.IsNullOrEmpty(this.CurrentDeploymentNewSM.ReservedIPName))
                 {
-                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
+                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
                 }
             }
 
@@ -196,7 +196,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 var configSet = vmRole.ConfigurationSets.FirstOrDefault(c => !string.IsNullOrEmpty(c.StaticVirtualNetworkIPAddress));
                 if (configSet != null)
                 {
-                    WriteVerboseWithTimestamp(string.Format(
+                    WriteWarning(string.Format(
                         Resources.StaticIPAddressNoLongerInUseButStillBeingReserved,
                         vmRoleName,
                         configSet.StaticVirtualNetworkIPAddress));

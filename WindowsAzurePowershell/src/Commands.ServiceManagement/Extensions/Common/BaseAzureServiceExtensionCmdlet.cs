@@ -9,7 +9,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System;
@@ -301,7 +300,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             if (UninstallConfiguration && configBuilder.ExistAny(ExtensionNameSpace, ExtensionType))
             {
                 configBuilder.RemoveAny(ExtensionNameSpace, ExtensionType);
-                WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
                 ChangeDeployment(configBuilder.ToConfiguration());
             }
             else if (configBuilder.Exist(Role, ExtensionNameSpace, ExtensionType))
@@ -309,17 +308,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 configBuilder.Remove(Role, ExtensionNameSpace, ExtensionType);
                 if (Role == null || !Role.Any())
                 {
-                    WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                    WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
                 }
                 else
                 {
                     bool defaultExists = configBuilder.ExistDefault(ExtensionNameSpace, ExtensionType);
                     foreach (var r in Role)
                     {
-                        WriteVerbose(string.Format(Resources.ServiceExtensionRemovingFromSpecificRoles, ExtensionType, r, ServiceName));
+                        WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromSpecificRoles, ExtensionType, r, ServiceName));
                         if (defaultExists)
                         {
-                            WriteVerbose(string.Format(Resources.ServiceExtensionRemovingSpecificAndApplyingDefault, ExtensionType, r));
+                            WriteWarning(string.Format(Resources.ServiceExtensionRemovingSpecificAndApplyingDefault, ExtensionType, r));
                         }
                     }
                 }
@@ -328,7 +327,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             else
             {
-                WriteVerbose(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
+                WriteWarning(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
             }
 
             if (UninstallConfiguration)
