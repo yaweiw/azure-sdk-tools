@@ -12,15 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    public class ADDomainExtensionContext : ExtensionContext
+    using Utilities.Common;
+
+    public class RoleSizeContext : ManagementOperationContext
     {
-        public string Name { get; set; }
-        public uint JoinOption { get; set; }
-        public string OUPath { get; set; }
-        public string User { get; set; }
-        public string UnjoinDomainUser { get; set; }
-        public bool Restart { get; set; }
+        public string InstanceSize { get; set; }
+
+        public string RoleSizeLabel { get; set; }
+
+        public int Cores { get; set; }
+
+        public int MemoryInMb { get; set; }
+
+        public bool SupportedByWebWorkerRoles { get; set; }
+
+        public bool SupportedByVirtualMachines { get; set; }
     }
 }

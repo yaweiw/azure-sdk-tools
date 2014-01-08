@@ -12,28 +12,33 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
+    using Model.PersistentVMModel;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Get, StaticVNetIPNoun), OutputType(typeof(VirtualNetworkStaticIPContext))]
+    public class GetAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateNotNullOrEmpty]
-        public string InstanceSize
-        {
-            get;
-            set;
-        }
-
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance(); 
-            role.RoleSize = InstanceSize;
-            WriteObject(VM, true);
+            var networkConfiguration = GetNetworkConfiguration();
+            if (networkConfiguration == null)
+            {
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
+            }
+
+            if (!string.IsNullOrEmpty(networkConfiguration.StaticVirtualNetworkIPAddress))
+            {
+                WriteObject(new VirtualNetworkStaticIPContext
+                {
+                    IPAddress = networkConfiguration.StaticVirtualNetworkIPAddress
+                });
+            }
         }
 
         protected override void ProcessRecord()

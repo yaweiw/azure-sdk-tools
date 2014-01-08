@@ -27,8 +27,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -36,8 +36,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Production (default) or Staging.")]
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Production (default) or Staging.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Production (default) or Staging.")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Production (default) or Staging.")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -45,8 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "X509Certificate used to encrypt password.")]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -70,8 +70,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -88,8 +88,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
         [ValidateNotNullOrEmpty]
         public override DateTime Expiration
         {

@@ -12,21 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.Collections.Generic;
     using Utilities.Common;
 
-    public class ExtensionImageContext : ManagementOperationContext
+    public class VirtualNetworkStaticIPAvailabilityContext : ManagementOperationContext
     {
-        public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
-        public string Version { get; set; }
-        public string Label { get; set; }
-        public string Description { get; set; }
-        public string HostingResources { get; set; }
-        public string ThumbprintAlgorithm { get; set; }
-        public string PublicConfigurationSchema { get; set; }
-        public string PrivateConfigurationSchema { get; set; }
+        public bool IsAvailable { get; set; }
+
+        public List<string> AvailableAddresses { get; set; }
     }
 }
