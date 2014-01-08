@@ -23,10 +23,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Remote Desktop Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(IEnumerable<RemoteDesktopExtensionContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(RemoteDesktopExtensionContext))]
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Deployment Slot: Production (default) or Staging")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Slot: Production (default) or Staging")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {

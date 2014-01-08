@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Microsoft.WindowsAzure.Common;
@@ -186,6 +187,19 @@ namespace Microsoft.WindowsAzure
                 (response != null && response.ReasonPhrase != null) ? response.ReasonPhrase :
                 (response != null) ? response.StatusCode.ToString() :
                 new InvalidOperationException().Message;
+
+            string requestId = "<None>";
+            string statusCodeMessage = "<None>";
+            if (response != null && response.Headers != null && response.Headers.Contains("x-ms-request-id"))
+            {
+                requestId = response.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                statusCodeMessage = response.StatusCode.ToString() + " (" + (int)response.StatusCode + ")";
+            }
+
+            exceptionMessage +=
+                (string.IsNullOrEmpty(exceptionMessage) ? string.Empty : Environment.NewLine) +
+                "Status Code: " + statusCodeMessage + "." + Environment.NewLine +
+                "Operation Tracking ID: " + requestId + ".";
 
             // Create the exception
             CloudException exception = new CloudException(exceptionMessage, innerException);

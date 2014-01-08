@@ -40,14 +40,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string RemoveByRolesParameterSet = "RemoveByRoles";
         protected const string RemoveAllRolesParameterSet = "RemoveAllRoles";
 
-        protected const string ServiceNameHelpMessage = "Cloud service name.";
-        protected const string SlotHelpMessage = "Production (default) or Staging";
-        protected const string RoleHelpMessage = "Default All Roles, or specify ones for Named Roles.";
-        protected const string X509CertificateHelpMessage = "X509Certificate used to encrypt the content in private configuration.";
-        protected const string CertificateThumbprintHelpMessage = "Thumbprint of a certificate used for encryption.";
-        protected const string ThumbprintAlgorithmHelpMessage = "Algorithm associated with the Thumbprint.";
-        protected const string UninstallConfigurationHelpMessage = "If specified, uninstall all extension configurations in this type from the cloud service.";
-
         protected ExtensionManager ExtensionManager { get; set; }
         protected string ExtensionNameSpace { get; set; }
         protected string ExtensionType { get; set; }
@@ -95,6 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
             }
+
             ExtensionManager = new ExtensionManager(this, ServiceName);
         }
 
@@ -137,17 +130,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, X509Certificate.Thumbprint);
                 if (uploadCert)
                 {
-                    var parameters = new ServiceCertificateCreateParameters
-                    {
-                        Data = CertUtilsNewSM.GetCertificateData(X509Certificate),
-                        Password = null,
-                        CertificateFormat = CertificateFormat.Pfx
-                    };
-
                     ExecuteClientActionNewSM(
                         null,
                         CommandRuntime.ToString(),
-                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
+                        () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, CertUtilsNewSM.Create(X509Certificate)));
                 }
 
                 CertificateThumbprint = X509Certificate.Thumbprint;
@@ -273,17 +259,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected string Serialize(object config)
         {
-            StringWriter sw = new StringWriter();
-            XmlSerializer serializer = new XmlSerializer(config.GetType());
-            serializer.Serialize(sw, config);
-            return sw.ToString();
+            string result = null;
+            using (StringWriter sw = new StringWriter())
+            {
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+                serializer.Serialize(sw, config);
+                result = sw.ToString();
+            }
+
+            return result;
         }
 
         protected object Deserialize(string config, Type type)
         {
-            StringReader sr = new StringReader(config);
-            XmlSerializer serializer = new XmlSerializer(type);
-            return serializer.Deserialize(sr);
+            object result = null;
+            using (StringReader sr = new StringReader(config))
+            {
+                XmlSerializer serializer = new XmlSerializer(type);
+                result = serializer.Deserialize(sr);
+            }
+
+            return result;
         }
 
         protected virtual ExtensionContext GetContext(OperationStatusResponse op, ExtensionRole role, HostedServiceListExtensionsResponse.Extension ext)
@@ -327,6 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                         }
                     }
                 }
+
                 ChangeDeployment(configBuilder.ToConfiguration());
             }
             else

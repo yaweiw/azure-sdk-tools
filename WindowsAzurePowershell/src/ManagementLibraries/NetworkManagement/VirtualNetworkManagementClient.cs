@@ -1,5 +1,5 @@
 // 
-// Copyright (c) Microsoft.  All rights reserved.
+// Copyright (c) Microsoft and contributors.  All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _certificate;
         
         /// <summary>
-        /// The current client root certificate for the network gateway
+        /// The current client root certificate for the network gateway.
         /// </summary>
         public string Certificate
         {
@@ -88,14 +88,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The response to the list client root certificates request
+    /// The response to the list client root certificates request.
     /// </summary>
     public partial class ClientRootCertificateListResponse : OperationResponse, IEnumerable<ClientRootCertificateListResponse.ClientRootCertificate>
     {
         private IList<ClientRootCertificateListResponse.ClientRootCertificate> _clientRootCertificates;
         
         /// <summary>
-        /// The list of client root certificates
+        /// The list of client root certificates.
         /// </summary>
         public IList<ClientRootCertificateListResponse.ClientRootCertificate> ClientRootCertificates
         {
@@ -235,10 +235,12 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         Connecting = 1,
         
         NotConnected = 2,
+        
+        Unknown = 3,
     }
     
     /// <summary>
-    /// The parameters to the Gateway Create request
+    /// The parameters to the Gateway Create request.
     /// </summary>
     public partial class GatewayCreateParameters
     {
@@ -262,14 +264,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// A management event for the virtual network gateway
+    /// A management event for the virtual network gateway.
     /// </summary>
     public partial class GatewayEvent
     {
         private string _data;
         
         /// <summary>
-        /// Additional data associated with this event
+        /// Additional data associated with this event.
         /// </summary>
         public string Data
         {
@@ -280,7 +282,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _id;
         
         /// <summary>
-        /// The event ID
+        /// The event ID.
         /// </summary>
         public string Id
         {
@@ -291,7 +293,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _message;
         
         /// <summary>
-        /// The event message
+        /// The event message.
         /// </summary>
         public string Message
         {
@@ -302,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private DateTime _timestamp;
         
         /// <summary>
-        /// The date and time when the event occurred
+        /// The date and time when the event occurred.
         /// </summary>
         public DateTime Timestamp
         {
@@ -352,7 +354,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _oSFamily;
         
         /// <summary>
-        /// The device OS Family
+        /// The device OS Family.
         /// </summary>
         public string OSFamily
         {
@@ -363,7 +365,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _platform;
         
         /// <summary>
-        /// The device platform
+        /// The device platform.
         /// </summary>
         public string Platform
         {
@@ -374,7 +376,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _vendor;
         
         /// <summary>
-        /// The name of the device vendor
+        /// The name of the device vendor.
         /// </summary>
         public string Vendor
         {
@@ -393,14 +395,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     
     /// <summary>
     /// The configuration script returned from the get device configuration
-    /// script request
+    /// script request.
     /// </summary>
     public partial class GatewayGetDeviceConfigurationScriptResponse : OperationResponse
     {
         private string _configurationScript;
         
         /// <summary>
-        /// The requested configuration script for the local network device
+        /// The requested configuration script for the local network device.
         /// </summary>
         public string ConfigurationScript
         {
@@ -533,7 +535,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private GatewayType _gatewayType;
         
         /// <summary>
-        /// The type of gateway routing used for this virtual network
+        /// The type of gateway routing used for this virtual network.
         /// </summary>
         public GatewayType GatewayType
         {
@@ -544,7 +546,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private GatewayEvent _lastEvent;
         
         /// <summary>
-        /// The last recorded event for this virtual network gateway
+        /// The last recorded event for this virtual network gateway.
         /// </summary>
         public GatewayEvent LastEvent
         {
@@ -555,7 +557,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _state;
         
         /// <summary>
-        /// The provisioning state of the virtual network gateway
+        /// The provisioning state of the virtual network gateway.
         /// </summary>
         public string State
         {
@@ -566,7 +568,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         private string _vipAddress;
         
         /// <summary>
-        /// The virtual IP address for this virtual network gateway
+        /// The virtual IP address for this virtual network gateway.
         /// </summary>
         public string VipAddress
         {
@@ -583,7 +585,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The response to the get shared key request
+    /// The response to the get shared key request.
     /// </summary>
     public partial class GatewayGetSharedKeyResponse : OperationResponse
     {
@@ -591,7 +593,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         
         /// <summary>
         /// Contains the shared key used by the gateway to authenticate
-        /// connections to sites on a virtual network
+        /// connections to sites on a virtual network.
         /// </summary>
         public string SharedKey
         {
@@ -608,14 +610,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The response to a ListConnections request to a Virtual Network Gateway
+    /// The response to a ListConnections request to a Virtual Network Gateway.
     /// </summary>
     public partial class GatewayListConnectionsResponse : OperationResponse, IEnumerable<GatewayListConnectionsResponse.GatewayConnection>
     {
         private IList<GatewayListConnectionsResponse.GatewayConnection> _connections;
         
         /// <summary>
-        /// The list of connections
+        /// The list of connections.
         /// </summary>
         public IList<GatewayListConnectionsResponse.GatewayConnection> Connections
         {
@@ -679,7 +681,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             
             /// <summary>
             /// The number of bytes of data transferred out through this
-            /// connection since it was started
+            /// connection since it was started.
             /// </summary>
             public long EgressBytesTransferred
             {
@@ -691,7 +693,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             
             /// <summary>
             /// The number of bytes of data transferred in through this
-            /// connection since it was started
+            /// connection since it was started.
             /// </summary>
             public long IngressBytesTransferred
             {
@@ -721,7 +723,8 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _localNetworkSiteName;
             
             /// <summary>
-            /// The name of the local network site represented by the connection
+            /// The name of the local network site represented by the
+            /// connection.
             /// </summary>
             public string LocalNetworkSiteName
             {
@@ -740,14 +743,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The respoonse to the get supported platform configuration request
+    /// The respoonse to the get supported platform configuration request.
     /// </summary>
     public partial class GatewayListSupportedDevicesResponse : OperationResponse
     {
         private IList<GatewayListSupportedDevicesResponse.Vendor> _vendors;
         
         /// <summary>
-        /// The set of supported vendors
+        /// The set of supported vendors.
         /// </summary>
         public IList<GatewayListSupportedDevicesResponse.Vendor> Vendors
         {
@@ -780,7 +783,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _name;
             
             /// <summary>
-            /// The name of the os family
+            /// The name of the os family.
             /// </summary>
             public string Name
             {
@@ -797,7 +800,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
         }
         
         /// <summary>
-        /// The name and supported OS Families for this vendor on the platform
+        /// The name and supported OS Families for this vendor on the platform.
         /// </summary>
         public partial class Platform
         {
@@ -815,7 +818,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private IList<GatewayListSupportedDevicesResponse.OSFamily> _oSFamilies;
             
             /// <summary>
-            /// The supported OS Families for this platform
+            /// The supported OS Families for this platform.
             /// </summary>
             public IList<GatewayListSupportedDevicesResponse.OSFamily> OSFamilies
             {
@@ -840,7 +843,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _name;
             
             /// <summary>
-            /// The vendor name
+            /// The vendor name.
             /// </summary>
             public string Name
             {
@@ -913,7 +916,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The processor architecture for the generated vpn client package
+    /// The processor architecture for the generated vpn client package.
     /// </summary>
     public enum GatewayProcessorArchitecture
     {
@@ -923,7 +926,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// Possible values for Gateway Profile
+    /// Possible values for Gateway Profile.
     /// </summary>
     public enum GatewayProfile
     {
@@ -937,7 +940,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// Standard states for Virtual Network Gateway Provisioning Events
+    /// Standard states for Virtual Network Gateway Provisioning Events.
     /// </summary>
     public static partial class GatewayProvisioningEventStates
     {
@@ -951,7 +954,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The length of shared key to generate
+    /// The length of shared key to generate.
     /// </summary>
     public partial class GatewayResetSharedKeyParameters
     {
@@ -1016,7 +1019,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
-    /// The response structure for the Server List operation
+    /// The response structure for the Server List operation.
     /// </summary>
     public partial class NetworkListResponse : OperationResponse, IEnumerable<NetworkListResponse.VirtualNetworkSite>
     {
@@ -1102,7 +1105,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _address;
             
             /// <summary>
-            /// The IPv4 address of the DNS server
+            /// The IPv4 address of the DNS server.
             /// </summary>
             public string Address
             {
@@ -1113,7 +1116,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _name;
             
             /// <summary>
-            /// The name of the DNS server
+            /// The name of the DNS server.
             /// </summary>
             public string Name
             {
@@ -1138,7 +1141,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private GatewayProfile _profile;
             
             /// <summary>
-            /// The gateway connection size
+            /// The gateway connection size.
             /// </summary>
             public GatewayProfile Profile
             {
@@ -1188,7 +1191,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private NetworkListResponse.AddressSpace _addressSpace;
             
             /// <summary>
-            /// The address space of the local network site
+            /// The address space of the local network site.
             /// </summary>
             public NetworkListResponse.AddressSpace AddressSpace
             {
@@ -1199,7 +1202,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private IList<NetworkListResponse.Connection> _connections;
             
             /// <summary>
-            /// Specifies the types of connections to the local network site
+            /// Specifies the types of connections to the local network site.
             /// </summary>
             public IList<NetworkListResponse.Connection> Connections
             {
@@ -1210,7 +1213,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _name;
             
             /// <summary>
-            /// The name of the local network site
+            /// The name of the local network site.
             /// </summary>
             public string Name
             {
@@ -1221,7 +1224,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _vpnGatewayAddress;
             
             /// <summary>
-            /// The IPv4 address of the local network site
+            /// The IPv4 address of the local network site.
             /// </summary>
             public string VpnGatewayAddress
             {
@@ -1255,7 +1258,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
             private string _name;
             
             /// <summary>
-            /// Name for the subnet
+            /// Name for the subnet.
             /// </summary>
             public string Name
             {
@@ -1788,6 +1791,44 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks.Models
     }
     
     /// <summary>
+    /// A response that indicates the availability of a static IP address, and
+    /// if not, provide a list of suggestions.
+    /// </summary>
+    public partial class NetworkStaticIPAvailabilityResponse : OperationResponse
+    {
+        private IList<string> _availableAddresses;
+        
+        /// <summary>
+        /// The list of the available IP addresses.
+        /// </summary>
+        public IList<string> AvailableAddresses
+        {
+            get { return this._availableAddresses; }
+            set { this._availableAddresses = value; }
+        }
+        
+        private bool _isAvailable;
+        
+        /// <summary>
+        /// Whether the IP address is available.
+        /// </summary>
+        public bool IsAvailable
+        {
+            get { return this._isAvailable; }
+            set { this._isAvailable = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// NetworkStaticIPAvailabilityResponse class.
+        /// </summary>
+        public NetworkStaticIPAvailabilityResponse()
+        {
+            this._availableAddresses = new List<string>();
+        }
+    }
+    
+    /// <summary>
     /// The status of the asynchronous request.
     /// </summary>
     public enum OperationStatus
@@ -1994,6 +2035,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get; 
         }
         
+        IStaticIPOperations StaticIPs
+        {
+            get; 
+        }
+        
         /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
@@ -2172,6 +2218,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             get { return this._reservedIPs; }
         }
         
+        private IStaticIPOperations _staticIPs;
+        
+        public virtual IStaticIPOperations StaticIPs
+        {
+            get { return this._staticIPs; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the VirtualNetworkManagementClient
         /// class.
@@ -2183,6 +2236,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
             this._gateways = new GatewayOperations(this);
             this._networks = new NetworkOperations(this);
             this._reservedIPs = new ReservedIPOperations(this);
+            this._staticIPs = new StaticIPOperations(this);
             this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
         }
         
@@ -2470,7 +2524,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Upload client certificate Virtual
@@ -2492,10 +2546,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -2514,10 +2568,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -2536,13 +2590,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response to the list client root certificates request
+        /// The response to the list client root certificates request.
         /// </returns>
         Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken);
     }
@@ -2560,7 +2614,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Upload client certificate Virtual
@@ -2600,7 +2654,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Upload client certificate Virtual
@@ -2626,10 +2680,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -2665,10 +2719,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -2691,10 +2745,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -2731,10 +2785,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -2757,10 +2811,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
-        /// The response to the list client root certificates request
+        /// The response to the list client root certificates request.
         /// </returns>
         public static ClientRootCertificateListResponse List(this IClientRootCertificateOperations operations, string virtualNetworkName)
         {
@@ -2793,10 +2847,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IClientRootCertificateOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
-        /// The response to the list client root certificates request
+        /// The response to the list client root certificates request.
         /// </returns>
         public static Task<ClientRootCertificateListResponse> ListAsync(this IClientRootCertificateOperations operations, string virtualNetworkName)
         {
@@ -2836,7 +2890,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Upload client certificate Virtual
@@ -2981,10 +3035,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3116,10 +3170,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='certificateThumbprint'>
-        /// The X509 certificate thumbprint
+        /// The X509 certificate thumbprint.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3240,13 +3294,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response to the list client root certificates request
+        /// The response to the list client root certificates request.
         /// </returns>
         public async Task<ClientRootCertificateListResponse> ListAsync(string virtualNetworkName, CancellationToken cancellationToken)
         {
@@ -3390,10 +3444,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3414,7 +3468,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3474,14 +3528,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3501,10 +3555,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3532,7 +3586,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3611,7 +3665,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3633,7 +3687,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3652,17 +3706,17 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
-        /// The parameters for the GetDeviceConfigurationScript request
+        /// The parameters for the GetDeviceConfigurationScript request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// The configuration script returned from the get device configuration
-        /// script request
+        /// script request.
         /// </returns>
         Task<GatewayGetDeviceConfigurationScriptResponse> GetDeviceConfigurationScriptAsync(string virtualNetworkName, GatewayGetDeviceConfigurationScriptParameters parameters, CancellationToken cancellationToken);
         
@@ -3673,7 +3727,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='operationId'>
-        /// The id  of the virtualnetwork operation
+        /// The id  of the virtualnetwork operation.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3700,16 +3754,16 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response to the get shared key request
+        /// The response to the get shared key request.
         /// </returns>
         Task<GatewayGetSharedKeyResponse> GetSharedKeyAsync(string virtualNetworkName, string localNetworkName, CancellationToken cancellationToken);
         
@@ -3720,14 +3774,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// The response to a ListConnections request to a Virtual Network
-        /// Gateway
+        /// Gateway.
         /// </returns>
         Task<GatewayListConnectionsResponse> ListConnectionsAsync(string virtualNetworkName, CancellationToken cancellationToken);
         
@@ -3742,7 +3796,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The respoonse to the get supported platform configuration request
+        /// The respoonse to the get supported platform configuration request.
         /// </returns>
         Task<GatewayListSupportedDevicesResponse> ListSupportedDevicesAsync(CancellationToken cancellationToken);
         
@@ -3755,14 +3809,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -3796,10 +3850,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3840,10 +3894,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3868,7 +3922,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -3907,7 +3961,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4052,14 +4106,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -4097,14 +4151,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -4128,10 +4182,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4179,10 +4233,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4214,7 +4268,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4260,7 +4314,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4438,7 +4492,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4477,7 +4531,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -4503,7 +4557,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -4540,7 +4594,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -4563,14 +4617,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
-        /// The parameters for the GetDeviceConfigurationScript request
+        /// The parameters for the GetDeviceConfigurationScript request.
         /// </param>
         /// <returns>
         /// The configuration script returned from the get device configuration
-        /// script request
+        /// script request.
         /// </returns>
         public static GatewayGetDeviceConfigurationScriptResponse GetDeviceConfigurationScript(this IGatewayOperations operations, string virtualNetworkName, GatewayGetDeviceConfigurationScriptParameters parameters)
         {
@@ -4603,14 +4657,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
-        /// The parameters for the GetDeviceConfigurationScript request
+        /// The parameters for the GetDeviceConfigurationScript request.
         /// </param>
         /// <returns>
         /// The configuration script returned from the get device configuration
-        /// script request
+        /// script request.
         /// </returns>
         public static Task<GatewayGetDeviceConfigurationScriptResponse> GetDeviceConfigurationScriptAsync(this IGatewayOperations operations, string virtualNetworkName, GatewayGetDeviceConfigurationScriptParameters parameters)
         {
@@ -4628,7 +4682,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='operationId'>
-        /// The id  of the virtualnetwork operation
+        /// The id  of the virtualnetwork operation.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -4671,7 +4725,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='operationId'>
-        /// The id  of the virtualnetwork operation
+        /// The id  of the virtualnetwork operation.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -4702,13 +4756,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <returns>
-        /// The response to the get shared key request
+        /// The response to the get shared key request.
         /// </returns>
         public static GatewayGetSharedKeyResponse GetSharedKey(this IGatewayOperations operations, string virtualNetworkName, string localNetworkName)
         {
@@ -4742,13 +4796,13 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <returns>
-        /// The response to the get shared key request
+        /// The response to the get shared key request.
         /// </returns>
         public static Task<GatewayGetSharedKeyResponse> GetSharedKeyAsync(this IGatewayOperations operations, string virtualNetworkName, string localNetworkName)
         {
@@ -4766,11 +4820,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
         /// The response to a ListConnections request to a Virtual Network
-        /// Gateway
+        /// Gateway.
         /// </returns>
         public static GatewayListConnectionsResponse ListConnections(this IGatewayOperations operations, string virtualNetworkName)
         {
@@ -4802,11 +4856,11 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <returns>
         /// The response to a ListConnections request to a Virtual Network
-        /// Gateway
+        /// Gateway.
         /// </returns>
         public static Task<GatewayListConnectionsResponse> ListConnectionsAsync(this IGatewayOperations operations, string virtualNetworkName)
         {
@@ -4825,7 +4879,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <returns>
-        /// The respoonse to the get supported platform configuration request
+        /// The respoonse to the get supported platform configuration request.
         /// </returns>
         public static GatewayListSupportedDevicesResponse ListSupportedDevices(this IGatewayOperations operations)
         {
@@ -4858,7 +4912,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <returns>
-        /// The respoonse to the get supported platform configuration request
+        /// The respoonse to the get supported platform configuration request.
         /// </returns>
         public static Task<GatewayListSupportedDevicesResponse> ListSupportedDevicesAsync(this IGatewayOperations operations)
         {
@@ -4878,14 +4932,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -4930,14 +4984,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IGatewayOperations.
         /// </param>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -4989,10 +5043,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -5153,7 +5207,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -5563,14 +5617,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -5723,10 +5777,10 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkSiteName'>
-        /// The name of the site to connect to
+        /// The name of the site to connect to.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -5815,7 +5869,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -6072,7 +6126,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
         /// Parameters supplied to the Create Virtual Network Gateway operation.
@@ -6222,7 +6276,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -6398,17 +6452,17 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='parameters'>
-        /// The parameters for the GetDeviceConfigurationScript request
+        /// The parameters for the GetDeviceConfigurationScript request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// The configuration script returned from the get device configuration
-        /// script request
+        /// script request.
         /// </returns>
         public async Task<GatewayGetDeviceConfigurationScriptResponse> GetDeviceConfigurationScriptAsync(string virtualNetworkName, GatewayGetDeviceConfigurationScriptParameters parameters, CancellationToken cancellationToken)
         {
@@ -6521,7 +6575,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='operationId'>
-        /// The id  of the virtualnetwork operation
+        /// The id  of the virtualnetwork operation.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -6691,16 +6745,16 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response to the get shared key request
+        /// The response to the get shared key request.
         /// </returns>
         public async Task<GatewayGetSharedKeyResponse> GetSharedKeyAsync(string virtualNetworkName, string localNetworkName, CancellationToken cancellationToken)
         {
@@ -6824,14 +6878,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// The response to a ListConnections request to a Virtual Network
-        /// Gateway
+        /// Gateway.
         /// </returns>
         public async Task<GatewayListConnectionsResponse> ListConnectionsAsync(string virtualNetworkName, CancellationToken cancellationToken)
         {
@@ -7032,7 +7086,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The respoonse to the get supported platform configuration request
+        /// The respoonse to the get supported platform configuration request.
         /// </returns>
         public async Task<GatewayListSupportedDevicesResponse> ListSupportedDevicesAsync(CancellationToken cancellationToken)
         {
@@ -7192,14 +7246,14 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='virtualNetworkName'>
-        /// The name of the virtual network for this gateway
+        /// The name of the virtual network for this gateway.
         /// </param>
         /// <param name='localNetworkName'>
-        /// The name of the local network
+        /// The name of the local network.
         /// </param>
         /// <param name='parameters'>
         /// The parameters to the Virtual Network Gateway Reset Shared Key
-        /// request
+        /// request.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -7288,7 +7342,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -7323,7 +7377,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response structure for the Server List operation
+        /// The response structure for the Server List operation.
         /// </returns>
         Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken);
         
@@ -7334,7 +7388,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -7366,7 +7420,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -7402,7 +7456,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <returns>
         /// A standard storage response including an HTTP status code and
@@ -7474,7 +7528,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// The response structure for the Server List operation
+        /// The response structure for the Server List operation.
         /// </returns>
         public static NetworkListResponse List(this INetworkOperations operations)
         {
@@ -7506,7 +7560,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <returns>
-        /// The response structure for the Server List operation
+        /// The response structure for the Server List operation.
         /// </returns>
         public static Task<NetworkListResponse> ListAsync(this INetworkOperations operations)
         {
@@ -7524,7 +7578,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -7567,7 +7621,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.INetworkOperations.
         /// </param>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <returns>
         /// The response body contains the status of the specified asynchronous
@@ -7617,7 +7671,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -7846,7 +7900,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response structure for the Server List operation
+        /// The response structure for the Server List operation.
         /// </returns>
         public async Task<NetworkListResponse> ListAsync(CancellationToken cancellationToken)
         {
@@ -8149,7 +8203,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for more information)
         /// </summary>
         /// <param name='parameters'>
-        /// The updated network configuration
+        /// The updated network configuration.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -8319,7 +8373,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for virtual IP reserved for the subscription.
         /// </summary>
         /// <param name='ipName'>
-        /// The name of the reserved IP to retrieve
+        /// The name of the reserved IP to retrieve.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -8611,7 +8665,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IReservedIPOperations.
         /// </param>
         /// <param name='ipName'>
-        /// The name of the reserved IP to retrieve
+        /// The name of the reserved IP to retrieve.
         /// </param>
         /// <returns>
         /// Preview Only. A reserved IP associated with your subscription.
@@ -8644,7 +8698,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// Microsoft.WindowsAzure.Management.VirtualNetworks.IReservedIPOperations.
         /// </param>
         /// <param name='ipName'>
-        /// The name of the reserved IP to retrieve
+        /// The name of the reserved IP to retrieve.
         /// </param>
         /// <returns>
         /// Preview Only. A reserved IP associated with your subscription.
@@ -9163,7 +9217,7 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
         /// for virtual IP reserved for the subscription.
         /// </summary>
         /// <param name='ipName'>
-        /// The name of the reserved IP to retrieve
+        /// The name of the reserved IP to retrieve.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -9487,6 +9541,257 @@ namespace Microsoft.WindowsAzure.Management.VirtualNetworks
                             {
                                 string deploymentNameInstance = deploymentNameElement.Value;
                                 reservedIPInstance.DeploymentName = deploymentNameInstance;
+                            }
+                        }
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+    }
+    
+    public partial interface IStaticIPOperations
+    {
+        /// <summary>
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the static IP.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a static IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken);
+    }
+    
+    public static partial class StaticIPOperationsExtensions
+    {
+        /// <summary>
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IStaticIPOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the static IP.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a static IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public static NetworkStaticIPAvailabilityResponse Check(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
+        {
+            try
+            {
+                return operations.CheckAsync(virtualNetworkName, ipAddress).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerExceptions.Count > 1)
+                {
+                    throw;
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.IStaticIPOperations.
+        /// </param>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the static IP.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a static IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public static Task<NetworkStaticIPAvailabilityResponse> CheckAsync(this IStaticIPOperations operations, string virtualNetworkName, string ipAddress)
+        {
+            return operations.CheckAsync(virtualNetworkName, ipAddress, CancellationToken.None);
+        }
+    }
+    
+    internal partial class StaticIPOperations : IServiceOperations<VirtualNetworkManagementClient>, IStaticIPOperations
+    {
+        /// <summary>
+        /// Initializes a new instance of the StaticIPOperations class.
+        /// </summary>
+        /// <param name='client'>
+        /// Reference to the service client.
+        /// </param>
+        internal StaticIPOperations(VirtualNetworkManagementClient client)
+        {
+            this._client = client;
+        }
+        
+        private VirtualNetworkManagementClient _client;
+        
+        /// <summary>
+        /// Gets a reference to the
+        /// Microsoft.WindowsAzure.Management.VirtualNetworks.VirtualNetworkManagementClient.
+        /// </summary>
+        public VirtualNetworkManagementClient Client
+        {
+            get { return this._client; }
+        }
+        
+        /// <summary>
+        /// The Check Static IP operation retrieves the details for the
+        /// availability of static IP addresses for the given virtual network.
+        /// </summary>
+        /// <param name='virtualNetworkName'>
+        /// The name of the virtual network.
+        /// </param>
+        /// <param name='ipAddress'>
+        /// The address of the static IP.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A response that indicates the availability of a static IP address,
+        /// and if not, provide a list of suggestions.
+        /// </returns>
+        public async Task<NetworkStaticIPAvailabilityResponse> CheckAsync(string virtualNetworkName, string ipAddress, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (virtualNetworkName == null)
+            {
+                throw new ArgumentNullException("virtualNetworkName");
+            }
+            if (ipAddress == null)
+            {
+                throw new ArgumentNullException("ipAddress");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("virtualNetworkName", virtualNetworkName);
+                tracingParameters.Add("ipAddress", ipAddress);
+                Tracing.Enter(invocationId, this, "CheckAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = this.Client.BaseUri + "/" + this.Client.Credentials.SubscriptionId + "/services/networking/" + virtualNetworkName + "?op=checkavailability&address=" + ipAddress;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2013-11-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.CreateFromXml(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    NetworkStaticIPAvailabilityResponse result = new NetworkStaticIPAvailabilityResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement addressAvailabilityResponseElement = responseDoc.Element(XName.Get("AddressAvailabilityResponse", "http://schemas.microsoft.com/windowsazure"));
+                    if (addressAvailabilityResponseElement != null)
+                    {
+                        XElement isAvailableElement = addressAvailabilityResponseElement.Element(XName.Get("IsAvailable", "http://schemas.microsoft.com/windowsazure"));
+                        if (isAvailableElement != null)
+                        {
+                            bool isAvailableInstance = bool.Parse(isAvailableElement.Value);
+                            result.IsAvailable = isAvailableInstance;
+                        }
+                        
+                        XElement availableAddressesSequenceElement = addressAvailabilityResponseElement.Element(XName.Get("AvailableAddresses", "http://schemas.microsoft.com/windowsazure"));
+                        if (availableAddressesSequenceElement != null)
+                        {
+                            foreach (XElement availableAddressesElement in availableAddressesSequenceElement.Elements(XName.Get("AvailableAddress", "http://schemas.microsoft.com/windowsazure")))
+                            {
+                                result.AvailableAddresses.Add(availableAddressesElement.Value);
                             }
                         }
                     }

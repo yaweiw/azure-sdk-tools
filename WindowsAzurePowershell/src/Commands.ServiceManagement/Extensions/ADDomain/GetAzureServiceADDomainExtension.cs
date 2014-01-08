@@ -14,20 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
-    using Management.Compute.Models;
     using Model.PersistentVMModel;
 
     /// <summary>
     /// Get Windows Azure Service ADDomain Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, ADDomainExtensionNoun), OutputType(typeof(IEnumerable<ADDomainExtensionContext>))]
+    [Cmdlet(VerbsCommon.Get, ADDomainExtensionNoun), OutputType(typeof(ADDomainExtensionContext))]
     public class GetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = ServiceNameHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -35,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = SlotHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {

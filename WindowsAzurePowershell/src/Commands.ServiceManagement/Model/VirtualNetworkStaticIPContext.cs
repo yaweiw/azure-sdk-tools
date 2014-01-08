@@ -12,15 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    public class ADDomainExtensionContext : ExtensionContext
+    public class VirtualNetworkStaticIPContext
     {
-        public string Name { get; set; }
-        public uint JoinOption { get; set; }
-        public string OUPath { get; set; }
-        public string User { get; set; }
-        public string UnjoinDomainUser { get; set; }
-        public bool Restart { get; set; }
+        public string IPAddress { get; set; }
     }
 }

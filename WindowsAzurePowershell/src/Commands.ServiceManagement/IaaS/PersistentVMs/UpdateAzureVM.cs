@@ -101,8 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 Label = VM.Label,
                 OSVirtualHardDisk = Mapper.Map<OSVirtualHardDisk>(VM.OSVirtualHardDisk),
                 RoleName = VM.RoleName,
-                RoleSize = string.IsNullOrEmpty(VM.RoleSize) ? null :
-                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), VM.RoleSize, true),
+                RoleSize = VM.RoleSize,
             };
 
             if (VM.DataVirtualHardDisks != null)

@@ -17,22 +17,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Management.Automation;
     using Model;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
-    public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Remove, StaticVNetIPNoun), OutputType(typeof(IPersistentVM))]
+    public class RemoveAzureStaticVNetIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateNotNullOrEmpty]
-        public string InstanceSize
-        {
-            get;
-            set;
-        }
-
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance(); 
-            role.RoleSize = InstanceSize;
+            var networkConfiguration = GetNetworkConfiguration();
+            if (networkConfiguration == null)
+            {
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
+            }
+
+            networkConfiguration.StaticVirtualNetworkIPAddress = null;
             WriteObject(VM, true);
         }
 
