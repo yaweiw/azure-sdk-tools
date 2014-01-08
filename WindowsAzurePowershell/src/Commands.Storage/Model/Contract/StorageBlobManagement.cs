@@ -333,5 +333,35 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
                     throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
             }
         }
+
+        /// <summary>
+        /// List part of blobs.
+        /// </summary>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing</param>
+        /// <param name="blobListingDetails">Blob listing details.</param>
+        /// <param name="maxResults">Max results.</param>
+        /// <param name="currentToken">Current token.</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation Context.</param>
+        /// <returns>BlobResultSegment object</returns>
+        public BlobResultSegment ListBlobsSegmented(CloudBlobContainer container, string prefix, bool useFlatBlobListing,
+            BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            return container.ListBlobsSegmented(prefix, useFlatBlobListing, blobListingDetails, maxResults, currentToken, options, operationContext);
+        }
+
+        /// <summary>
+        /// Get a list of cloudblobcontainer in azure
+        /// </summary>
+        /// <param name="prefix">Container prefix</param>
+        /// <param name="detailsIncluded">Container listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
+        public ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            return blobClient.ListContainersSegmented(prefix, detailsIncluded, maxResults, currentToken, options, operationContext);
+        }
     }
 }

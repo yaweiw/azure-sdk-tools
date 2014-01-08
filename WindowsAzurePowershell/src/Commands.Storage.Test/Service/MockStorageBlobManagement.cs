@@ -45,6 +45,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
                 return containerList;
             }
         }
+
+        public List<Tuple<CloudBlobContainer, BlobContinuationToken>> ContainerAndTokenList
+        {
+            get
+            {
+                List<Tuple<CloudBlobContainer, BlobContinuationToken>> containerAndTokenList = new List<Tuple<CloudBlobContainer, BlobContinuationToken>>(ContainerList.Count);
+                foreach (CloudBlobContainer container in ContainerList)
+                {
+                    containerAndTokenList.Add(new Tuple<CloudBlobContainer, BlobContinuationToken>(container, null));
+                }
+
+                return containerAndTokenList;
+            }
+        }
         
         /// <summary>
         /// Container permissions list
@@ -446,6 +460,35 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         public void SetStorageServiceProperties(CloudStorageAccount account, StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
             throw new NotImplementedException("No need to cover this in unit test since there are no additional logics on this api");
+        }
+
+        /// <summary>
+        /// List part of blobs.
+        /// </summary>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing</param>
+        /// <param name="blobListingDetails">Blob listing details.</param>
+        /// <param name="maxResults">Max results.</param>
+        /// <param name="currentToken">Current token.</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation Context.</param>
+        /// <returns>BlobResultSegment object</returns>
+        public BlobResultSegment ListBlobsSegmented(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException("Can not create a BlobResultSegment object");
+        }
+
+        /// <summary>
+        /// Get a list of cloudblobcontainer in azure
+        /// </summary>
+        /// <param name="prefix">Container prefix</param>
+        /// <param name="detailsIncluded">Container listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
+        public ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException("Can not create a ContainerResultSegment object");
         }
     }
 }

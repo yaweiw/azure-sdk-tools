@@ -91,6 +91,28 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
         private string containerName = String.Empty;
 
+        [Parameter(Mandatory = false, HelpMessage = "The max count of the blobs that can return.")]
+        public int? MaxCount
+        {
+            get { return InternalMaxCount; }
+            set
+            {
+                if (value.Value <= 0)
+                {
+                    InternalMaxCount = int.MaxValue;
+                }
+                else
+                {
+                    InternalMaxCount = value.Value;
+                }
+            }
+        }
+
+        private int InternalMaxCount = int.MaxValue;
+
+        [Parameter(Mandatory = false, HelpMessage = "Continuation Token.")]
+        public BlobContinuationToken ContinuationToken { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the GetAzureStorageBlobCommand class.
         /// </summary>
@@ -138,21 +160,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name pattern</param>
         /// <returns>An enumerable collection of IListBlobItem</returns>
-        internal IEnumerable<IListBlobItem> ListBlobsByName(string containerName, string blobName)
+        internal IEnumerable<Tuple<ICloudBlob, BlobContinuationToken>> ListBlobsByName(string containerName, string blobName)
         {
             CloudBlobContainer container = null;
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
-            bool useFlatBlobListing = true;
             string prefix = string.Empty;
-            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
                 container = GetCloudBlobContainerByName(containerName);
 
-                IEnumerable<IListBlobItem> blobs = Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
+                prefix = NameUtil.GetNonWildcardPrefix(blobName);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
 
@@ -161,19 +181,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     wildcard = new WildcardPattern(blobName, options);
                 }
 
-                foreach (IListBlobItem blobItem in blobs)
+                Func<ICloudBlob, bool> blobFilter = (blob) => wildcard == null || wildcard.IsMatch(blob.Name);
+
+                IEnumerable<Tuple<ICloudBlob, BlobContinuationToken>> blobs = ListBlobsByPrefix(containerName, prefix, blobFilter);
+
+                foreach (var blobInfo in blobs)
                 {
-                    ICloudBlob blob = blobItem as ICloudBlob;
-
-                    if (blob == null)
-                    {
-                        continue;
-                    }
-
-                    if (wildcard == null || wildcard.IsMatch(blob.Name))
-                    {
-                        yield return blob;
-                    }
+                    yield return blobInfo;
                 }
             }
             else
@@ -186,14 +200,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
-                
+
                 if (null == blob)
                 {
                     throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, containerName));
                 }
                 else
                 {
-                    yield return blob;
+                    yield return new Tuple<ICloudBlob, BlobContinuationToken>(blob, null);
                 }
             }
         }
@@ -202,9 +216,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// list blobs by blob prefix and container name
         /// </summary>
         /// <param name="containerName">container name</param>
-        /// <param name="prefix">blob prefix</param>
+        /// <param name="prefix">blob preifx</param>
         /// <returns>An enumerable collection of IListBlobItem</returns>
-        internal IEnumerable<IListBlobItem> ListBlobsByPrefix(string containerName, string prefix)
+        internal IEnumerable<Tuple<ICloudBlob, BlobContinuationToken>> ListBlobsByPrefix(string containerName,
+            string prefix, Func<ICloudBlob, bool> blobFilter = null)
         {
             CloudBlobContainer container = GetCloudBlobContainerByName(containerName);
 
@@ -212,30 +227,65 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             bool useFlatBlobListing = true;
             BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 
-            return Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
+            int listCount = InternalMaxCount;
+            int MaxListCount = 5000;
+            int requestCount = MaxListCount;
+            int realListCount = 0;
+            BlobContinuationToken continuationToken = ContinuationToken;
+
+            do
+            {
+                requestCount = Math.Min(listCount, MaxListCount);
+                realListCount = 0;
+                BlobResultSegment blobResult = Channel.ListBlobsSegmented(container, prefix, useFlatBlobListing,
+                    details, requestCount, continuationToken, requestOptions, OperationContext);
+
+                foreach (IListBlobItem blobItem in blobResult.Results)
+                {
+                    ICloudBlob blob = blobItem as ICloudBlob;
+
+                    if (blob == null)
+                    {
+                        continue;
+                    }
+
+                    if (blobFilter == null || blobFilter(blob))
+                    {
+                        yield return new Tuple<ICloudBlob, BlobContinuationToken>(blob, blobResult.ContinuationToken);
+                        realListCount++;
+                    }
+                }
+
+                if (InternalMaxCount != int.MaxValue)
+                {
+                    listCount -= realListCount;
+                }
+
+                continuationToken = blobResult.ContinuationToken;
+            }
+            while (listCount > 0 && continuationToken != null);
         }
 
         /// <summary>
         /// write blobs with storage context
         /// </summary>
         /// <param name="blobList">An enumerable collection of IListBlobItem</param>
-        internal void WriteBlobsWithContext(IEnumerable<IListBlobItem> blobList)
+        internal void WriteBlobsWithContext(IEnumerable<Tuple<ICloudBlob, BlobContinuationToken>> blobList)
         {
             if (null == blobList)
             {
                 return;
             }
 
-            foreach (IListBlobItem blobItem in blobList)
+            foreach (Tuple<ICloudBlob, BlobContinuationToken> blobItem in blobList)
             {
-                ICloudBlob blob = blobItem as ICloudBlob;
-                
-                if (blob == null)
+                if (blobItem == null)
                 {
                     continue;
                 }
 
-                AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
+                AzureStorageBlob azureBlob = new AzureStorageBlob(blobItem.Item1);
+                azureBlob.ContinuationToken = blobItem.Item2;
                 WriteObjectWithStorageContext(azureBlob);
             }
         }
@@ -246,7 +296,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            IEnumerable<IListBlobItem> blobList = null;
+            IEnumerable<Tuple<ICloudBlob, BlobContinuationToken>> blobList = null;
 
             if (PrefixParameterSet == ParameterSetName)
             {
