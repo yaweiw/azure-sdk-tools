@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestInitialize]
         public void Intialize()
         {
+            pass = false;
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
             linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
             InstallCertificate();
@@ -60,13 +61,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("New Azure service with name:{0} created successfully.", serviceName);
                 Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, serviceName));
-                Assert.AreEqual(endpoints.Count, 1);
+                Assert.AreEqual(0, endpoints.Count);
                 pass = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                pass = false;
+                throw ex;
             }
         }
 
@@ -96,13 +97,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("New Azure service with name:{0} created successfully.", serviceName);
                 Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, serviceName));
-                Assert.AreEqual(endpoints.Count, 1);
+                Assert.AreEqual(0, endpoints.Count);
                 pass = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                pass = false;
+                throw ex;
             }
 
         }
@@ -133,13 +134,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("New Azure service with name:{0} created successfully.", serviceName);
                 Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, serviceName));
-                Assert.AreEqual(endpoints.Count, 1);
+                Assert.AreEqual(0, endpoints.Count);
                 pass = true;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                pass = false;
+                throw ex;
             }
         }
 
@@ -169,13 +170,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("New Azure service with name:{0} created successfully.", serviceName);
                 Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, serviceName));
-                Assert.AreEqual(endpoints.Count, 1);
+                Assert.AreEqual(0, endpoints.Count);
                 pass = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                pass = false;
+                throw ex;
             }
         }
 
@@ -210,7 +211,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                pass = false;
+                throw ex;
             }
         }
 
