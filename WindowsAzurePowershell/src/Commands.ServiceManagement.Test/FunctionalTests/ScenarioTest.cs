@@ -176,50 +176,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
-                // Verify
-                Assert.AreEqual(newAzureQuickVMName, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name, true);
 
-                string name = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name;
-                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, name);
+                // Verify the VM
+                var vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
+                Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true, "VM names are not matched!");
+
+                // Get the WinRM Uri
+                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, vmRoleCtxt.Name);
 
                 // starting the test.
-                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName); // Get-AzureVM
-                InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt)[0]; // Get-AzureEndpoint
-                Console.WriteLine("InputEndpointContext Name: {0}", inputEndpointCtxt.Name);
-                Console.WriteLine("InputEndpointContext port: {0}", inputEndpointCtxt.Port);
-                Console.WriteLine("InputEndpointContext protocol: {0}", inputEndpointCtxt.Protocol);
-                Assert.AreEqual(inputEndpointCtxt.Name, "RemoteDesktop", true);
+                InputEndpointContext winRMEndpoint =null;
 
-                if (resultUri != null)
+                foreach (InputEndpointContext inputEndpointCtxt in vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt))
                 {
-                    if (string.IsNullOrEmpty(resultUri.AbsoluteUri))
+                    if (inputEndpointCtxt.Name.Equals("WinRmHTTPs"))
                     {
-                        pass = false;
+                        winRMEndpoint = inputEndpointCtxt;
                     }
-
-                    if (string.IsNullOrEmpty(resultUri.Port.ToString()))
-                    {
-                        pass = false;
-                    }
-
                 }
 
-                else
-                {
-                    pass = false;
-                }
+                Assert.IsNotNull(winRMEndpoint, "There is no WinRM endpoint!");
+                Assert.IsNotNull(resultUri, "No WinRM Uri!");
+
+                Console.WriteLine("InputEndpointContext Name: {0}", winRMEndpoint.Name);
+                Console.WriteLine("InputEndpointContext port: {0}", winRMEndpoint.Port);
+                Console.WriteLine("InputEndpointContext protocol: {0}", winRMEndpoint.Protocol);
+
+                Console.WriteLine("WinRM Uri: {0}",  resultUri.AbsoluteUri);
+                Console.WriteLine("WinRM Port: {0}", resultUri.Port);
+                Console.WriteLine("WinRM Scheme: {0}", resultUri.Scheme);
+
+                Assert.AreEqual(winRMEndpoint.Port, resultUri.Port, "Port numbers are not matched!");
 
                 pass = true;
-                //add verification of uri , endpoint, port
             }
             catch (Exception e)
             {
-                pass = false;
                 Console.WriteLine(e);
                 throw;
-
             }
-
         } 
 
 
