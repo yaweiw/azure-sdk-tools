@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
@@ -76,12 +75,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 if (this.StayProvisioned.IsPresent)
                 {
+                    ProcessStaticIPAddressWarningInfo(roleNames[0]);
+
                     this.ExecuteClientActionNewSM(
                         null,
                         this.CommandRuntime.ToString(),
                         () => this.ComputeClient.VirtualMachines.Shutdown(
                             this.ServiceName,
-                            this.CurrentDeploymentNewSM.Name, 
+                            this.CurrentDeploymentNewSM.Name,
                             roleNames[0],
                             new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.Stopped }),
                         (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
@@ -99,8 +100,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                 this.CommandRuntime.ToString(),
                                 () => this.ComputeClient.VirtualMachines.Shutdown(
                                     this.ServiceName,
-                                    this.CurrentDeploymentNewSM.Name, 
-                                    roleNames[0], 
+                                    this.CurrentDeploymentNewSM.Name,
+                                    roleNames[0],
                                     new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
                                 (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s)));
                     }
@@ -111,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                 this.CommandRuntime.ToString(),
                                 () => this.ComputeClient.VirtualMachines.Shutdown(
                                     this.ServiceName,
-                                    this.CurrentDeploymentNewSM.Name, 
+                                    this.CurrentDeploymentNewSM.Name,
                                     roleNames[0], 
                                     new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
                                 (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
@@ -125,6 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     var parameter = new VirtualMachineShutdownRolesParameters();
                     foreach (var role in roleNames)
                     {
+                        ProcessStaticIPAddressWarningInfo(role);
                         parameter.Roles.Add(role);
                     }
                     parameter.PostShutdownAction = PostShutdownAction.Stopped;
@@ -171,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 r => String.Compare(
                     r.InstanceStatus,
                     PostShutdownAction.StoppedDeallocated.ToString(),
-                    true, 
+                    true,
                     CultureInfo.InvariantCulture) != 0;
             bool result = this.CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
 
@@ -184,6 +186,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             return result;
+        }
+
+        private void ProcessStaticIPAddressWarningInfo(string vmRoleName)
+        {
+            var vmRole = this.CurrentDeploymentNewSM.Roles.FirstOrDefault(r => r.RoleName == vmRoleName);
+            if (vmRole.ConfigurationSets != null)
+            {
+                var configSet = vmRole.ConfigurationSets.FirstOrDefault(c => !string.IsNullOrEmpty(c.StaticVirtualNetworkIPAddress));
+                if (configSet != null)
+                {
+                    WriteVerboseWithTimestamp(string.Format(
+                        Resources.StaticIPAddressNoLongerInUseButStillBeingReserved,
+                        vmRoleName,
+                        configSet.StaticVirtualNetworkIPAddress));
+                }
+            }
         }
     }
 }
