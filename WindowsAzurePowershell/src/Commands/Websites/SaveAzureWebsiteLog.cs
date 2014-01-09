@@ -37,6 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(HelpMessage = "The website slot name")]
+        public string Slot { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
@@ -66,6 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
+            base.slot = Slot;
             if (string.IsNullOrEmpty(Output))
             {
                 Output = Path.Combine(GetCurrentPath(), DefaultOutput);

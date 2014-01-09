@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Setup
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
-            websitesClientMock.Setup(f => f.StopAzureWebsite(websiteName));
+            websitesClientMock.Setup(f => f.StopWebsite(websiteName));
 
             // Test
             StopAzureWebsiteCommand stopAzureWebsiteCommand = new StopAzureWebsiteCommand()
@@ -45,7 +45,32 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             stopAzureWebsiteCommand.ExecuteCmdlet();
 
-            websitesClientMock.Verify(f => f.StopAzureWebsite(websiteName), Times.Once());
+            websitesClientMock.Verify(f => f.StopWebsite(websiteName), Times.Once());
+        }
+
+        [TestMethod]
+        public void StopsWebsiteSlot()
+        {
+            const string slot = "stage";
+            const string websiteName = "website1";
+
+            // Setup
+            Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.StopWebsite(websiteName, slot));
+
+            // Test
+            StopAzureWebsiteCommand stopAzureWebsiteCommand = new StopAzureWebsiteCommand()
+            {
+                CommandRuntime = new MockCommandRuntime(),
+                Name = websiteName,
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                WebsitesClient = websitesClientMock.Object,
+                Slot = slot
+            };
+
+            stopAzureWebsiteCommand.ExecuteCmdlet();
+
+            websitesClientMock.Verify(f => f.StopWebsite(websiteName, slot), Times.Once());
         }
     }
 }
