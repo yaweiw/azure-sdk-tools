@@ -1153,9 +1153,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
-        public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName = null)
+        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string newImageLabel = null)
         {
-            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newVmName, newImageName));
+            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel));
         }
 
         public Collection<OSImageContext> GetAzureVMImage(string imageName = null)
