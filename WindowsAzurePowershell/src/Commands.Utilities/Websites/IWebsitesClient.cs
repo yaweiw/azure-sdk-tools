@@ -102,6 +102,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames);
 
         /// <summary>
+        /// Update the set of host names for a website slot.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        /// <param name="slot">The website slot name.</param>
+        void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames, string slot);
+
+        /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -121,6 +129,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="newConfiguration">The website configuration object containing updates.</param>
         void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration);
+
+        /// <summary>
+        /// Update the website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        /// <param name="slot">The website slot name</param>
+        void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot);
 
         /// <summary>
         /// Delete a website.
@@ -257,6 +273,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The slot name</param>
         /// <returns>the slot DNS name</returns>
         string GetSlotDnsName(string name, string slot);
+
+        /// <summary>
+        /// Gets a website slot.
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <param name="Slot">The website slot name</param>
+        /// <returns>The website slot object</returns>
+        Site GetWebsite(string name, string slot);
+
+        /// <summary>
+        /// Gets a website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website cobfiguration object</returns>
+        SiteConfig GetWebsiteConfiguration(string name, string slot);
     }
 
     public enum WebsiteState

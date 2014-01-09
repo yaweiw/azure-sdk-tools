@@ -292,15 +292,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website instance</returns>
         public Site GetWebsite(string name, string slot)
         {
-            name = GetSlotDnsName(GetWebsiteName(name), slot);
-            Site website = WebsiteManagementClient.GetSiteWithCache(name);
-
-            if (website == null)
-            {
-                throw new Exception(string.Format(Resources.InvalidWebsite, name));
-            }
-
-            return website;
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return GetWebsite(name);
         }
 
         /// <summary>
@@ -332,9 +325,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
-            siteToCreate.Name = string.Format(SlotFormat, siteToCreate.Name, slot);
-            siteToCreate.HostNames = hostNames;
+            if (!string.IsNullOrEmpty(slot))
+            {
+                string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
+                siteToCreate.Name = string.Format(SlotFormat, siteToCreate.Name, slot);
+                siteToCreate.HostNames = hostNames;
+            }
 
             return CreateWebsite(webspaceName, siteToCreate);
         }
@@ -383,6 +379,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Update the set of host names for a website slot.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        /// <param name="slot">The website slot name.</param>
+        public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames, string slot)
+        {
+            site.Name = SetWebsiteName(site.Name, slot);
+
+            UpdateWebsiteHostNames(site, hostNames);
+        }
+
+        /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -397,6 +406,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets a website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website cobfiguration object</returns>
+        public SiteConfig GetWebsiteConfiguration(string name, string slot)
+        {
+            Site website = GetWebsite(name);
+            website.Name = SetWebsiteName(website.Name, slot);
+            return GetWebsiteConfiguration(website.Name);
+        }
+
+        private string SetWebsiteName(string name, string slot)
+        {
+            return string.IsNullOrEmpty(slot) ? name : GetSlotDnsName(name, slot);
+        }
+
+        /// <summary>
         /// Update the website configuration
         /// </summary>
         /// <param name="name">The website name</param>
@@ -406,6 +433,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Site website = GetWebsite(name);
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, name,
                 newConfiguration.ToConfigUpdateParameters());
+        }
+
+        /// <summary>
+        /// Update the website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        /// <param name="slot">The website slot name</param>
+        public void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot)
+        {
+            name = SetWebsiteName(GetWebsite(name).Name, slot);
+            UpdateWebsiteConfiguration(name, newConfiguration);
         }
 
         /// <summary>
