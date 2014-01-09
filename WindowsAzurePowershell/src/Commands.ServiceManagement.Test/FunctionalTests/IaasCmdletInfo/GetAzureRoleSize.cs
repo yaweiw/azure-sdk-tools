@@ -12,19 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using WindowsAzure.Commands.ServiceManagement.Model;
+    using PowershellCore;
 
-    public class SetAzureVMSizeConfig
+    public class GetAzureRoleSizeCmdletInfo : CmdletsInfo
     {
-        public readonly string instanceSize;
-
-        public SetAzureVMSizeConfig(string instanceSize)
+        public GetAzureRoleSizeCmdletInfo(string instanceSize)
         {
-            this.instanceSize = instanceSize;
-        }
+            cmdletName = Utilities.GetAzureRoleSizeCmdletName;
 
-        public PersistentVM Vm { get; set; }
+            if (!string.IsNullOrEmpty(instanceSize))
+            {
+                this.cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize));
+            }
+        }
     }
 }
