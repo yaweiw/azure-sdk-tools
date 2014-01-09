@@ -219,10 +219,6 @@
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
-      <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
-      <Name>ManagementLibraries</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Microsoft.WindowsAzure.Commands.Storage.dll-Help.xml">

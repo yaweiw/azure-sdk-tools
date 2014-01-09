@@ -110,9 +110,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Store\Store.Customizations.cs" />
-    <Compile Include="Store\Store.DiscoveryExtensions.cs" />
-    <Compile Include="Store\StoreManagementClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

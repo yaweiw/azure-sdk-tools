@@ -319,10 +319,6 @@
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagementLibraries\ManagementLibraries.csproj">
-      <Project>{8ef284cb-843d-42dd-a8a1-f2e0e935e0d5}</Project>
-      <Name>ManagementLibraries</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
