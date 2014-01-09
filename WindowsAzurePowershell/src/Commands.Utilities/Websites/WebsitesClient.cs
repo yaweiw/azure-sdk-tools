@@ -420,6 +420,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private string SetWebsiteName(string name, string slot)
         {
+            name = GetWebsiteName(name);
             return string.IsNullOrEmpty(slot) ? name : GetSlotDnsName(name, slot);
         }
 
@@ -573,6 +574,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetSiteDiagnosticsSettings(name, webServerLogging, detailedErrorMessages, failedRequestTracing, false);
         }
 
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        /// <param name="slot">The website slot name</param>
+        public void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties,
+            string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, true, properties);
+        }
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="slot">The website slot name</param>
+        public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, false);
+        }
+
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
         public void EnableApplicationDiagnostic(
             string name,
             WebsiteDiagnosticOutput output,
@@ -581,6 +615,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetApplicationDiagnosticsSettings(name, output, true, properties);
         }
 
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
         public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
         {
             SetApplicationDiagnosticsSettings(name, output, false);

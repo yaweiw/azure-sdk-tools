@@ -111,9 +111,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             bool updatedSite = false;
             bool updatedSiteConfig = false;
 
-            clientMock.Setup(c => c.GetWebsite(websiteName))
+            clientMock.Setup(c => c.GetWebsite(websiteName, slot))
                 .Returns(new Site { Name = websiteName, WebSpace = webspaceName });
-            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName))
+            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName, slot))
                 .Returns(new SiteConfig { NumberOfWorkers = 1 });
             clientMock.Setup(c => c.UpdateWebsiteConfiguration(websiteName, It.IsAny<SiteConfig>(), slot))
                 .Callback((string name, SiteConfig config, string slotName) =>
