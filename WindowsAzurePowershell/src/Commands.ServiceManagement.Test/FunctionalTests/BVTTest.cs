@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //
                 // New-AzureVMConfig
                 //
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName);
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName);
                 PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(azureVMConfigInfo);
 
                 RecordTimeTaken(ref prevTime);
@@ -317,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //
                 // Set-AzureVMSize
                 //
-                SetAzureVMSizeConfig vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium);
+                var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
                 vmSizeConfig.Vm = vm;
                 vm = vmPowershellCmdlets.SetAzureVMSize(vmSizeConfig);
                 RecordTimeTaken(ref prevTime);
