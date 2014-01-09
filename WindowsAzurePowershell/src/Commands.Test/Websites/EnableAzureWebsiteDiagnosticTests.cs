@@ -150,5 +150,40 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
+
+        [TestMethod]
+        public void EnableApplicationDiagnosticOnSlot()
+        {
+            string slot = "stage";
+            // Setup
+            websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
+                websiteName,
+                WebsiteDiagnosticOutput.FileSystem,
+                properties,
+                slot));
+
+            enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = websiteName,
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                WebsitesClient = websitesClientMock.Object,
+                File = true,
+                LogLevel = LogEntryType.Information,
+                Slot = slot
+            };
+
+            // Test
+            enableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
+
+            // Assert
+            websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
+                websiteName,
+                WebsiteDiagnosticOutput.FileSystem,
+                properties,
+                slot), Times.Once());
+
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
+        }
     }
 }

@@ -289,6 +289,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         /// <returns>The website cobfiguration object</returns>
         SiteConfig GetWebsiteConfiguration(string name, string slot);
+
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        /// <param name="slot">The website slot name</param>
+        void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties,
+            string slot);
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="slot">The website slot name</param>
+        void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot);
     }
 
     public enum WebsiteState

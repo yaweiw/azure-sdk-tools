@@ -95,5 +95,35 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
+
+        [TestMethod]
+        public void DisablesApplicationDiagnosticOnSlot()
+        {
+            // Setup
+            string slot = "stage";
+            websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
+                websiteName,
+                WebsiteDiagnosticOutput.FileSystem, slot));
+
+            disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = websiteName,
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                WebsitesClient = websitesClientMock.Object,
+                File = true,
+                Slot = slot
+            };
+
+            // Test
+            disableAzureWebsiteApplicationDiagnosticCommand.ExecuteCmdlet();
+
+            // Assert
+            websitesClientMock.Verify(f => f.DisableApplicationDiagnostic(
+                websiteName,
+                WebsiteDiagnosticOutput.FileSystem, slot), Times.Once());
+
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
+        }
     }
 }
