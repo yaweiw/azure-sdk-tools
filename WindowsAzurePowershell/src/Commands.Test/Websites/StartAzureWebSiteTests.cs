@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Setup
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
-            websitesClientMock.Setup(f => f.StartWebsite(websiteName));
+            websitesClientMock.Setup(f => f.StartWebsite(websiteName, null));
 
             // Test
             StartAzureWebsiteCommand startAzureWebsiteCommand = new StartAzureWebsiteCommand()
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             startAzureWebsiteCommand.ExecuteCmdlet();
 
-            websitesClientMock.Verify(f => f.StartWebsite(websiteName), Times.Once());
+            websitesClientMock.Verify(f => f.StartWebsite(websiteName, null), Times.Once());
         }
 
         [TestMethod]

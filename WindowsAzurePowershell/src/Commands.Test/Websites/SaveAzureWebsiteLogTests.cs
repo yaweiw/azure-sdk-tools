@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void Setup()
         {
             clientMock = new Mock<IWebsitesClient>();
-            clientMock.Setup(c => c.GetWebsite("website1"))
+            clientMock.Setup(c => c.GetWebsite("website1", null))
                 .Returns(site1);
             clientMock.Setup(c => c.GetWebsite("website1", slot))
                 .Returns(site1);

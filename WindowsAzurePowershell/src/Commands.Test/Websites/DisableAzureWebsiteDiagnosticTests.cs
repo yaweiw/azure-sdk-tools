@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Setup
             websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticOutput.FileSystem));
+                WebsiteDiagnosticOutput.FileSystem, null));
 
             disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Assert
             websitesClientMock.Verify(f => f.DisableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticOutput.FileSystem), Times.Once());
+                WebsiteDiagnosticOutput.FileSystem, null), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Setup
             websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticOutput.StorageTable));
+                WebsiteDiagnosticOutput.StorageTable, null));
 
             disableAzureWebsiteApplicationDiagnosticCommand = new DisableAzureWebsiteApplicationDiagnosticCommand()
             {
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Assert
             websitesClientMock.Verify(f => f.DisableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticOutput.StorageTable), Times.Once());
+                WebsiteDiagnosticOutput.StorageTable, null), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
