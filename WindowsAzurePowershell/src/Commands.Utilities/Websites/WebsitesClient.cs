@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void RestartAzureWebsite(string name)
+        public void RestartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
@@ -268,7 +268,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Starts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StartAzureWebsite(string name)
+        public void StartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
@@ -278,9 +278,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Stops a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StopAzureWebsite(string name)
+        public void StopWebsite(string name)
         {
             Site website = GetWebsite(name);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void RestartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StopWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
         }
 

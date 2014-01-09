@@ -54,19 +54,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void RestartAzureWebsite(string name);
+        void RestartWebsite(string name);
 
         /// <summary>
         /// Starts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void StartAzureWebsite(string name);
+        void StartWebsite(string name);
 
         /// <summary>
         /// Stops a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void StopAzureWebsite(string name);
+        void StopWebsite(string name);
 
         /// <summary>
         /// Gets a website instance.
@@ -310,6 +310,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="output">The application log output, FileSystem or StorageTable</param>
         /// <param name="slot">The website slot name</param>
         void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot);
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void RestartWebsite(string name, string slot);
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void StartWebsite(string name, string slot);
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void StopWebsite(string name, string slot);
     }
 
     public enum WebsiteState

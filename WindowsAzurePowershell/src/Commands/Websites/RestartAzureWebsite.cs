@@ -24,9 +24,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(HelpMessage = "The website slot name")]
+        public string Slot { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            WebsitesClient.RestartAzureWebsite(Name);
+            WebsitesClient.RestartWebsite(Name, Slot);
 
             if (PassThru.IsPresent)
             {
