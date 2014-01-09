@@ -132,9 +132,6 @@
     <Compile Include="Store\StoreManagementClient.cs" />
     <Compile Include="Subscriptions\SubscriptionClient.cs" />
     <Compile Include="Subscriptions\SubscriptionClient.Customization.cs" />
-    <Compile Include="WebSiteManagement\WebSiteCloudException.cs" />
-    <Compile Include="WebSiteManagement\WebSiteManagementClient.cs" />
-    <Compile Include="WebSiteManagement\WebSiteManagementClient.Customization.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
