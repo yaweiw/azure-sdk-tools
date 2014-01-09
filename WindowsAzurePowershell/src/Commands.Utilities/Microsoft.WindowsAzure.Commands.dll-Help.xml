@@ -11917,7 +11917,7 @@
           <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
-          <maml:name>VMCredentials</maml:name>
+          <maml:name>VMCredential</maml:name>
           <maml:description>
             <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
           </maml:description>
@@ -11941,7 +11941,7 @@
         <command:parameterValue required="true" variableLength="false">VMTemplateObject</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
-        <maml:name>VMCredentials</maml:name>
+        <maml:name>VMCredential</maml:name>
         <maml:description>
           <maml:para>The credentials for the local user of the VirtualMachine.</maml:para>
         </maml:description>
