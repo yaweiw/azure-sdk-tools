@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using Commands.Websites;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     [TestClass]
     public class NewAzureWebsiteTests : WebsitesTestBase
@@ -118,6 +119,48 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             Assert.IsTrue(created);
             Assert.AreEqual<string>(websiteName, (mockRuntime.OutputPipeline[0] as SiteWithConfig).Name);
             clientMock.Verify(f => f.GetDefaultLocation(), Times.Once());
+        }
+
+        [TestMethod]
+        public void CreateStageSlot()
+        {
+            const string websiteName = "website1";
+            const string webspaceName = "webspace1";
+            const string suffix = "azurewebsites.com";
+
+            // Setup
+            Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.GetWebsiteDnsSuffix()).Returns(suffix);
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[]
+                {
+                    new WebSpace {Name = "webspace1", GeoRegion = "webspace1"},
+                    new WebSpace {Name = "webspace2", GeoRegion = "webspace2"}
+                });
+
+            clientMock.Setup(c => c.GetWebsiteConfiguration("website1"))
+                .Returns(new SiteConfig { PublishingUsername = "user1" });
+
+            string slot = "Stage";
+
+            clientMock.Setup(f => f.WebsiteExists(websiteName)).Returns(true);
+            clientMock.Setup(f => f.GetWebsite(websiteName)).Returns(new Site() { ComputeMode = WebSiteComputeMode.Dedicated });
+
+            // Test
+            MockCommandRuntime mockRuntime = new MockCommandRuntime();
+            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand
+            {
+                ShareChannel = true,
+                CommandRuntime = mockRuntime,
+                Name = websiteName,
+                Location = webspaceName,
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                WebsitesClient = clientMock.Object,
+                Slot = slot
+            };
+
+            newAzureWebsiteCommand.ExecuteCmdlet();
+            clientMock.Verify(c => c.CreateWebsite(webspaceName, It.IsAny<SiteWithWebSpace>(), slot), Times.Once());
         }
     }
 }

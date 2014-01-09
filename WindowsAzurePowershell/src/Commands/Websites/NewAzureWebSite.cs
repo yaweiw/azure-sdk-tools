@@ -24,6 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -86,6 +88,20 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github repository.")]
         [ValidateNotNullOrEmpty]
         public string GithubRepository
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
+        public string Slot
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "disables cloning config.")]
+        public SwitchParameter DisableClone
         {
             get;
             set;
@@ -350,7 +366,22 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             try
             {
-                WebsitesClient.CreateWebsite(webspace.Name, website);
+                if (WebsitesClient.WebsiteExists(website.Name) && !string.IsNullOrEmpty(Slot))
+                {
+                    Site createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                    // Make sure that the website is in Standard mode
+                    if (createdWebsite.ComputeMode == WebSiteComputeMode.Dedicated)
+                    {
+                        website.DisableClone = DisableClone;
+                        WebsitesClient.CreateWebsite(webspace.Name, website, Slot);
+                    }
+                }
+                else
+                {
+                    WebsitesClient.CreateWebsite(webspace.Name, website);
+                }
+
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
                 SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
                 WriteObject(new SiteWithConfig(website, websiteConfiguration));
